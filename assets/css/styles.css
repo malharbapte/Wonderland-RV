@@ -58,6 +58,9 @@
   --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
   --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
 
+  /* breathing room above and below every text section */
+  --section-gap: 1.20rem;
+
   /* content column: 1373 design px, centred in the 2376 canvas */
   --gutter: 5.015rem;
 }
@@ -225,7 +228,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ==========================================================================
    READY FOR ADVENTURE + FORM   (y 1024 – 2293)
    ========================================================================== */
-.enquiry { padding-top: 1.384rem; padding-bottom: 1.5225rem; }
+.enquiry { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 
 .enquiry-title {
   font-family: var(--aviano);
@@ -480,7 +483,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ==========================================================================
    THINGS YOU CAN'T SEE   (y 3477 – 4187)
    ========================================================================== */
-.unseen { padding-top: 0.654rem; padding-bottom: 1.090rem; }
+.unseen { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 
 .unseen-title {
   font-family: var(--aviano);
@@ -569,7 +572,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   line-height: 0.83rem;
 }
 .experience-body {
-  margin-top: 0.30rem;          /* sits under the title, +10 */
+  margin-top: 0.65rem;          /* sits under the title, +45 */
   font-weight: 500;
   font-size: 0.36rem;
   line-height: 0.39rem;
