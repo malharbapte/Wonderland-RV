@@ -130,8 +130,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* Photos carry white headings at the bottom edge, so the foreground gets a
    gradient to hold contrast. Governed by --scrim; 0 disables it entirely. */
-.hero .media::before,
-.experience .media::before {
+.hero .media::before {
   content: "";
   position: absolute; inset: 0; z-index: 2;
   pointer-events: none;
@@ -139,13 +138,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     rgba(0,0,0,calc(0.55 * var(--scrim))) 0%,
     rgba(0,0,0,calc(0.18 * var(--scrim))) 22%,
     rgba(0,0,0,0) 44%);
-}
-/* the coastal shot's foreground is pale sand, so this band needs more */
-.experience .media::before {
-  background: linear-gradient(to top,
-    rgba(0,0,0,calc(0.62 * var(--scrim))) 0%,
-    rgba(0,0,0,calc(0.42 * var(--scrim))) 26%,
-    rgba(0,0,0,0) 54%);
 }
 
 /* ==========================================================================
@@ -506,7 +498,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   content: "";
   position: absolute;
   left: 4.33rem; top: 0;
-  width: 1px; height: 2.20rem;
+  width: 1px; height: 2.668rem;
   background: var(--orange-deep);
 }
 .quote-mark {
@@ -521,7 +513,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .quote-left {
   margin: 0;
   font-size: 0.48rem;
-  line-height: 0.52rem;
+  line-height: 0.676rem;        /* 0.52 + 30% */
   color: var(--orange-deep);
 }
 .quote-right {
@@ -564,7 +556,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   line-height: 0.83rem;
 }
 .experience-body {
-  margin-top: 3.436rem;         /* 4418 → 4810.4 */
+  margin-top: 0.20rem;          /* sits directly under the title */
   font-weight: 500;
   font-size: 0.36rem;
   line-height: 0.39rem;
