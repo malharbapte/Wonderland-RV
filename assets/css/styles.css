@@ -246,7 +246,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font-size: 0.96rem;
   line-height: 1;
   letter-spacing: -0.05em;
-  margin-bottom: -0.008rem;     /* baselines 860.5 → 914.4 = 53.9 apart */
+  margin-bottom: 0.20rem;       /* SVG had these almost touching; opened up */
 }
 .hero-sub {
   font-family: var(--aviano);
@@ -615,11 +615,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .experience-title a:focus-visible { color: var(--orange); }
 .experience-title {
   font-family: var(--aviano);
-  font-size: 0.96rem;
+  font-size: 0.80rem;           /* 96 would need 1574 on one line; column is 1373 */
   line-height: 0.83rem;
+  white-space: nowrap;
 }
 .experience-body {
-  margin-top: 0.55rem;          /* sits under the title, +35 */
+  margin-top: 0.34rem;          /* close enough to read with the title */
   font-weight: 500;
   font-size: 0.36rem;
   line-height: 0.39rem;
