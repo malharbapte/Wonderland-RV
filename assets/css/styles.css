@@ -60,6 +60,8 @@
 
   /* breathing room above and below every text section */
   --section-gap: 1.20rem;
+  /* one spacing value for every item in the header bar */
+  --bar-gap: 0.26rem;
 
   /* content column: 1373 design px, centred in the 2376 canvas */
   --gutter: 5.015rem;
@@ -149,9 +151,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .site-header { height: 1.43rem; }
 
 .header-inner {
-  /* At double the type size the bar needs ~1765 of content, so it runs wider
-     than the 1373 body column and is centred on the canvas instead. */
-  width: 16.00rem;
+  width: 13.73rem;              /* same column as the body: 501.5 → 1874.5 */
   margin-inline: auto;
   height: 100%;
   display: flex;
@@ -164,7 +164,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 0.26rem;
+  gap: var(--bar-gap);
   margin-left: auto;
   font-family: var(--aviano);
   font-size: 0.18rem;
@@ -177,7 +177,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav a[aria-current="page"] { color: var(--orange-deep); }
 
 .search-btn {
-  margin-left: 0.31rem;
+  margin-left: var(--bar-gap);
   flex: none;
   line-height: 0;
   color: var(--ink);
@@ -189,13 +189,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .btn-build {
   flex: none;
-  margin-left: 0.39rem;
+  margin-left: var(--bar-gap);
   width: auto; height: 0.46rem;
   padding: 0 0.28rem;
   background: var(--orange-deep);
   color: #fff;
   font-family: var(--aviano);
   font-size: 0.18rem;
+  font-weight: 900;
   line-height: 0.46rem;
   text-align: center;
   transition: background .2s;
@@ -369,12 +370,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   z-index: 0;
   pointer-events: none;
   transform-origin: center;
-  will-change: transform;
-  /* travel is a transform, not `left` — no layout per frame, so it composites
-     smoothly. Soft in, long gentle settle. */
-  transition: transform .58s cubic-bezier(.45, .05, .15, 1);
+  transition:
+    left      .46s cubic-bezier(.65, 0, .35, 1),
+    width     .46s cubic-bezier(.65, 0, .35, 1),
+    transform .46s cubic-bezier(.65, 0, .35, 1);
 }
 .chips-thumb.is-init { transition: none; }
+.chips-thumb.is-moving { transform: scaleY(0.90); }   /* squashes as it travels */
 
 .chip {
   flex: 1 1 0;
@@ -505,7 +507,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ==========================================================================
    THINGS YOU CAN'T SEE   (y 3477 – 4187)
    ========================================================================== */
-.unseen { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+/* the video band and this block are one section, so they sit at half a gap */
+.unseen { padding-top: calc(var(--section-gap) / 2); padding-bottom: var(--section-gap); }
 
 .unseen-title {
   font-family: var(--aviano);
