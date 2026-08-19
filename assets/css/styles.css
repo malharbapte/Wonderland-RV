@@ -51,6 +51,10 @@
   --red:          #E61010;   /* required asterisk               */
   --ink:          #000;
 
+  /* strength of the gradient that keeps white type readable over a photo.
+     Set to 0 to show the images completely untouched. */
+  --scrim: 1;
+
   --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
   --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
 
@@ -122,6 +126,20 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   pointer-events: none;
 }
 .ph > img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+.media > img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Photos carry white headings at the bottom edge, so the foreground gets a
+   gradient to hold contrast. Governed by --scrim; 0 disables it entirely. */
+.hero .media::before,
+.experience .media::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(0,0,0,calc(0.55 * var(--scrim))) 0%,
+    rgba(0,0,0,calc(0.18 * var(--scrim))) 22%,
+    rgba(0,0,0,0) 44%);
+}
 
 /* ==========================================================================
    HEADER   (y 0 – 143)
