@@ -140,6 +140,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     rgba(0,0,0,calc(0.18 * var(--scrim))) 22%,
     rgba(0,0,0,0) 44%);
 }
+/* the coastal shot's foreground is pale sand, so this band needs more */
+.experience .media::before {
+  background: linear-gradient(to top,
+    rgba(0,0,0,calc(0.62 * var(--scrim))) 0%,
+    rgba(0,0,0,calc(0.42 * var(--scrim))) 26%,
+    rgba(0,0,0,0) 54%);
+}
 
 /* ==========================================================================
    HEADER   (y 0 – 143)
