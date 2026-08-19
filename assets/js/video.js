@@ -100,19 +100,48 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();
 
-/* ------------------------------------------- enquiry-type pill: pop ----- */
+/* --------------------------------- enquiry-type pill: gliding indicator ---
+   One thumb slides between cells on an ease-in-out curve, squashing slightly
+   while it travels so the movement reads as fluid rather than as a jump.   */
 (function () {
   const chips = document.querySelector(".chips");
-  if (!chips) return;
+  const thumb = chips && chips.querySelector(".chips-thumb");
+  if (!chips || !thumb) return;
+
+  let settle;
+
+  function place() {
+    const checked = chips.querySelector('input[type="radio"]:checked');
+    if (!checked) return;
+    const span = checked.parentElement.querySelector("span");
+    if (!span) return;
+    const cb = chips.getBoundingClientRect();
+    const sb = span.getBoundingClientRect();
+    thumb.style.left = (sb.left - cb.left - chips.clientLeft) + "px";
+    thumb.style.width = sb.width + "px";
+  }
+
+  function enable() {
+    void thumb.offsetWidth;            // flush styles; rAF never fires in a
+    thumb.classList.remove("is-init"); // background tab, so don't rely on it
+  }
+
+  place();
+  enable();
+
   chips.addEventListener("change", function (e) {
     if (!e.target.matches('input[type="radio"]')) return;
-    const span = e.target.parentElement.querySelector("span");
-    if (!span) return;
-    span.classList.remove("is-pop");
-    void span.offsetWidth;               // restart the animation
-    span.classList.add("is-pop");
+    thumb.classList.add("is-moving");
+    place();
+    clearTimeout(settle);
+    settle = setTimeout(function () { thumb.classList.remove("is-moving"); }, 300);
   });
-  chips.addEventListener("animationend", function (e) {
-    e.target.classList.remove("is-pop");
-  });
+
+  function reflow() {
+    thumb.classList.add("is-init");
+    place();
+    enable();
+  }
+  window.addEventListener("resize", reflow);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reflow);
 })();

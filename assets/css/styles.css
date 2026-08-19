@@ -151,7 +151,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .header-inner {
   /* At double the type size the bar needs ~1765 of content, so it runs wider
      than the 1373 body column and is centred on the canvas instead. */
-  width: 18.20rem;
+  width: 16.00rem;
   margin-inline: auto;
   height: 100%;
   display: flex;
@@ -164,10 +164,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 0.474rem;                /* unchanged, so spacing stays even */
+  gap: 0.26rem;
   margin-left: auto;
   font-family: var(--aviano);
-  font-size: 0.28rem;
+  font-size: 0.18rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -177,7 +177,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav a[aria-current="page"] { color: var(--orange-deep); }
 
 .search-btn {
-  margin-left: 0.474rem;        /* same gap as between the nav items */
+  margin-left: 0.31rem;
   flex: none;
   line-height: 0;
   color: var(--ink);
@@ -185,18 +185,18 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .search-btn:hover,
 .search-btn:focus-visible { color: var(--orange-deep); }
-.search-btn svg { width: 0.44rem; height: 0.44rem; }
+.search-btn svg { width: 0.28rem; height: 0.28rem; }
 
 .btn-build {
   flex: none;
-  margin-left: 0.474rem;
-  width: auto; height: 0.80rem;
-  padding: 0 0.42rem;
+  margin-left: 0.39rem;
+  width: auto; height: 0.46rem;
+  padding: 0 0.28rem;
   background: var(--orange-deep);
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.28rem;
-  line-height: 0.80rem;
+  font-size: 0.18rem;
+  line-height: 0.46rem;
   text-align: center;
   transition: background .2s;
 }
@@ -355,11 +355,31 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   border: 0.0075rem solid var(--ink);
   border-radius: 0.353rem;
   display: flex;
+  position: relative;
 }
 .chips legend { display: none; }
 
+/* One indicator that travels between cells, rather than each cell lighting up */
+.chips-thumb {
+  position: absolute;
+  top: 0.08rem; bottom: 0.08rem;
+  left: 0; width: 0;
+  border-radius: 0.246rem;
+  background: var(--orange);
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: center;
+  transition:
+    left      .46s cubic-bezier(.65, 0, .35, 1),
+    width     .46s cubic-bezier(.65, 0, .35, 1),
+    transform .46s cubic-bezier(.65, 0, .35, 1);
+}
+.chips-thumb.is-init { transition: none; }
+.chips-thumb.is-moving { transform: scaleY(0.90); }   /* squashes as it travels */
+
 .chip {
   flex: 1 1 0;
+  min-width: 0;                 /* without this, min-content keeps cells uneven */
   position: relative;
   display: flex;
   align-items: center;
@@ -376,6 +396,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* the pill itself is inset inside its cell so it never touches a divider */
 .chip > span {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -385,17 +407,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   border-radius: 0.246rem;
   font-size: 0.24rem;
   line-height: 0.32rem;
-  transition: background .2s, color .2s;
+  transition: color .28s ease, font-weight .28s;
 }
-.chip:has(input:checked) > span { background: var(--orange); color: #fff; font-weight: 700; }
-
-@keyframes chip-pop {
-  0%   { transform: scale(0.86); }
-  45%  { transform: scale(1.08); }
-  72%  { transform: scale(0.97); }
-  100% { transform: scale(1); }
-}
-.chip > span.is-pop { animation: chip-pop .44s cubic-bezier(.34, 1.56, .64, 1); }
+.chip:has(input:checked) > span { color: #fff; font-weight: 700; }
 .chip:has(input:focus-visible) > span { box-shadow: 0 0 0 2px var(--orange-deep); }
 
 /* --------------------------------------------------------------- notes -- */
