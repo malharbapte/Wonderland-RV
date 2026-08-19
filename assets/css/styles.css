@@ -522,8 +522,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   line-height: 1;
   color: var(--orange-deep);
 }
-.unseen-sub a { border-bottom: 1px solid transparent; }
-.unseen-sub a:hover { border-bottom-color: currentColor; }
+/* CTA, so it weights up on hover rather than drawing a rule */
+.unseen-sub a { font-weight: 400; }
+.unseen-sub a:hover,
+.unseen-sub a:focus-visible { font-weight: 900; }
 
 .quote-block {
   position: relative;
