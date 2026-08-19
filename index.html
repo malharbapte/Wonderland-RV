@@ -76,29 +76,29 @@
       </div>
 
       <!-- ---------------------------------------------- right column -->
-      <form class="enquiry-form" action="#" method="post" novalidate>
+      <form class="enquiry-form" action="#" method="post" autocomplete="off" novalidate>
 
         <div class="field-grid">
           <div class="field field--line">
-            <input id="first-name" name="first-name" type="text" placeholder="First Name" required>
+            <input id="first-name" name="first-name" type="text" placeholder="First Name" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
           <div class="field field--line">
-            <input id="last-name" name="last-name" type="text" placeholder="Last Name" required>
+            <input id="last-name" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
 
           <div class="field field--line">
-            <input id="email" name="email" type="email" placeholder="Email" required>
+            <input id="email" name="email" type="email" placeholder="Email" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
           <div class="field field--line">
-            <input id="phone" name="phone" type="tel" placeholder="Phone" required>
+            <input id="phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
 
           <div class="field field--select">
-            <select id="state" name="state" required>
+            <select id="state" name="state" autocomplete="off" required>
               <option value="" selected disabled>State</option>
               <option>Victoria</option>
               <option>New South Wales</option>
@@ -113,7 +113,7 @@
             <span class="req" aria-hidden="true">*</span>
           </div>
           <div class="field field--line">
-            <input id="postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required>
+            <input id="postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
         </div>
@@ -253,10 +253,10 @@
     <div class="footer-links">
       <div class="newsletter">
         <h3 class="footer-head">SUBSCRIBE TO OUR NEWSLETTER</h3>
-        <form class="newsletter-form" action="#" method="post">
+        <form class="newsletter-form" action="#" method="post" autocomplete="off">
           <div class="field field--line">
             <label class="sr-only" for="nl-email">Email</label>
-            <input id="nl-email" name="email" type="email" placeholder="Email*" required>
+            <input id="nl-email" name="email" type="email" placeholder="Email*" required autocomplete="off">
           </div>
           <button class="btn-subscribe" type="submit">Subscribe</button>
         </form>

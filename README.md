@@ -7,17 +7,17 @@ Live: **https://malharbapte.github.io/Wonderland-RV/**
 
 ---
 
-## 1. The two things you need to fill in
+## 1. Assets
 
-### a) The video
+### a) The video — done
 
-`assets/js/video.js`, first line of code:
+Set in `assets/js/video.js`:
 
 ```js
-const VIDEO_URL = "";
+const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
 ```
 
-Paste the link between the quotes. It accepts:
+To swap it later, replace that one string. It accepts:
 
 | Link type | Example |
 |---|---|

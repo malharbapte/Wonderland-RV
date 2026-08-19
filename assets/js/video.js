@@ -12,7 +12,7 @@
    Leave it as "" and the labelled placeholder stays in place.
    ========================================================================== */
 
-const VIDEO_URL = "";
+const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
 
 /* -------------------------------------------------------------------------- */
 
