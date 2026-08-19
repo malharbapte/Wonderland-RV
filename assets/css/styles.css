@@ -337,7 +337,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   margin: 0.396rem 0 0 -0.09rem;  /* 1602.6 → 1642.4 ; 958 → 949 */
   width: 9.4125rem;               /* 949.4 → 1890.6 */
   height: 1.16rem;                /* pill 100 + the 8 gap top and bottom */
-  padding: 0.08rem;
+  padding: 0.08rem 0;
   border: 0.0075rem solid var(--ink);
   border-radius: 0.353rem;
   display: flex;
@@ -366,7 +366,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: calc(100% - 0.14rem);
+  width: calc(100% - 0.16rem);    /* 8 clear on each side, matching top/bottom */
   height: 100%;
   border-radius: 0.246rem;
   font-size: 0.24rem;
