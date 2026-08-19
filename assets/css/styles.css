@@ -145,6 +145,19 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     rgba(0,0,0,0) 44%);
 }
 
+/* Text stops growing past 2376, but the photography and video should never
+   leave white bars at the edges — so the full-bleed bands break out of the
+   capped body and always span the viewport. Their inner .container still
+   centres on the same axis, since body is centred too. */
+.hero,
+.video-band,
+.experience,
+.rules-band,
+.next-band {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
 /* ==========================================================================
    HEADER   (y 0 – 143)
    ========================================================================== */
@@ -259,6 +272,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /* -------------------------------------------------------- left column ---- */
+.enquiry-copy { display: flex; flex-direction: column; }
+
 .enquiry-copy .lede {
   font-family: var(--gordita);
   font-size: 0.36rem;
@@ -268,7 +283,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .lede-accent { color: var(--orange); font-weight: 500; }
 
 .reachout {
-  margin-top: 2.890rem;         /* 1712.9 → 2036.6 */
+  margin-top: auto;             /* bottom-aligns with the Submit button */
   color: var(--orange);
   font-weight: 500;
   font-size: 0.24rem;
@@ -357,7 +372,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .chips {
   margin: 0.396rem 0 0 -0.09rem;  /* 1602.6 → 1642.4 ; 958 → 949 */
   width: 9.4125rem;               /* 949.4 → 1890.6 */
-  height: 1.16rem;                /* pill 100 + the 8 gap top and bottom */
+  height: 1.10rem;                /* trimmed; two-line options set the floor */
   padding: 0.08rem 0;
   border: 0.0075rem solid var(--ink);
   border-radius: 0.353rem;
@@ -412,8 +427,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   width: calc(100% - 0.16rem);    /* 8 clear on each side, matching top/bottom */
   height: 100%;
   border-radius: 0.246rem;
-  font-size: 0.24rem;
-  line-height: 0.32rem;
+  font-size: 0.32rem;             /* +33% */
+  line-height: 0.38rem;
   transition: color .28s ease, font-weight .28s;
 }
 .chip:has(input:checked) > span { color: #fff; font-weight: 700; }
@@ -479,7 +494,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   background: var(--orange);
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.24rem;
+  font-size: 0.18rem;
   line-height: 0.70rem;
   text-align: center;
   transition: background .2s;
@@ -489,7 +504,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ==========================================================================
    VIDEO   (y 2293 – 3477, full bleed 2389 × 1184)
    ========================================================================== */
-.video-band { width: 100%; }
 .video-frame {
   position: relative;
   width: 100%;
@@ -663,7 +677,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   background: #DB7627;
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.28rem;
+  font-size: 0.18rem;
   line-height: 1;
   padding: 0.30rem 0.62rem;
   border-radius: 0.02rem;
@@ -738,7 +752,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   background: var(--orange-deep);
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.19rem;
+  font-size: 0.18rem;
   letter-spacing: 0.02em;
   transition: background .2s;
 }

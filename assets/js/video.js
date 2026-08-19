@@ -29,7 +29,8 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
   if (yt) {
     node = document.createElement("iframe");
     node.src = "https://www.youtube-nocookie.com/embed/" + yt[1] +
-      "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1&playlist=" + yt[1];
+      "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1" +
+      "&cc_load_policy=0&iv_load_policy=3&playlist=" + yt[1];
     node.allow = "autoplay; encrypted-media; picture-in-picture";
     node.allowFullscreen = true;
     node.title = "Wonderland RV — things you can't see";

@@ -36,7 +36,8 @@
   .ph::after { font-size: 0.13rem; }
 
   /* The header bar is deliberately NOT rescaled — it stays identical to
-     index.html so the two versions share one taskbar. */
+     index.html so the two versions share one taskbar. The orange CTAs are
+     excluded for the same reason: they all match "Build your Caravan". */
 
   /* ------------------------------------------------------------- hero --- */
   .hero h1 { font-size: 0.56rem; }
@@ -50,11 +51,10 @@
   .field--line input { font-size: 0.14rem; }
   .field .req { font-size: 0.14rem; }
   .field--select select { font-size: 0.14rem; }
-  .chip > span { font-size: 0.14rem; line-height: 0.19rem; }
+  .chip > span { font-size: 0.19rem; line-height: 0.22rem; }
   .field--area textarea { font-size: 0.14rem; line-height: 0.19rem; }
   .consent label { font-size: 0.14rem; line-height: 0.19rem; }
   .fineprint { font-size: 0.09rem; line-height: 0.12rem; }   /* the exception */
-  .btn-submit { font-size: 0.14rem; }
 
   /* -------------------------------------------- things you can't see --- */
   .unseen-title { font-size: 0.56rem; }
@@ -73,14 +73,12 @@
 
   /* ---------------------------------------------------- where to next --- */
   .next-title { font-size: 0.33rem; }
-  .btn-next { font-size: 0.16rem; }
 
   /* ----------------------------------------------------------- footer --- */
   .site-footer { font-size: 0.11rem; line-height: 0.17rem; }
   .footer-head { font-size: 0.11rem; line-height: 0.16rem; }
   .footer-contact { line-height: 0.20rem; }
   .newsletter-form .field--line input { font-size: 0.11rem; }
-  .btn-subscribe { font-size: 0.11rem; }
   .link-col li { line-height: 0.16rem; }
   .footer-legal-left { font-size: 0.11rem; line-height: 0.19rem; }
   .footer-legal-right { font-size: 0.11rem; line-height: 0.17rem; }
