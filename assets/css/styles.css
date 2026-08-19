@@ -483,8 +483,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .fineprint {
   display: block;
   margin-top: 0.026rem;
-  font-size: 0.14rem;
-  line-height: 0.20rem;
+  font-size: 0.17rem;
+  line-height: 0.24rem;
 }
 
 .btn-submit {

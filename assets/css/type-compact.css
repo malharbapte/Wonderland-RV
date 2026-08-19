@@ -54,7 +54,7 @@
   .chip > span { font-size: 0.19rem; line-height: 0.22rem; }
   .field--area textarea { font-size: 0.14rem; line-height: 0.19rem; }
   .consent label { font-size: 0.14rem; line-height: 0.19rem; }
-  .fineprint { font-size: 0.09rem; line-height: 0.12rem; }   /* the exception */
+  .fineprint { font-size: 0.11rem; line-height: 0.15rem; }   /* the exception */
 
   /* -------------------------------------------- things you can't see --- */
   .unseen-title { font-size: 0.56rem; }
