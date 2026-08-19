@@ -268,6 +268,14 @@
   line-height: 0.32rem;
 }
 .range-list { margin-top: 0.72rem; }
+.range-list li { position: relative; }
+.range-icon {
+  position: absolute;
+  left: 0.30rem; top: -0.04rem;
+  width: 0.62rem; height: 0.62rem;
+  color: var(--orange-deep);
+}
+.range-icon svg { width: 100%; height: 100%; }
 .range-list li + li { margin-top: 0.45rem; }
 .range-list h3 {
   padding-left: 1.16rem;
@@ -290,18 +298,24 @@
    and the mark hangs on the left margin rather than off in the bleed.
    ========================================================================== */
 .testi {
+  position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   height: 5.43rem;
   background: var(--blush);
   display: flex;
   align-items: center;
-  overflow: hidden;
+  /* the mark is deliberately allowed out of the band — see .testi-mark */
 }
-.testi-inner { position: relative; }
+.testi-inner { position: static; }   /* the mark measures off the band, not this */
 .testi-mark {
+  /* Artboard: a 600px mark whose em-box starts 159 ABOVE a 543 band, so it
+     straddles the edge and reads as the hand-off between two sections.
+     Held proportional at the compact size: 159 x 350/600 = 93.       */
   position: absolute;
-  left: 0; top: -1.62rem;
+  left: calc(50% - 6.865rem);   /* the content column's left edge */
+  top: -0.93rem;
+  z-index: 2;
   font-family: var(--aviano);
   font-weight: 900;
   font-size: 3.50rem;           /* 600 */
@@ -351,8 +365,13 @@
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-top: 0.55rem;
+  margin-top: 0.20rem;
   height: 11.07rem;
+}
+.dream-head {
+  position: absolute;
+  left: 0; right: 0; top: 21%;      /* into the gap beside the tall right shot */
+  z-index: 2;
 }
 .dream-shot { position: absolute; overflow: hidden; }
 .dream-shot img { width: 100%; height: 100%; object-fit: cover; }
@@ -402,15 +421,11 @@ er { background: var(--orange-deep); }
 .why-list li + li { margin-top: 0.55rem; }
 .why-icon {
   position: absolute;
-  left: 0.35rem; top: 0;
-  width: 0.67rem; height: 0.67rem;
-  border-radius: 50%;
-  background: var(--orange-deep);
-  color: #fff;
-  display: grid;
-  place-items: center;
+  left: 0.35rem; top: -0.02rem;
+  width: 0.62rem; height: 0.62rem;
+  color: var(--orange-deep);
 }
-.why-icon svg { width: 0.36rem; height: 0.36rem; }
+.why-icon svg { width: 100%; height: 100%; }
 .why-list h3 {
   font-size: 0.24rem;           /* 32 */
   font-weight: 700;
@@ -550,22 +565,18 @@ er { background: var(--orange-deep); }
 /* ==========================================================================
    BRANDS WE TRUST   (y 12937 – 13625)
    ========================================================================== */
-.brands { position: relative; padding-bottom: 1.20rem; }
+.brands { padding-top: 1.20rem; padding-bottom: 1.20rem; }
 .brands-media {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  padding-top: 1.05rem;
+  margin-top: 0.70rem;          /* legible air under the heading */
 }
 .brands-media img { width: 100%; height: auto; }
 .brands-title {
-  position: absolute;
-  top: 0.83rem;
   font-family: var(--aviano);
   font-weight: 900;
   font-size: 0.56rem;
   line-height: 1;
-  background: #fff;
-  padding-right: 0.30rem;
 }
 
 /* ==========================================================================
@@ -613,22 +624,22 @@ er { background: var(--orange-deep); }
   line-height: 0.28rem;
 }
 
-.home-form { margin-top: 0.55rem; width: 11.41rem; }
+.home-form { margin-top: 0.55rem; width: 13.73rem; }   /* margin to margin */
 .home-cols {
   display: grid;
-  grid-template-columns: 5.54rem 5.53rem;
-  column-gap: 0.34rem;
+  grid-template-columns: 6.66rem 6.66rem;
+  column-gap: 0.41rem;
   align-items: start;
 }
 .home-col > * + * { margin-top: 0.45rem; }
 .home-col .field--line input { padding-left: 0.11rem; }
 .home-pair {
   display: grid;
-  grid-template-columns: 2.76rem 2.46rem;
-  column-gap: 0.32rem;
+  grid-template-columns: 3.32rem 2.96rem;
+  column-gap: 0.38rem;
   align-items: end;
 }
-.home-pair .field--select { margin-left: 0; width: 2.76rem; }
+.home-pair .field--select { margin-left: 0; width: 3.32rem; }
 .home-area textarea { width: 100%; height: 1.7925rem; }
 
 .home-chips {
