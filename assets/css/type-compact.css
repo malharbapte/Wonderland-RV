@@ -23,6 +23,8 @@
      48 → 28    28 → 16    16 → 11 (floor)
      40 → 23    24 → 14    14 →  9 (exception)
 
+   The header bar is excluded entirely and matches index.html.
+
    Scoped above the mobile breakpoint so the 900px rules in styles.css keep
    their own sizes.
    ========================================================================== */
@@ -33,9 +35,8 @@
   body { font-size: 0.14rem; line-height: 0.19rem; }
   .ph::after { font-size: 0.13rem; }
 
-  /* ----------------------------------------------------------- header --- */
-  .main-nav { font-size: 0.11rem; }
-  .btn-build { font-size: 0.11rem; }
+  /* The header bar is deliberately NOT rescaled — it stays identical to
+     index.html so the two versions share one taskbar. */
 
   /* ------------------------------------------------------------- hero --- */
   .hero h1 { font-size: 0.56rem; }
