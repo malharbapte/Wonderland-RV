@@ -118,10 +118,11 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reflow);
 })();
 
-/* --------------------------------------- Luxury section: disc reveal ------
+/* ------------------------------------- Luxury section: turntable ----------
    Loads assets/img/home/slide-1.jpg … slide-6.jpg, keeping whichever exist.
-   Frames ride a large disc centred below the panel: each swings up into view
-   as the one before it swings away. Add or remove files; nothing changes.  */
+   The frames stand upright on the rim of a disc lying flat under the panel;
+   the disc turns about its vertical axis to bring the next one to the front.
+   Radius is set so the front face lands flush with the opening.          */
 (function () {
   const box = document.getElementById("pullSlides");
   if (!box) return;
@@ -142,29 +143,42 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     if (!found.length) return;                 // no slides yet: placeholder stays
     found.sort(function (a, b) { return a.i - b.i; });
 
-    const slides = found.map(function (f, n) {
+    const stage = document.createElement("div");
+    stage.className = "pull-stage";
+    box.appendChild(stage);
+
+    const slides = found.map(function (f) {
       const d = document.createElement("div");
-      d.className = "pull-slide" + (n === 0 ? " is-current" : "");
+      d.className = "pull-slide";
       const im = document.createElement("img");
       im.src = f.src; im.alt = "";
       d.appendChild(im);
-      box.appendChild(d);
+      stage.appendChild(d);
       return d;
     });
     box.classList.add("has-slides");
-    if (slides.length < 2) return;
 
+    const n = slides.length;
+    const step = 360 / n;
     let cur = 0;
-    const TURN = 1150;                            // matches the CSS transition
-    setInterval(function () {
-      const next = (cur + 1) % slides.length;
-      const out = slides[cur];
-      out.classList.remove("is-current");
-      out.classList.add("is-leaving");             // swings away under the new one
-      slides[next].classList.add("is-current");
-      setTimeout(function () { out.classList.remove("is-leaving"); }, TURN);
-      cur = next;
-    }, HOLD);
+
+    function layout() {
+      const w = box.clientWidth;
+      // radius that makes the n faces meet edge to edge, so the front one
+      // exactly fills the opening
+      const r = n < 2 ? 0 : (w / 2) / Math.tan(Math.PI / n);
+      box.style.perspective = (w * 2.4) + "px";
+      slides.forEach(function (sl, i) {
+        sl.style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + r + "px)";
+      });
+      stage.style.transform = "translateZ(" + (-r) + "px) rotateY(" + (-cur * step) + "deg)";
+    }
+
+    layout();
+    window.addEventListener("resize", layout);
+    if (n < 2) return;
+
+    setInterval(function () { cur += 1; layout(); }, HOLD);
   }
 })();
 
@@ -192,15 +206,25 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   const cvs = document.createElement("canvas");
   const ctx = cvs.getContext("2d");
 
+  /* The baseline is read straight off the DOM with a zero-size inline-block
+     probe — exact, and independent of whether the font reports sane metrics.
+     Ink is then measured from the real glyph outline. A quote mark's ink sits
+     entirely above the baseline, so its descent comes back negative. */
+  function baselineOf(el) {
+    const p = document.createElement("span");
+    p.style.cssText = "display:inline-block;width:0;height:0;vertical-align:baseline";
+    el.insertBefore(p, el.firstChild);
+    const y = p.getBoundingClientRect().top;
+    p.remove();
+    return y;
+  }
+
   function ink(el, ch) {
     const cs = getComputedStyle(el);
     ctx.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
     const m = ctx.measureText(ch);
-    const F = parseFloat(cs.fontSize);
-    const LH = cs.lineHeight === "normal" ? F * 1.2 : parseFloat(cs.lineHeight);
     const r = el.getBoundingClientRect();
-    const baseline = r.top + (LH - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2
-                   + m.fontBoundingBoxAscent;
+    const baseline = baselineOf(el);
     return {
       left:   r.left - m.actualBoundingBoxLeft,
       right:  r.left + m.actualBoundingBoxRight,

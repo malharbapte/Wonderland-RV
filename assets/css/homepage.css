@@ -130,7 +130,6 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   height: 8.36rem;
-  perspective: 24rem;
 }
 .pull-media {
   position: absolute; left: 0; top: 0;
@@ -145,18 +144,21 @@
   font-size: 0.22rem; letter-spacing: 0.06em; color: #9a9a9a;
 }
 .pull-media.has-slides::after { content: none; }
-/* Each frame rides a large disc whose centre sits well below the panel, so
-   images swing up into view and away again rather than turning like pages. */
+/* A turntable lying flat under the panel with the frames standing upright on
+   its rim. Rotating the disc about its vertical axis carries the next frame
+   round to the front. Radius and perspective are computed from the panel's
+   real width in home.js, so the front face lands flush with the opening. */
+.pull-stage {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 1.25s cubic-bezier(.45, .05, .15, 1);
+}
 .pull-slide {
   position: absolute; inset: 0;
-  transform-origin: 50% 300%;
-  transform: rotate(10deg);
-  opacity: 0;
-  transition: transform 1.15s cubic-bezier(.45, .05, .15, 1), opacity .65s ease;
+  backface-visibility: hidden;
+  overflow: hidden;
 }
 .pull-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pull-slide.is-current { opacity: 1; transform: rotate(0deg); z-index: 2; }
-.pull-slide.is-leaving  { opacity: 0; transform: rotate(-10deg); z-index: 1; }
 
 .pull-quote {
   position: absolute;
