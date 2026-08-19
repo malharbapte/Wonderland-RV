@@ -7,7 +7,7 @@
    ========================================================================== */
 
 const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip behind "Adventure your way"
-const SOLARA_VIDEO_URL = "";     // clip in the Welcome Solara section
+const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcome Solara section
 
 /* -------------------------------------------------------------------------- */
 
@@ -118,9 +118,10 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reflow);
 })();
 
-/* -------------------------------------- Luxury section: page-turn slides ---
-   Loads assets/img/home/slide-1.jpg … slide-6.jpg, keeping whichever exist,
-   and turns them like pages. Add or remove files; nothing here changes.   */
+/* --------------------------------------- Luxury section: disc reveal ------
+   Loads assets/img/home/slide-1.jpg … slide-6.jpg, keeping whichever exist.
+   Frames ride a large disc centred below the panel: each swings up into view
+   as the one before it swings away. Add or remove files; nothing changes.  */
 (function () {
   const box = document.getElementById("pullSlides");
   if (!box) return;
@@ -154,13 +155,14 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     if (slides.length < 2) return;
 
     let cur = 0;
+    const TURN = 1150;                            // matches the CSS transition
     setInterval(function () {
       const next = (cur + 1) % slides.length;
+      const out = slides[cur];
+      out.classList.remove("is-current");
+      out.classList.add("is-leaving");             // swings away under the new one
       slides[next].classList.add("is-current");
-      slides[cur].classList.remove("is-current");
-      slides[cur].classList.add("is-leaving");
-      void slides[cur].offsetWidth;
-      slides[cur].classList.remove("is-leaving");   // turns away on its left edge
+      setTimeout(function () { out.classList.remove("is-leaving"); }, TURN);
       cur = next;
     }, HOLD);
   }
@@ -179,4 +181,56 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   if (prev) prev.addEventListener("click", function () { i = (i - 1 + slides) % slides; show(); });
   if (next) next.addEventListener("click", function () { i = (i + 1) % slides; show(); });
   show();
+})();
+
+/* ----------------------------------------- quote marks: tuck to the text ---
+   House rule: the bottom-right corner of the mark's ink meets the top-left
+   corner of the first letter. Font metrics decide that, not guesswork, so it
+   is measured off the real glyph outlines and re-applied on resize.      */
+(function () {
+  const PAIRS = [[".pull-mark", ".pull-quote p"], [".service-mark", ".service-quote p"]];
+  const cvs = document.createElement("canvas");
+  const ctx = cvs.getContext("2d");
+
+  function ink(el, ch) {
+    const cs = getComputedStyle(el);
+    ctx.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+    const m = ctx.measureText(ch);
+    const F = parseFloat(cs.fontSize);
+    const LH = cs.lineHeight === "normal" ? F * 1.2 : parseFloat(cs.lineHeight);
+    const r = el.getBoundingClientRect();
+    const baseline = r.top + (LH - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2
+                   + m.fontBoundingBoxAscent;
+    return {
+      left:   r.left - m.actualBoundingBoxLeft,
+      right:  r.left + m.actualBoundingBoxRight,
+      top:    baseline - m.actualBoundingBoxAscent,
+      bottom: baseline + m.actualBoundingBoxDescent
+    };
+  }
+
+  function tuck(markSel, textSel) {
+    const mark = document.querySelector(markSel);
+    const text = document.querySelector(textSel);
+    if (!mark || !text || !ctx.measureText("M").actualBoundingBoxAscent) return;
+    const first = (text.textContent || "").trim().charAt(0);
+    if (!first) return;
+    const mi = ink(mark, mark.textContent.trim());
+    const ti = ink(text, first);
+    const cs = getComputedStyle(mark);
+    mark.style.left = (parseFloat(cs.left) + (ti.left - mi.right)) + "px";
+    mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom)) + "px";
+  }
+
+  function place() { PAIRS.forEach(function (p) { tuck(p[0], p[1]); }); }
+
+  place();
+  window.addEventListener("resize", function () {
+    PAIRS.forEach(function (p) {
+      const m = document.querySelector(p[0]);
+      if (m) { m.style.left = ""; m.style.top = ""; }
+    });
+    place();
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();

@@ -135,7 +135,7 @@
 .pull-media {
   position: absolute; left: 0; top: 0;
   width: 59.5%; height: 100%;
-  transform-style: preserve-3d;
+  overflow: hidden;
   background: repeating-linear-gradient(45deg, #ececec 0 0.14rem, #f5f5f5 0.14rem 0.28rem);
 }
 .pull-media::after {                 /* label only while no slides exist */
@@ -145,28 +145,19 @@
   font-size: 0.22rem; letter-spacing: 0.06em; color: #9a9a9a;
 }
 .pull-media.has-slides::after { content: none; }
+/* Each frame rides a large disc whose centre sits well below the panel, so
+   images swing up into view and away again rather than turning like pages. */
 .pull-slide {
   position: absolute; inset: 0;
-  transform-origin: left center;
-  backface-visibility: hidden;
+  transform-origin: 50% 300%;
+  transform: rotate(10deg);
   opacity: 0;
-  transform: rotateY(-100deg);
-  transition: transform .95s cubic-bezier(.45,.05,.15,1), opacity .55s ease;
+  transition: transform 1.15s cubic-bezier(.45, .05, .15, 1), opacity .65s ease;
 }
 .pull-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pull-slide.is-current { opacity: 1; transform: rotateY(0deg); z-index: 2; }
-.pull-slide.is-leaving { opacity: 1; transform: rotateY(0deg); z-index: 1; }
+.pull-slide.is-current { opacity: 1; transform: rotate(0deg); z-index: 2; }
+.pull-slide.is-leaving  { opacity: 0; transform: rotate(-10deg); z-index: 1; }
 
-.pull-blur {
-  position: absolute;
-  left: 52.9%; top: 14.8%;
-  width: 28.9%; height: 71.8%;
-  z-index: 3;
-  backdrop-filter: blur(0.16rem);
-  -webkit-backdrop-filter: blur(0.16rem);
-  background: rgba(190, 190, 190, 0.22);
-  pointer-events: none;
-}
 .pull-quote {
   position: absolute;
   left: 61.7%; top: 2.55rem;
@@ -174,10 +165,10 @@
   margin: 0;
   width: 34%;
   color: var(--orange-deep);
-  font-size: 0.26rem;           /* lifted from 21 */
+  font-size: 0.325rem;          /* +25% */
   font-style: italic;
   font-weight: 500;
-  line-height: 0.315rem;
+  line-height: 0.394rem;        /* leading held at the same ratio */
   letter-spacing: -0.01em;
 }
 .pull-mark {
@@ -186,7 +177,7 @@
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
-  font-size: 2.04rem;
+  font-size: 2.60rem;
   line-height: 1;
 }
 
@@ -265,6 +256,19 @@
   background-color: #111;
 }
 .solara-video .video-poster { width: 100%; height: 100%; object-fit: cover; }
+/* Frame is 1.576:1, clip is 16:9 — fill it and crop the sides rather than
+   letterboxing. The frame keeps its artboard size. */
+.solara-video iframe,
+.solara-video video {
+  position: absolute;
+  inset: auto;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 112.8%;                /* 1.778 / 1.576 */
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
 
 /* ==========================================================================
    OUR RANGE   (band y 3888 – 4710, detail y 4805 – 5415)
@@ -516,7 +520,7 @@ er { background: var(--orange-deep); }
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
-  font-size: 1.75rem;           /* 300 */
+  font-size: 2.20rem;
   line-height: 1;
   color: var(--orange);
 }
