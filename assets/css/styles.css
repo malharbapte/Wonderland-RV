@@ -1,0 +1,765 @@
+/* ==========================================================================
+   Wonderland RV — Contact Us
+   Built 1:1 from the Figma export "Contact Us page-2.svg" (2376 × 6199).
+
+   SCALING MODEL
+   -------------
+   The design canvas is 2376 px wide. `html { font-size }` is set so that
+   1rem === 100 design px at any viewport width, so every measurement below is
+   just the SVG coordinate divided by 100. That reproduces the artboard
+   proportionally at any screen size. The page stops growing past 2376 px.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ fonts */
+@font-face {
+  font-family: "Aviano Sans";
+  src: url("../fonts/AvianoSans-Regular.otf") format("opentype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Aviano Sans";
+  src: url("../fonts/AvianoSans-Bold.otf") format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Aviano Sans";
+  src: url("../fonts/AvianoSans-Black.otf") format("opentype");
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Gordita";
+  src: url("../fonts/Gordita-Regular.otf") format("opentype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Gordita";
+  src: url("../fonts/Gordita-Medium.otf") format("opentype");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Gordita";
+  src: url("../fonts/Gordita-Bold.otf") format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ----------------------------------------------------------------- tokens */
+:root {
+  --orange:       #E37921;   /* accent / buttons                */
+  --orange-deep:  #D57114;   /* header CTA, quote, headings     */
+  --blush:        #D99B88;   /* "your rules" band               */
+  --grey:         #B7B7B7;   /* form placeholders               */
+  --red:          #E61010;   /* required asterisk               */
+  --ink:          #000;
+
+  --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
+  --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
+
+  /* content column: 1373 design px, centred in the 2376 canvas */
+  --gutter: 5.015rem;
+}
+
+/* ------------------------------------------------------------------- base */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* 1rem = 100 design px */
+  font-size: min(calc(100vw / 23.76), 100px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 23.76rem;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--gordita);
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+
+/* Display headings are set in Aviano Sans Black */
+.hero h1,
+.enquiry-title,
+.unseen-title,
+.experience-title { font-weight: 900; }
+ul { margin: 0; padding: 0; list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.container {
+  width: 13.73rem;          /* 1373 */
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------- image placeholders --
+   Any <img> that resolves removes nothing; a missing file removes itself
+   (inline onerror) and leaves this labelled placeholder visible.           */
+.ph {
+  position: relative;
+  background:
+    repeating-linear-gradient(45deg, #ececec 0 0.14rem, #f5f5f5 0.14rem 0.28rem);
+}
+.ph::after {
+  content: attr(data-ph);
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--gordita);
+  font-size: 0.22rem;
+  letter-spacing: 0.06em;
+  color: #9a9a9a;
+  text-align: center;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+.ph > img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================================================
+   HEADER   (y 0 – 143)
+   ========================================================================== */
+.site-header { height: 1.43rem; }
+
+.header-inner {
+  width: 13.85rem;              /* 487 → 1872 */
+  margin-left: 4.87rem;
+  height: 100%;
+  padding-top: 0.04rem;         /* optical: header items centre on y = 73.5 */
+  display: flex;
+  align-items: center;
+}
+
+.logo { flex: none; width: 3.595rem; }   /* 359.506 × 67 */
+.logo img { width: 100%; height: auto; }
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.474rem;
+  margin-left: auto;
+  margin-top: 0.134rem;         /* baseline lands on y = 81.2 */
+  font-family: var(--aviano);
+  font-size: 0.14rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.main-nav a { padding-bottom: 0.02rem; border-bottom: 1px solid transparent; }
+.main-nav a:hover,
+.main-nav a[aria-current="page"] { border-bottom-color: var(--orange-deep); }
+
+.search-btn { margin-left: 0.26rem; margin-top: 0.025rem; flex: none; line-height: 0; }
+.search-btn svg { width: 0.22rem; height: 0.22rem; }
+
+.btn-build {
+  flex: none;
+  margin-left: 0.30rem;
+  width: 2.42rem; height: 0.59rem;      /* 242 × 59 */
+  background: var(--orange-deep);
+  color: #fff;
+  font-family: var(--aviano);
+  font-size: 0.14rem;
+  line-height: 0.59rem;
+  text-align: center;
+  transition: background .2s;
+}
+.btn-build:hover { background: var(--orange); }
+
+.nav-toggle { display: none; }
+
+/* ==========================================================================
+   HERO   (y 143 – 1024, image 2378 × 881)
+   ========================================================================== */
+.hero { position: relative; height: 8.81rem; }
+.hero .media { position: absolute; inset: 0; }
+.hero .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 0.984rem;     /* last baseline 914.4 → 1024 */
+  color: #fff;
+}
+.hero h1 {
+  font-family: var(--aviano);
+  font-size: 0.96rem;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  margin-bottom: -0.008rem;     /* baselines 860.5 → 914.4 = 53.9 apart */
+}
+.hero-sub {
+  font-family: var(--aviano);
+  font-size: 0.40rem;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   READY FOR ADVENTURE + FORM   (y 1024 – 2293)
+   ========================================================================== */
+.enquiry { padding-top: 1.384rem; padding-bottom: 1.71rem; }
+
+.enquiry-title {
+  font-family: var(--aviano);
+  font-size: 0.96rem;
+  line-height: 1;
+}
+
+.enquiry-grid {
+  display: grid;
+  grid-template-columns: 4.565rem 9.24rem;  /* left col | form 958 → 1882 */
+  padding-top: 0.706rem;
+}
+
+/* -------------------------------------------------------- left column ---- */
+.enquiry-copy .lede {
+  font-family: var(--gordita);
+  font-size: 0.36rem;
+  line-height: 0.44rem;
+}
+.enquiry-copy .lede + .lede { margin-top: 0.44rem; }   /* the blank line */
+.lede-accent { color: var(--orange); font-weight: 500; }
+
+.reachout {
+  margin-top: 2.890rem;         /* 1712.9 → 2036.6 */
+  color: var(--orange);
+  font-weight: 500;
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+}
+
+/* -------------------------------------------------------------- form ---- */
+.enquiry-form { padding-top: 0.165rem; }
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 4.31rem 4.42rem;   /* 973→1404 | 1433→1875 */
+  grid-template-rows: 0.40rem 1.08rem 1.0925rem;  /* rules on 1385.5 / 1493.5 / 1602.6 */
+  column-gap: 0.29rem;
+  align-items: end;
+  padding-left: 0.15rem;                    /* 958 → 973 */
+}
+
+.field { position: relative; }
+
+.field--line input {
+  display: block;
+  width: 100%;
+  height: 0.40rem;
+  padding: 0 0.24rem 0 0.12rem;
+  font-family: var(--gordita);
+  font-size: 0.24rem;
+  line-height: 1;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  outline-offset: 0.04rem;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: var(--grey); opacity: 1; }
+
+.field .req {
+  position: absolute;
+  right: 0.22rem;
+  top: 0.080rem;
+  color: var(--red);
+  font-weight: 500;
+  font-size: 0.24rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* State — rounded select, sits 14 px left of the underline fields */
+.field--select {
+  margin-left: -0.14rem;
+  width: 4.45rem;               /* 959.4 → 1403.6 */
+}
+.field--select select {
+  -webkit-appearance: none; appearance: none;
+  display: block;
+  width: 100%;
+  height: 0.6925rem;            /* 69.25 */
+  padding: 0 0.60rem 0 0.26rem;
+  font-family: var(--gordita);
+  font-size: 0.24rem;
+  color: var(--grey);
+  background: none;
+  border: 0.0075rem solid var(--ink);
+  border-radius: 0.14625rem;
+  outline-offset: 0.04rem;
+}
+.field--select select:valid { color: var(--ink); }
+.field--select .chev {
+  position: absolute;
+  left: 1.02rem; top: 0.335rem;             /* path M1061 1567 within the box */
+  width: 0.14rem; height: 0.08rem;
+  pointer-events: none;
+}
+.field--select .req { right: 0.22rem; top: 0.30rem; }
+
+/* --------------------------------------------------- enquiry-type chips -- */
+.chips {
+  margin: 0.396rem 0 0 -0.09rem;  /* 1602.6 → 1642.4 ; 958 → 949 */
+  width: 9.4125rem;               /* 949.4 → 1890.6 */
+  height: 0.9725rem;
+  padding: 0.08rem;
+  border: 0.0075rem solid var(--ink);
+  border-radius: 0.29625rem;
+  display: flex;
+}
+.chips legend { display: none; }
+
+.chip {
+  flex: 1 1 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+  border-radius: 0.20rem;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.chip + .chip::before {
+  content: "";
+  position: absolute; left: -0.09rem; top: -0.0025rem;
+  width: 1px; height: 0.83rem;
+  background: var(--ink);
+}
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip:has(input:checked) { background: var(--orange); color: #fff; }
+.chip:has(input:focus-visible) { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+
+/* --------------------------------------------------------------- notes -- */
+.field--area { margin-top: 0.3375rem; }   /* 1739.6 → 1773.4 */
+.field--area textarea {
+  display: block;
+  width: 9.2325rem;             /* 958.4 → 1881.6 */
+  height: 1.3225rem;            /* 132.25 */
+  padding: 0.134rem 0.26rem 0.20rem 0.199rem;
+  font-family: var(--gordita);
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+  color: var(--ink);
+  background: none;
+  border: 0.0075rem solid var(--ink);
+  border-radius: 0.14625rem;
+  resize: vertical;
+  outline-offset: 0.04rem;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.145rem;
+  margin-top: 0.247rem;         /* 1905.6 → 1930.4 */
+  padding-left: 0.0135rem;
+}
+.consent input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none;
+  flex: none;
+  margin: 0.045rem 0 0;
+  width: 0.2825rem; height: 0.2825rem;   /* r = 14.125 */
+  border: 0.0075rem solid var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.consent input[type="checkbox"]:checked { background: var(--ink); box-shadow: inset 0 0 0 0.05rem #fff; }
+.consent label {
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+  cursor: pointer;
+}
+.fineprint {
+  display: block;
+  margin-top: 0.026rem;
+  font-size: 0.14rem;
+  line-height: 0.20rem;
+}
+
+.btn-submit {
+  margin-top: 0.350rem;         /* → y 2052 */
+  margin-left: 0.01rem;         /* 958 → 959 */
+  width: 3.14rem; height: 0.70rem;
+  background: var(--orange);
+  color: #fff;
+  font-family: var(--aviano);
+  font-size: 0.24rem;
+  line-height: 0.70rem;
+  text-align: center;
+  transition: background .2s;
+}
+.btn-submit:hover { background: var(--orange-deep); }
+
+/* ==========================================================================
+   VIDEO   (y 2293 – 3477, full bleed 2389 × 1184)
+   ========================================================================== */
+.video-band { width: 100%; }
+.video-frame {
+  position: relative;
+  width: 100%;
+  height: 11.84rem;
+  overflow: hidden;
+  background-color: #111;
+}
+.video-frame iframe,
+.video-frame video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+  object-fit: cover;
+  z-index: 2;
+}
+.video-poster { width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================================================
+   THINGS YOU CAN'T SEE   (y 3477 – 4187)
+   ========================================================================== */
+.unseen { padding-top: 0.654rem; padding-bottom: 1.090rem; }
+
+.unseen-title {
+  font-family: var(--aviano);
+  font-size: 0.96rem;
+  line-height: 1;
+}
+.unseen-sub {
+  margin-top: -0.058rem;        /* baselines 3612.5 → 3661.4 */
+  font-family: var(--aviano);
+  font-size: 0.40rem;
+  line-height: 1;
+  color: var(--orange-deep);
+}
+.unseen-sub a { border-bottom: 1px solid transparent; }
+.unseen-sub a:hover { border-bottom-color: currentColor; }
+
+.quote-block {
+  position: relative;
+  margin-top: 1.214rem;         /* → the divider band, y 3794 */
+  padding-top: 0.210rem;
+  display: grid;
+  grid-template-columns: 4.33rem 9.40rem;   /* split on the rule at x 934.5 */
+}
+.quote-block::before {          /* vertical rule, x 934.5, y 3794 – 4014 */
+  content: "";
+  position: absolute;
+  left: 4.33rem; top: 0;
+  width: 1px; height: 2.20rem;
+  background: var(--orange-deep);
+}
+.quote-mark {
+  position: absolute;
+  left: -1.235rem; top: -1.1285rem;
+  font-family: var(--aviano);
+  font-size: 3.50rem;
+  line-height: 1;
+  color: var(--orange-deep);
+}
+.quote-left {
+  margin: 0;
+  font-size: 0.48rem;
+  line-height: 0.52rem;
+  color: var(--orange-deep);
+}
+.quote-right {
+  padding-left: 0.245rem;       /* rule at 934.5 → text at 959 */
+  font-size: 0.32rem;
+  line-height: 0.44rem;
+}
+
+.quote-attr {
+  margin-top: 0.430rem;         /* 3958.2 → 4036.6 */
+  color: var(--orange-deep);
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+}
+.quote-name { display: block; font-weight: 700; }
+.quote-role { display: block; }
+
+/* ==========================================================================
+   THE WONDERLAND EXPERIENCE   (y 4187 – 4956, image 2389 × 769)
+   ========================================================================== */
+.experience {
+  position: relative;
+  height: 7.69rem;
+  border-radius: 0.15rem;
+  overflow: hidden;
+}
+.experience .media { position: absolute; inset: 0; }
+.experience .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
+
+.experience-copy {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding-top: 0.844rem;
+  color: #fff;
+}
+.experience-title {
+  font-family: var(--aviano);
+  font-size: 0.96rem;
+  line-height: 0.83rem;
+}
+.experience-body {
+  margin-top: 3.436rem;         /* 4418 → 4810.4 */
+  font-weight: 500;
+  font-size: 0.36rem;
+  line-height: 0.39rem;
+}
+
+/* ==========================================================================
+   YOUR TRAVELS / YOUR RULES   (y 4956 – 5177)
+   ========================================================================== */
+.rules-band {
+  height: 2.21rem;
+  background: var(--blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+}
+.rules-band p {
+  font-family: var(--aviano);
+  font-size: 0.48rem;
+  line-height: 0.51rem;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-align: center;
+}
+
+/* ==========================================================================
+   FOOTER   (y 5177 – 6199)
+   ========================================================================== */
+.site-footer {
+  padding-top: 0.99rem;
+  padding-bottom: 0.41rem;
+  font-size: 0.19rem;
+  line-height: 0.29rem;
+}
+.footer-inner {
+  width: 13.73rem;              /* same column as the rest of the page */
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 5.59rem 8.14rem;
+  column-gap: 0;
+  row-gap: 0.57rem;
+}
+
+.footer-logo { width: 4.00rem; height: auto; margin-bottom: -0.10rem; }
+.footer-blurb { width: 4.05rem; }
+.footer-strong { font-weight: 700; }
+.footer-strong:hover { color: var(--orange-deep); }
+
+.footer-head {
+  font-family: var(--aviano);
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  letter-spacing: 0.02em;
+  color: var(--orange-deep);
+}
+.footer-brand p + p { margin-top: 0.17rem; }
+.footer-brand .footer-head { margin-top: 0.61rem; margin-bottom: 0.03rem; }
+.footer-contact { line-height: 0.34rem; }
+.footer-contact span { color: #333; }
+
+.socials {
+  display: flex;
+  gap: 0.42rem;
+  margin-top: 0.42rem;
+  color: #3f3f3f;
+}
+.socials svg { width: 0.24rem; height: 0.24rem; }
+.socials a:hover { color: var(--orange-deep); }
+
+.made-in { width: 3.12rem; height: auto; margin-top: 0.67rem; }
+
+/* ---------------------------------------------------------- right side -- */
+.newsletter .footer-head { margin-top: 0.49rem; margin-bottom: 0; }
+
+.newsletter-form {
+  display: grid;
+  grid-template-columns: 6.33rem 1.44rem;   /* Subscribe aligns to LOCATIONS */
+  column-gap: 0.37rem;
+  align-items: end;
+  margin-top: 0.29rem;
+}
+.newsletter-form .field--line input {
+  height: 0.42rem;
+  padding: 0 0 0.10rem 0;
+  font-size: 0.19rem;
+}
+.btn-subscribe {
+  width: 100%; height: 0.74rem;
+  background: var(--orange-deep);
+  color: #fff;
+  font-family: var(--aviano);
+  font-size: 0.19rem;
+  letter-spacing: 0.02em;
+  transition: background .2s;
+}
+.btn-subscribe:hover { background: var(--orange); }
+
+.link-cols {
+  display: grid;
+  grid-template-columns: 3.35rem 3.35rem 1.44rem;
+  margin-top: 0.64rem;
+}
+.link-col .footer-head { margin-bottom: 0.03rem; }
+.link-col .footer-head--gap { margin-top: 0.57rem; }
+.link-col li { line-height: 0.27rem; margin-bottom: 0.19rem; }
+.link-col a:hover { color: var(--orange-deep); }
+
+/* ------------------------------------------------------------- legal ---- */
+.footer-legal-left { font-size: 0.16rem; line-height: 0.315rem; color: #444; }
+.footer-legal-left a:hover { color: var(--orange-deep); }
+.footer-legal-right { font-size: 0.156rem; line-height: 0.265rem; color: #444; }
+.footer-legal-right p + p { margin-top: 0.13rem; }
+
+/* ==========================================================================
+   RESPONSIVE
+   Below 900 px the 2376-wide artboard is no longer legible when scaled, so
+   the page switches to a stacked layout with real type sizes.
+   ========================================================================== */
+@media (max-width: 900px) {
+  html { font-size: 16px; }
+  body { max-width: none; }
+
+  .container,
+  .header-inner,
+  .footer-inner { width: auto; margin-inline: 0; padding-inline: 24px; }
+
+  /* ---- header ---- */
+  .site-header { height: 64px; border-bottom: 1px solid #eee; }
+  .header-inner { padding-top: 0; }
+  .logo { width: 150px; }
+  .main-nav {
+    position: absolute; left: 0; right: 0; top: 64px; z-index: 30;
+    flex-direction: column; align-items: flex-start; gap: 0;
+    background: #fff; border-bottom: 1px solid #eee;
+    font-size: 15px; padding: 8px 24px 20px;
+    display: none;
+  }
+  .main-nav.is-open { display: flex; }
+  .main-nav a { padding: 12px 0; }
+  .search-btn { margin-left: auto; }
+  .search-btn svg { width: 20px; height: 20px; }
+  .btn-build { display: none; }
+  .nav-toggle {
+    display: block; margin-left: 16px; width: 24px;
+  }
+  .nav-toggle span { display: block; height: 2px; background: #000; margin: 5px 0; }
+
+  /* ---- hero ---- */
+  .hero { height: 62vw; min-height: 320px; }
+  .hero-copy { padding-bottom: 32px; }
+  .hero h1 { font-size: 44px; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .hero-sub { font-size: 20px; }
+
+  /* ---- enquiry ---- */
+  .enquiry { padding: 48px 0 56px; }
+  .enquiry-title { font-size: 34px; line-height: 1.15; }
+  .enquiry-grid { grid-template-columns: 1fr; gap: 40px; padding-top: 28px; }
+  .enquiry-copy .lede { font-size: 19px; line-height: 28px; }
+  .enquiry-copy .lede + .lede { margin-top: 28px; }
+  .reachout { margin-top: 28px; font-size: 16px; line-height: 24px; }
+
+  .enquiry-form { padding-top: 0; }
+  .field-grid { grid-template-columns: 1fr; padding-left: 0; row-gap: 26px; column-gap: 0; }
+  .field--line input { height: 40px; font-size: 16px; padding: 0 20px 8px 0; }
+  .field .req { font-size: 16px; top: 4px; right: 0; }
+  .field--select { margin-left: 0; width: 100%; }
+  .field--select select { height: 52px; font-size: 16px; padding: 0 40px 0 16px; border-radius: 10px; border-width: 1px; }
+  .field--select .chev { left: auto; right: 18px; top: 22px; width: 12px; height: 7px; }
+  .field--select .req { right: -12px; top: 16px; }
+
+  .chips {
+    margin: 26px 0 0; width: 100%; height: auto; padding: 6px;
+    border-radius: 14px; border-width: 1px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  }
+  .chip { font-size: 15px; line-height: 20px; padding: 14px 6px; border-radius: 10px; }
+  .chip + .chip::before { display: none; }
+
+  .field--area { margin-top: 26px; }
+  .field--area textarea {
+    width: 100%; height: 120px; font-size: 16px; line-height: 24px;
+    padding: 16px; border-radius: 10px; border-width: 1px;
+  }
+
+  .consent { margin-top: 24px; gap: 12px; padding-left: 0; }
+  .consent input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; border-width: 1px; }
+  .consent input[type="checkbox"]:checked { box-shadow: inset 0 0 0 4px #fff; }
+  .consent label { font-size: 15px; line-height: 22px; }
+  .fineprint { font-size: 12px; line-height: 18px; margin-top: 6px; }
+  .btn-submit { margin: 28px 0 0; width: 100%; max-width: 240px; height: 54px; font-size: 16px; line-height: 54px; }
+
+  /* ---- video ---- */
+  .video-frame { height: 56.25vw; }
+
+  /* ---- unseen ---- */
+  .unseen { padding: 48px 0 56px; }
+  .unseen-title { font-size: 34px; line-height: 1.15; }
+  .unseen-sub { margin-top: 10px; font-size: 20px; }
+  .quote-block { grid-template-columns: 1fr; margin-top: 36px; padding-top: 0; gap: 24px; }
+  .quote-block::before { display: none; }
+  .quote-mark { display: none; }
+  .quote-left { font-size: 26px; line-height: 32px; }
+  .quote-right { padding-left: 0; font-size: 17px; line-height: 26px; }
+  .quote-attr { margin-top: 24px; font-size: 15px; line-height: 22px; }
+
+  /* ---- experience ---- */
+  .experience { height: auto; min-height: 520px; border-radius: 0; }
+  .experience-copy { padding: 56px 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
+  .experience-title { font-size: 34px; line-height: 1.15; }
+  .experience-body { margin-top: 48px; font-size: 19px; line-height: 26px; }
+
+  /* ---- rules band ---- */
+  .rules-band { height: auto; padding: 32px 24px; }
+  .rules-band p { font-size: 17px; line-height: 26px; letter-spacing: 0.08em; }
+
+  /* ---- footer ---- */
+  .site-footer { padding: 56px 0 40px; font-size: 15px; line-height: 24px; }
+  .footer-inner { grid-template-columns: 1fr; row-gap: 48px; }
+  .footer-logo { width: 190px; margin-bottom: 24px; }
+  .footer-blurb { width: auto; }
+  .footer-head { font-size: 15px; }
+  .footer-brand .footer-head { margin-top: 32px; margin-bottom: 10px; }
+  .socials { gap: 24px; margin-top: 26px; }
+  .socials svg { width: 22px; height: 22px; }
+  .made-in { width: 230px; margin-top: 32px; }
+
+  .newsletter { margin-bottom: 40px; }
+  .newsletter .footer-head { margin-bottom: 16px; }
+  .newsletter-form { grid-template-columns: 1fr; row-gap: 20px; }
+  .newsletter-form .field--line input { height: 38px; font-size: 16px; }
+  .btn-subscribe { height: 50px; font-size: 15px; max-width: 200px; }
+
+  .link-cols { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  .link-col .footer-head { margin-bottom: 14px; }
+  .link-col .footer-head--gap { margin-top: 32px; }
+  .link-col li { margin-bottom: 10px; }
+
+  .footer-legal-right p { max-width: none; font-size: 13px; line-height: 20px; }
+}
+
+@media (max-width: 520px) {
+  .chips { grid-template-columns: 1fr; }
+  .link-cols { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
