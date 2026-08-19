@@ -854,6 +854,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .rules-band { height: auto; padding: 32px 24px; }
   .rules-band p { font-size: 17px; line-height: 26px; letter-spacing: 0.08em; }
 
+  /* ---- where to next ---- */
+  .next-band { height: auto; min-height: 420px; }
+  .next-copy { padding: 48px 24px; gap: 24px; height: auto; min-height: 420px; }
+  .next-title { font-size: 26px; }
+  .next-actions { flex-direction: column; align-items: center; gap: 14px; }
+  .btn-next { font-size: 15px; padding: 16px 30px; }
+
   /* ---- footer ---- */
   .site-footer { padding: 56px 0 40px; font-size: 15px; line-height: 24px; }
   .footer-inner { grid-template-columns: 1fr; row-gap: 48px; }
