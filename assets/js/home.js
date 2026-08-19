@@ -6,7 +6,7 @@
    string empty and its labelled placeholder stays in place.
    ========================================================================== */
 
-const HERO_VIDEO_URL   = "";     // full-bleed clip behind "ADventure your way"
+const HERO_VIDEO_URL   = "assets/video/hero.mp4";   // drop the file here, or paste a YouTube/Vimeo link
 const SOLARA_VIDEO_URL = "";     // clip in the Welcome Solara section
 
 /* -------------------------------------------------------------------------- */
@@ -116,4 +116,67 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   function reflow() { thumb.classList.add("is-init"); place(); enable(); }
   window.addEventListener("resize", reflow);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reflow);
+})();
+
+/* -------------------------------------- Luxury section: page-turn slides ---
+   Loads assets/img/home/slide-1.jpg … slide-6.jpg, keeping whichever exist,
+   and turns them like pages. Add or remove files; nothing here changes.   */
+(function () {
+  const box = document.getElementById("pullSlides");
+  if (!box) return;
+
+  const MAX = 6, HOLD = 5000;
+  const found = [];
+  let pending = MAX;
+
+  for (let i = 1; i <= MAX; i++) {
+    const img = new Image();
+    img.onload = function () { found.push({ i: i, src: img.src }); done(); };
+    img.onerror = done;
+    img.src = "assets/img/home/slide-" + i + ".jpg";
+  }
+
+  function done() {
+    if (--pending) return;
+    if (!found.length) return;                 // no slides yet: placeholder stays
+    found.sort(function (a, b) { return a.i - b.i; });
+
+    const slides = found.map(function (f, n) {
+      const d = document.createElement("div");
+      d.className = "pull-slide" + (n === 0 ? " is-current" : "");
+      const im = document.createElement("img");
+      im.src = f.src; im.alt = "";
+      d.appendChild(im);
+      box.appendChild(d);
+      return d;
+    });
+    box.classList.add("has-slides");
+    if (slides.length < 2) return;
+
+    let cur = 0;
+    setInterval(function () {
+      const next = (cur + 1) % slides.length;
+      slides[next].classList.add("is-current");
+      slides[cur].classList.remove("is-current");
+      slides[cur].classList.add("is-leaving");
+      void slides[cur].offsetWidth;
+      slides[cur].classList.remove("is-leaving");   // turns away on its left edge
+      cur = next;
+    }, HOLD);
+  }
+})();
+
+/* ------------------------------------- Legendary service: review slider --- */
+(function () {
+  const track = document.getElementById("serviceTrack");
+  if (!track) return;
+  const slides = track.children.length;
+  const prev = document.querySelector(".service-arrow--prev");
+  const next = document.querySelector(".service-arrow--next");
+  let i = 0;
+
+  function show() { track.style.transform = "translateX(" + (-i * 100) + "%)"; }
+  if (prev) prev.addEventListener("click", function () { i = (i - 1 + slides) % slides; show(); });
+  if (next) next.addEventListener("click", function () { i = (i + 1) % slides; show(); });
+  show();
 })();

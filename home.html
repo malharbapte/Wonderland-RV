@@ -66,12 +66,14 @@
 </section>
 
 <!-- ======================================================= PULL QUOTE -->
+<!--
+  SLIDESHOW — drop images in assets/img/home/ named slide-1.jpg, slide-2.jpg …
+  up to slide-6.jpg. The script loads whichever exist, in order, and turns
+  them like pages. Nothing else to change.
+-->
 <section class="pull">
-  <div class="pull-media ph" data-ph="assets/img/home/quote-side.jpg">
-    <img src="assets/img/home/quote-side.jpg" alt=""
-         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
-  </div>
-  <div class="pull-panel" aria-hidden="true"></div>
+  <div class="pull-media" id="pullSlides" data-ph="SLIDESHOW — add slide-1.jpg … slide-6.jpg"></div>
+  <div class="pull-blur" aria-hidden="true"></div>
   <blockquote class="pull-quote">
     <span class="pull-mark" aria-hidden="true">&ldquo;</span>
     <p>Ready to step off the<br>
@@ -167,20 +169,22 @@
 
 <!-- ================================================= TESTIMONIAL ONE -->
 <section class="testi">
-  <span class="testi-mark" aria-hidden="true">&ldquo;</span>
-  <blockquote class="testi-quote">
-    <p>The Wonderland RV range has more inclusions<br>than most others.&rdquo;</p>
-  </blockquote>
-  <p class="testi-attr">
-    <span class="testi-name">KEVIN SMALLEY</span>
-    <span class="testi-role">WONDERLANDER</span>
-  </p>
+  <div class="container testi-inner">
+    <span class="testi-mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="testi-quote">
+      <p>The Wonderland RV range has more inclusions<br>than most others.&rdquo;</p>
+    </blockquote>
+    <p class="testi-attr">
+      <span class="testi-name">KEVIN SMALLEY</span>
+      <span class="testi-role">WONDERLANDER</span>
+    </p>
+  </div>
 </section>
 
 <!-- ================================================ YOUR DREAM VAN -->
 <section class="dream">
   <div class="container">
-    <h2 class="dream-title">your dream <br>van awaits</h2>
+    <h2 class="dream-title">your dream van awaits</h2>
   </div>
 
   <div class="dream-mosaic">
@@ -195,8 +199,8 @@
     </div>
     <div class="dream-shot dream-shot--d ph" data-ph="dream-awning.jpg">
       <img src="assets/img/home/dream-awning.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
-      <a class="btn-solid dream-quote" href="compact.html">GET A QUOTE</a>
     </div>
+    <a class="btn-solid dream-quote" href="compact.html">GET A QUOTE</a>
   </div>
 
   <div class="container">
@@ -210,14 +214,16 @@
 
 <!-- ================================================= TESTIMONIAL TWO -->
 <section class="testi">
-  <span class="testi-mark" aria-hidden="true">&ldquo;</span>
-  <blockquote class="testi-quote">
-    <p>The Wonderland RV range has more inclusions<br>than most others.&rdquo;</p>
-  </blockquote>
-  <p class="testi-attr">
-    <span class="testi-name">KEVIN SMALLEY</span>
-    <span class="testi-role">WONDERLANDER</span>
-  </p>
+  <div class="container testi-inner">
+    <span class="testi-mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="testi-quote">
+      <p>The Wonderland RV range has more inclusions<br>than most others.&rdquo;</p>
+    </blockquote>
+    <p class="testi-attr">
+      <span class="testi-name">KEVIN SMALLEY</span>
+      <span class="testi-role">WONDERLANDER</span>
+    </p>
+  </div>
 </section>
 
 <!-- ==================================================== WHY CHOOSE US -->
@@ -235,22 +241,22 @@
   <div class="container why-grid">
     <ul class="why-list">
       <li>
-        <span class="why-dot" aria-hidden="true"></span>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l7 3v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6l7-3z"/><path d="M9.4 12.2l1.9 1.9 3.6-3.8" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <h3>BUILT TOUGH</h3>
         <p>Unique Jigsaw construction for strength<br>and durability.</p>
       </li>
       <li>
-        <span class="why-dot" aria-hidden="true"></span>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 17.2L14.6 6.6l2.8 2.8L6.8 20H4v-2.8z"/><path d="M15.9 5.3l1.6-1.6a1.4 1.4 0 0 1 2 0l1 1a1.4 1.4 0 0 1 0 2l-1.6 1.6-3-3z"/></svg></span>
         <h3>CUSTOM MADE</h3>
         <p>A caravan to suit your family and the trips<br>you want to take.</p>
       </li>
       <li>
-        <span class="why-dot" aria-hidden="true"></span>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.3 5.3 5.7.5-4.3 3.8 1.3 5.6L12 14.9l-5 2.9 1.3-5.6L4 8.4l5.7-.5L12 2.6z"/></svg></span>
         <h3>LUXURY FINISH</h3>
         <p>Impeccable, comfortable interiors that<br>offer a welcome retreat</p>
       </li>
       <li>
-        <span class="why-dot" aria-hidden="true"></span>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.2-7-9.6C5 8.4 7 6.4 9.5 6.4c1.4 0 2.2.6 2.5 1 .3-.4 1.1-1 2.5-1C17 6.4 19 8.4 19 11.4 19 16.8 12 21 12 21z"/></svg></span>
         <h3>PEACE OF MIND</h3>
         <p>3 year factory-backed warranty and<br>premium after sale service</p>
       </li>
@@ -270,24 +276,90 @@
   </div>
 
   <div class="service-band">
-    <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
-      <img src="assets/img/home/service-side.jpg" alt=""
-           onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    <div class="service-viewport">
+      <div class="service-track" id="serviceTrack">
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
+          <img src="assets/img/home/service-side.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The Wonderland RV<br>
+            range has more<br>
+            inclusions than<br>
+            most others.&rdquo;</p>
+          <span class="service-name">KEVIN SMALLEY</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
+          <img src="assets/img/home/service-side.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The Wonderland RV<br>
+            range has more<br>
+            inclusions than<br>
+            most others.&rdquo;</p>
+          <span class="service-name">KEVIN SMALLEY</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
+          <img src="assets/img/home/service-side.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The Wonderland RV<br>
+            range has more<br>
+            inclusions than<br>
+            most others.&rdquo;</p>
+          <span class="service-name">KEVIN SMALLEY</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
+          <img src="assets/img/home/service-side.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The Wonderland RV<br>
+            range has more<br>
+            inclusions than<br>
+            most others.&rdquo;</p>
+          <span class="service-name">KEVIN SMALLEY</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/service-side.jpg">
+          <img src="assets/img/home/service-side.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The Wonderland RV<br>
+            range has more<br>
+            inclusions than<br>
+            most others.&rdquo;</p>
+          <span class="service-name">KEVIN SMALLEY</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      </div>
     </div>
-    <blockquote class="service-quote">
-      <span class="service-mark" aria-hidden="true">&ldquo;</span>
-      <p>The Wonderland RV<br>
-        range has more<br>
-        inclusions than<br>
-        most others.&rdquo;</p>
-      <span class="service-name">KEVIN SMALLEY</span>
-      <span class="service-role">WONDERLANDER</span>
-    </blockquote>
 
-    <button class="service-arrow service-arrow--prev" type="button" aria-label="Previous">
+    <button class="service-arrow service-arrow--prev" type="button" aria-label="Previous review">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <button class="service-arrow service-arrow--next" type="button" aria-label="Next">
+    <button class="service-arrow service-arrow--next" type="button" aria-label="Next review">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </div>
@@ -312,14 +384,16 @@
 
 <!-- =============================================== TESTIMONIAL THREE -->
 <section class="testi testi--alt">
-  <span class="testi-mark" aria-hidden="true">&ldquo;</span>
-  <blockquote class="testi-quote">
-    <p>The Wonderland Solara 20&rsquo; 06&rdquo; is the real deal</p>
-  </blockquote>
-  <p class="testi-attr">
-    <span class="testi-name">JOHN FORD</span>
-    <span class="testi-role">CARAVAN WORLD</span>
-  </p>
+  <div class="container testi-inner">
+    <span class="testi-mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="testi-quote">
+      <p>The Wonderland Solara 20&rsquo; 06&rdquo; is the real deal</p>
+    </blockquote>
+    <p class="testi-attr">
+      <span class="testi-name">JOHN FORD</span>
+      <span class="testi-role">CARAVAN WORLD</span>
+    </p>
+  </div>
 </section>
 
 <!-- =================================================== BRANDS WE TRUST -->
@@ -353,64 +427,68 @@
       your van, then bring your dream to life.</p>
 
     <form class="home-form" action="#" method="post" autocomplete="off" novalidate>
-      <div class="home-field-grid">
-        <div class="field field--line">
-          <input id="h-first" name="first-name" type="text" placeholder="First Name" required autocomplete="off">
-          <span class="req" aria-hidden="true">*</span>
-        </div>
-        <div class="field field--line">
-          <input id="h-last" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
-        </div>
+      <div class="home-cols">
 
-        <div class="field field--line">
-          <input id="h-email" name="email" type="email" placeholder="Email" required autocomplete="off">
-          <span class="req" aria-hidden="true">*</span>
-        </div>
-        <div class="field field--line">
-          <input id="h-phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
-        </div>
-
-        <div class="home-row-three">
-          <div class="field field--select">
-            <select id="h-state" name="state" autocomplete="off" required>
-              <option value="" selected disabled>State</option>
-              <option>Victoria</option>
-              <option>New South Wales</option>
-              <option>Queensland</option>
-              <option>South Australia</option>
-              <option>Western Australia</option>
-              <option>Tasmania</option>
-              <option>Northern Territory</option>
-              <option>Australian Capital Territory</option>
-            </select>
-            <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+        <div class="home-col">
+          <div class="field field--line">
+            <input id="h-first" name="first-name" type="text" placeholder="First Name" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
           </div>
           <div class="field field--line">
-            <input id="h-postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+            <input id="h-email" name="email" type="email" placeholder="Email" required autocomplete="off">
             <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="home-pair">
+            <div class="field field--select">
+              <select id="h-state" name="state" autocomplete="off" required>
+                <option value="" selected disabled>State</option>
+                <option>Victoria</option>
+                <option>New South Wales</option>
+                <option>Queensland</option>
+                <option>South Australia</option>
+                <option>Western Australia</option>
+                <option>Tasmania</option>
+                <option>Northern Territory</option>
+                <option>Australian Capital Territory</option>
+              </select>
+              <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+            <div class="field field--line">
+              <input id="h-postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+          </div>
+
+          <!-- the artboard's two checkboxes, rebuilt as the Contact page pill -->
+          <fieldset class="chips home-chips">
+            <legend class="sr-only">What would you like to do?</legend>
+            <span class="chips-thumb is-init" aria-hidden="true"></span>
+            <label class="chip">
+              <input type="radio" name="enquiry-type" value="Call back" checked>
+              <span>Call back</span>
+            </label>
+            <label class="chip">
+              <input type="radio" name="enquiry-type" value="Book a factory tour">
+              <span>Book a factory tour</span>
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="home-col">
+          <div class="field field--line">
+            <input id="h-last" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
+          </div>
+          <div class="field field--line">
+            <input id="h-phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
+          </div>
+          <div class="field field--area home-area">
+            <label class="sr-only" for="h-message">Something you&rsquo;d like to tell us...</label>
+            <textarea id="h-message" name="message" placeholder="Something you&rsquo;d like to tell us..."></textarea>
           </div>
         </div>
 
-        <div class="field field--area home-area">
-          <label class="sr-only" for="h-message">Something you&rsquo;d like to tell us...</label>
-          <textarea id="h-message" name="message" placeholder="Something you&rsquo;d like to tell us..."></textarea>
-        </div>
       </div>
-
-      <!-- the two checkboxes in the artboard, rebuilt as the Contact page pill -->
-      <fieldset class="chips home-chips">
-        <legend class="sr-only">What would you like to do?</legend>
-        <span class="chips-thumb is-init" aria-hidden="true"></span>
-        <label class="chip">
-          <input type="radio" name="enquiry-type" value="Call back" checked>
-          <span>Call back</span>
-        </label>
-        <label class="chip">
-          <input type="radio" name="enquiry-type" value="Book a factory tour">
-          <span>Book a factory tour</span>
-        </label>
-      </fieldset>
 
       <button class="btn-submit" type="submit">Submit</button>
     </form>

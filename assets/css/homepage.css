@@ -21,7 +21,11 @@
 .band { position: relative; }
 .band .media { position: absolute; inset: 0; }
 .band .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
-.band-copy { position: relative; z-index: 2; height: 100%; display: flex; align-items: center; }
+.band-copy {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; align-items: flex-start;
+  padding-top: 1.40rem;         /* lifted out of centre, per the marked-up reference */
+}
 .band-title {
   font-family: var(--aviano);
   font-weight: 900;
@@ -75,13 +79,13 @@
 .home-hero h1 {
   font-family: var(--aviano);
   font-weight: 900;
-  font-size: 0.37rem;           /* 64 */
-  line-height: 0.315rem;
+  font-size: 0.56rem;           /* was 64; now matches the section headings */
+  line-height: 0.475rem;
 }
 .home-hero-cta {
   margin-top: 0.16rem;
   font-family: var(--aviano);
-  font-size: 0.21rem;           /* 36 */
+  font-size: 0.315rem;          /* 36/64 of the heading, held proportional */
   line-height: 1;
   color: #E88426;
 }
@@ -102,33 +106,63 @@
 }
 
 /* ==========================================================================
-   PULL QUOTE   (y 1411 – 2247)
+   PULL QUOTE + SLIDESHOW   (y 1411 – 2247)
+   The grey rectangle in the artboard is not a shape — it marks where the
+   stack of images turns over, so it is built as a blurred pane instead.
    ========================================================================== */
 .pull {
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   height: 8.36rem;
+  perspective: 24rem;
 }
-.pull-media { position: absolute; left: 0; top: 0; width: 59.5%; height: 100%; }
-.pull-media img { width: 100%; height: 100%; object-fit: cover; }
-.pull-panel {
+.pull-media {
+  position: absolute; left: 0; top: 0;
+  width: 59.5%; height: 100%;
+  transform-style: preserve-3d;
+  background: repeating-linear-gradient(45deg, #ececec 0 0.14rem, #f5f5f5 0.14rem 0.28rem);
+}
+.pull-media::after {                 /* label only while no slides exist */
+  content: attr(data-ph);
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.22rem; letter-spacing: 0.06em; color: #9a9a9a;
+}
+.pull-media.has-slides::after { content: none; }
+.pull-slide {
+  position: absolute; inset: 0;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  opacity: 0;
+  transform: rotateY(-100deg);
+  transition: transform .95s cubic-bezier(.45,.05,.15,1), opacity .55s ease;
+}
+.pull-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pull-slide.is-current { opacity: 1; transform: rotateY(0deg); z-index: 2; }
+.pull-slide.is-leaving { opacity: 1; transform: rotateY(0deg); z-index: 1; }
+
+.pull-blur {
   position: absolute;
   left: 52.9%; top: 14.8%;
   width: 28.9%; height: 71.8%;
-  background: #BEBEBE;
-  opacity: 0.22;
+  z-index: 3;
+  backdrop-filter: blur(0.16rem);
+  -webkit-backdrop-filter: blur(0.16rem);
+  background: rgba(190, 190, 190, 0.22);
+  pointer-events: none;
 }
 .pull-quote {
   position: absolute;
-  left: 61.7%; top: 2.90rem;
+  left: 61.7%; top: 2.55rem;
+  z-index: 4;
   margin: 0;
-  width: 32%;
+  width: 34%;
   color: var(--orange-deep);
-  font-size: 0.21rem;           /* 36 */
+  font-size: 0.26rem;           /* lifted from 21 */
   font-style: italic;
   font-weight: 500;
-  line-height: 0.257rem;
+  line-height: 0.315rem;
   letter-spacing: -0.01em;
 }
 .pull-mark {
@@ -137,7 +171,7 @@
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
-  font-size: 2.04rem;           /* 350 */
+  font-size: 2.04rem;
   line-height: 1;
 }
 
@@ -145,7 +179,7 @@
    INTRO   (y ~2363)
    ========================================================================== */
 .intro { padding-top: 1.10rem; padding-bottom: 1.10rem; }
-.intro p { font-size: 0.14rem; line-height: 0.222rem; }
+.intro p { font-size: 0.21rem; line-height: 0.30rem; }
 
 /* ==========================================================================
    STAT BAND   (y 2622 – 2925)
@@ -199,14 +233,14 @@
 }
 .solara-lede {
   margin-top: 0.40rem;
-  font-size: 0.19rem;           /* 32 */
+  font-size: 0.24rem;
   font-style: italic;
-  line-height: 0.233rem;
+  line-height: 0.30rem;
 }
 .solara-body {
   margin-top: 0.30rem;
-  font-size: 0.14rem;           /* 18; lifted to the 14 body minimum */
-  line-height: 0.20rem;
+  font-size: 0.21rem;           /* body minimum, matching the Contact page */
+  line-height: 0.28rem;
 }
 .solara-copy .btn-solid { margin-top: 0.34rem; }
 .solara-video {
@@ -229,47 +263,45 @@
   align-items: start;
 }
 .range-lede {
-  font-size: 0.19rem;
+  font-size: 0.24rem;
   font-style: italic;
-  line-height: 0.257rem;
+  line-height: 0.32rem;
 }
 .range-list { margin-top: 0.72rem; }
 .range-list li + li { margin-top: 0.45rem; }
 .range-list h3 {
   padding-left: 1.16rem;
-  font-size: 0.19rem;
+  font-size: 0.24rem;
   font-weight: 700;
   line-height: 1;
 }
 .range-list p {
   padding-left: 1.16rem;
   margin-top: 0.10rem;
-  font-size: 0.14rem;
+  font-size: 0.21rem;
   font-style: italic;
-  line-height: 1;
+  line-height: 0.28rem;
 }
 .range-figure img { width: 100%; height: auto; }
 
 /* ==========================================================================
    TESTIMONIAL BANDS   (y 5522 / 7605 / 12235, each 543 tall)
+   Quote centres on the canvas, attribution sits right on the content column,
+   and the mark hangs on the left margin rather than off in the bleed.
    ========================================================================== */
 .testi {
-  position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   height: 5.43rem;
   background: var(--blush);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.24rem;
-  text-align: center;
   overflow: hidden;
 }
+.testi-inner { position: relative; }
 .testi-mark {
   position: absolute;
-  left: 10.3%; top: -0.30rem;
+  left: 0; top: -1.62rem;
   font-family: var(--aviano);
   font-weight: 900;
   font-size: 3.50rem;           /* 600 */
@@ -277,7 +309,7 @@
   color: #FFEBCC;
   pointer-events: none;
 }
-.testi-quote { margin: 0; position: relative; z-index: 1; }
+.testi-quote { margin: 0; position: relative; z-index: 1; text-align: center; }
 .testi-quote p {
   font-size: 0.28rem;           /* 48 */
   font-style: italic;
@@ -285,7 +317,15 @@
   line-height: 0.327rem;
   color: #FFEBD8;
 }
-.testi-attr { position: relative; z-index: 1; font-size: 0.14rem; line-height: 0.19rem; color: #FFF5EC; }
+.testi-attr {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.50rem;
+  text-align: right;
+  font-size: 0.21rem;
+  line-height: 0.28rem;
+  color: #FFF5EC;
+}
 .testi-name { display: block; font-weight: 700; }
 .testi-role { display: block; }
 .testi--alt .testi-mark { color: #FFF2DC; }
@@ -300,32 +340,36 @@
   font-family: var(--aviano);
   font-weight: 900;
   font-size: 0.56rem;
-  line-height: 0.496rem;
+  line-height: 1;
+  white-space: nowrap;          /* one line */
 }
 
+/* artboard coords: A x-4 y6542 857x738 · B x891 y6542 595x353
+   C x891 y6929 595x351 · D x1526 y6173 853x738 · button x1526 y7060 347x105
+   Container spans y 6173 – 7280, so every value below is a share of that.  */
 .dream-mosaic {
+  position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-top: 0.60rem;
-  display: grid;
-  grid-template-columns: 36.1fr 25fr 38.9fr;   /* fr, so the gaps don't overflow */
-  grid-template-rows: 3.53rem 3.85rem;
-  gap: 0.16rem;
+  margin-top: 0.55rem;
+  height: 11.07rem;
 }
-.dream-shot { position: relative; overflow: hidden; }
+.dream-shot { position: absolute; overflow: hidden; }
 .dream-shot img { width: 100%; height: 100%; object-fit: cover; }
-.dream-shot--a { grid-column: 1; grid-row: 1 / span 2; }
-.dream-shot--b { grid-column: 2; grid-row: 1; }
-.dream-shot--c { grid-column: 2; grid-row: 2; }
-.dream-shot--d { grid-column: 3; grid-row: 1 / span 2; }
+.dream-shot--a { left: 0;      top: 33.33%; width: 36.07%; height: 66.67%; }
+.dream-shot--b { left: 37.50%; top: 33.33%; width: 25.04%; height: 31.89%; }
+.dream-shot--c { left: 37.50%; top: 68.29%; width: 25.04%; height: 31.71%; }
+.dream-shot--d { left: 64.23%; top: 0;      width: 35.77%; height: 66.67%; }
 .dream-quote {
   position: absolute;
-  left: 0; bottom: 1.15rem;
+  left: 64.23%; top: 80.13%;
   padding: 0.30rem 0.54rem;
-  font-size: 0.19rem;           /* 32 */
+  font-size: 0.24rem;
   background: var(--orange);
 }
 .dream-quote:hover { background: var(--orange-deep); }
+
+er { background: var(--orange-deep); }
 
 .dream-points {
   margin-top: 0.95rem;
@@ -341,7 +385,7 @@
   line-height: 1;
   color: var(--orange-deep);
 }
-.dream-points p { margin-top: 0.12rem; font-size: 0.14rem; line-height: 0.20rem; }
+.dream-points p { margin-top: 0.14rem; font-size: 0.21rem; line-height: 0.28rem; }
 
 /* ==========================================================================
    WHY CHOOSE US   (band y 8267 – 9090, list y 9207 – 9709)
@@ -356,25 +400,29 @@
 }
 .why-list li { position: relative; padding-left: 1.10rem; }
 .why-list li + li { margin-top: 0.55rem; }
-.why-dot {
+.why-icon {
   position: absolute;
   left: 0.35rem; top: 0;
   width: 0.67rem; height: 0.67rem;
   border-radius: 50%;
   background: var(--orange-deep);
+  color: #fff;
+  display: grid;
+  place-items: center;
 }
+.why-icon svg { width: 0.36rem; height: 0.36rem; }
 .why-list h3 {
-  font-size: 0.19rem;           /* 32 */
+  font-size: 0.24rem;           /* 32 */
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1;
   padding-top: 0.16rem;
 }
-.why-list p { margin-top: 0.12rem; font-size: 0.14rem; font-style: italic; line-height: 0.20rem; }
+.why-list p { margin-top: 0.14rem; font-size: 0.21rem; font-style: italic; line-height: 0.28rem; }
 .why-figure img { width: 100%; height: auto; }
 
 /* ==========================================================================
-   LEGENDARY SERVICE   (y 10026 – 10858)
+   LEGENDARY SERVICE   (y 10026 – 10858)   — five reviews on a slider
    ========================================================================== */
 .service { padding-top: 1.20rem; }
 .service-head { text-align: center; }
@@ -387,7 +435,7 @@
 }
 .service-kicker {
   margin-top: 0.14rem;
-  font-size: 0.14rem;
+  font-size: 0.21rem;
   font-weight: 700;
   letter-spacing: 0.87em;
   text-indent: 0.87em;
@@ -399,46 +447,56 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: 0.55rem;
-  min-height: 6.74rem;
-  display: flex;
-  align-items: center;
 }
-.service-band::before {         /* the #FFF2DC panel behind everything */
+.service-band::before {                 /* the #FFF2DC panel behind the slides */
   content: "";
   position: absolute;
   left: 0; right: 0; top: 0.61rem;
   height: 5.66rem;
   background: #FFF2DC;
 }
-.service-media { position: relative; z-index: 1; width: 56.9%; height: 6.74rem; }
+.service-viewport { position: relative; overflow: hidden; }
+.service-track {
+  display: flex;
+  transition: transform .55s cubic-bezier(.45,.05,.15,1);
+}
+.service-slide {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  min-height: 6.74rem;
+}
+.service-media { position: relative; z-index: 1; width: 56.9%; height: 6.74rem; flex: none; }
 .service-media img { width: 100%; height: 100%; object-fit: cover; }
 .service-quote {
   position: relative;
   z-index: 1;
-  margin: 0 0 0 7.3%;
+  margin: 0 0 0 4.6%;
+  padding-left: 1.05rem;        /* room for the hanging mark, as on Contact */
   color: var(--orange-deep);
 }
 .service-quote p {
-  font-size: 0.21rem;           /* 36 */
+  font-size: 0.21rem;
   font-style: italic;
   line-height: 0.245rem;
 }
 .service-mark {
   position: absolute;
-  left: -1.05rem; top: -0.34rem;   /* SVG sets the mark 101 left of the text */
+  left: 0; top: -0.46rem;
   font-family: var(--aviano);
+  font-style: normal;
   font-weight: 900;
   font-size: 1.75rem;           /* 300 */
   line-height: 1;
   color: var(--orange);
 }
-.service-name { display: block; margin-top: 0.50rem; font-size: 0.14rem; font-weight: 700; line-height: 0.19rem; }
-.service-role { display: block; font-size: 0.14rem; line-height: 0.19rem; }
+.service-name { display: block; margin-top: 0.42rem; font-size: 0.21rem; font-weight: 700; line-height: 0.28rem; }
+.service-role { display: block; font-size: 0.21rem; line-height: 0.28rem; }
 
 .service-arrow {
   position: absolute;
   top: 50%;
-  z-index: 2;
+  z-index: 3;
   width: 0.70rem; height: 0.70rem;
   margin-top: -0.35rem;
   border-radius: 50%;
@@ -482,7 +540,7 @@
   text-align: center;
 }
 .coty-points li {
-  font-size: 0.19rem;           /* 32 */
+  font-size: 0.21rem;           /* 32 */
   font-weight: 500;
   line-height: 0.51rem;
   color: var(--orange-deep);
@@ -496,7 +554,7 @@
 .brands-media {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  padding-top: 1.30rem;
+  padding-top: 1.05rem;
 }
 .brands-media img { width: 100%; height: auto; }
 .brands-title {
@@ -526,7 +584,7 @@
   font-size: 0.56rem;
   line-height: 1;
 }
-.insurance-copy { margin-top: 0.50rem; font-size: 0.14rem; font-style: italic; line-height: 0.19rem; }
+.insurance-copy { margin-top: 0.50rem; font-size: 0.21rem; font-style: italic; line-height: 0.28rem; }
 .insurance-logo { width: 4.24rem; height: auto; }
 
 /* ==========================================================================
@@ -550,35 +608,36 @@
 .home-contact-title a:focus-visible { color: var(--orange-deep); }
 .home-contact-lede {
   margin-top: 0.22rem;
-  font-size: 0.14rem;
+  font-size: 0.21rem;
   font-style: italic;
-  line-height: 0.204rem;
+  line-height: 0.28rem;
 }
 
 .home-form { margin-top: 0.55rem; width: 11.41rem; }
-.home-field-grid {
+.home-cols {
   display: grid;
-  grid-template-columns: 5.54rem 5.54rem;
-  column-gap: 0.33rem;
-  row-gap: 0.45rem;
+  grid-template-columns: 5.54rem 5.53rem;
+  column-gap: 0.34rem;
+  align-items: start;
 }
-.home-field-grid .field--line input { padding-left: 0.11rem; }
-.home-row-three {
+.home-col > * + * { margin-top: 0.45rem; }
+.home-col .field--line input { padding-left: 0.11rem; }
+.home-pair {
   display: grid;
-  grid-template-columns: 2.76rem 0.32rem 2.46rem;
+  grid-template-columns: 2.76rem 2.46rem;
+  column-gap: 0.32rem;
   align-items: end;
 }
-.home-row-three .field--select { margin-left: 0; width: 2.76rem; }
-.home-row-three .field--line { grid-column: 3; }
-.home-area { grid-column: 2; grid-row: 3; }
-.home-area textarea { width: 5.53rem; height: 1.7925rem; }
+.home-pair .field--select { margin-left: 0; width: 2.76rem; }
+.home-area textarea { width: 100%; height: 1.7925rem; }
 
 .home-chips {
   margin: 0.45rem 0 0;
-  width: 8.00rem;
+  width: 100%;
+  height: 0.74rem;              /* the two labels are one line each */
 }
-.home-chips .chip > span { font-size: 0.19rem; line-height: 0.22rem; }
-.home-form .btn-submit { margin-top: 0.45rem; margin-left: 0; }
+.home-chips .chip > span { font-size: 0.21rem; line-height: 0.26rem; }
+.home-form .btn-submit { margin-top: 0.55rem; margin-left: 0; }
 
 /* ==========================================================================
    RESPONSIVE  — the shared 900px rules in styles.css handle the header,
