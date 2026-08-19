@@ -118,16 +118,15 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reflow);
 })();
 
-/* ------------------------------------- Luxury section: turntable ----------
+/* ------------------------------------- Luxury section: push slider --------
    Loads assets/img/home/slide-1.jpg … slide-6.jpg, keeping whichever exist.
-   The frames stand upright on the rim of a disc lying flat under the panel;
-   the disc turns about its vertical axis to bring the next one to the front.
-   Radius is set so the front face lands flush with the opening.          */
+   Each new frame enters from the right and pushes the last one off to the
+   left. Add or remove files; nothing here changes.                       */
 (function () {
   const box = document.getElementById("pullSlides");
   if (!box) return;
 
-  const MAX = 6, HOLD = 5000;
+  const MAX = 6, HOLD = 5000, TURN = 1050;   // TURN matches the CSS transition
   const found = [];
   let pending = MAX;
 
@@ -143,42 +142,33 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     if (!found.length) return;                 // no slides yet: placeholder stays
     found.sort(function (a, b) { return a.i - b.i; });
 
-    const stage = document.createElement("div");
-    stage.className = "pull-stage";
-    box.appendChild(stage);
-
-    const slides = found.map(function (f) {
+    const slides = found.map(function (f, n) {
       const d = document.createElement("div");
-      d.className = "pull-slide";
+      d.className = "pull-slide" + (n === 0 ? " is-current" : "");
       const im = document.createElement("img");
       im.src = f.src; im.alt = "";
       d.appendChild(im);
-      stage.appendChild(d);
+      box.appendChild(d);
       return d;
     });
     box.classList.add("has-slides");
+    if (slides.length < 2) return;
 
-    const n = slides.length;
-    const step = 360 / n;
     let cur = 0;
-
-    function layout() {
-      const w = box.clientWidth;
-      // radius that makes the n faces meet edge to edge, so the front one
-      // exactly fills the opening
-      const r = n < 2 ? 0 : (w / 2) / Math.tan(Math.PI / n);
-      box.style.perspective = (w * 2.4) + "px";
-      slides.forEach(function (sl, i) {
-        sl.style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + r + "px)";
-      });
-      stage.style.transform = "translateZ(" + (-r) + "px) rotateY(" + (-cur * step) + "deg)";
-    }
-
-    layout();
-    window.addEventListener("resize", layout);
-    if (n < 2) return;
-
-    setInterval(function () { cur += 1; layout(); }, HOLD);
+    setInterval(function () {
+      const next = (cur + 1) % slides.length;
+      const out = slides[cur];
+      out.classList.remove("is-current");
+      out.classList.add("is-leaving");          // pushed off to the left
+      slides[next].classList.add("is-current"); // arrives from the right
+      setTimeout(function () {
+        out.classList.add("no-anim");           // park it back on the right
+        out.classList.remove("is-leaving");     // without animating the reset
+        void out.offsetWidth;
+        out.classList.remove("no-anim");
+      }, TURN);
+      cur = next;
+    }, HOLD);
   }
 })();
 
@@ -202,6 +192,11 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
    corner of the first letter. Font metrics decide that, not guesswork, so it
    is measured off the real glyph outlines and re-applied on resize.      */
 (function () {
+  /* Nudge applied after the corners are matched, in artboard px. The glyph
+     reads high because a quote mark is drawn at superscript height, so it
+     wants dropping by eye. One value, used everywhere. */
+  const MARK_DROP = 25;
+
   const PAIRS = [[".pull-mark", ".pull-quote p"], [".service-mark", ".service-quote p"]];
   const cvs = document.createElement("canvas");
   const ctx = cvs.getContext("2d");
@@ -242,8 +237,9 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     const mi = ink(mark, mark.textContent.trim());
     const ti = ink(text, first);
     const cs = getComputedStyle(mark);
+    const unit = parseFloat(getComputedStyle(document.documentElement).fontSize) / 100;
     mark.style.left = (parseFloat(cs.left) + (ti.left - mi.right)) + "px";
-    mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom)) + "px";
+    mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom) + MARK_DROP * unit) + "px";
   }
 
   function place() { PAIRS.forEach(function (p) { tuck(p[0], p[1]); }); }

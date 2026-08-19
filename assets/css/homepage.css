@@ -144,21 +144,18 @@
   font-size: 0.22rem; letter-spacing: 0.06em; color: #9a9a9a;
 }
 .pull-media.has-slides::after { content: none; }
-/* A turntable lying flat under the panel with the frames standing upright on
-   its rim. Rotating the disc about its vertical axis carries the next frame
-   round to the front. Radius and perspective are computed from the panel's
-   real width in home.js, so the front face lands flush with the opening. */
-.pull-stage {
-  position: absolute; inset: 0;
-  transform-style: preserve-3d;
-  transition: transform 1.25s cubic-bezier(.45, .05, .15, 1);
-}
+/* Horizontal push: the incoming frame slides in from the right while the one
+   before it is pushed out to the left, on a symmetric ease-in-out. */
 .pull-slide {
   position: absolute; inset: 0;
-  backface-visibility: hidden;
   overflow: hidden;
+  transform: translateX(100%);
+  transition: transform 1.05s cubic-bezier(.45, .05, .15, 1);
 }
 .pull-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pull-slide.is-current { transform: translateX(0);     z-index: 2; }
+.pull-slide.is-leaving { transform: translateX(-100%); z-index: 1; }
+.pull-slide.no-anim    { transition: none; }   /* silent reset behind the scenes */
 
 .pull-quote {
   position: absolute;
@@ -284,28 +281,28 @@
   align-items: start;
 }
 .range-lede {
-  font-size: 0.24rem;
-  font-style: italic;
+  font-size: 0.24rem;           /* same as CUSTOM LENGTHS */
+  font-style: normal;           /* Gordita regular, not italic */
   line-height: 0.32rem;
 }
 .range-list { margin-top: 0.72rem; }
 .range-list li { position: relative; }
 .range-icon {
   position: absolute;
-  left: 0.30rem; top: -0.04rem;
+  left: 0; top: -0.04rem;       /* on the left margin, in line with the copy above */
   width: 0.62rem; height: 0.62rem;
   color: var(--orange-deep);
 }
 .range-icon svg { width: 100%; height: 100%; }
 .range-list li + li { margin-top: 0.45rem; }
 .range-list h3 {
-  padding-left: 1.16rem;
+  padding-left: 0.86rem;
   font-size: 0.24rem;
   font-weight: 700;
   line-height: 1;
 }
 .range-list p {
-  padding-left: 1.16rem;
+  padding-left: 0.86rem;
   margin-top: 0.10rem;
   font-size: 0.21rem;
   font-style: italic;
