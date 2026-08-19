@@ -149,12 +149,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .site-header { height: 1.43rem; }
 
 .header-inner {
-  width: 13.85rem;              /* 487 → 1872 */
-  margin-left: 4.87rem;
+  /* At double the type size the bar needs ~1765 of content, so it runs wider
+     than the 1373 body column and is centred on the canvas instead. */
+  width: 18.20rem;
+  margin-inline: auto;
   height: 100%;
-  padding-top: 0.04rem;         /* optical: header items centre on y = 73.5 */
   display: flex;
-  align-items: center;
+  align-items: center;          /* everything centres on the bar's midline */
 }
 
 .logo { flex: none; width: 3.595rem; }   /* 359.506 × 67 */
@@ -163,11 +164,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 0.474rem;
+  gap: 0.474rem;                /* unchanged, so spacing stays even */
   margin-left: auto;
-  margin-top: 0.134rem;         /* baseline lands on y = 81.2 */
   font-family: var(--aviano);
-  font-size: 0.14rem;
+  font-size: 0.28rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -176,18 +176,27 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav a:focus-visible,
 .main-nav a[aria-current="page"] { color: var(--orange-deep); }
 
-.search-btn { margin-left: 0.26rem; margin-top: 0.025rem; flex: none; line-height: 0; }
-.search-btn svg { width: 0.22rem; height: 0.22rem; }
+.search-btn {
+  margin-left: 0.474rem;        /* same gap as between the nav items */
+  flex: none;
+  line-height: 0;
+  color: var(--ink);
+  transition: color .18s;
+}
+.search-btn:hover,
+.search-btn:focus-visible { color: var(--orange-deep); }
+.search-btn svg { width: 0.44rem; height: 0.44rem; }
 
 .btn-build {
   flex: none;
-  margin-left: 0.30rem;
-  width: 2.42rem; height: 0.59rem;      /* 242 × 59 */
+  margin-left: 0.474rem;
+  width: auto; height: 0.80rem;
+  padding: 0 0.42rem;
   background: var(--orange-deep);
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.14rem;
-  line-height: 0.59rem;
+  font-size: 0.28rem;
+  line-height: 0.80rem;
   text-align: center;
   transition: background .2s;
 }
