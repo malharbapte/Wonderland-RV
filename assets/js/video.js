@@ -101,24 +101,38 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
 })();
 
 /* --------------------------------- enquiry-type pill: gliding indicator ---
-   One thumb slides between cells on an ease-in-out curve, squashing slightly
-   while it travels so the movement reads as fluid rather than as a jump.   */
+   The thumb travels on a transform so the browser composites it rather than
+   re-laying out every frame. It contracts while in motion and swells back as
+   it lands, which is what gives the movement its fluid feel.              */
 (function () {
   const chips = document.querySelector(".chips");
   const thumb = chips && chips.querySelector(".chips-thumb");
   if (!chips || !thumb) return;
 
-  let settle;
+  const SQUASH = "scale(0.955, 0.78)";   // contraction while travelling
+  const SETTLE = 250;                    // ms before it starts swelling back
+  let timer, x = 0;
 
-  function place() {
+  function measure() {
     const checked = chips.querySelector('input[type="radio"]:checked');
-    if (!checked) return;
+    if (!checked) return null;
     const span = checked.parentElement.querySelector("span");
-    if (!span) return;
+    if (!span) return null;
     const cb = chips.getBoundingClientRect();
     const sb = span.getBoundingClientRect();
-    thumb.style.left = (sb.left - cb.left - chips.clientLeft) + "px";
-    thumb.style.width = sb.width + "px";
+    return { x: sb.left - cb.left - chips.clientLeft, w: sb.width };
+  }
+
+  function apply(squashed) {
+    thumb.style.transform = "translateX(" + x + "px)" + (squashed ? " " + SQUASH : "");
+  }
+
+  function place(squashed) {
+    const m = measure();
+    if (!m) return;
+    x = m.x;
+    thumb.style.width = m.w + "px";
+    apply(squashed);
   }
 
   function enable() {
@@ -126,20 +140,19 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
     thumb.classList.remove("is-init"); // background tab, so don't rely on it
   }
 
-  place();
+  place(false);
   enable();
 
   chips.addEventListener("change", function (e) {
     if (!e.target.matches('input[type="radio"]')) return;
-    thumb.classList.add("is-moving");
-    place();
-    clearTimeout(settle);
-    settle = setTimeout(function () { thumb.classList.remove("is-moving"); }, 300);
+    place(true);
+    clearTimeout(timer);
+    timer = setTimeout(function () { apply(false); }, SETTLE);
   });
 
   function reflow() {
     thumb.classList.add("is-init");
-    place();
+    place(false);
     enable();
   }
   window.addEventListener("resize", reflow);
