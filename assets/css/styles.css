@@ -148,7 +148,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ==========================================================================
    HEADER   (y 0 – 143)
    ========================================================================== */
-.site-header { height: 1.43rem; }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 1.43rem;
+  background: #fff;
+}
 
 .header-inner {
   width: 13.73rem;              /* same column as the body: 501.5 → 1874.5 */

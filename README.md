@@ -47,7 +47,30 @@ Already included: `wonderland-rv-logo.png` and `made-in-australia.png`.
 
 ---
 
-## 2. How the layout works
+## 2. Two type scales
+
+| Page | Type | Notes |
+|---|---|---|
+| `index.html` | full artboard scale | 96px headings, matches the SVG 1:1 |
+| `compact.html` | 0.5833 of it | same layout, smaller type |
+
+`compact.html` is the same markup, loading `styles.css` and then
+`assets/css/type-compact.css` on top. That override file changes **only**
+font-size and line-height — every margin, padding, section gap and box height
+is inherited, which is what gives the compact page its extra breathing space.
+Layout fixes made in `styles.css` therefore land on both pages automatically.
+
+The scale is anchored on "Our experts will reach out…" going 24 → 14, so the
+factor is 14 / 24 = 0.5833. Nothing renders below 11, so the nav, footer links
+and legal lines clamp there rather than following the factor to 10.5 / 9.3 /
+9.1. The unsubscribe line is the one exception and follows the factor down to 9.
+
+The overrides are scoped to `min-width: 901px`, so the mobile breakpoint in
+`styles.css` keeps its own sizes on both pages.
+
+---
+
+## 3. How the layout works
 
 The artboard is 2376 px wide. `html { font-size }` is set so that
 
@@ -84,7 +107,7 @@ Three places where the export contains designer noise rather than intent:
 
 ---
 
-## 3. Fonts
+## 4. Fonts
 
 Bundled in `assets/fonts/`, loaded via `@font-face`:
 
@@ -98,7 +121,7 @@ it ahead of the OTF in each `src`.
 
 ---
 
-## 4. Wiring up the forms
+## 5. Wiring up the forms
 
 Both forms (`.enquiry-form` and `.newsletter-form`) post nowhere — `action="#"`.
 Point them at your endpoint (HubSpot, Formspree, a Netlify form, your CRM) and
@@ -107,7 +130,7 @@ the field `name` attributes are already set: `first-name`, `last-name`, `email`,
 
 ---
 
-## 5. Running it locally
+## 6. Running it locally
 
 ```bash
 python3 -m http.server 8000
