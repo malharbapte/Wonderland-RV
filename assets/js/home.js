@@ -6,7 +6,7 @@
    string empty and its labelled placeholder stays in place.
    ========================================================================== */
 
-const HERO_VIDEO_URL   = "assets/video/hero.mp4";   // drop the file here, or paste a YouTube/Vimeo link
+const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip behind "Adventure your way"
 const SOLARA_VIDEO_URL = "";     // clip in the Welcome Solara section
 
 /* -------------------------------------------------------------------------- */
