@@ -68,3 +68,51 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
     btn.setAttribute("aria-expanded", String(open));
   });
 })();
+
+/* ------------------------------------- State: chevron follows the value ---
+   The artboard sits the arrow immediately after the word "State". A longer
+   value like "Australian Capital Territory" would run underneath a fixed
+   arrow, so it is measured and re-placed on every change.               */
+(function () {
+  const field = document.querySelector(".field--select");
+  if (!field) return;
+  const sel = field.querySelector("select");
+  const chev = field.querySelector(".chev");
+  if (!sel || !chev) return;
+
+  const ctx = document.createElement("canvas").getContext("2d");
+
+  function place() {
+    const cs = getComputedStyle(sel);
+    ctx.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+    const opt = sel.options[sel.selectedIndex];
+    const textW = opt ? ctx.measureText(opt.text).width : 0;
+    const padL = parseFloat(cs.paddingLeft) || 0;
+    const gap = (parseFloat(cs.fontSize) || 24) * 0.58;
+    const chevW = chev.getBoundingClientRect().width;   /* SVG has no offsetWidth */
+    const limit = sel.offsetWidth - (parseFloat(cs.paddingRight) || 0) - chevW;
+    chev.style.left = Math.min(padL + textW + gap, Math.max(padL, limit)) + "px";
+  }
+
+  place();
+  sel.addEventListener("change", place);
+  window.addEventListener("resize", place);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+})();
+
+/* ------------------------------------------- enquiry-type pill: pop ----- */
+(function () {
+  const chips = document.querySelector(".chips");
+  if (!chips) return;
+  chips.addEventListener("change", function (e) {
+    if (!e.target.matches('input[type="radio"]')) return;
+    const span = e.target.parentElement.querySelector("span");
+    if (!span) return;
+    span.classList.remove("is-pop");
+    void span.offsetWidth;               // restart the animation
+    span.classList.add("is-pop");
+  });
+  chips.addEventListener("animationend", function (e) {
+    e.target.classList.remove("is-pop");
+  });
+})();
