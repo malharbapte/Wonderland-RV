@@ -498,7 +498,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   content: "";
   position: absolute;
   left: 4.33rem; top: 0;
-  width: 1px; height: 2.668rem;
+  width: 1px; height: 2.364rem;
   background: var(--orange-deep);
 }
 .quote-mark {
@@ -513,7 +513,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .quote-left {
   margin: 0;
   font-size: 0.48rem;
-  line-height: 0.676rem;        /* 0.52 + 30% */
+  line-height: 0.5746rem;       /* 0.52 +30% then -15% */
   color: var(--orange-deep);
 }
 .quote-right {
