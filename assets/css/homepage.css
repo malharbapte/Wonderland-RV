@@ -463,7 +463,7 @@ er { background: var(--orange-deep); }
 /* ==========================================================================
    LEGENDARY SERVICE   (y 10026 – 10858)   — five reviews on a slider
    ========================================================================== */
-.service { padding-top: 0.80rem; }
+.service { padding-top: 0.55rem; }
 .service-head { text-align: center; }
 .service-title {
   font-family: var(--aviano);
