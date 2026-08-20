@@ -10,7 +10,7 @@ const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip be
 const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcome Solara section
 
 /* Queen of Hearts — five slots, in slide order. Same link rules as above. */
-const COTY_VIDEOS = ["", "https://youtu.be/thFwJAod6Ng", "", "", ""];
+const COTY_VIDEOS = ["", "https://youtu.be/thFwJAod6Ng", ""];
 
 /* -------------------------------------------------------------------------- */
 
