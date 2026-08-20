@@ -573,8 +573,8 @@ input:-webkit-autofill:focus {
 /* --- video controls: mute and captions, top right, on hover --------------- */
 .video-controls {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);   /* dead centre of the frame */
+  top: 88%; left: 50%;
+  transform: translate(-50%, -50%);   /* centred across, low in the frame */
   z-index: 4;
   display: flex;
   gap: 0.12rem;
@@ -752,7 +752,7 @@ input:-webkit-autofill:focus {
 /* ==========================================================================
    WHERE TO NEXT   — carried over from the live site's contact page
    ========================================================================== */
-.next-band { position: relative; height: 10.70rem; }
+.next-band { position: relative; height: 8.26rem; }   /* was 10.70 */
 .next-band .media { position: absolute; inset: 0; }
 .next-band .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
 
