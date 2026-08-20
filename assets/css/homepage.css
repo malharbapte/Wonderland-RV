@@ -173,21 +173,31 @@
   line-height: 0.394rem;        /* leading held at the same ratio */
   letter-spacing: -0.01em;
 }
-.pull-mark {
+/* --------------------------------------------------------- the quote mark ---
+   The opening mark is the outline from AvianoSans-Black.otf (U+201C) rather
+   than the character, with the viewBox trimmed to the glyph's ink box
+   (46,350 -> 398,558 on a 1000 em). Because the viewBox is the ink, the
+   element's own box IS the mark: place the box and the mark is placed. No
+   baseline, no ascent constant, and no dependence on the webfont having
+   arrived — which is what used to move it.
+
+   It anchors to the paragraph, not the block: right is the text's left edge,
+   bottom is the top of its first line, so the mark's bottom-right corner
+   meets the first letter's top-left corner. The 0.15rem eases it right so the
+   corners overlap. Widths match the glyph sizes they replace exactly —
+   3.40rem x 0.352 and 2.88rem x 0.352.                                    */
+.pull-quote p,
+.service-quote p { position: relative; }
+
+.qmark {
   position: absolute;
-  /* Offsets are em of the mark's own size and land its INK, not its em box.
-     In Aviano Black the opening mark's ink sits 0.170em below the box top and
-     its right edge falls 0.400em in from the box left, so those two numbers
-     put the ink's top-right corner on the text's top-left corner — the mark
-     kisses the first letter and clears the column instead of printing over
-     lines two and three. Metric ratios, so they hold at any size. */
-  left: -0.400em; top: -0.155em;
-  font-family: var(--aviano);
-  font-style: normal;
-  font-weight: 900;
-  font-size: 3.40rem;
-  line-height: 1;
+  right: calc(100% - 0.15rem);
+  bottom: 100%;
+  display: block;
+  height: auto;
+  fill: currentColor;
 }
+.pull-quote .qmark { width: 1.1968rem; }
 
 /* ==========================================================================
    INTRO   (y ~2363)
@@ -546,8 +556,7 @@
      column (84.18% of the band), so reviews can't run past the margin */
   width: 22.68%;
   margin: 0 0 0 4.6%;
-  padding-top: 0.10rem;         /* review + attribution drop 10; the mark holds
-                                   its place via dropAdj in home.js */
+  padding-top: 0.10rem;         /* review + attribution drop 10 */
   color: var(--orange-deep);
 }
 .service-quote p {
@@ -555,18 +564,8 @@
   font-style: italic;
   line-height: 0.42rem;         /* opened up; the reviews run several lines */
 }
-.service-mark {
-  position: absolute;
-  /* Same ink rule as .pull-mark. The top differs because this block's leading
-     is looser (0.42rem on 0.28rem text), so its first cap starts lower. */
-  left: -0.400em; top: -0.104em;
-  font-family: var(--aviano);
-  font-style: normal;
-  font-weight: 900;
-  font-size: 2.88rem;           /* held at the same 260:220 ratio */
-  line-height: 1;
-  color: var(--orange);
-}
+/* the mark reads orange here, against darker review text */
+.service-quote .qmark { width: 1.01376rem; fill: var(--orange); }
 .service-name { display: block; margin-top: 0.42rem; font-size: 0.21rem; font-weight: 700; line-height: 0.28rem; }
 .service-role { display: block; font-size: 0.21rem; line-height: 0.28rem; }
 
@@ -786,7 +785,7 @@
   .pull-media { position: static; width: 100%; height: 56vw; }
   .pull-panel { display: none; }
   .pull-quote { position: static; width: auto; padding: 32px 24px; font-size: 18px; line-height: 26px; }
-  .pull-mark { display: none; }
+  .pull-quote .qmark { display: none; }
 
   .intro p { font-size: 16px; line-height: 24px; }
   .stat-band { height: auto; padding: 40px 24px; }
@@ -828,7 +827,7 @@
   .service-media { width: 100%; height: 56vw; }
   .service-quote { margin: 0; padding: 32px 24px; background: #FFF2DC; width: 100%; }
   .service-quote p { font-size: 18px; line-height: 26px; }
-  .service-mark { display: none; }
+  .service-quote .qmark { display: none; }
   .service-arrow { display: none; }
 
   .coty-sub { font-size: 16px; }
