@@ -266,6 +266,12 @@
   width: 100%;
   height: 100%;
   border: 0;
+  /* .video-frame (styles.css) centres its player with top/left 50% plus a
+     translate(-50%, -50%). `inset: 0` here beats the offsets, but nothing here
+     opposed the transform, so it survived on its own and dragged the player
+     half a frame up and left — the video showing in the top-left quadrant with
+     black around it. Cancelling it is what keeps the two rules apart. */
+  transform: none;
 }
 
 /* ==========================================================================
@@ -605,7 +611,14 @@ er { background: var(--orange-deep); }
 }
 .coty-figure .video-poster { width: 100%; height: 100%; object-fit: cover; }
 .coty-figure iframe,
-.coty-figure video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.coty-figure video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform: none;   /* same leak as .solara-video above */
+}
 
 .coty-arrow {
   position: absolute;
