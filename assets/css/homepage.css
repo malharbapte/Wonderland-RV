@@ -501,14 +501,16 @@ er { background: var(--orange-deep); }
 .service-quote {
   position: relative;
   z-index: 1;
+  flex: none;
+  width: 34%;                   /* measure, so long reviews wrap in the panel */
   margin: 0 0 0 4.6%;
   padding-left: 1.05rem;        /* room for the hanging mark, as on Contact */
   color: var(--orange-deep);
 }
 .service-quote p {
-  font-size: 0.21rem;
+  font-size: 0.28rem;           /* review reads larger than the name */
   font-style: italic;
-  line-height: 0.245rem;
+  line-height: 0.327rem;
 }
 .service-mark {
   position: absolute;
