@@ -28,9 +28,10 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
 
   if (yt) {
     node = document.createElement("iframe");
-    node.src = "https://www.youtube-nocookie.com/embed/" + yt[1] +
+    node.id = "ytFrame";
+    node.src = "https://www.youtube.com/embed/" + yt[1] +
       "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1" +
-      "&cc_load_policy=0&iv_load_policy=3&playlist=" + yt[1];
+      "&cc_load_policy=0&iv_load_policy=3&enablejsapi=1&playlist=" + yt[1];
     node.allow = "autoplay; encrypted-media; picture-in-picture";
     node.allowFullscreen = true;
     node.title = "Wonderland RV — things you can't see";
@@ -57,7 +58,91 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
   frame.classList.remove("ph");
   frame.removeAttribute("data-ph");
   frame.appendChild(node);
+
+  if (yt) buildControls(frame);
 })();
+
+/* ------------------------------------------- mute + captions controls -----
+   The plain embed gives no way to toggle sound or subtitles, so the player is
+   attached to the YouTube IFrame API. Buttons sit top right and fade in on
+   hover. Captions start off; sound starts muted, because browsers refuse to
+   autoplay otherwise.                                                     */
+function buildControls(frame) {
+  const bar = document.createElement("div");
+  bar.className = "video-controls";
+
+  const SPEAKER_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>';
+  const SPEAKER_ON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+
+  const sound = document.createElement("button");
+  sound.type = "button";
+  sound.className = "video-ctl";
+  sound.innerHTML = SPEAKER_OFF;
+  sound.setAttribute("aria-label", "Unmute");
+  sound.setAttribute("aria-pressed", "false");
+
+  const cc = document.createElement("button");
+  cc.type = "button";
+  cc.className = "video-ctl";
+  cc.textContent = "CC";
+  cc.setAttribute("aria-label", "Show captions");
+  cc.setAttribute("aria-pressed", "false");
+
+  bar.appendChild(sound);
+  bar.appendChild(cc);
+  frame.appendChild(bar);
+
+  let player = null, muted = true, captions = false;
+
+  function withApi(done) {
+    if (window.YT && window.YT.Player) return done();
+    if (!document.getElementById("ytApi")) {
+      const tag = document.createElement("script");
+      tag.id = "ytApi";
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+    }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (prev) prev(); done(); };
+  }
+
+  withApi(function () {
+    player = new YT.Player("ytFrame", {
+      events: {
+        onReady: function () {
+          player.mute();
+          try { player.unloadModule("captions"); player.unloadModule("cc"); } catch (e) {}
+        }
+      }
+    });
+  });
+
+  sound.addEventListener("click", function () {
+    if (!player) return;
+    muted = !muted;
+    if (muted) player.mute(); else player.unMute();
+    sound.innerHTML = muted ? SPEAKER_OFF : SPEAKER_ON;
+    sound.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+    sound.setAttribute("aria-pressed", String(!muted));
+  });
+
+  cc.addEventListener("click", function () {
+    if (!player) return;
+    captions = !captions;
+    try {
+      if (captions) {
+        player.loadModule("captions");
+        player.loadModule("cc");
+        player.setOption("captions", "track", { languageCode: "en" });
+      } else {
+        player.unloadModule("captions");
+        player.unloadModule("cc");
+      }
+    } catch (e) {}
+    cc.setAttribute("aria-label", captions ? "Hide captions" : "Show captions");
+    cc.setAttribute("aria-pressed", String(captions));
+  });
+}
 
 /* -------------------------------------------------- mobile nav toggle ---- */
 (function () {

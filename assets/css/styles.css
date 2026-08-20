@@ -540,21 +540,54 @@ input:-webkit-autofill:focus {
 .video-frame {
   position: relative;
   width: 100%;
-  /* The artboard band is 2389 x 1184 (2.02:1) but the clip is 16:9, which
-     pillarboxes it. Matching 16:9 exactly kills the black side bars without
-     cropping any of the frame. Costs ~152px of page height. */
-  aspect-ratio: 16 / 9;
+  /* Back to the artboard band. The clip is 16:9, so filling this loses a
+     little top and bottom rather than leaving bars down the sides. */
+  aspect-ratio: 2389 / 1184;
   overflow: hidden;
   background-color: #111;
 }
 .video-frame iframe,
 .video-frame video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 56.25vw;              /* 16:9 of the band width, so it fills and the
+                                   crop falls on the top and bottom edges */
+  min-height: 100%;
   border: 0;
   object-fit: cover;
   z-index: 2;
 }
+
+/* --- video controls: mute and captions, top right, on hover --------------- */
+.video-controls {
+  position: absolute;
+  top: 0.26rem; right: 0.30rem;
+  z-index: 4;
+  display: flex;
+  gap: 0.12rem;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.video-frame:hover .video-controls,
+.video-controls:focus-within { opacity: 1; }
+.video-ctl {
+  width: 0.46rem; height: 0.46rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--gordita);
+  font-size: 0.14rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: background .2s;
+}
+.video-ctl:hover { background: var(--orange-deep); }
+.video-ctl svg { width: 0.22rem; height: 0.22rem; }
+.video-ctl[aria-pressed="true"] { background: var(--orange-deep); }
 .video-poster { width: 100%; height: 100%; object-fit: cover; }
 
 /* ==========================================================================
