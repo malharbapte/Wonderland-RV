@@ -9,6 +9,9 @@
 const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip behind "Adventure your way"
 const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcome Solara section
 
+/* Queen of Hearts — five slots, in slide order. Same link rules as above. */
+const COTY_VIDEOS = ["", "", "", "", ""];
+
 /* -------------------------------------------------------------------------- */
 
 function mountVideo(frame, url, title) {
@@ -353,4 +356,42 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
       run();
     }
   }, 200);
+})();
+
+/* ------------------------------------------ Queen of Hearts: video slider --
+   Heading, subheading and video sit on one slide, so they change together.
+   Loops in both directions without a visible rewind.                      */
+(function () {
+  const track = document.getElementById("cotyTrack");
+  if (!track) return;
+  const slides = [].slice.call(track.children);
+  const n = slides.length;
+  if (!n) return;
+
+  slides.forEach(function (sl, i) {
+    mountVideo(sl.querySelector(".coty-figure"), COTY_VIDEOS[i] || "",
+               "Wonderland RV — feature " + (i + 1));
+  });
+
+  const EASE = "transform .9s cubic-bezier(.45, .05, .15, 1)";
+  let i = 0, busy = false;
+
+  function show(animate) {
+    track.style.transition = animate ? EASE : "none";
+    track.style.transform = "translateX(" + (-i * 100) + "%)";
+  }
+  function go(dir) {
+    if (busy || n < 2) return;
+    busy = true;
+    i = (i + dir + n) % n;
+    show(true);
+    setTimeout(function () { busy = false; }, 900);
+  }
+  const prev = document.querySelector(".coty-arrow--prev");
+  const next = document.querySelector(".coty-arrow--next");
+  if (prev) prev.addEventListener("click", function () { go(-1); });
+  if (next) next.addEventListener("click", function () { go(1); });
+
+  show(false);
+  window.addEventListener("resize", function () { show(false); });
 })();
