@@ -307,6 +307,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
 
     let cur = 0;
     setInterval(function () {
+      if (ON_PHONE.matches) return;      /* the phone scrolls it by hand */
       const next = (cur + 1) % slides.length;
       const out = slides[cur];
       out.classList.remove("is-current");
@@ -371,6 +372,77 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
    Heading, subheading and video sit on one slide, so they change together.
    Loops in both directions without a visible rewind.                      */
 const ON_PHONE = window.matchMedia("(max-width: 900px)");
+
+/* ------------------------------------ the slideshow's phone affordances ---
+   On a phone the slideshow becomes a scroller the finger drags, which gives
+   no clue that there is more than one photo. Dots and a counter say so, and
+   follow the scroll rather than driving it.
+
+   Built here rather than in the markup so the desktop DOM is untouched: on a
+   wide screen this never runs and the elements do not exist.              */
+(function () {
+  const media = document.getElementById("pullSlides");
+  if (!media) return;
+  let rail = null;
+
+  function build() {
+    const slides = media.querySelectorAll(".pull-slide");
+    if (rail || slides.length < 2) return;
+    rail = document.createElement("div");
+    rail.className = "pull-rail";
+    slides.forEach(function (_, i) {
+      const d = document.createElement("span");
+      d.className = "pull-dot" + (i ? "" : " is-on");
+      rail.appendChild(d);
+    });
+    const count = document.createElement("span");
+    count.className = "pull-count";
+    count.textContent = "1 / " + slides.length;
+    rail.appendChild(count);
+    media.parentElement.appendChild(rail);
+    /* Polled rather than driven by the scroll event: during iOS momentum the
+       event is sparse, and in a throttled tab it does not arrive at all.
+       Reading scrollLeft is cheap and always tells the truth. */
+    last = -1;
+    poll = setInterval(onScroll, 150);
+  }
+
+  function tear() {
+    if (!rail) return;
+    clearInterval(poll);
+    rail.remove();
+    rail = null;
+  }
+
+  let poll, last = -1;
+  function onScroll() {
+    if (!rail || media.scrollLeft === last) return;
+    last = media.scrollLeft;
+    (function () {
+      const dots = rail.querySelectorAll(".pull-dot");
+      /* Measured off the slides rather than worked out from the container:
+         clientWidth includes the scroller's own padding, so arithmetic on it
+         drifts and the dots stop matching what is on screen. */
+      const slides = media.querySelectorAll(".pull-slide");
+      let i = 0, best = Infinity;
+      slides.forEach(function (sl, k) {
+        const d = Math.abs(sl.offsetLeft - media.offsetLeft - media.scrollLeft);
+        if (d < best) { best = d; i = k; }
+      });
+      dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); });
+      rail.querySelector(".pull-count").textContent = (i + 1) + " / " + dots.length;
+    })();
+  }
+
+  function sync() { ON_PHONE.matches ? build() : tear(); }
+
+  /* the slides are created by the slideshow script, so wait for them */
+  const wait = setInterval(function () {
+    if (media.querySelector(".pull-slide")) { clearInterval(wait); sync(); }
+  }, 120);
+  setTimeout(function () { clearInterval(wait); }, 6000);
+  ON_PHONE.addEventListener("change", sync);
+})();
 
 (function () {
   const track = document.getElementById("cotyTrack");

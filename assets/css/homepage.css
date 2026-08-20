@@ -691,26 +691,57 @@
      first — because that is what the desktop grid wants — `order` sends it
      below the words rather than the markup being rewritten for one width. */
   .pull { height: auto; display: flex; flex-direction: column; }
-  .pull-quote { order: 1; position: static; width: auto; padding: 32px 24px 24px;
-                font-size: var(--t-sub); line-height: var(--lh-sub); }
-  .pull-media { order: 2; position: static; width: 100%; height: 56vw; }
   .pull-panel { display: none; }
-  .pull-quote .qmark { display: none; }
 
-  /* the slideshow's slides are stacked and transformed on desktop; here they
-     sit in a row the finger can drag */
+  /* The quote keeps the desktop's corner-to-corner relationship with its mark,
+     at 15% less scale: the mark is 3.1301x the quote size against the
+     desktop's 3.6825x, and still eases right by 0.4615x. It hangs 12 past the
+     page margin, so the text is indented by the mark's overhang less that 12 —
+     the indent falls out of the geometry rather than being nudged. */
+  .pull-quote {
+    order: 1; position: static; width: auto;
+    padding: calc(var(--t-sub) * 2.75) 24px 22px calc(var(--t-sub) * 3.419);
+    font-size: var(--t-sub); line-height: var(--lh-sub);
+  }
+  .pull-quote .qmark {
+    display: block;
+    width: calc(var(--t-sub) * 3.1301);
+    right: calc(100% - var(--t-sub) * 0.4615);
+    bottom: 100%;
+  }
+
+  /* The slides are stacked and transformed on desktop; here they sit in a row
+     the finger can drag, at the photos' own 2200x1301 so nothing is cropped,
+     with the next one peeking so the swipe is visible. */
   .pull-media {
+    order: 2; position: static; width: 100%; height: auto;
     display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;        /* a swipe cannot drag the page */
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    padding: 0 24px; gap: 10px; scroll-padding-left: 24px;
   }
   .pull-media::-webkit-scrollbar { display: none; }
+  .pull-media::after { content: none; }    /* the placeholder label */
   .pull-slide {
-    position: relative; inset: auto; flex: 0 0 100%;
+    position: relative; inset: auto; flex: 0 0 calc(100% - 58px);
+    aspect-ratio: 2200 / 1301; border-radius: 6px; overflow: hidden;
     transform: none !important; transition: none !important;
     scroll-snap-align: start;
   }
+  .pull-slide img { object-position: 50% 50%; }
 
-  .intro p { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* built by home.js, and only on a phone */
+  .pull-rail { order: 3; display: flex; align-items: center; gap: 9px; padding: 12px 24px 0; }
+  .pull-dot { width: 6px; height: 6px; border-radius: 50%; background: #d2d2d2;
+              transition: width .2s ease, background .2s ease; }
+  .pull-dot.is-on { width: 18px; border-radius: 3px; background: var(--orange-deep); }
+  .pull-count { margin-left: auto; font-size: var(--t-caption);
+                letter-spacing: 0.12em; color: #8a8a8a; }
+
+  /* The closing paragraph is a sixth step, below caption's 12 rather than on
+     it — deliberately quieter than the quote it follows. */
+  .intro p { font-size: 13px; line-height: 20px; }
+
   .stat-band { height: auto; padding: 40px 24px; }
   .stat-number { font-size: 44px; }
   .stat-label { font-size: var(--t-caption); letter-spacing: 0.3em; text-indent: 0.3em; }
@@ -759,8 +790,11 @@
   .coty-slide { scroll-snap-align: start; }
   .coty-arrow { display: none; }
 
-  /* the one-line rule is a desktop nicety; on a phone it just overflows */
-  .coty-title { white-space: normal; }
+  /* One-line headings are a desktop nicety. On a phone they overflow instead —
+     .dream-title did exactly that once the heading step went to 30. Any title
+     that is pinned to one line is released here. */
+  .coty-title, .dream-title, .lux-title, .solara-title,
+  .service-title, .insurance-title, .brands-title, .range-title { white-space: normal; }
   .coty-sub { font-size: var(--t-sub); }
   .coty-points { grid-template-columns: 1fr; row-gap: 12px; text-align: left; }
   .coty-points li { font-size: var(--t-body); line-height: var(--lh-body); }

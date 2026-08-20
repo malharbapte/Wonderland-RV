@@ -1032,14 +1032,14 @@ input:-webkit-autofill:focus {
      sizes instead, and nothing is allowed below the 11px floor. */
   :root {
     --t-display: 34px;          /* the hero line, and nothing else */
-    --t-heading: 26px;
-    --t-sub:     17px;
+    --t-heading: 30px;
+    --t-sub:     16px;
     --t-cta:     16px;
     --t-body:    15px;
     --t-caption: 12px;
     --lh-display:36px;
-    --lh-heading:29px;
-    --lh-sub:    25px;
+    --lh-heading:33px;
+    --lh-sub:    24px;
     --lh-body:   23px;
     --lh-caption:18px;
     --page-margin: 24px;
