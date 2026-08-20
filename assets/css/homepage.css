@@ -176,7 +176,7 @@
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
-  font-size: 3.12rem;           /* x1.2 */
+  font-size: 3.40rem;
   line-height: 1;
 }
 
@@ -519,7 +519,7 @@ er { background: var(--orange-deep); }
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
-  font-size: 2.64rem;           /* x1.2, keeping both marks in step */
+  font-size: 2.88rem;           /* held at the same 260:220 ratio */
   line-height: 1;
   color: var(--orange);
 }
