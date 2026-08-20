@@ -72,7 +72,8 @@
   .rules-band p { font-size: var(--t-sub); line-height: 0.44rem; }
 
   /* ---------------------------------------------------- where to next --- */
-  .next-title { font-size: var(--t-sub); }
+  /* a section heading, not a subheading — matches the other page headings */
+  .next-title { font-size: var(--t-heading); }
 
   /* ----------------------------------------------------------- footer --- */
   .site-footer { font-size: var(--t-caption); line-height: 0.30rem; }

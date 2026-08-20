@@ -781,6 +781,7 @@ input:-webkit-autofill:focus {
   background: #DB7627;
   color: #fff;
   font-family: var(--aviano);
+  font-weight: 900;             /* Aviano Sans Black, as the other CTAs */
   font-size: 0.18rem;
   line-height: 1;
   padding: 0.30rem 0.62rem;
