@@ -416,6 +416,8 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
 /* ------------------------------------------ Queen of Hearts: video slider --
    Heading, subheading and video sit on one slide, so they change together.
    Loops in both directions without a visible rewind.                      */
+const ON_PHONE = window.matchMedia("(max-width: 900px)");
+
 (function () {
   const track = document.getElementById("cotyTrack");
   if (!track) return;
@@ -456,6 +458,21 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     syncPlayback();
     setTimeout(function () { busy = false; }, 900);
   }
+
+  /* On a phone the deck is swiped rather than driven, so the current slide
+     comes from where the viewport has been scrolled to. Same rule holds:
+     whichever slide you are looking at is the one that plays. */
+  const viewport = track.parentElement;
+  let settle;
+  viewport.addEventListener("scroll", function () {
+    if (!ON_PHONE.matches) return;
+    clearTimeout(settle);
+    settle = setTimeout(function () {
+      const w = viewport.clientWidth || 1;
+      const k = Math.round(viewport.scrollLeft / w);
+      if (k !== i && k >= 0 && k < n) { i = k; syncPlayback(); }
+    }, 120);
+  }, { passive: true });
   const prev = document.querySelector(".coty-arrow--prev");
   const next = document.querySelector(".coty-arrow--next");
   if (prev) prev.addEventListener("click", function () { go(-1); });

@@ -785,11 +785,29 @@
   .band-title { font-size: 32px; }
   .band--range, .band--why { height: 240px; }
 
-  .pull { height: auto; }
-  .pull-media { position: static; width: 100%; height: 56vw; }
+  /* ---- inside every section: heading and copy first, media after -------
+     Matching the live site's mobile flow. Where the markup puts the picture
+     first — because that is what the desktop grid wants — `order` sends it
+     below the words rather than the markup being rewritten for one width. */
+  .pull { height: auto; display: flex; flex-direction: column; }
+  .pull-quote { order: 1; position: static; width: auto; padding: 32px 24px 24px;
+                font-size: var(--t-sub); line-height: 26px; }
+  .pull-media { order: 2; position: static; width: 100%; height: 56vw; }
   .pull-panel { display: none; }
-  .pull-quote { position: static; width: auto; padding: 32px 24px; font-size: 18px; line-height: 26px; }
   .pull-quote .qmark { display: none; }
+
+  /* the slideshow's slides are stacked and transformed on desktop; here they
+     sit in a row the finger can drag */
+  .pull-media {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .pull-media::-webkit-scrollbar { display: none; }
+  .pull-slide {
+    position: relative; inset: auto; flex: 0 0 100%;
+    transform: none !important; transition: none !important;
+    scroll-snap-align: start;
+  }
 
   .intro p { font-size: 16px; line-height: 24px; }
   .stat-band { height: auto; padding: 40px 24px; }
@@ -805,8 +823,11 @@
   .range-list p { font-size: 15px; line-height: 22px; }
 
   .testi { height: auto; padding: 48px 24px; }
+  .testi-inner { display: block; }
   .testi-mark { display: none; }
   .testi-quote p { font-size: 20px; line-height: 28px; }
+  .testi-quote br { display: none; }        /* desktop's hand-set breaks */
+  .testi-attr { margin: 20px 0 0; text-align: center; font-size: var(--t-caption); line-height: 18px; }
 
   .dream-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 34vw 34vw; gap: 8px; }
   .dream-shot--a, .dream-shot--d { grid-row: auto; }
@@ -828,12 +849,30 @@
   .service-kicker { font-size: 12px; letter-spacing: 0.3em; text-indent: 0.3em; }
   .service-band { flex-direction: column; margin-top: 28px; min-height: 0; }
   .service-band::before { display: none; }
-  .service-media { width: 100%; height: 56vw; }
-  .service-quote { margin: 0; padding: 32px 24px; background: #FFF2DC; width: 100%; }
-  .service-quote p { font-size: 18px; line-height: 26px; }
+  .service-slide { flex-direction: column; min-height: 0; }
+  .service-quote { order: 1; margin: 0; padding: 32px 24px; background: #FFF2DC; width: 100%; }
+  .service-media { order: 2; width: 100%; height: 56vw; }
+  .service-quote p { font-size: var(--t-sub); line-height: 26px; }
+  .service-name, .service-role { font-size: var(--t-caption); line-height: 18px; }
   .service-quote .qmark { display: none; }
   .service-arrow { display: none; }
 
+  /* ---- carousels: swipeable, one item to a screen --------------------
+     The desktop sliders move a flex track with an inline transform. Here the
+     viewport itself scrolls and snaps, and the transform is overruled so the
+     script's arithmetic cannot fight the finger. */
+  .coty-viewport, .service-viewport {
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .coty-viewport::-webkit-scrollbar,
+  .service-viewport::-webkit-scrollbar { display: none; }
+  .coty-track, .service-track { transform: none !important; transition: none !important; }
+  .coty-slide, .service-slide { scroll-snap-align: start; }
+  .coty-arrow { display: none; }
+
+  /* the one-line rule is a desktop nicety; on a phone it just overflows */
+  .coty-title { white-space: normal; }
   .coty-sub { font-size: 16px; }
   .coty-points { grid-template-columns: 1fr; row-gap: 12px; text-align: left; }
   .coty-points li { font-size: 15px; line-height: 26px; }
@@ -842,6 +881,11 @@
   .brands-media { padding-top: 0; }
   .brands-title { position: static; padding: 0 0 20px; }
   .insurance-logo { width: 200px; }
+  .insurance-copy { font-size: var(--t-body); line-height: var(--lh-body); }
+  .btn-solid { font-size: var(--t-cta); padding: 14px 26px; }
+  .brand-track img { height: 30px; }
+  .brand-track li.sm img { height: 39px; }
+  .brand-track li { margin-right: 34px; }
 
   .home-contact { padding: 48px 0; }
   .home-contact-title { font-size: 28px; }

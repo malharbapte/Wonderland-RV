@@ -896,9 +896,33 @@ input:-webkit-autofill:focus {
   html { font-size: 16px; }
   body { max-width: none; }
 
+  /* ---- mobile type ----------------------------------------------------
+     The artboard scale stops here: rem is a flat 16px, so every 0.xx rem
+     size would collapse to a few pixels. The four tiers get real phone
+     sizes instead, and nothing is allowed below the 11px floor. */
+  :root {
+    --t-heading: 28px;
+    --t-sub:     18px;
+    --t-cta:     16px;
+    --t-body:    15px;
+    --t-caption: 12px;
+    --lh-sub:    24px;
+    --lh-body:   23px;
+    --lh-caption:18px;
+    --page-margin: 24px;
+  }
+
   .container,
   .header-inner,
   .footer-inner { width: auto; margin-inline: 0; padding-inline: 24px; }
+
+  /* Full-bleed sections break out with 100vw, which counts the scrollbar the
+     viewport does not give back — 16px of sideways scroll on a phone. They are
+     already the full width here, so the break-out is simply switched off. */
+  .pull, .testi, .stat-band, .service-band, .brand-marquee, .band,
+  .next-band, .experience, .rules-band, .coty-figure {
+    width: 100%; margin-left: 0;
+  }
 
   /* ---- header ---- */
   .site-header { height: 64px; border-bottom: 1px solid #eee; }
@@ -950,6 +974,7 @@ input:-webkit-autofill:focus {
     display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
   }
   .chip { font-size: 15px; line-height: 20px; padding: 14px 6px; border-radius: 10px; }
+  .chip > span { font-size: 15px; line-height: 20px; }   /* the label carries its own size */
   .chip + .chip::before { display: none; }
 
   .field--area { margin-top: 26px; }
@@ -967,6 +992,16 @@ input:-webkit-autofill:focus {
 
   /* ---- video ---- */
   .video-frame { aspect-ratio: 16 / 9; }
+  /* the controls size off rem, so they need real numbers here — and a 44px
+     target, which is the smallest a finger can reliably hit */
+  .video-controls { gap: 12px; }
+  .video-ctl { width: 44px; height: 44px; font-size: 13px; }
+  .video-ctl svg { width: 20px; height: 20px; }
+  .video-nudge {
+    top: 12px; font-size: 15px; padding: 11px 18px; border-radius: 8px;
+    transform: translate(-50%, -6px);
+  }
+  .video-nudge.is-on { transform: translate(-50%, 0); }
 
   /* ---- unseen ---- */
   .unseen { padding: 48px 0 56px; }
@@ -988,6 +1023,9 @@ input:-webkit-autofill:focus {
   /* ---- rules band ---- */
   .rules-band { height: auto; padding: 32px 24px; }
   .rules-band p { font-size: 17px; line-height: 26px; letter-spacing: 0.08em; }
+
+  /* CTAs need a finger-sized target */
+  .btn-next, .btn-submit, .btn-subscribe, .btn-solid { min-height: 48px; }
 
   /* ---- where to next ---- */
   .next-band { height: auto; min-height: 420px; }
@@ -1018,6 +1056,8 @@ input:-webkit-autofill:focus {
   .link-col .footer-head--gap { margin-top: 32px; }
   .link-col li { margin-bottom: 10px; }
 
+  .footer-legal-left,
+  .footer-legal-left a { font-size: var(--t-caption); line-height: 18px; }
   .footer-legal-right p { max-width: none; font-size: 13px; line-height: 20px; }
 }
 
