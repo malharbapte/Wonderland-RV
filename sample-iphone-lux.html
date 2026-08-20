@@ -3,14 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — Luxury off-road, option B</title>
+<title>iPhone — heading against the quote</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=93">
 <style>
-/* ==========================================================================
-   Sample only. Nothing here is loaded by home.html or compact.html.
-   Sizes are written out in full rather than inherited, so a 390 column
-   renders as a phone would at any browser width.
-   ========================================================================== */
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
 .doc { padding:40px 28px 90px; }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
@@ -24,89 +19,70 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
 .rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
 .phone { flex:0 0 390px; }
 .phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:72px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:70px; }
 .screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
           overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
 
-/* the phone type scale */
-.screen { --ph-heading:26px; --ph-sub:17px; --ph-caption:12px; }
-.s-title { font-family:var(--aviano); font-weight:900; font-size:var(--ph-heading);
-           line-height:1.12; letter-spacing:-0.01em; margin:0; padding:30px 24px 0; }
+/* ---- B1, fixed. Only two numbers differ between the three columns ------- */
+.phone { --ph-heading:26px; --ph-lh:29px; --ph-quote:17px; --ph-qlh:25px; --ph-caption:12px; }
+.phone.v1 { --ph-heading:30px; --ph-lh:33px; --ph-quote:17px; --ph-qlh:25px; }
+.phone.v2 { --ph-heading:32px; --ph-lh:35px; --ph-quote:17px; --ph-qlh:25px; }
+.phone.v3 { --ph-heading:30px; --ph-lh:33px; --ph-quote:16px; --ph-qlh:24px; }
 
-/* ---- the quote, with the mark held to the desktop relationship -----------
-   On the desktop the mark is 1.1968rem against 0.325rem text -- 3.6825x the
-   font size -- and it is eased right by 0.15rem, 0.4615x. Both ratios are
-   kept here and simply multiplied by the phone's 17. Its bottom-right corner
-   meets the first letter's top-left corner, exactly as it does now.        */
-.q { position:relative; margin:0; padding:18px 24px 22px;
+.screen .s-title { font-family:var(--aviano); font-weight:900; font-size:var(--ph-heading);
+           line-height:var(--ph-lh); letter-spacing:-0.01em; margin:0; padding:30px 24px 0; }
+/* the mark keeps the desktop ratios: 3.6825x the quote size, eased 0.4615x right */
+.q { position:relative; margin:0;
+     padding:calc(var(--ph-quote) * 3.06) 24px 22px calc(var(--ph-quote) * 4.65);
      color:var(--orange-deep); font-style:italic; font-weight:500;
-     font-size:var(--ph-sub); line-height:25px; }
+     font-size:var(--ph-quote); line-height:var(--ph-qlh); }
 .q p { position:relative; margin:0; }
 .qm { position:absolute; display:block; height:auto; fill:currentColor;
-      right:calc(100% - 7.8px); bottom:100%; }
+      width:calc(var(--ph-quote) * 3.6825);
+      right:calc(100% - var(--ph-quote) * 0.4615); bottom:100%; }
 
-/* B1 — the mark at full desktop proportion, text indented to clear it */
-.b1 .q      { padding-left:79px; padding-top:52px; }
-.b1 .qm     { width:62.6px; }
-/* B2 — a smaller mark, less indent, more measure */
-.b2 .q      { padding-left:64px; padding-top:44px; }
-.b2 .qm     { width:47.6px; }
-/* B3 — full-size mark above the quote, text keeps the whole width */
-.b3 .q      { padding-left:24px; padding-top:14px; }
-.b3 .qm     { position:static; width:62.6px; margin:0 0 10px; }
-
-/* ---- the photos ----------------------------------------------------------
-   Every source is 2200 x 1301, aspect 1.691. object-position is stated so the
-   middle band is what survives any crop, rather than left to the default.  */
 .car { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
-       overscroll-behavior-x:contain;          /* a swipe cannot drag the page */
-       -webkit-overflow-scrolling:touch; scrollbar-width:none;
-       padding:0 24px; gap:10px; }
+       overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+       scrollbar-width:none; padding:0 24px; gap:10px; }
 .car::-webkit-scrollbar { display:none; }
-.cell { flex:0 0 calc(100% - 58px); scroll-snap-align:start;
-        border-radius:6px; overflow:hidden; }
+.cell { flex:0 0 calc(100% - 58px); scroll-snap-align:start; border-radius:6px;
+        overflow:hidden; aspect-ratio: 2200 / 1301; }
 .cell img { display:block; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
-.b1 .cell { aspect-ratio: 2200 / 1301; }   /* native — nothing cropped at all */
-.b2 .cell { aspect-ratio: 3 / 2; }         /* 11% off, split evenly */
-.b3 .cell { aspect-ratio: 4 / 3; }         /* 21% off, split evenly */
-
 .rail { display:flex; align-items:center; gap:9px; padding:12px 24px 26px; }
 .dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
 .dot.on { background:var(--orange-deep); width:18px; border-radius:3px; }
 .count { margin-left:auto; font-size:var(--ph-caption); letter-spacing:.12em; color:#8a8a8a; }
+
+/* the longest headings on the page, set at each size, to show the wrapping cost */
+.wrapcheck { background:#fff; border:1px solid #d8d8d8; border-radius:10px; padding:14px 18px;
+             width:342px; margin-top:12px; }
+.doc .wrapcheck p { font-family:var(--aviano); font-weight:900; margin:0 0 10px;
+               font-size:var(--ph-heading); line-height:var(--ph-lh); letter-spacing:-0.01em; }
+.wrapcheck span { display:block; font-family:var(--gordita); font-weight:400; font-size:11px;
+                  color:#999; letter-spacing:.08em; margin-bottom:8px; }
 </style>
 </head>
 <body>
 <div class="doc">
 
-  <h1>iPhone &mdash; Luxury off-road, option B</h1>
-  <p class="note">Option B in three versions. They differ in two things only: how big the quote
-     mark is and how the text clears it, and how much of each photo is kept. Everything else is
-     identical &mdash; copy first, then a swipeable gallery with a peek, dots and a counter.</p>
+  <h1>iPhone &mdash; heading against the quote</h1>
+  <p class="note">B1 in all three, unchanged: mark at the desktop ratio, photos at their native
+     1.691 with nothing cropped. The only difference is the heading size and, in the third, the
+     quote size. Under each phone are the three longest headings on the site set at that size, so
+     the cost of going bigger is visible rather than a surprise later.</p>
 
-  <h2>The two corrections</h2>
   <table class="t">
-    <tr><th>The mark</th><td>On the desktop it is <code>1.1968rem</code> against <code>0.325rem</code>
-      text &mdash; <b>3.6825&times;</b> the font size &mdash; eased right by <code>0.15rem</code>, or
-      0.4615&times;. Both ratios are carried over and multiplied by the phone&rsquo;s 17, so it sits
-      exactly as it does on the desktop. Because it hangs up and to the <em>left</em> of the first
-      letter, the quote has to be indented or the mark falls off the screen. That is the difference
-      between the three below.</td></tr>
-    <tr><th>The photos</th><td>All five are 2200&times;1301, aspect <b>1.691</b>. The old sample put
-      them in a 1.5 box with no <code>object-position</code>, so the sides were trimmed by default
-      rather than by choice. Each version now states the frame, and states
-      <code>object-position: 50% 50%</code> so whatever is cropped is taken evenly off both edges
-      and the middle band always survives.</td></tr>
+    <tr><th>Now</th><td>heading 26, quote 17 &mdash; a ratio of <b>1.53</b>. The quote is only a
+      little smaller, and it is orange, italic and four lines deep, so it carries more weight than
+      the heading despite being the smaller type.</td></tr>
   </table>
 
-  <h2>The three versions</h2>
   <div class="rack">
 
-    <div class="phone b1">
-      <h3>B1 &mdash; Faithful</h3>
-      <p class="sub">Mark at the full desktop proportion (63px against 17px text). Text indented to
-         79 so the whole mark sits inside the margin. Photos at their native 1.691 &mdash;
-         <b>nothing is cropped at all</b>. Measure drops to 287.</p>
+    <div class="phone v1">
+      <h3>1 &mdash; Heading to 30</h3>
+      <p class="sub">Only the heading moves. Ratio <b>1.76</b>. Nothing else on the page changes,
+         and the sub step stays where every other section already uses it.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -120,13 +96,14 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
       </div>
+      <div class="wrapcheck"><span>THE LONGEST HEADINGS AT 30</span>
+        <p>Luxury off-road Caravans</p><p>How is a Wonderland built.</p><p>Your dream van awaits</p></div>
     </div>
 
-    <div class="phone b2">
-      <h3>B2 &mdash; Balanced</h3>
-      <p class="sub">Mark eased back to 2.8&times; the text (48px), so the indent is 64 and the quote
-         gets 302 of measure. Photos in a 3:2 frame &mdash; 11% comes off, split evenly, so the
-         middle band is untouched.</p>
+    <div class="phone v2">
+      <h3>2 &mdash; Heading to 32</h3>
+      <p class="sub">A firmer jump. Ratio <b>1.88</b>. The heading clearly leads, at the cost of more
+         wrapping on the long titles and a taller page overall.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -140,16 +117,17 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
       </div>
+      <div class="wrapcheck"><span>THE LONGEST HEADINGS AT 32</span>
+        <p>Luxury off-road Caravans</p><p>How is a Wonderland built.</p><p>Your dream van awaits</p></div>
     </div>
 
-    <div class="phone b3">
-      <h3>B3 &mdash; Full measure</h3>
-      <p class="sub">Mark at full size but sitting <em>above</em> the quote rather than beside it, so
-         the text keeps the whole 342 measure. The only one that breaks the desktop&rsquo;s
-         corner-to-corner relationship. Photos 4:3 for more presence &mdash; 21% off, evenly.</p>
+    <div class="phone v3">
+      <h3>3 &mdash; Heading 30, quote 16</h3>
+      <p class="sub">The gap opened from both ends, so the same <b>1.88</b> separation costs less
+         height than version 2. The quote steps back rather than the heading shouting.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
-        <blockquote class="q"><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg><p>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
+        <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
         <div class="car">
           <div class="cell"><img src="assets/img/home/slide-1.jpg" alt=""></div>
           <div class="cell"><img src="assets/img/home/slide-2.jpg" alt=""></div>
@@ -160,9 +138,16 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
       </div>
+      <div class="wrapcheck"><span>THE LONGEST HEADINGS AT 30</span>
+        <p>Luxury off-road Caravans</p><p>How is a Wonderland built.</p><p>Your dream van awaits</p></div>
     </div>
 
   </div>
+
+  <p class="note" style="margin-top:22px">One knock-on worth knowing: the quote size is the
+     <code>--t-sub</code> step, shared with every lede, review and subheading on the phone. Versions
+     1 and 2 leave it alone. Version 3 moves it to 16, which drops it one pixel from the CTA step
+     and one above body &mdash; still distinct, but the lower half of the scale gets tighter.</p>
 </div>
 </body>
 </html>
