@@ -294,14 +294,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
      homepage grids got when the margins moved. Type sizes are untouched.
      The copy's line breaks are hand-set, so the left column can widen without
      re-wrapping a word. */
-  /* The copy is hand-broken and needs about 250 of measure, so the left column
-     is held to 3.77 and the form takes the rest of the content column. Every
-     width inside the form is scaled by the same 1.3369 so it fills that column
-     edge to edge; type sizes are untouched. The form stops 12 short of the
-     right margin because the chips pill is drawn with a symmetric overhang past
-     the fields - that lands the pill, the widest thing in the form, exactly on
-     the margin so nothing crosses it. */
-  grid-template-columns: 3.77rem 12.353rem;
+  /* The gap between the copy and the form is set from the reference: it runs
+     from where the copy text ends, at 712, to the form's left edge, which puts
+     the form on 841 and makes the gap 129. The left column is 4.65 to land it
+     there; the form takes 11.483 so the chips pill still finishes on the right
+     margin. Every width inside the form scales by the same 1.24275, so its
+     proportions hold and the type is untouched. The copy's line breaks are
+     hand-set, so its column can change width without re-wrapping a word. */
+  grid-template-columns: 4.65rem 11.483rem;
   padding-top: 0.706rem;
 }
 
@@ -329,11 +329,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .field-grid {
   display: grid;
-  grid-template-columns: 5.7621rem 5.9091rem;   /* x1.3369 */
+  grid-template-columns: 5.3562rem 5.493rem;   /* x1.24275 */
   grid-template-rows: 0.40rem 1.08rem 1.0925rem;  /* rules on 1385.5 / 1493.5 / 1602.6 */
-  column-gap: 0.3877rem;
+  column-gap: 0.3604rem;
   align-items: end;
-  padding-left: 0.2005rem;
+  padding-left: 0.1864rem;
 }
 
 .field { position: relative; }
@@ -368,8 +368,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* State — rounded select, sits 14 px left of the underline fields */
 .field--select {
-  margin-left: -0.1872rem;
-  width: 5.9492rem;
+  margin-left: -0.174rem;
+  width: 5.5302rem;
 }
 .field--select select {
   -webkit-appearance: none; appearance: none;
@@ -424,8 +424,8 @@ input:-webkit-autofill:focus {
 
 /* --------------------------------------------------- enquiry-type chips -- */
 .chips {
-  margin: 0.396rem 0 0 -0.1203rem;
-  width: 12.5836rem;                /* the pill still overhangs the fields as drawn */
+  margin: 0.396rem 0 0 -0.1118rem;
+  width: 11.6974rem;                /* the pill still overhangs the fields as drawn */
   height: 1.10rem;                /* trimmed; two-line options set the floor */
   padding: 0.08rem 0;
   border: 0.0075rem solid var(--ink);
@@ -492,7 +492,7 @@ input:-webkit-autofill:focus {
 .field--area { margin-top: 0.3375rem; }   /* 1739.6 → 1773.4 */
 .field--area textarea {
   display: block;
-  width: 12.343rem;
+  width: 11.4737rem;
   height: 1.3225rem;            /* 132.25 */
   padding: 0.134rem 0.26rem 0.20rem 0.199rem;
   font-family: var(--gordita);

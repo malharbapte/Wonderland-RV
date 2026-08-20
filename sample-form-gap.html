@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact form — the gap</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=90">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=90">
+<style>
+  body { background:#fff; }
+  .doc { font-family: var(--gordita); }
+  .doc h1 { font-family: var(--aviano); font-weight:900; font-size:24px; margin:0 0 6px; }
+  .wrap { max-width:1180px; margin:0 auto; padding:40px 32px 0; }
+  .note { font-size:14px; line-height:21px; color:#444; max-width:80ch; margin:0 0 10px; }
+  .tag { display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+         padding:3px 9px; border-radius:3px; margin:34px 0 0; }
+  .tag--now { background:#f1f1f1; color:#555; }
+  .tag--new { background:#D57114; color:#fff; }
+  table.spec { border-collapse:collapse; font-size:13px; margin:14px 0 0; }
+  table.spec th, table.spec td { border:1px solid #e4e4e4; padding:5px 12px; text-align:left; }
+  table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
+  code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f4f4f4; padding:1px 4px; }
+
+  /* the gap, drawn */
+  .enquiry-grid { position: relative; }
+  .showgap::after {
+    content:""; position:absolute; z-index:5; top:0; bottom:0;
+    left: var(--gap-l); width: var(--gap-w);
+    border:0.03rem solid #ff2d00; pointer-events:none;
+  }
+  .enquiry { padding-top: 0.30rem; padding-bottom: 0.60rem; }
+
+  /* ---------------- PROPOSED ----------------
+     Left column 4.65 so the form starts at 841, which is where the reference
+     rectangle ends. Form 11.483 so the chips pill still lands on the right
+     margin. Everything inside the form scales by the same 1.24275. */
+  .proposed .enquiry-grid { grid-template-columns: 4.65rem 11.483rem; }
+  .proposed .field-grid   { grid-template-columns: 5.3562rem 5.493rem; column-gap: 0.3604rem; padding-left: 0.1864rem; }
+  .proposed .field--select { margin-left: -0.174rem; width: 5.5302rem; }
+  .proposed .chips        { margin-left: -0.1118rem; width: 11.6974rem; }
+  .proposed .field--area textarea { width: 11.4737rem; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="wrap">
+    <h1>Contact form &mdash; the gap</h1>
+    <p class="note">Your rectangle runs from where the copy text ends to where the form should
+       start. Measured against the copy edge and the field edges it comes to <b>129</b> wide,
+       putting the form&rsquo;s left edge on <b>841</b>. The red outline below is that gap drawn at
+       the same size on both versions, so you can see it land.</p>
+    <table class="spec">
+      <tr><th></th><th>Copy column</th><th>Gap</th><th>Form starts</th><th>Form width</th><th>Pill right edge</th></tr>
+      <tr><th>Now</th><td>376 &rarr; 753</td><td>0</td><td>753</td><td>1235</td><td>1999</td></tr>
+      <tr><th>Proposed</th><td>376 &rarr; 841</td><td>129 from the text</td><td>841</td><td>1148</td><td>2000</td></tr>
+    </table>
+    <span class="tag tag--now">Now</span>
+  </div>
+
+  <section class="enquiry">
+  <div class="container">
+    <h2 class="enquiry-title">Ready for Adventure ?</h2>
+
+    <div class="enquiry-grid">
+
+      <!-- ---------------------------------------------- left column -->
+      <div class="enquiry-copy">
+        <p class="lede">Our experts will guide<br>
+          you through your<br>
+          caravan customisation.</p>
+        <p class="lede">We&rsquo;ll listen to<br>
+          understand how you&rsquo;ll<br>
+          use your van,<br>
+          <span class="lede-accent">then bring your<br>
+          Dream to life.</span></p>
+        <p class="reachout">Our experts will reach out<br>
+          to you within 24 hours<br>
+          on Business days.</p>
+      </div>
+
+      <!-- ---------------------------------------------- right column -->
+      <form class="enquiry-form" action="#" method="post" autocomplete="off" novalidate>
+
+        <div class="field-grid">
+          <div class="field field--line">
+            <input id="first-name" name="first-name" type="text" placeholder="First Name" required autocomplete="given-name">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="last-name" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+
+          <div class="field field--line">
+            <input id="email" name="email" type="email" placeholder="Email" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+
+          <div class="field field--select">
+            <select id="state" name="state" autocomplete="off" required>
+              <option value="" selected disabled>State</option>
+              <option>Victoria</option>
+              <option>New South Wales</option>
+              <option>Queensland</option>
+              <option>South Australia</option>
+              <option>Western Australia</option>
+              <option>Tasmania</option>
+              <option>Northern Territory</option>
+              <option>Australian Capital Territory</option>
+            </select>
+            <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+        </div>
+
+        <fieldset class="chips">
+          <legend class="sr-only">What would you like to do?</legend>
+          <span class="chips-thumb is-init" aria-hidden="true"></span>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Call back" checked>
+            <span>Call back</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Book a factory tour">
+            <span>Book a<br>factory tour</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Get a Quote">
+            <span>Get a Quote</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Virtual Consult">
+            <span>Virtual<br>Consult</span>
+          </label>
+        </fieldset>
+
+        <div class="field field--area">
+          <label class="sr-only" for="message">Something else you want to tell us...</label>
+          <textarea id="message" name="message" placeholder="Something else you want to tell us..."></textarea>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="marketing" name="marketing">
+          <label for="marketing">
+            I would like to receive marketing communications with discounts, updates, new
+            releases and more.
+            <span class="fineprint">*&nbsp; I understand I can unsubscribe at anytime.</span>
+          </label>
+        </div>
+
+        <button class="btn-submit" type="submit">Submit</button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+  <div class="wrap"><span class="tag tag--new">Proposed &mdash; form starts at 841</span></div>
+
+  <div class="proposed">
+  <section class="enquiry">
+  <div class="container">
+    <h2 class="enquiry-title">Ready for Adventure ?</h2>
+
+    <div class="enquiry-grid">
+
+      <!-- ---------------------------------------------- left column -->
+      <div class="enquiry-copy">
+        <p class="lede">Our experts will guide<br>
+          you through your<br>
+          caravan customisation.</p>
+        <p class="lede">We&rsquo;ll listen to<br>
+          understand how you&rsquo;ll<br>
+          use your van,<br>
+          <span class="lede-accent">then bring your<br>
+          Dream to life.</span></p>
+        <p class="reachout">Our experts will reach out<br>
+          to you within 24 hours<br>
+          on Business days.</p>
+      </div>
+
+      <!-- ---------------------------------------------- right column -->
+      <form class="enquiry-form" action="#" method="post" autocomplete="off" novalidate>
+
+        <div class="field-grid">
+          <div class="field field--line">
+            <input id="first-name" name="first-name" type="text" placeholder="First Name" required autocomplete="given-name">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="last-name" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+
+          <div class="field field--line">
+            <input id="email" name="email" type="email" placeholder="Email" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+
+          <div class="field field--select">
+            <select id="state" name="state" autocomplete="off" required>
+              <option value="" selected disabled>State</option>
+              <option>Victoria</option>
+              <option>New South Wales</option>
+              <option>Queensland</option>
+              <option>South Australia</option>
+              <option>Western Australia</option>
+              <option>Tasmania</option>
+              <option>Northern Territory</option>
+              <option>Australian Capital Territory</option>
+            </select>
+            <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+        </div>
+
+        <fieldset class="chips">
+          <legend class="sr-only">What would you like to do?</legend>
+          <span class="chips-thumb is-init" aria-hidden="true"></span>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Call back" checked>
+            <span>Call back</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Book a factory tour">
+            <span>Book a<br>factory tour</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Get a Quote">
+            <span>Get a Quote</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="enquiry-type" value="Virtual Consult">
+            <span>Virtual<br>Consult</span>
+          </label>
+        </fieldset>
+
+        <div class="field field--area">
+          <label class="sr-only" for="message">Something else you want to tell us...</label>
+          <textarea id="message" name="message" placeholder="Something else you want to tell us..."></textarea>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="marketing" name="marketing">
+          <label for="marketing">
+            I would like to receive marketing communications with discounts, updates, new
+            releases and more.
+            <span class="fineprint">*&nbsp; I understand I can unsubscribe at anytime.</span>
+          </label>
+        </div>
+
+        <button class="btn-submit" type="submit">Submit</button>
+      </form>
+
+    </div>
+  </div>
+</section>
+  </div>
+</div>
+<script>
+  /* draw the gap band: from the end of the copy text to the form's left edge */
+  addEventListener("load", function () {
+    setTimeout(function () {
+      document.querySelectorAll(".enquiry-grid").forEach(function (g) {
+        const copy = g.querySelector(".enquiry-copy");
+        const form = g.querySelector(".enquiry-form");
+        let textRight = 0;
+        copy.querySelectorAll("p").forEach(function (p) {
+          const r = document.createRange(); r.selectNodeContents(p);
+          textRight = Math.max(textRight, r.getBoundingClientRect().right);
+        });
+        const gb = g.getBoundingClientRect();
+        g.style.setProperty("--gap-l", (textRight - gb.left) + "px");
+        g.style.setProperty("--gap-w", (form.getBoundingClientRect().left - textRight) + "px");
+        g.classList.add("showgap");
+      });
+    }, 600);
+  });
+</script>
+</body>
+</html>
