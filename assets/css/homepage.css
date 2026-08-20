@@ -506,6 +506,8 @@ er { background: var(--orange-deep); }
      column (78.89% of the band), so reviews can't run past the margin */
   width: 17.39%;
   margin: 0 0 0 4.6%;
+  padding-top: 0.10rem;         /* review + attribution drop 10; the mark holds
+                                   its place via dropAdj in home.js */
   color: var(--orange-deep);
 }
 .service-quote p {

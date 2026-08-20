@@ -236,8 +236,10 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   /* Every quote block on the page, not just the first — the review slider
      holds one per slide and each has a different length. */
   const BLOCKS = [
-    { scope: ".pull-quote",    mark: ".pull-mark" },
-    { scope: ".service-quote", mark: ".service-mark" }
+    { scope: ".pull-quote",    mark: ".pull-mark",    dropAdj: 0 },
+    /* the service copy is padded down 10, so the mark takes 10 off its drop
+       and stays exactly where it was */
+    { scope: ".service-quote", mark: ".service-mark", dropAdj: -10 }
   ];
   const cvs = document.createElement("canvas");
   const ctx = cvs.getContext("2d");
@@ -269,7 +271,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     };
   }
 
-  function tuck(mark, text) {
+  function tuck(mark, text, dropAdj) {
     if (!mark || !text || !ctx.measureText("M").actualBoundingBoxAscent) return;
     const first = (text.textContent || "").trim().charAt(0);
     if (!first) return;
@@ -278,13 +280,13 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     const cs = getComputedStyle(mark);
     const unit = parseFloat(getComputedStyle(document.documentElement).fontSize) / 100;
     mark.style.left = (parseFloat(cs.left) + (ti.left - mi.right) + MARK_SHIFT * unit) + "px";
-    mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom) + MARK_DROP  * unit) + "px";
+    mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom) + (MARK_DROP + (dropAdj || 0)) * unit) + "px";
   }
 
   function place() {
     BLOCKS.forEach(function (b) {
       document.querySelectorAll(b.scope).forEach(function (q) {
-        tuck(q.querySelector(b.mark), q.querySelector("p"));
+        tuck(q.querySelector(b.mark), q.querySelector("p"), b.dropAdj);
       });
     });
   }
