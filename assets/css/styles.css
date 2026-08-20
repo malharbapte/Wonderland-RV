@@ -573,7 +573,8 @@ input:-webkit-autofill:focus {
 /* --- video controls: mute and captions, top right, on hover --------------- */
 .video-controls {
   position: absolute;
-  top: 0.26rem; right: 0.30rem;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);   /* dead centre of the frame */
   z-index: 4;
   display: flex;
   gap: 0.12rem;
@@ -607,18 +608,18 @@ input:-webkit-autofill:focus {
   position: absolute;
   top: 0.24rem; left: 50%;
   z-index: 4;
-  padding: 0.09rem 0.16rem;
-  border-radius: 0.06rem;
+  padding: 0.27rem 0.48rem;     /* x3 */
+  border-radius: 0.18rem;
   background: rgba(0, 0, 0, 0.62);
   color: #fff;
   font-family: var(--gordita);
-  font-size: 0.14rem;
+  font-size: 0.42rem;           /* x3 */
   line-height: 1;
   letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
   opacity: 0;
-  transform: translate(-50%, -0.06rem);
+  transform: translate(-50%, -0.18rem);
   pointer-events: none;
   transition: opacity .45s ease, transform .45s ease;
 }
