@@ -645,22 +645,26 @@ er { background: var(--orange-deep); }
 .brand-track {
   display: flex;
   align-items: center;
-  gap: 0.90rem;
+  gap: 0.72rem;
   width: max-content;
   animation: brand-scroll 60s linear infinite;   /* medium pace */
 }
 .brand-marquee:hover .brand-track { animation-play-state: paused; }
 @keyframes brand-scroll { to { transform: translateX(-50%); } }
 
-.brand-track li { flex: none; display: flex; align-items: center; justify-content: center; }
+/* Marks are trimmed to their ink, so the flex gap is the real optical gap
+   between logos rather than gap-plus-empty-canvas. */
+.brand-track li { flex: none; display: flex; align-items: center; }
 .brand-track img {
-  width: 1.95rem;               /* x1.5 on the old 1.30 */
-  height: 0.64rem;
+  height: 0.60rem;
+  width: auto;
   object-fit: contain;
   filter: grayscale(1);
   opacity: 0.55;
   transition: filter .28s ease, opacity .28s ease, transform .28s ease;
 }
+/* the squarest third read small in a horizontal row, so they take 1.3x */
+.brand-track li.sm img { height: 0.78rem; }
 .brand-track li:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.12); }
 
 /* ==========================================================================
