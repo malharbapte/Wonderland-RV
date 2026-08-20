@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — the whole Luxury off-road block</title>
+<title>iPhone — the paragraph at 11, 12, 13</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=93">
 <style>
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
@@ -52,36 +52,41 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
 .count { margin-left:auto; font-size:12px; letter-spacing:.12em; color:#8a8a8a; }
 
 /* --- the paragraph that was missing from the mock-up --- */
-.intro-p { margin:0; padding:0 24px 34px; font-size:var(--ph-body); line-height:var(--ph-blh); }
-.i2 .intro-p { padding-left:calc(var(--ph-q) * 3.419); }         /* on the quote's axis */
-.i3 .intro-p { font-size:var(--ph-q); line-height:var(--ph-qlh); }
+.intro-p { margin:0; padding:0 24px 34px;
+           font-size:var(--ph-intro); line-height:var(--ph-intro-lh); }
+/* leading held at about 1.55, which is the ratio 15/23 had, so the three
+   columns differ in size alone and not in how open the paragraph is */
+.phone.n11 { --ph-intro:11px; --ph-intro-lh:17px; }
+.phone.n12 { --ph-intro:12px; --ph-intro-lh:19px; }
+.phone.n13 { --ph-intro:13px; --ph-intro-lh:20px; }
 </style>
 </head>
 <body>
 <div class="doc">
 
-  <h1>iPhone &mdash; the whole Luxury off-road block</h1>
+  <h1>iPhone &mdash; the paragraph at 11, 12 and 13</h1>
   <p class="note">You were right, the block does not end at the photos. In the markup it is three
      sections back to back &mdash; <code>.lux</code> the heading, <code>.pull</code> the quote and
      slideshow, <code>.intro</code> the paragraph &mdash; and on a phone they read as one thing.
-     P3 is fixed in all three columns; the only difference is how that last paragraph is set.</p>
+     P3 and the I3 position are fixed in all three columns. The only difference is the size of that
+     last paragraph.</p>
 
   <table class="t">
     <tr><th>Settled</th><td>heading 30 &middot; quote 16 &middot; mark 3.1301&times; the quote, hanging
       12 into the margin &middot; photos native 1.691, nothing cropped &middot; dots, counter, peek,
       and a swipe that cannot drag the page</td></tr>
-    <tr><th>Open</th><td>the paragraph: its size, and whether it sits on the page margin or on the
-      quote&rsquo;s indent</td></tr>
+    <tr><th>Also settled</th><td>the paragraph sits full measure on the 24 margin, sharing a left
+      edge with the photos and the dots &mdash; the I3 position</td></tr>
+    <tr><th>Open</th><td>its size: 11, 12 or 13</td></tr>
   </table>
 
   <div class="rack">
 
-    <div class="phone i1">
-      <h3>I1 &mdash; Body, full measure</h3>
-      <p class="sub">15 on the 24 margin, the full <b>342</b>. It reads as what it is &mdash; the
-         section&rsquo;s explanatory copy &mdash; and the photos, dots and paragraph all share one
-         left edge. The quote is then the only thing indented, which is what makes it feel
-         quoted.</p>
+    <div class="phone n11">
+      <h3>11 &mdash; at the floor</h3>
+      <p class="sub">The smallest size on the site, the one you set as the floor for the legal
+         line. Shortest block of the three. At 55 words it is a lot of very small type to ask
+         someone to read on a phone.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -101,11 +106,11 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
       </div>
     </div>
 
-    <div class="phone i2">
-      <h3>I2 &mdash; Body, on the quote&rsquo;s axis</h3>
-      <p class="sub">Same 15, but indented to <b>55</b> so the quote and the paragraph share one
-         text column and the mark is the only thing hanging off it. Tidier as a pair, but the
-         paragraph loses 31 of measure and no longer lines up with the photos.</p>
+    <div class="phone n12">
+      <h3>12 &mdash; on the caption step</h3>
+      <p class="sub">Lands exactly on the caption step the scale already has, so it adds nothing
+         new &mdash; the same size as the attributions and the counter. Clearly subordinate to the
+         quote without disappearing.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -125,11 +130,11 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
       </div>
     </div>
 
-    <div class="phone i3">
-      <h3>I3 &mdash; Lede, full measure</h3>
-      <p class="sub">Set at <b>16</b>, the same size as the quote but black and upright, on the
-         margin. Treats it as the section&rsquo;s opening statement rather than small print. Adds a
-         line, and it competes with the quote for attention.</p>
+    <div class="phone n13">
+      <h3>13 &mdash; a step above caption</h3>
+      <p class="sub">The most readable of the three and still well under the quote. It is a size
+         the scale does not currently have, so taking it means a sixth step or moving caption up
+         to 13 everywhere.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
