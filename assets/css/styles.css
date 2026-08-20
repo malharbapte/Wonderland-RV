@@ -772,7 +772,7 @@ input:-webkit-autofill:focus {
   row-gap: 0.57rem;
 }
 
-.footer-logo { width: 4.00rem; height: auto; margin-bottom: -0.10rem; }
+.footer-logo { width: 4.00rem; height: auto; margin-bottom: 0.16rem; }
 .footer-blurb { width: 4.79rem; }
 .footer-strong { font-weight: 700; }
 .footer-strong:hover { color: var(--orange-deep); }
@@ -786,8 +786,8 @@ input:-webkit-autofill:focus {
   color: var(--orange-deep);
 }
 .footer-brand p + p { margin-top: 0.17rem; }
-.footer-brand .footer-head { margin-top: 0.61rem; margin-bottom: 0.03rem; }
-.footer-contact { line-height: 0.34rem; }
+.footer-brand .footer-head { margin-top: 0.61rem; margin-bottom: 0.14rem; }
+.footer-contact { line-height: 0.40rem; }
 .footer-contact span { color: #333; }
 
 .socials {
@@ -832,7 +832,7 @@ input:-webkit-autofill:focus {
   grid-template-columns: 3.96rem 3.96rem 1.70rem;
   margin-top: 0.64rem;
 }
-.link-col .footer-head { margin-bottom: 0.03rem; }
+.link-col .footer-head { margin-bottom: 0.16rem; }
 .link-col .footer-head--gap { margin-top: 0.57rem; }
 .link-col li { line-height: 0.27rem; margin-bottom: 0.19rem; }
 .link-col a:hover { color: var(--orange-deep); }
