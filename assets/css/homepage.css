@@ -172,7 +172,9 @@
 }
 .pull-mark {
   position: absolute;
-  left: -1.30rem; top: -0.86rem;
+  /* em of the mark's own size, so the corner rule holds at every scale
+     without measuring anything at runtime */
+  left: -0.3038em; top: -0.0534em;
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
@@ -540,7 +542,7 @@ er { background: var(--orange-deep); }
 }
 .service-mark {
   position: absolute;
-  left: 0; top: 0;              /* script tucks each one to its own review */
+  left: -0.2794em; top: 0.0170em;   /* same rule, in em */
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
@@ -623,7 +625,7 @@ er { background: var(--orange-deep); }
 .coty-arrow--next { right: -1.10rem; }
 
 /* ==========================================================================
-   BRANDS WE TRUST   — individual marks so each can respond on its own
+   BRANDS WE TRUST   — one row, looping continuously
    ========================================================================== */
 .brands { padding-top: 1.20rem; padding-bottom: 1.20rem; }
 .brands-title {
@@ -632,30 +634,34 @@ er { background: var(--orange-deep); }
   font-size: var(--t-heading);
   line-height: 1;
 }
-.brand-grid {
+.brand-marquee {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   margin-top: 0.70rem;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  align-items: center;
-  column-gap: 0.30rem;
-  row-gap: 0.55rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
 }
-.brand-grid li { display: flex; align-items: center; justify-content: center; }
-.brand-grid img {
-  max-width: 100%;
-  max-height: 0.62rem;
-  width: auto;
+.brand-track {
+  display: flex;
+  align-items: center;
+  gap: 0.90rem;
+  width: max-content;
+  animation: brand-scroll 60s linear infinite;   /* medium pace */
+}
+.brand-marquee:hover .brand-track { animation-play-state: paused; }
+@keyframes brand-scroll { to { transform: translateX(-50%); } }
+
+.brand-track li { flex: none; display: flex; align-items: center; justify-content: center; }
+.brand-track img {
+  width: 1.95rem;               /* x1.5 on the old 1.30 */
+  height: 0.64rem;
   object-fit: contain;
   filter: grayscale(1);
   opacity: 0.55;
-  transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+  transition: filter .28s ease, opacity .28s ease, transform .28s ease;
 }
-.brand-grid li:hover img,
-.brand-grid li:focus-within img {
-  filter: grayscale(0);
-  opacity: 1;
-  transform: scale(1.12);
-}
+.brand-track li:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.12); }
 
 /* ==========================================================================
    CARAVAN INSURANCE   (y 13806 – 14030)

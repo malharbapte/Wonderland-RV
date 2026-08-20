@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote mark across displays</title>
+<style>
+  body { margin:0; font:14px/1.5 -apple-system,system-ui,sans-serif; background:#fafafa; color:#111; }
+  .wrap { padding:32px 40px 80px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  p.lede { color:#555; max-width:70ch; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:24px; }
+  .panel { background:#fff; border:1px solid #e6e6e6; border-radius:6px; overflow:hidden; }
+  .hd { display:flex; justify-content:space-between; align-items:baseline;
+        padding:10px 14px; border-bottom:1px solid #eee; }
+  .hd b { font-size:15px; } .hd span { font-size:12px; color:#888; }
+  .view { position:relative; overflow:hidden; height:300px; background:#fff; }
+  iframe { border:0; position:absolute; top:0; left:0; transform-origin:0 0; }
+  .read { padding:10px 14px; border-top:1px solid #eee; font-size:13px; }
+  .ok { color:#1a7f37; font-weight:700; } .bad { color:#c00; font-weight:700; }
+  code { background:#f2f2f2; padding:1px 5px; border-radius:3px; }
+</style></head><body>
+<div class="wrap">
+  <h1>Quote mark &mdash; same page, four display widths</h1>
+  <p class="lede">Conversion uses the page&rsquo;s own root font-size, not viewport width &mdash; above 2376 the page stops scaling and those two diverge. Each panel loads the real homepage at a different viewport width and measures the
+  mark against the first letter of the quote. <code>dx</code> and <code>dy</code> are the offsets in
+  artboard units. If the mark is locked they read the same in every panel; if it drifts, they differ.
+  Target is <code>dx 29 / dy 106</code>.</p>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const WIDTHS=[1280,1440,1920,2560];
+const VIEW_W=520, VIEW_H=300;
+const grid=document.getElementById('grid');
+
+WIDTHS.forEach(w=>{
+  const k=VIEW_W/w;
+  const panel=document.createElement('div');
+  panel.className='panel';
+  panel.innerHTML=`<div class="hd"><b>${w}px wide</b><span>scaled ${(k*100).toFixed(0)}%</span></div>
+    <div class="view"><iframe src="home.html?rig=${w}" style="width:${w}px;height:${VIEW_H/k}px;transform:scale(${k})"></iframe></div>
+    <div class="read">measuring&hellip;</div>`;
+  grid.appendChild(panel);
+  const fr=panel.querySelector('iframe');
+  const read=panel.querySelector('.read');
+
+  fr.addEventListener('load',()=>{
+    const d=fr.contentDocument, win=fr.contentWindow;
+    const settle=setInterval(()=>{
+      const mark=d.querySelector('.pull-mark'), text=d.querySelector('.pull-quote p');
+      if(!mark||!text||!win.getComputedStyle(mark).left) return;
+      const pull=d.querySelector('.pull');
+      if(pull) pull.scrollIntoView({block:'start'});
+      /* artboard units per CSS px = 100 / root font-size. Using 2376/viewport
+         is wrong above 2376, where the page stops scaling and the root caps. */
+      const S=100/parseFloat(win.getComputedStyle(d.documentElement).fontSize);
+      const cvs=d.createElement('canvas'), ctx=cvs.getContext('2d');
+      function bl(el){const p=d.createElement('span');
+        p.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';
+        el.insertBefore(p,el.firstChild); const y=p.getBoundingClientRect().top; p.remove(); return y;}
+      function ink(el,ch){const cs=win.getComputedStyle(el);
+        ctx.font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+        const m=ctx.measureText(ch), r=el.getBoundingClientRect(), b=bl(el);
+        return {right:r.left+m.actualBoundingBoxRight, left:r.left-m.actualBoundingBoxLeft,
+                top:b-m.actualBoundingBoxAscent, bottom:b+m.actualBoundingBoxDescent};}
+      const mi=ink(mark,mark.textContent.trim()), ti=ink(text,text.textContent.trim()[0]);
+      const dx=+((mi.right-ti.left)*S).toFixed(1), dy=+((mi.bottom-ti.top)*S).toFixed(1);
+      const good=Math.abs(dx-29)<3 && Math.abs(dy-106)<4;
+      read.innerHTML=`dx <b class="${Math.abs(dx-29)<3?'ok':'bad'}">${dx}</b> &nbsp;·&nbsp;
+                      dy <b class="${Math.abs(dy-106)<4?'ok':'bad'}">${dy}</b>
+                      &nbsp;&mdash;&nbsp; ${good?'<span class="ok">locked</span>':'<span class="bad">drifted</span>'}`;
+      clearInterval(settle);
+    },400);
+    setTimeout(()=>clearInterval(settle),15000);
+  });
+});
+</script></body></html>

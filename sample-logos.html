@@ -1,79 +1,81 @@
 <!DOCTYPE html>
 <html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Brand logos &mdash; colour on hover</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=50">
+<title>Brand logos &mdash; uniform size</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=52">
 <style>
   html { font-size: min(calc(100vw / 23.76), 100px); }
   body { max-width:none; background:#fff; font-family:var(--gordita); font-size:0.16rem; line-height:1.5; }
   .wrap { padding:0.60rem 3.76rem 1.40rem; }
   h1 { font-family:var(--aviano); font-weight:900; font-size:0.42rem; }
   h2 { font-family:var(--aviano); font-weight:900; font-size:0.28rem; margin:0.60rem 0 0.08rem; }
-  .lede { color:#555; max-width:68ch; font-size:0.16rem; }
+  .lede { color:#555; max-width:70ch; font-size:0.16rem; }
   .warn { background:#FFF6E9; border-left:0.04rem solid var(--orange-deep);
-           padding:0.16rem 0.20rem; margin:0.20rem 0; font-size:0.15rem; max-width:72ch; }
+           padding:0.16rem 0.20rem; margin:0.20rem 0; font-size:0.15rem; max-width:74ch; }
   .grid { list-style:none; margin:0.30rem 0 0; padding:0; display:grid;
-           grid-template-columns:repeat(8,1fr); gap:0.42rem 0.24rem; }
-  .grid li { display:flex; flex-direction:column; align-items:center; gap:0.06rem; position:relative; }
-  .grid img { max-width:100%; max-height:0.52rem; object-fit:contain;
+           grid-template-columns:repeat(4,1fr); gap:0.50rem 0.34rem; }
+  .grid li { display:flex; flex-direction:column; align-items:center; gap:0.05rem; }
+  /* every mark now sits on an identical 520x170 canvas, so one box size
+     renders them all at exactly the same scale */
+  .box { display:flex; align-items:center; justify-content:center;
+          width:100%; aspect-ratio: 520 / 170; }
+  .grid img { width:100%; height:100%; object-fit:contain;
                filter:grayscale(1); opacity:.5;
                transition:filter .28s ease, opacity .28s ease, transform .28s ease; }
-  .grid li:hover img { filter:grayscale(0); opacity:1; transform:scale(1.14); }
+  .grid li:hover img { filter:grayscale(0); opacity:1; transform:scale(1.10); }
   .cap { font-size:0.11rem; color:#aaa; text-align:center; }
-  .mono-tag { font-size:0.09rem; color:#c98a3a; letter-spacing:.04em; }
+  .mono-tag { font-size:0.09rem; color:#c98a3a; }
+  .flagged .box { outline:0.02rem solid var(--orange-deep); outline-offset:0.06rem; }
 </style></head><body>
 <div class="wrap">
-  <h1>Brand logos &mdash; colour on hover</h1>
+  <h1>Brand logos &mdash; uniform size</h1>
 
-  <div class="warn"><strong>Why the current ones don&rsquo;t colour up:</strong> the strip on the live page is
-  a pure greyscale image &mdash; measured max saturation of 2 out of 255 across 29,100 ink pixels, with
-  not one pixel above 25. Removing the grey filter reveals nothing, because there is no colour in
-  the file. These are the real logo files from Wonderland&rsquo;s own partners page instead.</div>
+  <p class="lede">Every mark has been trimmed to its ink and re-centred on an identical
+  520&times;170 canvas, so they all render at the same scale rather than each finding its own size.
+  Hover to check the colour-up.</p>
 
-  <h2>Hover any of them</h2>
-  <p class="lede">32 logos. <strong>21 carry colour</strong> and will visibly warm up.
-  The 11 marked <em>mono by brand</em> &mdash; Dometic, Thule, Swift, Westinghouse and so on &mdash; are
-  black in their official artwork, so they will only brighten and scale, never colour. That is the
-  brands&rsquo; own design, not a fault in the file.</p>
+  <div class="warn"><strong>On the two-in-one placeholder you spotted:</strong> that is from slicing
+  the greyscale strip, and it is not fixable by tuning. The gaps <em>inside</em> a wordmark and the
+  gaps <em>between</em> two logos overlap in that image, so no single threshold separates them &mdash;
+  three of the 21 slices held two marks each. These individual files replace that approach entirely.</div>
+
+  <div class="warn"><strong>Victron / Arizon &mdash; not my doing.</strong> Wonderland publish that as a
+  single file, <code>victron-arizon-logo.webp</code>, with both brands already in the one image. It is
+  ringed below. I can split it into two if you want them separate.</div>
 
   <ul class="grid">
-      <li><img src="assets/img/home/brands-colour/bos.webp" alt="Bos"><span class="cap">Bos</span></li>
-      <li><img src="assets/img/home/brands-colour/cafamo.webp" alt="Cafamo"><span class="cap">Cafamo</span></li>
-      <li><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt="Cruisemaster"><span class="cap">Cruisemaster</span></li>
-      <li><img src="assets/img/home/brands-colour/dexter.webp" alt="Dexter"><span class="cap">Dexter</span></li>
-      <li><img src="assets/img/home/brands-colour/dibond.webp" alt="Dibond"><span class="cap">Dibond</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt="Diesel Heat"><span class="cap">Diesel Heat</span></li>
-      <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt="Dometic"><span class="cap">Dometic</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt="Eco Power World"><span class="cap">Eco Power World</span></li>
-      <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt="Fusion"><span class="cap">Fusion</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/girard.webp" alt="Girard"><span class="cap">Girard</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/isi.webp" alt="Isi"><span class="cap">Isi</span></li>
-      <li><img src="assets/img/home/brands-colour/nce.webp" alt="Nce"><span class="cap">Nce</span></li>
-      <li><img src="assets/img/home/brands-colour/nikpol.webp" alt="Nikpol"><span class="cap">Nikpol</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/ogo.webp" alt="Ogo"><span class="cap">Ogo</span></li>
-      <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt="Profile Fabrics"><span class="cap">Profile Fabrics</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/ranger.webp" alt="Ranger"><span class="cap">Ranger</span></li>
-      <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt="REDARC"><span class="cap">REDARC</span></li>
-      <li><img src="assets/img/home/brands-colour/rv_wifi.webp" alt="RV WiFi"><span class="cap">RV WiFi</span></li>
-      <li><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt="S&amp;M Chassis"><span class="cap">S&amp;M Chassis</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/shann_leather.webp" alt="Shann Leather"><span class="cap">Shann Leather</span></li>
-      <li><img src="assets/img/home/brands-colour/swift.webp" alt="Swift"><span class="cap">Swift</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/thule.webp" alt="Thule"><span class="cap">Thule</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt="TrackingMate"><span class="cap">TrackingMate</span></li>
-      <li><img src="assets/img/home/brands-colour/truma.webp" alt="Truma"><span class="cap">Truma</span></li>
-      <li><img src="assets/img/home/brands-colour/tuffride.webp" alt="Tuffride"><span class="cap">Tuffride</span></li>
-      <li><img src="assets/img/home/brands-colour/urban_republic.webp" alt="Urban Republic"><span class="cap">Urban Republic</span></li>
-      <li><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt="Victron / Arizon"><span class="cap">Victron / Arizon</span></li>
-      <li><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt="Warwick Fabrics"><span class="cap">Warwick Fabrics</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/webasto.webp" alt="Webasto"><span class="cap">Webasto</span></li>
-      <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt="Westinghouse"><span class="cap">Westinghouse</span><span class="mono-tag">mono by brand</span></li>
-      <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt="Wilsonart"><span class="cap">Wilsonart</span></li>
-      <li><img src="assets/img/home/brands-colour/witi.webp" alt="Witi"><span class="cap">Witi</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/bos.webp" alt="BOS"></span><span class="cap">BOS</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/cafamo.webp" alt="Cafamo"></span><span class="cap">Cafamo</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt="Cruisemaster"></span><span class="cap">Cruisemaster</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/dexter.webp" alt="Dexter"></span><span class="cap">Dexter</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/dibond.webp" alt="Dibond"></span><span class="cap">Dibond</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/diesel_heat.webp" alt="Diesel Heat"></span><span class="cap">Diesel Heat</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/dometic_logo.webp" alt="Dometic"></span><span class="cap">Dometic</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt="Eco Power World"></span><span class="cap">Eco Power World</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/fusion_logo.webp" alt="Fusion"></span><span class="cap">Fusion</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/girard.webp" alt="Girard"></span><span class="cap">Girard</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/isi.webp" alt="Isi"></span><span class="cap">Isi</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/nce.webp" alt="Nce"></span><span class="cap">Nce</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/nikpol.webp" alt="Nikpol"></span><span class="cap">Nikpol</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/ogo.webp" alt="Ogo"></span><span class="cap">Ogo</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt="Profile Fabrics"></span><span class="cap">Profile Fabrics</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/ranger.webp" alt="Ranger"></span><span class="cap">Ranger</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/redarc_logo.webp" alt="REDARC"></span><span class="cap">REDARC</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt="RV WiFi"></span><span class="cap">RV WiFi</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt="S&amp;M Chassis"></span><span class="cap">S&amp;M Chassis</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/shann_leather.webp" alt="Shann Leather"></span><span class="cap">Shann Leather</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/swift.webp" alt="Swift"></span><span class="cap">Swift</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/thule.webp" alt="Thule"></span><span class="cap">Thule</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt="TrackingMate"></span><span class="cap">TrackingMate</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/truma.webp" alt="Truma"></span><span class="cap">Truma</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/tuffride.webp" alt="Tuffride"></span><span class="cap">Tuffride</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/urban_republic.webp" alt="Urban Republic"></span><span class="cap">Urban Republic</span></li>
+      <li class="flagged"><span class="box"><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt="Victron / Arizon"></span><span class="cap">Victron / Arizon</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt="Warwick Fabrics"></span><span class="cap">Warwick Fabrics</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/webasto.webp" alt="Webasto"></span><span class="cap">Webasto</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/westinghouse.webp" alt="Westinghouse"></span><span class="cap">Westinghouse</span><span class="mono-tag">mono by brand</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/wilsonart.webp" alt="Wilsonart"></span><span class="cap">Wilsonart</span></li>
+      <li><span class="box"><img src="assets/img/home/brands-colour/witi.webp" alt="Witi"></span><span class="cap">Witi</span></li>
   </ul>
-
-  <h2>Note on the set</h2>
-  <p class="lede">This is a different roster to the strip currently on the page &mdash; it is the partners
-  Wonderland lists individually, so a few names differ. Say the word if you want me to match the
-  strip&rsquo;s exact line-up instead, or to use this fuller set.</p>
 </div>
 </body></html>
