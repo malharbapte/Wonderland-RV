@@ -233,7 +233,12 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   const MARK_DROP  = 106;  // down from the matched corner
   const MARK_SHIFT = 29;   // and right
 
-  const PAIRS = [[".pull-mark", ".pull-quote p"], [".service-mark", ".service-quote p"]];
+  /* Every quote block on the page, not just the first — the review slider
+     holds one per slide and each has a different length. */
+  const BLOCKS = [
+    { scope: ".pull-quote",    mark: ".pull-mark" },
+    { scope: ".service-quote", mark: ".service-mark" }
+  ];
   const cvs = document.createElement("canvas");
   const ctx = cvs.getContext("2d");
 
@@ -264,9 +269,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     };
   }
 
-  function tuck(markSel, textSel) {
-    const mark = document.querySelector(markSel);
-    const text = document.querySelector(textSel);
+  function tuck(mark, text) {
     if (!mark || !text || !ctx.measureText("M").actualBoundingBoxAscent) return;
     const first = (text.textContent || "").trim().charAt(0);
     if (!first) return;
@@ -278,13 +281,20 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     mark.style.top  = (parseFloat(cs.top)  + (ti.top  - mi.bottom) + MARK_DROP  * unit) + "px";
   }
 
-  function place() { PAIRS.forEach(function (p) { tuck(p[0], p[1]); }); }
+  function place() {
+    BLOCKS.forEach(function (b) {
+      document.querySelectorAll(b.scope).forEach(function (q) {
+        tuck(q.querySelector(b.mark), q.querySelector("p"));
+      });
+    });
+  }
 
   place();
   window.addEventListener("resize", function () {
-    PAIRS.forEach(function (p) {
-      const m = document.querySelector(p[0]);
-      if (m) { m.style.left = ""; m.style.top = ""; }
+    BLOCKS.forEach(function (b) {
+      document.querySelectorAll(b.scope + " " + b.mark).forEach(function (m) {
+        m.style.left = ""; m.style.top = "";
+      });
     });
     place();
   });

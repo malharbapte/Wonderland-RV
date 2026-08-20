@@ -502,19 +502,20 @@ er { background: var(--orange-deep); }
   position: relative;
   z-index: 1;
   flex: none;
-  width: 34%;                   /* measure, so long reviews wrap in the panel */
+  /* media 56.9% + this 4.6% gap + 17.39% lands the right edge on the content
+     column (78.89% of the band), so reviews can't run past the margin */
+  width: 17.39%;
   margin: 0 0 0 4.6%;
-  padding-left: 1.05rem;        /* room for the hanging mark, as on Contact */
   color: var(--orange-deep);
 }
 .service-quote p {
   font-size: 0.28rem;           /* review reads larger than the name */
   font-style: italic;
-  line-height: 0.327rem;
+  line-height: 0.42rem;         /* opened up; the reviews run several lines */
 }
 .service-mark {
   position: absolute;
-  left: 0; top: -0.46rem;
+  left: 0; top: 0;              /* script tucks each one to its own review */
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
