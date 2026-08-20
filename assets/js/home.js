@@ -12,7 +12,10 @@ const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcom
 /* Queen of Hearts — five slots, in slide order. Same link rules as above. */
 const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
                      "https://youtu.be/thFwJAod6Ng",
-                     "https://youtu.be/Yk4vxl-iUcU"];
+                     "https://youtu.be/Yk4vxl-iUcU",
+                     "https://youtu.be/aGa1ek8HPsE",
+                     "https://youtu.be/OZzB4zf4FGM",
+                     "https://youtu.be/UBc2BtAu8eI"];
 
 /* -------------------------------------------------------------------------- */
 

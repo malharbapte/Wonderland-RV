@@ -286,16 +286,22 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .enquiry-grid {
   display: grid;
-  grid-template-columns: 4.565rem 9.24rem;  /* left col | form, both untouched */
-  /* The two columns come to 13.805, from the artboard before the margins were
-     cut. The content column is now 16.24, which left 2.435 of dead space on
-     the right and the whole block reading as left-hung. The slack goes in the
-     gap rather than into either column, so the form keeps its exact width and
-     everything inside it stays where it was. The gap is 8 short of closing the
-     slack exactly, because the chips pill is drawn a touch wider than the
-     fields by design: this lands the pill — the outermost thing in the form —
-     on the page margin, so nothing crosses it. */
-  column-gap: 2.355rem;
+  /* The artboard had these two columns meeting with no gutter and filling the
+     content column exactly. Cutting the margins widened that column from
+     13.805 to 16.24, so both columns and everything sized inside the form are
+     scaled by the same 1.17639 to fill it again. Every proportion inside the
+     form is preserved — only the scale changes, the same treatment the
+     homepage grids got when the margins moved. Type sizes are untouched.
+     The copy's line breaks are hand-set, so the left column can widen without
+     re-wrapping a word. */
+  /* The copy is hand-broken and needs about 250 of measure, so the left column
+     is held to 3.77 and the form takes the rest of the content column. Every
+     width inside the form is scaled by the same 1.3369 so it fills that column
+     edge to edge; type sizes are untouched. The form stops 12 short of the
+     right margin because the chips pill is drawn with a symmetric overhang past
+     the fields - that lands the pill, the widest thing in the form, exactly on
+     the margin so nothing crosses it. */
+  grid-template-columns: 3.77rem 12.353rem;
   padding-top: 0.706rem;
 }
 
@@ -323,11 +329,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .field-grid {
   display: grid;
-  grid-template-columns: 4.31rem 4.42rem;   /* 973→1404 | 1433→1875 */
+  grid-template-columns: 5.7621rem 5.9091rem;   /* x1.3369 */
   grid-template-rows: 0.40rem 1.08rem 1.0925rem;  /* rules on 1385.5 / 1493.5 / 1602.6 */
-  column-gap: 0.29rem;
+  column-gap: 0.3877rem;
   align-items: end;
-  padding-left: 0.15rem;                    /* 958 → 973 */
+  padding-left: 0.2005rem;
 }
 
 .field { position: relative; }
@@ -362,8 +368,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* State — rounded select, sits 14 px left of the underline fields */
 .field--select {
-  margin-left: -0.14rem;
-  width: 4.45rem;               /* 959.4 → 1403.6 */
+  margin-left: -0.1872rem;
+  width: 5.9492rem;
 }
 .field--select select {
   -webkit-appearance: none; appearance: none;
@@ -418,8 +424,8 @@ input:-webkit-autofill:focus {
 
 /* --------------------------------------------------- enquiry-type chips -- */
 .chips {
-  margin: 0.396rem 0 0 -0.09rem;  /* 1602.6 → 1642.4 ; 958 → 949 */
-  width: 9.4125rem;               /* 949.4 → 1890.6 */
+  margin: 0.396rem 0 0 -0.1203rem;
+  width: 12.5836rem;                /* the pill still overhangs the fields as drawn */
   height: 1.10rem;                /* trimmed; two-line options set the floor */
   padding: 0.08rem 0;
   border: 0.0075rem solid var(--ink);
@@ -486,7 +492,7 @@ input:-webkit-autofill:focus {
 .field--area { margin-top: 0.3375rem; }   /* 1739.6 → 1773.4 */
 .field--area textarea {
   display: block;
-  width: 9.2325rem;             /* 958.4 → 1881.6 */
+  width: 12.343rem;
   height: 1.3225rem;            /* 132.25 */
   padding: 0.134rem 0.26rem 0.20rem 0.199rem;
   font-family: var(--gordita);
