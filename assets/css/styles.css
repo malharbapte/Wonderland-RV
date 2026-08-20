@@ -712,6 +712,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .footer-head {
   font-family: var(--aviano);
+  font-weight: 900;
   font-size: 0.18rem;
   line-height: 0.26rem;
   letter-spacing: 0.02em;

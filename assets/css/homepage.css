@@ -507,7 +507,16 @@ er { background: var(--orange-deep); }
   align-items: center;
   min-height: 6.74rem;
 }
-.service-media { position: relative; z-index: 1; width: 56.9%; height: 6.74rem; flex: none; }
+.service-media {
+  position: relative;
+  z-index: 1;
+  width: 56.9%;
+  height: 6.74rem;
+  flex: none;
+  /* lifts the photo off the cream panel: offset right, negative spread keeps
+     it from spilling along the top and bottom edges */
+  box-shadow: 0.16rem 0 0.34rem -0.10rem rgba(0, 0, 0, 0.30);
+}
 .service-media img { width: 100%; height: 100%; object-fit: cover; }
 .service-quote {
   position: relative;
