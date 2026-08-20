@@ -31,7 +31,7 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=thFwJAod6Ng";
     node.id = "ytFrame";
     node.src = "https://www.youtube.com/embed/" + yt[1] +
       "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1" +
-      "&cc_load_policy=0&iv_load_policy=3&enablejsapi=1&playlist=" + yt[1];
+      "&cc_load_policy=0&cc_lang_pref=en&iv_load_policy=3&enablejsapi=1&playlist=" + yt[1];
     node.allow = "autoplay; encrypted-media; picture-in-picture";
     node.allowFullscreen = true;
     node.title = "Wonderland RV — things you can't see";
@@ -106,13 +106,18 @@ function buildControls(frame) {
     window.onYouTubeIframeAPIReady = function () { if (prev) prev(); done(); };
   }
 
+  function killCaptions() {
+    if (!player) return;
+    try { player.unloadModule("captions"); player.unloadModule("cc"); } catch (e) {}
+  }
+
   withApi(function () {
     player = new YT.Player("ytFrame", {
       events: {
-        onReady: function () {
-          player.mute();
-          try { player.unloadModule("captions"); player.unloadModule("cc"); } catch (e) {}
-        }
+        onReady: function () { player.mute(); killCaptions(); },
+        /* The captions module can load itself once playback starts, so it is
+           turned off again on the first PLAYING rather than only on ready. */
+        onStateChange: function (e) { if (e.data === 1 && !captions) killCaptions(); }
       }
     });
   });
@@ -134,10 +139,7 @@ function buildControls(frame) {
         player.loadModule("captions");
         player.loadModule("cc");
         player.setOption("captions", "track", { languageCode: "en" });
-      } else {
-        player.unloadModule("captions");
-        player.unloadModule("cc");
-      }
+      } else { killCaptions(); }
     } catch (e) {}
     cc.setAttribute("aria-label", captions ? "Hide captions" : "Show captions");
     cc.setAttribute("aria-pressed", String(captions));

@@ -14,7 +14,9 @@ const COTY_VIDEOS = ["", "https://youtu.be/thFwJAod6Ng", ""];
 
 /* -------------------------------------------------------------------------- */
 
-function mountVideo(frame, url, title) {
+let ytSeq = 0;
+
+function mountVideo(frame, url, title, opts) {
   if (!frame || !url) return;
   url = url.trim();
   let node;
@@ -24,9 +26,10 @@ function mountVideo(frame, url, title) {
 
   if (yt) {
     node = document.createElement("iframe");
+    node.id = "yt-" + (++ytSeq);
     node.src = "https://www.youtube-nocookie.com/embed/" + yt[1] +
       "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1" +
-      "&cc_load_policy=0&iv_load_policy=3&playlist=" + yt[1];
+      "&cc_load_policy=0&cc_lang_pref=en&iv_load_policy=3&enablejsapi=1&playlist=" + yt[1];
     node.allow = "autoplay; encrypted-media; picture-in-picture";
     node.allowFullscreen = true;
   } else if (vimeo) {
@@ -46,9 +49,139 @@ function mountVideo(frame, url, title) {
   frame.classList.remove("ph");
   frame.removeAttribute("data-ph");
   frame.appendChild(node);
+  return (node.id && opts) ? buildControls(frame, node.id, opts) : node;
 }
 
-mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL, "Wonderland RV — adventure your way");
+/* ------------------------------------------- sound + caption controls -----
+   A bare embed gives the viewer no way to turn sound or subtitles on, so the
+   player is attached to the YouTube IFrame API. Both start OFF — sound because
+   browsers refuse to autoplay otherwise, captions because they are meant to be
+   opt-in — and neither turns on until the viewer clicks.
+
+   opts.nudge asks for the "Tap for sound" prompt: it appears three seconds
+   after the video has been on screen, and only while it is still muted.     */
+function buildControls(frame, iframeId, opts) {
+  opts = opts || {};
+
+  const SPEAKER_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>';
+  const SPEAKER_ON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+
+  const bar = document.createElement("div");
+  bar.className = "video-controls";
+
+  const sound = document.createElement("button");
+  sound.type = "button";
+  sound.className = "video-ctl";
+  sound.innerHTML = SPEAKER_OFF;
+  sound.setAttribute("aria-label", "Unmute");
+  sound.setAttribute("aria-pressed", "false");
+  bar.appendChild(sound);
+
+  let cc = null;
+  if (opts.captions) {
+    cc = document.createElement("button");
+    cc.type = "button";
+    cc.className = "video-ctl";
+    cc.textContent = "CC";
+    cc.setAttribute("aria-label", "Show captions");
+    cc.setAttribute("aria-pressed", "false");
+    bar.appendChild(cc);
+  }
+  frame.appendChild(bar);
+
+  let nudge = null;
+  if (opts.nudge) {
+    nudge = document.createElement("div");
+    nudge.className = "video-nudge";
+    nudge.textContent = "Tap for sound";
+    nudge.setAttribute("aria-hidden", "true");
+    frame.appendChild(nudge);
+  }
+
+  let player = null, muted = true, captions = false;
+
+  function killCaptions() {
+    if (!player) return;
+    try { player.unloadModule("captions"); player.unloadModule("cc"); } catch (e) {}
+  }
+
+  withYouTubeApi(function () {
+    player = new YT.Player(iframeId, {
+      events: {
+        onReady: function () { player.mute(); killCaptions(); },
+        /* The captions module can load itself once playback starts, so it is
+           turned off again on the first PLAYING rather than only on ready. */
+        onStateChange: function (e) { if (e.data === 1 && !captions) killCaptions(); }
+      }
+    });
+  });
+
+  function setMuted(next) {
+    muted = next;
+    if (!player) return;
+    if (muted) player.mute(); else { player.unMute(); player.setVolume(100); }
+    sound.innerHTML = muted ? SPEAKER_OFF : SPEAKER_ON;
+    sound.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+    sound.setAttribute("aria-pressed", String(!muted));
+    if (nudge && !muted) nudge.classList.remove("is-on");
+  }
+
+  sound.addEventListener("click", function () { setMuted(!muted); });
+
+  if (cc) {
+    cc.addEventListener("click", function () {
+      if (!player) return;
+      captions = !captions;
+      try {
+        if (captions) {
+          player.loadModule("captions");
+          player.loadModule("cc");
+          player.setOption("captions", "track", { languageCode: "en" });
+        } else { killCaptions(); }
+      } catch (e) {}
+      cc.setAttribute("aria-label", captions ? "Hide captions" : "Show captions");
+      cc.setAttribute("aria-pressed", String(captions));
+    });
+  }
+
+  /* Three seconds after the frame comes into view, offer the sound. Polled on
+     an interval rather than an IntersectionObserver, which does not fire in a
+     throttled or backgrounded pane. */
+  if (nudge) {
+    let seen = 0, shown = false;
+    const tick = setInterval(function () {
+      const r = frame.getBoundingClientRect();
+      const onScreen = r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15;
+      seen = onScreen ? seen + 1 : 0;
+      if (!shown && seen >= 6 && muted) {          // 6 x 500ms
+        shown = true;
+        nudge.classList.add("is-on");
+        setTimeout(function () { nudge.classList.remove("is-on"); }, 6000);
+      }
+      if (shown && !muted) { nudge.classList.remove("is-on"); clearInterval(tick); }
+    }, 500);
+    nudge.addEventListener("click", function () { setMuted(false); });
+  }
+
+  return { unmute: function () { setMuted(false); }, isMuted: function () { return muted; } };
+}
+
+function withYouTubeApi(done) {
+  if (window.YT && window.YT.Player) return done();
+  if (!document.getElementById("ytApi")) {
+    const tag = document.createElement("script");
+    tag.id = "ytApi";
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function () { if (prev) prev(); done(); };
+}
+
+/* The hero carries sound. No browser will autoplay audible, so it starts muted
+   with a working control and prompts for the click that turns it up. */
+mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
+  "Wonderland RV — adventure your way", { nudge: true });
 mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara");
 
 /* -------------------------------------------------- mobile nav toggle ---- */
@@ -280,7 +413,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
 
   slides.forEach(function (sl, i) {
     mountVideo(sl.querySelector(".coty-figure"), COTY_VIDEOS[i] || "",
-               "Wonderland RV — feature " + (i + 1));
+               "Wonderland RV — feature " + (i + 1), { captions: true, nudge: true });
   });
 
   const EASE = "transform .9s cubic-bezier(.45, .05, .15, 1)";

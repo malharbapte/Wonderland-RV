@@ -61,7 +61,7 @@
   /* breathing room above and below every text section */
   --section-gap: 1.20rem;
   /* one spacing value for every item in the header bar */
-  --bar-gap: 0.26rem;
+  --bar-gap: 0.39rem;   /* x1.5 */
 
   /* Page margins cut to 3/4 of the original 501.5, so the content column
      grows 1373 -> 1624. Everything inside keeps its own size. */
@@ -590,6 +590,32 @@ input:-webkit-autofill:focus {
 .video-ctl svg { width: 0.22rem; height: 0.22rem; }
 .video-ctl[aria-pressed="true"] { background: var(--orange-deep); }
 .video-poster { width: 100%; height: 100%; object-fit: cover; }
+
+/* --------------------------------------------------- "Tap for sound" ------
+   Appears three seconds after the video has been on screen and only while it
+   is still muted, sitting just under the sound button it points at. */
+.video-nudge {
+  position: absolute;
+  top: 0.72rem; right: 0.24rem;
+  z-index: 4;
+  padding: 0.09rem 0.16rem;
+  border-radius: 0.06rem;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-family: var(--gordita);
+  font-size: 0.14rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-0.06rem);
+  pointer-events: none;
+  transition: opacity .45s ease, transform .45s ease;
+}
+.video-nudge.is-on { opacity: 1; transform: none; pointer-events: auto; }
+/* the buttons fade in on hover, but the prompt has to be able to stand alone */
+.video-frame:has(.video-nudge.is-on) .video-controls { opacity: 1; }
 
 /* ==========================================================================
    THINGS YOU CAN'T SEE   (y 3477 – 4187)

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quote mark — text vs vector</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=61">
-<link rel="stylesheet" href="assets/css/homepage.css?v=61">
+<link rel="stylesheet" href="assets/css/styles.css?v=63">
+<link rel="stylesheet" href="assets/css/homepage.css?v=63">
 <style>
   body { background: #fff; }
   .doc { max-width: 1180px; margin: 0 auto; padding: 48px 32px 96px; font-family: var(--gordita); }
@@ -22,10 +22,10 @@
      normal flow so two of them can sit side by side for comparison. */
   .demo {
     position: relative; background: #fff; border: 1px solid #e7e7e7;
-    padding: 30px 30px 30px 96px; overflow: hidden;
+    padding: 104px 30px 30px 96px; overflow: hidden;
   }
   .demo::before {                      /* the photo edge the mark hangs over */
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 66px;
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 74px;
     background: linear-gradient(#c9c2a6, #a8a075);
   }
   .demo blockquote { position: relative; margin: 0; }
@@ -39,11 +39,21 @@
   .d-pull blockquote { color: var(--orange-deep); font-size: 0.325rem; font-style: italic;
                        font-weight: 500; line-height: 0.394rem; letter-spacing: -0.01em; }
   .d-pull blockquote p { margin: 0; }
-  .d-pull .qmark { right: 100%; top: 0.052rem; width: 1.1968rem; }
+  /* Same corner, reached through the font: the ink's bottom edge sits 0.379em
+     below the em box top (baseline 0.729em, ink floor 0.350em above it). */
+  .d-pull .pull-mark { left: -0.400em; top: -0.364em; }
+    /* The mark's BOTTOM-right corner meets the first letter's TOP-left corner, so
+     the two touch on the diagonal. Anchored to the paragraph itself — right:100%
+     is the text's left edge, bottom:100% is the top of its first line — so there
+     is no font constant anywhere and no per-block tuning. */
+  .demo blockquote p { position: relative; }
+  .qmark { right: 100%; bottom: 100%; }
+  .d-pull .qmark { width: 1.1968rem; }
 
   .d-svc blockquote { color: var(--orange); font-size: 0.28rem; }
   .d-svc blockquote p { margin: 0; font-size: 0.28rem; font-style: italic; line-height: 0.42rem; }
-  .d-svc .qmark { right: 100%; top: 0.194rem; width: 1.01376rem; }
+  .d-svc .service-mark { left: -0.400em; top: -0.312em; }
+    .d-svc .qmark { width: 1.01376rem; }
   .d-svc .service-name, .d-svc .service-role { color: #222; }
 
   /* the fallback drill: the mark alone loses the brand face */
@@ -69,8 +79,11 @@
 
   <h1>Quote mark: text glyph vs vector</h1>
   <p class="note">
-    Same mark, same size, same colour in every pair below. The only difference is
-    what the browser is being asked to place — a character in a font, or a shape.
+    Placement rule in every pair below: the mark&rsquo;s <strong>bottom-right corner</strong>
+    meets the first letter&rsquo;s <strong>top-left corner</strong>, so the two touch on the
+    diagonal and the mark sits clear above the line rather than beside it.
+    Same mark, same size, same colour on both sides — the only difference is what the
+    browser is being asked to place: a character in a font, or a shape.
   </p>
 
   <h2>1 · “Ready to step off the beaten path”</h2>
@@ -92,8 +105,7 @@
       <span class="tag tag--new">Proposed — vector</span>
       <div class="demo d-pull">
         <blockquote>
-          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
-          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+                    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the<br>beaten path and<br>explore in style?<br>
              Embark on exceptional<br>adventures with loved<br>ones and create<br>
              memories that will<br>last a lifetime.&rdquo;</p>
         </blockquote>
@@ -119,8 +131,7 @@
       <span class="tag tag--new">Proposed — vector</span>
       <div class="demo d-svc">
         <blockquote>
-          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
-          <p>The quality, craftsmanship, and attention to detail are absolutely
+                    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely
              outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p>
           <span class="service-name">JULIAN RANDALL</span>
           <span class="service-role">WONDERLANDER</span>
@@ -152,8 +163,7 @@
       <span class="tag tag--new">Vector, unchanged</span>
       <div class="demo d-pull">
         <blockquote>
-          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
-          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+                    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the<br>beaten path and<br>explore in style?<br>
              Embark on exceptional<br>adventures with loved<br>ones and create<br>
              memories that will<br>last a lifetime.&rdquo;</p>
         </blockquote>
@@ -181,8 +191,9 @@
     <tr><th>Ink box</th><td>46,350 → 398,558 on a 1000 em → <code>viewBox="0 0 352 208"</code></td></tr>
     <tr><th>Path</th><td><code>M159 208H289L352 0H249ZM0 208H130L193 0H90Z</code> — 43 characters, inline, no request</td></tr>
     <tr><th>Colour</th><td><code>fill: currentColor</code> — follows the block, same as today</td></tr>
-    <tr><th>Pull quote</th><td><code>right:100%; top:0.052rem; width:1.1968rem</code> — matches the 3.40rem text mark exactly</td></tr>
-    <tr><th>Legendary Service</th><td><code>right:100%; top:0.194rem; width:1.01376rem</code> — matches the 2.88rem text mark exactly</td></tr>
+    <tr><th>Pull quote</th><td><code>right:100%; bottom:100%; width:1.1968rem</code></td></tr>
+    <tr><th>Legendary Service</th><td><code>right:100%; bottom:100%; width:1.01376rem</code> — same two lines, only the width differs</td></tr>
+    <tr><th>Same corner, as text</th><td><code>left:-0.400em; top:-0.364em</code> (pull) / <code>-0.312em</code> (service) — two font constants, and a different top for every block</td></tr>
   </table>
 
 </div>
