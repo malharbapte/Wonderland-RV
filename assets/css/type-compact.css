@@ -75,16 +75,18 @@
   .next-title { font-size: 0.33rem; }
 
   /* ----------------------------------------------------------- footer --- */
-  .site-footer { font-size: 0.11rem; line-height: 0.17rem; }
-  .footer-head { font-size: 0.11rem; line-height: 0.16rem; }
-  .footer-contact { line-height: 0.20rem; }
-  .newsletter-form .field--line input { font-size: 0.11rem; }
-  .link-col li { line-height: 0.16rem; }
-  .footer-legal-left { font-size: 0.11rem; line-height: 0.19rem; }
-  .footer-legal-right { font-size: 0.11rem; line-height: 0.17rem; }
+  .site-footer { font-size: 0.14rem; line-height: 0.21rem; }
+  .footer-head { font-size: 0.14rem; line-height: 0.20rem; }
+  .footer-contact { line-height: 0.25rem; }
+  .newsletter-form .field--line input { font-size: 0.14rem; }
+  .link-col li { line-height: 0.20rem; }
+  .footer-legal-left { font-size: 0.14rem; line-height: 0.24rem; }
+  .footer-legal-right { font-size: 0.14rem; line-height: 0.21rem; }
 
   /* Blocks that wrap on their own rather than on a <br> get their measure
      re-set, so the shorter lines can't leave a single word stranded. */
-  .footer-blurb { width: 2.60rem; }
+  .footer-blurb { width: 3.30rem; }
+  /* logo eases back so it reads in proportion to the larger footer type */
+  .footer-logo { width: 3.40rem; }
   .footer-legal-right p { max-width: 6.40rem; }
 }
