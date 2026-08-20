@@ -646,16 +646,19 @@ er { background: var(--orange-deep); }
 .brand-track {
   display: flex;
   align-items: center;
-  gap: 0.72rem;
   width: max-content;
-  animation: brand-scroll 60s linear infinite;   /* medium pace */
+  animation: brand-scroll 68s linear infinite;   /* medium pace, held */
 }
 .brand-marquee:hover .brand-track { animation-play-state: paused; }
 @keyframes brand-scroll { to { transform: translateX(-50%); } }
 
 /* Marks are trimmed to their ink, so the flex gap is the real optical gap
    between logos rather than gap-plus-empty-canvas. */
-.brand-track li { flex: none; display: flex; align-items: center; }
+/* Spacing rides on each item rather than on flex `gap`: the track is the list
+   twice over, so with `gap` there are 2N-1 gaps and translateX(-50%) lands
+   half a gap short of a whole copy, which shows as a small jump at the seam.
+   A trailing margin makes every copy exactly half the track. */
+.brand-track li { flex: none; display: flex; align-items: center; margin-right: 1.08rem; }
 .brand-track img {
   height: 0.60rem;
   width: auto;
