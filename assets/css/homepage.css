@@ -585,6 +585,7 @@ er { background: var(--orange-deep); }
   font-weight: 900;
   font-size: var(--t-heading);
   line-height: 1;
+  white-space: nowrap;          /* every slide's heading holds one line */
 }
 .coty-sub {
   margin-top: 0.06rem;
