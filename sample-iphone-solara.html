@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone — stat band and Welcome Solara</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=97">
+<style>
+body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
+.doc { padding:40px 28px 90px; }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc h2 { font-family:var(--aviano); font-weight:900; font-size:16px; margin:34px 0 8px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 10px; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
+
+.rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
+.phone { flex:0 0 390px; --heading:30px; --hlh:33px; --sub:16px; --slh:24px;
+         --body:15px; --blh:23px; --cap:12px; --stat:34px; }
+.phone.v2 { --stat:44px; }
+.phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:100px; }
+.screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
+          overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); position:relative; }
+.screen::before { content:""; position:absolute; left:24px; top:0; bottom:0; width:1px;
+                  background:rgba(255,45,0,.22); z-index:6; pointer-events:none; }
+
+/* --- stat band --- */
+.sb { background:var(--orange-deep); color:#fff; text-align:center; padding:40px 24px; }
+.sb-n { font-family:var(--aviano); font-weight:900; font-size:var(--stat); line-height:1; margin:0; }
+.sb-l { font-size:var(--cap); letter-spacing:.3em; text-indent:.3em; margin:10px 0 0; }
+
+/* --- solara --- */
+.so { padding:48px 0; }
+.doc .so h2 { font-family:var(--aviano); font-weight:900; font-size:var(--heading);
+              line-height:var(--hlh); letter-spacing:-0.01em; margin:0; padding:0 24px; }
+.so-lede { font-size:var(--sub); line-height:var(--slh); margin:14px 0 0; padding:0 24px; }
+.so-body { font-size:var(--body); line-height:var(--blh); margin:16px 0 0; padding:0 24px; }
+.so-cta { display:inline-flex; align-items:center; justify-content:center; margin:22px 24px 0;
+          min-height:48px; padding:0 26px; background:var(--orange-deep); color:#fff;
+          font-family:var(--aviano); font-weight:900; font-size:16px; text-decoration:none; }
+.v2 .so-cta, .v3 .so-cta { display:flex; margin-left:24px; margin-right:24px; }
+.so-vid { margin-top:24px; }
+.so-vid img { display:block; width:100%; height:100%; object-fit:cover; }
+.so-vid { padding:0 24px; }
+.so-vid .frame { aspect-ratio:16/9; overflow:hidden; border-radius:6px; }
+.v2 .so-vid { padding:0; }                       /* full bleed */
+.v2 .so-vid .frame { border-radius:0; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>iPhone &mdash; stat band and Welcome Solara</h1>
+  <p class="note">The next two sections. Both already sit correctly after the type work &mdash; copy
+     before video, no overflow, the lede wrapping to the column rather than to the artboard. What
+     is left is three judgement calls, and each column takes them as a set.</p>
+
+  <table class="t">
+    <tr><th>Already right</th><td>Solara&rsquo;s title is 30 on one line, lede 16 over two, body 15
+      over five, video a clean 16:9 at 342, copy ahead of the video. Nothing needs rescuing.</td></tr>
+    <tr><th>Open 1</th><td>the stat numeral is <b>44</b> &mdash; the only size on the phone that is
+      not on the scale</td></tr>
+    <tr><th>Open 2</th><td>the video sits inset at the margin, matching the photos above; full bleed
+      would give it more presence but break that alignment</td></tr>
+    <tr><th>Open 3</th><td>the CTA is auto-width at the margin, or full-width across it</td></tr>
+  </table>
+
+  <div class="rack">
+
+    <div class="phone v1">
+      <h3>S1 &mdash; Consistent</h3>
+      <p class="sub">Numeral drops to <b>34</b>, the display step, so nothing on the phone is off
+         the scale. Video inset at the margin, sharing its left edge with the photos, the dots and
+         the paragraph above. CTA stays its own width. The quietest of the three and the most
+         of a piece with what we just built.</p>
+      <div class="screen">
+        <div class="sb"><p class="sb-n">1200+</p><p class="sb-l">CARAVANS BUILT</p></div>
+        <section class="so">
+          <h2>Welcome Solara</h2>
+          <p class="so-lede">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</p>
+          <p class="so-body">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara
+            is built tough without compromising on all of life&rsquo;s creature comforts. Discover
+            Australia in your home-away-from-home with a durable body to take you everywhere.</p>
+          <a class="so-cta" href="#">Meet Solara</a>
+          <div class="so-vid"><div class="frame"><img src="assets/img/home/solara-video-poster.jpg" alt=""></div></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="phone v2">
+      <h3>S2 &mdash; Bolder</h3>
+      <p class="sub">Numeral stays <b>44</b>, treated as a display figure rather than type. Video
+         breaks full bleed to the screen edges. CTA full-width. The most striking, and the only one
+         where the section stops lining up with the block above it.</p>
+      <div class="screen">
+        <div class="sb"><p class="sb-n">1200+</p><p class="sb-l">CARAVANS BUILT</p></div>
+        <section class="so">
+          <h2>Welcome Solara</h2>
+          <p class="so-lede">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</p>
+          <p class="so-body">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara
+            is built tough without compromising on all of life&rsquo;s creature comforts. Discover
+            Australia in your home-away-from-home with a durable body to take you everywhere.</p>
+          <a class="so-cta" href="#">Meet Solara</a>
+          <div class="so-vid"><div class="frame"><img src="assets/img/home/solara-video-poster.jpg" alt=""></div></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="phone v3">
+      <h3>S3 &mdash; Middle</h3>
+      <p class="sub">Numeral on the display step and the video inset, as S1, but the CTA runs the
+         full measure. A full-width button is the phone convention &mdash; a bigger target, and it
+         reads as the end of the block rather than something floating in it.</p>
+      <div class="screen">
+        <div class="sb"><p class="sb-n">1200+</p><p class="sb-l">CARAVANS BUILT</p></div>
+        <section class="so">
+          <h2>Welcome Solara</h2>
+          <p class="so-lede">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</p>
+          <p class="so-body">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara
+            is built tough without compromising on all of life&rsquo;s creature comforts. Discover
+            Australia in your home-away-from-home with a durable body to take you everywhere.</p>
+          <a class="so-cta" href="#">Meet Solara</a>
+          <div class="so-vid"><div class="frame"><img src="assets/img/home/solara-video-poster.jpg" alt=""></div></div>
+        </section>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note" style="margin-top:20px">The numeral counts up from 0 on the live page; it is shown
+     at its final value here. The video frame is the poster still &mdash; the player itself is
+     already correct at 16:9 on the phone.</p>
+</div>
+</body>
+</html>
