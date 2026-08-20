@@ -286,7 +286,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .enquiry-grid {
   display: grid;
-  grid-template-columns: 4.565rem 9.24rem;  /* left col | form 958 → 1882 */
+  grid-template-columns: 4.565rem 9.24rem;  /* left col | form, both untouched */
+  /* The two columns come to 13.805, from the artboard before the margins were
+     cut. The content column is now 16.24, which left 2.435 of dead space on
+     the right and the whole block reading as left-hung. The slack goes in the
+     gap rather than into either column, so the form keeps its exact width and
+     everything inside it stays where it was. The gap is 8 short of closing the
+     slack exactly, because the chips pill is drawn a touch wider than the
+     fields by design: this lands the pill — the outermost thing in the form —
+     on the page margin, so nothing crosses it. */
+  column-gap: 2.355rem;
   padding-top: 0.706rem;
 }
 
