@@ -677,13 +677,13 @@
 @media (max-width: 900px) {
   .home-hero { height: 62vw; min-height: 320px; }
   .home-hero-copy { padding-bottom: 32px; }
-  .home-hero h1 { font-size: 34px; line-height: 1.15; }
-  .home-hero-cta { margin-top: 12px; font-size: 18px; }
+  .home-hero h1 { font-size: var(--t-display); line-height: var(--lh-display); }
+  .home-hero-cta { margin-top: 12px; font-size: var(--t-sub); }
 
   .lux, .intro, .solara, .range, .dream, .why, .coty, .insurance { padding: 48px 0; }
   .lux-title, .solara-title, .dream-title,
-  .coty-title, .insurance-title, .brands-title, .range-title { font-size: 28px; line-height: 1.15; }
-  .band-title { font-size: 32px; }
+  .coty-title, .insurance-title, .brands-title, .range-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .band-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
   .band--range, .band--why { height: 240px; }
 
   /* ---- inside every section: heading and copy first, media after -------
@@ -692,7 +692,7 @@
      below the words rather than the markup being rewritten for one width. */
   .pull { height: auto; display: flex; flex-direction: column; }
   .pull-quote { order: 1; position: static; width: auto; padding: 32px 24px 24px;
-                font-size: var(--t-sub); line-height: 26px; }
+                font-size: var(--t-sub); line-height: var(--lh-sub); }
   .pull-media { order: 2; position: static; width: 100%; height: 56vw; }
   .pull-panel { display: none; }
   .pull-quote .qmark { display: none; }
@@ -710,23 +710,23 @@
     scroll-snap-align: start;
   }
 
-  .intro p { font-size: 16px; line-height: 24px; }
+  .intro p { font-size: var(--t-body); line-height: var(--lh-body); }
   .stat-band { height: auto; padding: 40px 24px; }
   .stat-number { font-size: 44px; }
-  .stat-label { font-size: 14px; letter-spacing: 0.3em; text-indent: 0.3em; }
+  .stat-label { font-size: var(--t-caption); letter-spacing: 0.3em; text-indent: 0.3em; }
 
   .solara-grid, .range-grid, .why-grid, .insurance-grid { grid-template-columns: 1fr; row-gap: 32px; }
-  .solara-lede { font-size: 20px; line-height: 28px; }
-  .solara-body { font-size: 15px; line-height: 24px; }
-  .range-lede { font-size: 18px; line-height: 26px; }
+  .solara-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
+  .solara-body { font-size: var(--t-body); line-height: var(--lh-body); }
+  .range-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
   .range-list h3, .range-list p { padding-left: 0; }
-  .range-list h3 { font-size: 18px; }
-  .range-list p { font-size: 15px; line-height: 22px; }
+  .range-list h3 { font-size: var(--t-sub); }
+  .range-list p { font-size: var(--t-body); line-height: var(--lh-body); }
 
   .testi { height: auto; padding: 48px 24px; }
   .testi-inner { display: block; }
   .testi-mark { display: none; }
-  .testi-quote p { font-size: 20px; line-height: 28px; }
+  .testi-quote p { font-size: var(--t-sub); line-height: var(--lh-sub); }
   .testi-quote br { display: none; }        /* desktop's hand-set breaks */
   .testi-attr { margin: 20px 0 0; text-align: center; font-size: var(--t-caption); line-height: 18px; }
 
@@ -734,17 +734,17 @@
   .dream-shot--a, .dream-shot--d { grid-row: auto; }
   .dream-shot--a { grid-column: 1; } .dream-shot--b { grid-column: 2; }
   .dream-shot--c { grid-column: 1; } .dream-shot--d { grid-column: 2; }
-  .dream-quote { position: static; display: flex; margin: 0; padding: 14px 20px; font-size: 15px; }
+  .dream-quote { position: static; display: flex; margin: 0; padding: 14px 20px; font-size: var(--t-cta); }
   .dream-points { grid-template-columns: 1fr; row-gap: 28px; }
   .dream-points li { padding: 0; }
   .dream-points li + li { border-left: 0; }
-  .dream-points h3 { font-size: 18px; }
-  .dream-points p { font-size: 15px; line-height: 22px; }
+  .dream-points h3 { font-size: var(--t-sub); }
+  .dream-points p { font-size: var(--t-body); line-height: var(--lh-body); }
 
   .why-list li { padding-left: 56px; }
   .why-dot { left: 0; width: 36px; height: 36px; }
-  .why-list h3 { font-size: 18px; padding-top: 6px; }
-  .why-list p { font-size: 15px; line-height: 22px; }
+  .why-list h3 { font-size: var(--t-sub); padding-top: 6px; }
+  .why-list p { font-size: var(--t-body); line-height: var(--lh-body); }
 
   /* ---- carousels: swipeable, one item to a screen --------------------
      The desktop sliders move a flex track with an inline transform. Here the
@@ -761,9 +761,9 @@
 
   /* the one-line rule is a desktop nicety; on a phone it just overflows */
   .coty-title { white-space: normal; }
-  .coty-sub { font-size: 16px; }
+  .coty-sub { font-size: var(--t-sub); }
   .coty-points { grid-template-columns: 1fr; row-gap: 12px; text-align: left; }
-  .coty-points li { font-size: 15px; line-height: 26px; }
+  .coty-points li { font-size: var(--t-body); line-height: var(--lh-body); }
   .coty-points li + li { border-left: 0; }
 
   .brands-media { padding-top: 0; }
@@ -776,8 +776,8 @@
   .brand-track li { margin-right: 34px; }
 
   .home-contact { padding: 48px 0; }
-  .home-contact-title { font-size: 28px; }
-  .home-contact-lede { font-size: 15px; line-height: 22px; }
+  .home-contact-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .home-contact-lede { font-size: var(--t-body); line-height: var(--lh-body); }
   .home-form { width: auto; margin-top: 32px; }
   .home-field-grid { grid-template-columns: 1fr; row-gap: 26px; }
   .home-row-three { grid-template-columns: 1fr; row-gap: 26px; }
@@ -785,5 +785,5 @@
   .home-area { grid-column: 1; grid-row: auto; }
   .home-area textarea { width: 100%; height: 120px; }
   .home-chips { width: 100%; }
-  .home-chips .chip > span { font-size: 15px; line-height: 20px; }
+  .home-chips .chip > span { font-size: var(--t-body); line-height: var(--lh-body); }
 }
