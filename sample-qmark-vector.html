@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote mark — text vs vector</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=61">
+<link rel="stylesheet" href="assets/css/homepage.css?v=61">
+<style>
+  body { background: #fff; }
+  .doc { max-width: 1180px; margin: 0 auto; padding: 48px 32px 96px; font-family: var(--gordita); }
+  .doc h1 { font-family: var(--aviano); font-weight: 900; font-size: 26px; margin: 0 0 6px; }
+  .doc h2 { font-family: var(--aviano); font-weight: 900; font-size: 17px; margin: 44px 0 4px; }
+  .doc p.note { font-size: 14px; line-height: 21px; color: #444; max-width: 74ch; margin: 0 0 18px; }
+  .tag { display:inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+         padding: 3px 8px; border-radius: 3px; margin-bottom: 10px; }
+  .tag--now  { background: #f1f1f1; color: #555; }
+  .tag--new  { background: #D57114; color: #fff; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+  /* A stand-in for the real block: same classes, same type, but laid out in
+     normal flow so two of them can sit side by side for comparison. */
+  .demo {
+    position: relative; background: #fff; border: 1px solid #e7e7e7;
+    padding: 30px 30px 30px 96px; overflow: hidden;
+  }
+  .demo::before {                      /* the photo edge the mark hangs over */
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 66px;
+    background: linear-gradient(#c9c2a6, #a8a075);
+  }
+  .demo blockquote { position: relative; margin: 0; }
+
+  /* ---------------------------------------------------------- the vector ---
+     viewBox is the glyph's ink box straight out of AvianoSans-Black.otf
+     (46,350 -> 398,558 on a 1000 em), so the SVG's own box IS the mark. Place
+     the box and you have placed the mark. */
+  .qmark { position: absolute; display: block; height: auto; fill: currentColor; }
+
+  .d-pull blockquote { color: var(--orange-deep); font-size: 0.325rem; font-style: italic;
+                       font-weight: 500; line-height: 0.394rem; letter-spacing: -0.01em; }
+  .d-pull blockquote p { margin: 0; }
+  .d-pull .qmark { right: 100%; top: 0.052rem; width: 1.1968rem; }
+
+  .d-svc blockquote { color: var(--orange); font-size: 0.28rem; }
+  .d-svc blockquote p { margin: 0; font-size: 0.28rem; font-style: italic; line-height: 0.42rem; }
+  .d-svc .qmark { right: 100%; top: 0.194rem; width: 1.01376rem; }
+  .d-svc .service-name, .d-svc .service-role { color: #222; }
+
+  /* the fallback drill: the mark alone loses the brand face */
+  .nofont .pull-mark, .nofont .service-mark { font-family: Georgia, "Times New Roman", serif; }
+
+  .free { display: flex; gap: 42px; align-items: flex-start; padding: 26px 30px;
+          border: 1px solid #e7e7e7; color: var(--orange); }
+  .free figure { margin: 0; text-align: center; }
+  .free svg { display: block; fill: currentColor; width: 120px; height: auto; }
+  .free figcaption { font-size: 11px; color: #666; margin-top: 8px; letter-spacing: .04em; }
+  .free .r-45 { transform: rotate(-12deg); }
+  .free .flip { transform: scaleX(-1); }
+  .free .thin { opacity: .28; }
+
+  table.spec { border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  table.spec th, table.spec td { border: 1px solid #e2e2e2; padding: 6px 12px; text-align: left; }
+  table.spec th { background: #fafafa; font-weight: 700; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #f4f4f4; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>Quote mark: text glyph vs vector</h1>
+  <p class="note">
+    Same mark, same size, same colour in every pair below. The only difference is
+    what the browser is being asked to place — a character in a font, or a shape.
+  </p>
+
+  <h2>1 · “Ready to step off the beaten path”</h2>
+  <p class="note">These should look identical. That is the point: the vector reproduces the
+     current mark exactly, it just gets there without depending on font metrics.</p>
+  <div class="pair">
+    <div>
+      <span class="tag tag--now">Now — text glyph</span>
+      <div class="demo d-pull">
+        <blockquote>
+          <span class="pull-mark" aria-hidden="true">&ldquo;</span>
+          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+             Embark on exceptional<br>adventures with loved<br>ones and create<br>
+             memories that will<br>last a lifetime.&rdquo;</p>
+        </blockquote>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag--new">Proposed — vector</span>
+      <div class="demo d-pull">
+        <blockquote>
+          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+             Embark on exceptional<br>adventures with loved<br>ones and create<br>
+             memories that will<br>last a lifetime.&rdquo;</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <h2>2 · Legendary Service</h2>
+  <div class="pair">
+    <div>
+      <span class="tag tag--now">Now — text glyph</span>
+      <div class="demo d-svc">
+        <blockquote>
+          <span class="service-mark" aria-hidden="true">&ldquo;</span>
+          <p>The quality, craftsmanship, and attention to detail are absolutely
+             outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p>
+          <span class="service-name">JULIAN RANDALL</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag--new">Proposed — vector</span>
+      <div class="demo d-svc">
+        <blockquote>
+          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+          <p>The quality, craftsmanship, and attention to detail are absolutely
+             outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p>
+          <span class="service-name">JULIAN RANDALL</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <h2>3 · What happens when the brand font isn’t there yet</h2>
+  <p class="note">
+    The fonts load with <code>font-display: swap</code>, so for the first moments of every
+    cold load the mark is drawn in a fallback face — a different shape, sitting in a
+    different place, then it jumps when Aviano arrives. Below, the mark is forced to a
+    fallback to hold that moment still. The vector never has this state.
+  </p>
+  <div class="pair">
+    <div>
+      <span class="tag tag--now">Text glyph, fallback face</span>
+      <div class="demo d-pull nofont">
+        <blockquote>
+          <span class="pull-mark" aria-hidden="true">&ldquo;</span>
+          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+             Embark on exceptional<br>adventures with loved<br>ones and create<br>
+             memories that will<br>last a lifetime.&rdquo;</p>
+        </blockquote>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag--new">Vector, unchanged</span>
+      <div class="demo d-pull">
+        <blockquote>
+          <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+          <p>Ready to step off the<br>beaten path and<br>explore in style?<br>
+             Embark on exceptional<br>adventures with loved<br>ones and create<br>
+             memories that will<br>last a lifetime.&rdquo;</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <h2>4 · What “freely placed” then buys</h2>
+  <p class="note">Once it is a shape, these are all one line of CSS and none of them are
+     available to a text glyph without fighting its baseline.</p>
+  <div class="free">
+    <figure><svg viewBox="0 0 352 208"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+      <figcaption>as-is</figcaption></figure>
+    <figure><svg class="r-45" viewBox="0 0 352 208"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+      <figcaption>rotated</figcaption></figure>
+    <figure><svg class="flip" viewBox="0 0 352 208"><path d="M349 0H219L156 208H259ZM193 0H63L0 208H103Z"/></svg>
+      <figcaption>closing mark</figcaption></figure>
+    <figure><svg class="thin" viewBox="0 0 352 208"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+      <figcaption>watermark</figcaption></figure>
+  </div>
+
+  <h2>5 · The numbers</h2>
+  <table class="spec">
+    <tr><th>Source</th><td>AvianoSans-Black.otf, U+201C, exact outline via fontTools</td></tr>
+    <tr><th>Ink box</th><td>46,350 → 398,558 on a 1000 em → <code>viewBox="0 0 352 208"</code></td></tr>
+    <tr><th>Path</th><td><code>M159 208H289L352 0H249ZM0 208H130L193 0H90Z</code> — 43 characters, inline, no request</td></tr>
+    <tr><th>Colour</th><td><code>fill: currentColor</code> — follows the block, same as today</td></tr>
+    <tr><th>Pull quote</th><td><code>right:100%; top:0.052rem; width:1.1968rem</code> — matches the 3.40rem text mark exactly</td></tr>
+    <tr><th>Legendary Service</th><td><code>right:100%; top:0.194rem; width:1.01376rem</code> — matches the 2.88rem text mark exactly</td></tr>
+  </table>
+
+</div>
+</body>
+</html>
