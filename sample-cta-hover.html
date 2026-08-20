@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orange CTA — hover</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=64">
+<link rel="stylesheet" href="assets/css/homepage.css?v=64">
+<style>
+/* ==========================================================================
+   THE PROPOSAL
+   --------------------------------------------------------------------------
+   Every orange CTA declares its own fill once, as --btn-fill. The ring is
+   always there, in that same colour, so at rest it is invisible against the
+   fill. On hover the fill goes white and the ring is simply left behind — the
+   stroke appears without ever being added, and the two colours cross-fade.
+
+   The ring is an inset box-shadow rather than a border, because a real 2pt
+   border would add 4pt to the width and reflow the row every time the pointer
+   crossed a button. Inset shadow paints inside the existing box, so nothing
+   moves, and it follows border-radius on its own (.btn-next has one).
+
+   Held down, the button fills back in — so the white state reads as "about
+   to", and the press reads as "done".
+   ========================================================================== */
+.new .btn-build    { --btn-fill: var(--orange-deep); }
+.new .btn-solid    { --btn-fill: var(--orange-deep); }
+.new .btn-subscribe{ --btn-fill: var(--orange-deep); }
+.new .btn-submit   { --btn-fill: var(--orange); }
+.new .dream-quote  { --btn-fill: var(--orange); }
+.new .btn-next     { --btn-fill: #DB7627; }
+
+.new .btn-build, .new .btn-solid, .new .btn-subscribe,
+.new .btn-submit, .new .btn-next {
+  background: var(--btn-fill);
+  color: #fff;
+  box-shadow: inset 0 0 0 var(--ring, 0.02rem) var(--btn-fill);
+  transition: background var(--dur, .28s) ease,
+              color      var(--dur, .28s) ease,
+              box-shadow var(--dur, .28s) ease;
+}
+.new .btn-build:hover,       .new .btn-build:focus-visible,
+.new .btn-solid:hover,       .new .btn-solid:focus-visible,
+.new .btn-subscribe:hover,   .new .btn-subscribe:focus-visible,
+.new .btn-submit:hover,      .new .btn-submit:focus-visible,
+.new .btn-next:hover,        .new .btn-next:focus-visible {
+  background: #fff;
+  color: var(--btn-fill);
+}
+.new .btn-build:active, .new .btn-solid:active, .new .btn-subscribe:active,
+.new .btn-submit:active, .new .btn-next:active {
+  background: var(--btn-fill);
+  color: #fff;
+}
+
+/* the three speeds on offer */
+.spd-fast   { --dur: .18s; }
+.spd-medium { --dur: .28s; }
+.spd-slow   { --dur: .42s; }
+/* the two stroke weights on offer */
+.ring-true  { --ring: 0.02rem; }
+.ring-floor { --ring: max(0.02rem, 1.5px); }
+
+/* ------------------------------------------------------------- the page --- */
+body { background: #fff; }
+.doc { max-width: 1180px; margin: 0 auto; padding: 44px 32px 110px; font-family: var(--gordita); }
+.doc h1 { font-family: var(--aviano); font-weight: 900; font-size: 26px; margin: 0 0 8px; }
+.doc h2 { font-family: var(--aviano); font-weight: 900; font-size: 16px; margin: 40px 0 6px; }
+.doc p.note { font-size: 14px; line-height: 21px; color: #444; max-width: 80ch; margin: 0 0 14px; }
+.hint { font-size: 13px; color: #8a8a8a; margin: 0 0 18px; }
+
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 22px;
+       padding: 22px 24px; border: 1px solid #ececec; margin-bottom: 14px; }
+.row + .row { margin-top: -1px; }
+.rowlab { flex: 0 0 132px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #777; }
+.tag { display:inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+       padding: 3px 9px; border-radius: 3px; margin-bottom: 12px; }
+.tag--now { background: #f1f1f1; color: #555; }
+.tag--new { background: #D57114; color: #fff; }
+
+/* the real buttons, taken out of their sections so they can sit in a row */
+.row .btn-build, .row .btn-submit, .row .btn-subscribe { margin: 0; }
+.row .btn-submit   { width: 2.20rem; height: 0.52rem; line-height: 0.52rem; }
+.row .btn-subscribe{ width: 2.00rem; height: 0.52rem; }
+.row .dream-quote  { position: static; padding: 0.20rem 0.34rem; }
+.row .btn-next     { padding: 0.20rem 0.40rem; }
+
+table.spec { border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.spec th, table.spec td { border: 1px solid #e4e4e4; padding: 6px 12px; text-align: left; vertical-align: top; }
+table.spec th { background: #fafafa; font-weight: 700; white-space: nowrap; }
+code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #f4f4f4; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>Orange CTA — hover</h1>
+  <p class="note">
+    Hover any button below. On the proposed rows the fill cross-fades to white and a 2pt orange
+    stroke is left behind; hold the mouse down and it fills back in. Nothing shifts position while
+    you do it. All six orange CTAs across the two pages are here, in their real sizes.
+  </p>
+  <p class="hint">Every button on this page is inert — none of them navigate or submit.</p>
+
+  <h2>1 · Now</h2>
+  <div class="row">
+    <span class="rowlab"><span class="tag tag--now" style="margin:0">current</span></span>
+    <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+    <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+    <a class="btn-solid dream-quote" href="#" onclick="return false">GET A QUOTE</a>
+    <button class="btn-submit" type="button">SUBMIT</button>
+    <a class="btn-next" href="#" onclick="return false">EXPLORE THE RANGE</a>
+    <button class="btn-subscribe" type="button">SUBSCRIBE</button>
+  </div>
+  <p class="hint">Deepens or lightens by one step. Easy to miss, and it reads the same as a
+     disabled state at a glance.</p>
+
+  <h2>2 · Proposed — pick a speed</h2>
+  <div class="new">
+    <div class="row spd-fast ring-true">
+      <span class="rowlab">Fast · 0.18s</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <button class="btn-submit" type="button">SUBMIT</button>
+      <a class="btn-next" href="#" onclick="return false">EXPLORE THE RANGE</a>
+    </div>
+    <div class="row spd-medium ring-true">
+      <span class="rowlab">Medium · 0.28s</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <button class="btn-submit" type="button">SUBMIT</button>
+      <a class="btn-next" href="#" onclick="return false">EXPLORE THE RANGE</a>
+    </div>
+    <div class="row spd-slow ring-true">
+      <span class="rowlab">Slow · 0.42s</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <button class="btn-submit" type="button">SUBMIT</button>
+      <a class="btn-next" href="#" onclick="return false">EXPLORE THE RANGE</a>
+    </div>
+  </div>
+  <p class="hint">Medium is my pick — fast enough to feel connected to the pointer, slow enough
+     that the colour change reads as a fade rather than a flick.</p>
+
+  <h2>3 · Proposed — the stroke weight</h2>
+  <div class="new">
+    <div class="row spd-medium ring-true">
+      <span class="rowlab">2pt exactly</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <a class="btn-solid dream-quote" href="#" onclick="return false">GET A QUOTE</a>
+      <button class="btn-subscribe" type="button">SUBSCRIBE</button>
+    </div>
+    <div class="row spd-medium ring-floor">
+      <span class="rowlab">2pt, floored</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <a class="btn-solid dream-quote" href="#" onclick="return false">GET A QUOTE</a>
+      <button class="btn-subscribe" type="button">SUBSCRIBE</button>
+    </div>
+  </div>
+  <p class="hint">
+    2pt is 2 artboard px, which is what the whole page scales by — so on a 1440-wide window it
+    lands at 1.2 real px and reads as a hairline. The floored row never goes below 1.5px. Same
+    thing on a large display; they only diverge on smaller windows.
+  </p>
+
+  <h2>4 · All six, on white and on colour</h2>
+  <div class="new">
+    <div class="row spd-medium ring-floor">
+      <span class="rowlab">on white</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <a class="btn-solid dream-quote" href="#" onclick="return false">GET A QUOTE</a>
+      <button class="btn-submit" type="button">SUBMIT</button>
+      <a class="btn-next" href="#" onclick="return false">EXPLORE THE RANGE</a>
+      <button class="btn-subscribe" type="button">SUBSCRIBE</button>
+    </div>
+    <div class="row spd-medium ring-floor" style="background:#1b1b1b; border-color:#1b1b1b">
+      <span class="rowlab" style="color:#999">on dark<br>(footer, hero)</span>
+      <a class="btn-build" href="#" onclick="return false">Build your Caravan</a>
+      <a class="btn-solid" href="#" onclick="return false">Meet Solara</a>
+      <button class="btn-subscribe" type="button">SUBSCRIBE</button>
+    </div>
+  </div>
+  <p class="hint">The white state carries its own ground, so it holds on the dark footer and over
+     the hero image without needing a second rule.</p>
+
+  <h2>5 · The rule</h2>
+  <table class="spec">
+    <tr><th>Applies to</th><td><code>.btn-build</code> · <code>.btn-solid</code> (Meet Solara) ·
+        <code>.btn-solid.dream-quote</code> (Get a quote) · <code>.btn-submit</code> ·
+        <code>.btn-next</code> ×2 · <code>.btn-subscribe</code> — both pages</td></tr>
+    <tr><th>Rest</th><td><code>background: var(--btn-fill)</code>, white text,
+        <code>box-shadow: inset 0 0 0 2pt var(--btn-fill)</code> — ring present but invisible</td></tr>
+    <tr><th>Hover / focus</th><td><code>background:#fff</code>, <code>color: var(--btn-fill)</code>
+        — the ring stays put and becomes visible as the fill leaves</td></tr>
+    <tr><th>Held down</th><td>fills back in, white text</td></tr>
+    <tr><th>Why inset shadow</th><td>a real border adds 4pt of width and reflows the row on every
+        hover; inset shadow paints inside the box and follows <code>border-radius</code></td></tr>
+    <tr><th>Fills kept</th><td>each button keeps the exact orange it has today — deep, mid or
+        <code>#DB7627</code> — declared once as <code>--btn-fill</code></td></tr>
+    <tr><th>Keyboard</th><td><code>:focus-visible</code> gets the same state, so tabbing shows it too</td></tr>
+  </table>
+
+</div>
+</body>
+</html>
