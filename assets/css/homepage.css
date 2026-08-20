@@ -346,7 +346,7 @@
   pointer-events: none;
   /* sits over the seam, so a soft bottom-right shadow reads as the mark
      clipping onto the pink band and tying the two sections together */
-  filter: drop-shadow(0.05rem 0.06rem 0.05rem rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0.03rem 0.035rem 0.09rem rgba(0, 0, 0, 0.10));
 }
 .testi-quote { margin: 0; grid-area: 1 / 1; align-self: center; position: relative; z-index: 1; text-align: center; }
 .testi-quote p {
