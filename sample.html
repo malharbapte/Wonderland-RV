@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Type sample &mdash; true scale</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=46">
+<title>Type sample &mdash; final scale</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=47">
 <style>
-  /* the live pages' own scaling model, so every size below renders exactly
-     as it would on the site rather than as literal pixels */
+  /* identical to the live pages, so every line below is the size it will be
+     on the site at whatever width you are viewing this */
   html { font-size: min(calc(100vw / 23.76), 100px); }
   body { max-width:none; background:#fff; font-family:var(--gordita);
           font-size:0.16rem; line-height:1.5; }
-  .wrap { padding: 0.60rem 0.50rem 1.40rem; }
+  .wrap { padding: 0.60rem 3.76rem 1.40rem; }   /* the real page margin */
   h1 { font-family:var(--aviano); font-weight:900; font-size:0.42rem; }
   h2 { font-family:var(--aviano); font-weight:900; font-size:0.28rem; margin:0.70rem 0 0.08rem; }
   .lede { color:#555; max-width:64ch; font-size:0.16rem; }
-  .head { display:grid; grid-template-columns:1.9rem 1fr 1fr; gap:0.24rem;
-           padding:0.10rem 0; border-bottom:2px solid #111; font-size:0.13rem;
-           text-transform:uppercase; letter-spacing:.08em; color:#888; }
-  .row { display:grid; grid-template-columns:1.9rem 1fr 1fr; gap:0.24rem;
+  .scale { display:flex; gap:0.30rem; margin:0.24rem 0 0.10rem; font-size:0.14rem; }
+  .scale b { display:block; font-size:0.20rem; }
+  .row { display:grid; grid-template-columns:1.7rem 1fr; gap:0.26rem;
           align-items:start; padding:0.16rem 0; border-bottom:1px solid #eee; }
   .meta { display:flex; flex-direction:column; gap:0.03rem; }
   .tier { display:inline-block; align-self:flex-start; padding:0.02rem 0.08rem; border-radius:0.03rem;
            font-size:0.10rem; letter-spacing:.08em; text-transform:uppercase; color:#fff; }
   .t-heading{background:#111} .t-subheading{background:#D57114} .t-body{background:#7a7a7a}
   .t-caption{background:#b9b9b9} .t-cta{background:#E37921} .t-reference{background:#1a7f37}
+  .px { font-weight:700; font-size:0.13rem; }
   .note { color:#aaa; font-size:0.11rem; }
-  .cell { min-width:0; }
-  .px { display:block; color:#bbb; font-size:0.11rem; margin-bottom:0.04rem; }
-  .spec { line-height:1.2; }
+  .spec { line-height:1.25; min-width:0; }
   .aviano900 { font-family:var(--aviano); font-weight:900; }
   .aviano { font-family:var(--aviano); }
   .bold { font-weight:700; } .ital { font-style:italic; }
+  .warn { background:#FFF6E9; border-left:0.04rem solid var(--orange-deep);
+           padding:0.16rem 0.20rem; margin-top:0.20rem; font-size:0.15rem; max-width:70ch; }
   .brand-grid { list-style:none; margin:0.20rem 0 0; padding:0; display:grid;
                  grid-template-columns:repeat(7,1fr); gap:0.30rem 0.20rem; align-items:center; }
   .brand-grid li { display:flex; align-items:center; justify-content:center; }
@@ -38,137 +38,115 @@
   .brand-grid li:hover img { filter:grayscale(0); opacity:1; transform:scale(1.12); }
 </style></head><body>
 <div class="wrap">
-  <h1>Type sample &mdash; rendered at true page scale</h1>
-  <p class="lede">The earlier sheet rendered artboard units as literal pixels, which made everything
-  about 1.65&times; too big. This page uses the live pages&rsquo; own scaling, so what you see is what
-  the site will look like. <strong>Our range</strong> sits at the top as the reference.</p>
+  <h1>Type sample &mdash; scale A, subheading 32</h1>
+  <p class="lede">Same scaling model and the same page margin as the live site, so every line is
+  the exact size it will render at. <strong>Our range</strong> is at the top as the reference.</p>
 
-  <h2>Pick a column</h2>
-  <p class="lede"><strong>A</strong> keeps headings at 56, below the Our range reference.
-  <strong>B</strong> raises the heading tier to 84 so every heading matches Our range, with the
-  other tiers scaled by the same 1.4 ratio.</p>
+  <div class="scale">
+    <div><b>56</b>Heading</div><div><b>32</b>Subheading</div><div><b>28</b>Body</div><div><b>20</b>Caption</div>
+  </div>
 
-  <div class="head"><div>Tier</div><div>A &mdash; 56 / 40 / 28 / 20</div><div>B &mdash; 84 / 60 / 43 / 30</div></div>
+  <div class="warn"><strong>One thing to look at:</strong> subheading 32 and body 28 are only 4 apart.
+  Compare &ldquo;CUSTOM LENGTHS&rdquo; against &ldquo;35mm composite panels&hellip;&rdquo; below &mdash; they may not read as
+  two distinct levels. If they don&rsquo;t, dropping body to <strong>24</strong> restores the step without
+  touching the subheading you have chosen.</div>
+
     <div class="row">
-      <div class="meta"><span class="tier t-reference">Reference</span><span class="note">band title &mdash; unchanged in both</span></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Our range</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Our range</div></div>
+      <div class="meta"><span class="tier t-reference">Reference</span><span class="px">84</span><span class="note">band title &mdash; unchanged</span></div>
+      <div class="spec aviano900" style="font-size:0.84rem">Our range</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note">home-hero h1</span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">Adventure your way</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Adventure your way</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note">home hero</span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">Adventure your way</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note">home-hero-cta</span></div>
-      <div class="cell"><span class="px">40</span><div class="spec aviano" style="font-size:0.4rem">get a quote</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec aviano" style="font-size:0.6rem">get a quote</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec aviano" style="font-size:0.32rem">get a quote</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note">one line</span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">Luxury off-road Caravans</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Luxury off-road Caravans</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note">must sit on one line</span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">Luxury off-road Caravans</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">Welcome Solara</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Welcome Solara</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note"></span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">Welcome Solara</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">40</span><div class="spec ital" style="font-size:0.4rem">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec ital" style="font-size:0.6rem">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec ital" style="font-size:0.32rem">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-caption">Caption</span><span class="note">position unchanged</span></div>
-      <div class="cell"><span class="px">20</span><div class="spec body" style="font-size:0.2rem">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara is built tough without compromising on all of life&rsquo;s creature comforts.</div></div>
-      <div class="cell"><span class="px">30</span><div class="spec body" style="font-size:0.3rem">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara is built tough without compromising on all of life&rsquo;s creature comforts.</div></div>
+      <div class="meta"><span class="tier t-caption">Caption</span><span class="px">20</span><span class="note">position unchanged</span></div>
+      <div class="spec body" style="font-size:0.2rem">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara is built tough without compromising on all of life&rsquo;s creature comforts.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-cta">CTA</span><span class="note">between subheading and body</span></div>
-      <div class="cell"><span class="px">34</span><div class="spec aviano900" style="font-size:0.34rem">Meet Solara</div></div>
-      <div class="cell"><span class="px">51</span><div class="spec aviano900" style="font-size:0.51rem">Meet Solara</div></div>
+      <div class="meta"><span class="tier t-cta">CTA</span><span class="px">30</span><span class="note">between subheading and body</span></div>
+      <div class="spec aviano900" style="font-size:0.3rem">Meet Solara</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">40</span><div class="spec body" style="font-size:0.4rem">Four models and loads of customisations mean you can Wonderland RV your way.</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec body" style="font-size:0.6rem">Four models and loads of customisations mean you can Wonderland RV your way.</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec body" style="font-size:0.32rem">Four models and loads of customisations mean you can Wonderland RV your way.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">40</span><div class="spec bold" style="font-size:0.4rem">CUSTOM LENGTHS</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec bold" style="font-size:0.6rem">CUSTOM LENGTHS</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec bold" style="font-size:0.32rem">CUSTOM LENGTHS</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-caption">Caption</span><span class="note"></span></div>
-      <div class="cell"><span class="px">20</span><div class="spec ital" style="font-size:0.2rem">17&rsquo;05&rdquo; to 24&prime; single and tandem axles</div></div>
-      <div class="cell"><span class="px">30</span><div class="spec ital" style="font-size:0.3rem">17&rsquo;05&rdquo; to 24&prime; single and tandem axles</div></div>
+      <div class="meta"><span class="tier t-caption">Caption</span><span class="px">20</span><span class="note"></span></div>
+      <div class="spec ital" style="font-size:0.2rem">17&rsquo;05&rdquo; to 24&prime; single and tandem axles</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note">centred</span></div>
-      <div class="cell"><span class="px">40</span><div class="spec bold" style="font-size:0.4rem">GO ANYWHERE</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec bold" style="font-size:0.6rem">GO ANYWHERE</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note">centred</span></div>
+      <div class="spec bold" style="font-size:0.32rem">GO ANYWHERE</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-caption">Caption</span><span class="note">centred</span></div>
-      <div class="cell"><span class="px">20</span><div class="spec body" style="font-size:0.2rem">Freedom for off-road and off-grid adventures</div></div>
-      <div class="cell"><span class="px">30</span><div class="spec body" style="font-size:0.3rem">Freedom for off-road and off-grid adventures</div></div>
+      <div class="meta"><span class="tier t-caption">Caption</span><span class="px">20</span><span class="note">centred</span></div>
+      <div class="spec body" style="font-size:0.2rem">Freedom for off-road and off-grid adventures</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">40</span><div class="spec bold" style="font-size:0.4rem">BUILT TOUGH</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec bold" style="font-size:0.6rem">BUILT TOUGH</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec bold" style="font-size:0.32rem">BUILT TOUGH</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-caption">Caption</span><span class="note"></span></div>
-      <div class="cell"><span class="px">20</span><div class="spec ital" style="font-size:0.2rem">Unique Jigsaw construction for strength and durability.</div></div>
-      <div class="cell"><span class="px">30</span><div class="spec ital" style="font-size:0.3rem">Unique Jigsaw construction for strength and durability.</div></div>
+      <div class="meta"><span class="tier t-caption">Caption</span><span class="px">20</span><span class="note"></span></div>
+      <div class="spec ital" style="font-size:0.2rem">Unique Jigsaw construction for strength and durability.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">LEGENDARY SERVICE</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">LEGENDARY SERVICE</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note"></span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">LEGENDARY SERVICE</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">queen of hearts</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">queen of hearts</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note"></span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">queen of hearts</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note"></span></div>
-      <div class="cell"><span class="px">40</span><div class="spec aviano" style="font-size:0.4rem">READ THE COTY 2026 REVIEW</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec aviano" style="font-size:0.6rem">READ THE COTY 2026 REVIEW</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note"></span></div>
+      <div class="spec aviano" style="font-size:0.32rem">READ THE COTY 2026 REVIEW</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note">Contact page</span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">Things you can&rsquo;t see</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">Things you can&rsquo;t see</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note">Contact page</span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">Things you can&rsquo;t see</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="note">Contact page</span></div>
-      <div class="cell"><span class="px">40</span><div class="spec aviano" style="font-size:0.4rem">Book a factory tour.</div></div>
-      <div class="cell"><span class="px">60</span><div class="spec aviano" style="font-size:0.6rem">Book a factory tour.</div></div>
+      <div class="meta"><span class="tier t-subheading">Subheading</span><span class="px">32</span><span class="note">Contact page</span></div>
+      <div class="spec aviano" style="font-size:0.32rem">Book a factory tour.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-body">Body</span><span class="note">Contact page</span></div>
-      <div class="cell"><span class="px">28</span><div class="spec body" style="font-size:0.28rem">35mm composite panels, bonded and bolted into an aluminium frame.</div></div>
-      <div class="cell"><span class="px">43</span><div class="spec body" style="font-size:0.43rem">35mm composite panels, bonded and bolted into an aluminium frame.</div></div>
+      <div class="meta"><span class="tier t-body">Body</span><span class="px">28</span><span class="note">Contact page</span></div>
+      <div class="spec body" style="font-size:0.28rem">35mm composite panels, bonded and bolted into an aluminium frame.</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-heading">Heading</span><span class="note">Contact page</span></div>
-      <div class="cell"><span class="px">56</span><div class="spec aviano900" style="font-size:0.56rem">the wonderland experience</div></div>
-      <div class="cell"><span class="px">84</span><div class="spec aviano900" style="font-size:0.84rem">the wonderland experience</div></div>
+      <div class="meta"><span class="tier t-heading">Heading</span><span class="px">56</span><span class="note">Contact page</span></div>
+      <div class="spec aviano900" style="font-size:0.56rem">the wonderland experience</div>
     </div>
     <div class="row">
-      <div class="meta"><span class="tier t-body">Body</span><span class="note">Contact page</span></div>
-      <div class="cell"><span class="px">28</span><div class="spec body" style="font-size:0.28rem">Because no two travellers are the same, we believe no two caravans should be either.</div></div>
-      <div class="cell"><span class="px">43</span><div class="spec body" style="font-size:0.43rem">Because no two travellers are the same, we believe no two caravans should be either.</div></div>
+      <div class="meta"><span class="tier t-body">Body</span><span class="px">28</span><span class="note">Contact page</span></div>
+      <div class="spec body" style="font-size:0.28rem">Because no two travellers are the same, we believe no two caravans should be either.</div>
     </div>
 
 
-  <h2>Brand logos &mdash; re-sliced</h2>
-  <p class="lede">Re-cut at a 30px threshold: 21 logos, 7 per row, each verified unclipped.
-  Hover to check the colour-up.</p>
+  <h2>Brand logos</h2>
+  <p class="lede">Re-cut at a 30px threshold: 21 logos, 7 per row, each verified unclipped. Hover to check.</p>
   <ul class="brand-grid">
       <li><img src="assets/img/home/brands/brand-1-1.png" alt=""></li>
       <li><img src="assets/img/home/brands/brand-1-2.png" alt=""></li>
