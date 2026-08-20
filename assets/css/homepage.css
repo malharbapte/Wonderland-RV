@@ -186,17 +186,7 @@
    meets the first letter's top-left corner. The 0.15rem eases it right so the
    corners overlap. Widths match the glyph sizes they replace exactly —
    3.40rem x 0.352 and 2.88rem x 0.352.                                    */
-.pull-quote p,
-.service-quote p { position: relative; }
-
-.qmark {
-  position: absolute;
-  right: calc(100% - 0.15rem);
-  bottom: 100%;
-  display: block;
-  height: auto;
-  fill: currentColor;
-}
+.pull-quote p { position: relative; }
 .pull-quote .qmark { width: 1.1968rem; }
 
 /* ==========================================================================
@@ -496,100 +486,11 @@
 .why-list p { margin-top: 0.14rem; font-size: var(--t-caption); font-style: italic; line-height: var(--lh-caption); }
 .why-figure img { width: 100%; height: auto; }
 
-/* ==========================================================================
-   LEGENDARY SERVICE   (y 10026 – 10858)   — five reviews on a slider
-   ========================================================================== */
-.service { padding-top: 0.55rem; }
-.service-head { text-align: center; }
-.service-title {
-  font-family: var(--aviano);
-  font-weight: 900;
-  font-size: 0.56rem;
-  line-height: 1;
-  color: var(--orange-deep);
-}
-.service-kicker {
-  margin-top: 0.14rem;
-  font-size: var(--t-caption);
-  font-weight: 700;
-  letter-spacing: 0.87em;
-  text-indent: 0.87em;
-  color: var(--orange-deep);
-}
 
-.service-band {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-top: 0.55rem;
-}
-.service-band::before {                 /* the #FFF2DC panel behind the slides */
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 0.61rem;
-  height: 5.66rem;
-  background: #FFF2DC;
-}
-.service-viewport { position: relative; overflow: hidden; }
-.service-track {
-  display: flex;
-  transition: transform .55s cubic-bezier(.45,.05,.15,1);
-}
-.service-slide {
-  flex: 0 0 100%;
-  display: flex;
-  align-items: center;
-  min-height: 6.74rem;
-}
-.service-media {
-  position: relative;
-  z-index: 1;
-  width: 56.9%;
-  height: 6.74rem;
-  flex: none;
-  /* lifts the photo off the cream panel: offset right, negative spread keeps
-     it from spilling along the top and bottom edges */
-  box-shadow: 0.16rem 0 0.34rem -0.10rem rgba(0, 0, 0, 0.30);
-}
-.service-media img { width: 100%; height: 100%; object-fit: cover; }
-.service-quote {
-  position: relative;
-  z-index: 1;
-  flex: none;
-  /* media 56.9% + this 4.6% gap + 22.68% lands the right edge on the content
-     column (84.18% of the band), so reviews can't run past the margin */
-  width: 22.68%;
-  margin: 0 0 0 4.6%;
-  padding-top: 0.10rem;         /* review + attribution drop 10 */
-  color: var(--orange-deep);
-}
-.service-quote p {
-  font-size: 0.28rem;           /* review reads larger than the name */
-  font-style: italic;
-  line-height: 0.42rem;         /* opened up; the reviews run several lines */
-}
-/* the mark reads orange here, against darker review text */
-.service-quote .qmark { width: 1.01376rem; fill: var(--orange); }
-.service-name { display: block; margin-top: 0.42rem; font-size: 0.21rem; font-weight: 700; line-height: 0.28rem; }
-.service-role { display: block; font-size: 0.21rem; line-height: 0.28rem; }
-
-.service-arrow {
-  position: absolute;
-  top: 50%;
-  z-index: 3;
-  width: 0.70rem; height: 0.70rem;
-  margin-top: -0.35rem;
-  border-radius: 50%;
-  background: rgba(213, 113, 20, 0.35);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  transition: background .2s;
-}
-.service-arrow:hover { background: rgba(213, 113, 20, 0.75); }
-.service-arrow svg { width: 0.30rem; height: 0.30rem; }
-.service-arrow--prev { left: 0.87rem; }
-.service-arrow--next { right: 0.83rem; }
+/* Legendary Service is shared (styles.css). Here it sits between .why, which
+   already ends on a full gap, and .coty, which starts on one — so it keeps the
+   tighter values it was tuned to rather than doubling up. */
+.service { padding-top: 0.55rem; padding-bottom: 0; }
 
 /* ==========================================================================
    QUEEN OF HEARTS   — five video slots on a slider; heading, subheading and
@@ -780,7 +681,7 @@
   .home-hero-cta { margin-top: 12px; font-size: 18px; }
 
   .lux, .intro, .solara, .range, .dream, .why, .coty, .insurance { padding: 48px 0; }
-  .lux-title, .solara-title, .dream-title, .service-title,
+  .lux-title, .solara-title, .dream-title,
   .coty-title, .insurance-title, .brands-title, .range-title { font-size: 28px; line-height: 1.15; }
   .band-title { font-size: 32px; }
   .band--range, .band--why { height: 240px; }
@@ -845,30 +746,17 @@
   .why-list h3 { font-size: 18px; padding-top: 6px; }
   .why-list p { font-size: 15px; line-height: 22px; }
 
-  .service { padding-top: 48px; }
-  .service-kicker { font-size: 12px; letter-spacing: 0.3em; text-indent: 0.3em; }
-  .service-band { flex-direction: column; margin-top: 28px; min-height: 0; }
-  .service-band::before { display: none; }
-  .service-slide { flex-direction: column; min-height: 0; }
-  .service-quote { order: 1; margin: 0; padding: 32px 24px; background: #FFF2DC; width: 100%; }
-  .service-media { order: 2; width: 100%; height: 56vw; }
-  .service-quote p { font-size: var(--t-sub); line-height: 26px; }
-  .service-name, .service-role { font-size: var(--t-caption); line-height: 18px; }
-  .service-quote .qmark { display: none; }
-  .service-arrow { display: none; }
-
   /* ---- carousels: swipeable, one item to a screen --------------------
      The desktop sliders move a flex track with an inline transform. Here the
      viewport itself scrolls and snaps, and the transform is overruled so the
      script's arithmetic cannot fight the finger. */
-  .coty-viewport, .service-viewport {
+  .coty-viewport {
     overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
   }
-  .coty-viewport::-webkit-scrollbar,
-  .service-viewport::-webkit-scrollbar { display: none; }
-  .coty-track, .service-track { transform: none !important; transition: none !important; }
-  .coty-slide, .service-slide { scroll-snap-align: start; }
+  .coty-viewport::-webkit-scrollbar { display: none; }
+  .coty-track { transform: none !important; transition: none !important; }
+  .coty-slide { scroll-snap-align: start; }
   .coty-arrow { display: none; }
 
   /* the one-line rule is a desktop nicety; on a phone it just overflows */
