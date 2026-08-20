@@ -46,10 +46,13 @@
   font-size: var(--t-cta);
   line-height: 1;
   padding: 0.24rem 0.34rem;
-  transition: background .2s;
+  --btn-fill: var(--orange-deep);
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease, box-shadow .42s ease;
 }
 .btn-solid:hover,
-.btn-solid:focus-visible { background: var(--orange); }
+.btn-solid:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-solid:active { background: var(--btn-fill); color: #fff; }
 
 /* ==========================================================================
    HERO   (y 139 – 1036)
@@ -425,8 +428,11 @@
   padding: 0.30rem 0.54rem;
   font-size: 0.24rem;
   background: var(--orange);
+  --btn-fill: var(--orange);
 }
-.dream-quote:hover { background: var(--orange-deep); }
+.dream-quote:hover,
+.dream-quote:focus-visible { background: #fff; color: var(--btn-fill); }
+.dream-quote:active { background: var(--btn-fill); color: #fff; }
 
 
 .dream-points {

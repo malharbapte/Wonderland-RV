@@ -10,7 +10,9 @@ const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip be
 const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcome Solara section
 
 /* Queen of Hearts — five slots, in slide order. Same link rules as above. */
-const COTY_VIDEOS = ["", "https://youtu.be/thFwJAod6Ng", "https://youtu.be/Yk4vxl-iUcU"];
+const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
+                     "https://youtu.be/thFwJAod6Ng",
+                     "https://youtu.be/Yk4vxl-iUcU"];
 
 /* -------------------------------------------------------------------------- */
 
@@ -108,7 +110,14 @@ function buildControls(frame, iframeId, opts) {
   withYouTubeApi(function () {
     player = new YT.Player(iframeId, {
       events: {
-        onReady: function () { player.mute(); killCaptions(); },
+        onReady: function () {
+          player.mute();
+          killCaptions();
+          /* Handed to whoever owns the frame — the slider needs it to stop a
+             player that has scrolled out of the deck. */
+          frame.ytPlayer = player;
+          frame.dispatchEvent(new CustomEvent("yt-ready", { bubbles: true }));
+        },
         /* The captions module can load itself once playback starts, so it is
            turned off again on the first PLAYING rather than only on ready. */
         onStateChange: function (e) { if (e.data === 1 && !captions) killCaptions(); }
@@ -151,7 +160,10 @@ function buildControls(frame, iframeId, opts) {
     let seen = 0, shown = false;
     const tick = setInterval(function () {
       const r = frame.getBoundingClientRect();
-      const onScreen = r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15;
+      /* Horizontal as well as vertical: a slide parked off to the side of the
+         deck is still at the right height, and would otherwise prompt. */
+      const onScreen = r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15 &&
+                       r.left < innerWidth * 0.95 && r.right > innerWidth * 0.05;
       seen = onScreen ? seen + 1 : 0;
       if (!shown && seen >= 6 && muted) {          // 6 x 500ms
         shown = true;
@@ -423,11 +435,25 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     track.style.transition = animate ? EASE : "none";
     track.style.transform = "translateX(" + (-i * 100) + "%)";
   }
+
+  /* One video runs at a time: the slide you are on plays from where it left
+     off, every other slide stops. Players arrive asynchronously, so this also
+     runs whenever one announces itself. */
+  function syncPlayback() {
+    slides.forEach(function (sl, k) {
+      const p = (sl.querySelector(".coty-figure") || {}).ytPlayer;
+      if (!p) return;
+      try { if (k === i) p.playVideo(); else p.pauseVideo(); } catch (e) {}
+    });
+  }
+  track.addEventListener("yt-ready", syncPlayback);
+
   function go(dir) {
     if (busy || n < 2) return;
     busy = true;
     i = (i + dir + n) % n;
     show(true);
+    syncPlayback();
     setTimeout(function () { busy = false; }, 900);
   }
   const prev = document.querySelector(".coty-arrow--prev");

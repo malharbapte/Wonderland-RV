@@ -233,9 +233,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font-weight: 900;
   line-height: 0.46rem;
   text-align: center;
-  transition: background .2s;
+  --btn-fill: var(--orange-deep);
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease, box-shadow .42s ease;
 }
-.btn-build:hover { background: var(--orange); }
+.btn-build:hover,
+.btn-build:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-build:active { background: var(--btn-fill); color: #fff; }
 
 .nav-toggle { display: none; }
 
@@ -532,9 +536,13 @@ input:-webkit-autofill:focus {
   font-size: 0.18rem;
   line-height: 0.70rem;
   text-align: center;
-  transition: background .2s;
+  --btn-fill: var(--orange);
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease, box-shadow .42s ease;
 }
-.btn-submit:hover { background: var(--orange-deep); }
+.btn-submit:hover,
+.btn-submit:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-submit:active { background: var(--btn-fill); color: #fff; }
 
 /* ==========================================================================
    VIDEO   (y 2293 – 3477, full bleed 2389 × 1184)
@@ -597,7 +605,7 @@ input:-webkit-autofill:focus {
    is still muted, sitting just under the sound button it points at. */
 .video-nudge {
   position: absolute;
-  top: 0.72rem; right: 0.24rem;
+  top: 0.24rem; left: 50%;
   z-index: 4;
   padding: 0.09rem 0.16rem;
   border-radius: 0.06rem;
@@ -610,11 +618,11 @@ input:-webkit-autofill:focus {
   white-space: nowrap;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(-0.06rem);
+  transform: translate(-50%, -0.06rem);
   pointer-events: none;
   transition: opacity .45s ease, transform .45s ease;
 }
-.video-nudge.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.video-nudge.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 /* the buttons fade in on hover, but the prompt has to be able to stand alone */
 .video-frame:has(.video-nudge.is-on) .video-controls { opacity: 1; }
 
@@ -776,10 +784,13 @@ input:-webkit-autofill:focus {
   line-height: 1;
   padding: 0.30rem 0.62rem;
   border-radius: 0.02rem;
-  transition: background .2s;
+  --btn-fill: #DB7627;
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease, box-shadow .42s ease;
 }
 .btn-next:hover,
-.btn-next:focus-visible { background: var(--orange); }
+.btn-next:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-next:active { background: var(--btn-fill); color: #fff; }
 
 /* ==========================================================================
    FOOTER   (y 5177 – 6199)
@@ -850,9 +861,13 @@ input:-webkit-autofill:focus {
   font-family: var(--aviano);
   font-size: 0.18rem;
   letter-spacing: 0.02em;
-  transition: background .2s;
+  --btn-fill: var(--orange-deep);
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease, box-shadow .42s ease;
 }
-.btn-subscribe:hover { background: var(--orange); }
+.btn-subscribe:hover,
+.btn-subscribe:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-subscribe:active { background: var(--btn-fill); color: #fff; }
 
 .link-cols {
   display: grid;

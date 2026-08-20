@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quote mark — text vs vector</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=65">
-<link rel="stylesheet" href="assets/css/homepage.css?v=65">
+<link rel="stylesheet" href="assets/css/styles.css?v=67">
+<link rel="stylesheet" href="assets/css/homepage.css?v=67">
 <style>
   body { background: #fff; }
   .doc { max-width: 1180px; margin: 0 auto; padding: 48px 32px 96px; font-family: var(--gordita); }
@@ -47,9 +47,9 @@
      is the text's left edge, bottom:100% is the top of its first line — so there
      is no font constant anywhere and no per-block tuning. */
   .demo blockquote p { position: relative; }
-  /* ...then eased 10pt to the right, so the corners overlap slightly rather
-     than meeting exactly. 10 artboard px, in step with the rest of the page. */
-  .qmark { right: calc(100% - 0.10rem); bottom: 100%; }
+  /* ...then eased 15pt to the right, so the corners overlap rather than meeting
+     exactly. 15 artboard px, in step with the rest of the page. */
+  .qmark { right: calc(100% - 0.15rem); bottom: 100%; }
   .d-pull .qmark { width: 1.1968rem; }
 
   .d-svc blockquote { color: var(--orange); font-size: 0.28rem; }
@@ -193,8 +193,8 @@
     <tr><th>Ink box</th><td>46,350 → 398,558 on a 1000 em → <code>viewBox="0 0 352 208"</code></td></tr>
     <tr><th>Path</th><td><code>M159 208H289L352 0H249ZM0 208H130L193 0H90Z</code> — 43 characters, inline, no request</td></tr>
     <tr><th>Colour</th><td><code>fill: currentColor</code> — follows the block, same as today</td></tr>
-    <tr><th>Pull quote</th><td><code>right:calc(100% - 0.10rem); bottom:100%; width:1.1968rem</code></td></tr>
-    <tr><th>Legendary Service</th><td><code>right:calc(100% - 0.10rem); bottom:100%; width:1.01376rem</code> — same two lines, only the width differs</td></tr>
+    <tr><th>Pull quote</th><td><code>right:calc(100% - 0.15rem); bottom:100%; width:1.1968rem</code></td></tr>
+    <tr><th>Legendary Service</th><td><code>right:calc(100% - 0.15rem); bottom:100%; width:1.01376rem</code> — same two lines, only the width differs</td></tr>
     <tr><th>Same corner, as text</th><td><code>left:-0.400em; top:-0.364em</code> (pull) / <code>-0.312em</code> (service) — two font constants, and a different top for every block</td></tr>
   </table>
 
