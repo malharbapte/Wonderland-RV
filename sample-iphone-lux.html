@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone — Luxury off-road section</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=91">
+<style>
+/* ==========================================================================
+   Sample only. Nothing here is loaded by home.html or compact.html, and the
+   desktop rules are not touched — every size below is written out in full
+   rather than inherited, so a 390 column renders as a phone would.
+   ========================================================================== */
+body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
+.doc { padding: 40px 28px 90px; }
+.doc h1 { font-family: var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:86ch; margin:0 0 10px; }
+.doc h2 { font-family: var(--aviano); font-weight:900; font-size:16px; margin:34px 0 8px; }
+
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
+
+.rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
+.phone { flex:0 0 390px; }
+.phone > h3 { font-family: var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:54px; }
+.screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
+          overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
+
+/* ---- the phone type scale being proposed (5 steps, nothing under 12) ---- */
+.screen { --ph-display:34px; --ph-heading:26px; --ph-sub:17px; --ph-body:15px; --ph-caption:12px; }
+.s-title { font-family: var(--aviano); font-weight:900; font-size:var(--ph-heading);
+           line-height:1.12; letter-spacing:-0.01em; margin:0; padding:30px 24px 0; }
+.s-quote { color: var(--orange-deep); font-style:italic; font-weight:500;
+           font-size:var(--ph-sub); line-height:25px; margin:0; padding:18px 24px 22px; }
+.s-quote b { font-family: var(--aviano); font-style:normal; font-weight:900; }
+
+/* the carousel, shared by A and B */
+.car { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
+       overscroll-behavior-x:contain;            /* a swipe can't drag the page */
+       -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.car::-webkit-scrollbar { display:none; }
+.car img { display:block; width:100%; height:100%; object-fit:cover; }
+.cell { flex:0 0 100%; scroll-snap-align:start; height:220px; position:relative; }
+
+/* --- A: quote sits on the photo --- */
+.a .cell { height:430px; }
+.a .scrim { position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.62)); }
+.a .over { position:absolute; left:24px; right:24px; bottom:22px; color:#fff;
+           font-size:var(--ph-sub); line-height:25px; font-style:italic; font-weight:500; margin:0; }
+.a .over b { font-family:var(--aviano); font-style:normal; font-weight:900; color:#F4A25C; }
+
+/* --- B: peek of the next photo, so it reads as swipeable --- */
+.b .car { padding:0 24px; gap:10px; }
+.b .cell { flex:0 0 calc(100% - 58px); border-radius:6px; overflow:hidden; }
+
+/* --- C: no carousel at all --- */
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 24px 4px; }
+.grid img { width:100%; height:104px; object-fit:cover; display:block; border-radius:4px; }
+.hero-shot { padding:0 24px 8px; }
+.hero-shot img { width:100%; height:210px; object-fit:cover; display:block; border-radius:6px; }
+
+/* dots + counter */
+.rail { display:flex; align-items:center; gap:9px; padding:12px 24px 26px; }
+.dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
+.dot.on { background: var(--orange-deep); width:18px; border-radius:3px; }
+.count { margin-left:auto; font-size:var(--ph-caption); letter-spacing:.12em; color:#8a8a8a; }
+.pad { height:26px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>iPhone &mdash; Luxury off-road caravans</h1>
+  <p class="note">Three ways this section could work on a phone. Each column is a real 390-wide
+     render. Swipe the photos in A and B with a trackpad or by dragging.</p>
+
+  <h2>What is actually wrong now</h2>
+  <table class="t">
+    <tr><th>The carousel</th><td>It does scroll &mdash; 5 slides, 390 each &mdash; but nothing says so.
+      No dots, no counter, no peek of the next photo, and the swipe can chain into the page
+      because <code>overscroll-behavior-x</code> is not set. It reads as one stray full-bleed image.</td></tr>
+    <tr><th>The quote</th><td>Its line breaks are hand-set for the desktop artboard. On a 342 column
+      the lines run <b>117&ndash;189</b> wide &mdash; the shortest fills a third of the measure.
+      That is the &ldquo;messed up&rdquo; text, and there are <b>46</b> hard breaks like it across the page.</td></tr>
+    <tr><th>The type</th><td><b>10</b> distinct sizes are in use on the phone &mdash;
+      44, 32, 28, 20, 18, 16, 15, 14, 13, 12. No hierarchy, just a spread.</td></tr>
+  </table>
+
+  <h2>The three versions</h2>
+  <div class="rack">
+
+    <!-- ============ A ============ -->
+    <div class="phone a">
+      <h3>A &mdash; Quote on the photo</h3>
+      <p class="sub">Closest to the desktop composition, where the quote sits over the imagery.
+         One tall photo at a time, quote burned onto the last slide-height with a scrim.</p>
+      <div class="screen">
+        <h2 class="s-title">Luxury off-road Caravans</h2>
+        <div class="pad"></div>
+        <div class="car">
+          <div class="cell"><img src="assets/img/home/slide-1.jpg" alt="">
+            <div class="scrim"></div>
+            <p class="over"><b>&ldquo;</b>Ready to step off the beaten path and explore in style?
+               Embark on exceptional adventures with loved ones.</p></div>
+          <div class="cell"><img src="assets/img/home/slide-2.jpg" alt=""><div class="scrim"></div></div>
+          <div class="cell"><img src="assets/img/home/slide-4.jpg" alt=""><div class="scrim"></div></div>
+          <div class="cell"><img src="assets/img/home/slide-5.jpg" alt=""><div class="scrim"></div></div>
+          <div class="cell"><img src="assets/img/home/slide-6.jpg" alt=""><div class="scrim"></div></div>
+        </div>
+        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+          <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
+      </div>
+    </div>
+
+    <!-- ============ B ============ -->
+    <div class="phone b">
+      <h3>B &mdash; Copy first, gallery below</h3>
+      <p class="sub">The order the live site uses on every section: words, then pictures. The quote
+         wraps to the column instead of to the desktop breaks, and the next photo peeks so the
+         swipe is obvious.</p>
+      <div class="screen">
+        <h2 class="s-title">Luxury off-road Caravans</h2>
+        <p class="s-quote"><b>&ldquo;</b>Ready to step off the beaten path and explore in style?
+           Embark on exceptional adventures with loved ones and create memories that will last a
+           lifetime.&rdquo;</p>
+        <div class="car">
+          <div class="cell"><img src="assets/img/home/slide-1.jpg" alt=""></div>
+          <div class="cell"><img src="assets/img/home/slide-2.jpg" alt=""></div>
+          <div class="cell"><img src="assets/img/home/slide-4.jpg" alt=""></div>
+          <div class="cell"><img src="assets/img/home/slide-5.jpg" alt=""></div>
+          <div class="cell"><img src="assets/img/home/slide-6.jpg" alt=""></div>
+        </div>
+        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+          <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
+      </div>
+    </div>
+
+    <!-- ============ C ============ -->
+    <div class="phone c">
+      <h3>C &mdash; No carousel</h3>
+      <p class="sub">Nothing hidden behind a gesture: one hero shot, then the rest as a grid.
+         Longest of the three, and the only one where every photo is seen.</p>
+      <div class="screen">
+        <h2 class="s-title">Luxury off-road Caravans</h2>
+        <p class="s-quote"><b>&ldquo;</b>Ready to step off the beaten path and explore in style?
+           Embark on exceptional adventures with loved ones and create memories that will last a
+           lifetime.&rdquo;</p>
+        <div class="hero-shot"><img src="assets/img/home/slide-1.jpg" alt=""></div>
+        <div class="grid">
+          <img src="assets/img/home/slide-2.jpg" alt="">
+          <img src="assets/img/home/slide-4.jpg" alt="">
+          <img src="assets/img/home/slide-5.jpg" alt="">
+          <img src="assets/img/home/slide-6.jpg" alt="">
+        </div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>The phone type scale, proposed</h2>
+  <p class="note">Five steps instead of ten, nothing under 12. Every size below is used in the
+     three renders above, so what you see is the scale doing its job.</p>
+  <table class="t">
+    <tr><th>Step</th><th>Size / leading</th><th>Used for</th><th>Replaces today&rsquo;s</th></tr>
+    <tr><td>Display</td><td>34 / 36</td><td>the hero line only</td><td>44</td></tr>
+    <tr><td>Heading</td><td>26 / 29</td><td>every section title</td><td>32, 28</td></tr>
+    <tr><td>Subheading</td><td>17 / 25</td><td>ledes, pull quotes, review text</td><td>20, 18</td></tr>
+    <tr><td>Body</td><td>15 / 23</td><td>paragraphs, form fields, list copy</td><td>16, 15</td></tr>
+    <tr><td>Caption</td><td>12 / 18</td><td>attributions, legal, kickers, counters</td><td>14, 13, 12</td></tr>
+  </table>
+</div>
+</body>
+</html>
