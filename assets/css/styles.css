@@ -360,6 +360,26 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .field--select .req { right: 0.22rem; top: 0.30rem; }
 
+/* Autofill stays available, but Chrome's contacts button is suppressed so it
+   can't collide with the required asterisk, and the yellow autofill wash is
+   held off with a transition that never lands. */
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  width: 0;
+  margin: 0;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--ink);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
 /* focus: no browser-blue ring, brand orange instead */
 .field input:focus,
 .field select:focus,
