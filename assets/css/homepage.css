@@ -172,9 +172,13 @@
 }
 .pull-mark {
   position: absolute;
-  /* em of the mark's own size, so the corner rule holds at every scale
-     without measuring anything at runtime */
-  left: -0.3038em; top: -0.0534em;
+  /* Offsets are em of the mark's own size and land its INK, not its em box.
+     In Aviano Black the opening mark's ink sits 0.170em below the box top and
+     its right edge falls 0.400em in from the box left, so those two numbers
+     put the ink's top-right corner on the text's top-left corner — the mark
+     kisses the first letter and clears the column instead of printing over
+     lines two and three. Metric ratios, so they hold at any size. */
+  left: -0.400em; top: -0.155em;
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
@@ -548,7 +552,9 @@ er { background: var(--orange-deep); }
 }
 .service-mark {
   position: absolute;
-  left: -0.2794em; top: 0.0170em;   /* same rule, in em */
+  /* Same ink rule as .pull-mark. The top differs because this block's leading
+     is looser (0.42rem on 0.28rem text), so its first cap starts lower. */
+  left: -0.400em; top: -0.104em;
   font-family: var(--aviano);
   font-style: normal;
   font-weight: 900;
