@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — seating the quote mark</title>
+<title>iPhone — the whole Luxury off-road block</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=93">
 <style>
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
@@ -17,38 +17,27 @@ table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
 code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
 
 .rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
-.phone { flex:0 0 390px; --ph-heading:30px; --ph-lh:33px; --ph-q:16px; --ph-qlh:24px; }
+.phone { flex:0 0 390px; --ph-heading:30px; --ph-lh:33px; --ph-q:16px; --ph-qlh:24px;
+         --ph-body:15px; --ph-blh:23px; }
 .phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:88px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:90px; }
 .screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
           overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); position:relative; }
+.screen::before { content:""; position:absolute; left:24px; top:0; bottom:0; width:1px;
+                  background:rgba(255,45,0,.28); z-index:5; pointer-events:none; }
 
 .doc .screen .s-title { font-family:var(--aviano); font-weight:900;
   font-size:var(--ph-heading); line-height:var(--ph-lh); letter-spacing:-0.01em;
   margin:0; padding:30px 24px 0; }
 
-/* ---- the mark, 15% down from the desktop ratio -------------------------
-   Desktop is 3.6825x the quote size. Less 15% that is 3.1301x, which at 16
-   makes the mark 50.1 wide and 29.6 tall. It still meets the first letter
-   corner to corner and still eases right by 0.4615x, so the relationship is
-   the desktop's -- only the scale moved. Because it is smaller it hangs
-   42.7 to the left rather than 51.5, and the indent comes in with it. */
+/* P3, agreed: mark 15% down from the desktop ratio, hanging 12 into the margin */
 .q { position:relative; margin:0; color:var(--orange-deep);
      font-style:italic; font-weight:500; font-size:var(--ph-q); line-height:var(--ph-qlh);
-     padding-top:calc(var(--ph-q) * 2.75); padding-right:24px; padding-bottom:22px; }
+     padding:calc(var(--ph-q) * 2.75) 24px 22px calc(var(--ph-q) * 3.419); }
 .q p { position:relative; margin:0; }
 .qm { position:absolute; display:block; height:auto; fill:currentColor;
       width:calc(var(--ph-q) * 3.1301);
       right:calc(100% - var(--ph-q) * 0.4615); bottom:100%; }
-
-.p1 .q { padding-left:calc(var(--ph-q) * 4.169); }   /* mark's left edge on the margin */
-.p3 .q { padding-left:calc(var(--ph-q) * 3.419); }   /* mark hangs 12 into the margin */
-.p2 .q { padding-left:24px; padding-top:14px; }
-.p2 .qm { position:static; margin:0 0 9px; }
-
-/* a hairline on the page margin, so you can see what lines up with what */
-.screen::before { content:""; position:absolute; left:24px; top:0; bottom:0; width:1px;
-                  background:rgba(255,45,0,.30); z-index:5; pointer-events:none; }
 
 .car { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
        overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
@@ -57,38 +46,42 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
 .cell { flex:0 0 calc(100% - 58px); scroll-snap-align:start; border-radius:6px;
         overflow:hidden; aspect-ratio: 2200 / 1301; }
 .cell img { display:block; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
-.rail { display:flex; align-items:center; gap:9px; padding:12px 24px 26px; }
+.rail { display:flex; align-items:center; gap:9px; padding:12px 24px 22px; }
 .dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
 .dot.on { background:var(--orange-deep); width:18px; border-radius:3px; }
 .count { margin-left:auto; font-size:12px; letter-spacing:.12em; color:#8a8a8a; }
+
+/* --- the paragraph that was missing from the mock-up --- */
+.intro-p { margin:0; padding:0 24px 34px; font-size:var(--ph-body); line-height:var(--ph-blh); }
+.i2 .intro-p { padding-left:calc(var(--ph-q) * 3.419); }         /* on the quote's axis */
+.i3 .intro-p { font-size:var(--ph-q); line-height:var(--ph-qlh); }
 </style>
 </head>
 <body>
 <div class="doc">
 
-  <h1>iPhone &mdash; seating the quote mark</h1>
-  <p class="note">Option 3 throughout: heading 30, quote 16. The mark is 15% down from the desktop
-     ratio in all three. What differs is only where the text sits against it. The faint red line
-     is the 24 page margin.</p>
+  <h1>iPhone &mdash; the whole Luxury off-road block</h1>
+  <p class="note">You were right, the block does not end at the photos. In the markup it is three
+     sections back to back &mdash; <code>.lux</code> the heading, <code>.pull</code> the quote and
+     slideshow, <code>.intro</code> the paragraph &mdash; and on a phone they read as one thing.
+     P3 is fixed in all three columns; the only difference is how that last paragraph is set.</p>
 
   <table class="t">
-    <tr><th>Mark</th><td>Desktop is <b>3.6825&times;</b> the quote size. Less 15% that is
-      <b>3.1301&times;</b> &mdash; 50.1 wide, 29.6 tall at 16. It still meets the first letter corner
-      to corner and still eases right by 0.4615&times;, so the desktop relationship is intact; only
-      the scale moved.</td></tr>
-    <tr><th>Why the indent moves with it</th><td>The mark hangs to the <em>left</em> of the first
-      letter by its own width less the overlap. That was 51.5 at the old size and is
-      <b>42.7</b> now, so the text can come in 9 &mdash; which is the position optimising itself
-      off the geometry rather than being nudged by eye.</td></tr>
+    <tr><th>Settled</th><td>heading 30 &middot; quote 16 &middot; mark 3.1301&times; the quote, hanging
+      12 into the margin &middot; photos native 1.691, nothing cropped &middot; dots, counter, peek,
+      and a swipe that cannot drag the page</td></tr>
+    <tr><th>Open</th><td>the paragraph: its size, and whether it sits on the page margin or on the
+      quote&rsquo;s indent</td></tr>
   </table>
 
   <div class="rack">
 
-    <div class="phone p1">
-      <h3>P1 &mdash; Mark on the margin</h3>
-      <p class="sub">Text indented to <b>67</b>, which puts the mark&rsquo;s left edge exactly on the
-         24 margin, flush under the heading&rsquo;s first letter. The tidiest vertical edge on the
-         page. Measure <b>299</b>.</p>
+    <div class="phone i1">
+      <h3>I1 &mdash; Body, full measure</h3>
+      <p class="sub">15 on the 24 margin, the full <b>342</b>. It reads as what it is &mdash; the
+         section&rsquo;s explanatory copy &mdash; and the photos, dots and paragraph all share one
+         left edge. The quote is then the only thing indented, which is what makes it feel
+         quoted.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -101,14 +94,18 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
+        <p class="intro-p">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury,
+          combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s
+          rugged beauty. Perfectly custom-built for solos, couples, and families, these caravans are
+          designed to elevate every adventure without compromising on style or comfort.</p>
       </div>
     </div>
 
-    <div class="phone p3">
-      <h3>P3 &mdash; Mark hangs into the margin</h3>
-      <p class="sub">Text at <b>55</b>, mark hanging 12 past the margin into the white. The old
-         printer&rsquo;s trick &mdash; punctuation hangs so the text edge reads straight. Buys
-         <b>311</b> of measure, but the mark no longer lines up with anything.</p>
+    <div class="phone i2">
+      <h3>I2 &mdash; Body, on the quote&rsquo;s axis</h3>
+      <p class="sub">Same 15, but indented to <b>55</b> so the quote and the paragraph share one
+         text column and the mark is the only thing hanging off it. Tidier as a pair, but the
+         paragraph loses 31 of measure and no longer lines up with the photos.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
         <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
@@ -121,17 +118,21 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
+        <p class="intro-p">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury,
+          combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s
+          rugged beauty. Perfectly custom-built for solos, couples, and families, these caravans are
+          designed to elevate every adventure without compromising on style or comfort.</p>
       </div>
     </div>
 
-    <div class="phone p2">
-      <h3>P2 &mdash; Mark above, text full width</h3>
-      <p class="sub">Mark sits above the quote on the margin, text starts at 24 and keeps the whole
-         <b>342</b>. Shortest block of the three and the easiest to read, but it drops the
-         corner-to-corner relationship the desktop has.</p>
+    <div class="phone i3">
+      <h3>I3 &mdash; Lede, full measure</h3>
+      <p class="sub">Set at <b>16</b>, the same size as the quote but black and upright, on the
+         margin. Treats it as the section&rsquo;s opening statement rather than small print. Adds a
+         line, and it competes with the quote for attention.</p>
       <div class="screen">
         <h2 class="s-title">Luxury off-road Caravans</h2>
-        <blockquote class="q"><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg><p>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
+        <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the beaten path and explore in style? Embark on exceptional adventures with loved ones and create memories that will last a lifetime.&rdquo;</p></blockquote>
         <div class="car">
           <div class="cell"><img src="assets/img/home/slide-1.jpg" alt=""></div>
           <div class="cell"><img src="assets/img/home/slide-2.jpg" alt=""></div>
@@ -141,10 +142,18 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
           <span class="dot"></span><span class="dot"></span><span class="count">1 / 5</span></div>
+        <p class="intro-p">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury,
+          combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s
+          rugged beauty. Perfectly custom-built for solos, couples, and families, these caravans are
+          designed to elevate every adventure without compromising on style or comfort.</p>
       </div>
     </div>
 
   </div>
+
+  <p class="note" style="margin-top:20px">Below this on the live page comes the orange stat band
+     (&ldquo;0+ caravans built&rdquo;), which is its own section and is not part of this block.
+     Left out here on purpose.</p>
 </div>
 </body>
 </html>
