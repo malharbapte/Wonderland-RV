@@ -1,74 +1,113 @@
 <!DOCTYPE html>
-<html lang="en-AU"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Queen of Hearts slide 2 &mdash; copy options</title>
+<title>Queen of Hearts — slide 3 copy</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=63">
+<link rel="stylesheet" href="assets/css/homepage.css?v=63">
 <style>
-  html { font-size: min(calc(100vw / 23.76), 100px); }
-  body { max-width:none; background:#fff; font-family:var(--gordita); font-size:0.16rem; line-height:1.5; }
-  .wrap { padding:0.60rem 3.76rem 1.40rem; }
-  h1 { font-family:var(--aviano); font-weight:900; font-size:0.42rem; margin:0 0 0.06rem; }
-  .lede { color:#555; max-width:72ch; }
-  .src { background:#FAFAFA; border-left:0.04rem solid #ddd; padding:0.16rem 0.20rem;
-          margin:0.24rem 0 0.40rem; font-size:0.14rem; max-width:74ch; color:#444; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:0.60rem 0.50rem; }
-  .opt { border-top:1px solid #eee; padding-top:0.20rem; }
-  .num { font-size:0.12rem; letter-spacing:.1em; text-transform:uppercase; color:#bbb; margin-bottom:0.14rem; }
-  .coty-title { font-family:var(--aviano); font-weight:900; font-size:var(--t-heading); line-height:1; }
-  .coty-sub { margin-top:0.06rem; font-family:var(--aviano); font-size:var(--t-sub); line-height:1;
-               color:var(--orange-deep); }
-  .frame { margin-top:0.20rem; aspect-ratio:16/9; background:#eee; display:grid; place-items:center;
-            color:#bbb; font-size:0.14rem; letter-spacing:.1em; text-transform:uppercase; }
-  .note { margin-top:0.14rem; font-size:0.14rem; color:#666; }
-</style></head><body>
-<div class="wrap">
-  <h1>Queen of Hearts &mdash; slide 2 copy</h1>
-  <p class="lede">Four options for the new video, rendered at the real slide sizes.
-  Pick one and I&rsquo;ll wire the video in with it.</p>
+  body { background: #fff; }
+  .doc { padding: 0 0 1.20rem; }
+  .head { max-width: 1180px; margin: 0 auto; padding: 44px 32px 8px; font-family: var(--gordita); }
+  .head h1 { font-family: var(--aviano); font-weight: 900; font-size: 26px; margin: 0 0 8px; }
+  .head p { font-size: 14px; line-height: 21px; color: #444; max-width: 78ch; margin: 0 0 6px; }
+  .head dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px;
+             font-size: 13px; color: #444; margin: 16px 0 0; max-width: 78ch; }
+  .head dt { font-weight: 700; color: #111; }
+  .head dd { margin: 0; }
 
-  <div class="src"><strong>Source.</strong> YouTube blocks the transcript endpoint, so this is drawn from
-  the video&rsquo;s own description and chapter list rather than an auto-transcript &mdash; Wonderland&rsquo;s own words.
-  It covers CNC-cut interlocking panels, a PUR glue line that won&rsquo;t delaminate, Henrob-riveted aluminium
-  walls, a true one-piece roof joined only at the back wall, and a 35mm composite back wall. It closes:
-  &ldquo;It all adds cost, and that&rsquo;s the honest answer to the price question. We don&rsquo;t cut corners.&rdquo;</div>
+  .opt { padding: 34px 0 10px; }
+  .opt + .opt { border-top: 1px solid #ededed; }
+  .opt .container { position: relative; }
+  .lab { display:inline-block; font-family: var(--gordita); font-size: 11px; letter-spacing: .14em;
+         text-transform: uppercase; background: #D57114; color:#fff; padding: 3px 9px;
+         border-radius: 3px; margin-bottom: 14px; }
+  .lab--done { background: #ddd; color: #555; }
+  .why { font-family: var(--gordita); font-size: 13px; line-height: 20px; color: #666;
+         margin: 12px 0 0; max-width: 62ch; }
+  .fit { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #999; margin-top: 6px; }
 
-  <div class="grid">
-    <div class="opt">
-      <div class="num">Option 1</div>
-      <div class="slide">
-        <h2 class="coty-title">built to be believed</h2>
-        <p class="coty-sub">WHY SOME CARAVANS COST MORE</p>
-        <div class="frame">video</div>
-      </div>
-      <p class="note">Leads on conviction. Pairs an evocative heading with the video&rsquo;s actual question, so the click is obvious.</p>
-    </div>
-    <div class="opt">
-      <div class="num">Option 2</div>
-      <div class="slide">
-        <h2 class="coty-title">the things you can&rsquo;t see</h2>
-        <p class="coty-sub">HOW A WONDERLAND IS BUILT</p>
-        <div class="frame">video</div>
-      </div>
-      <p class="note">Uses the video&rsquo;s own line. Clearest match to the content &mdash; but it repeats the Contact page&rsquo;s section heading word for word.</p>
-    </div>
-    <div class="opt">
-      <div class="num">Option 3</div>
-      <div class="slide">
-        <h2 class="coty-title">no corners cut</h2>
-        <p class="coty-sub">INSIDE THE BUILD</p>
-        <div class="frame">video</div>
-      </div>
-      <p class="note">Shortest pair. Takes Kevin&rsquo;s closing line, &ldquo;We don&rsquo;t cut corners.&rdquo; Punchy, less explicit about what you get.</p>
-    </div>
-    <div class="opt">
-      <div class="num">Option 4</div>
-      <div class="slide">
-        <h2 class="coty-title">one panel, corner to corner</h2>
-        <p class="coty-sub">THE ONE-PIECE ROOF</p>
-        <div class="frame">video</div>
-      </div>
-      <p class="note">Leads on the single most concrete claim in the video. Specific and provable, but narrows a five-minute film to one feature.</p>
-    </div>
+  /* the real figure, with a still standing in for the player */
+  .shot { margin-top: 0.68rem; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shot--sm { max-width: 6.4rem; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="head">
+    <h1>Queen of Hearts — slide 3</h1>
+    <p>Four options for <em>Step Inside this Couples Caravan Built for Travelling Australia</em>.
+       Each one is set in the real slide, at the size it will appear on the homepage, so what you
+       see here is what lands. Headings hold a single line, as slide 2 does.</p>
+    <dl>
+      <dt>Video</dt><dd>youtu.be/Yk4vxl-iUcU — Ana walks the 2200Q-RC, top to tail</dd>
+      <dt>Covers</dt><dd>rear club lounge · the bed · kitchen storage · full shower ensuite · who it's built for</dd>
+      <dt>Pattern</dt><dd>heading states the thing plainly and ends in a full stop; subheading is the short, evocative label</dd>
+    </dl>
   </div>
+
+  <!-- reference: what is already live on slide 2 -->
+  <section class="coty opt" style="padding-top:26px">
+    <div class="container">
+      <span class="lab lab--done">Live now — slide 2, for reference</span>
+      <h2 class="coty-title">How is a Wonderland built.</h2>
+      <p class="coty-sub">Things you can&rsquo;t see</p>
+      <p class="why">The shape to match: a flat, almost blunt heading, with the line that carries
+         the feeling sitting underneath it.</p>
+    </div>
+  </section>
+
+  <section class="coty opt">
+    <div class="container">
+      <span class="lab">Option A</span>
+      <h2 class="coty-title">A caravan built for two.</h2>
+      <p class="coty-sub">Inside the club lounge</p>
+      <div class="shot shot--sm"><img src="https://i.ytimg.com/vi/Yk4vxl-iUcU/maxresdefault.jpg" alt=""></div>
+      <p class="why">Closest to slide 2 in rhythm — five plain words, then a specific place to go and look.
+         Leads with who it's for, which is how the video itself opens.</p>
+      <p class="fit">24 characters</p>
+    </div>
+  </section>
+
+  <section class="coty opt">
+    <div class="container">
+      <span class="lab">Option B</span>
+      <h2 class="coty-title">Step inside the 2200Q-RC.</h2>
+      <p class="coty-sub">A couples van, top to tail</p>
+      <div class="shot shot--sm"><img src="https://i.ytimg.com/vi/Yk4vxl-iUcU/maxresdefault.jpg" alt=""></div>
+      <p class="why">Names the layout, which is the one thing a shopper can act on. Reads as a tour
+         rather than a pitch. Weaker if most visitors don't yet know the model names.</p>
+      <p class="fit">24 characters</p>
+    </div>
+  </section>
+
+  <section class="coty opt">
+    <div class="container">
+      <span class="lab">Option C</span>
+      <h2 class="coty-title">Where two people live.</h2>
+      <p class="coty-sub">The couples layout, room by room</p>
+      <div class="shot shot--sm"><img src="https://i.ytimg.com/vi/Yk4vxl-iUcU/maxresdefault.jpg" alt=""></div>
+      <p class="why">The most human of the four — it's about living in the van, not touring it.
+         Pairs well against slide 2, which is all structure and build.</p>
+      <p class="fit">22 characters</p>
+    </div>
+  </section>
+
+  <section class="coty opt">
+    <div class="container">
+      <span class="lab">Option D</span>
+      <h2 class="coty-title">Every evening ends here.</h2>
+      <p class="coty-sub">The rear club lounge</p>
+      <div class="shot shot--sm"><img src="https://i.ytimg.com/vi/Yk4vxl-iUcU/maxresdefault.jpg" alt=""></div>
+      <p class="why">Takes the single strongest detail in the walkthrough and makes the whole slide
+         about it. The most distinctive, and the least literal — it doesn't say "caravan" at all.</p>
+      <p class="fit">23 characters</p>
+    </div>
+  </section>
+
 </div>
-</body></html>
+</body>
+</html>
