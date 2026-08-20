@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile proposal</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=53">
+<style>
+  html { font-size:16px; }
+  body { max-width:none; background:#f4f4f4; font-family:var(--gordita); color:#111; }
+  .wrap { max-width:1200px; margin:0 auto; padding:36px 28px 100px; }
+  h1 { font-family:var(--aviano); font-weight:900; font-size:28px; margin:0 0 6px; }
+  h2 { font-family:var(--aviano); font-weight:900; font-size:19px; margin:38px 0 8px; }
+  p.lede { color:#555; max-width:70ch; font-size:15px; line-height:1.55; }
+  table { border-collapse:collapse; margin-top:12px; font-size:14px; background:#fff; }
+  th,td { text-align:left; padding:7px 14px; border-bottom:1px solid #eee; }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:#888; }
+  .phones { display:flex; gap:30px; flex-wrap:wrap; margin-top:18px; }
+  .phone { width:390px; }
+  .phone .cap { font-size:13px; color:#777; margin-bottom:8px; }
+  .screen { width:390px; height:620px; overflow-y:auto; background:#fff;
+            border:10px solid #222; border-radius:26px; }
+
+  /* ---- exactly the rules being proposed, scoped to this demo ---- */
+  .m { --t-heading:28px; --t-sub:18px; --t-body:16px; --t-caption:13px; }
+  .m .sec { padding:22px 18px; border-bottom:1px solid #eee; }
+  .m .h  { font-family:var(--aviano); font-weight:900; font-size:var(--t-heading); line-height:1.15; }
+  .m .s  { font-size:var(--t-sub);  font-weight:700; margin-top:14px; }
+  .m .b  { font-size:var(--t-body); line-height:1.5; margin-top:6px; }
+  .m .c  { font-size:var(--t-caption); line-height:1.45; margin-top:6px; color:#444; font-style:italic; }
+
+  .rail { display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
+          -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:4px 0 8px; margin-top:14px; }
+  .rail::-webkit-scrollbar { display:none; }
+  .rail > * { flex:0 0 78%; scroll-snap-align:center; }
+  .card { background:#fff; }
+  .card img { width:100%; height:150px; object-fit:cover; display:block; }
+  .ico { width:34px; height:34px; color:var(--orange-deep); }
+  .row { display:flex; gap:12px; align-items:center; }
+  .hint { font-size:12px; color:#999; margin-top:6px; }
+  .old .rail { display:block; overflow:visible; }
+  .old .rail > * { margin-bottom:16px; }
+</style></head><body>
+<div class="wrap">
+  <h1>Mobile proposal &mdash; example before changes</h1>
+  <p class="lede">Nothing on the live pages has been touched. This shows the two decisions you made:
+  <strong>proportional type with a floor per tier</strong>, and <strong>swipeable carousels</strong> for
+  Our Range, Why Choose Us and the dream shots. Section order stays exactly as desktop.</p>
+
+  <h2>1 &middot; Type &mdash; where the floors kick in</h2>
+  <p class="lede">Each tier keeps scaling with the artboard until it hits its floor, then holds.
+  Written as <code>max(0.56rem, 28px)</code>, so one rule covers every width and no separate mobile
+  scale is needed.</p>
+  <table>
+    <tr><th>Tier</th><th>Artboard</th><th>Floor</th><th>Floor engages below</th><th>On a 390px phone</th></tr>
+    <tr><td>Heading</td><td>56</td><td>28px</td><td>1188px</td><td><b>28px</b></td></tr>
+    <tr><td>Subheading</td><td>32</td><td>18px</td><td>1336px</td><td><b>18px</b></td></tr>
+    <tr><td>Body</td><td>28</td><td>16px</td><td>1354px</td><td><b>16px</b></td></tr>
+    <tr><td>Caption</td><td>20</td><td>13px</td><td>1544px</td><td><b>13px</b></td></tr>
+  </table>
+  <p class="lede" style="margin-top:10px">Without floors, a 390px phone would render the heading at
+  <strong>9px</strong> and the caption at <strong>3px</strong> &mdash; that is the flow you are seeing now.</p>
+
+  <h2>2 &middot; Side by side on a phone</h2>
+  <div class="phones">
+    <div class="phone">
+      <div class="cap">Now &mdash; stacked, type unfloored</div>
+      <div class="screen m old">
+        <div class="sec">
+          <div class="h" style="font-size:9px">Our range</div>
+          <div class="s" style="font-size:5px">Four models and loads of customisations mean you can Wonderland RV your way.</div>
+          <div class="rail">
+            <div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.6 9.2h18.8v5.6H2.6z"/></svg></span>
+              <div><div class="s" style="font-size:5px">CUSTOM LENGTHS</div><div class="c" style="font-size:3px">17&rsquo;05&rdquo; to 24&prime; single and tandem axles</div></div></div>
+            <div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span>
+              <div><div class="s" style="font-size:5px">BUNKS GALORE</div><div class="c" style="font-size:3px">Up to 6 bunk beds for big families</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="cap">Proposed &mdash; floored type, swipeable rails</div>
+      <div class="screen m">
+        <div class="sec">
+          <div class="h">Our range</div>
+          <div class="s">Four models and loads of customisations mean you can Wonderland RV your way.</div>
+          <div class="rail">
+            <div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span>
+              <div><div class="s">CUSTOM LENGTHS</div><div class="c">17&rsquo;05&rdquo; to 24&prime; single and tandem axles</div></div></div>
+            <div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span>
+              <div><div class="s">BUNKS GALORE</div><div class="c">Up to 6 bunk beds for big families</div></div></div>
+            <div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span>
+              <div><div class="s">CUSTOM LAYOUTS</div><div class="c">30+ couple and family layouts</div></div></div>
+          </div>
+          <div class="hint">&larr; swipe &rarr;</div>
+        </div>
+
+        <div class="sec">
+          <div class="h">your dream van awaits</div>
+          <div class="rail">
+            <div class="card"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
+            <div class="card"><img src="assets/img/home/dream-field.jpg" alt=""></div>
+            <div class="card"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
+            <div class="card"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
+          </div>
+          <div class="hint">&larr; swipe &rarr;</div>
+          <div class="s" style="margin-top:16px">GO ANYWHERE</div>
+          <div class="c">Freedom for off-road and off-grid adventures</div>
+        </div>
+
+        <div class="sec">
+          <div class="h">Welcome Solara</div>
+          <div class="s">Introducing Australia&rsquo;s Newest Off-road Composite Caravan.</div>
+          <div class="c">Winner of the 2026 Judge&rsquo;s Choice Queen of Hearts award, the Solara is built tough
+          without compromising on all of life&rsquo;s creature comforts.</div>
+          <div class="b" style="margin-top:14px">35mm composite panels, bonded and bolted into an aluminium frame.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:14px">The right-hand screen is live &mdash; drag the rails sideways to
+  try the swipe. They use native scroll-snap, so there is no script and the phone&rsquo;s own momentum applies.</p>
+
+  <h2>3 &middot; What else changes on a phone</h2>
+  <table>
+    <tr><th>Section</th><th>Behaviour</th></tr>
+    <tr><td>Order</td><td>Identical to desktop, as you chose</td></tr>
+    <tr><td>Our Range, Why Choose Us</td><td>Swipeable rail, one card at a time</td></tr>
+    <tr><td>Dream van mosaic</td><td>Swipeable rail of the four shots</td></tr>
+    <tr><td>Legendary Service</td><td>Photo above quote, arrows kept</td></tr>
+    <tr><td>Brands</td><td>Marquee keeps looping, unchanged</td></tr>
+    <tr><td>Queen of Hearts</td><td>Slider unchanged, video full width</td></tr>
+    <tr><td>Forms</td><td>Single column, full-width fields</td></tr>
+  </table>
+</div>
+</body></html>
