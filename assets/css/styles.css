@@ -63,8 +63,21 @@
   /* one spacing value for every item in the header bar */
   --bar-gap: 0.26rem;
 
-  /* content column: 1373 design px, centred in the 2376 canvas */
+  /* Page margins cut to 3/4 of the original 501.5, so the content column
+     grows 1373 -> 1624. Everything inside keeps its own size. */
+  --page-margin: 3.76rem;
+  --col: 16.24rem;
   --gutter: 5.015rem;
+
+  /* Type scale — four tiers, reviews deliberately excluded and tuned apart.
+       heading 56 · subheading 40 · body 28 · caption 20               */
+  --t-heading: 0.56rem;
+  --t-sub:     0.40rem;
+  --t-body:    0.28rem;
+  --t-caption: 0.20rem;
+  --lh-sub:     0.52rem;
+  --lh-body:    0.40rem;
+  --lh-caption: 0.30rem;
 }
 
 /* ------------------------------------------------------------------- base */
@@ -106,7 +119,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 .container {
-  width: 13.73rem;          /* 1373 */
+  width: var(--col);
   margin-inline: auto;
 }
 
@@ -170,7 +183,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 .header-inner {
-  width: 13.73rem;              /* same column as the body: 501.5 → 1874.5 */
+  width: var(--col);
   margin-inline: auto;
   height: 100%;
   display: flex;
@@ -717,7 +730,7 @@ input:-webkit-autofill:focus {
   line-height: 0.29rem;
 }
 .footer-inner {
-  width: 13.73rem;              /* same column as the rest of the page */
+  width: var(--col);            /* same column as the rest of the page */
   margin-inline: auto;
   display: grid;
   grid-template-columns: 5.59rem 8.14rem;

@@ -292,6 +292,19 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   }
 
   place();
+
+  /* The tuck is a measurement, so it has to re-run whenever the geometry it
+     measured can change — not just on load. Without this the mark keeps the
+     pixel offset it was given at one viewport and drifts at every other. */
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(function () { place(); });
+    BLOCKS.forEach(function (b) {
+      document.querySelectorAll(b.scope).forEach(function (q) { ro.observe(q); });
+    });
+  }
+  window.addEventListener("load", place);
+  window.addEventListener("orientationchange", place);
+
   window.addEventListener("resize", function () {
     BLOCKS.forEach(function (b) {
       document.querySelectorAll(b.scope + " " + b.mark).forEach(function (m) {
@@ -301,4 +314,43 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     place();
   });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+})();
+
+/* ------------------------------------------- caravans-built count-up ------
+   Runs once, when the band first scrolls into view.                       */
+(function () {
+  const el = document.querySelector(".stat-number");
+  if (!el) return;
+  const target = parseInt(el.dataset.countTo, 10) || 0;
+  const plus = el.querySelector("span");
+  let done = false;
+
+  function run() {
+    if (done) return;
+    done = true;
+    /* a timer rather than rAF: rAF is paused in background tabs, which would
+       leave the figure stuck at zero for anyone who opens the page there */
+    const DUR = 1800, t0 = Date.now();
+    const id = setInterval(function () {
+      const k = Math.min(1, (Date.now() - t0) / DUR);
+      const eased = 1 - Math.pow(1 - k, 3);            // ease-out
+      el.firstChild.nodeValue = Math.round(target * eased).toLocaleString();
+      if (k >= 1) { clearInterval(id); el.firstChild.nodeValue = target.toLocaleString(); }
+    }, 32);
+  }
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.firstChild.nodeValue = target.toLocaleString();
+    return;
+  }
+  /* A visibility poll rather than IntersectionObserver: IO callbacks are
+     among the first things a browser stops dispatching in a background or
+     throttled tab, which would leave the figure sitting at zero. */
+  const watch = setInterval(function () {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.9 && r.bottom > 0) {
+      clearInterval(watch);
+      run();
+    }
+  }, 200);
 })();

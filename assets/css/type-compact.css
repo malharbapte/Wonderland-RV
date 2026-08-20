@@ -32,7 +32,7 @@
 @media (min-width: 901px) {
 
   /* ------------------------------------------------------------- base --- */
-  body { font-size: 0.14rem; line-height: 0.19rem; }
+  body { font-size: var(--t-body); line-height: var(--lh-body); }
   .ph::after { font-size: 0.13rem; }
 
   /* The header bar is deliberately NOT rescaled — it stays identical to
@@ -41,47 +41,47 @@
 
   /* ------------------------------------------------------------- hero --- */
   .hero h1 { font-size: 0.56rem; }
-  .hero-sub { font-size: 0.23rem; }
+  .hero-sub { font-size: var(--t-sub); }
 
   /* -------------------------------------------------- enquiry + form --- */
   .enquiry-title { font-size: 0.56rem; }
-  .enquiry-copy .lede { font-size: 0.21rem; line-height: 0.26rem; }
-  .reachout { font-size: 0.14rem; line-height: 0.19rem; }
+  .enquiry-copy .lede { font-size: var(--t-body); line-height: var(--lh-body); }
+  .reachout { font-size: var(--t-body); line-height: var(--lh-body); }
 
-  .field--line input { font-size: 0.14rem; }
-  .field .req { font-size: 0.14rem; }
-  .field--select select { font-size: 0.14rem; }
+  .field--line input { font-size: var(--t-body); }
+  .field .req { font-size: var(--t-body); }
+  .field--select select { font-size: var(--t-body); }
   .chip > span { font-size: 0.19rem; line-height: 0.22rem; }
-  .field--area textarea { font-size: 0.14rem; line-height: 0.19rem; }
-  .consent label { font-size: 0.14rem; line-height: 0.19rem; }
-  .fineprint { font-size: 0.11rem; line-height: 0.15rem; }   /* the exception */
+  .field--area textarea { font-size: var(--t-body); line-height: var(--lh-body); }
+  .consent label { font-size: var(--t-body); line-height: var(--lh-body); }
+  .fineprint { font-size: var(--t-caption); line-height: var(--lh-caption); }   /* the exception */
 
   /* -------------------------------------------- things you can't see --- */
   .unseen-title { font-size: 0.56rem; }
-  .unseen-sub { font-size: 0.23rem; }
+  .unseen-sub { font-size: var(--t-sub); }
   .quote-mark { font-size: 2.04rem; left: -0.72rem; top: -0.658rem; }
   .quote-left { font-size: 0.28rem; line-height: 0.335rem; }
   .quote-right { font-size: 0.19rem; line-height: 0.26rem; }
-  .quote-attr { font-size: 0.14rem; line-height: 0.19rem; }
+  .quote-attr { font-size: var(--t-caption); line-height: var(--lh-caption); }
   /* rule keeps its 21 above / 43 below overhang around the shorter quote */
   .quote-block::before { height: 1.645rem; }
 
   /* ------------------------------------------------------- experience --- */
   .experience-title { font-size: 0.56rem; line-height: 0.484rem; }
-  .experience-body { font-size: 0.21rem; line-height: 0.228rem; }
-  .rules-band p { font-size: 0.28rem; line-height: 0.298rem; }
+  .experience-body { font-size: var(--t-body); line-height: 0.228rem; }
+  .rules-band p { font-size: var(--t-sub); line-height: 0.298rem; }
 
   /* ---------------------------------------------------- where to next --- */
-  .next-title { font-size: 0.33rem; }
+  .next-title { font-size: var(--t-sub); }
 
   /* ----------------------------------------------------------- footer --- */
-  .site-footer { font-size: 0.14rem; line-height: 0.21rem; }
-  .footer-head { font-size: 0.14rem; line-height: 0.20rem; }
+  .site-footer { font-size: var(--t-caption); line-height: var(--lh-caption); }
+  .footer-head { font-size: var(--t-caption); line-height: var(--lh-caption); }
   .footer-contact { line-height: 0.25rem; }
-  .newsletter-form .field--line input { font-size: 0.14rem; }
+  .newsletter-form .field--line input { font-size: var(--t-caption); }
   .link-col li { line-height: 0.20rem; }
-  .footer-legal-left { font-size: 0.14rem; line-height: 0.24rem; }
-  .footer-legal-right { font-size: 0.14rem; line-height: 0.21rem; }
+  .footer-legal-left { font-size: var(--t-caption); line-height: var(--lh-caption); }
+  .footer-legal-right { font-size: var(--t-caption); line-height: var(--lh-caption); }
 
   /* Blocks that wrap on their own rather than on a <br> get their measure
      re-set, so the shorter lines can't leave a single word stranded. */

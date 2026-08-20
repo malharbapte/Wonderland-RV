@@ -100,7 +100,7 @@
 .home-hero-cta {
   margin-top: 0.16rem;
   font-family: var(--aviano);
-  font-size: 0.315rem;          /* 36/64 of the heading, held proportional */
+  font-size: var(--t-sub);          /* 36/64 of the heading, held proportional */
   line-height: 1;
   color: #E88426;
 }
@@ -184,7 +184,7 @@
    INTRO   (y ~2363)
    ========================================================================== */
 .intro { padding-top: 1.10rem; padding-bottom: 1.10rem; }
-.intro p { font-size: 0.21rem; line-height: 0.30rem; }
+.intro p { font-size: var(--t-body); line-height: var(--lh-body); }
 
 /* ==========================================================================
    STAT BAND   (y 2622 – 2925)
@@ -212,7 +212,7 @@
 }
 .stat-label {
   font-family: var(--aviano);
-  font-size: 0.23rem;           /* 40 */
+  font-size: var(--t-body);           /* 40 */
   line-height: 1;
   letter-spacing: 0.77em;
   text-indent: 0.77em;
@@ -238,14 +238,14 @@
 }
 .solara-lede {
   margin-top: 0.40rem;
-  font-size: 0.24rem;
+  font-size: var(--t-sub);
   font-style: italic;
-  line-height: 0.30rem;
+  line-height: var(--lh-sub);
 }
 .solara-body {
   margin-top: 0.30rem;
-  font-size: 0.21rem;           /* body minimum, matching the Contact page */
-  line-height: 0.28rem;
+  font-size: var(--t-body);           /* body minimum, matching the Contact page */
+  line-height: var(--lh-body);
 }
 .solara-copy .btn-solid { margin-top: 0.34rem; }
 .solara-video {
@@ -278,9 +278,9 @@
   align-items: center;          /* copy block centres against the model grid */
 }
 .range-lede {
-  font-size: 0.24rem;           /* same as CUSTOM LENGTHS */
+  font-size: var(--t-sub);           /* same as CUSTOM LENGTHS */
   font-style: normal;           /* Gordita regular, not italic */
-  line-height: 0.32rem;
+  line-height: var(--lh-sub);
 }
 .range-list { margin-top: 0.72rem; }
 .range-list li { position: relative; }
@@ -295,16 +295,16 @@
 .range-list li + li { margin-top: 0.45rem; }
 .range-list h3 {
   padding-left: 0.86rem;
-  font-size: 0.24rem;
+  font-size: var(--t-sub);
   font-weight: 700;
   line-height: 1;
 }
 .range-list p {
   padding-left: 0.86rem;
   margin-top: 0.10rem;
-  font-size: 0.21rem;
+  font-size: var(--t-body);
   font-style: italic;
-  line-height: 0.28rem;
+  line-height: var(--lh-body);
 }
 .range-figure img { width: 100%; height: auto; }
 
@@ -335,7 +335,7 @@
      straddles the edge and reads as the hand-off between two sections.
      Held proportional at the compact size: 159 x 350/600 = 93.       */
   position: absolute;
-  left: calc(50% - 6.865rem);   /* the content column's left edge */
+  left: calc(50% - (var(--col) / 2));   /* the content column's left edge */
   top: -0.93rem;
   z-index: 2;
   font-family: var(--aviano);
@@ -344,6 +344,9 @@
   line-height: 1;
   color: #FFEBCC;
   pointer-events: none;
+  /* sits over the seam, so a soft bottom-right shadow reads as the mark
+     clipping onto the pink band and tying the two sections together */
+  filter: drop-shadow(0.05rem 0.06rem 0.05rem rgba(0, 0, 0, 0.22));
 }
 .testi-quote { margin: 0; grid-area: 1 / 1; align-self: center; position: relative; z-index: 1; text-align: center; }
 .testi-quote p {
@@ -423,13 +426,13 @@ er { background: var(--orange-deep); }
 .dream-points li { padding: 0 0.34rem; }
 .dream-points li + li { border-left: 1px solid var(--ink); }
 .dream-points h3 {
-  font-size: 0.21rem;           /* 36 */
+  font-size: var(--t-sub);           /* 36 */
   font-weight: 700;
   letter-spacing: 0.1em;
   line-height: 1;
   color: var(--orange-deep);
 }
-.dream-points p { margin-top: 0.14rem; font-size: 0.21rem; line-height: 0.28rem; }
+.dream-points p { margin-top: 0.14rem; font-size: var(--t-body); line-height: var(--lh-body); }
 
 /* ==========================================================================
    WHY CHOOSE US   (band y 8267 – 9090, list y 9207 – 9709)
@@ -454,12 +457,12 @@ er { background: var(--orange-deep); }
 /* the shield's artwork sits smaller inside its box than the others */
 .why-icon--lg svg { transform: scale(1.2); }
 .why-list h3 {
-  font-size: 0.24rem;           /* 32 */
+  font-size: var(--t-sub);           /* 32 */
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1;
 }
-.why-list p { margin-top: 0.14rem; font-size: 0.21rem; font-style: italic; line-height: 0.28rem; }
+.why-list p { margin-top: 0.14rem; font-size: var(--t-body); font-style: italic; line-height: var(--lh-body); }
 .why-figure img { width: 100%; height: auto; }
 
 /* ==========================================================================
@@ -476,7 +479,7 @@ er { background: var(--orange-deep); }
 }
 .service-kicker {
   margin-top: 0.14rem;
-  font-size: 0.21rem;
+  font-size: var(--t-caption);
   font-weight: 700;
   letter-spacing: 0.87em;
   text-indent: 0.87em;
@@ -522,9 +525,9 @@ er { background: var(--orange-deep); }
   position: relative;
   z-index: 1;
   flex: none;
-  /* media 56.9% + this 4.6% gap + 17.39% lands the right edge on the content
-     column (78.89% of the band), so reviews can't run past the margin */
-  width: 17.39%;
+  /* media 56.9% + this 4.6% gap + 22.68% lands the right edge on the content
+     column (84.18% of the band), so reviews can't run past the margin */
+  width: 22.68%;
   margin: 0 0 0 4.6%;
   padding-top: 0.10rem;         /* review + attribution drop 10; the mark holds
                                    its place via dropAdj in home.js */
@@ -579,7 +582,7 @@ er { background: var(--orange-deep); }
 .coty-sub {
   margin-top: 0.06rem;
   font-family: var(--aviano);
-  font-size: 0.21rem;           /* 36 */
+  font-size: var(--t-sub);           /* 36 */
   line-height: 1;
 }
 .coty-sub a { transition: font-weight .12s; }
@@ -635,7 +638,7 @@ er { background: var(--orange-deep); }
   font-size: 0.56rem;
   line-height: 1;
 }
-.insurance-copy { margin-top: 0.50rem; font-size: 0.21rem; font-style: italic; line-height: 0.28rem; }
+.insurance-copy { margin-top: 0.50rem; font-size: var(--t-body); font-style: italic; line-height: var(--lh-body); }
 .insurance-logo { width: 4.24rem; height: auto; }
 
 /* ==========================================================================
@@ -651,7 +654,7 @@ er { background: var(--orange-deep); }
 .home-contact-title {
   font-family: var(--aviano);
   font-weight: 900;
-  font-size: 0.37rem;           /* 64 */
+  font-size: var(--t-heading);           /* 64 */
   line-height: 1;
 }
 .home-contact-title a { transition: color .18s; }
@@ -659,12 +662,12 @@ er { background: var(--orange-deep); }
 .home-contact-title a:focus-visible { color: var(--orange-deep); }
 .home-contact-lede {
   margin-top: 0.22rem;
-  font-size: 0.21rem;
+  font-size: var(--t-body);
   font-style: italic;
-  line-height: 0.28rem;
+  line-height: var(--lh-body);
 }
 
-.home-form { margin-top: 0.55rem; width: 13.73rem; }   /* margin to margin */
+.home-form { margin-top: 0.55rem; width: var(--col); }   /* margin to margin */
 .home-cols {
   display: grid;
   grid-template-columns: 6.66rem 6.66rem;
