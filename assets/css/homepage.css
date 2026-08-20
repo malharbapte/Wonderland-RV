@@ -278,7 +278,7 @@
   display: grid;
   grid-template-columns: 6.94rem 6.72rem;
   column-gap: 0.07rem;
-  align-items: start;
+  align-items: center;          /* copy block centres against the model grid */
 }
 .range-lede {
   font-size: 0.24rem;           /* same as CUSTOM LENGTHS */
