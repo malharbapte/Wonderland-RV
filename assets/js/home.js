@@ -195,8 +195,8 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
   /* Nudge applied after the corners are matched, in artboard px. The glyph
      reads high because a quote mark is drawn at superscript height, so it
      wants dropping by eye. One value, used everywhere. */
-  const MARK_DROP  = 90;   // down from the matched corner
-  const MARK_SHIFT = 6;    // and right
+  const MARK_DROP  = 104;  // down from the matched corner
+  const MARK_SHIFT = 16;   // and right (6 + 10)
 
   const PAIRS = [[".pull-mark", ".pull-quote p"], [".service-mark", ".service-quote p"]];
   const cvs = document.createElement("canvas");
