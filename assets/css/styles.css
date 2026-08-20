@@ -200,7 +200,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   gap: var(--bar-gap);
   margin-left: auto;
   font-family: var(--aviano);
-  font-size: 0.18rem;
+  font-size: 0.216rem;          /* x1.2 */
   line-height: 1;
   white-space: nowrap;
 }
@@ -228,7 +228,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   background: var(--orange-deep);
   color: #fff;
   font-family: var(--aviano);
-  font-size: 0.18rem;
+  /* moves with the nav links so the bar stays one size, as it is today */
+  font-size: 0.216rem;          /* x1.2 */
   font-weight: 900;
   line-height: 0.46rem;
   text-align: center;
