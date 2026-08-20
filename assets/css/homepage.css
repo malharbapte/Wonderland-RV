@@ -302,6 +302,13 @@
   column-gap: 0.08rem;
   align-items: center;          /* copy block centres against the model grid */
 }
+.range-title {
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: var(--t-heading);
+  line-height: 1;
+  margin-bottom: 0.34rem;       /* the lede and the list ride down behind it */
+}
 .range-lede {
   font-size: var(--t-sub);           /* same as CUSTOM LENGTHS */
   font-style: normal;           /* Gordita regular, not italic */
@@ -777,7 +784,7 @@
 
   .lux, .intro, .solara, .range, .dream, .why, .coty, .insurance { padding: 48px 0; }
   .lux-title, .solara-title, .dream-title, .service-title,
-  .coty-title, .insurance-title, .brands-title { font-size: 28px; line-height: 1.15; }
+  .coty-title, .insurance-title, .brands-title, .range-title { font-size: 28px; line-height: 1.15; }
   .band-title { font-size: 32px; }
   .band--range, .band--why { height: 240px; }
 
