@@ -72,10 +72,11 @@
   /* Type scale — four tiers, reviews deliberately excluded and tuned apart.
        heading 56 · subheading 40 · body 28 · caption 20               */
   --t-heading: 0.56rem;
-  --t-sub:     0.40rem;
+  --t-sub:     0.32rem;
+  --t-cta:     0.30rem;   /* between subheading and body */
   --t-body:    0.28rem;
   --t-caption: 0.20rem;
-  --lh-sub:     0.52rem;
+  --lh-sub:     0.42rem;
   --lh-body:    0.40rem;
   --lh-caption: 0.30rem;
 }
@@ -602,7 +603,7 @@ input:-webkit-autofill:focus {
   line-height: 1;
 }
 .unseen-sub {
-  margin-top: -0.058rem;        /* baselines 3612.5 → 3661.4 */
+  margin-top: 0.16rem;          /* clear gap under the heading */
   font-family: var(--aviano);
   font-size: 0.40rem;
   line-height: 1;
@@ -766,13 +767,13 @@ input:-webkit-autofill:focus {
   width: var(--col);            /* same column as the rest of the page */
   margin-inline: auto;
   display: grid;
-  grid-template-columns: 5.59rem 8.14rem;
+  grid-template-columns: 6.61rem 9.63rem;
   column-gap: 0;
   row-gap: 0.57rem;
 }
 
 .footer-logo { width: 4.00rem; height: auto; margin-bottom: -0.10rem; }
-.footer-blurb { width: 4.05rem; }
+.footer-blurb { width: 4.79rem; }
 .footer-strong { font-weight: 700; }
 .footer-strong:hover { color: var(--orange-deep); }
 
@@ -805,8 +806,8 @@ input:-webkit-autofill:focus {
 
 .newsletter-form {
   display: grid;
-  grid-template-columns: 6.33rem 1.44rem;   /* Subscribe aligns to LOCATIONS */
-  column-gap: 0.37rem;
+  grid-template-columns: 7.49rem 1.70rem;   /* Subscribe aligns to LOCATIONS */
+  column-gap: 0.44rem;
   align-items: end;
   margin-top: 0.29rem;
 }
@@ -828,7 +829,7 @@ input:-webkit-autofill:focus {
 
 .link-cols {
   display: grid;
-  grid-template-columns: 3.35rem 3.35rem 1.44rem;
+  grid-template-columns: 3.96rem 3.96rem 1.70rem;
   margin-top: 0.64rem;
 }
 .link-col .footer-head { margin-bottom: 0.03rem; }

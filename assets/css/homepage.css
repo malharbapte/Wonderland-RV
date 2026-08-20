@@ -43,7 +43,7 @@
   color: #fff;
   font-family: var(--aviano);
   font-weight: 900;
-  font-size: 0.18rem;
+  font-size: var(--t-cta);
   line-height: 1;
   padding: 0.24rem 0.34rem;
   transition: background .2s;
@@ -225,8 +225,8 @@
 .solara { padding-top: 1.20rem; padding-bottom: 1.20rem; }
 .solara-grid {
   display: grid;
-  grid-template-columns: 4.40rem 9.11rem;
-  column-gap: 0.20rem;
+  grid-template-columns: 5.20rem 10.78rem;   /* reaches the right margin */
+  column-gap: 0.24rem;
   align-items: start;
 }
 .solara-title {
@@ -244,8 +244,8 @@
 }
 .solara-body {
   margin-top: 0.30rem;
-  font-size: var(--t-body);           /* body minimum, matching the Contact page */
-  line-height: var(--lh-body);
+  font-size: var(--t-caption);           /* body minimum, matching the Contact page */
+  line-height: var(--lh-caption);
 }
 .solara-copy .btn-solid { margin-top: 0.34rem; }
 .solara-video {
@@ -273,8 +273,8 @@
 .range { padding-top: 0.95rem; padding-bottom: 1.07rem; }
 .range-grid {
   display: grid;
-  grid-template-columns: 6.94rem 6.72rem;
-  column-gap: 0.07rem;
+  grid-template-columns: 8.21rem 7.95rem;
+  column-gap: 0.08rem;
   align-items: center;          /* copy block centres against the model grid */
 }
 .range-lede {
@@ -302,9 +302,9 @@
 .range-list p {
   padding-left: 0.86rem;
   margin-top: 0.10rem;
-  font-size: var(--t-body);
+  font-size: var(--t-caption);
   font-style: italic;
-  line-height: var(--lh-body);
+  line-height: var(--lh-caption);
 }
 .range-figure img { width: 100%; height: auto; }
 
@@ -423,7 +423,7 @@ er { background: var(--orange-deep); }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
-.dream-points li { padding: 0 0.34rem; }
+.dream-points li { padding: 0 0.34rem; text-align: center; }
 .dream-points li + li { border-left: 1px solid var(--ink); }
 .dream-points h3 {
   font-size: var(--t-sub);           /* 36 */
@@ -432,7 +432,7 @@ er { background: var(--orange-deep); }
   line-height: 1;
   color: var(--orange-deep);
 }
-.dream-points p { margin-top: 0.14rem; font-size: var(--t-body); line-height: var(--lh-body); }
+.dream-points p { margin-top: 0.14rem; font-size: var(--t-caption); line-height: var(--lh-caption); }
 
 /* ==========================================================================
    WHY CHOOSE US   (band y 8267 – 9090, list y 9207 – 9709)
@@ -441,7 +441,7 @@ er { background: var(--orange-deep); }
 .why { padding-top: 1.17rem; padding-bottom: 1.20rem; }
 .why-grid {
   display: grid;
-  grid-template-columns: 5.70rem 8.02rem;
+  grid-template-columns: 6.74rem 9.49rem;
   column-gap: 0.01rem;
   align-items: start;
 }
@@ -462,7 +462,7 @@ er { background: var(--orange-deep); }
   letter-spacing: 0.02em;
   line-height: 1;
 }
-.why-list p { margin-top: 0.14rem; font-size: var(--t-body); font-style: italic; line-height: var(--lh-body); }
+.why-list p { margin-top: 0.14rem; font-size: var(--t-caption); font-style: italic; line-height: var(--lh-caption); }
 .why-figure img { width: 100%; height: auto; }
 
 /* ==========================================================================
@@ -705,19 +705,19 @@ er { background: var(--orange-deep); }
 .home-form { margin-top: 0.55rem; width: var(--col); }   /* margin to margin */
 .home-cols {
   display: grid;
-  grid-template-columns: 6.66rem 6.66rem;
-  column-gap: 0.41rem;
+  grid-template-columns: 7.88rem 7.88rem;
+  column-gap: 0.48rem;
   align-items: start;
 }
 .home-col > * + * { margin-top: 0.45rem; }
 .home-col .field--line input { padding-left: 0.11rem; }
 .home-pair {
   display: grid;
-  grid-template-columns: 3.32rem 2.96rem;
-  column-gap: 0.38rem;
+  grid-template-columns: 3.93rem 3.50rem;
+  column-gap: 0.45rem;
   align-items: end;
 }
-.home-pair .field--select { margin-left: 0; width: 3.32rem; }
+.home-pair .field--select { margin-left: 0; width: 3.93rem; }
 .home-area textarea { width: 100%; height: 1.7925rem; }
 
 .home-chips {
