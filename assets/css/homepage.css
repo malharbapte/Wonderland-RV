@@ -319,10 +319,16 @@
   height: 5.43rem;
   background: var(--blush);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   /* the mark is deliberately allowed out of the band — see .testi-mark */
 }
-.testi-inner { position: static; }   /* the mark measures off the band, not this */
+.testi-inner {
+  position: static;             /* the mark measures off the band, not this */
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr;      /* one cell: review centres in the full band,
+                                   attribution rides the foot of the same cell */
+}
 .testi-mark {
   /* Artboard: a 600px mark whose em-box starts 159 ABOVE a 543 band, so it
      straddles the edge and reads as the hand-off between two sections.
@@ -338,18 +344,21 @@
   color: #FFEBCC;
   pointer-events: none;
 }
-.testi-quote { margin: 0; position: relative; z-index: 1; text-align: center; }
+.testi-quote { margin: 0; grid-area: 1 / 1; align-self: center; position: relative; z-index: 1; text-align: center; }
 .testi-quote p {
-  font-size: 0.28rem;           /* 48 */
+  font-size: 0.42rem;           /* x1.5 */
   font-style: italic;
   font-weight: 500;
-  line-height: 0.327rem;
+  line-height: 0.49rem;         /* leading held at the same ratio */
   color: #FFEBD8;
 }
 .testi-attr {
   position: relative;
   z-index: 1;
-  margin-top: 0.50rem;
+  grid-area: 1 / 1;
+  align-self: end;
+  margin-bottom: 0.55rem;       /* on the attribution, so the review still
+                                   centres on the band's true middle */
   text-align: right;
   font-size: 0.21rem;
   line-height: 0.28rem;
@@ -454,7 +463,7 @@ er { background: var(--orange-deep); }
 /* ==========================================================================
    LEGENDARY SERVICE   (y 10026 – 10858)   — five reviews on a slider
    ========================================================================== */
-.service { padding-top: 1.20rem; }
+.service { padding-top: 0.80rem; }
 .service-head { text-align: center; }
 .service-title {
   font-family: var(--aviano);
@@ -481,8 +490,7 @@ er { background: var(--orange-deep); }
 .service-band::before {                 /* the #FFF2DC panel behind the slides */
   content: "";
   position: absolute;
-  left: 0; right: 0; top: 0.61rem;
-  height: 5.66rem;
+  left: 0; right: 0; top: 0.61rem; bottom: 0.47rem;
   background: #FFF2DC;
 }
 .service-viewport { position: relative; overflow: hidden; }
@@ -496,24 +504,24 @@ er { background: var(--orange-deep); }
   align-items: center;
   min-height: 6.74rem;
 }
-.service-media { position: relative; z-index: 1; width: 56.9%; height: 6.74rem; flex: none; }
+.service-media { position: relative; z-index: 1; width: 56.9%; align-self: stretch; flex: none; }
 .service-media img { width: 100%; height: 100%; object-fit: cover; }
 .service-quote {
   position: relative;
   z-index: 1;
   flex: none;
-  /* media 56.9% + this 4.6% gap + 17.39% lands the right edge on the content
+  /* media 56.9% + this 1.5% gap + 20.49% lands the right edge on the content
      column (78.89% of the band), so reviews can't run past the margin */
-  width: 17.39%;
-  margin: 0 0 0 4.6%;
+  width: 20.49%;
+  margin: 0 0 0 1.5%;
   padding-top: 0.10rem;         /* review + attribution drop 10; the mark holds
                                    its place via dropAdj in home.js */
   color: var(--orange-deep);
 }
 .service-quote p {
-  font-size: 0.28rem;           /* review reads larger than the name */
+  font-size: 0.42rem;           /* x1.5; still larger than the 21 name */
   font-style: italic;
-  line-height: 0.42rem;         /* opened up; the reviews run several lines */
+  line-height: 0.63rem;         /* leading scaled with it */
 }
 .service-mark {
   position: absolute;
