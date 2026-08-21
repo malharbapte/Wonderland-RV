@@ -343,7 +343,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     done = true;
     /* a timer rather than rAF: rAF is paused in background tabs, which would
        leave the figure stuck at zero for anyone who opens the page there */
-    const DUR = 1800, t0 = Date.now();
+    const DUR = 1440, t0 = Date.now();   /* 1800 / 1.25 — same ease-out, 1.25x speed */
     const id = setInterval(function () {
       const k = Math.min(1, (Date.now() - t0) / DUR);
       const eased = 1 - Math.pow(1 - k, 3);            // ease-out
