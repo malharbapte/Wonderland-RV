@@ -145,7 +145,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   pointer-events: none;
 }
 .ph > img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
-.media > img { width: 100%; height: 100%; object-fit: cover; }
+.media > img,
+.media > video { width: 100%; height: 100%; object-fit: cover; }
 
 /* Photos carry white headings at the bottom edge, so the foreground gets a
    gradient to hold contrast. Governed by --scrim; 0 disables it entirely. */
@@ -770,6 +771,7 @@ input:-webkit-autofill:focus {
    ========================================================================== */
 .next-band { position: relative; height: 8.26rem; }   /* was 10.70 */
 .next-band .media { position: absolute; inset: 0; }
+.next-band .media video { object-position: center 20%; }   /* clip's sea/sky sits in its top ~20% — a centred crop shows none of it */
 .next-band .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
 
 .next-copy {
