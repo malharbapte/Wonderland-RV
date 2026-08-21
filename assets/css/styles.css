@@ -168,7 +168,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .video-band,
 .experience,
 .rules-band,
-.next-band {
+.next-band,
+.site-header {
   width: 100vw;
   margin-left: calc(50% - 50vw);
 }
@@ -1072,7 +1073,7 @@ input:-webkit-autofill:focus {
      viewport does not give back — 16px of sideways scroll on a phone. They are
      already the full width here, so the break-out is simply switched off. */
   .pull, .testi, .stat-band, .service-band, .brand-marquee, .band,
-  .next-band, .experience, .rules-band, .coty-figure {
+  .next-band, .experience, .rules-band, .coty-figure, .site-header {
     width: 100%; margin-left: 0;
   }
 
