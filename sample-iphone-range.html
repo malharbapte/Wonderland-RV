@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — Our range, horizontal</title>
+<title>iPhone — Our range, containers</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=98">
 <style>
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
@@ -15,19 +15,22 @@ table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:
 table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
 code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
 
-.rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
-.phone { flex:0 0 390px; --sub:16px; --slh:24px; --body:15px; --blh:23px; --cap:12px; }
+.rack { display:flex; gap:26px; align-items:flex-start; padding:6px 0 14px; }
+.phone { flex:0 0 390px; --sub:16px; --slh:24px; --body:15px; --blh:23px; --cap:12px;
+         --radius:10px; }
 .phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:76px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:92px; }
 .screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
           overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
 
-/* the divider that already carries the section name */
-.band { position:relative; height:240px; overflow:hidden; }
-.band img { width:100%; height:100%; object-fit:cover; display:block; }
-.doc .band h2 { position:absolute; left:24px; right:24px; bottom:22px; margin:0; color:#fff;
+/* the divider: shown whole, at the photograph's own 2600x899 */
+.band { position:relative; }
+.band img { width:100%; height:auto; display:block; }
+.doc .band h2 { position:absolute; left:24px; right:24px; top:16px; margin:0; color:#fff;
                 font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-                letter-spacing:-0.01em; text-shadow:0 1px 12px rgba(0,0,0,.45); }
+                letter-spacing:-0.01em; text-shadow:0 1px 14px rgba(0,0,0,.5); }
+.doc h2.above { margin:0; padding:30px 24px 14px; font-family:var(--aviano); font-weight:900;
+                font-size:30px; line-height:33px; letter-spacing:-0.01em; }
 
 .r-lede { font-size:var(--sub); line-height:var(--slh); margin:26px 0 0; padding:0 24px; }
 .feats { list-style:none; margin:26px 0 0; padding:0 24px; }
@@ -38,24 +41,22 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
 .feats h4 { font-family:var(--gordita); font-weight:700; font-size:var(--sub); line-height:1.2; margin:0; }
 .feats p { font-size:var(--body); line-height:var(--blh); font-style:italic; margin:5px 0 0; }
 
+/* H3 width, kept */
 .mscroll { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
            overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
            scrollbar-width:none; padding:0 24px; gap:12px; scroll-padding-left:24px;
            margin-top:30px; }
 .mscroll::-webkit-scrollbar { display:none; }
-.mcard { flex:0 0 var(--card); scroll-snap-align:start; text-decoration:none; color:inherit; }
-.mcard .shot { aspect-ratio:541/270; overflow:hidden; }
-.mcard img { width:100%; height:100%; object-fit:contain; display:block; }
-.mname { display:flex; align-items:baseline; gap:8px; margin:8px 0 0; }
-.mname h4 { font-family:var(--aviano); font-weight:900; font-size:var(--sub);
-            letter-spacing:.04em; margin:0; }
-.mname .chev { color:var(--orange-deep); font-size:18px; line-height:1; margin-left:auto; }
+.mcard { flex:0 0 calc(58% - 18px); scroll-snap-align:start;
+         text-decoration:none; color:inherit; }
+.box { aspect-ratio:541/270; overflow:hidden; border-radius:var(--radius);
+       display:grid; place-items:center; }
+.box img { width:100%; height:100%; object-fit:contain; display:block; }
+.c1 .box { border:1px solid #e3e1dd; background:#fff; }
+.c2 .box, .c3 .box { background:#F4F2EF; }
+.doc .mcard h4 { font-family:var(--aviano); font-weight:900; font-size:var(--sub);
+                 letter-spacing:.04em; margin:10px 0 0; }
 .mcap { font-size:var(--cap); color:#777; margin:3px 0 0; }
-
-.w1 { --card: calc(100% - 82px); }
-.w2 { --card: calc(100% - 130px); }
-.w3 { --card: calc(58% - 18px); }
-.w2 .mname { border-top:1px solid #e6e6e6; padding-top:9px; }
 
 .rail { display:flex; align-items:center; gap:9px; padding:14px 24px 0; }
 .dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
@@ -67,26 +68,30 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
 <body>
 <div class="doc">
 
-  <h1>iPhone &mdash; Our range, horizontal</h1>
-  <p class="note">The four models as a horizontal scroll: van, name, caption. Same mechanics as the
-     photo carousel in the block above &mdash; snap, contained overscroll, peek, dots and a counter.</p>
+  <h1>iPhone &mdash; Our range, containers</h1>
+  <p class="note">H3 width kept. The vans now sit in rounded containers, the band is shown whole,
+     and the heading has moved to the top of it.</p>
 
   <table class="t">
-    <tr><th>The images</th><td>Back to the white-background vans, cut from
-      <code>range-grid.png</code>. All four are placed on one common 541&times;270 frame at their
-      original scale, so their true relative sizes hold &mdash; XTR really is longer than Hornet
-      &mdash; and they sit on a shared baseline of white rather than each being trimmed to itself.</td></tr>
-    <tr><th>The heading</th><td>Gone. You were right &mdash; the band divider directly above already
-      says &ldquo;Our range&rdquo;, so the section repeated itself. The lede now follows the band.</td></tr>
-    <tr><th>The divider</th><td>Now in the sample, which it should have been from the start. It is
-      its own section in the markup, which is why I left it out &mdash; not a good reason.</td></tr>
+    <tr><th>Why the gaps were uneven</th><td>You had the cause exactly right. The four vans were cut
+      from one PNG at their true relative sizes and centred on a shared frame, so a shorter van
+      carries more air than a longer one. A stated container turns that from a mismatch into
+      padding, which is why this works.</td></tr>
+    <tr><th>The corner radius</th><td>There is no consistent curvature to match &mdash; the site
+      currently uses <b>ten</b> different radii: 14, 10, 8, 6, 3, 0.353rem, 0.246rem, 0.18rem,
+      0.15rem, 0.146rem, 0.02rem. <b>10px</b> is the most-used on the phone (the select, the
+      textarea and the chips all sit there), so these boxes take 10 &mdash; and I would move the
+      photo carousel in the block above from 6 to 10 to match. Worth settling as a token.</td></tr>
+    <tr><th>The band</th><td>Was forced to 240 tall with <code>object-fit: cover</code>, which cropped
+      it. It is now shown at the photograph's own 2600&times;899, so nothing is cut, and the
+      heading sits at the top.</td></tr>
   </table>
 
   <div class="rack">
 
-    <div class="phone w1">
-      <h3>H1 &mdash; One up, generous peek</h3>
-      <p class="sub">Card is the column less 82. Closest to the photo carousel in the block above, so the two read as the same component at the same rhythm.</p>
+    <div class="phone c1">
+      <h3>C1 &mdash; Outlined containers</h3>
+      <p class="sub">Each van sits in a hairline rounded box, white inside. The frame is stated, so the uneven air around each photograph reads as padding inside a container rather than as four photos that do not match.</p>
       <div class="screen">
         <div class="band"><img src="assets/img/home/range-band.jpg" alt=""><h2>Our range</h2></div>
         <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
@@ -99,19 +104,19 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
             <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
         </ul>
         <div class="mscroll">
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/solara.png" alt=""></div><div class="mname"><h4>SOLARA</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Composite off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/xtr.png" alt=""></div><div class="mname"><h4>XTR</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Extreme off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/hornet.png" alt=""></div><div class="mname"><h4>HORNET</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Rugged off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/amaroo.png" alt=""></div><div class="mname"><h4>AMAROO</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Classic off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/solara.png" alt=""></div><h4>SOLARA</h4><p class="mcap">Composite off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/xtr.png" alt=""></div><h4>XTR</h4><p class="mcap">Extreme off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/hornet.png" alt=""></div><h4>HORNET</h4><p class="mcap">Rugged off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/amaroo.png" alt=""></div><h4>AMAROO</h4><p class="mcap">Classic off-road</p></a>
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
         <div class="pad"></div>
       </div>
     </div>
 
-    <div class="phone w2">
-      <h3>H2 &mdash; Narrower card, ruled name</h3>
-      <p class="sub">Pulled in another 48 so more of the next van shows, and a hairline over the name the way the desktop grid has one. The most obviously scrollable.</p>
+    <div class="phone c2">
+      <h3>C2 &mdash; Filled containers</h3>
+      <p class="sub">Same box, no outline, filled a half-step off white. The van edges dissolve into the fill, which hides the mismatch more completely than an outline does. My pick.</p>
       <div class="screen">
         <div class="band"><img src="assets/img/home/range-band.jpg" alt=""><h2>Our range</h2></div>
         <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
@@ -124,21 +129,22 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
             <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
         </ul>
         <div class="mscroll">
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/solara.png" alt=""></div><div class="mname"><h4>SOLARA</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Composite off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/xtr.png" alt=""></div><div class="mname"><h4>XTR</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Extreme off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/hornet.png" alt=""></div><div class="mname"><h4>HORNET</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Rugged off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/amaroo.png" alt=""></div><div class="mname"><h4>AMAROO</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Classic off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/solara.png" alt=""></div><h4>SOLARA</h4><p class="mcap">Composite off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/xtr.png" alt=""></div><h4>XTR</h4><p class="mcap">Extreme off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/hornet.png" alt=""></div><h4>HORNET</h4><p class="mcap">Rugged off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/amaroo.png" alt=""></div><h4>AMAROO</h4><p class="mcap">Classic off-road</p></a>
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
         <div class="pad"></div>
       </div>
     </div>
 
-    <div class="phone w3">
-      <h3>H3 &mdash; Nearly two up</h3>
-      <p class="sub">Cards at 58%, so almost two vans on screen and all four in one flick. Shortest, but the vans get small.</p>
+    <div class="phone c3">
+      <h3>C3 &mdash; Filled, heading above the band</h3>
+      <p class="sub">Containers as C2, but &ldquo;Our range&rdquo; sits on white above the photograph instead of over it. Most legible, and it drops the overlay the desktop band has.</p>
       <div class="screen">
-        <div class="band"><img src="assets/img/home/range-band.jpg" alt=""><h2>Our range</h2></div>
+        <h2 class="above">Our range</h2>
+        <div class="band plain"><img src="assets/img/home/range-band.jpg" alt=""></div>
         <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
         <ul class="feats">
           <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg)"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span>
@@ -149,10 +155,10 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
             <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
         </ul>
         <div class="mscroll">
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/solara.png" alt=""></div><div class="mname"><h4>SOLARA</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Composite off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/xtr.png" alt=""></div><div class="mname"><h4>XTR</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Extreme off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/hornet.png" alt=""></div><div class="mname"><h4>HORNET</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Rugged off-road</p></a>
-          <a class="mcard" href="#"><div class="shot"><img src="assets/img/home/range/amaroo.png" alt=""></div><div class="mname"><h4>AMAROO</h4><span class="chev">&rsaquo;</span></div><p class="mcap">Classic off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/solara.png" alt=""></div><h4>SOLARA</h4><p class="mcap">Composite off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/xtr.png" alt=""></div><h4>XTR</h4><p class="mcap">Extreme off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/hornet.png" alt=""></div><h4>HORNET</h4><p class="mcap">Rugged off-road</p></a>
+          <a class="mcard" href="#"><div class="box"><img src="assets/img/home/range/amaroo.png" alt=""></div><h4>AMAROO</h4><p class="mcap">Classic off-road</p></a>
         </div>
         <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
         <div class="pad"></div>
