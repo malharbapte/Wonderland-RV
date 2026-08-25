@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where to next — video background</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=98">
+<style>
+/* ==========================================================================
+   THE PROPOSAL
+   --------------------------------------------------------------------------
+   Only the media inside .next-band swaps — a video element in place of the
+   img. Everything else (.next-band height, .next-copy, .next-title, the two
+   buttons, the full-bleed section width) is the exact same markup and CSS
+   as index.html, untouched. Nothing here has been written back to the real
+   site yet — this is a look, not an implementation.
+   ========================================================================== */
+.next-band .media video { width: 100%; height: 100%; object-fit: cover; display: block;
+  object-position: center 20%; /* shifts the crop window up the source frame — more sky/sea, less of the dusty road at the bottom */ }
+
+body { background: #fff; }
+.doc { max-width: 1180px; margin: 0 auto; padding: 44px 32px 20px; font-family: var(--gordita); }
+.doc h1 { font-family: var(--aviano); font-weight: 900; font-size: 26px; margin: 0 0 8px; }
+.doc p.note { font-size: 14px; line-height: 21px; color: #444; max-width: 80ch; margin: 0 0 14px; }
+.tag { display:inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+       padding: 3px 9px; border-radius: 3px; margin: 32px 0 12px; }
+.tag--now { background: #f1f1f1; color: #555; }
+.tag--new { background: #D57114; color: #fff; }
+.doc + .next-band { margin-top: 0; }
+.spacer { height: 24px; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>Where to next — video option</h1>
+  <p class="note">
+    Two versions of the same band below — identical height, copy, buttons and full-bleed width.
+    The first is today's static photo. The second plays <code>Where to next_section-vid.mp4</code>
+    (the file you dropped in <code>assets/img/home/</code>) behind the same overlay, muted, looped,
+    autoplaying. Scroll down to compare.
+  </p>
+  <p class="note">
+    If this reads right, the only change to the live page is swapping the <code>&lt;img&gt;</code>
+    for a <code>&lt;video&gt;</code> inside <code>.next-band .media</code> — the section itself
+    doesn't move or resize.
+  </p>
+  <span class="tag tag--now">now — photo</span>
+</div>
+
+<section class="next-band">
+  <div class="media">
+    <img src="assets/img/where-to-next.jpg" alt="">
+  </div>
+  <div class="next-copy container">
+    <h2 class="next-title">WHERE TO NEXT?</h2>
+    <div class="next-actions">
+      <a class="btn-next" href="#" onclick="return false">explore the range</a>
+      <a class="btn-next" href="#" onclick="return false">meet the team</a>
+    </div>
+  </div>
+</section>
+
+<div class="doc">
+  <span class="tag tag--new">proposed — video</span>
+</div>
+
+<section class="next-band" id="vidband">
+  <div class="media">
+    <video src="assets/img/home/Where to next_section-vid.mp4"
+           poster="assets/img/where-to-next.jpg"
+           autoplay muted loop playsinline></video>
+  </div>
+  <div class="next-copy container">
+    <h2 class="next-title">WHERE TO NEXT?</h2>
+    <div class="next-actions">
+      <a class="btn-next" href="#" onclick="return false">explore the range</a>
+      <a class="btn-next" href="#" onclick="return false">meet the team</a>
+    </div>
+  </div>
+</section>
+
+<div class="spacer"></div>
+</body>
+</html>

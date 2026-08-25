@@ -743,7 +743,7 @@
   .intro p { font-size: 13px; line-height: 20px; }
 
   .stat-band { height: auto; padding: 40px 24px; }
-  .stat-number { font-size: 44px; }
+  .stat-number { font-size: var(--t-display); }   /* 44 was the only size off the scale */
   .stat-label { font-size: var(--t-caption); letter-spacing: 0.3em; text-indent: 0.3em; }
 
   .solara-grid, .range-grid, .why-grid, .insurance-grid { grid-template-columns: 1fr; row-gap: 32px; }
@@ -805,6 +805,9 @@
   .insurance-logo { width: 200px; }
   .insurance-copy { font-size: var(--t-body); line-height: var(--lh-body); }
   .btn-solid { font-size: var(--t-cta); padding: 14px 26px; }
+  /* Solara's CTA runs the full measure: a bigger target, and it reads as the
+     end of the block rather than something floating in it. */
+  .solara-copy .btn-solid { display: flex; margin-top: 22px; }
   .brand-track img { height: 30px; }
   .brand-track li.sm img { height: 39px; }
   .brand-track li { margin-right: 34px; }
