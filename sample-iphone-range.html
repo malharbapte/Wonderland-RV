@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone — Our range</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=98">
+<style>
+body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
+.doc { padding:40px 28px 90px; }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc h2 { font-family:var(--aviano); font-weight:900; font-size:16px; margin:34px 0 8px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 10px; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
+
+.rack { display:flex; gap:26px; align-items:flex-start; overflow-x:auto; padding:6px 0 14px; }
+.phone { flex:0 0 390px; --heading:30px; --hlh:33px; --sub:16px; --slh:24px;
+         --body:15px; --blh:23px; --cap:12px; }
+.phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:104px; }
+.screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
+          overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
+
+.doc .screen h2.rt { font-family:var(--aviano); font-weight:900; font-size:var(--heading);
+                     line-height:var(--hlh); letter-spacing:-0.01em; margin:0; padding:34px 24px 0; }
+.r-lede { font-size:var(--sub); line-height:var(--slh); margin:12px 0 0; padding:0 24px; }
+
+/* the feature list, with the icon put back to a size you can see */
+.feats { list-style:none; margin:26px 0 0; padding:0 24px; }
+.feats li { position:relative; padding-left:52px; }
+.feats li + li { margin-top:22px; }
+.feats .ic { position:absolute; left:0; top:-2px; width:36px; height:36px; color:var(--orange-deep); }
+.feats .ic svg { width:100%; height:100%; }
+.feats h4 { font-family:var(--gordita); font-weight:700; font-size:var(--sub); line-height:1.2; margin:0; }
+.feats p { font-size:var(--body); line-height:var(--blh); font-style:italic; margin:5px 0 0; }
+
+/* --- R1: a row per model --- */
+.models { margin:30px 0 0; padding:0 24px; }
+.mrow { display:flex; align-items:center; gap:14px; padding:12px 0;
+        border-top:1px solid #e6e6e6; text-decoration:none; color:inherit; }
+.mrow:last-child { border-bottom:1px solid #e6e6e6; }
+.mrow img { width:118px; height:auto; flex:none; }
+.mrow .mt { flex:1; }
+.mrow h4 { font-family:var(--aviano); font-weight:900; font-size:var(--sub); margin:0;
+           letter-spacing:.04em; }
+.mrow p { font-size:var(--cap); color:#777; margin:3px 0 0; }
+.mrow .chev { color:var(--orange-deep); font-size:20px; line-height:1; }
+
+/* --- R2: two up --- */
+.mgrid { display:grid; grid-template-columns:1fr 1fr; gap:20px 14px; margin:30px 0 0; padding:0 24px; }
+.mcell { text-decoration:none; color:inherit; }
+.mcell img { width:100%; height:auto; display:block; }
+.mcell h4 { font-family:var(--aviano); font-weight:900; font-size:var(--cap); margin:8px 0 0;
+            letter-spacing:.06em; border-top:1px solid #e6e6e6; padding-top:8px; }
+.mcell p { font-size:11px; color:#777; margin:2px 0 0; }
+
+/* --- R3: the baked PNG, full bleed --- */
+.png-bleed { margin:30px 0 0; }
+.png-bleed img { width:100%; height:auto; display:block; }
+.pad { height:30px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>iPhone &mdash; Our range</h1>
+  <p class="note">Two things are actually broken here, and they are the same class of thing we have
+     been finding: something sized in rem that collapsed, and something built for one width that
+     does not survive another.</p>
+
+  <table class="t">
+    <tr><th>The icons</th><td>The three feature icons are <code>0.62rem</code>, which on the phone is
+      <b>9.9px</b>. They are absolutely positioned at <code>left: 0</code> while the headings have
+      their indent removed, so each icon is sitting <b>underneath its own heading</b>. This is the
+      overlapping text you reported at the start.</td></tr>
+    <tr><th>The model grid</th><td>It is one baked PNG, 1016 wide, rendered at <b>0.337</b> scale.
+      The four names and descriptors are pixels inside it, so they land around 9&ndash;10px
+      equivalent &mdash; under the floor and unreadable &mdash; and the four chevrons are part of the
+      picture, so nothing is tappable. I have cut the four vans out of it so the names can be real
+      text again.</td></tr>
+  </table>
+
+  <div class="rack">
+
+    <div class="phone">
+      <h3>R1 &mdash; A row per model</h3>
+      <p class="sub">Four tappable rows: van, name, descriptor, chevron. Names become real text at
+         16, descriptors at 12, and each row is a 60-plus target. The phone convention for a short
+         list of things you pick between, and the only one where all four read at a glance.</p>
+      <div class="screen">
+        <h2 class="rt">Range</h2>
+        <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+        <ul class="feats">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg)"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span>
+            <h4>CUSTOM LENGTHS</h4><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span>
+            <h4>BUNKS GALORE</h4><p>Up to 6 bunk beds for big families</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span>
+            <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
+        </ul>
+        <div class="models">
+          <a class="mrow" href="#"><img src="assets/img/home/range/solara.png" alt=""><span class="mt"><h4>SOLARA</h4><p>Composite off-road</p></span><span class="chev">&rsaquo;</span></a>
+          <a class="mrow" href="#"><img src="assets/img/home/range/xtr.png" alt=""><span class="mt"><h4>XTR</h4><p>Extreme off-road</p></span><span class="chev">&rsaquo;</span></a>
+          <a class="mrow" href="#"><img src="assets/img/home/range/hornet.png" alt=""><span class="mt"><h4>HORNET</h4><p>Rugged off-road</p></span><span class="chev">&rsaquo;</span></a>
+          <a class="mrow" href="#"><img src="assets/img/home/range/amaroo.png" alt=""><span class="mt"><h4>AMAROO</h4><p>Classic off-road</p></span><span class="chev">&rsaquo;</span></a>
+        </div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>R2 &mdash; Two up</h3>
+      <p class="sub">Keeps the desktop&rsquo;s 2&times;2 composition, but as four real cards rather
+         than a picture of one. Names are real text at 12, descriptors at 11. Vans are half the
+         width of R1, so they read as thumbnails.</p>
+      <div class="screen">
+        <h2 class="rt">Range</h2>
+        <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+        <ul class="feats">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg)"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span>
+            <h4>CUSTOM LENGTHS</h4><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span>
+            <h4>BUNKS GALORE</h4><p>Up to 6 bunk beds for big families</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span>
+            <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
+        </ul>
+        <div class="mgrid">
+          <a class="mcell" href="#"><img src="assets/img/home/range/solara.png" alt=""><h4>SOLARA</h4><p>Composite off-road</p></a>
+          <a class="mcell" href="#"><img src="assets/img/home/range/xtr.png" alt=""><h4>XTR</h4><p>Extreme off-road</p></a>
+          <a class="mcell" href="#"><img src="assets/img/home/range/hornet.png" alt=""><h4>HORNET</h4><p>Rugged off-road</p></a>
+          <a class="mcell" href="#"><img src="assets/img/home/range/amaroo.png" alt=""><h4>AMAROO</h4><p>Classic off-road</p></a>
+        </div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>R3 &mdash; Keep the PNG, full bleed</h3>
+      <p class="sub">The least work: let the baked grid run to the screen edges instead of sitting
+         inside the margin. Buys 48 of width, so the names go from about 9 to about 10. Still
+         pixels, still under the floor, still nothing to tap. Shown so the do-nothing option is
+         on the table honestly.</p>
+      <div class="screen">
+        <h2 class="rt">Range</h2>
+        <p class="r-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+        <ul class="feats">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg)"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span>
+            <h4>CUSTOM LENGTHS</h4><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span>
+            <h4>BUNKS GALORE</h4><p>Up to 6 bunk beds for big families</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span>
+            <h4>CUSTOM LAYOUTS</h4><p>30+ couple and family layouts</p></li>
+        </ul>
+        <div class="png-bleed"><img src="assets/img/home/range-grid.png" alt=""></div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
