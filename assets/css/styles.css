@@ -1208,12 +1208,24 @@ input:-webkit-autofill:focus {
   /* ---- unseen ---- */
   .unseen { padding: 48px 0 56px; }
   .unseen-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
-  .unseen-sub { margin-top: 10px; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  /* The sub was carrying --lh-sub, 24 on 16px type, so 4 of box leading sat on
+     top of the 10 margin and the pair read apart. Desktop sets line-height 1 on
+     this line for exactly that reason; the phone now does the same, and the
+     margin is the whole of the gap rather than most of it. */
+  .unseen-sub { margin-top: 10px; font-size: var(--t-sub); line-height: 1; }
   .quote-block { grid-template-columns: 1fr; margin-top: 36px; padding-top: 0; gap: 24px; }
   .quote-block::before { display: none; }
   .quote-mark { display: none; }
-  .quote-left { font-size: var(--t-sub); line-height: var(--lh-sub); }
-  .quote-right { padding-left: 0; font-size: var(--t-body); line-height: var(--lh-body); }
+  /* The spec comes before the quote on a phone: the panel detail answers "book
+     a factory tour", and the line about cost answers the panel detail. Source
+     order is the desktop column order, so it is swapped here rather than in the
+     markup. */
+  .quote-right { order: 1; padding-left: 0; font-size: var(--t-body); line-height: var(--lh-body); }
+  .quote-left { order: 2; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  /* Two lines, with the break placed rather than left to the column width: the
+     brs are hidden here with the rest of the prose, so each half is a span that
+     becomes a block. */
+  .quote-left .ln { display: block; }
   .quote-attr { margin-top: 24px; font-size: var(--t-caption); line-height: var(--lh-caption); }
 
   /* ---- experience ---- */
