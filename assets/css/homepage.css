@@ -805,16 +805,58 @@
   .testi-quote br { display: none; }        /* desktop's hand-set breaks */
   .testi-attr { margin: 20px 0 0; text-align: center; font-size: var(--t-caption); line-height: 18px; }
 
-  .dream-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 34vw 34vw; gap: 8px; }
-  .dream-shot--a, .dream-shot--d { grid-row: auto; }
-  .dream-shot--a { grid-column: 1; } .dream-shot--b { grid-column: 2; }
-  .dream-shot--c { grid-column: 1; } .dream-shot--d { grid-column: 2; }
-  .dream-quote { position: static; display: flex; margin: 0; padding: 14px 20px; font-size: var(--t-cta); }
-  .dream-points { grid-template-columns: 1fr; row-gap: 28px; }
-  .dream-points li { padding: 0; }
-  .dream-points li + li { border-left: 0; }
-  .dream-points h3 { font-size: var(--t-sub); }
-  .dream-points p { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* ---- Your dream van awaits -------------------------------------------
+     The collage keeps its desktop shape at this width, which lands two of the
+     four photographs at 98x56 -- smaller than the feature icons two sections
+     above. Four equal tiles instead, and the title comes out of the mosaic
+     onto white where its two lines have room. */
+  /* The desktop mosaic is not a grid -- it places the shots absolutely -- so
+     the columns need a display to act on before any of this takes effect. */
+  .dream-mosaic { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto;
+                  gap: 10px; padding: 0 24px; height: auto; }
+  .dream-head { grid-column: 1 / -1; padding: 0; }
+  .dream-title { color: var(--ink, #111); }
+  .dream-shot { position: static; width: auto; height: auto;
+                aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius); }
+  .dream-shot--a, .dream-shot--b, .dream-shot--c, .dream-shot--d {
+    grid-column: auto; grid-row: auto; left: auto; top: auto; }
+  .dream-shot img { object-position: 50% 50%; }
+  .dream-quote { grid-column: 1 / -1; position: static; display: flex; margin: 14px 0 0;
+                 padding: 14px 20px; font-size: var(--t-cta); min-height: 48px; }
+
+  /* The three points become an accordion, built in home.js and only here.
+     Headings carry an icon; the open row takes a rule down its left edge. */
+  /* Deliberately NOT hidden here. The copy must be readable if the script does
+     not run or the accordion does not prove itself; home.js hides this list
+     only after it has replaced it with something that works. */
+  .dream-acc { margin-top: 30px; padding: 0 24px; }
+  .dream-acc .acc-item { position: relative; }
+  .dream-acc .acc-item + .acc-item { border-top: 1px solid #e4e2de; }
+  /* A real element, not ::before, so its height can be set directly */
+  .dream-acc .acc-rule {
+    position: absolute; left: -24px; top: 0; width: 3px; height: 0;
+    background: var(--orange-deep); transition: height .38s cubic-bezier(.25,.8,.3,1);
+  }
+  .dream-acc .acc-head {
+    display: flex; align-items: center; gap: 14px; width: 100%; min-height: 56px;
+    background: none; border: 0; padding: 0; text-align: left; color: inherit; cursor: pointer;
+  }
+  .dream-acc .ic { width: 30px; height: 30px; flex: none; color: #b4aea6;
+                   transition: color .38s cubic-bezier(.25,.8,.3,1); }
+  .dream-acc .ic svg { width: 100%; height: 100%; display: block; }
+  .dream-acc .ttl { font-weight: 700; font-size: var(--t-sub); }
+  /* Height is measured and set by the script, not left to a 0fr-to-1fr grid:
+     in an auto-height grid the 1fr row has no free space to claim, so it
+     resolves to zero and the row never opens. */
+  .dream-acc .acc-body { max-height: 0; overflow: hidden;
+                         transition: max-height .38s cubic-bezier(.25,.8,.3,1); }
+  .dream-acc .acc-body p {
+    margin: 0; padding: 0 0 18px 44px;
+    font-size: var(--t-body); line-height: var(--lh-body);
+    opacity: 0; transform: translateY(-5px);
+    transition: opacity .26s cubic-bezier(.25,.8,.3,1) .05s,
+                transform .26s cubic-bezier(.25,.8,.3,1) .05s;
+  }
 
   .why-list li { padding-left: 56px; }
   .why-dot { left: 0; width: 36px; height: 36px; }

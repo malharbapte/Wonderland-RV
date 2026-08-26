@@ -373,6 +373,130 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
    Loops in both directions without a visible rewind.                      */
 const ON_PHONE = window.matchMedia("(max-width: 900px)");
 
+/* ------------------------------------- The three dream-van points ---------
+   Stacked flat they read as filler, so on a phone they become an accordion:
+   headings with their icon, one open at a time, the open row marked by a rule
+   down its left edge rather than a chevron.
+
+   Built here rather than in the markup so the desktop DOM is untouched, and
+   the copy is bound here too -- the last two words of each line get a
+   non-breaking space, which stops the single-word last line at every phone
+   width without touching the desktop, where the measure is different.      */
+(function () {
+  const list = document.querySelector(".dream-points");
+  if (!list) return;
+
+  const ICONS = [
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg>'
+  ];
+
+  /* bind the last two words so the last line is never one word alone */
+  function noOrphan(t) {
+    return t.replace(/\s+([^\s]+)\s*$/, "\u00A0$1");
+  }
+
+  let acc = null;
+  const original = [].map.call(list.querySelectorAll("p"), function (p) { return p.textContent; });
+
+  /* Bind the last two words in the flat list too. It is what shows if the
+     accordion is not used, and the orphan is there either way. Restored on the
+     way out so the desktop keeps its own wrapping. */
+  function bindList(on) {
+    [].forEach.call(list.querySelectorAll("p"), function (p, i) {
+      p.textContent = on ? noOrphan(original[i]) : original[i];
+    });
+  }
+
+  function build() {
+    if (acc) return;
+    acc = document.createElement("div");
+    acc.className = "dream-acc";
+    [].forEach.call(list.querySelectorAll("li"), function (li, i) {
+      const h = li.querySelector("h3"), p = li.querySelector("p");
+      const item = document.createElement("div");
+      item.className = "acc-item" + (i ? "" : " is-open");
+      item.innerHTML =
+        '<i class="acc-rule" aria-hidden="true"></i>' +
+        '<button class="acc-head" aria-expanded="' + (i ? "false" : "true") + '">' +
+          '<span class="ic">' + ICONS[i] + "</span>" +
+          '<span class="ttl">' + h.textContent.trim() + "</span></button>" +
+        '<div class="acc-body"><p>' + noOrphan(p.textContent.trim()) + "</p></div>";
+      acc.appendChild(item);
+      paint(item, i === 0);
+    });
+    list.parentElement.appendChild(acc);
+
+    /* Prove a real toggle renders before hiding the copy behind one. An
+       accordion that cannot open leaves all three descriptions unreadable with
+       no way to get at them, which is worse than no accordion at all. So the
+       second row is opened and measured, then put back: if opening did not
+       change its height, the whole thing is torn out and the flat list stays.
+       Checking that the first row merely has height is not enough -- it is
+       painted at build, before any toggle has been asked for. */
+    const rows = acc.querySelectorAll(".acc-item");
+    const test = rows[1] && rows[1].querySelector(".acc-body");
+    if (test) {
+      const shutH = test.getBoundingClientRect().height;
+      paint(rows[1], true);
+      const openH = test.getBoundingClientRect().height;
+      paint(rows[1], false);
+      if (!(openH > shutH + 3)) {
+        acc.remove();
+        acc = null;
+        return;                              /* the flat list is still there */
+      }
+    }
+    list.style.display = "none";             /* only now is it safe to hide */
+  }
+
+  function tear() {
+    if (acc) { acc.remove(); acc = null; }
+    list.style.display = "";                 /* back to the desktop's own rules */
+  }
+
+  /* The open height is a CSS max-height ceiling rather than a measured pixel
+     value. Coarser -- the easing covers the ceiling, not the copy -- but it
+     needs no measuring, no transitionend bookkeeping, and no inline styles
+     that can end up fighting the sheet. */
+  /* The open state is written onto the elements themselves rather than left to
+     descendant rules hanging off a class on the row. Toggling that class after
+     build did not re-apply those rules -- the row opened once at build and
+     then never changed -- so nothing here depends on that path. */
+  function paint(it, on) {
+    const body = it.querySelector(".acc-body");
+    const icon = it.querySelector(".ic");
+    const rule = it.querySelector(".acc-rule");
+    const copy = body.querySelector("p");
+    body.style.maxHeight = on ? body.scrollHeight + 40 + "px" : "0px";
+    icon.style.color = on ? "#D57114" : "#b4aea6";
+    rule.style.height = on ? "100%" : "0";
+    copy.style.opacity = on ? "1" : "0";
+    copy.style.transform = on ? "none" : "translateY(-5px)";
+    it.classList.toggle("is-open", on);
+    it.querySelector(".acc-head").setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  function shut(it) { paint(it, false); }
+  function open(it) { paint(it, true); }
+
+  document.addEventListener("click", function (e) {
+    if (!acc) return;
+    const head = e.target.closest && e.target.closest(".dream-acc .acc-head");
+    if (!head) return;
+    const item = head.parentElement, wasOpen = item.classList.contains("is-open");
+    [].forEach.call(acc.querySelectorAll(".acc-item.is-open"), shut);
+    if (!wasOpen) open(item);
+  });
+
+  function sync() {
+    bindList(ON_PHONE.matches);
+    ON_PHONE.matches ? build() : tear();
+  }
+  sync();
+  ON_PHONE.addEventListener("change", sync);
+})();
+
 /* ---------------------------------------------- Our range, on a phone -----
    The desktop shows one baked PNG of all four models. At phone width that
    renders at a third scale, which puts its names under the legibility floor
