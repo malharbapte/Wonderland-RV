@@ -1119,7 +1119,12 @@ input:-webkit-autofill:focus {
 
   /* ---- enquiry ---- */
   .enquiry { padding: 48px 0 56px; }
+  /* Two lines, placed rather than left to the column width. At 375 it happened
+     to break after "for"; at 430 it broke after "Adventure" and left the
+     question mark alone on line two. The spans stay inline on desktop, so the
+     heading there is untouched. */
   .enquiry-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .enquiry-title .ln { display: block; }
   /* The reach-out line reads as an answer to the submit button, so on a phone
      it goes after it rather than above the whole form. .enquiry-copy drops to
      display:contents so its three paragraphs become items of this grid

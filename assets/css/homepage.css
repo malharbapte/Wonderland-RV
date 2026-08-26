@@ -1025,7 +1025,11 @@
 
   .home-contact { padding: 48px 0; }
   .home-contact-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
-  .home-contact-lede { font-size: var(--t-body); line-height: var(--lh-body); }
+  .home-contact-title .ln { display: block; }
+  /* The lede's margin was still the desktop 0.22rem -- 3.5 against the phone's
+     16px base, so it sat almost on the heading. 28, matching the same pair on
+     the contact page. */
+  .home-contact-lede { margin-top: 28px; font-size: var(--t-body); line-height: var(--lh-body); }
   /* These rules named .home-field-grid and .home-row-three. Neither exists in
      the markup -- it is .home-cols / .home-col / .home-pair -- so none of this
      ever applied and the form kept its desktop two-column grid at collapsed rem

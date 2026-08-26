@@ -218,10 +218,14 @@ function withYouTubeApi(done) {
   window.onYouTubeIframeAPIReady = function () { if (prev) prev(); done(); };
 }
 
-/* The hero carries sound. No browser will autoplay audible, so it starts muted
-   with a working control and prompts for the click that turns it up. */
+/* The hero runs clean: no sound control, no captions button, no prompt. Passing
+   no options is what does it -- buildControls is only reached when options are
+   given, so nothing is built and nothing has to be hidden afterwards. The clip
+   still autoplays, muted, from the parameters in its own embed URL, and it does
+   not need a YT.Player: only the Queen of Hearts deck reads frame.ytPlayer, to
+   stop a video that has scrolled out of the deck. */
 mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
-  "Wonderland RV — adventure your way", { nudge: true });
+  "Wonderland RV — adventure your way");
 mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara");
 
 /* -------------------------------------------------- mobile nav toggle ---- */

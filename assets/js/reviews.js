@@ -55,15 +55,35 @@
   if (next) next.addEventListener("click", function () { go(1);  auto(); });
 
   /* ----------------------------------------------------- the phone rail ---
-     On the phone the viewport scrolls and snaps, so the translate slider is
-     off entirely — auto() would fight the finger. What is left to build is the
-     read-out: a dot per review and a count. The live index is the slide whose
-     centre sits nearest the viewport's centre, because the last card can never
-     reach the left edge; and it is polled rather than listened for, since
-     scroll events do not fire reliably here. */
+     On the phone the viewport scrolls and snaps, so the translate slider is off
+     entirely -- auto() would fight the finger.
+
+     It loops the way the desktop one does, by a different route. The set is
+     laid down three times and the scroller sits in the middle one; crossing a
+     set boundary moves a whole set width, which lands on an identical pixel
+     because the sets are identical. So the fourth review is followed by the
+     first, in both directions, and there is no end to reach.
+
+     Index is polled rather than listened for: scroll events are not dependable.
+  */
   function phoneRail() {
     const port = track.parentElement;
     if (!port || port.querySelector(".service-rail")) return;
+
+    /* Two further sets. Built only on the phone, so the desktop track still
+       holds its four slides and the one wrap-around clone it expects. */
+    for (let s = 0; s < 2; s++) {
+      real.forEach(function (sl) {
+        const copy = sl.cloneNode(true);
+        copy.classList.remove("is-clone");   // that one is hidden; these are not
+        copy.classList.add("is-copy");
+        track.appendChild(copy);
+      });
+    }
+    const slides = [].slice.call(track.children).filter(function (s) {
+      return !s.classList.contains("is-clone");   // it is display:none here
+    });
+    if (slides.length < n * 2) return;
 
     const rail = document.createElement("div");
     rail.className = "service-rail";
@@ -79,21 +99,30 @@
     rail.appendChild(count);
     port.parentElement.insertBefore(rail, port.nextSibling);
 
-    let last = 0;
+    /* measured between two slides, so any gap between them is included */
+    function pitch() { return slides[1].offsetLeft - slides[0].offsetLeft; }
+
+    function start() {
+      const p = pitch();
+      if (p > 0) port.scrollLeft = p * n;      // open in the middle set
+    }
+    start();
+    window.addEventListener("resize", start);
+
+    let last = -1;
     setInterval(function () {
-      const mid = port.scrollLeft + port.clientWidth / 2;
-      let best = 0, gap = Infinity;
-      for (let k = 0; k < n; k++) {
-        const s = real[k];
-        const c = s.offsetLeft + s.offsetWidth / 2;
-        const d = Math.abs(c - mid);
-        if (d < gap) { gap = d; best = k; }
-      }
-      if (best === last) return;
-      dots[last].classList.remove("is-on");
-      dots[best].classList.add("is-on");
-      count.textContent = String(best + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
-      last = best;
+      const p = pitch();
+      if (!p) return;
+      const W = p * n;
+      /* while(), not if(): a flung finger can carry past a whole set */
+      while (port.scrollLeft >= W * 2 - 1) port.scrollLeft -= W;
+      while (port.scrollLeft < W - 1) port.scrollLeft += W;
+
+      const live = ((Math.round(port.scrollLeft / p) % n) + n) % n;
+      if (live === last) return;
+      dots.forEach(function (d, k) { d.classList.toggle("is-on", k === live); });
+      count.textContent = String(live + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+      last = live;
     }, 150);
   }
 
