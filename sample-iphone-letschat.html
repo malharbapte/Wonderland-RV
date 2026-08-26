@@ -62,12 +62,15 @@ a { color:inherit; }
            border:1px solid var(--ink); border-radius:10px; text-decoration:none;
            font-weight:700; font-size:14px; }
 .l2 .addr { margin:14px 0 0; font-size:14px; line-height:21px; color:#444; }
-.l2 .strip { display:flex; align-items:center; justify-content:space-between;
-             margin-top:26px; }
-.l2 .soc { display:flex; gap:18px; }
+/* Five 44 targets are 220 on their own; with the badge the row came to 442 in
+   a 327 column. It wraps rather than shrinking the targets back under 44. */
+.l2 .strip { display:flex; flex-wrap:wrap; align-items:center;
+             justify-content:space-between; gap:18px 0; margin-top:26px; }
+.l2 .soc { display:flex; gap:10px; flex:1 0 100%; }
 .l2 .soc a { width:44px; height:44px; display:grid; place-items:center; margin:-11px 0; }
 .l2 .soc svg { width:22px; height:22px; fill:currentColor; }
 .l2 .made { width:150px; margin:0; }
+.l2 .soc a { border-radius:50%; border:1px solid #e4e2de; }
 
 /* ---- L3 : panel ------------------------------------------------------- */
 .l3 .panel { background:#FFF2DC; border-radius:10px; padding:22px 20px; }
