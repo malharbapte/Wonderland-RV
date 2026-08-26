@@ -3,117 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — Your dream van awaits</title>
+<title>iPhone — the three points</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=101">
 <style>
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
 .doc { padding:40px 28px 90px; }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
-.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 10px; }
-table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
-table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
-table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
-code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
-
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 16px; }
 .rack { display:flex; gap:26px; align-items:flex-start; padding:6px 0 14px; }
-.phone { flex:0 0 390px; --sub:16px; --slh:24px; --body:15px; --blh:23px; --cap:12px; --radius:10px; }
+.phone { flex:0 0 390px; --sub:16px; --body:15px; --blh:23px; --cap:12px; --radius:10px; }
 .phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:92px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:96px; }
 .screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
           overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
 
 .doc .screen h2.dt { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
                      letter-spacing:-0.01em; margin:0; padding:34px 24px 0; }
+.dgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 24px; margin-top:24px; }
 .shot { aspect-ratio:3/2; overflow:hidden; border-radius:var(--radius); }
 .shot img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
-
-.stack { display:grid; gap:10px; padding:0 24px; margin-top:24px; }
-.dgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 24px; margin-top:24px; }
-.dscroll { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain;
-           scrollbar-width:none; gap:12px; padding:0 24px; scroll-padding-left:24px; margin-top:24px; }
-.dscroll::-webkit-scrollbar { display:none; }
-.dscroll .shot { flex:0 0 calc(100% - 82px); scroll-snap-align:start; }
-
 .cta { display:flex; align-items:center; justify-content:center; margin:24px 24px 0; min-height:48px;
        background:var(--orange-deep); color:#fff; font-family:var(--aviano); font-weight:900;
        font-size:16px; text-decoration:none; }
+
 .pts { list-style:none; margin:28px 0 0; padding:0 24px; }
-.pts li + li { margin-top:20px; }
-.doc .pts h4 { font-family:var(--gordita); font-weight:700; font-size:var(--sub); margin:0; }
-.pts p { font-size:var(--body); line-height:var(--blh); margin:4px 0 0; }
-.rail { display:flex; align-items:center; gap:9px; padding:14px 24px 0; }
-.dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
-.dot.on { background:var(--orange-deep); width:18px; border-radius:3px; }
-.count { margin-left:auto; font-size:var(--cap); letter-spacing:.12em; color:#8a8a8a; }
+.doc .pts h4 { margin:0; }
+.pts p { margin:4px 0 0; font-size:var(--body); line-height:var(--blh); }
+
+/* V1 */
+.pts--icons li { position:relative; padding-left:52px; }
+.pts--icons li + li { margin-top:22px; }
+.pts--icons .ic { position:absolute; left:0; top:-3px; width:36px; height:36px; color:var(--orange-deep); }
+.pts--icons .ic svg { width:100%; height:100%; }
+.doc .pts--icons h4 { font-family:var(--gordita); font-weight:700; font-size:var(--sub); line-height:1.2; }
+
+/* V2 */
+.pts--ruled li { border-top:1px solid #e4e2de; padding-top:14px; }
+.pts--ruled li + li { margin-top:16px; }
+.doc .pts--ruled h4 { font-family:var(--aviano); font-weight:900; font-size:13px;
+                      letter-spacing:.14em; color:var(--orange-deep); }
+.pts--ruled p { margin-top:6px; }
+
+/* V3 */
+.pts--tint li { background:#F4F2EF; border-radius:var(--radius); padding:16px 18px; }
+.pts--tint li + li { margin-top:10px; }
+.doc .pts--tint h4 { font-family:var(--aviano); font-weight:900; font-size:13px; letter-spacing:.12em; }
 .pad { height:30px; }
 </style>
 </head>
 <body>
 <div class="doc">
-
-  <h1>iPhone &mdash; Your dream van awaits</h1>
-  <p class="note">The desktop collage does not survive the width. Three ways to carry it instead.</p>
-
-  <table class="t">
-    <tr><th>What is wrong</th><td>The mosaic keeps its desktop shape at phone width, so the four
-      photographs land at 141&times;118, <b>98&times;56</b>, <b>98&times;56</b> and 140&times;118.
-      The two middle ones are postage stamps &mdash; smaller than the icons two sections above them.
-      The whole collage is 177 tall on a 390 screen.</td></tr>
-    <tr><th>The title</th><td>Sits inside the mosaic on the desktop, overlaid on the photographs.
-      Here it moves out to white above them, where it has room for its two lines.</td></tr>
-    <tr><th>The sources</th><td>Two are near-square (1628&times;1402) and two are landscape
-      (1130&times;670), so a shared frame means cropping. All three below use 3:2 with
-      <code>object-position: 50% 50%</code>, so what is lost comes off both edges evenly.</td></tr>
-  </table>
-
+  <h1>iPhone &mdash; the three points</h1>
+  <p class="note">D3 above them in all three, unchanged. The only difference is how the three
+     claims at the foot of the section are set. As it stands they are a plain stack with nothing
+     to separate one from the next, which is what makes them read as filler.</p>
   <div class="rack">
 
     <div class="phone">
-      <h3>D1 &mdash; Stacked, full width</h3>
-      <p class="sub">Four photographs at 3:2, one under the other, each the full measure. Every shot is 342 wide and properly readable. Longest of the three by a distance.</p>
-      <div class="screen">
-        <h2 class="dt">your dream van awaits</h2>
-        <div class="stack">
-          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
-        </div>
-        <a class="cta" href="#">GET A QUOTE</a>
-        <ul class="pts">
-          <li><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></li>
-          <li><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></li>
-          <li><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></li>
-        </ul>
-        <div class="pad"></div>
-      </div>
-    </div>
-
-    <div class="phone">
-      <h3>D2 &mdash; Horizontal scroll</h3>
-      <p class="sub">Same component as the slideshow and the range above it. Compact, and the gesture is already familiar by this point in the page &mdash; but it would be the third scroller, which starts to feel like the only idea.</p>
-      <div class="screen">
-        <h2 class="dt">your dream van awaits</h2>
-        <div class="dscroll">
-          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
-        </div>
-        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
-        <a class="cta" href="#">GET A QUOTE</a>
-        <ul class="pts">
-          <li><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></li>
-          <li><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></li>
-          <li><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></li>
-        </ul>
-        <div class="pad"></div>
-      </div>
-    </div>
-
-    <div class="phone">
-      <h3>D3 &mdash; Two up, equal tiles</h3>
-      <p class="sub">A 2&times;2 of equal tiles, closest in spirit to the desktop collage and the only one where all four are visible at once. Tiles land at about 165 wide.</p>
+      <h3>V1 &mdash; With icons</h3>
+      <p class="sub">A line-art mark at 36 beside each point, exactly the treatment the Our range feature list uses two sections above. Ties the two together and breaks up the wall of text.</p>
       <div class="screen">
         <h2 class="dt">your dream van awaits</h2>
         <div class="dgrid">
@@ -123,7 +71,49 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ece
           <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
         </div>
         <a class="cta" href="#">GET A QUOTE</a>
-        <ul class="pts">
+        <ul class="pts pts--icons">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></li>
+        </ul>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>V2 &mdash; Ruled list</h3>
+      <p class="sub">No icons. A hairline above each point, the heading set as a kicker &mdash; Aviano Black caps at 13 with wide letter-spacing &mdash; and the description at 15. The desktop separates these three with vertical rules; this turns those on their side.</p>
+      <div class="screen">
+        <h2 class="dt">your dream van awaits</h2>
+        <div class="dgrid">
+          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
+        </div>
+        <a class="cta" href="#">GET A QUOTE</a>
+        <ul class="pts pts--ruled">
+          <li><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></li>
+          <li><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></li>
+          <li><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></li>
+        </ul>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>V3 &mdash; Tinted blocks</h3>
+      <p class="sub">Each point in a filled block at the same 10px radius and #F4F2EF as the range containers. Reads as three distinct claims rather than one list, and gives the foot of the section some weight.</p>
+      <div class="screen">
+        <h2 class="dt">your dream van awaits</h2>
+        <div class="dgrid">
+          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
+          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
+        </div>
+        <a class="cta" href="#">GET A QUOTE</a>
+        <ul class="pts pts--tint">
           <li><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></li>
           <li><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></li>
           <li><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></li>
