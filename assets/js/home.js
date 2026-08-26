@@ -373,86 +373,50 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
    Loops in both directions without a visible rewind.                      */
 const ON_PHONE = window.matchMedia("(max-width: 900px)");
 
-/* ------------------------------------- The three dream-van points ---------
-   Stacked flat they read as filler, so on a phone they become an accordion:
-   headings with their icon, one open at a time, the open row marked by a rule
-   down its left edge rather than a chevron.
+/* ------------------------------------------ Accordion, for the phone ------
+   Used by the dream-van points and by Why choose us, so the two behave
+   identically rather than drifting into two similar components.
 
-   The description is inserted and removed rather than clipped. Nothing is
-   animated by transitioning a container's height -- an earlier version did
-   that and the open state rendered once at build and then never responded to
-   a toggle again, through a CSS transition, a max-height, and finally inline
-   styles. Adding and removing the node cannot fail that way: it is either in
-   the layout at its natural height or it is not. The fade is run through the
-   animation API for the same reason -- it is imperative, so it does not
-   depend on a style change being noticed.
+   The description is inserted and removed rather than clipped: it is either
+   in the layout at its natural height or it is not. Nothing depends on a
+   style change to an element that is already there -- a class, a max-height
+   and an inline style all failed that way here -- so the rule and the icon
+   are swapped as nodes, and the height is animated through the animation API
+   on the node that was just inserted.
 
-   Built here rather than in the markup so the desktop DOM is untouched, and
-   the copy is bound here too: the last two words of each line get a
-   non-breaking space, which stops the single-word last line at every phone
-   width without touching the desktop, where the measure is different.      */
-(function () {
-  const list = document.querySelector(".dream-points");
-  if (!list) return;
+   Built here rather than in the markup, so the desktop DOM is untouched: on a
+   wide screen none of this exists and the original list shows.            */
+function phoneAccordion(opts) {
+  const list = document.querySelector(opts.list);
+  if (!list) return null;
 
-  const ICONS = [
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg>'
-  ];
-
-  /* Bind the last two words, and hold hyphenated pairs together: without the
-     second step "off-grid" splits at its own hyphen and the last line reads
-     "grid adventures", which is the same fault wearing a disguise. U+2011 is a
-     non-breaking hyphen and draws identically. */
-  function noOrphan(t) {
-    return t.replace(/(\w)-(\w)/g, "$1\u2011$2")
-            .replace(/\s+([^\s]+)\s*$/, "\u00A0$1");
-  }
-
-  const original = [].map.call(list.querySelectorAll("p"), function (p) { return p.textContent; });
-  const COPY = original.map(noOrphan);
-  const HEADS = [].map.call(list.querySelectorAll("h3"), function (h) { return h.textContent.trim(); });
+  const EASE = "cubic-bezier(.4, 0, .2, 1)", OPEN_MS = 380, SHUT_MS = 300;
+  const heads = [].map.call(list.querySelectorAll(opts.head), function (h) { return h.textContent.trim(); });
+  const copy  = [].map.call(list.querySelectorAll(opts.copy), function (p) { return noOrphan(p.textContent.trim()); });
 
   let acc = null, openIndex = -1;
 
-  /* Both the rule and the icon's colour are expressed by swapping nodes, not by
-     mutating style or class on nodes that are already there. In this build a
-     freshly inserted node paints correctly while a style or class change on an
-     existing one does not, and rebuilding two small spans costs nothing. */
   function setIcon(item, i, on) {
-    const old = item.querySelector(".ic");
     const span = document.createElement("span");
     span.className = on ? "ic ic-on" : "ic";
-    span.innerHTML = ICONS[i];
-    old.replaceWith(span);
+    span.innerHTML = opts.icons[i];
+    item.querySelector(".ic").replaceWith(span);
   }
-
-  const EASE = "cubic-bezier(.4, 0, .2, 1)";   /* in and out, not just out */
-  const OPEN_MS = 380, SHUT_MS = 300;
 
   function close(i) {
     if (i < 0) return;
     const item = acc.children[i];
-    const body = item.querySelector(".acc-body");
-    const rule = item.querySelector(".acc-rule");
+    const body = item.querySelector(".acc-body"), rule = item.querySelector(".acc-rule");
     item.classList.remove("is-open");
     setIcon(item, i, false);
     item.querySelector(".acc-head").setAttribute("aria-expanded", "false");
     openIndex = -1;
-
-    /* Collapse it, then take it out. The node has to stay in the layout for
-       the height to have anywhere to travel. */
     if (body) {
       const from = body.getBoundingClientRect().height;
       if (body.animate && from > 0) {
-        const a = body.animate(
-          [{ height: from + "px", opacity: 1 },
-           { height: "0px", opacity: 0 }],
-          { duration: SHUT_MS, easing: EASE });
-        a.onfinish = function () { body.remove(); };
-        a.oncancel = function () { body.remove(); };
-        /* and a backstop, in case the animation never advances to fire either */
+        const a = body.animate([{ height: from + "px", opacity: 1 }, { height: "0px", opacity: 0 }],
+                               { duration: SHUT_MS, easing: EASE });
+        a.onfinish = a.oncancel = function () { body.remove(); };
         setTimeout(function () { if (body.isConnected) body.remove(); }, SHUT_MS + 150);
       } else { body.remove(); }
     }
@@ -460,8 +424,8 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
       if (rule.animate) {
         const a = rule.animate([{ transform: "scaleY(1)" }, { transform: "scaleY(0)" }],
                                { duration: SHUT_MS, easing: EASE });
-        a.onfinish = function () { rule.remove(); };
-        a.oncancel = function () { rule.remove(); };
+        a.onfinish = a.oncancel = function () { rule.remove(); };
+        setTimeout(function () { if (rule.isConnected) rule.remove(); }, SHUT_MS + 150);
       } else { rule.remove(); }
     }
   }
@@ -474,19 +438,13 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
     item.insertBefore(rule, item.firstChild);
     const body = document.createElement("div");
     body.className = "acc-body";
-    body.innerHTML = "<p>" + COPY[i] + "</p>";
+    body.innerHTML = "<p>" + copy[i] + "</p>";
     item.appendChild(body);
     item.classList.add("is-open");
     setIcon(item, i, true);
     item.querySelector(".acc-head").setAttribute("aria-expanded", "true");
     openIndex = i;
 
-    /* The height is animated on the node that was just inserted, through the
-       animation API rather than a CSS transition. Nothing here depends on a
-       style change to an existing element being noticed, which is what the
-       earlier attempts all relied on. With no fill, it hands back to the
-       element's own auto height when it finishes, so the row still reflows if
-       the copy rewraps. */
     if (body.animate) {
       const h = body.getBoundingClientRect().height;
       const grow = body.animate(
@@ -495,11 +453,9 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
         { duration: OPEN_MS, easing: EASE });
       const bar = rule.animate([{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }],
                                { duration: OPEN_MS, easing: EASE });
-
-      /* The copy matters more than the easing. If the animation has not
-         actually run by the time it should have finished -- a throttled or
-         non-compositing tab never advances one -- it is cancelled so the row
-         falls back to its natural height rather than sitting collapsed. */
+      /* The copy matters more than the easing: if the animation has not run by
+         the time it should have finished, it is cancelled so the row falls back
+         to its natural height rather than sitting collapsed. */
       setTimeout(function () {
         if (!item.classList.contains("is-open")) return;
         if (body.getBoundingClientRect().height < 4) {
@@ -512,17 +468,20 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
   function build() {
     if (acc) return;
     acc = document.createElement("div");
-    acc.className = "dream-acc";
-    HEADS.forEach(function (h, i) {
+    acc.className = opts.className;
+    heads.forEach(function (h, i) {
       const item = document.createElement("div");
       item.className = "acc-item";
       item.innerHTML =
         '<button class="acc-head" aria-expanded="false">' +
-          '<span class="ic">' + ICONS[i] + "</span>" +
+          '<span class="ic">' + opts.icons[i] + "</span>" +
           '<span class="ttl">' + h + "</span></button>";
       acc.appendChild(item);
     });
-    list.parentElement.appendChild(acc);
+    const host = opts.mount ? document.querySelector(opts.mount) : list.parentElement;
+    const before = opts.before ? host.querySelector(opts.before) : null;
+    /* copy before media, as everywhere else on the phone */
+    if (before) host.insertBefore(acc, before); else host.appendChild(acc);
     open(0);
     list.style.display = "none";
   }
@@ -534,7 +493,7 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
 
   document.addEventListener("click", function (e) {
     if (!acc || !e.target.closest) return;
-    const head = e.target.closest(".dream-acc .acc-head");
+    const head = e.target.closest("." + opts.className + " .acc-head");
     if (!head || !acc.contains(head)) return;
     const i = [].indexOf.call(acc.children, head.parentElement);
     const wasOpen = i === openIndex;
@@ -545,7 +504,29 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
   function sync() { ON_PHONE.matches ? build() : tear(); }
   sync();
   ON_PHONE.addEventListener("change", sync);
-})();
+  return { sync: sync };
+}
+
+/* Bind the last two words, and hold hyphenated pairs together, so no line ends
+   on a single word and "off-grid" does not split at its own hyphen. */
+function noOrphan(t) {
+  return t.replace(/(\w)-(\w)/g, "$1\u2011$2").replace(/\s+([^\s]+)\s*$/, "\u00A0$1");
+}
+
+const COMPASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg>';
+const SHIELD  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg>';
+const LOUNGE  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg>';
+
+/* the four in Why choose us keep the marks the desktop already draws */
+const WHY_ICONS = [].map.call(document.querySelectorAll(".why-list .why-icon"),
+                              function (s) { return s.innerHTML; });
+
+phoneAccordion({ list: ".dream-points", head: "h3", copy: "p",
+                 className: "dream-acc", icons: [COMPASS, SHIELD, LOUNGE] });
+
+phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
+                 className: "why-acc", mount: ".why-grid", before: ".why-figure",
+                 icons: WHY_ICONS });
 
 /* ---------------------------------------------- Our range, on a phone -----
    The desktop shows one baked PNG of all four models. At phone width that
