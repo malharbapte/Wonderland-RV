@@ -1089,19 +1089,18 @@ input:-webkit-autofill:focus {
      white. (No display rule needed on the image: img is already block from the
      reset, so the link box is the artwork's height with no baseline gap.) */
   .logo { width: 188px; }
-  /* The panel is full width; the items sit to the right of it, ending on the
-     same 24 margin the hamburger they dropped from sits on. align-items alone
-     would place the boxes but leave a one-word line ragged inside its own box,
-     so the text alignment is stated too. */
+  /* The panel is full width and the items centre on it. align-items places each
+     link's box, text-align handles the inside of that box -- a box wider than
+     its word would otherwise leave the word ragged within it. */
   .main-nav {
     position: absolute; left: 0; right: 0; top: 64px; z-index: 30;
-    flex-direction: column; align-items: flex-end; gap: 0;
-    text-align: right;
+    flex-direction: column; align-items: center; gap: 0;
+    text-align: center;
     background: #fff; border-bottom: 1px solid #eee;
     font-size: 15px; padding: 8px 24px 20px;
     display: none;
   }
-  .main-nav a { align-self: flex-end; }
+  .main-nav a { align-self: center; }
   .main-nav.is-open { display: flex; }
   .main-nav a { padding: 12px 0; }
   .search-btn { margin-left: auto; }
