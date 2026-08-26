@@ -908,21 +908,26 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   let index = N;                       // start in the middle set
   let raf = null, timer = null, idle = null;
 
-  function paint() {
-    const box = rail.getBoundingClientRect();
-    if (!box.width) return;
-    const mid = box.left + box.width / 2;
-    slides.forEach(function (s) {
-      const b = s.getBoundingClientRect();
-      s.classList.toggle("is-on", Math.abs(b.left + b.width / 2 - mid) < b.width / 2);
-    });
+  /* The live slide is arithmetic, not a measurement. It used to read a rect off
+     all twelve slides on every animation frame -- twelve forced layouts a frame
+     -- which is what made the movement judder. The slides are a uniform pitch,
+     so rounding the scroll position gives the same answer for nothing, and the
+     classes are only touched when the answer changes. */
+  let lastOn = -1;
+  function paint(force) {
+    const i = Math.round(rail.scrollLeft / pitch());
+    if (i === lastOn && !force) return;
+    lastOn = i;
+    slides.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
   }
 
+  /* while(), not if(): a flung finger can overshoot a whole set, and one
+     subtraction would leave it stranded outside the middle set. */
   function wrap() {
     const W = setWidth();
-    if (rail.scrollLeft >= W * 2 - 1) { rail.scrollLeft -= W; index -= N; }
-    else if (rail.scrollLeft <= W - pitch() - 1) { rail.scrollLeft += W; index += N; }
-    paint();
+    while (rail.scrollLeft >= W * 2 - 1) { rail.scrollLeft -= W; index -= N; }
+    while (rail.scrollLeft < W - 1) { rail.scrollLeft += W; index += N; }
+    paint(true);
   }
 
   /* scrollLeft is animated by hand rather than with scrollTo({behavior:"smooth"}),
@@ -946,10 +951,14 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   }
   function pause() { clearInterval(timer); cancelAnimationFrame(raf); }
 
-  rail.addEventListener("pointerdown", function () { pause(); clearTimeout(idle); });
+  rail.addEventListener("pointerdown", function () {
+    pause(); clearTimeout(idle);
+    rail.classList.add("is-touch");   // snap belongs to the finger, not the timer
+  });
   rail.addEventListener("pointerup", function () {
     clearTimeout(idle);
     idle = setTimeout(function () {
+      rail.classList.remove("is-touch");
       index = Math.round(rail.scrollLeft / pitch());
       wrap(); play();                 // play() clears and restarts: dwell from 0
     }, SETTLE);
@@ -960,8 +969,9 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
 
   measure();
   rail.scrollLeft = index * pitch();
-  paint();
-  /* scroll events are not dependable, so the read-out is polled */
-  setInterval(paint, 150);
+  paint(true);
+  /* a finger moves it without the timer knowing, and scroll events are not
+     dependable, so the live slide is re-read on a slow poll as a backstop */
+  setInterval(paint, 200);
   play();
 })();

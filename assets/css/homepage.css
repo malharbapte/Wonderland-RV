@@ -866,12 +866,16 @@
   .dream-title { color: var(--ink, #111); }
   .dream-shot { display: none; }            /* the rail carries copies of these */
 
+  /* Snap is applied only while a finger is on the rail. Left on, the snap
+     engine pulls against every frame the timer writes to scrollLeft, which is
+     what made the movement feel stiff and could strand it at a set boundary. */
   .dream-rail {
     display: flex; gap: 10px;
     overflow-x: auto; overflow-y: hidden;
-    scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    scroll-snap-type: none; overscroll-behavior-x: contain;
     scrollbar-width: none; -webkit-overflow-scrolling: touch;
   }
+  .dream-rail.is-touch { scroll-snap-type: x mandatory; }
   .dream-rail::-webkit-scrollbar { display: none; }
   /* The cell is only the track slot. The picture sits in .dream-frame inside
      it, so height and width shrink independently -- the frame's height comes
@@ -906,6 +910,11 @@
      only after it has replaced it with something that works. */
   .dream-acc,
   .why-acc { margin-top: 30px; padding: 0 24px; }
+  /* The band immediately above already carries the heading, so the list does
+     not need a second run-up: 48 of section padding plus 30 of its own put
+     BUILT TOUGH 78 below the picture. */
+  .why { padding-top: 32px; }
+  .why-acc { margin-top: 0; }
   .dream-acc .acc-item,
   .why-acc .acc-item { position: relative; }
   .dream-acc .acc-item + .acc-item,

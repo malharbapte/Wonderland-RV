@@ -1252,7 +1252,10 @@ input:-webkit-autofill:focus {
      both rounded, with the quote mark straddling the join between them.
      !important on the padding because a desktop rule in homepage.css loads
      after this file and was winning, leaving the heading 8.8 off the band. */
-  .service { padding-top: 48px !important; padding-bottom: 48px !important; }
+  /* The section ends on a dot rail, which carries almost no weight, so a full
+     48 under it plus Queen of Hearts' own 48 read as a hole. 24 here, 72 in
+     total. */
+  .service { padding-top: 48px !important; padding-bottom: 24px !important; }
   .service-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
   .service-kicker { font-size: 12px; letter-spacing: 0.3em; text-indent: 0.3em; }
   .service-band { flex-direction: column; margin-top: 26px; min-height: 0; }
