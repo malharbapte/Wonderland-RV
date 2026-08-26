@@ -1111,10 +1111,19 @@ input:-webkit-autofill:focus {
   /* ---- enquiry ---- */
   .enquiry { padding: 48px 0 56px; }
   .enquiry-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
-  .enquiry-grid { grid-template-columns: 1fr; gap: 40px; padding-top: 28px; }
-  .enquiry-copy .lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
+  /* The reach-out line reads as an answer to the submit button, so on a phone
+     it goes after it rather than above the whole form. .enquiry-copy drops to
+     display:contents so its three paragraphs become items of this grid
+     alongside the form, and order does the moving -- no markup change, and the
+     desktop two-column layout keeps the copy as its left column untouched.
+     The grid's own gap goes to 0 so each step is set on its own. */
+  .enquiry-grid { grid-template-columns: 1fr; gap: 0; padding-top: 28px; }
+  .enquiry-copy { display: contents; }
+  .enquiry-copy .lede { order: 1; font-size: var(--t-sub); line-height: var(--lh-sub); }
   .enquiry-copy .lede + .lede { margin-top: 28px; }
-  .reachout { margin-top: 28px; font-size: var(--t-body); line-height: var(--lh-body); }
+  .enquiry-form { order: 2; margin-top: 40px; }
+  .reachout { order: 3; margin-top: 40px;
+              font-size: var(--t-body); line-height: var(--lh-body); }
 
   .enquiry-form { padding-top: 0; }
   /* The fields short enough to share a line do. Source order is already
