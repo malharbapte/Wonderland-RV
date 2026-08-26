@@ -911,6 +911,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
 
   let index = N;                       // start in the middle set
   let raf = null, timer = null, idle = null;
+  let gliding = false, glideAt = 0;    // the timer owns the rail while true
 
   /* The live slide is arithmetic, not a measurement. It used to read a rect off
      all twelve slides on every animation frame -- twelve forced layouts a frame
@@ -939,13 +940,15 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
      matching the curve the review slider and the enquiry pill already use. */
   function glide(to) {
     cancelAnimationFrame(raf);
+    gliding = true; glideAt = performance.now();
     const from = rail.scrollLeft, delta = to - from, t0 = performance.now();
     (function step(now) {
       const p = Math.min(1, (now - t0) / TRAVEL);
       const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
       rail.scrollLeft = from + delta * e;
       paint();
-      if (p < 1) raf = requestAnimationFrame(step); else wrap();
+      if (p < 1) { raf = requestAnimationFrame(step); }
+      else { gliding = false; wrap(); }
     })(performance.now());
   }
 
@@ -953,7 +956,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     clearInterval(timer);
     timer = setInterval(function () { index++; glide(index * pitch()); }, DWELL);
   }
-  function pause() { clearInterval(timer); cancelAnimationFrame(raf); }
+  function pause() { clearInterval(timer); cancelAnimationFrame(raf); gliding = false; }
 
   rail.addEventListener("pointerdown", function () {
     pause(); clearTimeout(idle);
@@ -974,8 +977,27 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   measure();
   rail.scrollLeft = index * pitch();
   paint(true);
-  /* a finger moves it without the timer knowing, and scroll events are not
-     dependable, so the live slide is re-read on a slow poll as a backstop */
-  setInterval(paint, 200);
+  /* The poll wraps as well as reading. wrap() used to run only at the end of a
+     glide and after the finger settled, so a free swipe had nothing keeping it
+     inside the middle set: fling hard enough and the rail reached the twelfth
+     slide and stopped. Held here on every tick the timer is not driving, which
+     also keeps index in step with wherever a finger has left the rail. */
+  setInterval(function () {
+    /* requestAnimationFrame is throttled in a background tab, so a glide begun
+       before the reader scrolled away can leave `gliding` stuck true -- and the
+       wrap below would then never run again, which is the very thing that
+       stranded the rail at its last slide. A glide cannot outlast its own
+       duration, so anything older than that is written off. */
+    if (gliding && performance.now() - glideAt > TRAVEL + 300) {
+      gliding = false;
+      cancelAnimationFrame(raf);
+    }
+    if (!gliding) {
+      const p = pitch();
+      if (p > 0) index = Math.round(rail.scrollLeft / p);
+      wrap();
+    }
+    paint();
+  }, 200);
   play();
 })();
