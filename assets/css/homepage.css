@@ -920,8 +920,25 @@
   }
   .coty-viewport::-webkit-scrollbar { display: none; }
   .coty-track { transform: none !important; transition: none !important; }
-  .coty-slide { scroll-snap-align: start; }
+  .coty-slide { scroll-snap-align: start; scroll-snap-stop: always; }
   .coty-arrow { display: none; }
+
+  /* The two lines come out of the deck and are held above it, so the section
+     keeps a title wherever you have scrolled to. All six captions are laid in
+     one grid cell: the block is therefore as tall as the tallest of them, the
+     video never moves as the wording changes, and the change is opacity only. */
+  .coty-slide .coty-title, .coty-slide .coty-sub { display: none; }
+  .coty-head { display: grid; margin-bottom: 14px; }
+  .coty-cap { grid-area: 1 / 1; opacity: 0; pointer-events: none;
+              transition: opacity .22s ease; }
+  .coty-cap.is-on { opacity: 1; pointer-events: auto; }
+
+  .coty-rail { display: flex; align-items: center; gap: 9px; padding: 18px 0 0; }
+  .coty-dot { width: 6px; height: 6px; border-radius: 50%; background: #D9D3C8;
+              flex: 0 0 auto; transition: width .2s ease, background .2s ease; }
+  .coty-dot.is-on { width: 18px; border-radius: 3px; background: var(--orange-deep); }
+  .coty-count { margin-left: auto; font-size: var(--t-caption);
+                letter-spacing: 0.12em; color: #8A8A8A; }
 
   /* One-line headings are a desktop nicety. On a phone they overflow instead —
      .dream-title did exactly that once the heading step went to 30. Any title

@@ -193,10 +193,13 @@ function track(scroll, onChange) {
      crossfade at load would blank the heading and fade it back in */
   let last = 0;
   setInterval(function () {
-    const kids = scroll.children, mid = scroll.scrollLeft + scroll.clientWidth / 2;
+    const kids = scroll.children, box = scroll.getBoundingClientRect();
+    if (!box.width) return;
+    const mid = box.left + box.width / 2;
     let best = 0, gap = Infinity;
     for (let k = 0; k < kids.length; k++) {
-      const c = kids[k].offsetLeft + kids[k].offsetWidth / 2, d = Math.abs(c - mid);
+      const b = kids[k].getBoundingClientRect();
+      const d = Math.abs(b.left + b.width / 2 - mid);
       if (d < gap) { gap = d; best = k; }
     }
     if (best !== last) { last = best; onChange(best); }

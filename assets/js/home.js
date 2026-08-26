@@ -743,20 +743,74 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     setTimeout(function () { busy = false; }, 900);
   }
 
-  /* On a phone the deck is swiped rather than driven, so the current slide
-     comes from where the viewport has been scrolled to. Same rule holds:
-     whichever slide you are looking at is the one that plays. */
   const viewport = track.parentElement;
-  let settle;
-  viewport.addEventListener("scroll", function () {
-    if (!ON_PHONE.matches) return;
-    clearTimeout(settle);
-    settle = setTimeout(function () {
-      const w = viewport.clientWidth || 1;
-      const k = Math.round(viewport.scrollLeft / w);
-      if (k !== i && k >= 0 && k < n) { i = k; syncPlayback(); }
-    }, 120);
-  }, { passive: true });
+
+  /* ------------------------------------------------- the phone deck (R1) ---
+     Swiped rather than driven. The heading and subheading are lifted out of
+     the slides into a block above the deck, and a dot rail goes underneath.
+
+     The live slide is the one whose centre sits nearest the viewport's centre,
+     and both are read off getBoundingClientRect. The earlier version compared
+     offsetLeft against scrollLeft -- offsetLeft is measured from the element's
+     offsetParent, scrollLeft from inside the scroller, so the two differ by
+     however far the scroller sits down the page and the dots were wrong by a
+     constant. Rects are in one frame, so there is nothing to reconcile.
+
+     Polled rather than listened for: scroll events are not dependable. */
+  function phoneDeck() {
+    const shell = viewport.parentElement;
+    if (!shell || shell.querySelector(".coty-head")) return;
+
+    const head = document.createElement("div");
+    head.className = "coty-head";
+    const caps = slides.map(function (sl, k) {
+      const cap = document.createElement("div");
+      cap.className = "coty-cap" + (k ? "" : " is-on");
+      const t = sl.querySelector(".coty-title"), s = sl.querySelector(".coty-sub");
+      if (t) cap.appendChild(t.cloneNode(true));
+      if (s) cap.appendChild(s.cloneNode(true));
+      head.appendChild(cap);
+      return cap;
+    });
+    shell.insertBefore(head, viewport);
+
+    const rail = document.createElement("div");
+    rail.className = "coty-rail";
+    const dots = slides.map(function (_, k) {
+      const d = document.createElement("span");
+      d.className = "coty-dot" + (k ? "" : " is-on");
+      rail.appendChild(d);
+      return d;
+    });
+    const count = document.createElement("span");
+    count.className = "coty-count";
+    count.textContent = "01 / " + String(n).padStart(2, "0");
+    rail.appendChild(count);
+    shell.insertBefore(rail, viewport.nextSibling);
+
+    let last = 0;
+    setInterval(function () {
+      const box = viewport.getBoundingClientRect();
+      if (!box.width) return;                 // pane collapsed; measure nothing
+      const mid = box.left + box.width / 2;
+      let best = 0, gap = Infinity;
+      for (let k = 0; k < n; k++) {
+        const b = slides[k].getBoundingClientRect();
+        const d = Math.abs(b.left + b.width / 2 - mid);
+        if (d < gap) { gap = d; best = k; }
+      }
+      if (best === last) return;
+      caps[last].classList.remove("is-on"); caps[best].classList.add("is-on");
+      dots[last].classList.remove("is-on"); dots[best].classList.add("is-on");
+      count.textContent = String(best + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+      last = best;
+      i = best;                               // whichever slide you are on plays
+      syncPlayback();
+    }, 150);
+  }
+
+  if (ON_PHONE.matches) phoneDeck();
+
   const prev = document.querySelector(".coty-arrow--prev");
   const next = document.querySelector(".coty-arrow--next");
   if (prev) prev.addEventListener("click", function () { go(-1); });
