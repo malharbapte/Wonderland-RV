@@ -186,10 +186,15 @@ document.addEventListener("click", function (e) {
   const c = e.target.closest(".chip");
   if (c) c.classList.toggle("on");
 });
+/* Measured like for like with the 938 on the live page: the form itself, from
+   the top of the first field to the bottom of the submit -- not the heading
+   and lede above it, which are not part of that number. */
 ["1","2","3"].forEach(function (k) {
-  const box = document.getElementById("c" + k).getBoundingClientRect();
+  const top = document.querySelector("#c" + k + " .stack").getBoundingClientRect().top;
+  const bot = document.querySelector("#c" + k + " .go").getBoundingClientRect().bottom;
+  const h = Math.round(bot - top);
   document.getElementById("h" + k).textContent =
-    "form height " + Math.round(box.height) + "px  ·  now 938px";
+    "form " + h + "px  ·  now 938px  ·  " + (h < 938 ? (938 - h) + " shorter" : (h - 938) + " taller");
 });
 </script>
 </body>
