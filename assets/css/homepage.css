@@ -1020,8 +1020,12 @@
   .home-chips { width: 100%; height: auto; margin: 0; }
   .home-form .btn-submit { margin-top: 22px; margin-left: 0; }
 
-  /* Two cells rather than four, so each is ~157 wide and both labels hold one
-     line at full body size -- none of the 11 the contact form's four needed. */
-  .home-chips .chip > span { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* The pill reads as one component across both pages, so the labels carry the
+     contact form's values. This rule has to stay and state them rather than
+     defer to the shared .chips rule in styles.css: the desktop
+     .home-chips .chip > span is the same specificity and this file loads
+     second, so deleting it hands the labels back to 0.21rem -- 3.4px against
+     the phone's 16px base. */
+  .home-chips .chip > span { font-size: 11px; line-height: 14px; }
   .home-area textarea { width: 100%; height: 120px; }
 }
