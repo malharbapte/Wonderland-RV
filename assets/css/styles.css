@@ -1197,8 +1197,12 @@ input:-webkit-autofill:focus {
   }
 
   .consent { margin-top: 22px; gap: 12px; padding-left: 0; }
+  /* Size and border only. The checked state is left entirely to the desktop
+     rule -- orange fill with the white tick at 52% -- because a 4px white inset
+     ring here was painting over that tick and leaving a small orange dot in the
+     middle of the circle instead. 52% of 20 is a 10.4 tick, the same proportion
+     the desktop circle carries. */
   .consent input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; border-width: 1px; }
-  .consent input[type="checkbox"]:checked { box-shadow: inset 0 0 0 4px #fff; }
   .consent label { font-size: var(--t-body); line-height: var(--lh-body); }
   .fineprint { font-size: 12px; line-height: 18px; margin-top: 6px; }
   .btn-submit { margin: 22px 0 0; width: 100%; max-width: none; height: 54px; font-size: 16px; line-height: 54px; }
