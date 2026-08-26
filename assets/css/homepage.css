@@ -724,7 +724,7 @@
   .pull-media::after { content: none; }    /* the placeholder label */
   .pull-slide {
     position: relative; inset: auto; flex: 0 0 calc(100% - 58px);
-    aspect-ratio: 2200 / 1301; border-radius: 6px; overflow: hidden;
+    aspect-ratio: 2200 / 1301; border-radius: var(--radius); overflow: hidden;
     transform: none !important; transition: none !important;
     scroll-snap-align: start;
   }
@@ -749,10 +749,54 @@
   .solara-grid, .range-grid, .why-grid, .insurance-grid { grid-template-columns: 1fr; row-gap: 32px; }
   .solara-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
   .solara-body { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* ---- Our range -------------------------------------------------------
+     The band above already carries the section name, so the heading inside it
+     went; the section was naming itself twice. */
+  .band--range { height: auto; }
+  .band--range .media { position: static; }
+  .band--range .media img { width: 100%; height: auto; display: block; }
+  .band--range .band-copy { position: absolute; left: 0; right: 0; top: 16px;
+                            height: auto; padding-top: 0; }
+  .band-title { font-size: var(--t-heading); line-height: var(--lh-heading);
+                text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5); }
+  .range-title { display: none; }
   .range-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
+
+  /* The icons were 0.62rem, which is 9.9 here, sitting at left 0 under their
+     own headings. Back to 36, with the copy indented past them. */
+  .range-list li { padding-left: 52px; }
+  .range-icon { width: 36px; height: 36px; top: -2px; }
   .range-list h3, .range-list p { padding-left: 0; }
   .range-list h3 { font-size: var(--t-sub); }
   .range-list p { font-size: var(--t-body); line-height: var(--lh-body); }
+
+  /* The baked grid is replaced by real cards, built in home.js and only here.
+     Its four names were pixels at 0.337 scale and its chevrons were not links. */
+  .range-figure { display: none; }
+  .range-scroll {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; gap: 12px; margin-top: 30px;
+    padding: 0 24px; scroll-padding-left: 24px;
+    width: 100vw; margin-left: -24px;
+  }
+  .range-scroll::-webkit-scrollbar { display: none; }
+  .range-card { flex: 0 0 calc(58% - 18px); scroll-snap-align: start;
+                text-decoration: none; color: inherit; }
+  .range-card .shot { aspect-ratio: 390 / 245; overflow: hidden;
+                      border-radius: var(--radius); background: #F4F2EF; }
+  .range-card img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .range-card h3 { font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub);
+                   letter-spacing: 0.04em; margin: 10px 0 0; padding-left: 0; }
+  .range-card p { font-size: var(--t-caption); color: #777; margin: 3px 0 0;
+                  padding-left: 0; font-style: normal; line-height: var(--lh-caption); }
+  .range-rail { display: flex; align-items: center; gap: 9px; padding: 14px 24px 0;
+                margin-left: -24px; width: 100vw; }
+  .range-dot { width: 6px; height: 6px; border-radius: 50%; background: #d2d2d2;
+               transition: width .2s ease, background .2s ease; }
+  .range-dot.is-on { width: 18px; border-radius: 3px; background: var(--orange-deep); }
+  .range-count { margin-left: auto; font-size: var(--t-caption);
+                 letter-spacing: 0.12em; color: #8a8a8a; }
 
   .testi { height: auto; padding: 48px 24px; }
   .testi-inner { display: block; }

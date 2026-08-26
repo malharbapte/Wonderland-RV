@@ -1046,6 +1046,7 @@ input:-webkit-autofill:focus {
     --lh-body:   23px;
     --lh-caption:18px;
     --page-margin: 24px;
+    --radius: 10px;             /* one curvature: the sheets carried ten */
   }
 
   /* ---- hard breaks -----------------------------------------------------

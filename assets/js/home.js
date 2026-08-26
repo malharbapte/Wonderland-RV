@@ -373,6 +373,93 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
    Loops in both directions without a visible rewind.                      */
 const ON_PHONE = window.matchMedia("(max-width: 900px)");
 
+/* ---------------------------------------------- Our range, on a phone -----
+   The desktop shows one baked PNG of all four models. At phone width that
+   renders at a third scale, which puts its names under the legibility floor
+   and leaves its chevrons as pixels rather than links. Here the four become
+   real cards on a horizontal scroll, with the same snap, peek, dots and
+   counter as the slideshow above, so the page has one gesture.
+
+   Built here rather than in the markup so the desktop DOM is untouched: on a
+   wide screen none of this exists.                                        */
+(function () {
+  const figure = document.querySelector(".range-figure");
+  if (!figure) return;
+
+  const MODELS = [
+    ["solara", "SOLARA", "Composite off-road", "https://wonderlandrv.com.au/range/solara/"],
+    ["xtr",    "XTR",    "Extreme off-road",   "https://wonderlandrv.com.au/range/xtr/"],
+    ["hornet", "HORNET", "Rugged off-road",    "https://wonderlandrv.com.au/range/hornet/"],
+    ["amaroo", "AMAROO", "Classic off-road",   "https://wonderlandrv.com.au/range/amaroo/"]
+  ];
+
+  let scroll = null, rail = null, poll, last = -1;
+
+  function build() {
+    if (scroll) return;
+    scroll = document.createElement("div");
+    scroll.className = "range-scroll";
+    MODELS.forEach(function (m) {
+      const a = document.createElement("a");
+      a.className = "range-card";
+      a.href = m[3];
+      a.innerHTML =
+        '<div class="shot"><img src="assets/img/home/range/' + m[0] + '.png" alt=""></div>' +
+        "<h3>" + m[1] + "</h3><p>" + m[2] + "</p>";
+      scroll.appendChild(a);
+    });
+
+    rail = document.createElement("div");
+    rail.className = "range-rail";
+    MODELS.forEach(function (_, i) {
+      const d = document.createElement("span");
+      d.className = "range-dot" + (i ? "" : " is-on");
+      rail.appendChild(d);
+    });
+    const count = document.createElement("span");
+    count.className = "range-count";
+    count.textContent = "1 / " + MODELS.length;
+    rail.appendChild(count);
+
+    figure.parentElement.appendChild(scroll);
+    figure.parentElement.appendChild(rail);
+    last = -1;
+    poll = setInterval(onScroll, 150);
+  }
+
+  function tear() {
+    if (!scroll) return;
+    clearInterval(poll);
+    scroll.remove(); rail.remove();
+    scroll = rail = null;
+  }
+
+  /* Polled, not driven by the scroll event: during iOS momentum the event is
+     sparse, and in a throttled tab it does not arrive at all. */
+  function onScroll() {
+    if (!scroll || scroll.scrollLeft === last) return;
+    last = scroll.scrollLeft;
+    const cards = scroll.querySelectorAll(".range-card");
+    const dots = rail.querySelectorAll(".range-dot");
+    /* Whichever card is nearest the middle of the viewport, not nearest its
+       left edge. The last card can never reach the left edge -- the scroller
+       runs out of travel first -- so an edge test can never select it. */
+    const mid = scroll.scrollLeft + scroll.clientWidth / 2;
+    let i = 0, best = Infinity;
+    cards.forEach(function (c, k) {
+      const centre = c.offsetLeft - scroll.offsetLeft + c.offsetWidth / 2;
+      const d = Math.abs(centre - mid);
+      if (d < best) { best = d; i = k; }
+    });
+    dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); });
+    rail.querySelector(".range-count").textContent = (i + 1) + " / " + cards.length;
+  }
+
+  function sync() { ON_PHONE.matches ? build() : tear(); }
+  sync();
+  ON_PHONE.addEventListener("change", sync);
+})();
+
 /* ------------------------------------ the slideshow's phone affordances ---
    On a phone the slideshow becomes a scroller the finger drags, which gives
    no clue that there is more than one photo. Dots and a counter say so, and
@@ -424,9 +511,11 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
          clientWidth includes the scroller's own padding, so arithmetic on it
          drifts and the dots stop matching what is on screen. */
       const slides = media.querySelectorAll(".pull-slide");
+      const mid = media.scrollLeft + media.clientWidth / 2;
       let i = 0, best = Infinity;
       slides.forEach(function (sl, k) {
-        const d = Math.abs(sl.offsetLeft - media.offsetLeft - media.scrollLeft);
+        const centre = sl.offsetLeft - media.offsetLeft + sl.offsetWidth / 2;
+        const d = Math.abs(centre - mid);
         if (d < best) { best = d; i = k; }
       });
       dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); });
