@@ -76,10 +76,8 @@ body { background:#F7F6F4; }
 .cell + .cell::before { content:""; position:absolute; left:0; top:-4px; z-index:0;
                         width:1px; height:calc(100% + 8px); background:var(--ink);
                         opacity:1; transition:opacity .18s ease; }
-/* A divider landing on the pill's rounded corner leaves a white notch either
-   side of the curve. The two either side of the selection step aside. */
-.cell:has(input:checked)::before,
-.cell:has(input:checked) + .cell::before { opacity:0; }
+/* Every divider stays drawn. The pill keeps clear of them instead -- see the
+   inset in place(). */
 .cell input { position:absolute; opacity:0; pointer-events:none; }
 .cell svg.ic { width:22px; height:22px; stroke:currentColor; fill:none;
                stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
@@ -136,8 +134,9 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
           label 2.</li>
       <li><b>The divider landed on the pill's rounded corner.</b> A straight line meeting a
           10px curve leaves a white notch above and below it, which is what you were seeing
-          down the pill's left edge. The dividers either side of the selection now fade out,
-          the way a segmented control behaves.</li>
+          down the pill's left edge. Every divider stays drawn — the pill keeps 4 clear of
+          them instead, the same 4 the container's padding already gives it against the
+          border. Its clearance is now even on all four sides whatever cell it is in.</li>
     </ul>
   </div>
 
@@ -220,6 +219,8 @@ document.getElementById("c2").innerHTML = form("p2");
 
 /* The pill: measured off rects against the container's own box, so the reading
    never depends on which ancestor happens to be positioned. */
+const GAP = 4;                 /* the pill's clearance, matching .chips2 padding */
+
 function place(set, animate) {
   const thumb = set.querySelector(".thumb");
   const on = set.querySelector("input:checked");
@@ -232,8 +233,16 @@ function place(set, animate) {
      while getBoundingClientRect reports from its BORDER box -- so the fieldset's
      1px border gets counted twice and the pill lands a pixel low and right.
      clientLeft/clientTop are exactly those border widths. */
-  thumb.style.left = (c.left - box.left - set.clientLeft) + "px";
-  thumb.style.width = c.width + "px";
+  /* The pill is inset the same 4 from whatever bounds it. On the outer edges
+     that gap is already there, given by the container's padding; on the inner
+     edges it has to be taken off the cell, or the pill runs flush into the
+     divider and the straight line cuts across its rounded corner. So: shrink on
+     the sides that face a divider, leave the sides that face the border. */
+  const cells = [].slice.call(set.querySelectorAll(".cell"));
+  const padL = cell === cells[0] ? 0 : GAP;
+  const padR = cell === cells[cells.length - 1] ? 0 : GAP;
+  thumb.style.left = (c.left - box.left - set.clientLeft + padL) + "px";
+  thumb.style.width = (c.width - padL - padR) + "px";
   thumb.style.top = (c.top - box.top - set.clientTop) + "px";
   thumb.style.height = c.height + "px";
   thumb.style.bottom = "auto";
