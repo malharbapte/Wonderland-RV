@@ -554,15 +554,22 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     if (scroll) return;
     scroll = document.createElement("div");
     scroll.className = "range-scroll";
-    MODELS.forEach(function (m) {
+    /* The set is laid down twice. The scroller runs on past Amaroo into a copy
+       of the same four, and once a whole set has gone by the scroll position is
+       moved back by exactly one set width -- at an identical snap point, so the
+       jump is invisible and the track never ends. */
+    function card(m, clone) {
       const a = document.createElement("a");
       a.className = "range-card";
       a.href = m[3];
+      if (clone) a.setAttribute("aria-hidden", "true");
       a.innerHTML =
         '<div class="shot"><img src="assets/img/home/range/' + m[0] + '.png" alt=""></div>' +
         "<h3>" + m[1] + "</h3><p>" + m[2] + "</p>";
-      scroll.appendChild(a);
-    });
+      return a;
+    }
+    MODELS.forEach(function (m) { scroll.appendChild(card(m, false)); });
+    MODELS.forEach(function (m) { scroll.appendChild(card(m, true)); });
 
     rail = document.createElement("div");
     rail.className = "range-rail";
@@ -593,9 +600,15 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
      sparse, and in a throttled tab it does not arrive at all. */
   function onScroll() {
     if (!scroll || scroll.scrollLeft === last) return;
-    last = scroll.scrollLeft;
     const cards = scroll.querySelectorAll(".range-card");
     const dots = rail.querySelectorAll(".range-dot");
+
+    /* wrap: once a full set has passed, step back one set and carry on */
+    const setW = cards[dots.length] ? cards[dots.length].offsetLeft - cards[0].offsetLeft : 0;
+    if (setW > 0 && scroll.scrollLeft >= setW) {   /* a whole set has gone by */
+      scroll.scrollLeft = scroll.scrollLeft - setW;
+    }
+    last = scroll.scrollLeft;
     /* Whichever card is nearest the middle of the viewport, not nearest its
        left edge. The last card can never reach the left edge -- the scroller
        runs out of travel first -- so an edge test can never select it. */
@@ -606,8 +619,9 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
       const d = Math.abs(centre - mid);
       if (d < best) { best = d; i = k; }
     });
+    i = i % dots.length;            /* a clone reports as its original */
     dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); });
-    rail.querySelector(".range-count").textContent = (i + 1) + " / " + cards.length;
+    rail.querySelector(".range-count").textContent = (i + 1) + " / " + dots.length;   /* not the clones */
   }
 
   function sync() { ON_PHONE.matches ? build() : tear(); }

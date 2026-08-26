@@ -755,6 +755,7 @@
      edge is not, because a corner radius against the edge of the display reads
      as a mistake. The carousels already followed this -- these two did not. */
   .solara-video,
+  .coty-figure,
   .why-figure { border-radius: var(--radius); overflow: hidden; }
   .why-figure img { display: block; width: 100%; height: auto; }
   .solara-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
@@ -804,6 +805,7 @@
   }
   .range-scroll::-webkit-scrollbar { display: none; }
   .range-card { flex: 0 0 calc(58% - 18px); scroll-snap-align: start;
+                scroll-snap-stop: always;      /* one van per swipe, never two */
                 text-decoration: none; color: inherit; }
   .range-card .shot { aspect-ratio: 390 / 245; overflow: hidden;
                       border-radius: var(--radius); background: #F4F2EF; }
