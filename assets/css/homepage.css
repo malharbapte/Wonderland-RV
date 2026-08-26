@@ -841,6 +841,7 @@
   .dream-acc .acc-rule {
     position: absolute; left: -24px; top: 0; bottom: 0; width: 3px;
     background: var(--orange-deep);
+    transform-origin: top;        /* it grows downward, not out of its middle */
   }
   .dream-acc .ic.ic-on { color: var(--orange-deep); }   /* two classes: wins on specificity, not on order */
   .dream-acc .acc-head {
@@ -854,9 +855,10 @@
   /* Height is measured and set by the script, not left to a 0fr-to-1fr grid:
      in an auto-height grid the 1fr row has no free space to claim, so it
      resolves to zero and the row never opens. */
-  /* No clipping and no height transition: the body is in the DOM only while
-     the row is open, so it is simply at its natural height. */
-  .dream-acc .acc-body { overflow: visible; }
+  /* Clipped so the height animation has something to reveal. The body is only
+     in the DOM while the row is open, so at rest this is simply its natural
+     height with nothing hidden. */
+  .dream-acc .acc-body { overflow: hidden; }
   .dream-acc .acc-body p {
     margin: 0; padding: 0 0 18px 44px;
     font-size: var(--t-body); line-height: var(--lh-body);

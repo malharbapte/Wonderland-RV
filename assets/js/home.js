@@ -428,17 +428,42 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
     old.replaceWith(span);
   }
 
+  const EASE = "cubic-bezier(.4, 0, .2, 1)";   /* in and out, not just out */
+  const OPEN_MS = 380, SHUT_MS = 300;
+
   function close(i) {
     if (i < 0) return;
     const item = acc.children[i];
     const body = item.querySelector(".acc-body");
-    if (body) body.remove();
     const rule = item.querySelector(".acc-rule");
-    if (rule) rule.remove();
     item.classList.remove("is-open");
     setIcon(item, i, false);
     item.querySelector(".acc-head").setAttribute("aria-expanded", "false");
     openIndex = -1;
+
+    /* Collapse it, then take it out. The node has to stay in the layout for
+       the height to have anywhere to travel. */
+    if (body) {
+      const from = body.getBoundingClientRect().height;
+      if (body.animate && from > 0) {
+        const a = body.animate(
+          [{ height: from + "px", opacity: 1 },
+           { height: "0px", opacity: 0 }],
+          { duration: SHUT_MS, easing: EASE });
+        a.onfinish = function () { body.remove(); };
+        a.oncancel = function () { body.remove(); };
+        /* and a backstop, in case the animation never advances to fire either */
+        setTimeout(function () { if (body.isConnected) body.remove(); }, SHUT_MS + 150);
+      } else { body.remove(); }
+    }
+    if (rule) {
+      if (rule.animate) {
+        const a = rule.animate([{ transform: "scaleY(1)" }, { transform: "scaleY(0)" }],
+                               { duration: SHUT_MS, easing: EASE });
+        a.onfinish = function () { rule.remove(); };
+        a.oncancel = function () { rule.remove(); };
+      } else { rule.remove(); }
+    }
   }
 
   function open(i) {
@@ -455,10 +480,32 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
     setIcon(item, i, true);
     item.querySelector(".acc-head").setAttribute("aria-expanded", "true");
     openIndex = i;
+
+    /* The height is animated on the node that was just inserted, through the
+       animation API rather than a CSS transition. Nothing here depends on a
+       style change to an existing element being noticed, which is what the
+       earlier attempts all relied on. With no fill, it hands back to the
+       element's own auto height when it finishes, so the row still reflows if
+       the copy rewraps. */
     if (body.animate) {
-      body.animate([{ opacity: 0, transform: "translateY(-5px)" },
-                    { opacity: 1, transform: "none" }],
-                   { duration: 260, easing: "cubic-bezier(.25,.8,.3,1)" });
+      const h = body.getBoundingClientRect().height;
+      const grow = body.animate(
+        [{ height: "0px", opacity: 0, transform: "translateY(-5px)" },
+         { height: h + "px", opacity: 1, transform: "none" }],
+        { duration: OPEN_MS, easing: EASE });
+      const bar = rule.animate([{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }],
+                               { duration: OPEN_MS, easing: EASE });
+
+      /* The copy matters more than the easing. If the animation has not
+         actually run by the time it should have finished -- a throttled or
+         non-compositing tab never advances one -- it is cancelled so the row
+         falls back to its natural height rather than sitting collapsed. */
+      setTimeout(function () {
+        if (!item.classList.contains("is-open")) return;
+        if (body.getBoundingClientRect().height < 4) {
+          try { grow.cancel(); bar.cancel(); } catch (e) {}
+        }
+      }, OPEN_MS + 120);
     }
   }
 
