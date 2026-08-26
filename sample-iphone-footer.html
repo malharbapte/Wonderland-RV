@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Footer — condensing</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=136">
+<style>
+/* ==========================================================================
+   Sample only — not linked from either page. Three ways to condense what sits
+   after the Subscribe CTA. Everything above it is identical in all three.
+   ========================================================================== */
+body { background:#F7F6F4; }
+.doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
+.probs { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
+.probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
+            text-transform:uppercase; margin:0 0 8px; color:#666; }
+.probs p { margin:0; font-size:13.5px; line-height:22px; color:#333; }
+.deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
+.col { flex:0 0 375px; }
+.lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
+.lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
+          letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
+.lab--pick .k { background:#111; }
+.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:110px; }
+.tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 12px; }
+.tall b { color:var(--orange-deep); }
+.phone { width:375px; background:#111; border-radius:24px; overflow:hidden;
+         box-shadow:0 2px 30px rgba(0,0,0,.18); color:#fff; }
+.pad { padding:40px 24px; font-size:15px; line-height:24px; }
+
+/* ------------------------------------------- the footer, as it is on phone */
+.fhead { font-family:var(--aviano); font-weight:900; font-size:15px; line-height:20px;
+         letter-spacing:.02em; color:var(--orange-deep); margin:0 0 14px; }
+.nl input { width:100%; box-sizing:border-box; height:38px; font-size:16px; color:#fff;
+            background:none; border:0; border-bottom:1px solid #555; border-radius:0; padding:0 2px; }
+.nl input::placeholder { color:#888; }
+.nl .go { display:block; margin-top:14px; width:100%; max-width:200px; height:50px; border:0;
+          background:var(--orange-deep); color:#fff; font-family:var(--aviano); font-weight:900;
+          font-size:15px; letter-spacing:.08em; }
+.after { margin-top:32px; }
+ul.lk { list-style:none; margin:0; padding:0; }
+ul.lk li { line-height:22px; margin-bottom:10px; }
+ul.lk a { color:#fff; text-decoration:none; }
+.grp + .grp { margin-top:32px; }
+
+/* F1 — two columns */
+.f1 .cols { display:grid; grid-template-columns:1fr 1fr; column-gap:20px; row-gap:32px;
+            align-items:start; }
+.f1 .grp + .grp { margin-top:0; }
+
+/* F2 — accordion */
+.f2 .row { border-top:1px solid #333; }
+.f2 .row:last-child { border-bottom:1px solid #333; }
+.f2 .rh { display:flex; align-items:center; justify-content:space-between; width:100%;
+          background:none; border:0; padding:16px 0; cursor:pointer; text-align:left; }
+.f2 .rh .fhead { margin:0; }
+.f2 .sign { position:relative; width:13px; height:13px; flex:0 0 auto; }
+.f2 .sign::before, .f2 .sign::after { content:""; position:absolute; background:var(--orange-deep);
+          left:0; top:6px; width:13px; height:1.5px; transition:transform .28s ease; }
+.f2 .sign::after { transform:rotate(90deg); }
+.f2 .row.on .sign::after { transform:rotate(0deg); }
+.f2 .body { overflow:hidden; height:0; transition:height .3s cubic-bezier(.4,0,.2,1); }
+.f2 .body ul.lk { padding-bottom:6px; }
+
+/* F3 — two columns, locations inline */
+.f3 .cols { display:grid; grid-template-columns:1fr 1fr; column-gap:20px; row-gap:32px;
+            align-items:start; }
+.f3 .grp + .grp { margin-top:0; }
+.f3 .wide { grid-column:1 / -1; }
+.f3 .inline { display:flex; flex-wrap:wrap; gap:8px 0; }
+.f3 .inline a { color:#fff; text-decoration:none; line-height:22px; }
+.f3 .inline a:not(:last-child)::after { content:"·"; color:#666; margin:0 9px; }
+
+table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
+table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
+table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>Footer — condensing what follows the Subscribe CTA</h1>
+  <p class="note">
+    All three are live — tap the headings in F2. Everything above the Subscribe button is the
+    same in each, so only the link region differs.
+  </p>
+
+  <div class="probs">
+    <h3>Where the height is</h3>
+    <p>The footer is <b>2053px</b> on a phone. The five link groups below the Subscribe CTA are
+       <b>982</b> of that — just under half — because a rule at the 520 breakpoint drops them
+       from two columns to one, so all 22 links stack in a single file. The brand column above
+       is 560 and the legal blocks 240; those are close to irreducible without cutting content.
+       This is the piece worth condensing.</p>
+  </div>
+
+  <div class="deck">
+
+    <div class="col">
+      <p class="lab"><span class="k">F1</span>Two columns</p>
+      <p class="sub">Delete the 520 rule so the two-column grid holds all the way down. Nothing
+         else changes — same groups, same links, same order, all still visible without a tap.
+         The shortest route, and the only one that touches a single line of CSS.</p>
+      <p class="tall" id="h1">—</p>
+      <div class="phone"><div class="pad f1" id="c1"></div></div>
+    </div>
+
+    <div class="col">
+      <p class="lab lab--pick"><span class="k">F2</span>Accordion</p>
+      <p class="sub">Five headings in a ruled stack; tap one and it opens. Uses the interaction
+         already established twice on the homepage, in Build your dream van and Why choose us.
+         By far the biggest saving, and it makes the footer scannable — but every link now costs
+         a tap, and footers are where people hunt for one specific thing.</p>
+      <p class="tall" id="h2">—</p>
+      <div class="phone"><div class="pad f2" id="c2"></div></div>
+    </div>
+
+    <div class="col">
+      <p class="lab"><span class="k">F3</span>Two columns, locations inline</p>
+      <p class="sub">F1, plus the seven locations run as a wrapped row of names instead of a
+         stacked list. They are the longest group and the shortest labels, so they are the one
+         that wastes most as a column. Everything stays visible and nothing needs a tap.</p>
+      <p class="tall" id="h3">—</p>
+      <div class="phone"><div class="pad f3" id="c3"></div></div>
+    </div>
+
+  </div>
+
+  <table class="spec">
+    <tr><th>Region</th><td>everything from <code>.link-cols</code> down — the five groups after
+        the Subscribe CTA</td></tr>
+    <tr><th>Unchanged</th><td>brand column, newsletter, legal blocks, and the 48 / 32 / 14 / 10
+        spacing scale just put in</td></tr>
+    <tr><th>Content</th><td>all 22 links and all 5 headings kept in every option — nothing is
+        cut in any of them</td></tr>
+    <tr><th>Desktop</th><td>untouched in all three — the change lives at the 520 breakpoint and
+        inside the phone block</td></tr>
+  </table>
+
+</div>
+
+<script>
+const GROUPS = [
+  ["RANGE",          ["Solara","XTR","Hornet","Amaroo"]],
+  ["OWNERS SUPPORT", ["Owners manual","Warranty & repairs","Contact us"]],
+  ["EXPLORE",        ["Blog","Media features","Partners","Wonderlanders"]],
+  ["WHERE TO BUY",   ["Find a dealer","Book a factory tour","Request a quote","Get in touch"]],
+  ["LOCATIONS",      ["Melbourne","Sydney","Port Stephens","Brisbane","Mackay","Perth","Tasmania"]]
+];
+const TOP =
+  '<h3 class="fhead">SUBSCRIBE TO OUR NEWSLETTER</h3>' +
+  '<div class="nl"><input type="email" placeholder="Email*">' +
+  '<button class="go" type="button">SUBSCRIBE</button></div>';
+
+function list(items) {
+  return '<ul class="lk">' + items.map(function (t) {
+    return '<li><a href="#" onclick="return false">' + t + '</a></li>';
+  }).join("") + '</ul>';
+}
+function group(g) {
+  return '<div class="grp"><h4 class="fhead">' + g[0] + '</h4>' + list(g[1]) + '</div>';
+}
+
+/* ---- F1 : two columns ---- */
+document.getElementById("c1").innerHTML =
+  TOP + '<div class="after"><div class="cols" id="m1">' + GROUPS.map(group).join("") + '</div></div>';
+
+/* ---- F2 : accordion ---- */
+document.getElementById("c2").innerHTML =
+  TOP + '<div class="after" id="m2">' + GROUPS.map(function (g, k) {
+    return '<div class="row"><button class="rh" type="button" data-k="' + k + '">' +
+           '<span class="fhead">' + g[0] + '</span><span class="sign"></span></button>' +
+           '<div class="body">' + list(g[1]) + '</div></div>';
+  }).join("") + '</div>';
+
+document.getElementById("m2").addEventListener("click", function (e) {
+  const btn = e.target.closest(".rh");
+  if (!btn) return;
+  const row = btn.parentElement, body = row.querySelector(".body");
+  const open = row.classList.contains("on");
+  /* height animates from a measured number -- auto does not transition, and a
+     grid 0fr→1fr resolves to zero in an auto-height parent */
+  if (open) {
+    body.style.height = body.scrollHeight + "px";
+    requestAnimationFrame(function () { body.style.height = "0px"; });
+    row.classList.remove("on");
+  } else {
+    body.style.height = body.scrollHeight + "px";
+    row.classList.add("on");
+    setTimeout(function () { if (row.classList.contains("on")) body.style.height = "auto"; }, 320);
+  }
+});
+
+/* ---- F3 : two columns, locations inline ---- */
+document.getElementById("c3").innerHTML =
+  TOP + '<div class="after"><div class="cols" id="m3">' +
+  GROUPS.slice(0, 4).map(group).join("") +
+  '<div class="grp wide"><h4 class="fhead">LOCATIONS</h4><div class="inline">' +
+  GROUPS[4][1].map(function (t) { return '<a href="#" onclick="return false">' + t + '</a>'; }).join("") +
+  '</div></div></div></div>';
+
+["1","2","3"].forEach(function (k) {
+  const m = document.getElementById("m" + k);
+  const h = Math.round(m.getBoundingClientRect().height);
+  document.getElementById("h" + k).textContent =
+    "link region " + h + "px  ·  now 982px  ·  " + (982 - h) + " shorter";
+});
+</script>
+</body>
+</html>
