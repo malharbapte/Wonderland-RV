@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone — the pink bands</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=119">
+<style>
+body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
+.doc { padding:40px 28px 90px; }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc h2 { font-family:var(--aviano); font-weight:900; font-size:16px; margin:34px 0 8px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:90ch; margin:0 0 10px; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:6px 11px; text-align:left; vertical-align:top; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+.keep { color:#1a7f37; font-weight:700; } .drop { color:#b42318; }
+
+.rack { display:flex; gap:24px; align-items:flex-start; padding:14px 0; }
+.col { flex:0 0 390px; }
+.col > h3 { font-family:var(--aviano); font-weight:900; font-size:13px; margin:0 0 6px; }
+.col > .meta { font-size:12px; color:#666; margin:0 0 10px; }
+.band { width:390px; background:#D99B88; color:#fff; padding:48px 24px; text-align:center;
+        border-radius:14px; overflow:hidden; }
+.band p.q { font-size:20px; line-height:28px; font-style:italic; font-weight:500;
+            color:#FFEBD8; margin:0; }
+.band .attr { margin:20px 0 0; font-size:12px; line-height:18px; color:#FFF5EC; }
+.band .attr b { display:block; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>iPhone &mdash; the pink bands</h1>
+  <p class="note">Three of these sit on the homepage, and on a phone they are three full-bleed
+     orange interruptions carrying one sentence each. Together they are <b>744</b> of the
+     page&rsquo;s 8314 &mdash; just under 9% of the whole scroll spent on three quotes.</p>
+
+  <table class="t">
+    <tr><th></th><th>Where it sits</th><th>Height</th><th>Who</th><th>What it is</th></tr>
+    <tr><th>1</th><td>after Our range</td><td>200</td><td>Kevin Smalley, Wonderlander</td>
+        <td>owner, two lines, about inclusions</td></tr>
+    <tr><th>2</th><td>after Your dream van</td><td>344</td><td>Sharni Miller, Wonderlander</td>
+        <td>owner, eight lines &mdash; the long one</td></tr>
+    <tr><th>3</th><td>after Queen of Hearts</td><td>200</td><td>John Ford, <b>Caravan World</b></td>
+        <td>the press, two lines, names the Solara</td></tr>
+  </table>
+
+  <p class="note" style="margin-top:14px">Worth weighing: Legendary Service already carries
+     <b>five</b> owner reviews of its own, a few sections further down. Owner praise is the one
+     thing the page is not short of. John Ford is the only quote here that is not an owner.</p>
+
+  <h2>The three bands, at phone size</h2>
+  <div class="rack">
+    <div class="col">
+      <h3>1 &mdash; Kevin Smalley</h3>
+      <p class="meta">200 tall &middot; after Our range</p>
+      <div class="band">
+        <p class="q">The Wonderland RV range has more inclusions than most others.&rdquo;</p>
+        <p class="attr"><b>KEVIN SMALLEY</b>WONDERLANDER</p>
+      </div>
+    </div>
+    <div class="col">
+      <h3>2 &mdash; Sharni Miller</h3>
+      <p class="meta">344 tall &middot; after Your dream van</p>
+      <div class="band">
+        <p class="q">Absolutely love our Wonderland caravan! We bought our Wonderland Amaroo 4
+          months ago and thoroughly enjoy our time in the van. The build and finishing touches are
+          absolutely incredible and I would highly recommend Wonderland caravans to everyone!&rdquo;</p>
+        <p class="attr"><b>SHARNI MILLER</b>WONDERLANDER</p>
+      </div>
+    </div>
+    <div class="col">
+      <h3>3 &mdash; John Ford</h3>
+      <p class="meta">200 tall &middot; after Queen of Hearts</p>
+      <div class="band">
+        <p class="q">The Wonderland Solara 20&rsquo; 06&rdquo; is the real deal&rdquo;</p>
+        <p class="attr"><b>JOHN FORD</b>CARAVAN WORLD</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Three ways to cut them</h2>
+  <table class="t">
+    <tr><th></th><th>Kevin</th><th>Sharni</th><th>John Ford</th><th>Saved</th><th>The argument</th></tr>
+    <tr><th>A</th><td class="drop">drop</td><td class="drop">drop</td><td class="keep">keep</td>
+        <td>544</td>
+        <td>Keeps the only non-owner quote, and it lands right after Queen of Hearts where the
+            awards story already is. The two owner quotes go, because Legendary Service carries
+            five of those anyway.</td></tr>
+    <tr><th>B</th><td class="keep">keep</td><td class="drop">drop</td><td class="keep">keep</td>
+        <td>344</td>
+        <td>Drops only the long one. Proof early and proof late, both two lines, and the page
+            never gives eight lines of orange at once.</td></tr>
+    <tr><th>C</th><td class="keep">keep</td><td class="drop">drop</td><td class="drop">drop</td>
+        <td>544</td>
+        <td>Keeps the earliest, so social proof arrives before the reader has decided whether to
+            keep going. Gives up the press quote.</td></tr>
+  </table>
+
+  <p class="note" style="margin-top:14px">Whichever you pick, the bands stay untouched on the
+     desktop &mdash; they are hidden by a rule inside the phone breakpoint, not removed from the
+     markup.</p>
+</div>
+</body>
+</html>
