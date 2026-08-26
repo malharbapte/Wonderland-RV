@@ -378,8 +378,17 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
    headings with their icon, one open at a time, the open row marked by a rule
    down its left edge rather than a chevron.
 
+   The description is inserted and removed rather than clipped. Nothing is
+   animated by transitioning a container's height -- an earlier version did
+   that and the open state rendered once at build and then never responded to
+   a toggle again, through a CSS transition, a max-height, and finally inline
+   styles. Adding and removing the node cannot fail that way: it is either in
+   the layout at its natural height or it is not. The fade is run through the
+   animation API for the same reason -- it is imperative, so it does not
+   depend on a style change being noticed.
+
    Built here rather than in the markup so the desktop DOM is untouched, and
-   the copy is bound here too -- the last two words of each line get a
+   the copy is bound here too: the last two words of each line get a
    non-breaking space, which stops the single-word last line at every phone
    width without touching the desktop, where the measure is different.      */
 (function () {
@@ -392,107 +401,101 @@ const ON_PHONE = window.matchMedia("(max-width: 900px)");
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg>'
   ];
 
-  /* bind the last two words so the last line is never one word alone */
+  /* Bind the last two words, and hold hyphenated pairs together: without the
+     second step "off-grid" splits at its own hyphen and the last line reads
+     "grid adventures", which is the same fault wearing a disguise. U+2011 is a
+     non-breaking hyphen and draws identically. */
   function noOrphan(t) {
-    return t.replace(/\s+([^\s]+)\s*$/, "\u00A0$1");
+    return t.replace(/(\w)-(\w)/g, "$1\u2011$2")
+            .replace(/\s+([^\s]+)\s*$/, "\u00A0$1");
   }
 
-  let acc = null;
   const original = [].map.call(list.querySelectorAll("p"), function (p) { return p.textContent; });
+  const COPY = original.map(noOrphan);
+  const HEADS = [].map.call(list.querySelectorAll("h3"), function (h) { return h.textContent.trim(); });
 
-  /* Bind the last two words in the flat list too. It is what shows if the
-     accordion is not used, and the orphan is there either way. Restored on the
-     way out so the desktop keeps its own wrapping. */
-  function bindList(on) {
-    [].forEach.call(list.querySelectorAll("p"), function (p, i) {
-      p.textContent = on ? noOrphan(original[i]) : original[i];
-    });
+  let acc = null, openIndex = -1;
+
+  /* Both the rule and the icon's colour are expressed by swapping nodes, not by
+     mutating style or class on nodes that are already there. In this build a
+     freshly inserted node paints correctly while a style or class change on an
+     existing one does not, and rebuilding two small spans costs nothing. */
+  function setIcon(item, i, on) {
+    const old = item.querySelector(".ic");
+    const span = document.createElement("span");
+    span.className = on ? "ic ic-on" : "ic";
+    span.innerHTML = ICONS[i];
+    old.replaceWith(span);
+  }
+
+  function close(i) {
+    if (i < 0) return;
+    const item = acc.children[i];
+    const body = item.querySelector(".acc-body");
+    if (body) body.remove();
+    const rule = item.querySelector(".acc-rule");
+    if (rule) rule.remove();
+    item.classList.remove("is-open");
+    setIcon(item, i, false);
+    item.querySelector(".acc-head").setAttribute("aria-expanded", "false");
+    openIndex = -1;
+  }
+
+  function open(i) {
+    const item = acc.children[i];
+    const rule = document.createElement("i");
+    rule.className = "acc-rule";
+    rule.setAttribute("aria-hidden", "true");
+    item.insertBefore(rule, item.firstChild);
+    const body = document.createElement("div");
+    body.className = "acc-body";
+    body.innerHTML = "<p>" + COPY[i] + "</p>";
+    item.appendChild(body);
+    item.classList.add("is-open");
+    setIcon(item, i, true);
+    item.querySelector(".acc-head").setAttribute("aria-expanded", "true");
+    openIndex = i;
+    if (body.animate) {
+      body.animate([{ opacity: 0, transform: "translateY(-5px)" },
+                    { opacity: 1, transform: "none" }],
+                   { duration: 260, easing: "cubic-bezier(.25,.8,.3,1)" });
+    }
   }
 
   function build() {
     if (acc) return;
     acc = document.createElement("div");
     acc.className = "dream-acc";
-    [].forEach.call(list.querySelectorAll("li"), function (li, i) {
-      const h = li.querySelector("h3"), p = li.querySelector("p");
+    HEADS.forEach(function (h, i) {
       const item = document.createElement("div");
-      item.className = "acc-item" + (i ? "" : " is-open");
+      item.className = "acc-item";
       item.innerHTML =
-        '<i class="acc-rule" aria-hidden="true"></i>' +
-        '<button class="acc-head" aria-expanded="' + (i ? "false" : "true") + '">' +
+        '<button class="acc-head" aria-expanded="false">' +
           '<span class="ic">' + ICONS[i] + "</span>" +
-          '<span class="ttl">' + h.textContent.trim() + "</span></button>" +
-        '<div class="acc-body"><p>' + noOrphan(p.textContent.trim()) + "</p></div>";
+          '<span class="ttl">' + h + "</span></button>";
       acc.appendChild(item);
-      paint(item, i === 0);
     });
     list.parentElement.appendChild(acc);
-
-    /* Prove a real toggle renders before hiding the copy behind one. An
-       accordion that cannot open leaves all three descriptions unreadable with
-       no way to get at them, which is worse than no accordion at all. So the
-       second row is opened and measured, then put back: if opening did not
-       change its height, the whole thing is torn out and the flat list stays.
-       Checking that the first row merely has height is not enough -- it is
-       painted at build, before any toggle has been asked for. */
-    const rows = acc.querySelectorAll(".acc-item");
-    const test = rows[1] && rows[1].querySelector(".acc-body");
-    if (test) {
-      const shutH = test.getBoundingClientRect().height;
-      paint(rows[1], true);
-      const openH = test.getBoundingClientRect().height;
-      paint(rows[1], false);
-      if (!(openH > shutH + 3)) {
-        acc.remove();
-        acc = null;
-        return;                              /* the flat list is still there */
-      }
-    }
-    list.style.display = "none";             /* only now is it safe to hide */
+    open(0);
+    list.style.display = "none";
   }
 
   function tear() {
-    if (acc) { acc.remove(); acc = null; }
-    list.style.display = "";                 /* back to the desktop's own rules */
+    if (acc) { acc.remove(); acc = null; openIndex = -1; }
+    list.style.display = "";
   }
-
-  /* The open height is a CSS max-height ceiling rather than a measured pixel
-     value. Coarser -- the easing covers the ceiling, not the copy -- but it
-     needs no measuring, no transitionend bookkeeping, and no inline styles
-     that can end up fighting the sheet. */
-  /* The open state is written onto the elements themselves rather than left to
-     descendant rules hanging off a class on the row. Toggling that class after
-     build did not re-apply those rules -- the row opened once at build and
-     then never changed -- so nothing here depends on that path. */
-  function paint(it, on) {
-    const body = it.querySelector(".acc-body");
-    const icon = it.querySelector(".ic");
-    const rule = it.querySelector(".acc-rule");
-    const copy = body.querySelector("p");
-    body.style.maxHeight = on ? body.scrollHeight + 40 + "px" : "0px";
-    icon.style.color = on ? "#D57114" : "#b4aea6";
-    rule.style.height = on ? "100%" : "0";
-    copy.style.opacity = on ? "1" : "0";
-    copy.style.transform = on ? "none" : "translateY(-5px)";
-    it.classList.toggle("is-open", on);
-    it.querySelector(".acc-head").setAttribute("aria-expanded", on ? "true" : "false");
-  }
-  function shut(it) { paint(it, false); }
-  function open(it) { paint(it, true); }
 
   document.addEventListener("click", function (e) {
-    if (!acc) return;
-    const head = e.target.closest && e.target.closest(".dream-acc .acc-head");
-    if (!head) return;
-    const item = head.parentElement, wasOpen = item.classList.contains("is-open");
-    [].forEach.call(acc.querySelectorAll(".acc-item.is-open"), shut);
-    if (!wasOpen) open(item);
+    if (!acc || !e.target.closest) return;
+    const head = e.target.closest(".dream-acc .acc-head");
+    if (!head || !acc.contains(head)) return;
+    const i = [].indexOf.call(acc.children, head.parentElement);
+    const wasOpen = i === openIndex;
+    close(openIndex);
+    if (!wasOpen) open(i);
   });
 
-  function sync() {
-    bindList(ON_PHONE.matches);
-    ON_PHONE.matches ? build() : tear();
-  }
+  function sync() { ON_PHONE.matches ? build() : tear(); }
   sync();
   ON_PHONE.addEventListener("change", sync);
 })();
