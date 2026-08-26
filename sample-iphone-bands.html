@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experience & Where to next</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=142">
+<style>
+/* ==========================================================================
+   Sample only — not linked from either page. The two full-bleed bands on the
+   contact page: The Wonderland Experience, and Where to next.
+   ========================================================================== */
+body { background:#F7F6F4; }
+.doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc h2 { font-family:var(--aviano); font-weight:900; font-size:19px; margin:46px 0 6px;
+          padding-top:26px; border-top:2px solid #111; }
+.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
+.probs { margin:14px 0 28px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
+.probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
+            text-transform:uppercase; margin:0 0 8px; color:#666; }
+.probs ul { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
+.deck { display:flex; gap:30px; align-items:flex-start; flex-wrap:wrap; }
+.col { flex:0 0 375px; }
+.lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
+.lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
+          letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
+.lab--pick .k { background:#111; }
+.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:96px; }
+.tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 10px; }
+.phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
+         box-shadow:0 2px 30px rgba(0,0,0,.11); }
+
+/* ---------------------------------------------------------- shared band --- */
+.band { position:relative; overflow:hidden; }
+.band > img, .band > video { position:absolute; inset:0; width:100%; height:100%;
+                             object-fit:cover; display:block; }
+.band .scrim { position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.62) 0%, rgba(0,0,0,.28) 38%, rgba(0,0,0,.05) 72%); }
+.band .copy { position:relative; padding:0 24px 40px; color:#fff; display:flex;
+              flex-direction:column; justify-content:flex-end; height:100%; box-sizing:border-box; }
+.ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+       margin:0; text-transform:uppercase; }
+.bdy { font-size:16px; line-height:24px; margin:14px 0 0; }
+
+/* ---- E1 : the pair closes up, band shortens ---- */
+.e1 .band { height:360px; }
+/* ---- E2 : picture, then copy on white ---- */
+.e2 .band { height:0; padding-bottom:56.25%; }
+.e2 .under { padding:28px 24px 34px; }
+.e2 .under .ttl { color:#111; }
+.e2 .under .bdy { color:#444; }
+/* ---- E3 : centred pair ---- */
+.e3 .band { height:400px; }
+.e3 .copy { justify-content:center; text-align:center; padding-bottom:0; }
+.e3 .scrim { background:rgba(0,0,0,.42); }
+
+/* ---------------------------------------------------- where to next ------- */
+.nttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+        margin:0; color:#fff; text-transform:uppercase; }
+.acts { display:flex; flex-direction:column; gap:12px; margin-top:22px; }
+.cta { display:flex; align-items:center; justify-content:center; height:52px;
+       background:#DB7627; color:#fff; text-decoration:none;
+       font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.06em;
+       text-transform:uppercase; }
+/* N1 : equal width, stacked, full column */
+.n1 .band { height:340px; }
+/* N2 : side by side */
+.n2 .band { height:300px; }
+.n2 .acts { flex-direction:row; }
+.n2 .cta { flex:1 1 0; font-size:12px; letter-spacing:.04em; padding:0 6px; text-align:center; }
+/* N3 : left aligned, one solid one outlined */
+.n3 .band { height:340px; }
+.n3 .copy { align-items:flex-start; }
+.n3 .acts { width:100%; }
+.n3 .cta--ghost { background:none; box-shadow:inset 0 0 0 2px #fff; }
+
+table.spec { border-collapse:collapse; font-size:13px; margin-top:28px; background:#fff; }
+table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
+table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>The two full-bleed bands</h1>
+  <p class="note">All live at 375. Both sections keep every word and every link they have now.</p>
+
+  <h2>1 &middot; The Wonderland Experience</h2>
+  <div class="probs">
+    <h3>Measured now</h3>
+    <ul>
+      <li><b>The heading and its own sentence are 294px apart.</b> The copy block is
+          <code>justify-content: space-between</code> inside a 520 band, so the title pins to the
+          top and the body to the bottom with a void between them. They read as two unrelated
+          things rather than a statement and its explanation.</li>
+      <li>The band is <b>520 tall</b> to carry one heading and two lines.</li>
+    </ul>
+  </div>
+  <div class="deck">
+    <div class="col">
+      <p class="lab lab--pick"><span class="k">E1</span>Close the pair</p>
+      <p class="sub">The two sit together at the foot of the picture, 14 apart, which is what the
+         desktop band does at its own scale. Nothing else changes — same image, same scrim, same
+         type. Band comes down to 360.</p>
+      <p class="tall">band 360 &middot; now 520</p>
+      <div class="phone e1" id="e1"></div>
+    </div>
+    <div class="col">
+      <p class="lab"><span class="k">E2</span>Picture, then copy</p>
+      <p class="sub">The image becomes a plain 16:9 band and the copy sits beneath it on white.
+         The most legible of the three by some way — black on white, no scrim — and the shortest.
+         It gives up the overlay, which is the section's whole character.</p>
+      <p class="tall">band 211 + copy &middot; now 520</p>
+      <div class="phone e2" id="e2"></div>
+    </div>
+    <div class="col">
+      <p class="lab"><span class="k">E3</span>Centred pair</p>
+      <p class="sub">Title and body centred together in the band, on an even scrim rather than a
+         gradient. Reads as a statement rather than a caption. Centred type is against the grain
+         of the rest of the phone layout, which is left-aligned throughout.</p>
+      <p class="tall">band 400 &middot; now 520</p>
+      <div class="phone e3" id="e3"></div>
+    </div>
+  </div>
+
+  <h2>2 &middot; Where to next</h2>
+  <div class="probs">
+    <h3>Measured now</h3>
+    <ul>
+      <li><b>The two buttons are different widths and each is centred on its own</b> — 224 and
+          182, with left edges at 76 and 97. Nothing lines up with anything, and neither lines up
+          with the 24 margin the rest of the page uses.</li>
+      <li>The band is <b>420 tall</b> for a heading and two links.</li>
+    </ul>
+  </div>
+  <div class="deck">
+    <div class="col">
+      <p class="lab lab--pick"><span class="k">N1</span>Equal width, stacked</p>
+      <p class="sub">Both buttons take the full column, so their edges agree with each other and
+         with the margin. Same stacking, same order, just no longer ragged. 52 tall, which clears
+         the tap minimum the current 48 only just makes.</p>
+      <p class="tall">band 340 &middot; now 420</p>
+      <div class="phone n1" id="n1"></div>
+    </div>
+    <div class="col">
+      <p class="lab"><span class="k">N2</span>Side by side</p>
+      <p class="sub">The two share one row, splitting the column evenly. Shortest of the three
+         and it reads as a genuine either/or. The cost is type: at half a column
+         &ldquo;explore the range&rdquo; has to drop to 12.</p>
+      <p class="tall">band 300 &middot; now 420</p>
+      <div class="phone n2" id="n2"></div>
+    </div>
+    <div class="col">
+      <p class="lab"><span class="k">N3</span>Left aligned, one weighted</p>
+      <p class="sub">Everything to the 24 margin like the rest of the page, and the second action
+         becomes an outline so the two stop competing — explore the range is the one you want
+         tapped, meet the team is the alternative.</p>
+      <p class="tall">band 340 &middot; now 420</p>
+      <div class="phone n3" id="n3"></div>
+    </div>
+  </div>
+
+  <table class="spec">
+    <tr><th>Content</th><td>unchanged in all six — same heading, same sentence, same two links
+        to the range and the team</td></tr>
+    <tr><th>Type</th><td>heading 30/33 Aviano, body 16/24 — the phone scale already in use,
+        untouched except N2 where the pair share a row</td></tr>
+    <tr><th>Desktop</th><td>untouched in all six — phone block only</td></tr>
+  </table>
+
+</div>
+
+<script>
+const IMG  = "assets/img/experience-band.jpg";
+const POST = "assets/img/where-to-next.jpg";
+const ETTL = "the wonderland experience";
+const EBDY = "Because no two travellers are the same, we believe no two caravans should be either.";
+
+function bandE(cls, inner) {
+  return '<div class="band"><img src="' + IMG + '" alt=""><span class="scrim"></span>' + inner + '</div>';
+}
+document.getElementById("e1").innerHTML =
+  bandE("", '<div class="copy"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>');
+document.getElementById("e2").innerHTML =
+  '<div class="band"><img src="' + IMG + '" alt=""></div>' +
+  '<div class="under"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>';
+document.getElementById("e3").innerHTML =
+  bandE("", '<div class="copy"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>');
+
+function bandN(inner) {
+  return '<div class="band"><img src="' + POST + '" alt=""><span class="scrim"></span>' +
+         '<div class="copy">' + inner + '</div></div>';
+}
+const A = '<a class="cta" href="#" onclick="return false">explore the range</a>';
+const B = '<a class="cta" href="#" onclick="return false">meet the team</a>';
+document.getElementById("n1").innerHTML =
+  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A + B + '</div>');
+document.getElementById("n2").innerHTML =
+  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A + B + '</div>');
+document.getElementById("n3").innerHTML =
+  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A +
+        '<a class="cta cta--ghost" href="#" onclick="return false">meet the team</a></div>');
+</script>
+</body>
+</html>
