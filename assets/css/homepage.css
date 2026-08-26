@@ -988,12 +988,40 @@
   .home-contact { padding: 48px 0; }
   .home-contact-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
   .home-contact-lede { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* These rules named .home-field-grid and .home-row-three. Neither exists in
+     the markup -- it is .home-cols / .home-col / .home-pair -- so none of this
+     ever applied and the form kept its desktop two-column grid at collapsed rem
+     values: fields 126 wide, two per row, and the pill 12 tall.
+
+     Same shape as the contact form now. The wrappers go to display:contents so
+     their fields become items of the one grid, and `order` puts them into
+     reading order -- the source is column-major (first, email, state, postcode,
+     chips, last, phone, message), which stacked linearly would run First Name
+     straight into Email. */
   .home-form { width: auto; margin-top: 32px; }
-  .home-field-grid { grid-template-columns: 1fr; row-gap: 26px; }
-  .home-row-three { grid-template-columns: 1fr; row-gap: 26px; }
-  .home-row-three .field--line { grid-column: 1; }
-  .home-area { grid-column: 1; grid-row: auto; }
-  .home-area textarea { width: 100%; height: 120px; }
-  .home-chips { width: 100%; }
+  .home-cols { grid-template-columns: 1fr 1fr; grid-template-rows: auto;
+               column-gap: 14px; row-gap: 22px; }
+  .home-col, .home-pair { display: contents; }
+  .home-col > * + * { margin-top: 0; }        /* the columns no longer stack */
+
+  .home-form .field:has(#h-first)    { order: 1; }
+  .home-form .field:has(#h-last)     { order: 2; }
+  .home-form .field:has(#h-email)    { order: 3; grid-column: 1 / -1; }
+  .home-form .field:has(#h-phone)    { order: 4; grid-column: 1 / -1; }
+  .home-form .field:has(#h-state)    { order: 5; }
+  .home-form .field:has(#h-postcode) { order: 6; }
+  .home-form .home-chips             { order: 7; grid-column: 1 / -1; }
+  .home-form .home-area              { order: 8; grid-column: 1 / -1; }
+
+  /* Three desktop rules outrank the shared phone ones on specificity and would
+     otherwise win at their collapsed rem sizes: the select at 63 wide, the pill
+     at 12 tall, and the submit 9 below the form instead of 22. */
+  .home-pair .field--select { width: 100%; }
+  .home-chips { width: 100%; height: auto; margin: 0; }
+  .home-form .btn-submit { margin-top: 22px; margin-left: 0; }
+
+  /* Two cells rather than four, so each is ~157 wide and both labels hold one
+     line at full body size -- none of the 11 the contact form's four needed. */
   .home-chips .chip > span { font-size: var(--t-body); line-height: var(--lh-body); }
+  .home-area textarea { width: 100%; height: 120px; }
 }
