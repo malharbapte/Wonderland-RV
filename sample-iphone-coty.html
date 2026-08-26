@@ -9,16 +9,18 @@
 <style>
 /* ==========================================================================
    Sample only. Nothing here is linked from home.html or compact.html.
-   Three ways to carry a six-video deck on a 375 screen.
+   Revised: Q3's full-width placeholder, no peek, dots at the bottom like the
+   other carousels. The subheading is Aviano Sans, as it is on the live page —
+   the previous sample had it in Gordita, which was wrong.
    ========================================================================== */
 body { background:#F7F6F4; }
 .doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
 .doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:82ch; margin:0 0 8px; }
-.probs { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:82ch; }
-.probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
+.fixed { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:82ch; }
+.fixed h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
             text-transform:uppercase; margin:0 0 8px; color:#666; }
-.probs ol { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
+.fixed ul { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
 
 .deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
 .col { flex:0 0 375px; }
@@ -26,16 +28,18 @@ body { background:#F7F6F4; }
 .lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
           letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px;
           vertical-align:2px; }
-.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 14px; min-height:76px; }
+.lab--pick .k { background:#111; }
+.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 14px; min-height:96px; }
 .phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
          box-shadow:0 2px 30px rgba(0,0,0,.11); }
 
-/* ---------------------------------------------------- shared with the page */
+/* -------------------------------------------- exactly the live page's values */
 .s { padding:48px 0; }
 .ct { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-      color:#111; margin:0; padding:0 24px; text-transform:uppercase; }
-.cs { font-family:var(--gordita); font-size:16px; line-height:24px; color:var(--orange-deep);
-      margin:5px 0 0; padding:0 24px; text-transform:uppercase; letter-spacing:.02em; }
+      color:#111; margin:0; text-transform:uppercase; }
+/* Aviano Sans, same as .coty-sub on the live page */
+.cs { font-family:var(--aviano); font-weight:400; font-size:16px; line-height:20px;
+      color:var(--orange-deep); margin:4px 0 0; text-transform:uppercase; }
 .fig { position:relative; border-radius:10px; overflow:hidden; background:#E8E4DE;
        aspect-ratio:16/9; }
 .fig img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -44,40 +48,27 @@ body { background:#F7F6F4; }
 .play::after { content:""; position:absolute; left:17px; top:14px; border-style:solid;
                border-width:8px 0 8px 13px; border-color:transparent transparent transparent #fff; }
 
+/* full width to the margin, no peek — the placeholder size from Q3 */
 .scroll { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
           overscroll-behavior-x:contain; scrollbar-width:none; }
 .scroll::-webkit-scrollbar { display:none; }
+.slide { flex:0 0 100%; scroll-snap-align:center; scroll-snap-stop:always;
+         padding:0 24px; box-sizing:border-box; }
+
+.head { padding:0 24px; min-height:70px; }
+.head .ct, .head .cs { transition:opacity .22s ease; }
+
+/* dots at the bottom, same component as Our Range and Legendary Service */
 .rail { display:flex; align-items:center; gap:9px; padding:18px 24px 0; }
 .dot { width:6px; height:6px; border-radius:50%; background:#D9D3C8; flex:0 0 auto; }
 .dot.on { width:18px; border-radius:3px; background:var(--orange-deep); }
 .cnt { margin-left:auto; font-family:var(--gordita); font-size:12px; letter-spacing:.12em; color:#8A8A8A; }
 
-/* ---- Q1 : as now, plus a peek and the rail --------------------------------- */
-.q1 .scroll { padding:0 24px; gap:10px; }
-.q1 .slide { flex:0 0 calc(100% - 58px); scroll-snap-align:start; scroll-snap-stop:always; }
-.q1 .ct, .q1 .cs { padding:0; }
-/* the six headings are different lengths, so without a floor the video jumps up
-   and down as you swipe -- two lines of heading plus one of sub, held open */
-.q1 .slide .ct { min-height:66px; }
-.q1 .fig { margin-top:14px; }
-
-/* ---- Q2 : the head is held still, only the deck moves ---------------------- */
-.q2 .head { padding:0 24px; min-height:66px; }
-.q2 .scroll { padding:14px 24px 0; gap:10px; }
-.q2 .slide { flex:0 0 calc(100% - 58px); scroll-snap-align:start; scroll-snap-stop:always; }
-.q2 .ct, .q2 .cs { padding:0; transition:opacity .22s ease; }
-
-/* ---- Q3 : one big video, six thumbs ---------------------------------------- */
-.q3 .head { padding:0 24px; min-height:66px; }
-.q3 .big { margin:14px 24px 0; }
-.q3 .strip { display:flex; gap:8px; overflow-x:auto; padding:12px 24px 0; scrollbar-width:none; }
-.q3 .strip::-webkit-scrollbar { display:none; }
-.q3 .thumb { flex:0 0 92px; aspect-ratio:16/9; border-radius:6px; overflow:hidden;
-             position:relative; opacity:.42; transition:opacity .2s ease; }
-.q3 .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-.q3 .thumb.on { opacity:1; box-shadow:0 0 0 2px var(--orange-deep); }
-.q3 .num { position:absolute; left:5px; bottom:3px; font-family:var(--aviano); font-weight:900;
-           font-size:10px; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.7); }
+.r1 .scroll, .r2 .scroll { margin-top:14px; }
+/* R2: the head travels inside the slide, so it needs its own floor */
+.r2 .slide .ct { min-height:66px; }
+/* R3: the line sits under the video */
+.r3 .foot { padding:14px 24px 0; min-height:70px; }
 
 table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
 table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
@@ -88,74 +79,67 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
 <body>
 <div class="doc">
 
-  <h1>Queen of Hearts — the six-video deck on iPhone</h1>
+  <h1>Queen of Hearts — revised</h1>
   <p class="note">
-    All three are live: swipe the deck, tap the thumbnails. Six videos is the most content
-    any one section on this page is carrying, and right now the phone gives no sign there
-    are six of them.
+    All three are live — swipe them. Same placeholder in all three: full width to the
+    24 margin, 16:9, radius 10, no peek. Dots and count at the bottom. The only thing
+    that differs is where the two lines of type sit.
   </p>
 
-  <div class="probs">
-    <h3>What is actually wrong today</h3>
-    <ol>
-      <li>Six slides, <b>no dots and no count</b> — every other carousel on the page now has a
-          rail, this one doesn&rsquo;t. Nothing says there are five more.</li>
-      <li><b>No peek.</b> Each slide fills the margin exactly, edge to edge, so the deck looks
-          like a single fixed video rather than something that moves.</li>
-      <li>The heading swipes away with its video, so <b>the section never holds a title</b> —
-          you land mid-deck with no idea what you are inside.</li>
-    </ol>
+  <div class="fixed">
+    <h3>Changed from the last sample</h3>
+    <ul>
+      <li><b>Subheading font corrected.</b> &ldquo;Read the COTY 2026 review&rdquo; was set in
+          Gordita; on the live page <code>.coty-sub</code> is <b>Aviano Sans</b>. Fixed here.</li>
+      <li><b>Placeholder is Q3&rsquo;s size</b> — the full 327 to the margin, no peek, so the
+          video is the biggest thing in the section.</li>
+      <li><b>Thumbnail strip dropped</b> for the dot rail, matching Our Range and
+          Legendary Service.</li>
+    </ul>
   </div>
 
   <div class="deck">
 
-    <!-- ===================================================== Q1 ============ -->
     <div class="col">
-      <p class="lab"><span class="k">Q1</span>Rail and peek</p>
-      <p class="sub">Nothing moves. The slide narrows by 58 so the next one shows at the edge,
-         and the rail from Our Range and Legendary Service goes underneath. The heading still
-         travels with its own video, which is right — each of the six is its own line.</p>
-      <div class="phone q1">
+      <p class="lab lab--pick"><span class="k">R1</span>Head held above</p>
+      <p class="sub">The two lines are pinned above the deck and crossfade as you swipe. The
+         section keeps a title at every point in the scroll, and because the type never moves,
+         the video is the only thing travelling — which is what makes the swipe read cleanly at
+         full width with no peek.</p>
+      <div class="phone r1">
         <div class="s">
+          <div class="head"><h2 class="ct" id="t1">queen of hearts</h2><p class="cs" id="u1">Read the COTY 2026 review</p></div>
           <div class="scroll" id="s1"></div>
           <div class="rail" id="r1"></div>
         </div>
       </div>
     </div>
 
-    <!-- ===================================================== Q2 ============ -->
     <div class="col">
-      <p class="lab"><span class="k">Q2</span>Head held, deck moves</p>
-      <p class="sub">The heading and subheading are lifted out of the scroller and pinned above
-         it, crossfading as you swipe. The section keeps a title at all times and the six read
-         as chapters of one thing rather than six separate sections.</p>
-      <div class="phone q2">
+      <p class="lab"><span class="k">R2</span>Head travels with the video</p>
+      <p class="sub">Each slide carries its own heading, as it does now. Nothing crossfades, so
+         the type is always exactly in step with the video. Because there is no peek you never
+         see two headings at once — the objection to the old Q1 goes away. The heading needs a
+         floor so the video doesn&rsquo;t jump between slides of different lengths.</p>
+      <div class="phone r2">
         <div class="s">
-          <div class="head">
-            <h2 class="ct" id="t2">queen of hearts</h2>
-            <p class="cs" id="u2">Read the COTY 2026 review</p>
-          </div>
           <div class="scroll" id="s2"></div>
           <div class="rail" id="r2"></div>
         </div>
       </div>
     </div>
 
-    <!-- ===================================================== Q3 ============ -->
     <div class="col">
-      <p class="lab"><span class="k">Q3</span>One screen, six thumbs</p>
-      <p class="sub">One video at full width with the six as a thumbnail strip beneath. All six
-         are on screen at once, in order, and you tap rather than swipe — no hidden content and
-         no guessing how far the deck runs. The odd one out: it is not the carousel pattern the
-         rest of the page uses.</p>
-      <div class="phone q3">
+      <p class="lab"><span class="k">R3</span>Line under the video</p>
+      <p class="sub">Video first, the two lines beneath it as a caption, crossfading. The video
+         leads the section outright and the type reads as a label for what you just watched.
+         Puts the deck hard against the section above it, so it needs the section break above to
+         be doing its own work.</p>
+      <div class="phone r3">
         <div class="s">
-          <div class="head">
-            <h2 class="ct" id="t3">queen of hearts</h2>
-            <p class="cs" id="u3">Read the COTY 2026 review</p>
-          </div>
-          <div class="big fig" id="b3"></div>
-          <div class="strip" id="p3"></div>
+          <div class="scroll" id="s3"></div>
+          <div class="foot"><h2 class="ct" id="t3">queen of hearts</h2><p class="cs" id="u3">Read the COTY 2026 review</p></div>
+          <div class="rail" id="r3"></div>
         </div>
       </div>
     </div>
@@ -163,36 +147,44 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
   </div>
 
   <table class="spec">
-    <tr><th>Videos</th><td>x0NoTZonq8Q &middot; thFwJAod6Ng &middot; Yk4vxl-iUcU &middot; aGa1ek8HPsE
-        &middot; OZzB4zf4FGM &middot; UBc2BtAu8eI — unchanged, all six stay</td></tr>
-    <tr><th>Type</th><td>heading 30/33, subheading 16/24 — already correct on the phone, no change</td></tr>
-    <tr><th>Video</th><td>16:9, <code>border-radius:10px</code>, inset to the 24 margin — already correct</td></tr>
-    <tr><th>Rail</th><td>same component as Our Range and Legendary Service: 6px dots, the live one
-        stretched to 18, count on the right, index by nearest-to-centre, polled at 150ms</td></tr>
-    <tr><th>Desktop</th><td>untouched in all three — the arrows, the 1.20rem padding and the
-        translate slider are inside the desktop layer and stay there</td></tr>
+    <tr><th>Placeholder</th><td>full width to the 24 margin (327 on a 375 screen), 16:9,
+        <code>border-radius:10px</code>, no peek</td></tr>
+    <tr><th>Heading</th><td>Aviano Sans Black 30/33 — unchanged</td></tr>
+    <tr><th>Subheading</th><td><b>Aviano Sans</b> 16/20 — corrected from the last sample</td></tr>
+    <tr><th>Rail</th><td>6px dots, live one stretched to 18, count on the right — the same
+        component as Our Range and Legendary Service</td></tr>
+    <tr><th>Snap</th><td><code>scroll-snap-align:center</code> + <code>scroll-snap-stop:always</code>,
+        one video per swipe</td></tr>
+    <tr><th>Videos</th><td>all six stay: x0NoTZonq8Q &middot; thFwJAod6Ng &middot; Yk4vxl-iUcU
+        &middot; aGa1ek8HPsE &middot; OZzB4zf4FGM &middot; UBc2BtAu8eI</td></tr>
+    <tr><th>Desktop</th><td>untouched — arrows, 1.20rem padding and the translate slider stay
+        in the desktop layer</td></tr>
   </table>
 
 </div>
 
 <script>
 const V = [
-  ["queen of hearts",          "Read the COTY 2026 review", "assets/img/home/queen-of-hearts.jpg"],
-  ["How is a Wonderland built.","Things you can’t see",  "https://i.ytimg.com/vi/thFwJAod6Ng/hqdefault.jpg"],
-  ["A caravan built for two.", "Inside the club lounge",     "https://i.ytimg.com/vi/Yk4vxl-iUcU/hqdefault.jpg"],
-  ["Where the kids sleep.",    "Three bunks, not four",      "https://i.ytimg.com/vi/aGa1ek8HPsE/hqdefault.jpg"],
-  ["Stay out longer.",         "48 volts and 170 litres",    "https://i.ytimg.com/vi/OZzB4zf4FGM/hqdefault.jpg"],
-  ["It won all three.",        "Caravan of the Year, 2024",  "https://i.ytimg.com/vi/UBc2BtAu8eI/hqdefault.jpg"]
+  ["queen of hearts",           "Read the COTY 2026 review", "assets/img/home/queen-of-hearts.jpg"],
+  ["How is a Wonderland built.","Things you can’t see",       "https://i.ytimg.com/vi/thFwJAod6Ng/hqdefault.jpg"],
+  ["A caravan built for two.",  "Inside the club lounge",     "https://i.ytimg.com/vi/Yk4vxl-iUcU/hqdefault.jpg"],
+  ["Where the kids sleep.",     "Three bunks, not four",      "https://i.ytimg.com/vi/aGa1ek8HPsE/hqdefault.jpg"],
+  ["Stay out longer.",          "48 volts and 170 litres",    "https://i.ytimg.com/vi/OZzB4zf4FGM/hqdefault.jpg"],
+  ["It won all three.",         "Caravan of the Year, 2024",  "https://i.ytimg.com/vi/UBc2BtAu8eI/hqdefault.jpg"]
 ];
+const N = V.length;
 
 function figure(src) {
   return '<div class="fig"><img src="' + src + '" alt=""><span class="play"></span></div>';
 }
-function rail(el, n) {
+function buildRail(el) {
   let h = "";
-  for (let k = 0; k < n; k++) h += '<span class="dot' + (k ? "" : " on") + '"></span>';
-  h += '<span class="cnt">01 / 0' + n + '</span>';
-  el.innerHTML = h;
+  for (let k = 0; k < N; k++) h += '<span class="dot' + (k ? "" : " on") + '"></span>';
+  el.innerHTML = h + '<span class="cnt">01 / 0' + N + '</span>';
+}
+function setRail(el, i) {
+  el.querySelectorAll(".dot").forEach(function (x, k) { x.classList.toggle("on", k === i); });
+  el.querySelector(".cnt").textContent = "0" + (i + 1) + " / 0" + N;
 }
 /* index = the slide whose centre is nearest the viewport's centre, polled rather
    than listened for — scroll events are not dependable in a preview pane. */
@@ -208,52 +200,42 @@ function track(scroll, onChange) {
     if (best !== last) { last = best; onChange(best); }
   }, 120);
 }
-function setRail(el, i, n) {
-  const d = el.querySelectorAll(".dot");
-  d.forEach(function (x, k) { x.classList.toggle("on", k === i); });
-  el.querySelector(".cnt").textContent = "0" + (i + 1) + " / 0" + n;
-}
-
-/* ---- Q1 ---- */
-const s1 = document.getElementById("s1");
-s1.innerHTML = V.map(function (v) {
-  return '<div class="slide"><h2 class="ct">' + v[0] + '</h2><p class="cs">' + v[1] + '</p>' +
-         figure(v[2]) + '</div>';
-}).join("");
-rail(document.getElementById("r1"), 6);
-track(s1, function (i) { setRail(document.getElementById("r1"), i, 6); });
-
-/* ---- Q2 ---- */
-const s2 = document.getElementById("s2");
-s2.innerHTML = V.map(function (v) { return '<div class="slide">' + figure(v[2]) + '</div>'; }).join("");
-rail(document.getElementById("r2"), 6);
-const t2 = document.getElementById("t2"), u2 = document.getElementById("u2");
-track(s2, function (i) {
-  setRail(document.getElementById("r2"), i, 6);
-  t2.style.opacity = u2.style.opacity = 0;
+function crossfade(t, u, i) {
+  t.style.opacity = u.style.opacity = 0;
   setTimeout(function () {
-    t2.textContent = V[i][0]; u2.textContent = V[i][1];
-    t2.style.opacity = u2.style.opacity = 1;
+    t.textContent = V[i][0]; u.textContent = V[i][1];
+    t.style.opacity = u.style.opacity = 1;
   }, 220);
-});
-
-/* ---- Q3 ---- */
-const b3 = document.getElementById("b3"), p3 = document.getElementById("p3");
-const t3 = document.getElementById("t3"), u3 = document.getElementById("u3");
-p3.innerHTML = V.map(function (v, k) {
-  return '<div class="thumb' + (k ? "" : " on") + '" data-k="' + k + '"><img src="' + v[2] +
-         '" alt=""><span class="num">0' + (k + 1) + '</span></div>';
-}).join("");
-function pick(i) {
-  b3.innerHTML = '<img src="' + V[i][2] + '" alt=""><span class="play"></span>';
-  t3.textContent = V[i][0]; u3.textContent = V[i][1];
-  p3.querySelectorAll(".thumb").forEach(function (x, k) { x.classList.toggle("on", k === i); });
 }
-p3.addEventListener("click", function (e) {
-  const th = e.target.closest(".thumb");
-  if (th) pick(+th.dataset.k);
-});
-pick(0);
+
+/* ---- R1 : head held above ---- */
+(function () {
+  const s = document.getElementById("s1"), r = document.getElementById("r1");
+  const t = document.getElementById("t1"), u = document.getElementById("u1");
+  s.innerHTML = V.map(function (v) { return '<div class="slide">' + figure(v[2]) + '</div>'; }).join("");
+  buildRail(r);
+  track(s, function (i) { setRail(r, i); crossfade(t, u, i); });
+})();
+
+/* ---- R2 : head travels ---- */
+(function () {
+  const s = document.getElementById("s2"), r = document.getElementById("r2");
+  s.innerHTML = V.map(function (v) {
+    return '<div class="slide"><h2 class="ct">' + v[0] + '</h2><p class="cs">' + v[1] + '</p>' +
+           '<div style="margin-top:14px">' + figure(v[2]) + '</div></div>';
+  }).join("");
+  buildRail(r);
+  track(s, function (i) { setRail(r, i); });
+})();
+
+/* ---- R3 : line under the video ---- */
+(function () {
+  const s = document.getElementById("s3"), r = document.getElementById("r3");
+  const t = document.getElementById("t3"), u = document.getElementById("u3");
+  s.innerHTML = V.map(function (v) { return '<div class="slide">' + figure(v[2]) + '</div>'; }).join("");
+  buildRail(r);
+  track(s, function (i) { setRail(r, i); crossfade(t, u, i); });
+})();
 </script>
 </body>
 </html>
