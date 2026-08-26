@@ -750,6 +750,13 @@
   .stat-label { font-size: var(--t-caption); letter-spacing: 0.3em; text-indent: 0.3em; }
 
   .solara-grid, .range-grid, .why-grid, .insurance-grid { grid-template-columns: 1fr; row-gap: 32px; }
+
+  /* Media that sits inside the margin is rounded; media that runs to the screen
+     edge is not, because a corner radius against the edge of the display reads
+     as a mistake. The carousels already followed this -- these two did not. */
+  .solara-video,
+  .why-figure { border-radius: var(--radius); overflow: hidden; }
+  .why-figure img { display: block; width: 100%; height: auto; }
   .solara-lede { font-size: var(--t-sub); line-height: var(--lh-sub); }
   .solara-body { font-size: var(--t-body); line-height: var(--lh-body); }
   /* ---- Our range -------------------------------------------------------
