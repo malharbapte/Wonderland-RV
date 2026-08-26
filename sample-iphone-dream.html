@@ -40,13 +40,21 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
         padding-inline:var(--side); scroll-snap-type:x mandatory;
         overscroll-behavior-x:contain; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
 .rail::-webkit-scrollbar { display:none; }
+/* The slide is just the track cell. The picture lives in .frame inside it, so
+   the two shrink independently: .frame's HEIGHT comes down for the side images
+   and the picture is cropped by object-fit rather than squashed, while the
+   uniform scale on .slide keeps the horizontal peek where it was. Centring the
+   frame in the cell takes the height off the top and the bottom equally. */
 .slide { flex:0 0 var(--slide); scroll-snap-align:center; scroll-snap-stop:always;
-         aspect-ratio:4/3; border-radius:10px; overflow:hidden; background:#EDE9E3;
+         aspect-ratio:4/3; display:flex; align-items:center;
          transform:scale(.86); opacity:.45;
          transition:transform .45s cubic-bezier(.4,0,.2,1), opacity .45s cubic-bezier(.4,0,.2,1);
          will-change:transform, opacity; }
 .slide.is-on { transform:scale(1); opacity:1; }
-.slide img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
+.frame { width:100%; height:74%; border-radius:10px; overflow:hidden; background:#EDE9E3;
+         transition:height .45s cubic-bezier(.4,0,.2,1); }
+.slide.is-on .frame { height:100%; }
+.frame img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
 
 .dots { display:flex; justify-content:center; gap:9px; margin-top:20px; }
 .dot { width:6px; height:6px; border-radius:50%; background:#D9D3C8;
@@ -72,7 +80,8 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
     <p><b>Now:</b> the four shots are a 2&times;2 grid of tiles — everything visible at once,
        each one small, and nothing moving.</p>
     <p><b>Here:</b> one image centred at full size with its two neighbours just showing at either
-       edge, dimmed and scaled back so they read as what is coming rather than as content. The
+       edge, shorter, dimmed and scaled back so they read as what is coming rather than as
+       content — each one grows to full height as it reaches the middle. The
        set is laid down three times over and the rail jumps a whole set width when it crosses
        one, so the movement never stops and never rewinds.</p>
   </div>
@@ -90,6 +99,9 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
         <tr><th>Side peek</th><td><b>19</b> of each neighbour showing — 38 of layout,
             less the 0.86 scale pulling its edges in</td></tr>
         <tr><th>Side scale / fade</th><td><code>0.86</code> and <code>45%</code> opacity</td></tr>
+        <tr><th>Side height</th><td><code>74%</code> of the frame, cropped from the top and the
+            bottom equally — on top of the 0.86, so a side image stands about
+            <b>64%</b> as tall as the centre one</td></tr>
         <tr><th>Gap</th><td>10</td></tr>
         <tr><th>Shape</th><td>4:3, <code>border-radius: 10</code> — the page's one curvature</td></tr>
         <tr><th>Dwell</th><td>3.4s per image</td></tr>
@@ -136,7 +148,7 @@ const N = SHOTS.length;
 let html = "";
 for (let s = 0; s < SETS; s++) {
   SHOTS.forEach(function (sh) {
-    html += '<div class="slide"><img src="' + sh[0] + '" alt=""></div>';
+    html += '<div class="slide"><div class="frame"><img src="' + sh[0] + '" alt=""></div></div>';
   });
 }
 rail.innerHTML = html;
