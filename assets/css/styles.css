@@ -1240,7 +1240,11 @@ input:-webkit-autofill:focus {
      brs are hidden here with the rest of the prose, so each half is a span that
      becomes a block. */
   .quote-left .ln { display: block; }
-  .quote-attr { margin-top: 24px; font-size: var(--t-caption); line-height: var(--lh-caption); }
+  /* The attribution is the quote's signature, not a third statement. At the
+     same 24 that separates the panel spec from the quote it read as one more
+     item in a list; 14 binds it to the line above -- the step this page already
+     uses between a heading and the content it introduces. */
+  .quote-attr { margin-top: 14px; font-size: var(--t-caption); line-height: var(--lh-caption); }
 
   /* ---- experience ---- */
   .experience { height: auto; min-height: 520px; border-radius: 0; }
