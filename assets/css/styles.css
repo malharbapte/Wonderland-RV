@@ -1230,12 +1230,15 @@ input:-webkit-autofill:focus {
 
   /* ---- experience ---- */
   .experience { height: auto; min-height: 520px; border-radius: 0; }
-  .experience-copy { padding: 56px 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
+  /* space-between pinned the sentence to the foot of a 520 band, 294 below its
+     own heading, so the two read as unrelated. The pair closes up and the rest
+     of the band is picture. */
+  .experience-copy { padding: 56px 24px; display: flex; flex-direction: column; justify-content: flex-start; min-height: 520px; }
   /* nowrap on the desktop title carried the link 492 wide inside a 327 column,
      165 past the container. Released here, like every other pinned title. */
   .experience-title { font-size: var(--t-heading); line-height: var(--lh-heading);
                       white-space: normal; }
-  .experience-body { margin-top: 48px; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  .experience-body { margin-top: 14px; font-size: var(--t-sub); line-height: var(--lh-sub); }
 
   /* ---- rules band ---- */
   .rules-band { height: auto; padding: 32px 24px; }
@@ -1295,8 +1298,16 @@ input:-webkit-autofill:focus {
   .next-band { height: auto; min-height: 420px; }
   .next-copy { padding: 48px 24px; gap: 24px; height: auto; min-height: 420px; }
   .next-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
-  .next-actions { flex-direction: column; align-items: center; gap: 14px; }
-  .btn-next { font-size: 15px; padding: 16px 30px; }
+  /* The two share their row, at the position they already sit -- the title is
+     still 48 off the top of the band and the actions 24 under it. Two buttons
+     in a 327 column with an 11 gap are 158 each; at 15px with 30 of side
+     padding "EXPLORE THE RANGE" needs about 210 and does not fit, so the type
+     comes down to 13 and the side padding to 8. Both still clear the 48 a
+     finger needs. */
+  .next-actions { flex-direction: row; align-items: stretch; gap: 11px; width: 100%; }
+  .btn-next { flex: 1 1 0; min-width: 0;
+              display: flex; align-items: center; justify-content: center;
+              font-size: 13px; padding: 14px 8px; text-align: center; }
 
   /* ---- footer -----------------------------------------------------------
      Every line-height in here was still the desktop rem value. Against the
