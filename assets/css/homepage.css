@@ -770,6 +770,16 @@
   .range-list h3 { font-size: var(--t-sub); }
   .range-list p { font-size: var(--t-body); line-height: var(--lh-body); }
 
+  /* Every gap inside this section was still in rem, so at a 16px root they
+     collapsed -- 0.72rem between the lede and the list became 12, 0.45rem
+     between items became 7, 0.10rem under each heading became 2. That is the
+     clustering. Stated in px here, at the sample's spacing. */
+  .range { padding-top: 26px; padding-bottom: 48px; }
+  .range-grid { row-gap: 0; }        /* the 32 was stacking on the scroller's own margin */
+  .range-list { margin-top: 26px; }
+  .range-list li + li { margin-top: 22px; }
+  .range-list p { margin-top: 5px; }
+
   /* The baked grid is replaced by real cards, built in home.js and only here.
      Its four names were pixels at 0.337 scale and its chevrons were not links. */
   .range-figure { display: none; }
