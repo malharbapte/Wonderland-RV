@@ -227,9 +227,13 @@ function place(set, animate) {
   const box = set.getBoundingClientRect(), c = cell.getBoundingClientRect();
   if (!box.width) return;
   if (!animate) thumb.classList.add("init"); else thumb.classList.remove("init");
-  thumb.style.left = (c.left - box.left) + "px";
+  /* An absolutely positioned child is placed from the container's PADDING box,
+     while getBoundingClientRect reports from its BORDER box -- so the fieldset's
+     1px border gets counted twice and the pill lands a pixel low and right.
+     clientLeft/clientTop are exactly those border widths. */
+  thumb.style.left = (c.left - box.left - set.clientLeft) + "px";
   thumb.style.width = c.width + "px";
-  thumb.style.top = (c.top - box.top) + "px";
+  thumb.style.top = (c.top - box.top - set.clientTop) + "px";
   thumb.style.height = c.height + "px";
   thumb.style.bottom = "auto";
   if (animate) {
@@ -246,6 +250,12 @@ document.querySelectorAll(".chips2").forEach(function (set) {
 window.addEventListener("resize", function () {
   document.querySelectorAll(".chips2").forEach(function (s) { place(s, false); });
 });
+/* the cells resize when the brand faces swap in, so measure again after */
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(function () {
+    document.querySelectorAll(".chips2").forEach(function (s) { place(s, false); });
+  });
+}
 
 ["1","2","3"].forEach(function (k) {
   const top = document.querySelector("#c" + k + " .stack").getBoundingClientRect().top;
