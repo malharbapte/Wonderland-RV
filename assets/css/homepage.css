@@ -722,6 +722,10 @@
   }
   .pull-media::-webkit-scrollbar { display: none; }
   .pull-media::after { content: none; }    /* the placeholder label */
+  /* and the placeholder stripes behind it. On the desktop the slides cover the
+     whole box so they never show; here the cards are inset with a gap and a
+     peek, so the pattern shows through everywhere they are not. */
+  .pull-media { background: none; }
   .pull-slide {
     position: relative; inset: auto; flex: 0 0 calc(100% - 58px);
     aspect-ratio: 2200 / 1301; border-radius: var(--radius); overflow: hidden;
