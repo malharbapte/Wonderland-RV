@@ -56,6 +56,9 @@ body { background:#F7F6F4; }
 .q1 .scroll { padding:0 24px; gap:10px; }
 .q1 .slide { flex:0 0 calc(100% - 58px); scroll-snap-align:start; scroll-snap-stop:always; }
 .q1 .ct, .q1 .cs { padding:0; }
+/* the six headings are different lengths, so without a floor the video jumps up
+   and down as you swipe -- two lines of heading plus one of sub, held open */
+.q1 .slide .ct { min-height:66px; }
 .q1 .fig { margin-top:14px; }
 
 /* ---- Q2 : the head is held still, only the deck moves ---------------------- */
