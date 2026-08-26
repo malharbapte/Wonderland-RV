@@ -189,7 +189,9 @@ function setRail(el, i) {
 /* index = the slide whose centre is nearest the viewport's centre, polled rather
    than listened for — scroll events are not dependable in a preview pane. */
 function track(scroll, onChange) {
-  let last = -1;
+  /* starts at 0, not -1: the markup already reads slide one, so firing a
+     crossfade at load would blank the heading and fade it back in */
+  let last = 0;
   setInterval(function () {
     const kids = scroll.children, mid = scroll.scrollLeft + scroll.clientWidth / 2;
     let best = 0, gap = Infinity;
