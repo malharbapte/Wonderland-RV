@@ -49,7 +49,11 @@ a { color:inherit; }
    to read as a separate block. */
 .soc { display:flex; justify-content:space-between; align-items:center; margin-top:26px; }
 .soc a { display:grid; place-items:center; width:44px; height:44px; color:#000; }
-.soc svg { width:44px; height:44px; display:block; fill:currentColor; }
+.soc svg { width:35px; height:35px; display:block; fill:currentColor; }
+/* the box stays 44 for the target; the outer two are pulled by (44-35)/2 so it
+   is the glyph that lands flush with the rules, not its box */
+.soc a:first-child { margin-left:-4.5px; }
+.soc a:last-child { margin-right:-4.5px; }
 .soc a:hover { color:var(--orange-deep); }
 
 .made { display:block; width:230px; height:auto; margin-top:32px; }
@@ -76,8 +80,8 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
     <ul>
       <li><b>The discs are gone.</b> No border, no fill — the glyph alone, in the same black as
           the link text, going orange on hover like every other link in the footer.</li>
-      <li><b>The glyphs are 44, up from 20.</b> They were sitting small inside a 44 disc; now the
-          glyph <i>is</i> the target.</li>
+      <li><b>The glyphs are 35, up from 20.</b> The box stays 44 so the target holds; the outer
+          two are pulled by 4.5 so the glyph lands flush, not its box.</li>
       <li><b>The row runs the full column.</b> First icon hard against the left edge, last against
           the right, so it measures the same 327 as the three rules above it and lines up with
           them instead of floating inside them.</li>
@@ -93,17 +97,19 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
     <div class="notes">
       <h4>On the gaps</h4>
       <p>With the row pinned to both edges the gap is not a number I get to pick — it is whatever
-         is left over, divided evenly. Five 44 boxes in 327 leaves 107 across four gaps:
-         <b>26.75 each</b>, even by construction and about 0.6 of the glyph.</p>
-      <p>Bigger glyphs would tighten it further and smaller ones would open it up, so 44 is doing
-         two jobs at once here: it is the smallest reliable tap target, and it is the size that
-         lands the gap closest to the rhythm of the rules above.</p>
+         is left over, divided evenly. Five 35 glyphs in 327 leaves 152 across four gaps:
+         <b>38 each</b>, even by construction.</p>
+      <p>Worth knowing: at 35 the gap is now slightly <i>wider</i> than the glyph. Shrinking the
+         icon and pinning the row to both edges pull against each other — every 1 off the glyph
+         puts 1.25 into each gap. If it reads too airy on the device, the fix is a larger glyph,
+         not a smaller gap.</p>
       <table>
         <tr><th>Glyph</th><th>Gap at 327</th></tr>
-        <tr><td>32</td><td>41.75 — too airy, reads as five separate things</td></tr>
+        <tr><td>32</td><td>41.75</td></tr>
+        <tr><td><b>35</b></td><td><b>38</b> — shipped</td></tr>
         <tr><td>38</td><td>34.25</td></tr>
-        <tr><td><b>44</b></td><td><b>26.75</b> — the one below</td></tr>
-        <tr><td>48</td><td>21.75 — tight, and past the point the glyph needs</td></tr>
+        <tr><td>44</td><td>26.75</td></tr>
+        <tr><td>48</td><td>21.75</td></tr>
       </table>
       <h4>Unchanged</h4>
       <p>The three contact rows, their orange glyphs, the <code>#e4e2de</code> hairlines shared
