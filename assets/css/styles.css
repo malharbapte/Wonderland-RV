@@ -1122,7 +1122,9 @@ input:-webkit-autofill:focus {
   .enquiry-copy .lede { order: 1; font-size: var(--t-sub); line-height: var(--lh-sub); }
   .enquiry-copy .lede + .lede { margin-top: 28px; }
   .enquiry-form { order: 2; margin-top: 40px; }
-  .reachout { order: 3; margin-top: 40px;
+  /* half the step it had: it belongs to the submit above it, not to the
+     section below, and 40 read as a separation rather than an answer */
+  .reachout { order: 3; margin-top: 20px;
               font-size: var(--t-body); line-height: var(--lh-body); }
 
   .enquiry-form { padding-top: 0; }
