@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone — Legendary Service</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=126">
+<style>
+body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
+.doc { padding:40px 28px 90px; }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:90ch; margin:0 0 10px; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
+.rack { display:flex; gap:26px; align-items:flex-start; padding:6px 0 14px; }
+.phone { flex:0 0 390px; --sub:16px; --body:15px; --cap:12px; --radius:10px; }
+.phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:88px; }
+.screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
+          overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
+
+.shead { text-align:center; padding:44px 24px 0; }
+.doc .shead h2 { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+                 color:var(--orange-deep); margin:0; }
+.kick { margin:8px 0 0; font-size:var(--cap); font-weight:700; letter-spacing:.3em;
+        text-indent:.3em; color:var(--orange-deep); }
+
+.vp { overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain;
+      scrollbar-width:none; margin-top:26px; }
+.vp::-webkit-scrollbar { display:none; }
+.track { display:flex; }
+.sl { flex:0 0 100%; scroll-snap-align:start; scroll-snap-stop:always; }
+.q { position:relative; margin:0; background:#FFF2DC; padding:30px 24px 26px calc(16px * 3.419); }
+.q p { position:relative; margin:0; color:var(--orange-deep); font-style:italic;
+       font-size:var(--sub); line-height:24px; }
+.qm { position:absolute; right:calc(100% - 16px * 0.4615); bottom:100%;
+      width:calc(16px * 3.1301); height:auto; display:block; fill:var(--orange); }
+.nm { display:block; margin-top:18px; font-size:var(--cap); font-weight:700; color:var(--orange-deep); }
+.rl { display:block; font-size:var(--cap); color:var(--orange-deep); }
+.shot img { width:100%; height:100%; object-fit:cover; display:block; }
+.shot { aspect-ratio:16/9; overflow:hidden; }
+
+.inset .q { margin:0 24px; border-radius:var(--radius) var(--radius) 0 0; }
+.inset .shot { margin:0 24px; border-radius:0 0 var(--radius) var(--radius); }
+.stack .shot { aspect-ratio:16/9; }
+
+.rail { display:flex; align-items:center; gap:9px; padding:16px 24px 0; }
+.dot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; }
+.dot.on { background:var(--orange-deep); width:18px; border-radius:3px; }
+.count { margin-left:auto; font-size:var(--cap); letter-spacing:.12em; color:#8a8a8a; }
+.pad { height:36px; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>iPhone &mdash; Legendary Service</h1>
+  <p class="note">This section is <b>shared with the contact page</b>, so whatever we settle here
+     lands on both. Four reviews, each a quote and a photo.</p>
+  <table class="t">
+    <tr><th>Padding</th><td>The section's top padding is <b>8.8px</b> on the phone. The mobile rule
+      asks for 48, but a desktop rule in <code>homepage.css</code> loads after it and wins, so the
+      heading sits almost against the band above it.</td></tr>
+    <tr><th>A fifth slide</th><td>The desktop loop appends a clone of the first review so it can
+      wrap without a visible rewind. On the phone that clone is just a swipeable duplicate: you
+      reach Julian Randall twice. It needs the same treatment Our range got &mdash; loop properly,
+      or drop the clone.</td></tr>
+    <tr><th>No affordance</th><td>The arrows are hidden here and nothing replaces them, so there is
+      no sign the four scroll. All three below add dots and a counter.</td></tr>
+    <tr><th>The mark</th><td>Hidden on the phone. All three bring it back at the phone scale we
+      settled on the pull quote &mdash; 3.1301&times; the text, hanging 12 into the margin.</td></tr>
+  </table>
+  <div class="rack">
+
+    <div class="phone">
+      <h3>L1 &mdash; Inset card</h3>
+      <p class="sub">The photo comes inside the margin and takes the 10 radius, so the review reads as a card like everything else on the phone. Quote above, photo below, dots and a counter.</p>
+      <div class="screen inset">
+        <div class="shead"><h2>LEGENDARY SERVICE</h2><p class="kick">OUR HAPPY CUSTOMERS</p></div>
+        <div class="vp"><div class="track">
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p><span class="nm">JULIAN RANDALL</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-julian.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our Wonderland Amaroo has truly lived up to its reputation and exceeded our expectations while we&rsquo;ve explored Australia as a family.&rdquo;</p><span class="nm">JASIQUE</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-jasique.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our van is the ultimate family caravan and the finishes are absolute premium quality. We love hitting the road with our van any chance we get.&rdquo;</p><span class="nm">MANDI DAVIES</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-mandi.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The attention to detail and build quality is exceptional to say the least. This is our 5th caravan and I am sure we will be going back to Wonderland for our 6th.&rdquo;</p><span class="nm">SANDRO CARBONI</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-sandro.jpg" alt=""></div>
+          </div>
+        </div></div>
+        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>L2 &mdash; Cream panel, full bleed</h3>
+      <p class="sub">Keeps the desktop&rsquo;s composition: the cream panel and the photograph both run to the screen edge. Closest to what the section is now, with the affordance added.</p>
+      <div class="screen bleed">
+        <div class="shead"><h2>LEGENDARY SERVICE</h2><p class="kick">OUR HAPPY CUSTOMERS</p></div>
+        <div class="vp"><div class="track">
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p><span class="nm">JULIAN RANDALL</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-julian.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our Wonderland Amaroo has truly lived up to its reputation and exceeded our expectations while we&rsquo;ve explored Australia as a family.&rdquo;</p><span class="nm">JASIQUE</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-jasique.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our van is the ultimate family caravan and the finishes are absolute premium quality. We love hitting the road with our van any chance we get.&rdquo;</p><span class="nm">MANDI DAVIES</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-mandi.jpg" alt=""></div>
+          </div>
+          <div class="sl">
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The attention to detail and build quality is exceptional to say the least. This is our 5th caravan and I am sure we will be going back to Wonderland for our 6th.&rdquo;</p><span class="nm">SANDRO CARBONI</span><span class="rl">WONDERLANDER</span></blockquote>
+            <div class="shot"><img src="assets/img/home/review-sandro.jpg" alt=""></div>
+          </div>
+        </div></div>
+        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <h3>L3 &mdash; Photo first</h3>
+      <p class="sub">Photo above the quote rather than below, both full bleed. Puts a face to the review before you read it, at the cost of breaking the copy-then-media order the rest of the page holds.</p>
+      <div class="screen stack">
+        <div class="shead"><h2>LEGENDARY SERVICE</h2><p class="kick">OUR HAPPY CUSTOMERS</p></div>
+        <div class="vp"><div class="track">
+          <div class="sl">
+            <div class="shot"><img src="assets/img/home/review-julian.jpg" alt=""></div>
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p><span class="nm">JULIAN RANDALL</span><span class="rl">WONDERLANDER</span></blockquote>
+          </div>
+          <div class="sl">
+            <div class="shot"><img src="assets/img/home/review-jasique.jpg" alt=""></div>
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our Wonderland Amaroo has truly lived up to its reputation and exceeded our expectations while we&rsquo;ve explored Australia as a family.&rdquo;</p><span class="nm">JASIQUE</span><span class="rl">WONDERLANDER</span></blockquote>
+          </div>
+          <div class="sl">
+            <div class="shot"><img src="assets/img/home/review-mandi.jpg" alt=""></div>
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our van is the ultimate family caravan and the finishes are absolute premium quality. We love hitting the road with our van any chance we get.&rdquo;</p><span class="nm">MANDI DAVIES</span><span class="rl">WONDERLANDER</span></blockquote>
+          </div>
+          <div class="sl">
+            <div class="shot"><img src="assets/img/home/review-sandro.jpg" alt=""></div>
+            <blockquote class="q"><p><svg class="qm" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The attention to detail and build quality is exceptional to say the least. This is our 5th caravan and I am sure we will be going back to Wonderland for our 6th.&rdquo;</p><span class="nm">SANDRO CARBONI</span><span class="rl">WONDERLANDER</span></blockquote>
+          </div>
+        </div></div>
+        <div class="rail"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="count">1 / 4</span></div>
+        <div class="pad"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
