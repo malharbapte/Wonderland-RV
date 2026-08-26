@@ -3,17 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — dynamic points</title>
+<title>iPhone — accordion without arrows</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=101">
 <style>
 body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
 .doc { padding:40px 28px 90px; }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
-.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 16px; }
+.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 10px; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 16px; background:#fff; }
+table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
+table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
 .rack { display:flex; gap:26px; align-items:flex-start; padding:6px 0 14px; }
-.phone { flex:0 0 390px; --sub:16px; --body:15px; --blh:23px; --cap:12px; --radius:10px; }
+.phone { flex:0 0 390px; --sub:16px; --body:15px; --blh:23px; --radius:10px;
+         --ease:cubic-bezier(.25,.8,.3,1); --dur:.38s; }
 .phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:106px; }
+.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:92px; }
 .screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
           overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
 .doc .screen h2.dt { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
@@ -24,64 +29,62 @@ body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
 .cta { display:flex; align-items:center; justify-content:center; margin:24px 24px 0; min-height:48px;
        background:var(--orange-deep); color:#fff; font-family:var(--aviano); font-weight:900;
        font-size:16px; text-decoration:none; }
-.ic { width:30px; height:30px; color:var(--orange-deep); flex:none; }
-.ic svg { width:100%; height:100%; display:block; }
-.ttl { font-family:var(--gordita); font-weight:700; font-size:var(--sub); }
 .pad { height:30px; }
 
-/* A1 accordion */
+/* ---- the accordion, no chevron ---------------------------------------- */
 .acc { margin:26px 0 0; padding:0 24px; }
+.acc-item { position:relative; }
 .acc-item + .acc-item { border-top:1px solid #e4e2de; }
 .acc-head { display:flex; align-items:center; gap:14px; width:100%; min-height:56px;
             background:none; border:0; padding:0; text-align:left; cursor:pointer; color:inherit; }
-.acc-head .chev { margin-left:auto; width:9px; height:9px; border-right:2px solid #b9b4ad;
-                  border-bottom:2px solid #b9b4ad; transform:rotate(45deg);
-                  transition:transform .25s ease; flex:none; }
-.acc-item.is-open .acc-head .chev { transform:rotate(-135deg); }
-.acc-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .28s ease; }
-.acc-item.is-open .acc-body { grid-template-rows:1fr; }
-.acc-body > p { overflow:hidden; margin:0; font-size:var(--body); line-height:var(--blh);
-                padding-left:44px; }
-.acc-item.is-open .acc-body > p { padding-bottom:16px; }
+.ic { width:30px; height:30px; flex:none; color:#b4aea6; transition:color var(--dur) var(--ease); }
+.ic svg { width:100%; height:100%; display:block; }
+.ttl { font-family:var(--gordita); font-weight:700; font-size:var(--sub);
+       transition:color var(--dur) var(--ease); }
 
-/* A2 tiles */
-.tiles { margin:26px 0 0; padding:0 24px; }
-.tile-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.tile { display:flex; flex-direction:column; align-items:center; gap:8px; padding:14px 6px;
-        background:#F4F2EF; border:0; border-radius:var(--radius); cursor:pointer; color:inherit;
-        transition:background .2s ease; min-height:88px; }
-.tile.is-on { background:var(--orange-deep); color:#fff; }
-.tile.is-on .ic { color:#fff; }
-.tile .ttl { font-size:11px; letter-spacing:.04em; text-align:center; line-height:1.25; }
-.tile-body { margin-top:14px; min-height:46px; }
-.tile-body p { margin:0; font-size:var(--body); line-height:var(--blh); }
+/* The height is animated on grid-template-rows rather than max-height, so it
+   travels the true height of the copy and never overshoots or clips. The
+   paragraph fades up a few pixels behind it, which is what stops the reveal
+   reading as a shutter. */
+.acc-body { height:0; overflow:hidden; transition:height var(--dur) var(--ease); }
+.acc-body > p { margin:0; padding:0 0 18px 44px; font-size:var(--body); line-height:var(--blh);
+                opacity:0; transform:translateY(-5px);
+                transition:opacity .26s var(--ease) .05s, transform .26s var(--ease) .05s; }
+.acc-item.is-open .acc-body > p { opacity:1; transform:none; }
 
-/* A3 cycling */
-.cyc { margin:26px 0 0; padding:0 24px; }
-.cyc-stage { position:relative; min-height:86px; }
-.cyc-item { position:absolute; inset:0; opacity:0; transform:translateY(6px);
-            transition:opacity .35s ease, transform .35s ease; pointer-events:none; }
-.cyc-item.is-on { opacity:1; transform:none; }
-.doc .cyc-item h4 { font-family:var(--gordita); font-weight:700; font-size:var(--sub);
-                    margin:10px 0 0; }
-.cyc-item p { margin:4px 0 0; font-size:var(--body); line-height:var(--blh); }
-.cyc-rail { display:flex; gap:9px; margin-top:12px; }
-.cdot { width:6px; height:6px; border-radius:50%; background:#d2d2d2; cursor:pointer;
-        transition:width .2s ease, background .2s ease; }
-.cdot.is-on { width:18px; border-radius:3px; background:var(--orange-deep); }
+/* S1 — icon only */
+.s1 .acc-item.is-open .ic { color:var(--orange-deep); }
+/* S2 — icon and heading */
+.s2 .acc-item.is-open .ic,
+.s2 .acc-item.is-open .ttl { color:var(--orange-deep); }
+/* S3 — a rule down the left */
+.s3 .acc-item::before { content:""; position:absolute; left:-24px; top:0; width:3px; height:0;
+                        background:var(--orange-deep); transition:height var(--dur) var(--ease); }
+.s3 .acc-item.is-open::before { height:100%; }
+.s3 .acc-item.is-open .ic { color:var(--orange-deep); }
 </style>
 </head>
 <body>
 <div class="doc">
-  <h1>iPhone &mdash; dynamic points</h1>
-  <p class="note">All three keep V1&rsquo;s icons, and D3 above is unchanged. These are working
-     &mdash; tap them. What differs is how much is on screen before you touch anything, and
-     whether it moves on its own.</p>
+  <h1>iPhone &mdash; accordion without arrows</h1>
+  <p class="note">A1 with the chevrons gone. Something has to say a row opens, so the three differ
+     in what replaces it. Tap them &mdash; the animation is the same in all three.</p>
+  <table class="t">
+    <tr><th>The animation</th><td>The height travels on <code>grid-template-rows</code> from 0fr to
+      1fr rather than on <code>max-height</code>, so it moves the copy's true height &mdash; no
+      guessed maximum to overshoot, no clipping if the text wraps differently. 0.38s on an
+      ease-out curve, with the paragraph fading up five pixels behind it, which is what stops the
+      reveal reading as a shutter.</td></tr>
+    <tr><th>Worth knowing</th><td>The tidier CSS-only version of this animates a grid row from
+      0fr to 1fr. It does not work here &mdash; in an auto-height grid the 1fr row has no free
+      space to claim, so it resolves to zero and the row never opens at all. Measuring is exact and
+      goes back to Safari 12.</td></tr>
+  </table>
   <div class="rack">
 
-    <div class="phone">
-      <h3>A1 &mdash; Accordion</h3>
-      <p class="sub">Headings only at rest, first one open so the block is never empty. Tapping one opens it and closes the others, so the section height barely moves. Icon and heading are the target &mdash; the whole row, not a chevron.</p>
+    <div class="phone s1">
+      <h3>S1 &mdash; The icon carries it</h3>
+      <p class="sub">Nothing but the icon changes: closed it is a hairline outline in grey, open it fills orange. Quietest of the three, and the only one where the heading itself never moves or changes colour.</p>
       <div class="screen">
         <h2 class="dt">your dream van awaits</h2>
         <div class="dgrid">
@@ -92,17 +95,17 @@ body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
         </div>
         <a class="cta" href="#">GET A QUOTE</a>
         <div class="acc" data-acc>
-          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span><span class="chev" aria-hidden="true"></span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span><span class="chev" aria-hidden="true"></span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span><span class="chev" aria-hidden="true"></span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
+          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
         </div>
         <div class="pad"></div>
       </div>
     </div>
 
-    <div class="phone">
-      <h3>A2 &mdash; Icon tiles, one description</h3>
-      <p class="sub">The three as a row of icon tiles across the measure. Tap one and its line appears beneath the row. Most compact at rest, and all three claims are visible as headings without any scrolling.</p>
+    <div class="phone s2">
+      <h3>S2 &mdash; Heading goes orange</h3>
+      <p class="sub">Icon and heading both take the orange when open. The strongest signal of the three without adding any element to the row, and it matches how the nav marks the current page.</p>
       <div class="screen">
         <h2 class="dt">your dream van awaits</h2>
         <div class="dgrid">
@@ -112,21 +115,18 @@ body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
           <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
         </div>
         <a class="cta" href="#">GET A QUOTE</a>
-        <div class="tiles" data-tiles>
-          <div class="tile-row">
-            <button class="tile is-on" data-i="0"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button>
-            <button class="tile" data-i="1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button>
-            <button class="tile" data-i="2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button>
-          </div>
-          <div class="tile-body"><p>Freedom for off-road and off-grid adventures</p></div>
+        <div class="acc" data-acc>
+          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
         </div>
         <div class="pad"></div>
       </div>
     </div>
 
-    <div class="phone">
-      <h3>A3 &mdash; Auto-cycling</h3>
-      <p class="sub">Advances on its own every four seconds, dots below, and tapping a dot holds it. Nothing to discover &mdash; it shows you all three without being asked &mdash; but it moves whether or not you want it to.</p>
+    <div class="phone s3">
+      <h3>S3 &mdash; A rule down the left</h3>
+      <p class="sub">A thin orange bar grows down the left edge of the open row, the icon holds its colour. Reads like an active state in a list; the one that most looks like a control.</p>
       <div class="screen">
         <h2 class="dt">your dream van awaits</h2>
         <div class="dgrid">
@@ -136,13 +136,10 @@ body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
           <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
         </div>
         <a class="cta" href="#">GET A QUOTE</a>
-        <div class="cyc" data-cyc>
-          <div class="cyc-stage">
-            <div class="cyc-item is-on"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><h4>GO ANYWHERE</h4><p>Freedom for off-road and off-grid adventures</p></div>
-            <div class="cyc-item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><h4>BUILT TO LAST</h4><p>Australian made with superior strength and flex</p></div>
-            <div class="cyc-item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><h4>TRAVEL IN STYLE</h4><p>Luxuriously appointed with creature comforts</p></div>
-          </div>
-          <div class="cyc-rail"><span class="cdot is-on"></span><span class="cdot"></span><span class="cdot"></span></div>
+        <div class="acc" data-acc>
+          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
+          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
         </div>
         <div class="pad"></div>
       </div>
@@ -151,36 +148,38 @@ body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
   </div>
 </div>
 <script>
+/* The height is measured and set, rather than left to a 0fr-to-1fr grid: in an
+   auto-height grid the 1fr row has no free space to claim, so it resolves to
+   zero and the row never opens. Measuring is exact, and it works back to
+   Safari 12 rather than needing 16. */
 document.querySelectorAll('[data-acc]').forEach(function (acc) {
+  function shut(it) {
+    var b = it.querySelector('.acc-body');
+    b.style.height = b.scrollHeight + 'px';   /* from its real height, not auto */
+    requestAnimationFrame(function () { b.style.height = '0px'; });
+    it.classList.remove('is-open');
+    it.querySelector('.acc-head').setAttribute('aria-expanded', 'false');
+  }
+  function open(it) {
+    var b = it.querySelector('.acc-body');
+    b.style.height = b.scrollHeight + 'px';
+    it.classList.add('is-open');
+    it.querySelector('.acc-head').setAttribute('aria-expanded', 'true');
+    b.addEventListener('transitionend', function once(ev) {
+      if (ev.propertyName !== 'height') return;
+      b.style.height = 'auto';                /* so it reflows if the text rewraps */
+      b.removeEventListener('transitionend', once);
+    });
+  }
+  acc.querySelectorAll('.acc-item').forEach(function (it) {
+    if (it.classList.contains('is-open')) it.querySelector('.acc-body').style.height = 'auto';
+  });
   acc.addEventListener('click', function (e) {
     var head = e.target.closest('.acc-head'); if (!head) return;
-    var item = head.parentElement, open = item.classList.contains('is-open');
-    acc.querySelectorAll('.acc-item').forEach(function (it) {
-      it.classList.remove('is-open');
-      it.querySelector('.acc-head').setAttribute('aria-expanded', 'false');
-    });
-    if (!open) { item.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); }
+    var item = head.parentElement, wasOpen = item.classList.contains('is-open');
+    acc.querySelectorAll('.acc-item.is-open').forEach(shut);
+    if (!wasOpen) open(item);
   });
-});
-var COPY = ['Freedom for off-road and off-grid adventures',
-            'Australian made with superior strength and flex',
-            'Luxuriously appointed with creature comforts'];
-document.querySelectorAll('[data-tiles]').forEach(function (t) {
-  t.addEventListener('click', function (e) {
-    var b = e.target.closest('.tile'); if (!b) return;
-    t.querySelectorAll('.tile').forEach(function (x) { x.classList.remove('is-on'); });
-    b.classList.add('is-on');
-    t.querySelector('.tile-body p').textContent = COPY[+b.dataset.i];
-  });
-});
-document.querySelectorAll('[data-cyc]').forEach(function (c) {
-  var items = c.querySelectorAll('.cyc-item'), dots = c.querySelectorAll('.cdot'), i = 0, hold = false;
-  function show(n) { i = n;
-    items.forEach(function (x, k) { x.classList.toggle('is-on', k === n); });
-    dots.forEach(function (x, k) { x.classList.toggle('is-on', k === n); }); }
-  c.addEventListener('click', function (e) {
-    var d = [].indexOf.call(dots, e.target); if (d < 0) return; hold = true; show(d); });
-  setInterval(function () { if (!hold) show((i + 1) % items.length); }, 4000);
 });
 </script>
 </body>
