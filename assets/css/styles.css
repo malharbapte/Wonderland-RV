@@ -1313,12 +1313,36 @@ input:-webkit-autofill:focus {
   .newsletter .footer-head { margin-top: 0; margin-bottom: 14px; }
   .newsletter-form { grid-template-columns: 1fr; row-gap: 14px; }
   .newsletter-form .field--line input { height: 38px; font-size: 16px; }
-  .btn-subscribe { height: 50px; font-size: 15px; max-width: 200px; }
+  /* side to side, like every other CTA on the phone */
+  .btn-subscribe { height: 50px; font-size: 15px; max-width: none; }
 
-  .link-cols { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+  /* The five link groups become an accordion -- 982 as one column, 266 closed.
+     Same ruled stack as the accordions in Build your dream van and Why choose
+     us: the #e4e2de hairline, and orange for the open state. The rule sits on
+     .link-cols so the stack closes correctly across the three columns, which
+     go to display:contents and stop being boxes. */
+  .link-cols { display: block; border-bottom: 1px solid #e4e2de; }
+  .link-col { display: contents; }
   .link-col .footer-head { margin-bottom: 14px; }
-  .link-col .footer-head--gap { margin-top: 32px; }
   .link-col li { line-height: 22px; margin-bottom: 10px; }
+
+  .foot-acc { border-top: 1px solid #e4e2de; }
+  .foot-acc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 16px 0; background: none; border: 0;
+    font: inherit; color: inherit; text-align: left; cursor: pointer;
+  }
+  .foot-acc-head .footer-head { margin: 0; }
+  .foot-acc-sign { position: relative; width: 13px; height: 13px; flex: none; }
+  .foot-acc-sign::before, .foot-acc-sign::after {
+    content: ""; position: absolute; left: 0; top: 6px; width: 13px; height: 1.5px;
+    background: var(--orange-deep); transition: transform .28s ease;
+  }
+  .foot-acc-sign::after { transform: rotate(90deg); }   /* the plus closes to a minus */
+  .foot-acc.is-on .foot-acc-sign::after { transform: rotate(0deg); }
+  .foot-acc-body { overflow: hidden; height: 0;
+                   transition: height .3s cubic-bezier(.4, 0, .2, 1); }
+  .foot-acc-body ul { padding-bottom: 6px; }
 
   .footer-legal-left,
   .footer-legal-left a { font-size: var(--t-caption); line-height: 18px; }

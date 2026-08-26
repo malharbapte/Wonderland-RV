@@ -27,23 +27,26 @@ body { background:#F7F6F4; }
 .sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:110px; }
 .tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 12px; }
 .tall b { color:var(--orange-deep); }
-.phone { width:375px; background:#111; border-radius:24px; overflow:hidden;
-         box-shadow:0 2px 30px rgba(0,0,0,.18); color:#fff; }
+/* The real footer has no background of its own -- it sits on the page's white,
+   with black text and orange headings. An earlier version of this sample drew
+   it dark, which was wrong and made it look like a design decision. */
+.phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
+         box-shadow:0 2px 30px rgba(0,0,0,.11); color:#000; }
 .pad { padding:40px 24px; font-size:15px; line-height:24px; }
 
 /* ------------------------------------------- the footer, as it is on phone */
 .fhead { font-family:var(--aviano); font-weight:900; font-size:15px; line-height:20px;
          letter-spacing:.02em; color:var(--orange-deep); margin:0 0 14px; }
-.nl input { width:100%; box-sizing:border-box; height:38px; font-size:16px; color:#fff;
-            background:none; border:0; border-bottom:1px solid #555; border-radius:0; padding:0 2px; }
+.nl input { width:100%; box-sizing:border-box; height:38px; font-size:16px; color:#000;
+            background:none; border:0; border-bottom:1px solid var(--ink); border-radius:0; padding:0 2px; }
 .nl input::placeholder { color:#888; }
-.nl .go { display:block; margin-top:14px; width:100%; max-width:200px; height:50px; border:0;
+.nl .go { display:block; margin-top:14px; width:100%; height:50px; border:0;
           background:var(--orange-deep); color:#fff; font-family:var(--aviano); font-weight:900;
           font-size:15px; letter-spacing:.08em; }
 .after { margin-top:32px; }
 ul.lk { list-style:none; margin:0; padding:0; }
 ul.lk li { line-height:22px; margin-bottom:10px; }
-ul.lk a { color:#fff; text-decoration:none; }
+ul.lk a { color:#000; text-decoration:none; }
 .grp + .grp { margin-top:32px; }
 
 /* F1 — two columns */
@@ -52,8 +55,8 @@ ul.lk a { color:#fff; text-decoration:none; }
 .f1 .grp + .grp { margin-top:0; }
 
 /* F2 — accordion */
-.f2 .row { border-top:1px solid #333; }
-.f2 .row:last-child { border-bottom:1px solid #333; }
+.f2 .row { border-top:1px solid #e4e2de; }
+.f2 .row:last-child { border-bottom:1px solid #e4e2de; }
 .f2 .rh { display:flex; align-items:center; justify-content:space-between; width:100%;
           background:none; border:0; padding:16px 0; cursor:pointer; text-align:left; }
 .f2 .rh .fhead { margin:0; }
@@ -71,8 +74,8 @@ ul.lk a { color:#fff; text-decoration:none; }
 .f3 .grp + .grp { margin-top:0; }
 .f3 .wide { grid-column:1 / -1; }
 .f3 .inline { display:flex; flex-wrap:wrap; gap:8px 0; }
-.f3 .inline a { color:#fff; text-decoration:none; line-height:22px; }
-.f3 .inline a:not(:last-child)::after { content:"·"; color:#666; margin:0 9px; }
+.f3 .inline a { color:#000; text-decoration:none; line-height:22px; }
+.f3 .inline a:not(:last-child)::after { content:"·"; color:#999; margin:0 9px; }
 
 table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
 table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
@@ -86,7 +89,10 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
   <h1>Footer — condensing what follows the Subscribe CTA</h1>
   <p class="note">
     All three are live — tap the headings in F2. Everything above the Subscribe button is the
-    same in each, so only the link region differs.
+    same in each, so only the link region differs. <b>Corrected:</b> an earlier version of this
+    page drew the footer dark. It has no background of its own — it sits on the page's white,
+    with black text and orange headings, as shown here. The Subscribe CTA now runs side to side
+    like the other buttons.
   </p>
 
   <div class="probs">
