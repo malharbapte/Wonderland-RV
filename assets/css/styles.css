@@ -1171,7 +1171,10 @@ input:-webkit-autofill:focus {
   /* ---- experience ---- */
   .experience { height: auto; min-height: 520px; border-radius: 0; }
   .experience-copy { padding: 56px 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
-  .experience-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  /* nowrap on the desktop title carried the link 492 wide inside a 327 column,
+     165 past the container. Released here, like every other pinned title. */
+  .experience-title { font-size: var(--t-heading); line-height: var(--lh-heading);
+                      white-space: normal; }
   .experience-body { margin-top: 48px; font-size: var(--t-sub); line-height: var(--lh-sub); }
 
   /* ---- rules band ---- */

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact form — iPhone</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=130">
+<style>
+/* ==========================================================================
+   Sample only — not linked from compact.html. Phone layout of the enquiry
+   form. The desktop form is untouched in all three: everything here lives
+   inside the phone block.
+   ========================================================================== */
+body { background:#F7F6F4; }
+.doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
+.doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
+.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
+.probs { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
+.probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
+            text-transform:uppercase; margin:0 0 8px; color:#666; }
+.probs ol { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
+.deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
+.col { flex:0 0 375px; }
+.lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
+.lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
+          letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
+.lab--pick .k { background:#111; }
+.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:104px; }
+.tall { font-family:var(--gordita); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+        color:#999; margin:0 0 12px; }
+.phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
+         box-shadow:0 2px 30px rgba(0,0,0,.11); }
+.pad { padding:40px 24px 44px; }
+
+/* ------------------------------------------------ the shared phone form ---- */
+.ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+       color:#111; margin:0 0 6px; }
+.lede { font-family:var(--gordita); font-size:15px; line-height:23px; color:#444; margin:0 0 22px; }
+.f { position:relative; }
+.f input, .f select, .f textarea {
+  width:100%; box-sizing:border-box; font-family:var(--gordita); font-size:16px; color:#111;
+  background:transparent; border:0; border-bottom:1px solid #CFCAC2; border-radius:0;
+  height:48px; padding:0 2px; -webkit-appearance:none; appearance:none;
+}
+.f textarea { height:104px; padding-top:12px; line-height:22px; resize:none; }
+.f select { background-image:linear-gradient(45deg,transparent 50%,#8A8A8A 50%),
+                             linear-gradient(135deg,#8A8A8A 50%,transparent 50%);
+            background-position:calc(100% - 13px) 21px, calc(100% - 8px) 21px;
+            background-size:5px 5px,5px 5px; background-repeat:no-repeat; color:#8A8A8A; }
+.f input::placeholder, .f textarea::placeholder { color:#8A8A8A; }
+.f input:focus, .f select:focus, .f textarea:focus { outline:none; border-bottom-color:var(--orange-deep); }
+.req { position:absolute; right:2px; top:15px; color:var(--orange); font-size:14px; }
+
+/* one rhythm, everywhere */
+.stack > .f + .f, .stack > .f + .grid2, .stack > .grid2 + .f,
+.stack > .f + .chipwrap, .stack > .chipwrap + .f { margin-top:22px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; column-gap:14px; }
+
+.chipwrap .leg { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
+                 text-transform:uppercase; color:#666; margin:0 0 12px; }
+.chip { display:flex; align-items:center; gap:10px; min-height:48px; box-sizing:border-box;
+        padding:0 14px; border:1px solid #CFCAC2; border-radius:10px;
+        font-family:var(--gordita); font-size:15px; color:#333; }
+.chip .box { width:18px; height:18px; border:1px solid #B9B2A8; border-radius:4px; flex:0 0 auto; }
+.chip.on { border-color:var(--orange-deep); background:#FFF6EC; color:#111; }
+.chip.on .box { border-color:var(--orange-deep); background:var(--orange-deep); position:relative; }
+.chip.on .box::after { content:""; position:absolute; left:5px; top:1px; width:5px; height:10px;
+                       border:solid #fff; border-width:0 2px 2px 0; transform:rotate(43deg); }
+.chiplist { display:grid; row-gap:10px; }
+.chiplist.two { grid-template-columns:1fr 1fr; column-gap:10px; }
+
+.go { margin-top:28px; width:100%; height:54px; border:0; border-radius:0;
+      background:var(--orange); color:#fff; font-family:var(--aviano); font-weight:900;
+      font-size:15px; letter-spacing:.1em; }
+
+table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
+table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
+table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>Ready for Adventure — the form on iPhone</h1>
+  <p class="note">
+    All three are live: tap the fields, tap the chips. The desktop form is untouched in every
+    one of them — you said it looks perfect and it stays exactly as it is.
+  </p>
+
+  <div class="probs">
+    <h3>Measured on the page right now, at 375</h3>
+    <ol>
+      <li><b>The field rhythm is broken.</b> First Name to Last Name is 4px, Last Name to Email
+          is 3px, then every gap after that is 26px. The top of the form reads as one squashed
+          block and the bottom as a loose one.</li>
+      <li><b>Touch targets are 40px.</b> Apple&rsquo;s floor is 44. Six of the seven controls are
+          under it.</li>
+      <li><b>The chips are 48, 68, 48, 68.</b> Two of them carry a hard line break from the
+          desktop layout, so they wrap to two lines at a width where they would fit on one.
+          Uneven, and ~40px taller than it needs to be.</li>
+      <li>The whole form runs <b>938px</b> — you scroll it in three screenfuls.</li>
+    </ol>
+  </div>
+
+  <div class="deck">
+
+    <!-- ============================================ C1 ==================== -->
+    <div class="col">
+      <p class="lab lab--pick"><span class="k">C1</span>Even it up</p>
+      <p class="sub">Nothing moves. One column, same order, same fields. Every gap becomes 22,
+         every control becomes 48, and the chips lose their desktop line breaks so all four sit
+         on one line at the same height. The smallest change that fixes all three faults.</p>
+      <p class="tall" id="h1">—</p>
+      <div class="phone"><div class="pad" id="c1"></div></div>
+    </div>
+
+    <!-- ============================================ C2 ==================== -->
+    <div class="col">
+      <p class="lab"><span class="k">C2</span>Pair the short fields</p>
+      <p class="sub">Everything from C1, plus the fields that are short enough to share a line
+         do: First and Last Name side by side, Model and Post Code side by side. Chips go two
+         across. Cuts the form down by roughly a third without dropping anything.</p>
+      <p class="tall" id="h2">—</p>
+      <div class="phone"><div class="pad" id="c2"></div></div>
+    </div>
+
+    <!-- ============================================ C3 ==================== -->
+    <div class="col">
+      <p class="lab"><span class="k">C3</span>Ask the question first</p>
+      <p class="sub">C2&rsquo;s layout, reordered: the four chips come first, under a plain question,
+         then the details. You say what you want before you type anything, which is the natural
+         order to answer in and makes the first thing on screen a tap rather than a keyboard.</p>
+      <p class="tall" id="h3">—</p>
+      <div class="phone"><div class="pad" id="c3"></div></div>
+    </div>
+
+  </div>
+
+  <table class="spec">
+    <tr><th>Fields</th><td>First Name &middot; Last Name &middot; Email &middot; Phone &middot;
+        model select &middot; Post Code &middot; message — all seven kept, in all three</td></tr>
+    <tr><th>Control height</th><td>48 (from 40) — clears the 44 floor</td></tr>
+    <tr><th>Field rhythm</th><td>22 between every field (from 4 / 3 / 26 / 26 / 26)</td></tr>
+    <tr><th>Chips</th><td>desktop hard breaks released on the phone, so all four are one line
+        at 48; C2 and C3 put them two across</td></tr>
+    <tr><th>Submit</th><td>full width at 54 (from 240 wide, left-hung)</td></tr>
+    <tr><th>Desktop</th><td>untouched — every rule lands inside <code>@media (max-width:900px)</code></td></tr>
+  </table>
+
+</div>
+
+<script>
+const F = {
+  first:'<div class="f"><input type="text" placeholder="First Name"><span class="req">*</span></div>',
+  last :'<div class="f"><input type="text" placeholder="Last Name"><span class="req">*</span></div>',
+  email:'<div class="f"><input type="email" placeholder="Email"><span class="req">*</span></div>',
+  phone:'<div class="f"><input type="tel" placeholder="Phone"><span class="req">*</span></div>',
+  model:'<div class="f"><select><option>Which model?</option><option>Solara</option><option>XTR</option><option>Hornet</option><option>Amaroo</option></select></div>',
+  post :'<div class="f"><input type="text" placeholder="Post Code"></div>',
+  area :'<div class="f"><textarea placeholder="Something else you want to tell us..."></textarea></div>'
+};
+const CHIPS = ["Call back", "Book a factory tour", "Get a Quote", "Virtual Consult"];
+function chips(two) {
+  return '<div class="chipwrap"><p class="leg">What can we help with?</p><div class="chiplist' +
+    (two ? ' two' : '') + '">' +
+    CHIPS.map(function (t) { return '<label class="chip"><span class="box"></span>' + t + '</label>'; }).join("") +
+    '</div></div>';
+}
+const HEAD = '<h2 class="ttl">Ready for Adventure?</h2>' +
+  '<p class="lede">Tell us what you are after and one of our experts will reach out within one business day.</p>';
+const GO = '<button class="go" type="button">SUBMIT</button>';
+
+document.getElementById("c1").innerHTML = HEAD + '<div class="stack">' +
+  F.first + F.last + F.email + F.phone + F.model + F.post + chips(false) + F.area + '</div>' + GO;
+
+document.getElementById("c2").innerHTML = HEAD + '<div class="stack">' +
+  '<div class="grid2">' + F.first + F.last + '</div>' + F.email + F.phone +
+  '<div class="grid2">' + F.model + F.post + '</div>' + chips(true) + F.area + '</div>' + GO;
+
+document.getElementById("c3").innerHTML = HEAD + '<div class="stack">' + chips(true) +
+  '<div class="grid2">' + F.first + F.last + '</div>' + F.email + F.phone +
+  '<div class="grid2">' + F.model + F.post + '</div>' + F.area + '</div>' + GO;
+
+document.addEventListener("click", function (e) {
+  const c = e.target.closest(".chip");
+  if (c) c.classList.toggle("on");
+});
+["1","2","3"].forEach(function (k) {
+  const box = document.getElementById("c" + k).getBoundingClientRect();
+  document.getElementById("h" + k).textContent =
+    "form height " + Math.round(box.height) + "px  ·  now 938px";
+});
+</script>
+</body>
+</html>
