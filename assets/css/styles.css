@@ -1084,7 +1084,11 @@ input:-webkit-autofill:focus {
   /* ---- header ---- */
   .site-header { height: 64px; border-bottom: 1px solid #eee; }
   .header-inner { padding-top: 0; }
-  .logo { width: 150px; }
+  /* +25%, 150 to 188. The mark is 359.5 x 67, so it stands 35 in the 64 bar,
+     centred by .header-inner's align-items with 14 clear above and below the
+     white. (No display rule needed on the image: img is already block from the
+     reset, so the link box is the artwork's height with no baseline gap.) */
+  .logo { width: 188px; }
   .main-nav {
     position: absolute; left: 0; right: 0; top: 64px; z-index: 30;
     flex-direction: column; align-items: flex-start; gap: 0;
