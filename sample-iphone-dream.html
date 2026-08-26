@@ -48,11 +48,11 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
 .slide { flex:0 0 var(--slide); scroll-snap-align:center; scroll-snap-stop:always;
          aspect-ratio:4/3; display:flex; align-items:center;
          transform:scale(.86); opacity:.45;
-         transition:transform .45s cubic-bezier(.4,0,.2,1), opacity .45s cubic-bezier(.4,0,.2,1);
+         transition:transform .45s cubic-bezier(.65,0,.35,1), opacity .45s cubic-bezier(.65,0,.35,1);
          will-change:transform, opacity; }
 .slide.is-on { transform:scale(1); opacity:1; }
 .frame { width:100%; height:74%; border-radius:10px; overflow:hidden; background:#EDE9E3;
-         transition:height .45s cubic-bezier(.4,0,.2,1); }
+         transition:height .45s cubic-bezier(.65,0,.35,1); }
 .slide.is-on .frame { height:100%; }
 .frame img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
 
@@ -105,7 +105,8 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
         <tr><th>Gap</th><td>10</td></tr>
         <tr><th>Shape</th><td>4:3, <code>border-radius: 10</code> — the page's one curvature</td></tr>
         <tr><th>Dwell</th><td>3.4s per image</td></tr>
-        <tr><th>Travel</th><td>620ms, <code>cubic-bezier(.4, 0, .2, 1)</code></td></tr>
+        <tr><th>Travel</th><td>620ms, eased in and out both ends — the same curve the review
+            slider and the enquiry pill already use</td></tr>
       </table>
 
       <h4>How the loop works</h4>
@@ -116,7 +117,9 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
 
       <h4>Swipe</h4>
       <p>It is a real scroller, not a transform track, so it snaps to centre under your finger.
-         Touching it stops the timer; the timer restarts 6s after you let go.</p>
+         Touching it stops the timer. When you let go it waits 450ms for the snap to land, then
+         starts the 3.4s dwell <b>from zero</b> — a swipe resets the countdown rather than
+         dropping you into the middle of one.</p>
 
       <h4>Worth flagging</h4>
       <p>I cannot watch this run here — animations and transitions do not advance in the preview
@@ -134,13 +137,12 @@ const SHOTS = [
   ["assets/img/home/dream-kitchen.jpg",  "Kitchen"],
   ["assets/img/home/dream-awning.jpg",   "Awning"]
 ];
-const SETS = 3, DWELL = 3400, TRAVEL = 620, RESUME = 6000;
+const SETS = 3, DWELL = 3400, TRAVEL = 620, SETTLE = 450;
 
 const ph = document.getElementById("ph");
 ph.innerHTML =
   '<h2 class="dtitle">your dream van awaits</h2>' +
   '<div class="rail" id="rail"></div>' +
-  '<div class="dots" id="dots"></div>' +
   '<a class="cta" href="#" onclick="return false">GET A QUOTE</a>';
 
 const rail = document.getElementById("rail");
@@ -216,18 +218,9 @@ function paint() {
     s.classList.toggle("is-on", d < b.width / 2);
   });
   const live = ((best % N) + N) % N;
-  dots.forEach(function (d, k) { d.classList.toggle("is-on", k === live); });
   document.getElementById("stat").textContent =
     "image " + (live + 1) + " of " + N + "  ·  advances every 3.4s";
 }
-
-const dotWrap = document.getElementById("dots");
-const dots = SHOTS.map(function (_, k) {
-  const d = document.createElement("span");
-  d.className = "dot" + (k ? "" : " is-on");
-  dotWrap.appendChild(d);
-  return d;
-});
 
 let timer = null, idle = null;
 function play() { clearInterval(timer); timer = setInterval(function () { index++; centreOn(index, true); }, DWELL); }
@@ -236,7 +229,7 @@ function pause() { clearInterval(timer); cancelAnimationFrame(raf); }
 rail.addEventListener("pointerdown", function () { pause(); clearTimeout(idle); });
 rail.addEventListener("pointerup", function () {
   clearTimeout(idle);
-  idle = setTimeout(function () { index = Math.round(rail.scrollLeft / pitch()); wrap(); play(); }, RESUME);
+  idle = setTimeout(function () { index = Math.round(rail.scrollLeft / pitch()); wrap(); play(); }, SETTLE);
 });
 /* scroll events are not dependable, so the read-out is polled too */
 setInterval(paint, 150);

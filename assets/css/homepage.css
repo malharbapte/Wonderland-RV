@@ -855,19 +855,48 @@
      onto white where its two lines have room. */
   /* The desktop mosaic is not a grid -- it places the shots absolutely -- so
      the columns need a display to act on before any of this takes effect. */
-  .dream-mosaic { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto;
-                  gap: 10px; padding: 0 24px; height: auto; }
-  /* The head is absolutely placed on the desktop, dropped into the gap beside
-     the tall right shot. Left that way here it lands on top of the tiles. */
-  .dream-head { position: static; grid-column: 1 / -1; padding: 0 0 4px;
+  /* The four tiles become one slideshow that runs on its own: the middle image
+     at full size, its neighbours just showing at either edge, shorter and
+     dimmed, each growing as it arrives. The desktop mosaic places the shots
+     absolutely, so they need resetting before any of this applies. */
+  .dream-mosaic { display: block; padding: 0 0 0; height: auto; }
+  /* absolutely placed on the desktop; left that way it lands on the tiles */
+  .dream-head { position: static; padding: 0 24px 20px;
                 left: auto; right: auto; top: auto; }
   .dream-title { color: var(--ink, #111); }
-  .dream-shot { position: static; width: auto; height: auto;
-                aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius); }
-  .dream-shot--a, .dream-shot--b, .dream-shot--c, .dream-shot--d {
-    grid-column: auto; grid-row: auto; left: auto; top: auto; }
-  .dream-shot img { object-position: 50% 50%; }
-  .dream-quote { grid-column: 1 / -1; position: static; display: flex; margin: 14px 0 0;
+  .dream-shot { display: none; }            /* the rail carries copies of these */
+
+  .dream-rail {
+    display: flex; gap: 10px;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .dream-rail::-webkit-scrollbar { display: none; }
+  /* The cell is only the track slot. The picture sits in .dream-frame inside
+     it, so height and width shrink independently -- the frame's height comes
+     down for the side images and object-fit crops them rather than squashing
+     them, while the uniform scale keeps the horizontal peek at 19. Centring
+     the frame takes that height off the top and the bottom equally. */
+  .dream-slide {
+    flex: 0 0 var(--dream-slide); scroll-snap-align: center; scroll-snap-stop: always;
+    aspect-ratio: 4 / 3; display: flex; align-items: center;
+    transform: scale(0.86); opacity: 0.45;
+    transition: transform .52s cubic-bezier(.65, 0, .35, 1),
+                opacity   .52s cubic-bezier(.65, 0, .35, 1);
+    will-change: transform, opacity;
+  }
+  .dream-slide.is-on { transform: scale(1); opacity: 1; }
+  .dream-frame {
+    width: 100%; height: 74%; border-radius: var(--radius);
+    overflow: hidden; background: #EDE9E3;
+    transition: height .52s cubic-bezier(.65, 0, .35, 1);
+  }
+  .dream-slide.is-on .dream-frame { height: 100%; }
+  .dream-frame img { width: 100%; height: 100%; object-fit: cover;
+                     object-position: 50% 50%; display: block; }
+
+  .dream-quote { position: static; display: flex; margin: 26px 24px 0;
                  padding: 14px 20px; font-size: var(--t-cta); min-height: 48px; }
 
   /* The three points become an accordion, built in home.js and only here.

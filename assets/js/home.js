@@ -844,3 +844,124 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   show(false);
   window.addEventListener("resize", function () { show(false); });
 })();
+
+/* ------------------------------------------ your dream van awaits: rail ---
+   On a phone the four tiles become a slideshow that runs on its own. The set is
+   laid down three times and the rail moves a whole set width whenever it
+   crosses one -- the pixels either side of that seam are identical, so it never
+   reaches an end and never rewinds.
+
+   It is a real scroller rather than a transform track, so a finger can take it
+   over; touching it stops the timer and it starts again once the finger is off.
+*/
+(function () {
+  if (!ON_PHONE.matches) return;
+  const mosaic = document.querySelector(".dream-mosaic");
+  if (!mosaic || mosaic.dataset.rail) return;
+
+  const shots = [].slice.call(mosaic.querySelectorAll(".dream-shot"));
+  const N = shots.length;
+  if (N < 2) return;
+
+  /* SETTLE is only long enough for the snap to land after a finger leaves --
+     the dwell then starts from zero, so a swipe resets the countdown rather
+     than dropping the reader into the middle of one. */
+  const SETS = 3, DWELL = 3400, TRAVEL = 620, SETTLE = 450;
+
+  const rail = document.createElement("div");
+  rail.className = "dream-rail";
+  for (let s = 0; s < SETS; s++) {
+    shots.forEach(function (shot) {
+      const img = shot.querySelector("img");
+      if (!img) return;
+      const slide = document.createElement("div");
+      slide.className = "dream-slide";
+      const frame = document.createElement("div");
+      frame.className = "dream-frame";
+      const copy = document.createElement("img");
+      copy.src = img.getAttribute("src");
+      copy.alt = "";
+      frame.appendChild(copy);
+      slide.appendChild(frame);
+      rail.appendChild(slide);
+    });
+  }
+  const cta = mosaic.querySelector(".dream-quote");
+  mosaic.insertBefore(rail, cta || null);
+  mosaic.dataset.rail = "1";
+
+  const slides = [].slice.call(rail.children);
+  if (!slides.length) return;
+
+  /* the slide takes 74% of the rail, so 13% of each neighbour shows */
+  function measure() {
+    const w = rail.clientWidth;
+    rail.style.setProperty("--dream-slide", Math.round(w * 0.74) + "px");
+    rail.style.paddingLeft = Math.round(w * 0.13) + "px";
+    rail.style.paddingRight = Math.round(w * 0.13) + "px";
+  }
+  /* offsetWidth, not a rect: the side slides carry a scale and a rect reports
+     the TRANSFORMED box, which makes every step land short of centre. */
+  function pitch() { return slides[0].offsetWidth + 10; }
+  function setWidth() { return pitch() * N; }
+
+  let index = N;                       // start in the middle set
+  let raf = null, timer = null, idle = null;
+
+  function paint() {
+    const box = rail.getBoundingClientRect();
+    if (!box.width) return;
+    const mid = box.left + box.width / 2;
+    slides.forEach(function (s) {
+      const b = s.getBoundingClientRect();
+      s.classList.toggle("is-on", Math.abs(b.left + b.width / 2 - mid) < b.width / 2);
+    });
+  }
+
+  function wrap() {
+    const W = setWidth();
+    if (rail.scrollLeft >= W * 2 - 1) { rail.scrollLeft -= W; index -= N; }
+    else if (rail.scrollLeft <= W - pitch() - 1) { rail.scrollLeft += W; index += N; }
+    paint();
+  }
+
+  /* scrollLeft is animated by hand rather than with scrollTo({behavior:"smooth"}),
+     which cannot be timed and cannot be interrupted cleanly. Eased in and out,
+     matching the curve the review slider and the enquiry pill already use. */
+  function glide(to) {
+    cancelAnimationFrame(raf);
+    const from = rail.scrollLeft, delta = to - from, t0 = performance.now();
+    (function step(now) {
+      const p = Math.min(1, (now - t0) / TRAVEL);
+      const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      rail.scrollLeft = from + delta * e;
+      paint();
+      if (p < 1) raf = requestAnimationFrame(step); else wrap();
+    })(performance.now());
+  }
+
+  function play() {
+    clearInterval(timer);
+    timer = setInterval(function () { index++; glide(index * pitch()); }, DWELL);
+  }
+  function pause() { clearInterval(timer); cancelAnimationFrame(raf); }
+
+  rail.addEventListener("pointerdown", function () { pause(); clearTimeout(idle); });
+  rail.addEventListener("pointerup", function () {
+    clearTimeout(idle);
+    idle = setTimeout(function () {
+      index = Math.round(rail.scrollLeft / pitch());
+      wrap(); play();                 // play() clears and restarts: dwell from 0
+    }, SETTLE);
+  });
+  window.addEventListener("resize", function () {
+    measure(); rail.scrollLeft = index * pitch(); paint();
+  });
+
+  measure();
+  rail.scrollLeft = index * pitch();
+  paint();
+  /* scroll events are not dependable, so the read-out is polled */
+  setInterval(paint, 150);
+  play();
+})();
