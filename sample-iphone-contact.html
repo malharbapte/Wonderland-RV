@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact form — iPhone</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=130">
+<link rel="stylesheet" href="assets/css/styles.css?v=131">
 <style>
 /* ==========================================================================
-   Sample only — not linked from compact.html. Phone layout of the enquiry
-   form. The desktop form is untouched in all three: everything here lives
-   inside the phone block.
+   Sample only — not linked from compact.html. C2's layout, with the pill put
+   back. Desktop form untouched: everything lands in the phone block.
    ========================================================================== */
 body { background:#F7F6F4; }
 .doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
@@ -18,60 +17,79 @@ body { background:#F7F6F4; }
 .probs { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
 .probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
             text-transform:uppercase; margin:0 0 8px; color:#666; }
-.probs ol { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
+.probs ul { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
 .deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
 .col { flex:0 0 375px; }
 .lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
 .lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
           letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
 .lab--pick .k { background:#111; }
-.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:104px; }
-.tall { font-family:var(--gordita); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
-        color:#999; margin:0 0 12px; }
+.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:96px; }
+.tall { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#999; margin:0 0 12px; }
 .phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
          box-shadow:0 2px 30px rgba(0,0,0,.11); }
 .pad { padding:40px 24px 44px; }
 
-/* ------------------------------------------------ the shared phone form ---- */
-.ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-       color:#111; margin:0 0 6px; }
-.lede { font-family:var(--gordita); font-size:15px; line-height:23px; color:#444; margin:0 0 22px; }
+/* ------------------------------------------------------- the phone form ---- */
+.ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; margin:0 0 6px; }
+.lede { font-size:15px; line-height:23px; color:#444; margin:0 0 22px; }
 .f { position:relative; }
 .f input, .f select, .f textarea {
   width:100%; box-sizing:border-box; font-family:var(--gordita); font-size:16px; color:#111;
   background:transparent; border:0; border-bottom:1px solid #CFCAC2; border-radius:0;
-  height:48px; padding:0 2px; -webkit-appearance:none; appearance:none;
+  height:48px; padding:0 16px 0 2px; -webkit-appearance:none; appearance:none;
 }
 .f textarea { height:104px; padding-top:12px; line-height:22px; resize:none; }
-.f select { background-image:linear-gradient(45deg,transparent 50%,#8A8A8A 50%),
-                             linear-gradient(135deg,#8A8A8A 50%,transparent 50%);
-            background-position:calc(100% - 13px) 21px, calc(100% - 8px) 21px;
-            background-size:5px 5px,5px 5px; background-repeat:no-repeat; color:#8A8A8A; }
+.f select { color:#8A8A8A; }
+.f .chev { position:absolute; right:14px; top:22px; width:11px; height:7px; color:#8A8A8A; pointer-events:none; }
 .f input::placeholder, .f textarea::placeholder { color:#8A8A8A; }
 .f input:focus, .f select:focus, .f textarea:focus { outline:none; border-bottom-color:var(--orange-deep); }
 .req { position:absolute; right:2px; top:15px; color:var(--orange); font-size:14px; }
-
-/* one rhythm, everywhere */
-.stack > .f + .f, .stack > .f + .grid2, .stack > .grid2 + .f,
-.stack > .f + .chipwrap, .stack > .chipwrap + .f { margin-top:22px; }
+.f--select .req { right:auto; left:calc(100% - 30px); }
+.stack > * + * { margin-top:22px; }
 .grid2 { display:grid; grid-template-columns:1fr 1fr; column-gap:14px; }
+.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 
-.chipwrap .leg { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
-                 text-transform:uppercase; color:#666; margin:0 0 12px; }
-.chip { display:flex; align-items:center; gap:10px; min-height:48px; box-sizing:border-box;
-        padding:0 14px; border:1px solid #CFCAC2; border-radius:10px;
-        font-family:var(--gordita); font-size:15px; color:#333; }
-.chip .box { width:18px; height:18px; border:1px solid #B9B2A8; border-radius:4px; flex:0 0 auto; }
-.chip.on { border-color:var(--orange-deep); background:#FFF6EC; color:#111; }
-.chip.on .box { border-color:var(--orange-deep); background:var(--orange-deep); position:relative; }
-.chip.on .box::after { content:""; position:absolute; left:5px; top:1px; width:5px; height:10px;
-                       border:solid #fff; border-width:0 2px 2px 0; transform:rotate(43deg); }
-.chiplist { display:grid; row-gap:10px; }
-.chiplist.two { grid-template-columns:1fr 1fr; column-gap:10px; }
+/* ------------------------------------------------------------- the pill ---- */
+.chips2 { position:relative; display:flex; border:1px solid var(--ink);
+          border-radius:14px; padding:4px 0; }
+.thumb { position:absolute; top:4px; bottom:4px; left:0; width:0; background:var(--orange);
+         border-radius:10px; z-index:0; pointer-events:none; transform-origin:center;
+         transition:left .46s cubic-bezier(.65,0,.35,1), width .46s cubic-bezier(.65,0,.35,1),
+                    top .46s cubic-bezier(.65,0,.35,1), transform .46s cubic-bezier(.65,0,.35,1); }
+.thumb.init { transition:none; }
+.thumb.moving { transform:scaleY(.90); }
+.cell { flex:1 1 0; min-width:0; position:relative; z-index:1; display:flex;
+        flex-direction:column; align-items:center; justify-content:center;
+        gap:6px; cursor:pointer; text-align:center; padding:10px 4px; }
+.cell + .cell::before { content:""; position:absolute; left:0; top:-5px;
+                        width:1px; height:calc(100% + 10px); background:var(--ink); }
+.cell input { position:absolute; opacity:0; pointer-events:none; }
+.cell svg.ic { width:22px; height:22px; stroke:currentColor; fill:none;
+               stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.cell span { font-size:11px; line-height:14px; color:#333; }
+.cell:has(input:checked) { color:#fff; }
+.cell:has(input:checked) span { color:#fff; font-weight:700; }
 
-.go { margin-top:28px; width:100%; height:54px; border:0; border-radius:0;
-      background:var(--orange); color:#fff; font-family:var(--aviano); font-weight:900;
-      font-size:15px; letter-spacing:.1em; }
+/* P2 — text only, one row */
+.p2 .cell { padding:14px 4px; }
+.p2 .cell span { font-size:11px; line-height:14px; }
+
+/* P3 — two by two */
+.p3 { flex-wrap:wrap; }
+.p3 .cell { flex:0 0 50%; padding:13px 6px; }
+.p3 .cell span { font-size:13px; line-height:17px; }
+.p3 .cell + .cell::before { display:none; }
+.p3 .cell:nth-child(3)::after, .p3 .cell:nth-child(4)::after {
+  content:""; position:absolute; left:8%; right:8%; top:0; height:1px; background:var(--ink); }
+.p3 .cell:nth-child(3)::before, .p3 .cell:nth-child(5)::before { display:none; }
+
+.consent { display:flex; gap:10px; margin-top:22px; }
+.consent input { width:20px; height:20px; flex:0 0 auto; margin-top:2px; accent-color:var(--orange-deep); }
+.consent label { font-size:12px; line-height:18px; color:#555; }
+.consent .fine { display:block; margin-top:4px; color:#8A8A8A; font-size:11px; }
+.go { margin-top:26px; width:100%; height:54px; border:0; background:var(--orange); color:#fff;
+      font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.1em; }
 
 table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
 table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
@@ -82,55 +100,52 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
 <body>
 <div class="doc">
 
-  <h1>Ready for Adventure — the form on iPhone</h1>
+  <h1>Ready for Adventure — C2, with the pill</h1>
   <p class="note">
-    All three are live: tap the fields, tap the chips. The desktop form is untouched in every
-    one of them — you said it looks perfect and it stays exactly as it is.
+    All three are live: tap a cell and the orange pill travels to it, squashing as it goes,
+    exactly as it does on desktop. Same C2 layout in all three — the only difference is how
+    the four options are drawn.
   </p>
 
   <div class="probs">
-    <h3>Measured on the page right now, at 375</h3>
-    <ol>
-      <li><b>The field rhythm is broken.</b> First Name to Last Name is 4px, Last Name to Email
-          is 3px, then every gap after that is 26px. The top of the form reads as one squashed
-          block and the bottom as a loose one.</li>
-      <li><b>Touch targets are 40px.</b> Apple&rsquo;s floor is 44. Six of the seven controls are
-          under it.</li>
-      <li><b>The chips are 48, 68, 48, 68.</b> Two of them carry a hard line break from the
-          desktop layout, so they wrap to two lines at a width where they would fit on one.
-          Uneven, and ~40px taller than it needs to be.</li>
-      <li>The whole form runs <b>938px</b> — you scroll it in three screenfuls.</li>
-    </ol>
+    <h3>Corrected from the last sample</h3>
+    <ul>
+      <li><b>The pill is back.</b> The phone block had turned <code>.chips</code> into a stacked
+          grid of separate boxes, which left the sliding thumb nothing to slide along. It is one
+          outlined container with four cells again, and one indicator that travels.</li>
+      <li><b>&ldquo;Which model?&rdquo; is gone</b> — I invented that. The real field is
+          <b>State</b>, and it is back with its chevron and its eight options.</li>
+      <li><b>&ldquo;What can we help with&rdquo; is gone.</b> The real legend is
+          <code>sr-only</code> by design — screen readers get it, the page does not show it.</li>
+      <li><b>The consent checkbox is back</b> — I dropped it from the last sample entirely.</li>
+    </ul>
   </div>
 
   <div class="deck">
 
-    <!-- ============================================ C1 ==================== -->
     <div class="col">
-      <p class="lab lab--pick"><span class="k">C1</span>Even it up</p>
-      <p class="sub">Nothing moves. One column, same order, same fields. Every gap becomes 22,
-         every control becomes 48, and the chips lose their desktop line breaks so all four sit
-         on one line at the same height. The smallest change that fixes all three faults.</p>
+      <p class="lab lab--pick"><span class="k">P1</span>Icon over caption</p>
+      <p class="sub">Four across, as on desktop. An icon carries the meaning and the caption
+         drops to 11 underneath it, so all four fit one row at 82 a cell. The icon turns white
+         with the text when the pill arrives.</p>
       <p class="tall" id="h1">—</p>
       <div class="phone"><div class="pad" id="c1"></div></div>
     </div>
 
-    <!-- ============================================ C2 ==================== -->
     <div class="col">
-      <p class="lab"><span class="k">C2</span>Pair the short fields</p>
-      <p class="sub">Everything from C1, plus the fields that are short enough to share a line
-         do: First and Last Name side by side, Model and Post Code side by side. Chips go two
-         across. Cuts the form down by roughly a third without dropping anything.</p>
+      <p class="lab"><span class="k">P2</span>Text only, four across</p>
+      <p class="sub">No icons. Closest to the desktop chip, but at 82 a cell two of the four
+         captions need a second line and the type has to sit at 11 to clear the walls. Legible,
+         and tight.</p>
       <p class="tall" id="h2">—</p>
       <div class="phone"><div class="pad" id="c2"></div></div>
     </div>
 
-    <!-- ============================================ C3 ==================== -->
     <div class="col">
-      <p class="lab"><span class="k">C3</span>Ask the question first</p>
-      <p class="sub">C2&rsquo;s layout, reordered: the four chips come first, under a plain question,
-         then the details. You say what you want before you type anything, which is the natural
-         order to answer in and makes the first thing on screen a tap rather than a keyboard.</p>
+      <p class="lab"><span class="k">P3</span>Two by two</p>
+      <p class="sub">Same pill, same container, two rows of two. Each cell is 163 wide, so every
+         caption holds one line at 13 with no icon needed. The pill travels in both directions.
+         Taller than the other two by about 40.</p>
       <p class="tall" id="h3">—</p>
       <div class="phone"><div class="pad" id="c3"></div></div>
     </div>
@@ -138,57 +153,100 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
   </div>
 
   <table class="spec">
-    <tr><th>Fields</th><td>First Name &middot; Last Name &middot; Email &middot; Phone &middot;
-        model select &middot; Post Code &middot; message — all seven kept, in all three</td></tr>
-    <tr><th>Control height</th><td>48 (from 40) — clears the 44 floor</td></tr>
-    <tr><th>Field rhythm</th><td>22 between every field (from 4 / 3 / 26 / 26 / 26)</td></tr>
-    <tr><th>Chips</th><td>desktop hard breaks released on the phone, so all four are one line
-        at 48; C2 and C3 put them two across</td></tr>
-    <tr><th>Submit</th><td>full width at 54 (from 240 wide, left-hung)</td></tr>
+    <tr><th>Pill</th><td>one <code>.chips-thumb</code>, <code>left</code>/<code>width</code> over
+        .46s <code>cubic-bezier(.65,0,.35,1)</code> with <code>scaleY(.90)</code> in flight —
+        the desktop values, unchanged</td></tr>
+    <tr><th>Fields</th><td>First / Last paired &middot; Email &middot; Phone &middot;
+        State / Post Code paired &middot; message — all seven, C2's arrangement</td></tr>
+    <tr><th>Controls</th><td>48 tall (from 40), 22 between every field (from 4 / 3 / 26)</td></tr>
+    <tr><th>Legend</th><td><code>sr-only</code>, as in the real markup — not shown</td></tr>
     <tr><th>Desktop</th><td>untouched — every rule lands inside <code>@media (max-width:900px)</code></td></tr>
   </table>
 
 </div>
 
 <script>
+const IC = {
+  call:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>',
+  tour:'<svg class="ic" viewBox="0 0 24 24"><path d="M3 21V9l6-3v4l6-3v4l6-3v13z"/><path d="M9 21v-4h3v4"/></svg>',
+  quote:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></svg>',
+  virt:'<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>'
+};
+const OPTS = [
+  { v:"Call back",            one:"Call back",    two:"Call<br>back",       ic:IC.call },
+  { v:"Book a factory tour",  one:"Factory tour", two:"Book a<br>factory tour", ic:IC.tour },
+  { v:"Get a Quote",          one:"Get a Quote",  two:"Get a<br>Quote",      ic:IC.quote },
+  { v:"Virtual Consult",      one:"Virtual",      two:"Virtual<br>Consult",  ic:IC.virt }
+];
+
+function chips(kind) {
+  const cells = OPTS.map(function (o, k) {
+    const icon = kind === "p1" ? o.ic : "";
+    const txt  = kind === "p1" ? o.one : (kind === "p3" ? o.v : o.two);
+    return '<label class="cell"><input type="radio" name="et-' + kind + '"' + (k ? "" : " checked") +
+           ' value="' + o.v + '">' + icon + '<span>' + txt + '</span></label>';
+  }).join("");
+  return '<fieldset class="chips2 ' + kind + '"><legend class="sr">What would you like to do?</legend>' +
+         '<span class="thumb init"></span>' + cells + '</fieldset>';
+}
+
+const CHEV = '<svg class="chev" viewBox="0 0 14 8"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>';
 const F = {
   first:'<div class="f"><input type="text" placeholder="First Name"><span class="req">*</span></div>',
   last :'<div class="f"><input type="text" placeholder="Last Name"><span class="req">*</span></div>',
   email:'<div class="f"><input type="email" placeholder="Email"><span class="req">*</span></div>',
   phone:'<div class="f"><input type="tel" placeholder="Phone"><span class="req">*</span></div>',
-  model:'<div class="f"><select><option>Which model?</option><option>Solara</option><option>XTR</option><option>Hornet</option><option>Amaroo</option></select></div>',
-  post :'<div class="f"><input type="text" placeholder="Post Code"></div>',
+  state:'<div class="f f--select"><select><option selected disabled>State</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option></select>' + CHEV + '</div>',
+  post :'<div class="f"><input type="text" inputmode="numeric" placeholder="Post Code"><span class="req">*</span></div>',
   area :'<div class="f"><textarea placeholder="Something else you want to tell us..."></textarea></div>'
 };
-const CHIPS = ["Call back", "Book a factory tour", "Get a Quote", "Virtual Consult"];
-function chips(two) {
-  return '<div class="chipwrap"><p class="leg">What can we help with?</p><div class="chiplist' +
-    (two ? ' two' : '') + '">' +
-    CHIPS.map(function (t) { return '<label class="chip"><span class="box"></span>' + t + '</label>'; }).join("") +
-    '</div></div>';
-}
 const HEAD = '<h2 class="ttl">Ready for Adventure?</h2>' +
   '<p class="lede">Tell us what you are after and one of our experts will reach out within one business day.</p>';
+const CONSENT = '<div class="consent"><input type="checkbox" id="mk"><label for="mk">' +
+  'I would like to receive marketing communications with discounts, updates, new releases and more.' +
+  '<span class="fine">*&nbsp;I understand I can unsubscribe at anytime.</span></label></div>';
 const GO = '<button class="go" type="button">SUBMIT</button>';
 
-document.getElementById("c1").innerHTML = HEAD + '<div class="stack">' +
-  F.first + F.last + F.email + F.phone + F.model + F.post + chips(false) + F.area + '</div>' + GO;
+function form(kind) {
+  return HEAD + '<div class="stack">' +
+    '<div class="grid2">' + F.first + F.last + '</div>' + F.email + F.phone +
+    '<div class="grid2">' + F.state + F.post + '</div>' + chips(kind) + F.area +
+    '</div>' + CONSENT + GO;
+}
+document.getElementById("c1").innerHTML = form("p1");
+document.getElementById("c2").innerHTML = form("p2");
+document.getElementById("c3").innerHTML = form("p3");
 
-document.getElementById("c2").innerHTML = HEAD + '<div class="stack">' +
-  '<div class="grid2">' + F.first + F.last + '</div>' + F.email + F.phone +
-  '<div class="grid2">' + F.model + F.post + '</div>' + chips(true) + F.area + '</div>' + GO;
-
-document.getElementById("c3").innerHTML = HEAD + '<div class="stack">' + chips(true) +
-  '<div class="grid2">' + F.first + F.last + '</div>' + F.email + F.phone +
-  '<div class="grid2">' + F.model + F.post + '</div>' + F.area + '</div>' + GO;
-
-document.addEventListener("click", function (e) {
-  const c = e.target.closest(".chip");
-  if (c) c.classList.toggle("on");
+/* The pill: measured off rects against the container's own box, so the reading
+   never depends on which ancestor happens to be positioned. */
+function place(set, animate) {
+  const thumb = set.querySelector(".thumb");
+  const on = set.querySelector("input:checked");
+  if (!on) return;
+  const cell = on.closest(".cell");
+  const box = set.getBoundingClientRect(), c = cell.getBoundingClientRect();
+  if (!box.width) return;
+  if (!animate) thumb.classList.add("init"); else thumb.classList.remove("init");
+  thumb.style.left = (c.left - box.left) + "px";
+  thumb.style.width = c.width + "px";
+  thumb.style.top = (c.top - box.top) + "px";
+  thumb.style.height = c.height + "px";
+  thumb.style.bottom = "auto";
+  if (animate) {
+    thumb.classList.add("moving");
+    setTimeout(function () { thumb.classList.remove("moving"); }, 460);
+  } else {
+    requestAnimationFrame(function () { thumb.classList.remove("init"); });
+  }
+}
+document.querySelectorAll(".chips2").forEach(function (set) {
+  place(set, false);
+  set.addEventListener("change", function () { place(set, true); });
 });
-/* Measured like for like with the 938 on the live page: the form itself, from
-   the top of the first field to the bottom of the submit -- not the heading
-   and lede above it, which are not part of that number. */
+window.addEventListener("resize", function () {
+  document.querySelectorAll(".chips2").forEach(function (s) { place(s, false); });
+});
+
 ["1","2","3"].forEach(function (k) {
   const top = document.querySelector("#c" + k + " .stack").getBoundingClientRect().top;
   const bot = document.querySelector("#c" + k + " .go").getBoundingClientRect().bottom;
