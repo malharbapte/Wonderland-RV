@@ -958,9 +958,13 @@
   /* Solara's CTA runs the full measure: a bigger target, and it reads as the
      end of the block rather than something floating in it. */
   .solara-copy .btn-solid { display: flex; margin-top: 22px; }
-  .brand-track img { height: 30px; }
-  .brand-track li.sm img { height: 39px; }
-  .brand-track li { margin-right: 34px; }
+  /* Logo and gap scale together by 0.8, so the rhythm of the strip is exactly
+     what it was and roughly a quarter more logos fit across the screen. The
+     1.3x on .sm is preserved. Gap stays a trailing margin, not a flex gap --
+     N gaps rather than N-1, which is what keeps the -50% loop seamless. */
+  .brand-track img { height: 24px; }
+  .brand-track li.sm img { height: 31px; }
+  .brand-track li { margin-right: 27px; }
 
   .home-contact { padding: 48px 0; }
   .home-contact-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
