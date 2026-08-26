@@ -87,7 +87,8 @@ code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f
       <h4>The numbers, so you can move them</h4>
       <table>
         <tr><th>Centre slide</th><td><code>74%</code> of the screen — 277 at 375</td></tr>
-        <tr><th>Side peek</th><td><b>34</b> of each neighbour showing</td></tr>
+        <tr><th>Side peek</th><td><b>19</b> of each neighbour showing — 38 of layout,
+            less the 0.86 scale pulling its edges in</td></tr>
         <tr><th>Side scale / fade</th><td><code>0.86</code> and <code>45%</code> opacity</td></tr>
         <tr><th>Gap</th><td>10</td></tr>
         <tr><th>Shape</th><td>4:3, <code>border-radius: 10</code> — the page's one curvature</td></tr>
@@ -151,8 +152,12 @@ measure();
 window.addEventListener("resize", function () { measure(); centreOn(index, false); });
 
 const slides = [].slice.call(rail.children);
+/* offsetWidth, not getBoundingClientRect().width: the side slides carry a
+   scale(.86), and a rect reports the TRANSFORMED box. Measuring the rect made
+   the pitch 249 instead of 288, so every step landed short of centre and the
+   set-width the loop compares against was wrong by the same fraction. */
 function pitch() {
-  return slides[0].getBoundingClientRect().width + 10;
+  return slides[0].offsetWidth + 10;
 }
 function setWidth() { return pitch() * N; }
 
