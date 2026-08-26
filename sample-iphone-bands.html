@@ -7,201 +7,134 @@
 <link rel="stylesheet" href="assets/css/styles.css?v=142">
 <style>
 /* ==========================================================================
-   Sample only — not linked from either page. The two full-bleed bands on the
-   contact page: The Wonderland Experience, and Where to next.
+   Sample only — not linked from either page. One version of each, phone only.
+   Both bands keep their live geometry: the Experience band 520 with 56/24 of
+   padding, the Where to next band 420 with 48/24. Only what was asked for
+   moves.
    ========================================================================== */
 body { background:#F7F6F4; }
-.doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
+.doc { max-width:1100px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
-.doc h2 { font-family:var(--aviano); font-weight:900; font-size:19px; margin:46px 0 6px;
-          padding-top:26px; border-top:2px solid #111; }
+.doc h2 { font-family:var(--aviano); font-weight:900; font-size:18px; margin:44px 0 6px; }
 .doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
-.probs { margin:14px 0 28px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
-.probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
-            text-transform:uppercase; margin:0 0 8px; color:#666; }
-.probs ul { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
-.deck { display:flex; gap:30px; align-items:flex-start; flex-wrap:wrap; }
-.col { flex:0 0 375px; }
-.lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
-.lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
-          letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
-.lab--pick .k { background:#111; }
-.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:96px; }
+.probs { margin:12px 0 22px; padding:14px 18px; background:#fff;
+         border-left:3px solid var(--orange-deep); max-width:82ch; }
+.probs p { margin:0; font-size:13.5px; line-height:22px; color:#333; }
+.probs p + p { margin-top:8px; }
+.deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
 .tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 10px; }
 .phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
          box-shadow:0 2px 30px rgba(0,0,0,.11); }
+.notes { flex:1 1 300px; font-size:13px; line-height:21px; color:#444; }
+.notes h4 { font-family:var(--aviano); font-weight:900; font-size:13px; margin:0 0 6px; }
+.notes p { margin:0 0 10px; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
 
-/* ---------------------------------------------------------- shared band --- */
+/* ------------------------------------------------------------ the bands --- */
 .band { position:relative; overflow:hidden; }
 .band > img, .band > video { position:absolute; inset:0; width:100%; height:100%;
                              object-fit:cover; display:block; }
-.band .scrim { position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.62) 0%, rgba(0,0,0,.28) 38%, rgba(0,0,0,.05) 72%); }
-.band .copy { position:relative; padding:0 24px 40px; color:#fff; display:flex;
-              flex-direction:column; justify-content:flex-end; height:100%; box-sizing:border-box; }
-.ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-       margin:0; text-transform:uppercase; }
-.bdy { font-size:16px; line-height:24px; margin:14px 0 0; }
+.copy { position:relative; z-index:2; color:#fff; box-sizing:border-box;
+        text-shadow:0 0 6px rgba(0,0,0,.45); }
 
-/* ---- E1 : the pair closes up, band shortens ---- */
-.e1 .band { height:360px; }
-/* ---- E2 : picture, then copy on white ---- */
-.e2 .band { height:0; padding-bottom:56.25%; }
-.e2 .under { padding:28px 24px 34px; }
-.e2 .under .ttl { color:#111; }
-.e2 .under .bdy { color:#444; }
-/* ---- E3 : centred pair ---- */
-.e3 .band { height:400px; }
-.e3 .copy { justify-content:center; text-align:center; padding-bottom:0; }
-.e3 .scrim { background:rgba(0,0,0,.42); }
+/* --- Experience: live geometry, body moved up under the heading ----------- */
+.ex .band { min-height:520px; }
+.ex .copy { min-height:520px; padding:56px 24px;
+            display:flex; flex-direction:column; justify-content:flex-start; }
+.ex .ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+           margin:0; text-transform:uppercase; }
+.ex .bdy { font-size:16px; line-height:24px; margin:14px 0 0; }
 
-/* ---------------------------------------------------- where to next ------- */
-.nttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-        margin:0; color:#fff; text-transform:uppercase; }
-.acts { display:flex; flex-direction:column; gap:12px; margin-top:22px; }
-.cta { display:flex; align-items:center; justify-content:center; height:52px;
-       background:#DB7627; color:#fff; text-decoration:none;
-       font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.06em;
-       text-transform:uppercase; }
-/* N1 : equal width, stacked, full column */
-.n1 .band { height:340px; }
-/* N2 : side by side */
-.n2 .band { height:300px; }
-.n2 .acts { flex-direction:row; }
-.n2 .cta { flex:1 1 0; font-size:12px; letter-spacing:.04em; padding:0 6px; text-align:center; }
-/* N3 : left aligned, one solid one outlined */
-.n3 .band { height:340px; }
-.n3 .copy { align-items:flex-start; }
-.n3 .acts { width:100%; }
-.n3 .cta--ghost { background:none; box-shadow:inset 0 0 0 2px #fff; }
-
-table.spec { border-collapse:collapse; font-size:13px; margin-top:28px; background:#fff; }
-table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
-table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
-code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
+/* --- Where to next: live geometry, the two CTAs share their row ----------- */
+.nx .band { min-height:420px; }
+.nx .copy { min-height:420px; padding:48px 24px; display:flex; flex-direction:column;
+            align-items:center; justify-content:flex-start; gap:24px; text-align:center; }
+.nx .ttl { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+           margin:0; letter-spacing:.02em; }
+.nx .acts { display:flex; flex-direction:row; gap:11px; width:100%; }
+.nx .cta { flex:1 1 0; min-width:0; display:flex; align-items:center; justify-content:center;
+           min-height:48px; padding:14px 8px; background:#DB7627; color:#fff;
+           text-decoration:none; font-family:var(--aviano); font-weight:900;
+           font-size:13px; line-height:1; letter-spacing:.02em; text-transform:uppercase;
+           border-radius:2px; text-shadow:none; }
 </style>
 </head>
 <body>
 <div class="doc">
 
-  <h1>The two full-bleed bands</h1>
-  <p class="note">All live at 375. Both sections keep every word and every link they have now.</p>
+  <h1>The two bands — revised</h1>
+  <p class="note">
+    One version of each, live at 375. Both keep the geometry they have now — the Experience band
+    at 520 with 56/24 of padding, Where to next at 420 with 48/24. Only the two things you asked
+    for have moved.
+  </p>
 
-  <h2>1 &middot; The Wonderland Experience</h2>
+  <h2>The Wonderland Experience</h2>
   <div class="probs">
-    <h3>Measured now</h3>
-    <ul>
-      <li><b>The heading and its own sentence are 294px apart.</b> The copy block is
-          <code>justify-content: space-between</code> inside a 520 band, so the title pins to the
-          top and the body to the bottom with a void between them. They read as two unrelated
-          things rather than a statement and its explanation.</li>
-      <li>The band is <b>520 tall</b> to carry one heading and two lines.</li>
-    </ul>
+    <p>Unchanged: the image, the band height, the padding, the type, the white-on-photo
+       treatment. The copy block was <code>justify-content: space-between</code>, which pinned
+       the sentence to the bottom of the band, 294 below its own heading. It is
+       <code>flex-start</code> now, so the sentence sits <b>14 under the heading</b> and the rest
+       of the band is picture.</p>
   </div>
   <div class="deck">
-    <div class="col">
-      <p class="lab lab--pick"><span class="k">E1</span>Close the pair</p>
-      <p class="sub">The two sit together at the foot of the picture, 14 apart, which is what the
-         desktop band does at its own scale. Nothing else changes — same image, same scrim, same
-         type. Band comes down to 360.</p>
-      <p class="tall">band 360 &middot; now 520</p>
-      <div class="phone e1" id="e1"></div>
+    <div>
+      <p class="tall">band 520 — as now</p>
+      <div class="phone ex" id="ex"></div>
     </div>
-    <div class="col">
-      <p class="lab"><span class="k">E2</span>Picture, then copy</p>
-      <p class="sub">The image becomes a plain 16:9 band and the copy sits beneath it on white.
-         The most legible of the three by some way — black on white, no scrim — and the shortest.
-         It gives up the overlay, which is the section's whole character.</p>
-      <p class="tall">band 211 + copy &middot; now 520</p>
-      <div class="phone e2" id="e2"></div>
-    </div>
-    <div class="col">
-      <p class="lab"><span class="k">E3</span>Centred pair</p>
-      <p class="sub">Title and body centred together in the band, on an even scrim rather than a
-         gradient. Reads as a statement rather than a caption. Centred type is against the grain
-         of the rest of the phone layout, which is left-aligned throughout.</p>
-      <p class="tall">band 400 &middot; now 520</p>
-      <div class="phone e3" id="e3"></div>
+    <div class="notes">
+      <h4>The one number</h4>
+      <p><code>.experience-body</code> goes from <code>margin-top: 48px</code> to
+         <code>14px</code>, and the copy block from <code>space-between</code> to
+         <code>flex-start</code>. Nothing else in the section is touched.</p>
+      <p>14 is the heading-to-content step already used in the footer, so the pair reads the same
+         way there as here.</p>
     </div>
   </div>
 
-  <h2>2 &middot; Where to next</h2>
+  <h2>Where to next</h2>
   <div class="probs">
-    <h3>Measured now</h3>
-    <ul>
-      <li><b>The two buttons are different widths and each is centred on its own</b> — 224 and
-          182, with left edges at 76 and 97. Nothing lines up with anything, and neither lines up
-          with the 24 margin the rest of the page uses.</li>
-      <li>The band is <b>420 tall</b> for a heading and two links.</li>
-    </ul>
+    <p>The two CTAs share their row, at the position they already sit — title 48 from the top of
+       the band, 24 below it, exactly as now. Nothing moves vertically.</p>
+    <p><b>On the photo:</b> no reason at all, and you are right to pull me up on it. There is a
+       video in that band and I used its poster frame because it was cheaper to write. The real
+       clip is in this sample, autoplaying and muted, with the same
+       <code>object-position: center 20%</code> the live band uses.</p>
   </div>
   <div class="deck">
-    <div class="col">
-      <p class="lab lab--pick"><span class="k">N1</span>Equal width, stacked</p>
-      <p class="sub">Both buttons take the full column, so their edges agree with each other and
-         with the margin. Same stacking, same order, just no longer ragged. 52 tall, which clears
-         the tap minimum the current 48 only just makes.</p>
-      <p class="tall">band 340 &middot; now 420</p>
-      <div class="phone n1" id="n1"></div>
+    <div>
+      <p class="tall">band 420 — as now</p>
+      <div class="phone nx" id="nx"></div>
     </div>
-    <div class="col">
-      <p class="lab"><span class="k">N2</span>Side by side</p>
-      <p class="sub">The two share one row, splitting the column evenly. Shortest of the three
-         and it reads as a genuine either/or. The cost is type: at half a column
-         &ldquo;explore the range&rdquo; has to drop to 12.</p>
-      <p class="tall">band 300 &middot; now 420</p>
-      <div class="phone n2" id="n2"></div>
-    </div>
-    <div class="col">
-      <p class="lab"><span class="k">N3</span>Left aligned, one weighted</p>
-      <p class="sub">Everything to the 24 margin like the rest of the page, and the second action
-         becomes an outline so the two stop competing — explore the range is the one you want
-         tapped, meet the team is the alternative.</p>
-      <p class="tall">band 340 &middot; now 420</p>
-      <div class="phone n3" id="n3"></div>
+    <div class="notes">
+      <h4>What side by side costs</h4>
+      <p>Two buttons in a 327 column with an 11 gap are <b>158 each</b>. At the current 15px with
+         30 of side padding, &ldquo;EXPLORE THE RANGE&rdquo; needs about 210 — it does not fit,
+         so the type comes down to <b>13</b> and the side padding to 8.</p>
+      <p>Height is unaffected: both stay at the 48 minimum, and losing the stacked second row
+         gives the band back about 62 of the empty space below them.</p>
     </div>
   </div>
-
-  <table class="spec">
-    <tr><th>Content</th><td>unchanged in all six — same heading, same sentence, same two links
-        to the range and the team</td></tr>
-    <tr><th>Type</th><td>heading 30/33 Aviano, body 16/24 — the phone scale already in use,
-        untouched except N2 where the pair share a row</td></tr>
-    <tr><th>Desktop</th><td>untouched in all six — phone block only</td></tr>
-  </table>
 
 </div>
 
 <script>
-const IMG  = "assets/img/experience-band.jpg";
-const POST = "assets/img/where-to-next.jpg";
-const ETTL = "the wonderland experience";
-const EBDY = "Because no two travellers are the same, we believe no two caravans should be either.";
+document.getElementById("ex").innerHTML =
+  '<div class="band"><img src="assets/img/experience-band.jpg" alt="">' +
+  '<div class="copy"><h2 class="ttl">the wonderland experience</h2>' +
+  '<p class="bdy">Because no two travellers are the same, we believe no two caravans should be either.</p>' +
+  '</div></div>';
 
-function bandE(cls, inner) {
-  return '<div class="band"><img src="' + IMG + '" alt=""><span class="scrim"></span>' + inner + '</div>';
-}
-document.getElementById("e1").innerHTML =
-  bandE("", '<div class="copy"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>');
-document.getElementById("e2").innerHTML =
-  '<div class="band"><img src="' + IMG + '" alt=""></div>' +
-  '<div class="under"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>';
-document.getElementById("e3").innerHTML =
-  bandE("", '<div class="copy"><h2 class="ttl">' + ETTL + '</h2><p class="bdy">' + EBDY + '</p></div>');
-
-function bandN(inner) {
-  return '<div class="band"><img src="' + POST + '" alt=""><span class="scrim"></span>' +
-         '<div class="copy">' + inner + '</div></div>';
-}
-const A = '<a class="cta" href="#" onclick="return false">explore the range</a>';
-const B = '<a class="cta" href="#" onclick="return false">meet the team</a>';
-document.getElementById("n1").innerHTML =
-  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A + B + '</div>');
-document.getElementById("n2").innerHTML =
-  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A + B + '</div>');
-document.getElementById("n3").innerHTML =
-  bandN('<h2 class="nttl">Where to next?</h2><div class="acts">' + A +
-        '<a class="cta cta--ghost" href="#" onclick="return false">meet the team</a></div>');
+document.getElementById("nx").innerHTML =
+  '<div class="band">' +
+  '<video src="assets/img/home/Where%20to%20next_section-vid.mp4" ' +
+  'poster="assets/img/where-to-next.jpg" autoplay muted loop playsinline ' +
+  'style="object-position:center 20%"></video>' +
+  '<div class="copy"><h2 class="ttl">WHERE TO NEXT?</h2>' +
+  '<div class="acts">' +
+  '<a class="cta" href="#" onclick="return false">explore the range</a>' +
+  '<a class="cta" href="#" onclick="return false">meet the team</a>' +
+  '</div></div></div>';
 </script>
 </body>
 </html>
