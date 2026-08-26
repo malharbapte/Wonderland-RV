@@ -676,6 +676,21 @@
    ========================================================================== */
 @media (max-width: 900px) {
   .home-hero { height: 62vw; min-height: 320px; }
+  /* The band is 375 x 320 on a phone -- ratio 1.17, far narrower than the clip's
+     16:9. width:100% with min-height:100% therefore handed YouTube a 1.17 box,
+     and the player drew its own bars across the top and bottom to fit a 16:9
+     picture into it. Sized from the height instead: the player keeps its 16:9,
+     runs wider than the band, and the frame's overflow:hidden crops the sides.
+     min-width is a floor that never binds across the phone range -- at 375 the
+     player is 569 wide, at 900 it is 992 -- so the ratio is never overridden. */
+  .home-hero-media iframe,
+  .home-hero-media video {
+    width: auto;
+    height: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
   .home-hero-copy { padding-bottom: 32px; }
   .home-hero h1 { font-size: var(--t-display); line-height: var(--lh-display); }
   .home-hero-cta { margin-top: 12px; font-size: var(--t-sub); }
