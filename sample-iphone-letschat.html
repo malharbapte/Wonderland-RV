@@ -3,32 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Let's Chat — footer block</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=139">
+<title>Let's Chat — L1 revised</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=140">
 <style>
 /* ==========================================================================
-   Sample only — not linked from either page. The footer block from LET'S CHAT
-   down to the made-in badge, i.e. everything before Subscribe.
-   The footer has no background of its own: white page, black text, orange
-   headings. Drawn that way here.
+   Sample only — not linked from either page. L1, revised: no circles, larger
+   glyphs, and the row running the full column width.
    ========================================================================== */
 body { background:#F7F6F4; }
-.doc { max-width:1400px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
+.doc { max-width:920px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
-.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
-.probs { margin:18px 0 34px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:84ch; }
+.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:80ch; margin:0 0 8px; }
+.probs { margin:18px 0 30px; padding:16px 20px; background:#fff; border-left:3px solid var(--orange-deep); max-width:80ch; }
 .probs h3 { font-family:var(--aviano); font-weight:900; font-size:12px; letter-spacing:.12em;
             text-transform:uppercase; margin:0 0 8px; color:#666; }
-.probs ol { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
-.deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
-.col { flex:0 0 375px; }
-.lab { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 3px; }
-.lab .k { display:inline-block; background:var(--orange-deep); color:#fff; font-size:10px;
-          letter-spacing:.14em; padding:3px 8px; border-radius:3px; margin-right:8px; vertical-align:2px; }
-.lab--pick .k { background:#111; }
-.sub { font-size:12.5px; line-height:19px; color:#666; margin:0 0 6px; min-height:110px; }
+.probs ul { margin:0; padding-left:18px; font-size:13.5px; line-height:22px; color:#333; }
+.deck { display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; }
 .tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 12px; }
-.tall b { color:var(--orange-deep); }
 .phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
          box-shadow:0 2px 30px rgba(0,0,0,.11); color:#000; }
 .pad { padding:36px 24px; font-size:15px; line-height:24px; }
@@ -36,125 +27,90 @@ body { background:#F7F6F4; }
        border-bottom:1px dashed #ddd; margin-bottom:28px; }
 .ctx2 { color:#8a8a8a; font-size:13px; line-height:20px; padding-top:22px;
         border-top:1px dashed #ddd; margin-top:28px; }
-
 .fhead { font-family:var(--aviano); font-weight:900; font-size:15px; line-height:20px;
          letter-spacing:.02em; color:var(--orange-deep); margin:0 0 14px; }
 a { color:inherit; }
-.made { display:block; width:230px; height:auto; margin-top:32px; }
 .ic { width:19px; height:19px; flex:none; stroke:currentColor; fill:none;
       stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; color:var(--orange-deep); }
 
-/* ---- L1 : ruled rows -------------------------------------------------- */
-.l1 .row { display:flex; align-items:center; gap:13px; min-height:52px;
-           padding:6px 0; border-top:1px solid #e4e2de; text-decoration:none; }
-.l1 .row:last-of-type { border-bottom:1px solid #e4e2de; }
-.l1 .row b { font-weight:700; }
-.l1 .row .t { line-height:21px; }
-.l1 .row .sm { display:block; font-size:12px; line-height:17px; color:#666; }
-.l1 .soc { display:flex; gap:6px; margin-top:24px; }
-.l1 .soc a { width:44px; height:44px; display:grid; place-items:center; border-radius:50%;
-             border:1px solid #e4e2de; }
-.l1 .soc svg { width:20px; height:20px; fill:currentColor; }
+/* the three contact rows — unchanged from L1 */
+.row { display:flex; align-items:center; gap:13px; min-height:52px;
+       padding:6px 0; border-top:1px solid #e4e2de; text-decoration:none; }
+.row:last-of-type { border-bottom:1px solid #e4e2de; }
+.row b { font-weight:700; }
+.row .t { line-height:21px; }
 
-/* ---- L2 : condensed --------------------------------------------------- */
-.l2 .pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.l2 .btn { display:flex; align-items:center; justify-content:center; gap:8px; height:48px;
-           border:1px solid var(--ink); border-radius:10px; text-decoration:none;
-           font-weight:700; font-size:14px; }
-.l2 .addr { margin:14px 0 0; font-size:14px; line-height:21px; color:#444; }
-/* Five 44 targets are 220 on their own; with the badge the row came to 442 in
-   a 327 column. It wraps rather than shrinking the targets back under 44. */
-.l2 .strip { display:flex; flex-wrap:wrap; align-items:center;
-             justify-content:space-between; gap:18px 0; margin-top:26px; }
-.l2 .soc { display:flex; gap:10px; flex:1 0 100%; }
-.l2 .soc a { width:44px; height:44px; display:grid; place-items:center; margin:-11px 0; }
-.l2 .soc svg { width:22px; height:22px; fill:currentColor; }
-.l2 .made { width:150px; margin:0; }
-.l2 .soc a { border-radius:50%; border:1px solid #e4e2de; }
+/* ---------------------------------------------------------- the socials ---
+   No disc. The five boxes are 44 -- still the smallest a finger reliably hits
+   -- and space-between puts the first hard against the left edge and the last
+   against the right, so the row measures the same 327 as the rules above it.
+   That fixes the gap at (327 - 5x44) / 4 = 26.75: even by construction, and
+   about 0.6 of the glyph, which is close enough to the rules' own rhythm not
+   to read as a separate block. */
+.soc { display:flex; justify-content:space-between; align-items:center; margin-top:26px; }
+.soc a { display:grid; place-items:center; width:44px; height:44px; color:#000; }
+.soc svg { width:44px; height:44px; display:block; fill:currentColor; }
+.soc a:hover { color:var(--orange-deep); }
 
-/* ---- L3 : panel ------------------------------------------------------- */
-.l3 .panel { background:#FFF2DC; border-radius:10px; padding:22px 20px; }
-.l3 .panel .fhead { margin-bottom:16px; }
-.l3 .row { display:flex; align-items:center; gap:12px; text-decoration:none; min-height:44px; }
-.l3 .row + .row { border-top:1px solid rgba(0,0,0,.09); }
-.l3 .row b { font-weight:700; }
-.l3 .addr { display:flex; gap:12px; padding-top:14px; margin-top:6px;
-            border-top:1px solid rgba(0,0,0,.09); font-size:14px; line-height:21px; color:#444; }
-.l3 .soc { display:flex; gap:6px; margin-top:20px; }
-.l3 .soc a { width:44px; height:44px; display:grid; place-items:center; border-radius:50%;
-             background:rgba(0,0,0,.05); }
-.l3 .soc svg { width:20px; height:20px; fill:currentColor; }
+.made { display:block; width:230px; height:auto; margin-top:32px; }
 
-table.spec { border-collapse:collapse; font-size:13px; margin-top:40px; background:#fff; }
-table.spec th, table.spec td { border:1px solid #e4e4e4; padding:7px 13px; text-align:left; vertical-align:top; }
-table.spec th { background:#fafafa; font-weight:700; white-space:nowrap; }
+.notes { flex:1 1 300px; font-size:13px; line-height:21px; color:#444; }
+.notes h4 { font-family:var(--aviano); font-weight:900; font-size:13px; margin:0 0 6px; }
+.notes table { border-collapse:collapse; font-size:12.5px; margin-top:10px; background:#fff; width:100%; }
+.notes th, .notes td { border:1px solid #e4e4e4; padding:6px 10px; text-align:left; vertical-align:top; }
+.notes th { background:#fafafa; font-weight:700; white-space:nowrap; }
 code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
 </style>
 </head>
 <body>
 <div class="doc">
 
-  <h1>Let&rsquo;s Chat — the footer block before Subscribe</h1>
+  <h1>Let&rsquo;s Chat — L1 revised</h1>
   <p class="note">
-    All three are live. Each shows the block in place: the line above it and the Subscribe
-    heading below are greyed for context and are not part of the change.
+    Live. The line above and the Subscribe heading below are greyed for context and are not
+    part of the change.
   </p>
 
   <div class="probs">
-    <h3>What is measurably wrong today</h3>
-    <ol>
-      <li><b>The social icons are 22px.</b> Half the 44 a finger needs — the same fault already
-          fixed on the video controls. Five bare glyphs on white with 24 between them.</li>
-      <li><b>The three contact lines are undifferentiated.</b> Phone, email and address are all
-          15px black text in one paragraph, but two are links and one is not. Nothing says which
-          you can tap, and the phone number — the most useful thing in the footer — reads the
-          same as the postcode.</li>
-      <li>The block runs <b>226px</b> for three lines, five icons and a badge.</li>
-    </ol>
+    <h3>Changed from L1</h3>
+    <ul>
+      <li><b>The discs are gone.</b> No border, no fill — the glyph alone, in the same black as
+          the link text, going orange on hover like every other link in the footer.</li>
+      <li><b>The glyphs are 44, up from 20.</b> They were sitting small inside a 44 disc; now the
+          glyph <i>is</i> the target.</li>
+      <li><b>The row runs the full column.</b> First icon hard against the left edge, last against
+          the right, so it measures the same 327 as the three rules above it and lines up with
+          them instead of floating inside them.</li>
+    </ul>
   </div>
 
   <div class="deck">
-
-    <div class="col">
-      <p class="lab lab--pick"><span class="k">L1</span>Ruled rows</p>
-      <p class="sub">Phone, email and address become three ruled rows, each a 52 tap target with
-         an orange glyph. Uses the exact rule and hairline of the link accordion directly below
-         it, so the whole footer reads as one ruled stack. Socials become 44 circles.</p>
+    <div>
       <p class="tall" id="h1">—</p>
-      <div class="phone"><div class="pad l1" id="c1"></div></div>
+      <div class="phone"><div class="pad" id="c1"></div></div>
     </div>
 
-    <div class="col">
-      <p class="lab"><span class="k">L2</span>Two buttons, one strip</p>
-      <p class="sub">Call and Email become a pair of outlined buttons — the two things anyone
-         actually wants from a footer — with the address as a quiet line under them. Socials and
-         the made-in badge share one row instead of stacking, which is where the height goes.</p>
-      <p class="tall" id="h2">—</p>
-      <div class="phone"><div class="pad l2" id="c2"></div></div>
+    <div class="notes">
+      <h4>On the gaps</h4>
+      <p>With the row pinned to both edges the gap is not a number I get to pick — it is whatever
+         is left over, divided evenly. Five 44 boxes in 327 leaves 107 across four gaps:
+         <b>26.75 each</b>, even by construction and about 0.6 of the glyph.</p>
+      <p>Bigger glyphs would tighten it further and smaller ones would open it up, so 44 is doing
+         two jobs at once here: it is the smallest reliable tap target, and it is the size that
+         lands the gap closest to the rhythm of the rules above.</p>
+      <table>
+        <tr><th>Glyph</th><th>Gap at 327</th></tr>
+        <tr><td>32</td><td>41.75 — too airy, reads as five separate things</td></tr>
+        <tr><td>38</td><td>34.25</td></tr>
+        <tr><td><b>44</b></td><td><b>26.75</b> — the one below</td></tr>
+        <tr><td>48</td><td>21.75 — tight, and past the point the glyph needs</td></tr>
+      </table>
+      <h4>Unchanged</h4>
+      <p>The three contact rows, their orange glyphs, the <code>#e4e2de</code> hairlines shared
+         with the link accordion, and the made-in badge at 230. Same content throughout — same
+         number, same address, same five networks.</p>
     </div>
-
-    <div class="col">
-      <p class="lab"><span class="k">L3</span>Cream panel</p>
-      <p class="sub">The whole block sits in the cream used by Legendary Service, which lifts the
-         contact details out of a long white footer and gives them somewhere to live. Rows are 44
-         targets, socials sit on a tinted disc. The most visible, and the least like the rest of
-         the footer.</p>
-      <p class="tall" id="h3">—</p>
-      <div class="phone"><div class="pad l3" id="c3"></div></div>
-    </div>
-
   </div>
-
-  <table class="spec">
-    <tr><th>Content</th><td>unchanged in all three — same number, same address, same five
-        networks, same badge. Nothing added, nothing cut.</td></tr>
-    <tr><th>Tap targets</th><td>44 minimum on every link and every social in all three
-        (from 22)</td></tr>
-    <tr><th>Colour</th><td>the footer's own: white ground, black text, <code>#D57114</code>
-        headings, <code>#e4e2de</code> hairlines — L3 adds the <code>#FFF2DC</code> already
-        used by Legendary Service</td></tr>
-    <tr><th>Desktop</th><td>untouched in all three — phone block only</td></tr>
-  </table>
 
 </div>
 
@@ -166,12 +122,6 @@ const SOC = {
   YouTube:'<path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2C1 8.9 1 12 1 12s0 3.1.5 4.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.7.5-4.8.5-4.8s0-3.1-.5-4.8zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/>',
   TikTok:'<path d="M16.6 2h-3v13.1a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.5a5.7 5.7 0 1 0 4.8 5.6V8.6a6.6 6.6 0 0 0 3.9 1.3V6.8a3.6 3.6 0 0 1-3.9-3.6V2z"/>'
 };
-function socials(cls) {
-  return '<div class="soc">' + Object.keys(SOC).map(function (n) {
-    return '<a href="#" aria-label="' + n + '" onclick="return false"><svg viewBox="0 0 24 24">' +
-           SOC[n] + '</svg></a>';
-  }).join("") + '</div>';
-}
 const IC = {
   phone:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>',
   mail:'<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
@@ -179,41 +129,23 @@ const IC = {
 };
 const TEL = "(03) 8692 0032", MAIL = "sales@wonderlandrv.com.au",
       ADDR = "46 Lara Way, Campbellfield, Victoria 3061";
-const ABOVE = '<p class="ctx">&hellip; Join the Facebook group where Wonderland owners share their trips.<br><b>Find out more</b></p>';
-const BELOW = '<p class="ctx2">SUBSCRIBE TO OUR NEWSLETTER &hellip;</p>';
-const MADE = '<img class="made" src="assets/img/made-in-australia.png" alt="Proudly made in Australia">';
 
-/* ---- L1 ---- */
-document.getElementById("c1").innerHTML = ABOVE +
+document.getElementById("c1").innerHTML =
+  '<p class="ctx">&hellip; Join the Facebook group where Wonderland owners share their trips.<br><b>Find out more</b></p>' +
   '<div id="m1"><h3 class="fhead">LET’S CHAT</h3>' +
   '<a class="row" href="#" onclick="return false">' + IC.phone + '<span class="t"><b>' + TEL + '</b></span></a>' +
   '<a class="row" href="#" onclick="return false">' + IC.mail + '<span class="t"><b>' + MAIL + '</b></span></a>' +
   '<a class="row" href="#" onclick="return false">' + IC.pin + '<span class="t">' + ADDR + '</span></a>' +
-  socials() + MADE + '</div>' + BELOW;
+  '<div class="soc">' + Object.keys(SOC).map(function (n) {
+    return '<a href="#" aria-label="' + n + '" onclick="return false"><svg viewBox="0 0 24 24">' +
+           SOC[n] + '</svg></a>'; }).join("") +
+  '</div>' +
+  '<img class="made" src="assets/img/made-in-australia.png" alt="Proudly made in Australia">' +
+  '</div>' +
+  '<p class="ctx2">SUBSCRIBE TO OUR NEWSLETTER &hellip;</p>';
 
-/* ---- L2 ---- */
-document.getElementById("c2").innerHTML = ABOVE +
-  '<div id="m2"><h3 class="fhead">LET’S CHAT</h3>' +
-  '<div class="pair">' +
-  '<a class="btn" href="#" onclick="return false">' + IC.phone + 'Call</a>' +
-  '<a class="btn" href="#" onclick="return false">' + IC.mail + 'Email</a></div>' +
-  '<p class="addr">' + ADDR + '</p>' +
-  '<div class="strip">' + socials() + '<img class="made" src="assets/img/made-in-australia.png" alt="Proudly made in Australia"></div>' +
-  '</div>' + BELOW;
-
-/* ---- L3 ---- */
-document.getElementById("c3").innerHTML = ABOVE +
-  '<div id="m3"><div class="panel"><h3 class="fhead">LET’S CHAT</h3>' +
-  '<a class="row" href="#" onclick="return false">' + IC.phone + '<b>' + TEL + '</b></a>' +
-  '<a class="row" href="#" onclick="return false">' + IC.mail + '<b>' + MAIL + '</b></a>' +
-  '<div class="addr">' + IC.pin + '<span>' + ADDR + '</span></div>' +
-  socials() + '</div>' + MADE + '</div>' + BELOW;
-
-["1","2","3"].forEach(function (k) {
-  const h = Math.round(document.getElementById("m" + k).getBoundingClientRect().height);
-  document.getElementById("h" + k).textContent =
-    "block " + h + "px  ·  now 226px  ·  " + (h < 226 ? (226 - h) + " shorter" : (h - 226) + " taller");
-});
+const m = document.getElementById("m1").getBoundingClientRect();
+document.getElementById("h1").textContent = "block " + Math.round(m.height) + "px  ·  L1 was 324px";
 </script>
 </body>
 </html>
