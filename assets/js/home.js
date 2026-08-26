@@ -105,9 +105,40 @@ function buildControls(frame, iframeId, opts) {
 
   let player = null, muted = true, captions = false;
 
+  /* YouTube names the caption module differently depending on which player it
+     serves: "captions" on the HTML5 player, "cc" on the older one. getOptions()
+     reports what THIS player actually carries, so ask it rather than guess --
+     setOption against the wrong name is accepted silently and does nothing. */
+  function ccName() {
+    try {
+      const opts = player.getOptions() || [];
+      if (opts.indexOf("cc") >= 0) return "cc";
+    } catch (e) {}
+    return "captions";
+  }
+
   function killCaptions() {
     if (!player) return;
-    try { player.unloadModule("captions"); player.unloadModule("cc"); } catch (e) {}
+    try { player.setOption(ccName(), "track", {}); } catch (e) {}
+    try { player.unloadModule("captions"); } catch (e) {}
+    try { player.unloadModule("cc"); } catch (e) {}
+  }
+
+  function showCaptions() {
+    if (!player) return;
+    try { player.loadModule("captions"); } catch (e) {}
+    /* loadModule is not synchronous. Setting the track in the same tick lands
+       before the module exists and is dropped on the floor -- which is why the
+       button appeared to do nothing. Set it once the module has arrived, and
+       poll briefly rather than trusting a single delay. */
+    let tries = 0;
+    const grab = setInterval(function () {
+      tries++;
+      try { player.setOption(ccName(), "track", { languageCode: "en" }); } catch (e) {}
+      let on = false;
+      try { on = (player.getOptions() || []).length > 0; } catch (e) {}
+      if (on || tries > 12) clearInterval(grab);
+    }, 150);
   }
 
   withYouTubeApi(function () {
@@ -144,13 +175,7 @@ function buildControls(frame, iframeId, opts) {
     cc.addEventListener("click", function () {
       if (!player) return;
       captions = !captions;
-      try {
-        if (captions) {
-          player.loadModule("captions");
-          player.loadModule("cc");
-          player.setOption("captions", "track", { languageCode: "en" });
-        } else { killCaptions(); }
-      } catch (e) {}
+      if (captions) showCaptions(); else killCaptions();
       cc.setAttribute("aria-label", captions ? "Hide captions" : "Show captions");
       cc.setAttribute("aria-pressed", String(captions));
     });

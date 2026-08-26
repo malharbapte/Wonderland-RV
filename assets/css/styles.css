@@ -593,7 +593,10 @@ input:-webkit-autofill:focus {
   position: absolute;
   top: 88%; left: 50%;
   transform: translate(-50%, -50%);   /* centred across, low in the frame */
-  z-index: 4;
+  /* Above .home-hero-copy, which is also 4. Tied z-indexes fall back to DOM
+     order and the copy comes second, so at 4 the hero's controls painted (and
+     clicked) underneath it. */
+  z-index: 6;
   display: flex;
   gap: 0.12rem;
   opacity: 0;
@@ -1149,6 +1152,9 @@ input:-webkit-autofill:focus {
   /* the controls size off rem, so they need real numbers here — and a 44px
      target, which is the smallest a finger can reliably hit */
   .video-controls { gap: 12px; }
+  /* :hover never happens on a touch screen, so the controls would sit at
+     opacity 0 forever. Shown outright here. */
+  .video-controls { opacity: 1; }
   .video-ctl { width: 44px; height: 44px; font-size: var(--t-caption); }
   .video-ctl svg { width: 20px; height: 20px; }
   .video-nudge {

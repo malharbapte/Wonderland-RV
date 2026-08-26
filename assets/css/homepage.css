@@ -93,6 +93,10 @@
   justify-content: flex-end;
   padding-bottom: 1.16rem;
   color: #fff;
+  /* It is a full-height sheet over the whole hero, so it was swallowing every
+     click meant for the video controls beneath it -- which is why the sound
+     button did nothing. Clicks pass through; the link takes its own back. */
+  pointer-events: none;
 }
 .home-hero h1 {
   font-family: var(--aviano);
@@ -107,7 +111,7 @@
   line-height: 1;
   color: #E88426;
 }
-.home-hero-cta a { transition: font-weight .12s; }
+.home-hero-cta a { transition: font-weight .12s; pointer-events: auto; }
 .home-hero-cta a:hover,
 .home-hero-cta a:focus-visible { font-weight: 900; }
 
