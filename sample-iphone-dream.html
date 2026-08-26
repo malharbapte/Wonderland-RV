@@ -3,184 +3,229 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iPhone — accordion without arrows</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=126">
+<title>Your dream van awaits — slideshow</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=143">
 <style>
-body { background:#f4f4f4; margin:0; font-family: var(--gordita); }
-.doc { padding:40px 28px 90px; }
+/* ==========================================================================
+   Sample only — not linked from home.html. The dream-van tiles become a
+   continuously moving slideshow: one image centred, its two neighbours just
+   showing at either edge. Phone only.
+   ========================================================================== */
+body { background:#F7F6F4; }
+.doc { max-width:1100px; margin:0 auto; padding:44px 28px 90px; font-family:var(--gordita); }
 .doc h1 { font-family:var(--aviano); font-weight:900; font-size:26px; margin:0 0 8px; }
-.doc p.note { font-size:14px; line-height:21px; color:#444; max-width:88ch; margin:0 0 10px; }
-table.t { border-collapse:collapse; font-size:13px; margin:10px 0 16px; background:#fff; }
-table.t th, table.t td { border:1px solid #e2e2e2; padding:5px 11px; text-align:left; vertical-align:top; }
-table.t th { background:#fafafa; font-weight:700; white-space:nowrap; }
-code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#ececec; padding:1px 4px; }
-.rack { display:flex; gap:26px; align-items:flex-start; padding:6px 0 14px; }
-.phone { flex:0 0 390px; --sub:16px; --body:15px; --blh:23px; --radius:10px;
-         --ease:cubic-bezier(.25,.8,.3,1); --dur:.38s; }
-.phone > h3 { font-family:var(--aviano); font-weight:900; font-size:14px; margin:0 0 4px; }
-.phone > .sub { font-size:12.5px; line-height:18px; color:#666; margin:0 0 10px; min-height:92px; }
-.screen { width:390px; background:#fff; border:1px solid #d8d8d8; border-radius:14px;
-          overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.07); }
-.doc .screen h2.dt { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
-                     letter-spacing:-0.01em; margin:0; padding:34px 24px 0; }
-.dgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 24px; margin-top:24px; }
-.shot { aspect-ratio:3/2; overflow:hidden; border-radius:var(--radius); }
-.shot img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
-.cta { display:flex; align-items:center; justify-content:center; margin:24px 24px 0; min-height:48px;
-       background:var(--orange-deep); color:#fff; font-family:var(--aviano); font-weight:900;
-       font-size:16px; text-decoration:none; }
-.pad { height:30px; }
+.doc > p.note { font-size:14px; line-height:21px; color:#444; max-width:84ch; margin:0 0 8px; }
+.probs { margin:12px 0 24px; padding:14px 18px; background:#fff;
+         border-left:3px solid var(--orange-deep); max-width:82ch; }
+.probs p { margin:0; font-size:13.5px; line-height:22px; color:#333; }
+.probs p + p { margin-top:8px; }
+.deck { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
+.tall { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#999; margin:0 0 10px; }
+.phone { width:375px; background:#fff; border-radius:24px; overflow:hidden;
+         box-shadow:0 2px 30px rgba(0,0,0,.11); padding:36px 0 40px; }
+.notes { flex:1 1 320px; font-size:13px; line-height:21px; color:#444; }
+.notes h4 { font-family:var(--aviano); font-weight:900; font-size:13px; margin:18px 0 6px; }
+.notes h4:first-child { margin-top:0; }
+.notes p { margin:0 0 10px; }
+.notes table { border-collapse:collapse; font-size:12.5px; background:#fff; width:100%; margin-top:6px; }
+.notes th, .notes td { border:1px solid #e4e4e4; padding:6px 10px; text-align:left; }
+.notes th { background:#fafafa; font-weight:700; white-space:nowrap; }
+code { font-family:ui-monospace,Menlo,monospace; font-size:12px; background:#f2f0ed; padding:1px 4px; }
 
-/* ---- the accordion, no chevron ---------------------------------------- */
-.acc { margin:26px 0 0; padding:0 24px; }
-.acc-item { position:relative; }
-.acc-item + .acc-item { border-top:1px solid #e4e2de; }
-.acc-head { display:flex; align-items:center; gap:14px; width:100%; min-height:56px;
-            background:none; border:0; padding:0; text-align:left; cursor:pointer; color:inherit; }
-.ic { width:30px; height:30px; flex:none; color:#b4aea6; transition:color var(--dur) var(--ease); }
-.ic svg { width:100%; height:100%; display:block; }
-.ttl { font-family:var(--gordita); font-weight:700; font-size:var(--sub);
-       transition:color var(--dur) var(--ease); }
+/* ------------------------------------------------------- the slideshow ---- */
+.dtitle { font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px;
+          color:#111; margin:0 0 20px; padding:0 24px; text-transform:uppercase; }
 
-/* The height is animated on grid-template-rows rather than max-height, so it
-   travels the true height of the copy and never overshoots or clips. The
-   paragraph fades up a few pixels behind it, which is what stops the reveal
-   reading as a shutter. */
-.acc-body { height:0; overflow:hidden; transition:height var(--dur) var(--ease); }
-.acc-body > p { margin:0; padding:0 0 18px 44px; font-size:var(--body); line-height:var(--blh);
-                opacity:0; transform:translateY(-5px);
-                transition:opacity .26s var(--ease) .05s, transform .26s var(--ease) .05s; }
-.acc-item.is-open .acc-body > p { opacity:1; transform:none; }
+.rail { overflow-x:auto; overflow-y:hidden; display:flex; gap:var(--gap);
+        padding-inline:var(--side); scroll-snap-type:x mandatory;
+        overscroll-behavior-x:contain; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.rail::-webkit-scrollbar { display:none; }
+.slide { flex:0 0 var(--slide); scroll-snap-align:center; scroll-snap-stop:always;
+         aspect-ratio:4/3; border-radius:10px; overflow:hidden; background:#EDE9E3;
+         transform:scale(.86); opacity:.45;
+         transition:transform .45s cubic-bezier(.4,0,.2,1), opacity .45s cubic-bezier(.4,0,.2,1);
+         will-change:transform, opacity; }
+.slide.is-on { transform:scale(1); opacity:1; }
+.slide img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
 
-/* S1 — icon only */
-.s1 .acc-item.is-open .ic { color:var(--orange-deep); }
-/* S2 — icon and heading */
-.s2 .acc-item.is-open .ic,
-.s2 .acc-item.is-open .ttl { color:var(--orange-deep); }
-/* S3 — a rule down the left */
-.s3 .acc-item::before { content:""; position:absolute; left:-24px; top:0; width:3px; height:0;
-                        background:var(--orange-deep); transition:height var(--dur) var(--ease); }
-.s3 .acc-item.is-open::before { height:100%; }
-.s3 .acc-item.is-open .ic { color:var(--orange-deep); }
+.dots { display:flex; justify-content:center; gap:9px; margin-top:20px; }
+.dot { width:6px; height:6px; border-radius:50%; background:#D9D3C8;
+       transition:width .2s ease, background .2s ease; }
+.dot.is-on { width:18px; border-radius:3px; background:var(--orange-deep); }
+
+.cta { display:block; width:calc(100% - 48px); margin:26px auto 0; height:52px;
+       background:var(--orange); color:#fff; text-decoration:none;
+       font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.08em;
+       display:flex; align-items:center; justify-content:center; }
 </style>
 </head>
 <body>
 <div class="doc">
-  <h1>iPhone &mdash; accordion without arrows</h1>
-  <p class="note">A1 with the chevrons gone. Something has to say a row opens, so the three differ
-     in what replaces it. Tap them &mdash; the animation is the same in all three.</p>
-  <table class="t">
-    <tr><th>The animation</th><td>The height travels on <code>grid-template-rows</code> from 0fr to
-      1fr rather than on <code>max-height</code>, so it moves the copy's true height &mdash; no
-      guessed maximum to overshoot, no clipping if the text wraps differently. 0.38s on an
-      ease-out curve, with the paragraph fading up five pixels behind it, which is what stops the
-      reveal reading as a shutter.</td></tr>
-    <tr><th>Worth knowing</th><td>The tidier CSS-only version of this animates a grid row from
-      0fr to 1fr. It does not work here &mdash; in an auto-height grid the 1fr row has no free
-      space to claim, so it resolves to zero and the row never opens at all. Measuring is exact and
-      goes back to Safari 12.</td></tr>
-  </table>
-  <div class="rack">
 
-    <div class="phone s1">
-      <h3>S1 &mdash; The icon carries it</h3>
-      <p class="sub">Nothing but the icon changes: closed it is a hairline outline in grey, open it fills orange. Quietest of the three, and the only one where the heading itself never moves or changes colour.</p>
-      <div class="screen">
-        <h2 class="dt">your dream van awaits</h2>
-        <div class="dgrid">
-          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
-        </div>
-        <a class="cta" href="#">GET A QUOTE</a>
-        <div class="acc" data-acc>
-          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
-        </div>
-        <div class="pad"></div>
-      </div>
-    </div>
+  <h1>Your dream van awaits — moving slideshow</h1>
+  <p class="note">
+    Live, and running on its own. Leave it be and it advances every 3.4s; swipe it and it hands
+    control back to you, then picks up again after a few seconds. It never reaches an end.
+  </p>
 
-    <div class="phone s2">
-      <h3>S2 &mdash; Heading goes orange</h3>
-      <p class="sub">Icon and heading both take the orange when open. The strongest signal of the three without adding any element to the row, and it matches how the nav marks the current page.</p>
-      <div class="screen">
-        <h2 class="dt">your dream van awaits</h2>
-        <div class="dgrid">
-          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
-        </div>
-        <a class="cta" href="#">GET A QUOTE</a>
-        <div class="acc" data-acc>
-          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
-        </div>
-        <div class="pad"></div>
-      </div>
-    </div>
-
-    <div class="phone s3">
-      <h3>S3 &mdash; A rule down the left</h3>
-      <p class="sub">A thin orange bar grows down the left edge of the open row, the icon holds its colour. Reads like an active state in a list; the one that most looks like a control.</p>
-      <div class="screen">
-        <h2 class="dt">your dream van awaits</h2>
-        <div class="dgrid">
-          <div class="shot"><img src="assets/img/home/dream-interior.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-field.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-kitchen.jpg" alt=""></div>
-          <div class="shot"><img src="assets/img/home/dream-awning.jpg" alt=""></div>
-        </div>
-        <a class="cta" href="#">GET A QUOTE</a>
-        <div class="acc" data-acc>
-          <div class="acc-item is-open"><button class="acc-head" aria-expanded="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span><span class="ttl">GO ANYWHERE</span></button><div class="acc-body"><p>Freedom for off-road and off-grid adventures</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.2 2.7v6c0 4.2-3 7.5-7.2 9.3-4.2-1.8-7.2-5.1-7.2-9.3v-6z"/><path d="M9 12l2.1 2.1L15.3 10"/></svg></span><span class="ttl">BUILT TO LAST</span></button><div class="acc-body"><p>Australian made with superior strength and flex</p></div></div>
-          <div class="acc-item"><button class="acc-head" aria-expanded="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5V8.2a2 2 0 012-2h12a2 2 0 012 2v3.3"/><path d="M3 11.5h18v5.2H3z"/><path d="M6 16.7v1.9M18 16.7v1.9"/><path d="M7.5 6.2v-1h9v1"/></svg></span><span class="ttl">TRAVEL IN STYLE</span></button><div class="acc-body"><p>Luxuriously appointed with creature comforts</p></div></div>
-        </div>
-        <div class="pad"></div>
-      </div>
-    </div>
-
+  <div class="probs">
+    <p><b>Now:</b> the four shots are a 2&times;2 grid of tiles — everything visible at once,
+       each one small, and nothing moving.</p>
+    <p><b>Here:</b> one image centred at full size with its two neighbours just showing at either
+       edge, dimmed and scaled back so they read as what is coming rather than as content. The
+       set is laid down three times over and the rail jumps a whole set width when it crosses
+       one, so the movement never stops and never rewinds.</p>
   </div>
+
+  <div class="deck">
+    <div>
+      <p class="tall" id="stat">—</p>
+      <div class="phone" id="ph"></div>
+    </div>
+
+    <div class="notes">
+      <h4>The numbers, so you can move them</h4>
+      <table>
+        <tr><th>Centre slide</th><td><code>74%</code> of the screen — 277 at 375</td></tr>
+        <tr><th>Side peek</th><td><b>34</b> of each neighbour showing</td></tr>
+        <tr><th>Side scale / fade</th><td><code>0.86</code> and <code>45%</code> opacity</td></tr>
+        <tr><th>Gap</th><td>10</td></tr>
+        <tr><th>Shape</th><td>4:3, <code>border-radius: 10</code> — the page's one curvature</td></tr>
+        <tr><th>Dwell</th><td>3.4s per image</td></tr>
+        <tr><th>Travel</th><td>620ms, <code>cubic-bezier(.4, 0, .2, 1)</code></td></tr>
+      </table>
+
+      <h4>How the loop works</h4>
+      <p>The four images are laid down three times, twelve slides in all, and the rail starts in
+         the middle set. Each time it crosses a set boundary it moves a whole set width back or
+         forward with the scroll behaviour off — the pixels either side of the seam are identical,
+         so there is nothing to see. No clone appears twice on screen, and there is no rewind.</p>
+
+      <h4>Swipe</h4>
+      <p>It is a real scroller, not a transform track, so it snaps to centre under your finger.
+         Touching it stops the timer; the timer restarts 6s after you let go.</p>
+
+      <h4>Worth flagging</h4>
+      <p>I cannot watch this run here — animations and transitions do not advance in the preview
+         pane, and scroll events do not fire. The geometry is measured; the motion needs your eye
+         on a real phone.</p>
+    </div>
+  </div>
+
 </div>
+
 <script>
-/* The height is measured and set, rather than left to a 0fr-to-1fr grid: in an
-   auto-height grid the 1fr row has no free space to claim, so it resolves to
-   zero and the row never opens. Measuring is exact, and it works back to
-   Safari 12 rather than needing 16. */
-document.querySelectorAll('[data-acc]').forEach(function (acc) {
-  function shut(it) {
-    var b = it.querySelector('.acc-body');
-    b.style.height = b.scrollHeight + 'px';   /* from its real height, not auto */
-    requestAnimationFrame(function () { b.style.height = '0px'; });
-    it.classList.remove('is-open');
-    it.querySelector('.acc-head').setAttribute('aria-expanded', 'false');
-  }
-  function open(it) {
-    var b = it.querySelector('.acc-body');
-    b.style.height = b.scrollHeight + 'px';
-    it.classList.add('is-open');
-    it.querySelector('.acc-head').setAttribute('aria-expanded', 'true');
-    b.addEventListener('transitionend', function once(ev) {
-      if (ev.propertyName !== 'height') return;
-      b.style.height = 'auto';                /* so it reflows if the text rewraps */
-      b.removeEventListener('transitionend', once);
-    });
-  }
-  acc.querySelectorAll('.acc-item').forEach(function (it) {
-    if (it.classList.contains('is-open')) it.querySelector('.acc-body').style.height = 'auto';
+const SHOTS = [
+  ["assets/img/home/dream-interior.jpg", "Interior"],
+  ["assets/img/home/dream-field.jpg",    "In the field"],
+  ["assets/img/home/dream-kitchen.jpg",  "Kitchen"],
+  ["assets/img/home/dream-awning.jpg",   "Awning"]
+];
+const SETS = 3, DWELL = 3400, TRAVEL = 620, RESUME = 6000;
+
+const ph = document.getElementById("ph");
+ph.innerHTML =
+  '<h2 class="dtitle">your dream van awaits</h2>' +
+  '<div class="rail" id="rail"></div>' +
+  '<div class="dots" id="dots"></div>' +
+  '<a class="cta" href="#" onclick="return false">GET A QUOTE</a>';
+
+const rail = document.getElementById("rail");
+const N = SHOTS.length;
+let html = "";
+for (let s = 0; s < SETS; s++) {
+  SHOTS.forEach(function (sh) {
+    html += '<div class="slide"><img src="' + sh[0] + '" alt=""></div>';
   });
-  acc.addEventListener('click', function (e) {
-    var head = e.target.closest('.acc-head'); if (!head) return;
-    var item = head.parentElement, wasOpen = item.classList.contains('is-open');
-    acc.querySelectorAll('.acc-item.is-open').forEach(shut);
-    if (!wasOpen) open(item);
+}
+rail.innerHTML = html;
+
+/* slide 74% of the rail, so (100 - 74) / 2 = 13% shows either side */
+function measure() {
+  const w = rail.clientWidth;
+  rail.style.setProperty("--slide", Math.round(w * 0.74) + "px");
+  rail.style.setProperty("--gap", "10px");
+  rail.style.setProperty("--side", Math.round(w * 0.13) + "px");
+}
+measure();
+window.addEventListener("resize", function () { measure(); centreOn(index, false); });
+
+const slides = [].slice.call(rail.children);
+function pitch() {
+  return slides[0].getBoundingClientRect().width + 10;
+}
+function setWidth() { return pitch() * N; }
+
+let index = N;                 /* start in the middle set */
+function centreOn(i, animate) {
+  const target = i * pitch();
+  if (animate) glide(target); else { rail.scrollLeft = target; paint(); }
+}
+
+/* scrollLeft is animated by hand rather than with scrollTo({behavior:"smooth"}),
+   which cannot be timed and cannot be interrupted cleanly mid-flight. */
+let raf = null;
+function glide(to) {
+  cancelAnimationFrame(raf);
+  const from = rail.scrollLeft, delta = to - from, t0 = performance.now();
+  (function step(now) {
+    const p = Math.min(1, (now - t0) / TRAVEL);
+    const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;   /* .4 0 .2 1 */
+    rail.scrollLeft = from + delta * e;
+    paint();
+    if (p < 1) raf = requestAnimationFrame(step); else wrap();
+  })(performance.now());
+}
+
+/* The seam: crossing a set boundary moves a whole set width, which lands on an
+   identical pixel because the sets are identical. */
+function wrap() {
+  const W = setWidth();
+  if (rail.scrollLeft >= W * 2 - 1) { rail.scrollLeft -= W; index -= N; }
+  else if (rail.scrollLeft <= W - pitch() - 1) { rail.scrollLeft += W; index += N; }
+  paint();
+}
+
+/* nearest to the rail's centre, measured off rects so there is one frame */
+function paint() {
+  const box = rail.getBoundingClientRect();
+  if (!box.width) return;
+  const mid = box.left + box.width / 2;
+  let best = 0, gap = Infinity;
+  slides.forEach(function (s, k) {
+    const b = s.getBoundingClientRect();
+    const d = Math.abs(b.left + b.width / 2 - mid);
+    if (d < gap) { gap = d; best = k; }
+    s.classList.toggle("is-on", d < b.width / 2);
   });
+  const live = ((best % N) + N) % N;
+  dots.forEach(function (d, k) { d.classList.toggle("is-on", k === live); });
+  document.getElementById("stat").textContent =
+    "image " + (live + 1) + " of " + N + "  ·  advances every 3.4s";
+}
+
+const dotWrap = document.getElementById("dots");
+const dots = SHOTS.map(function (_, k) {
+  const d = document.createElement("span");
+  d.className = "dot" + (k ? "" : " is-on");
+  dotWrap.appendChild(d);
+  return d;
 });
+
+let timer = null, idle = null;
+function play() { clearInterval(timer); timer = setInterval(function () { index++; centreOn(index, true); }, DWELL); }
+function pause() { clearInterval(timer); cancelAnimationFrame(raf); }
+
+rail.addEventListener("pointerdown", function () { pause(); clearTimeout(idle); });
+rail.addEventListener("pointerup", function () {
+  clearTimeout(idle);
+  idle = setTimeout(function () { index = Math.round(rail.scrollLeft / pitch()); wrap(); play(); }, RESUME);
+});
+/* scroll events are not dependable, so the read-out is polled too */
+setInterval(paint, 150);
+
+centreOn(index, false);
+play();
 </script>
 </body>
 </html>
