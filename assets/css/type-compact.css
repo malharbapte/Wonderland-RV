@@ -89,5 +89,9 @@
   .footer-blurb { width: 3.30rem; }
   /* logo eases back so it reads in proportion to the larger footer type */
   .footer-logo { width: 3.40rem; }
-  .footer-legal-right p { max-width: 6.40rem; }
+  /* Was 6.40, which stopped the disclaimer and the photo credit 196 short of
+     the right margin while their own column already ended on it. They fill the
+     column now, so the right edge lands on the margin like everything else in
+     the footer. */
+  .footer-legal-right p { max-width: none; }
 }
