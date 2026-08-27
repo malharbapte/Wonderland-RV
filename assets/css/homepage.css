@@ -18,7 +18,17 @@
 .home .media,
 .home .ph > img { display: block; }
 
-.band { position: relative; }
+/* Breaks out of the capped body, like every other full-bleed section. Above a
+   2376 viewport the rem stops growing at 100px, so the body caps at 23.76rem
+   and centres -- and a band left at the body's width stops reaching the edges.
+   It only shows when zoomed out, because at normal zoom the body IS 100vw.
+   The inner .container still centres on the same axis, since body is centred
+   too. */
+.band {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
 .band .media { position: absolute; inset: 0; }
 .band .media::after { color: #fff; text-shadow: 0 0 0.06rem rgba(0,0,0,.5); }
 .band-copy {
