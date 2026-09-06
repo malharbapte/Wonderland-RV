@@ -19,30 +19,35 @@
   .hero.wl-hero h1 { font-size: 0.96rem; line-height: 1; letter-spacing: -0.05em; }
 }
 
-/* ---------------------------------------------------- voices to our inspiration */
+/* ---------------------------------------------------- voices to our inspiration
+   Sized off the shared --t-* tokens (the same ones .experience-title,
+   .unseen-title and .enquiry-title land on via type-compact.css) rather
+   than the SVG's literal 96/48/36px — those read oversized once the rest
+   of the compact-typed page sits next to them. The tokens already carry a
+   phone value too, so no separate phone font-size override is needed. */
 .wl-intro { padding-top: var(--section-gap); }
 
 .wl-intro-title {
   font-family: var(--aviano);
   font-weight: 900;
-  font-size: 0.96rem;
-  line-height: 0.92rem;
+  font-size: var(--t-heading);
+  line-height: 1;
 }
 
 .wl-intro-kicker {
   margin-top: 0.20rem;
   font-family: var(--gordita);
   font-weight: 500;
-  font-size: 0.48rem;
-  line-height: 0.58rem;
+  font-size: var(--t-sub);
+  line-height: var(--lh-sub);
   color: var(--orange-deep);
 }
 
 .wl-intro-body {
   margin-top: 0.30rem;
   font-family: var(--gordita);
-  font-size: 0.36rem;
-  line-height: 0.44rem;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
 }
 .wl-accent { color: var(--orange-deep); font-weight: 500; }
 
@@ -99,9 +104,9 @@
 /* ============================================================== phone pass */
 @media (max-width: 900px) {
   .wl-intro { padding-top: 40px; }
-  .wl-intro-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
-  .wl-intro-kicker { margin-top: 10px; font-size: var(--t-sub); line-height: var(--lh-sub); }
-  .wl-intro-body { margin-top: 14px; font-size: var(--t-body); line-height: var(--lh-body); }
+  .wl-intro-title { line-height: var(--lh-heading); }   /* font-size already rides the --t-heading token */
+  .wl-intro-kicker { margin-top: 10px; }
+  .wl-intro-body { margin-top: 14px; }
 
   .wl-cards { margin-top: 32px; }
   .wl-cards-inner {
