@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Wonderlanders / Ambassadors — page-specific styles.
+   Loaded on top of styles.css + type-compact.css. The hero, header, footer,
+   Legendary Service, Experience and Rules-band sections are the exact same
+   shared markup/classes used on compact.html, so nothing here re-styles
+   them — this file only covers the hero title override, the "voices to our
+   inspiration" intro, and the Wonderlander card grid.
+
+   Built 1:1 from "Ambassadors Page.svg" (2376 x 6673), same rem-per-100px
+   convention as the rest of the site (see HANDOFF.md §1).
+   ========================================================================== */
+
+/* type-compact.css shrinks .hero h1 to 0.56rem for compact.html's single
+   word ("Contact us"). This page's hero is the two-line "Meet our /
+   Wonderlanders" lockup at the design's full 96px size, so it is restored
+   here — scoped to match type-compact.css's own min-width:901px guard so
+   the phone size (set generically for .hero h1 in styles.css) is untouched. */
+@media (min-width: 901px) {
+  .hero.wl-hero h1 { font-size: 0.96rem; line-height: 1; letter-spacing: -0.05em; }
+}
+
+/* ---------------------------------------------------- voices to our inspiration */
+.wl-intro { padding-top: var(--section-gap); }
+
+.wl-intro-title {
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.96rem;
+  line-height: 0.92rem;
+}
+
+.wl-intro-kicker {
+  margin-top: 0.20rem;
+  font-family: var(--gordita);
+  font-weight: 500;
+  font-size: 0.48rem;
+  line-height: 0.58rem;
+  color: var(--orange-deep);
+}
+
+.wl-intro-body {
+  margin-top: 0.30rem;
+  font-family: var(--gordita);
+  font-size: 0.36rem;
+  line-height: 0.44rem;
+}
+.wl-accent { color: var(--orange-deep); font-weight: 500; }
+
+/* ---------------------------------------------------------- Wonderlander grid */
+/* The design runs this grid full-bleed (edge to edge of the 2376 artboard),
+   unlike the narrower text column above it — the same break-out technique
+   .hero/.experience already use, just re-centred on the body's own cap. */
+.wl-cards {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: var(--section-gap);
+}
+.wl-cards-inner {
+  width: 23.76rem;
+  max-width: 100%;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.495rem;
+}
+
+.wl-card {
+  position: relative;
+  aspect-ratio: 759 / 793;
+  border-radius: 0.155rem;
+  border: 1px solid #e6e6e6;
+  overflow: hidden;
+  background: #fff;
+}
+.wl-card-media { position: absolute; inset: 0; }
+
+.wl-card-name {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 0.16rem 0.22rem;
+  background: var(--blush);
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.40rem;
+  line-height: 1.1;
+  color: #FFF2DC;
+}
+
+/* The Sandy Van Travels card carries a bio under the name, so its ribbon
+   grows to fit rather than needing a hardcoded taller box. */
+.wl-card-bio {
+  margin-top: 0.10rem;
+  font-family: var(--gordita);
+  font-weight: 400;
+  font-size: 0.24rem;
+  line-height: 0.32rem;
+  color: #fff;
+}
+
+/* ============================================================== phone pass */
+@media (max-width: 900px) {
+  .wl-intro { padding-top: 40px; }
+  .wl-intro-title { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .wl-intro-kicker { margin-top: 10px; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  .wl-intro-body { margin-top: 14px; font-size: var(--t-body); line-height: var(--lh-body); }
+
+  .wl-cards { margin-top: 32px; }
+  .wl-cards-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-inline: 24px;
+  }
+  .wl-card { border-radius: var(--radius); }
+  .wl-card-name { padding: 10px 12px; font-size: 15px; }
+  .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
+}
+
+@media (max-width: 560px) {
+  /* Six cards at two-up is already tight; below 560 a single column reads
+     better than a shrinking 2-up grid. */
+  .wl-cards-inner { grid-template-columns: 1fr; max-width: 320px; }
+}

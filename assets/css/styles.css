@@ -211,6 +211,40 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav a:focus-visible,
 .main-nav a[aria-current="page"] { color: var(--orange-deep); }
 
+/* ---- About dropdown -------------------------------------------------
+   Hover-revealed on desktop; §6 rule ("hover does not exist on a phone")
+   means the phone override below shows it outright instead. */
+.nav-item { position: relative; }
+.nav-dropdown {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translate(-50%, 0.06rem);
+  min-width: 2.4rem;
+  padding: 0.14rem 0;
+  background: #fff;
+  border-radius: 0.08rem;
+  box-shadow: 0 0.08rem 0.28rem rgba(0,0,0,.14);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  z-index: 60;
+}
+.nav-item:hover .nav-dropdown,
+.nav-item:focus-within .nav-dropdown {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.nav-dropdown a {
+  display: block;
+  padding: 0.1rem 0.22rem;
+  font-family: var(--gordita);
+  font-weight: 500;
+  font-size: 0.2rem;
+  white-space: nowrap;
+  text-align: left;
+}
+.nav-dropdown a:hover,
+.nav-dropdown a:focus-visible { color: var(--orange-deep); background: #faf6f2; }
+
 .search-btn {
   margin-left: var(--bar-gap);
   flex: none;
@@ -1110,6 +1144,16 @@ input:-webkit-autofill:focus {
     display: block; margin-left: 16px; width: 24px;
   }
   .nav-toggle span { display: block; height: 2px; background: #000; margin: 5px 0; }
+
+  /* ---- About dropdown: shown outright, never on hover ---- */
+  .nav-item { position: static; }
+  .nav-dropdown {
+    position: static;
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    background: transparent; box-shadow: none; border-radius: 0;
+    padding: 0; margin-top: 2px; min-width: 0;
+  }
+  .nav-dropdown a { padding: 8px 0; font-size: 14px; color: #6b6b6b; }
 
   /* ---- hero ---- */
   .hero { height: 62vw; min-height: 320px; }
