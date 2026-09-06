@@ -89,9 +89,23 @@
   line-height: 1.1;
   color: #FFF2DC;
 }
+.wl-card-title { display: block; }
 
-/* The Sandy Van Travels card carries a bio under the name, so its ribbon
-   grows to fit rather than needing a hardcoded taller box. */
+/* Every card rests collapsed (name only) and expands on hover to show its
+   bio, the way Sandy Van Travels used to sit permanently. A grid row
+   animated 0fr -> 1fr grows smoothly to whatever the bio's real length
+   turns out to be, rather than guessing at a max-height. */
+.wl-card-bio-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .30s ease;
+}
+.wl-card-bio-inner { overflow: hidden; min-height: 0; }
+.wl-card:hover .wl-card-bio-wrap,
+.wl-card-name:focus-within .wl-card-bio-wrap {
+  grid-template-rows: 1fr;
+}
+
 .wl-card-bio {
   margin-top: 0.10rem;
   font-family: var(--gordita);
@@ -100,6 +114,7 @@
   line-height: 0.32rem;
   color: #fff;
 }
+.wl-card-bio--tbc { font-style: italic; color: rgba(255,255,255,.8); }
 
 /* ============================================================== phone pass */
 @media (max-width: 900px) {
@@ -116,6 +131,9 @@
   }
   .wl-card { border-radius: var(--radius); }
   .wl-card-name { padding: 10px 12px; font-size: 15px; }
+  /* no hover on a phone (§6) — bios sit open outright, same as Sandy Van
+     Travels already did before this card got the hover treatment */
+  .wl-card-bio-wrap { grid-template-rows: 1fr; }
   .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
 }
 
