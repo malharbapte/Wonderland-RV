@@ -71,7 +71,7 @@
 
 .wl-card {
   position: relative;
-  aspect-ratio: 759 / 793;
+  aspect-ratio: 4 / 3;   /* landscape, per request — was the SVG's 759:793 */
   border-radius: 0.155rem;
   border: 1px solid #e6e6e6;
   overflow: hidden;
