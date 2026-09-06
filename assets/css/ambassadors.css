@@ -79,6 +79,20 @@
 }
 .wl-card-media { position: absolute; inset: 0; }
 
+/* styles.css gives .ph > img the cover treatment, but each card's inline
+   onload drops the .ph class the moment its photo resolves — so the rule
+   stops applying and the image falls back to its own ratio (these are wide
+   banner crops, 1920x755 and the like, so they sat as a strip at the top of
+   a 4:3 box). Re-stated here without the .ph dependency: whatever aspect a
+   photo arrives at, it fills the frame and crops rather than letterboxes.
+   Pulled slightly above centre because the name band masks the lower edge. */
+.wl-card-media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
 .wl-card-name {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 0.16rem 0.22rem;
