@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About dropdown — 3 options</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=157">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=157">
+<style>
+/* ==========================================================================
+   THE PROBLEM
+   --------------------------------------------------------------------------
+   The live dropdown I first shipped was a plain single-column list. The
+   reference screenshot (wonderlandrv.com.au) is a mega-menu: a "Meet the
+   Team / Our Partners" column, then a "Wonderlanders" column with a dash
+   bullet in front of each ambassador name, continuing into a third column
+   when the list runs past three rows.
+
+   Three ways to get there, in increasing order of literalness. Hover
+   "About" in each numbered header below — every one is the real header
+   component, real fonts, real colours. Nothing here is wired into the live
+   site; these three blocks are never linked from anywhere.
+   ========================================================================== */
+
+body { max-width: none; }
+.rig { padding: 0.6rem 0 2rem; border-bottom: 1px solid #eee; }
+.rig:last-of-type { border-bottom: none; }
+.rig h2 { font-family: var(--gordita); font-size: 0.34rem; margin: 0 0 0.10rem var(--page-margin); }
+.rig .note { font-family: var(--gordita); font-size: 0.22rem; color: #777; margin: 0 0 0.30rem var(--page-margin); max-width: 30rem; line-height: 1.5; }
+.rig .stage { position: relative; border: 1px dashed #ddd; }
+
+/* Each option gets its own header, standalone, at 1:1 scale */
+.stage .site-header { position: static; }
+
+/* -------------------------------------------------------- shared dropdown
+   bits every option reuses: trigger wrapper + reveal mechanics. */
+.nav-item { position: relative; }
+.nav-dropdown {
+  position: absolute; top: 100%; left: 0;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(0.06rem);
+  transition: opacity .16s ease, transform .16s ease;
+  background: #fff;
+  box-shadow: 0 0.10rem 0.34rem rgba(0,0,0,.16);
+  border-radius: 0.06rem;
+  z-index: 60;
+}
+.nav-item:hover .nav-dropdown,
+.nav-item:focus-within .nav-dropdown {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateY(0);
+}
+.nav-dropdown a { font-family: var(--aviano); font-weight: 900; font-size: 0.19rem; white-space: nowrap; }
+.nav-dropdown a:hover, .nav-dropdown a:focus-visible { color: var(--orange-deep); }
+
+/* ============================================================ OPTION 1 ===
+   Exact mega-menu: three fixed columns, matching the reference 1:1 —
+   col 1 plain links, col 2 "Wonderlanders" heading + first 3 dash items,
+   col 3 the remaining 2 dash items picking up at the same row height. */
+.dd-a { display: grid; grid-template-columns: repeat(3, auto); gap: 0 0.70rem; padding: 0.36rem 0.50rem; }
+.dd-a .col { display: flex; flex-direction: column; gap: 0.20rem; }
+.dd-a .heading { color: var(--ink); }
+.dd-a .dash a { display: flex; gap: 0.10rem; }
+.dd-a .dash a::before { content: "\2014"; color: #bbb; }
+.dd-a .col3 { padding-top: 0.39rem; }   /* aligns with col 2's first dash row, under the heading */
+
+/* ============================================================ OPTION 2 ===
+   Two-column mega-menu: col 1 the same, col 2 is "Wonderlanders" plus the
+   full five-item list run as one column rather than artificially split. */
+.dd-b { display: grid; grid-template-columns: auto auto; gap: 0 0.80rem; padding: 0.36rem 0.50rem; }
+.dd-b .col { display: flex; flex-direction: column; gap: 0.20rem; }
+.dd-b .heading { color: var(--ink); }
+.dd-b .dash a { display: flex; gap: 0.10rem; }
+.dd-b .dash a::before { content: "\2014"; color: #bbb; }
+
+/* ============================================================ OPTION 3 ===
+   Compact single column: everything stacked, a quiet caption divides
+   Wonderlanders from the two page links above it. Same markup shape works
+   unchanged in the phone nav panel, unlike options 1 and 2. */
+.dd-c { display: flex; flex-direction: column; gap: 0.16rem; padding: 0.34rem 0.46rem; min-width: 2.6rem; }
+.dd-c .divider { margin-top: 0.10rem; padding-top: 0.16rem; border-top: 1px solid #eee; color: #999; font-family: var(--gordita); font-weight: 700; font-size: 0.15rem; letter-spacing: 0.14em; }
+.dd-c .dash a { display: flex; gap: 0.10rem; }
+.dd-c .dash a::before { content: "\2014"; color: #bbb; }
+</style>
+</head>
+<body>
+
+<h1 style="font-family:var(--aviano); font-size:0.5rem; margin:0.5rem var(--page-margin) 0;">About dropdown — 3 options</h1>
+<p style="font-family:var(--gordita); font-size:0.22rem; color:#777; margin:0.10rem var(--page-margin) 0.4rem; max-width:34rem; line-height:1.5;">
+  Hover "About" in each header. All three keep "Meet the Team" / "Our Partners" as inert placeholders and "Wonderlanders" (and every ambassador name) linking to ambassadors.html — matching what's already live. Nothing on this page is linked from the site.
+</p>
+
+<!-- ================================================================ 1 -->
+<section class="rig">
+  <h2>1 &middot; Exact mega-menu (closest to the reference)</h2>
+  <p class="note">Three fixed columns, same shape as the screenshot you sent: Meet the Team / Our Partners, then Wonderlanders + 3 names, then the last 2 names picking up in a third column. Most literal match — but it's the widest panel, and the "column 3 with no heading" layout only reads cleanly with exactly this many names; a 6th or 7th ambassador would need a rethink.</p>
+  <div class="stage">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href="#" aria-label="Wonderland RV"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="#">Range</a>
+          <a href="#">Buy</a>
+          <a href="#">Events</a>
+          <div class="nav-item">
+            <a href="#" aria-haspopup="true" aria-current="page">About</a>
+            <div class="nav-dropdown dd-a">
+              <div class="col">
+                <a href="#">Meet the Team</a>
+                <a href="#">Our Partners</a>
+              </div>
+              <div class="col">
+                <a href="ambassadors.html" class="heading">Wonderlanders</a>
+                <div class="dash"><a href="ambassadors.html">Lost Tribe Adventures</a></div>
+                <div class="dash"><a href="ambassadors.html">Wheatland Wanderers</a></div>
+                <div class="dash"><a href="ambassadors.html">Livin In Sanity</a></div>
+              </div>
+              <div class="col col3">
+                <div class="dash"><a href="ambassadors.html">Few Laps Around the Sun</a></div>
+                <div class="dash"><a href="ambassadors.html">Sandy Van Travels</a></div>
+              </div>
+            </div>
+          </div>
+          <a href="#">Media</a>
+          <a href="#">Contact</a>
+        </nav>
+        <button class="search-btn" type="button" aria-label="Search">
+          <svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a class="btn-build" href="#">Build your Caravan</a>
+        <button class="nav-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+  </div>
+</section>
+
+<!-- ================================================================ 2 -->
+<section class="rig">
+  <h2>2 &middot; Two-column mega-menu</h2>
+  <p class="note">Same grouping — Wonderlanders gets its own heading and dash bullets — but the five names run as one column instead of being split at a fixed point. Narrower panel than option 1, and it scales cleanly if a 6th or 7th Wonderlander is added later (the column just grows).</p>
+  <div class="stage">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href="#" aria-label="Wonderland RV"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="#">Range</a>
+          <a href="#">Buy</a>
+          <a href="#">Events</a>
+          <div class="nav-item">
+            <a href="#" aria-haspopup="true" aria-current="page">About</a>
+            <div class="nav-dropdown dd-b">
+              <div class="col">
+                <a href="#">Meet the Team</a>
+                <a href="#">Our Partners</a>
+              </div>
+              <div class="col">
+                <a href="ambassadors.html" class="heading">Wonderlanders</a>
+                <div class="dash"><a href="ambassadors.html">Lost Tribe Adventures</a></div>
+                <div class="dash"><a href="ambassadors.html">Wheatland Wanderers</a></div>
+                <div class="dash"><a href="ambassadors.html">Few Laps Around the Sun</a></div>
+                <div class="dash"><a href="ambassadors.html">Livin In Sanity</a></div>
+                <div class="dash"><a href="ambassadors.html">Sandy Van Travels</a></div>
+              </div>
+            </div>
+          </div>
+          <a href="#">Media</a>
+          <a href="#">Contact</a>
+        </nav>
+        <button class="search-btn" type="button" aria-label="Search">
+          <svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a class="btn-build" href="#">Build your Caravan</a>
+        <button class="nav-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+  </div>
+</section>
+
+<!-- ================================================================ 3 -->
+<section class="rig">
+  <h2>3 &middot; Compact single column</h2>
+  <p class="note">No mega-menu — one narrow column, same dash-bullet treatment, a quiet "WONDERLANDERS" caption instead of a second heading-style link. Smallest panel and the least visual change from what's already live. Its markup also drops straight into the phone nav panel unchanged, where options 1 and 2 would need their columns collapsed first.</p>
+  <div class="stage">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href="#" aria-label="Wonderland RV"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="#">Range</a>
+          <a href="#">Buy</a>
+          <a href="#">Events</a>
+          <div class="nav-item">
+            <a href="#" aria-haspopup="true" aria-current="page">About</a>
+            <div class="nav-dropdown dd-c">
+              <a href="#">Meet the Team</a>
+              <a href="#">Our Partners</a>
+              <span class="divider">WONDERLANDERS</span>
+              <div class="dash"><a href="ambassadors.html">Lost Tribe Adventures</a></div>
+              <div class="dash"><a href="ambassadors.html">Wheatland Wanderers</a></div>
+              <div class="dash"><a href="ambassadors.html">Few Laps Around the Sun</a></div>
+              <div class="dash"><a href="ambassadors.html">Livin In Sanity</a></div>
+              <div class="dash"><a href="ambassadors.html">Sandy Van Travels</a></div>
+            </div>
+          </div>
+          <a href="#">Media</a>
+          <a href="#">Contact</a>
+        </nav>
+        <button class="search-btn" type="button" aria-label="Search">
+          <svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a class="btn-build" href="#">Build your Caravan</a>
+        <button class="nav-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+  </div>
+</section>
+
+</body>
+</html>

@@ -211,39 +211,52 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .main-nav a:focus-visible,
 .main-nav a[aria-current="page"] { color: var(--orange-deep); }
 
-/* ---- About dropdown -------------------------------------------------
-   Hover-revealed on desktop; §6 rule ("hover does not exist on a phone")
-   means the phone override below shows it outright instead. */
+/* ---- About dropdown ---------------------------------------------------
+   Mega-menu, matching wonderlandrv.com.au's own About dropdown: a Meet the
+   Team / Our Partners column, then Wonderlanders as a heading over its
+   first three names, then the remaining names continuing in a third
+   column at the same row height. Hover-revealed on desktop; §6 rule
+   ("hover does not exist on a phone") means the phone override below
+   shows it outright instead. */
 .nav-item { position: relative; }
 .nav-dropdown {
   position: absolute;
-  top: 100%; left: 50%;
-  transform: translate(-50%, 0.06rem);
-  min-width: 2.4rem;
-  padding: 0.14rem 0;
+  top: 100%; left: 0;
+  transform: translateY(0.06rem);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0 0.70rem;
+  padding: 0.36rem 0.50rem;
   background: #fff;
-  border-radius: 0.08rem;
-  box-shadow: 0 0.08rem 0.28rem rgba(0,0,0,.14);
+  border-radius: 0.06rem;
+  box-shadow: 0 0.10rem 0.34rem rgba(0,0,0,.16);
   opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity .18s ease, transform .18s ease;
+  transition: opacity .16s ease, transform .16s ease;
   z-index: 60;
 }
 .nav-item:hover .nav-dropdown,
 .nav-item:focus-within .nav-dropdown {
   opacity: 1; visibility: visible; pointer-events: auto;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
 }
+.nav-dropdown .dd-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.20rem;
+}
+/* the third column has no heading of its own — it continues the second
+   column's list, so it drops down to align with that list's first row */
+.nav-dropdown .dd-col--cont { padding-top: 0.39rem; }
 .nav-dropdown a {
-  display: block;
-  padding: 0.1rem 0.22rem;
-  font-family: var(--gordita);
-  font-weight: 500;
-  font-size: 0.2rem;
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.19rem;
   white-space: nowrap;
-  text-align: left;
 }
+.nav-dropdown .dd-item { display: flex; gap: 0.10rem; }
+.nav-dropdown .dd-item::before { content: "\2014"; color: #bbb; }
 .nav-dropdown a:hover,
-.nav-dropdown a:focus-visible { color: var(--orange-deep); background: #faf6f2; }
+.nav-dropdown a:focus-visible { color: var(--orange-deep); }
 
 .search-btn {
   margin-left: var(--bar-gap);
@@ -1145,15 +1158,22 @@ input:-webkit-autofill:focus {
   }
   .nav-toggle span { display: block; height: 2px; background: #000; margin: 5px 0; }
 
-  /* ---- About dropdown: shown outright, never on hover ---- */
+  /* ---- About dropdown: shown outright, never on hover. The three-column
+     mega-menu collapses into one stacked list — there's no room for
+     columns in a 375-wide panel, and the columns exist on desktop only to
+     avoid one long list, which isn't a problem once it's centred and
+     scrollable with the rest of the phone nav. ---- */
   .nav-item { position: static; }
   .nav-dropdown {
     position: static;
+    grid-template-columns: none;
     opacity: 1; visibility: visible; pointer-events: auto; transform: none;
     background: transparent; box-shadow: none; border-radius: 0;
-    padding: 0; margin-top: 2px; min-width: 0;
+    padding: 0; margin-top: 2px; gap: 4px 0;
   }
-  .nav-dropdown a { padding: 8px 0; font-size: 14px; color: #6b6b6b; }
+  .nav-dropdown .dd-col--cont { padding-top: 0; }
+  .nav-dropdown a { padding: 6px 0; font-size: 14px; color: #6b6b6b; }
+  .nav-dropdown .dd-item { justify-content: center; }
 
   /* ---- hero ---- */
   .hero { height: 62vw; min-height: 320px; }
