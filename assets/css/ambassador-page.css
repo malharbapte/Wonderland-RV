@@ -1,0 +1,360 @@
+/* ==========================================================================
+   Individual Wonderlander page — built 1:1 from
+   "Individual ambassador page template-2.svg" (2376 x 10332), same
+   rem-per-100px convention as the rest of the site (HANDOFF.md §1).
+
+   Loaded on top of styles.css + type-compact.css + ambassadors.css. The
+   header, hero, Wonderland Experience band, pink rules band and footer are
+   the shared components untouched; the card component in the "meet more"
+   strip is ambassadors.css's .wl-card, reused wholesale so its hover/CTA
+   behaviour stays in one place. Everything else lives here.
+
+   Geometry is taken from the SVG's own rects, except the page margin: the
+   comp still draws the original 501.5 gutter, while the site long ago cut
+   that to --page-margin (376). Content columns follow the site.
+
+   DESKTOP ONLY for now — the phone pass is deliberately deferred, so the
+   @media block at the foot is a provisional stack to keep the page usable,
+   not a designed mobile layout.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ hero --
+   Same .hero shell as every other page (8.81rem, full-bleed media, scrim).
+   Title and sub ride the shared tokens, so nothing is restated here beyond
+   the two-line-safe line-height the other display lockups use. */
+.amb-hero h1 { line-height: 0.475rem; }
+
+/* ------------------------------------------------------------- quote mark
+   The orange double-slash that opens the bio, and again in cream on the
+   blush band. Two skewed bars rather than a glyph, matching the comp. */
+.amb-qmark { display: flex; gap: 0.07rem; }
+.amb-qmark i {
+  display: block;
+  width: 0.15rem; height: 0.42rem;
+  background: var(--orange);
+  transform: skewX(-16deg);
+}
+.amb-qmark--cream i { background: #FFEBCC; }
+
+/* ------------------------------------------------------------------ intro
+   Full-bleed two-up: the bio sits in a narrow right-aligned column and the
+   video runs from x 829 all the way off the right edge, as drawn. */
+/* The comp starts this text at x 166 — left of the site's own gutter, which
+   it can afford because the comp still draws the wider original margin. Held
+   to --page-margin instead, an 8.29rem column would leave the bio only about
+   200px of measure, which is unreadable. The split moves to 10.39rem
+   (margin + the comp's own 5.47rem measure + its 1.16rem gap) so the text
+   keeps its designed line length and the site keeps its left edge; the video
+   gives up the difference. */
+.amb-intro {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: var(--section-gap);
+  display: grid;
+  grid-template-columns: 10.39rem 1fr;
+  align-items: start;
+}
+
+.amb-intro-copy {
+  padding-left: var(--page-margin);
+  padding-right: 1.16rem;
+  text-align: right;
+}
+.amb-intro-copy .amb-qmark { justify-content: flex-start; margin-bottom: 0.30rem; }
+.amb-intro-copy p {
+  margin: 0 0 0.34rem;
+  margin-left: auto;
+  max-width: 5.50rem;
+  font-family: var(--gordita);
+  font-size: 0.30rem;
+  line-height: 0.44rem;
+}
+.amb-sign {
+  margin-top: 0.46rem;
+  font-family: var(--gordita);
+  line-height: 0.36rem;
+}
+.amb-sign b { display: block; font-weight: 700; font-size: 0.26rem; color: var(--orange-deep); }
+.amb-sign span { display: block; font-weight: 400; font-size: 0.26rem; color: var(--orange); }
+
+/* video + socials ---------------------------------------------------------- */
+.amb-video {
+  aspect-ratio: 1547 / 870;
+  border-radius: 0.13rem;
+  overflow: hidden;
+  background: #D9D9D9;
+}
+.amb-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.amb-socials {
+  margin-top: 0.50rem;
+  display: flex;
+  gap: 1.05rem;
+}
+.amb-socials a,
+.amb-socials .ph {
+  width: 0.94rem; height: 0.94rem;
+  flex: 0 0 auto;
+  border-radius: 0.04rem;
+}
+
+/* ------------------------------------------------------------- travel tips
+   A horizontally scrolling strip of staggered columns, as drawn: three
+   columns of 5.15rem, each a pair of tiles whose split differs so the
+   seam never lines up. The cream panel is the next column showing through.
+   Scroll-snap does the paging; the arrows just nudge the same scroller. */
+.amb-tips { margin-top: var(--section-gap); }
+.amb-tips-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.40rem;
+}
+.amb-tips-arrows { display: flex; gap: 0.24rem; }
+.amb-tips-arrows button {
+  width: 0.44rem; height: 0.44rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background .2s ease, color .2s ease;
+}
+.amb-tips-arrows button:hover,
+.amb-tips-arrows button:focus-visible { background: var(--orange); color: #fff; }
+.amb-tips-arrows svg { width: 0.20rem; height: 0.20rem; }
+
+.amb-tips-strip {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.44rem;
+  padding: 0 var(--page-margin);
+  display: flex;
+  gap: 0.22rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+/* The comp fills the right third of this band with a flat cream panel. That
+   reads as the empty space past the last tile in a static picture, but here
+   the strip really scrolls, so a fixed panel just striped through the tiles.
+   It is carried instead as a cream tail that sits after the final column —
+   same colour doing the same job, without cutting across anything. */
+.amb-tips-tail {
+  flex: 0 0 7.91rem;
+  align-self: stretch;
+  background: #FFF2DC;
+}
+.amb-tips-strip::-webkit-scrollbar { display: none; }
+
+.amb-tips-col {
+  flex: 0 0 5.15rem;
+  display: flex; flex-direction: column; gap: 0.21rem;
+  scroll-snap-align: start;
+}
+.amb-tips-col .ph { border-radius: 0.04rem; }
+.amb-tips-col--a .ph:nth-child(1) { height: 6.81rem; }
+.amb-tips-col--a .ph:nth-child(2) { height: 6.81rem; }
+.amb-tips-col--b .ph:nth-child(1) { height: 4.53rem; }
+.amb-tips-col--b .ph:nth-child(2) { height: 9.06rem; }
+.amb-tips-col--c .ph:nth-child(1) { height: 9.06rem; }
+.amb-tips-col--c .ph:nth-child(2) { height: 4.53rem; }
+
+/* ------------------------------------------------------------- van layout */
+.amb-layout { margin-top: var(--section-gap); }
+.amb-plan {
+  margin-top: 0.44rem;
+  width: 13.72rem;       /* the comp's own box, narrower than the text column */
+  max-width: 100%;
+  margin-inline: auto;
+  height: 5.17rem;
+  border: 1px solid #1c1c1c;
+  border-radius: 0.095rem;
+  overflow: hidden;
+}
+.amb-plan.ph { border-color: #d0d0d0; }
+.amb-plan > img { width: 100%; height: 100%; object-fit: contain; }
+
+.amb-specs {
+  margin-top: 0.62rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.amb-spec { padding: 0 0.40rem; text-align: center; }
+.amb-spec + .amb-spec { border-left: 1px solid #cfcfcf; }
+.amb-spec h3 {
+  margin: 0 0 0.16rem;
+  font-family: var(--gordita);
+  font-weight: 700;
+  font-size: 0.26rem;
+  line-height: 0.34rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--orange-deep);
+}
+.amb-spec p {
+  margin: 0;
+  font-family: var(--gordita);
+  font-size: 0.22rem;
+  line-height: 0.32rem;
+  color: #6b6b6b;
+}
+
+.amb-cta-row { display: flex; justify-content: center; margin-top: 0.56rem; }
+.btn-dream {
+  width: 6.06rem; height: 0.88rem;
+  background: var(--orange);
+  color: #fff;
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.22rem;
+  line-height: 0.88rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  --btn-fill: var(--orange);
+  box-shadow: inset 0 0 0 0.02rem var(--btn-fill);
+  transition: background .42s ease, color .42s ease;
+}
+.btn-dream:hover,
+.btn-dream:focus-visible { background: #fff; color: var(--btn-fill); }
+.btn-dream:active { background: var(--btn-fill); color: #fff; }
+
+/* -------------------------------------------------------------- quote band */
+.amb-quote {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: var(--section-gap);
+  min-height: 5.43rem;
+  background: var(--blush);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.amb-quote .amb-qmark {
+  position: absolute;
+  top: -0.21rem; left: 2.20rem;
+}
+.amb-quote blockquote {
+  margin: 0;
+  padding: 0 var(--page-margin);
+  text-align: center;
+  font-family: var(--gordita);
+  font-style: italic;
+  font-size: 0.38rem;
+  line-height: 0.56rem;
+  color: #FFF2DC;
+}
+.amb-quote figcaption {
+  margin-top: 0.50rem;
+  padding: 0 2.20rem 0 0;
+  text-align: right;
+  font-family: var(--gordita);
+  line-height: 0.30rem;
+  color: #FFF2DC;
+}
+.amb-quote figcaption b { display: block; font-weight: 700; font-size: 0.22rem; }
+.amb-quote figcaption span { display: block; font-weight: 400; font-size: 0.22rem; opacity: .85; }
+
+/* --------------------------------------------------------- meet more strip
+   Same .wl-card component as ambassadors.html — so the CTA hover, the bio
+   reveal and the blush name band all come from one place. Only the frame
+   changes: the comp draws these portrait (693 x 794) rather than the 4:3
+   the grid on ambassadors.html uses. */
+.amb-more { margin-top: var(--section-gap); }
+.amb-more-strip {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.52rem;
+  padding: 0 var(--page-margin) 0.20rem;
+  display: flex;
+  gap: 0.44rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.amb-more-strip::-webkit-scrollbar { display: none; }
+.amb-more-strip .wl-card {
+  flex: 0 0 6.93rem;
+  aspect-ratio: 693 / 794;
+  scroll-snap-align: start;
+}
+
+/* --------------------------------------------------------------------- faq
+   <details>/<summary> so the accordion works with no JS and stays keyboard
+   and screen-reader native. The marker is replaced by a drawn chevron that
+   flips when the row is open. */
+.amb-faq { margin-top: var(--section-gap); }
+.amb-faq-list { margin-top: 0.52rem; }
+
+.amb-faq details { border-bottom: 1px solid #cfcfcf; }
+.amb-faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.40rem;
+  padding: 0.30rem 0;
+  font-family: var(--gordita);
+  font-weight: 500;
+  font-size: 0.28rem;
+  line-height: 0.40rem;
+  transition: color .2s ease;
+}
+.amb-faq summary::-webkit-details-marker { display: none; }
+.amb-faq summary:hover,
+.amb-faq details[open] summary { color: var(--orange-deep); }
+.amb-faq summary svg {
+  flex: 0 0 auto;
+  width: 0.26rem; height: 0.26rem;
+  transition: transform .25s ease;
+}
+.amb-faq details[open] summary svg { transform: rotate(180deg); }
+
+.amb-faq-body {
+  padding: 0 0 0.34rem;
+  font-family: var(--gordita);
+  font-size: 0.24rem;
+  line-height: 0.36rem;
+}
+.amb-faq-body p { margin: 0 0 0.14rem; }
+.amb-faq-body ul { margin: 0 0 0.14rem; padding-left: 0.34rem; list-style: disc; }
+.amb-faq-body li { margin-bottom: 0.06rem; }
+
+/* A row whose copy has not been written yet. Visibly provisional on purpose
+   — nothing here is invented to fill the gap. */
+.amb-faq .is-tbc summary { color: #9a9a9a; font-style: italic; }
+
+/* ============================================================== phone pass
+   PROVISIONAL. The mobile design pass is deferred; this only stops the
+   desktop grids from overflowing a phone. Replace wholesale later. */
+@media (max-width: 900px) {
+  .amb-intro { grid-template-columns: 1fr; gap: 32px; }
+  .amb-intro-copy { padding: 0 24px; text-align: left; }
+  .amb-intro-copy p { margin-left: 0; max-width: none; font-size: 15px; line-height: 24px; }
+  .amb-intro-copy .amb-qmark i { width: 10px; height: 26px; }
+  .amb-sign { margin-top: 24px; }
+  .amb-sign b, .amb-sign span { font-size: 15px; }
+  .amb-socials { padding-left: 24px; gap: 20px; margin-top: 24px; }
+  .amb-socials a, .amb-socials .ph { width: 44px; height: 44px; }
+
+  .amb-tips-strip, .amb-more-strip { padding: 0 24px; background: none; }
+  .amb-tips-col { flex-basis: 60vw; }
+  .amb-tips-col--a .ph:nth-child(1), .amb-tips-col--a .ph:nth-child(2) { height: 40vw; }
+  .amb-tips-col--b .ph:nth-child(1), .amb-tips-col--c .ph:nth-child(2) { height: 26vw; }
+  .amb-tips-col--b .ph:nth-child(2), .amb-tips-col--c .ph:nth-child(1) { height: 54vw; }
+
+  .amb-plan { height: 200px; }
+  .amb-specs { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+  .amb-spec { padding: 0; }
+  .amb-spec + .amb-spec { border-left: 0; }
+  .amb-spec h3 { font-size: 15px; line-height: 20px; }
+  .amb-spec p { font-size: 14px; line-height: 20px; }
+  .btn-dream { width: 100%; max-width: 320px; height: 52px; line-height: 52px; font-size: 13px; }
+
+  .amb-quote { min-height: 0; padding: 40px 0; }
+  .amb-quote .amb-qmark { left: 24px; top: -14px; }
+  .amb-quote blockquote { padding: 0 24px; font-size: 18px; line-height: 28px; }
+  .amb-quote figcaption { padding-right: 24px; margin-top: 24px; }
+  .amb-quote figcaption b, .amb-quote figcaption span { font-size: 13px; }
+
+  .amb-more-strip .wl-card { flex-basis: 70vw; }
+
+  .amb-faq summary { font-size: 15px; line-height: 22px; padding: 16px 0; }
+  .amb-faq summary svg { width: 14px; height: 14px; }
+  .amb-faq-body { font-size: 14px; line-height: 22px; padding-bottom: 18px; }
+}
