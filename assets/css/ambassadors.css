@@ -108,9 +108,22 @@
   object-position: center 42%;
 }
 
+/* On hover the panel still grows over the photo as it always did, but the
+   photo no longer sits there being eaten: it lifts a fixed 0.22rem and eases
+   very slightly closer, anchored to its own bottom edge so the growth reads
+   as the card leaning in rather than the image drifting off. Both run on the
+   same .30s as the bio, so the whole card resolves as one movement. */
+.wl-card-media { transition: transform .30s ease; }
+.wl-card:hover .wl-card-media,
+.wl-card:focus-visible .wl-card-media { transform: translateY(-0.22rem); }
+
+.wl-card-media > img { transition: transform .30s ease; transform-origin: 50% 100%; }
+.wl-card:hover .wl-card-media > img,
+.wl-card:focus-visible .wl-card-media > img { transform: scale(1.06); }
+
 .wl-card-name {
   position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 0.16rem 0.22rem;
+  padding: 0.16rem 0.22rem 0.30rem;
   background: var(--blush);
   font-family: var(--aviano);
   font-weight: 900;
