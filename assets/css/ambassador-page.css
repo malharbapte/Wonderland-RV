@@ -24,6 +24,11 @@
    the two-line-safe line-height the other display lockups use. */
 .amb-hero h1 { line-height: 0.475rem; }
 
+/* The header shot is 3:2 and the band is 2.7:1, so cover crops top and bottom.
+   Centred cut the family off at the knees; 65% keeps them whole, feet down,
+   and still holds the Coober Pedy sign and the full length of the rig. */
+.amb-hero .media > img { object-position: center 65%; }
+
 /* ------------------------------------------------------------- quote mark
    styles.css already carries the mark as a trimmed SVG outline (.qmark,
    the same one the Legendary Service reviews use), positioned above-left of
