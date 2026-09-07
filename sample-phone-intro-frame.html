@@ -28,7 +28,13 @@
 body { padding: 0 0 24px; }
 
 @media (max-width: 900px) {
-  .va .amb-intro, .vb .amb-intro, .vc .amb-intro { display: flex; flex-direction: column; gap: 0; }
+  /* align-items must be reset: the desktop rule sets it to start, which makes
+     each row shrink to its own content width — so the social row was only
+     236px wide and sat at the left, and justify-content had nothing to centre
+     it inside. Stretching the rows is what actually fixes the alignment. */
+  .va .amb-intro, .vb .amb-intro, .vc .amb-intro {
+    display: flex; flex-direction: column; gap: 0; align-items: stretch;
+  }
   .va .amb-intro > div:last-child,
   .vb .amb-intro > div:last-child,
   .vc .amb-intro > div:last-child { display: contents; }
@@ -48,7 +54,7 @@ body { padding: 0 0 24px; }
     border-radius: var(--radius);
     box-shadow: 0 6px 22px rgba(0,0,0,.10);
   }
-  .va .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
+  .va .amb-socials { order: 1; margin-top: 22px; justify-content: center; padding-left: 0; }
 
   /* --------------------------------------------------- B - a spoken opening
      Their first line is set as a lede at subheading size, the film follows it,
@@ -58,7 +64,7 @@ body { padding: 0 0 24px; }
   .vb .amb-intro-copy { order: -2; padding: 30px 24px 0; }
   .vb .amb-video { order: -1; margin-top: 22px; border-radius: 0; }
   .vb .amb-intro-rest { order: 0; padding: 22px 24px 0; }
-  .vb .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
+  .vb .amb-socials { order: 1; margin-top: 22px; justify-content: center; padding-left: 0; }
   .vb .amb-intro-copy p {
     font-size: 19px; line-height: 28px;      /* the lede */
   }
@@ -101,6 +107,39 @@ body { padding: 0 0 24px; }
     vertical-align: -1px;
   }
 
+
+  /* ============================ B1, with the mark ON the letter's corner ===
+     The ask: the mark should sit on the top-left corner of the first letter,
+     the way the desktop has it, rather than stacked above the line.
+
+     The desktop formula is right:calc(100% - 0.15rem) on a zero-width anchor
+     sitting at the first letter — i.e. the mark's right edge lands just past
+     that letter's left edge, and its bottom on the cap line. The trouble at
+     375 is arithmetic: the copy starts at a 24px gutter, so a 38px mark
+     overlapping the letter by 6px wants to begin at -8px. Three ways round it.
+
+     All three keep B1's smaller mark and its calmer spacing. */
+  .c1 .amb-intro-copy, .c2 .amb-intro-copy, .c3 .amb-intro-copy { padding-top: 46px; }
+  .c1 .amb-intro-copy .qmark,
+  .c2 .amb-intro-copy .qmark,
+  .c3 .amb-intro-copy .qmark { left: auto; }
+
+  /* C1 — let it hang. The mark keeps its full size and bleeds about 8px past
+     the gutter into the margin, which the section can afford because it is
+     full-bleed anyway. Nothing else moves. */
+  .c1 .amb-intro-copy .qmark { width: 38px; right: -6px; bottom: calc(100% - 5px); }
+
+  /* C2 — make room for it. The lede is indented far enough that the mark sits
+     entirely on the page, giving the exact desktop relationship with nothing
+     off-screen. Costs the lede some measure. */
+  .c2 .amb-intro-copy p { padding-left: 36px; }
+  .c2 .amb-intro-copy .qmark { width: 38px; right: -6px; bottom: calc(100% - 5px); }
+
+  /* C3 — shrink it. A 26px mark overlapping by 5px starts at 3px, so it fits
+     the gutter as-is: no bleed, no indent, no lost measure. The mark reads
+     more as punctuation than as a graphic. */
+  .c3 .amb-intro-copy .qmark { width: 26px; right: -5px; bottom: calc(100% - 4px); }
+
   /* ------------------------------------------------ C - the story in cream
      The copy moves onto the same cream panel the travel tips answer sits on,
      so the two halves of the page read as one system rather than loose text
@@ -111,7 +150,7 @@ body { padding: 0 0 24px; }
     background: #FFF2DC;
     padding: 34px 24px 30px;
   }
-  .vc .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
+  .vc .amb-socials { order: 1; margin-top: 22px; justify-content: center; padding-left: 0; }
 }
 </style>
 </head>
@@ -148,12 +187,15 @@ body { padding: 0 0 24px; }
 <script>
 var v = new URLSearchParams(location.search).get("v") || "a";
 /* b1/b2/b3 are refinements of B, so they carry .vb as well as their own class */
-document.documentElement.className = /^b[123]$/.test(v) ? ("vb " + v) : ("v" + v);
+document.documentElement.className =
+  /^b[123]$/.test(v) ? ("vb " + v)
+  : /^c[123]$/.test(v) ? ("vb b1 " + v)   /* corner tries ride on B1 */
+  : ("v" + v);
 
 /* B splits the copy: the first paragraph stays as the lede, everything after
    it moves below the film. Done here rather than in the markup so the sample
    stays a pure phone experiment. */
-if (v === "b" || /^b[123]$/.test(v)) {
+if (v === "b" || /^[bc][123]$/.test(v)) {
   var copy = document.querySelector(".amb-intro-copy");
   var kids = [].slice.call(copy.children);
   var rest = document.createElement("div");
