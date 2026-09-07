@@ -93,6 +93,26 @@ body { padding: 0 0 10px; }
   /* --------------------------------------- more air before the pink quote */
   .amb-cta-row { margin-top: 30px; }
   .amb-quote { margin-top: 44px; }      /* was 19px of gap */
+
+  /* ------------------------------------------------------ the review text
+     It was centred, which gave four lines of four different lengths an
+     hourglass rag, and it broke mid-phrase on "so we / knew". Worse, the box
+     had three axes at once: mark on the left, quote centred, attribution
+     right.
+
+     Everything now hangs off one left edge at the same 24px the mark uses,
+     and the lines break on whole clauses, so each one is a complete thought:
+
+       We'd lived in a van for 18 months,
+       so we knew exactly what we'd change.
+       Wonderland RV got it right.
+       It's home for the five of us.
+
+     The desktop <br>s are untouched and still set its own three lines; these
+     spans only become blocks down here. */
+  .amb-quote blockquote { text-align: left; }
+  .amb-quote blockquote .ln { display: block; }
+  .amb-quote figcaption { text-align: left; padding: 0 24px; margin-top: 22px; }
 }
 </style>
 </head>
@@ -129,9 +149,9 @@ body { padding: 0 0 10px; }
 <!-- ============================================================== QUOTE -->
 <figure class="amb-quote">
   <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
-  <blockquote>We&rsquo;d lived in a van for 18 months, so we knew<br>
-    exactly what we&rsquo;d change. Wonderland RV<br>
-    got it right. It&rsquo;s home for the five of&nbsp;us.</blockquote>
+  <blockquote><span class="ln">We&rsquo;d lived in a van for 18 months, </span><span class="ln">so we knew<br>
+    exactly what we&rsquo;d change. </span><span class="ln">Wonderland RV<br>
+    got it right. </span><span class="ln">It&rsquo;s home for the five of&nbsp;us.</span></blockquote>
   <figcaption><b>JESS &amp; DOUG</b><span>WONDERLANDER</span></figcaption>
 </figure>
 
