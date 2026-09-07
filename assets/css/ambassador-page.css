@@ -25,16 +25,13 @@
 .amb-hero h1 { line-height: 0.475rem; }
 
 /* ------------------------------------------------------------- quote mark
-   The orange double-slash that opens the bio, and again in cream on the
-   blush band. Two skewed bars rather than a glyph, matching the comp. */
-.amb-qmark { display: flex; gap: 0.07rem; }
-.amb-qmark i {
-  display: block;
-  width: 0.15rem; height: 0.42rem;
-  background: var(--orange);
-  transform: skewX(-16deg);
-}
-.amb-qmark--cream i { background: #FFEBCC; }
+   styles.css already carries the mark as a trimmed SVG outline (.qmark,
+   the same one the Legendary Service reviews use), positioned above-left of
+   whatever it sits in. It is reused here rather than redrawn — an earlier
+   pass hand-rolled two skewed divs under a .amb-qmark name, which both
+   duplicated the component and collided with it. */
+.amb-intro-copy p { position: relative; }
+.amb-intro-copy .qmark { width: 1.02rem; fill: var(--orange); }
 
 /* ------------------------------------------------------------------ intro
    Full-bleed two-up: the bio sits in a narrow right-aligned column and the
@@ -60,22 +57,21 @@
   padding-right: 1.16rem;
   text-align: right;
 }
-.amb-intro-copy .amb-qmark { justify-content: flex-start; margin-bottom: 0.30rem; }
 .amb-intro-copy p {
   margin: 0 0 0.34rem;
   margin-left: auto;
   max-width: 5.50rem;
   font-family: var(--gordita);
-  font-size: 0.30rem;
-  line-height: 0.44rem;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
 }
 .amb-sign {
   margin-top: 0.46rem;
   font-family: var(--gordita);
-  line-height: 0.36rem;
 }
-.amb-sign b { display: block; font-weight: 700; font-size: 0.26rem; color: var(--orange-deep); }
-.amb-sign span { display: block; font-weight: 400; font-size: 0.26rem; color: var(--orange); }
+/* same pair the review attributions use (.service-name / .service-role) */
+.amb-sign b { display: block; font-weight: 700; font-size: 0.21rem; line-height: 0.28rem; color: var(--orange-deep); }
+.amb-sign span { display: block; font-weight: 400; font-size: 0.21rem; line-height: 0.28rem; color: var(--orange); }
 
 /* video + socials ---------------------------------------------------------- */
 .amb-video {
@@ -182,7 +178,7 @@
   margin: 0 0 0.16rem;
   font-family: var(--gordita);
   font-weight: 700;
-  font-size: 0.26rem;
+  font-size: var(--t-body);
   line-height: 0.34rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -191,8 +187,8 @@
 .amb-spec p {
   margin: 0;
   font-family: var(--gordita);
-  font-size: 0.22rem;
-  line-height: 0.32rem;
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
   color: #6b6b6b;
 }
 
@@ -203,7 +199,7 @@
   color: #fff;
   font-family: var(--aviano);
   font-weight: 900;
-  font-size: 0.22rem;
+  font-size: 0.18rem;            /* same as .btn-submit, the other page CTA */
   line-height: 0.88rem;
   letter-spacing: 0.04em;
   text-align: center;
@@ -226,9 +222,11 @@
   background: var(--blush);
   display: flex; flex-direction: column; justify-content: center;
 }
-.amb-quote .amb-qmark {
-  position: absolute;
-  top: -0.21rem; left: 2.20rem;
+.amb-quote .qmark {
+  right: auto; bottom: auto;
+  left: 2.20rem; top: -0.35rem;
+  width: 1.20rem;
+  fill: #FFEBCC;
 }
 .amb-quote blockquote {
   margin: 0;
@@ -236,8 +234,8 @@
   text-align: center;
   font-family: var(--gordita);
   font-style: italic;
-  font-size: 0.38rem;
-  line-height: 0.56rem;
+  font-size: var(--t-sub);       /* the other blush band (.rules-band p) sits here too */
+  line-height: 0.44rem;
   color: #FFF2DC;
 }
 .amb-quote figcaption {
@@ -245,11 +243,10 @@
   padding: 0 2.20rem 0 0;
   text-align: right;
   font-family: var(--gordita);
-  line-height: 0.30rem;
   color: #FFF2DC;
 }
-.amb-quote figcaption b { display: block; font-weight: 700; font-size: 0.22rem; }
-.amb-quote figcaption span { display: block; font-weight: 400; font-size: 0.22rem; opacity: .85; }
+.amb-quote figcaption b { display: block; font-weight: 700; font-size: 0.21rem; line-height: 0.28rem; }
+.amb-quote figcaption span { display: block; font-weight: 400; font-size: 0.21rem; line-height: 0.28rem; opacity: .85; }
 
 /* --------------------------------------------------------- meet more strip
    Same .wl-card component as ambassadors.html — so the CTA hover, the bio
@@ -291,8 +288,8 @@
   padding: 0.30rem 0;
   font-family: var(--gordita);
   font-weight: 500;
-  font-size: 0.28rem;
-  line-height: 0.40rem;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   transition: color .2s ease;
 }
 .amb-faq summary::-webkit-details-marker { display: none; }
@@ -308,8 +305,8 @@
 .amb-faq-body {
   padding: 0 0 0.34rem;
   font-family: var(--gordita);
-  font-size: 0.24rem;
-  line-height: 0.36rem;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
 }
 .amb-faq-body p { margin: 0 0 0.14rem; }
 .amb-faq-body ul { margin: 0 0 0.14rem; padding-left: 0.34rem; list-style: disc; }
@@ -326,7 +323,7 @@
   .amb-intro { grid-template-columns: 1fr; gap: 32px; }
   .amb-intro-copy { padding: 0 24px; text-align: left; }
   .amb-intro-copy p { margin-left: 0; max-width: none; font-size: 15px; line-height: 24px; }
-  .amb-intro-copy .amb-qmark i { width: 10px; height: 26px; }
+  .amb-intro-copy .qmark { width: 44px; }
   .amb-sign { margin-top: 24px; }
   .amb-sign b, .amb-sign span { font-size: 15px; }
   .amb-socials { padding-left: 24px; gap: 20px; margin-top: 24px; }
@@ -347,7 +344,7 @@
   .btn-dream { width: 100%; max-width: 320px; height: 52px; line-height: 52px; font-size: 13px; }
 
   .amb-quote { min-height: 0; padding: 40px 0; }
-  .amb-quote .amb-qmark { left: 24px; top: -14px; }
+  .amb-quote .qmark { left: 24px; top: -14px; width: 52px; }
   .amb-quote blockquote { padding: 0 24px; font-size: 18px; line-height: 28px; }
   .amb-quote figcaption { padding-right: 24px; margin-top: 24px; }
   .amb-quote figcaption b, .amb-quote figcaption span { font-size: 13px; }
