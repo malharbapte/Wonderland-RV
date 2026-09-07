@@ -10,43 +10,74 @@
 <link rel="stylesheet" href="assets/css/ambassador-page.css?v=176">
 <style>
 /* ==========================================================================
-   The Wonderlander page's opening section, one option per frame at a real
-   phone width. Variant arrives as ?v= and lands on <html>.
+   Three structurally different treatments of the opening section, each at a
+   real phone width. Variant arrives as ?v= and lands on <html>.
 
-   The video is left as its labelled placeholder rather than three live
-   YouTube embeds — the box is the exact size and shape the real clip fills,
-   and what is being judged here is the order, not the footage.
+   The last pass was three versions of one idea — move the video up the
+   column. These change the shape of the section instead: one layers, one
+   re-weights the type, one puts the copy in the page's own cream panel.
 
-   Everything is inside the phone block. Desktop is gated; nothing here
-   touches it.
+   The media wrapper is display:contents on the phone throughout, so the
+   video, the copy and the socials become siblings and can be ordered freely
+   without touching the markup.
+
+   The video is left as its labelled placeholder — the box is the exact size
+   and shape the clip fills. Everything is inside the phone block; desktop is
+   gated and untouched.
    ========================================================================== */
 body { padding: 0 0 24px; }
 
 @media (max-width: 900px) {
-  /* ------------------------------------------ 2 and 3 - video leads ------
-     The section is one column on a phone, so the media block just moves
-     ahead of the copy. No markup change, only order. */
-  .v2 .amb-intro > div:last-child,
-  .v3 .amb-intro > div:last-child { order: -1; }
-  .v2 .amb-intro, .v3 .amb-intro { display: flex; flex-direction: column; gap: 24px; }
-  .v2 .amb-intro-copy, .v3 .amb-intro-copy { padding-top: 34px; }
+  .va .amb-intro, .vb .amb-intro, .vc .amb-intro { display: flex; flex-direction: column; gap: 0; }
+  .va .amb-intro > div:last-child,
+  .vb .amb-intro > div:last-child,
+  .vc .amb-intro > div:last-child { display: contents; }
 
-  /* ------------------------------------------------ 3 - the rest folds --- */
-  .v3 .amb-intro-copy p.is-more { display: none; }
-  .v3 .amb-intro-copy.is-open p.is-more { display: block; }
-  .amb-more-btn {
-    display: none;
-    margin: 4px 0 0;
-    padding: 10px 0;
-    font-family: var(--gordita);
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--orange-deep);
-    display: inline-flex; align-items: center; gap: 6px;
+  /* ------------------------------------------- A - the copy overlaps the film
+     The video runs edge to edge under the hero and the copy is lifted onto
+     its lower edge as a white card, the way the site already layers .hero and
+     .experience. Gives the section a front-of-book feel and buys back the
+     height the overlap covers. */
+  .va .amb-video { order: -1; border-radius: 0; }
+  .va .amb-intro-copy {
+    order: 0;
+    position: relative; z-index: 2;
+    margin: -52px 16px 0;
+    padding: 26px 20px 2px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 22px rgba(0,0,0,.10);
   }
-  .v3 .amb-more-btn { display: inline-flex; }
-  .amb-more-btn svg { width: 13px; height: 13px; transition: transform .3s ease; }
-  .amb-more-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .va .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
+
+  /* --------------------------------------------------- B - a spoken opening
+     Their first line is set as a lede at subheading size, the film follows it,
+     and the rest of the story reads underneath at body size. The section
+     opens with a voice rather than a paragraph block, and the video lands
+     after the hook instead of before or after everything. */
+  .vb .amb-intro-copy { order: -2; padding: 30px 24px 0; }
+  .vb .amb-video { order: -1; margin-top: 22px; border-radius: 0; }
+  .vb .amb-intro-rest { order: 0; padding: 22px 24px 0; }
+  .vb .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
+  .vb .amb-intro-copy p {
+    font-size: 19px; line-height: 28px;      /* the lede */
+  }
+  .vb .amb-intro-copy .qmark { width: 52px; }
+  .vb .amb-intro-rest p { font-size: 15px; line-height: 24px; margin: 0 0 16px; }
+  .vb .amb-intro-rest .amb-sign b,
+  .vb .amb-intro-rest .amb-sign span { font-size: 15px; line-height: 22px; }
+
+  /* ------------------------------------------------ C - the story in cream
+     The copy moves onto the same cream panel the travel tips answer sits on,
+     so the two halves of the page read as one system rather than loose text
+     followed by a coloured box further down. Full bleed, no card, no overlap. */
+  .vc .amb-video { order: -1; border-radius: 0; }
+  .vc .amb-intro-copy {
+    order: 0;
+    background: #FFF2DC;
+    padding: 34px 24px 30px;
+  }
+  .vc .amb-socials { order: 1; margin-top: 22px; padding-left: 24px; }
 }
 </style>
 </head>
@@ -81,29 +112,19 @@ body { padding: 0 0 24px; }
   </div>
 </section>
 <script>
-var v = new URLSearchParams(location.search).get("v") || "1";
+var v = new URLSearchParams(location.search).get("v") || "a";
 document.documentElement.className = "v" + v;
 
-if (v === "3") {
+/* B splits the copy: the first paragraph stays as the lede, everything after
+   it moves below the film. Done here rather than in the markup so the sample
+   stays a pure phone experiment. */
+if (v === "b") {
   var copy = document.querySelector(".amb-intro-copy");
-  var paras = [].slice.call(copy.querySelectorAll("p")).filter(function (p) {
-    return !p.classList.contains("amb-sign");
-  });
-  /* first paragraph stays, the rest fold away behind the button */
-  paras.slice(1).forEach(function (p) { p.classList.add("is-more"); });
-
-  var btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "amb-more-btn";
-  btn.setAttribute("aria-expanded", "false");
-  btn.innerHTML = 'Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  paras[paras.length - 1].after(btn);
-
-  btn.addEventListener("click", function () {
-    var open = copy.classList.toggle("is-open");
-    btn.setAttribute("aria-expanded", String(open));
-    btn.childNodes[0].nodeValue = open ? "Read less " : "Read more ";
-  });
+  var kids = [].slice.call(copy.children);
+  var rest = document.createElement("div");
+  rest.className = "amb-intro-rest";
+  kids.slice(1).forEach(function (el) { rest.appendChild(el); });
+  copy.parentNode.insertBefore(rest, copy.nextSibling);
 }
 </script>
 </body>

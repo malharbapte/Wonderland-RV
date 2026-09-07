@@ -3,45 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wonderlander intro on the phone &mdash; 3 options</title>
+<title>Wonderlander intro on the phone &mdash; new options</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=176">
 <style>
 body { font-family: var(--gordita); margin: 0; padding: 28px 20px 60px; background: #f4f4f4; }
 h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
-.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 24px; max-width: 860px; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 24px; max-width: 900px; }
 .row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
 .opt { width: 375px; }
 .opt h2 { font-family: var(--aviano); font-size: 15px; margin: 0 0 4px; }
-.opt h2 b { color: #D57114; }
-.opt p { font-size: 12.5px; line-height: 18px; color: #666; margin: 0 0 6px; min-height: 116px; }
-.metric { font-size: 12px; color: #D57114; font-weight: 700; margin: 0 0 10px; }
-.phone { width: 375px; height: 620px; border: 0; display: block; background: #fff;
+.opt p { font-size: 12.5px; line-height: 18px; color: #666; margin: 0 0 6px; min-height: 128px; }
+.metric { font-size: 12px; color: #D57114; font-weight: 700; margin: 0 0 10px; min-height: 0; }
+.phone { width: 375px; height: 660px; border: 0; display: block; background: #fff;
          border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
-.hint { font-size: 11.5px; color: #999; margin-top: 8px; min-height: 0; }
 </style>
 </head>
 <body>
-<h1>Wonderlander page &mdash; opening section on the phone</h1>
-<p class="lede">Each panel is a real 375px phone viewport. The thing worth fixing: today the section runs 723px and the video sits 444px into it, so a phone reader meets 91 words of bio before there is any sign of the film. The video box is left as its placeholder here &mdash; it is the exact size and shape the real clip fills, and what is being chosen is the order, not the footage. Desktop is untouched by all three.</p>
+<h1>Opening section &mdash; three different shapes</h1>
+<p class="lede">The last set was three versions of one idea: move the video up the column. These change the shape of the section instead &mdash; one layers the copy onto the film, one re-weights the type so the section opens with a voice, one puts the story on the page&rsquo;s own cream. Each panel is a real 375px viewport. The video box is its placeholder at the exact size the clip fills. Desktop is untouched by all three.</p>
 <div class="row">
   <div class="opt">
-    <h2>1 &middot; As it is today</h2>
-    <p>Bio, then video, then the social row. The writing leads, which suits the page, but 91 words is a long way to scroll on a phone before the most engaging thing on the section appears &mdash; and the social icons end up stranded at the very bottom.</p>
-    <p class="metric">723px tall &middot; video starts at 444px</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=1"></iframe>
+    <h2>A &middot; Copy overlaps the film</h2>
+    <p>The video runs edge to edge under the hero and the copy is lifted onto its lower edge as a white card &mdash; the same layering the hero and the Experience band already use. Gives the section a front-of-book feel, and the overlap buys back most of the height the video adds.</p>
+    <p class="metric">655px tall &middot; film first &middot; 68px shorter than today</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=a"></iframe>
   </div>
   <div class="opt">
-    <h2>2 &middot; Video leads</h2>
-    <p>The film moves above the copy, so it sits straight under the hero and is the first thing in view. The bio then reads underneath at full length. Same content in a slightly shorter section &mdash; but the real change is the order.</p>
-    <p class="metric">650px tall &middot; video starts at 0px</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=2"></iframe>
+    <h2>B &middot; Opens with a voice</h2>
+    <p>Their first line is set as a lede at subheading size with the quote mark scaled up to match, the film follows that hook, and the rest of the story reads underneath at body size. Nothing is hidden and nothing is reordered away &mdash; the section just stops being one flat block of 91 words. It is the only one of the three that ends up taller than today, because the lede sets larger.</p>
+    <p class="metric">832px tall &middot; film after the lede &middot; 109px LONGER than today</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=b"></iframe>
   </div>
   <div class="opt">
-    <h2>3 &middot; Video leads, bio folds <b>&mdash; shortest</b></h2>
-    <p>As 2, but only the first paragraph shows and the rest sits behind a &ldquo;Read more&rdquo;. The section comes in at 470px against today&rsquo;s 723px, so it fits inside one screen and travel tips arrive much sooner. The cost is that two thirds of their story is now a tap away rather than simply there.</p>
-    <p class="metric">470px tall &middot; video starts at 0px</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=3"></iframe>
-    <p class="hint">Tap &ldquo;Read more&rdquo;.</p>
+    <h2>C &middot; The story in cream</h2>
+    <p>The copy moves onto the same cream the travel-tips answer sits on, full bleed under the film. The two halves of the page then read as one system rather than loose text with a coloured panel appearing further down. The plainest of the three, and the most native to the page.</p>
+    <p class="metric">719px tall &middot; film first &middot; about the same as today</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=c"></iframe>
   </div>
 </div>
 </body>
