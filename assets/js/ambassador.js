@@ -110,3 +110,29 @@ mountVideo(document.querySelector(".amb-video"), AMBASSADOR_VIDEO_URL,
   else window.addEventListener("load", rest);
   rest();
 })();
+
+/* ------------------------------------------ phone: the film after the hook --
+   On a phone the opening line reads as a lede, the film follows that hook and
+   the rest of the story reads underneath. CSS does the ordering; the only
+   thing markup cannot express is the split, since the paragraphs after the
+   lede have to sit in their own box to be ordered past the film.
+
+   Phone only, and built once. Putting the paragraphs back would be needed to
+   render the desktop column, so this is not undone on resize — rotating a
+   phone stays inside the breakpoint, and crossing it is a desktop window
+   being dragged narrow, which reloads soon enough. Same call as the card
+   rail in wonderlanders.js. */
+(function () {
+  if (!window.matchMedia("(max-width: 900px)").matches) return;
+
+  var copy = document.querySelector(".amb-intro-copy");
+  if (!copy || document.querySelector(".amb-intro-rest")) return;
+
+  var after = [].slice.call(copy.children).slice(1);   // everything past the lede
+  if (!after.length) return;
+
+  var rest = document.createElement("div");
+  rest.className = "amb-intro-rest";
+  after.forEach(function (el) { rest.appendChild(el); });
+  copy.parentNode.insertBefore(rest, copy.nextSibling);
+})();

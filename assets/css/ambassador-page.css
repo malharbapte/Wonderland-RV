@@ -414,21 +414,55 @@
    way the Wonderlander cards already are.
    ========================================================================== */
 @media (max-width: 900px) {
-  /* ---------------------------------------------------------------- intro */
-  .amb-intro { grid-template-columns: 1fr; gap: 32px; }
-  /* padding-top makes room for the quote mark, which hangs above line one */
-  .amb-intro-copy { padding: 34px 24px 0; text-align: left; }
-  .amb-intro-copy p { margin-left: 0; max-width: none; font-size: 15px; line-height: 24px; }
-  /* On desktop the mark hangs to the LEFT of the first letter, which works
-     because the copy is right-aligned with room to its left. Left-aligned at a
-     24px gutter there is no such room — it was landing at -18px, off screen.
-     It sits directly above the first letter instead. */
-  .amb-intro-copy .qmark { width: 44px; left: 0; right: auto; bottom: 100%; }
+  /* ---------------------------------------------------------------- intro
+     The film moves between the hook and the rest of the story. The section is
+     one column here, and the media wrapper goes display:contents so the film,
+     the copy and the socials become siblings that can be ordered freely —
+     no markup change, and desktop keeps its two-column grid untouched.
+
+     align-items has to be reset: the desktop rule sets it to start, which
+     makes each row shrink to its own content width. That is why the social
+     row sat left — it was only 236px wide, so centring it had no effect. */
+  .amb-intro {
+    display: flex; flex-direction: column; gap: 0; align-items: stretch;
+  }
+  .amb-intro > div:last-child { display: contents; }
+
+  /* the opening line, set as a lede. padding-top carries the mark, which
+     hangs above it and is deliberately larger than the type. */
+  .amb-intro-copy { order: -2; padding: 52px 24px 0; text-align: left; }
+  .amb-intro-copy p {
+    margin-left: 0; max-width: none;
+    padding-left: 36px;          /* the space the mark sits in */
+    font-size: 19px; line-height: 28px;
+  }
+  /* Placed breaks (HANDOFF §8). The lede is hand-broken so no line ends on a
+     hyphen — "full-time" and "7-year-old" were splitting across lines, which
+     is what read badly. The spans are inline on desktop, so its wrap is
+     untouched; the hyphens in both words are non-breaking as a second guard. */
+  .amb-intro-copy .ln { display: block; }
+
+  /* The mark sits on the first letter's top-left corner, as it does on
+     desktop: right edge 6px past that letter, underside lifted 6px clear of
+     its cap line. It is allowed past the 24px gutter — the section is full
+     bleed, so there is nothing out there for it to collide with. */
+  .amb-intro-copy .qmark {
+    width: 46px; left: auto; right: -6px; bottom: calc(100% + 6px);
+  }
+
+  .amb-video.video-frame { order: -1; margin-top: 22px; border-radius: 0; }
+
+  /* everything after the film keeps reading at body size and wraps normally */
+  .amb-intro-rest { order: 0; padding: 22px 24px 0; }
+  .amb-intro-rest p { font-size: 15px; line-height: 24px; margin: 0 0 16px; }
 
   .amb-sign { margin-top: 24px; }
   .amb-sign b, .amb-sign span { font-size: 15px; line-height: 22px; }
 
-  .amb-socials { padding-left: 24px; gap: 20px; margin-top: 24px; }
+  .amb-socials {
+    order: 1; margin-top: 24px; gap: 20px;
+    justify-content: center; padding-left: 0;
+  }
   .amb-socials a, .amb-socials .ph { width: 44px; height: 44px; }
 
   /* ---------------------------------------------------------- travel tips */
