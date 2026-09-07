@@ -449,6 +449,16 @@
     width: 46px; left: auto; right: -6px; bottom: calc(100% + 6px);
   }
 
+  /* "Harry (5)." was landing alone on the last line at 360, 412 and 414 —
+     three very common phone widths, and none of them the 375/430 pair the
+     handbook names, which is how it got past the earlier sweep. Binding "and"
+     to it means the last line always carries at least three words.
+
+     Scoped to the phone on purpose: a plain non-breaking space in the markup
+     would apply at every width, and desktop is gated. As a nowrap span it
+     cannot touch the desktop wrap at all. */
+  .amb-intro-copy .nb { white-space: nowrap; }
+
   .amb-video.video-frame { order: -1; margin-top: 22px; border-radius: 0; }
 
   /* everything after the film keeps reading at body size and wraps normally */
