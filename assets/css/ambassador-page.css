@@ -84,13 +84,17 @@
 .amb-sign span { display: block; font-weight: 400; font-size: 0.21rem; line-height: 0.28rem; color: var(--orange); }
 
 /* video + socials ---------------------------------------------------------- */
-.amb-video {
+/* .video-frame carries the player and the sound/CC buttons; only the frame's
+   shape changes here. styles.css sizes the embed at 56.25vw so a full-bleed
+   band crops top and bottom — this box is already 16:9 (1547/870 = 1.778), so
+   the clip fits it exactly and that override is undone. */
+.amb-video.video-frame {
   aspect-ratio: 1547 / 870;
   border-radius: 0.13rem;
-  overflow: hidden;
   background: #D9D9D9;
 }
-.amb-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+.amb-video.video-frame iframe,
+.amb-video.video-frame video { height: 100%; min-height: 0; }
 
 .amb-socials {
   margin-top: 0.50rem;
@@ -229,15 +233,36 @@
   text-transform: uppercase;
   color: var(--orange-deep);
 }
+/* Sub-heading always showing, body dropped open on hover — the same
+   0fr -> 1fr grid row the Wonderlander cards animate with, on the same .30s.
+   No reserved height on the row: it is its headings' height at rest and grows
+   only while a column is open, so the CTA below rides down with it instead of
+   sitting past a permanent gap. Hover cannot be reached from a keyboard, so
+   :focus-visible opens it too. */
+.amb-spec { cursor: default; outline-offset: 4px; }
+.amb-specs { align-items: start; }
+.spec-chev { display: inline-block; width: 0.20rem; height: 0.20rem;
+             vertical-align: baseline; transition: transform .30s ease; }
+.amb-spec:hover .spec-chev,
+.amb-spec:focus-visible .spec-chev { transform: rotate(180deg); }
+
+.spec-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .30s ease; }
+.spec-inner { overflow: hidden; min-height: 0; }
+.amb-spec:hover .spec-wrap,
+.amb-spec:focus-visible .spec-wrap { grid-template-rows: 1fr; }
+
 .amb-spec p {
   margin: 0;
+  padding-top: 0.14rem;
   font-family: var(--gordita);
   font-size: var(--t-caption);
   line-height: var(--lh-caption);
   color: #6b6b6b;
 }
 
-.amb-cta-row { display: flex; justify-content: center; margin-top: 0.56rem; }
+/* Halved from 0.56rem: at the old gap the CTA read as a separate section
+   rather than the close of this one. */
+.amb-cta-row { display: flex; justify-content: center; margin-top: 0.28rem; }
 .btn-dream {
   width: 6.06rem; height: 0.88rem;
   background: var(--orange);

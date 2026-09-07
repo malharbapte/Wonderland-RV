@@ -6,10 +6,10 @@
 <title>Sandy Van Travels — Wonderland RV</title>
 <meta name="description" content="Meet Sandy Van Travels — Jess, Doug and their three kids, travelling Australia full-time in a custom Wonderland RV.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=167">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=167">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=167">
-<link rel="stylesheet" href="assets/css/ambassador-page.css?v=167">
+<link rel="stylesheet" href="assets/css/styles.css?v=168">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=168">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=168">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=168">
 </head>
 <body>
 
@@ -93,9 +93,10 @@
   </div>
 
   <div>
-    <!-- The comp calls for the Sandy Van Travels YouTube video; no URL has
-         been supplied yet, so the frame stands as a labelled placeholder. -->
-    <div class="amb-video ph" data-ph="VIDEO — Sandy Van Travels (YouTube link to come)"></div>
+    <!-- The shared .video-frame component, same as the homepage and Contact
+         page use — same player, same sound/CC buttons. The link lives in
+         assets/js/ambassador.js. -->
+    <div class="amb-video video-frame ph" data-ph="VIDEO — Sandy Van Travels"></div>
     <!-- Social icons are to be copied across from the Wonderland site once
          Sandy Van Travels' own profile links are confirmed. -->
     <div class="amb-socials">
@@ -177,21 +178,24 @@
 <section class="amb-layout">
   <div class="container">
     <h2 class="wl-intro-title">Van layout</h2>
-    <!-- Floorplan artwork for the Sandy Van build has not been supplied. -->
-    <div class="amb-plan ph" data-ph="VAN FLOORPLAN — Sandy Van Travels"></div>
+    <!-- The 2403Q2-F3.7 cutaway, taken from the live Sandy Van Travels page. -->
+    <div class="amb-plan ph" data-ph="VAN FLOORPLAN — Sandy Van Travels">
+      <img src="assets/img/ambassadors/sandy-van-travels/van-layout.jpg" alt="Cutaway of the Sandy Van Travels caravan layout"
+           onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
 
     <div class="amb-specs">
-      <div class="amb-spec">
-        <h3>Front bed &amp; lounge</h3>
-        <p>A queen bed and a lounge up front, tucked away from the kids at the rear.</p>
+      <div class="amb-spec" tabindex="0">
+        <h3>Front bed &amp; lounge <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>A queen bed and a lounge up front, tucked away from the kids at the rear.</p></div></div>
       </div>
-      <div class="amb-spec">
-        <h3>Central ensuite</h3>
-        <p>A large, full-width ensuite right in the middle of the van.</p>
+      <div class="amb-spec" tabindex="0">
+        <h3>Central ensuite <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>A large, full-width ensuite right in the middle of the van.</p></div></div>
       </div>
-      <div class="amb-spec">
-        <h3>Bunks &amp; storage</h3>
-        <p>Three bunks at the back for the kids, with storage packed throughout.</p>
+      <div class="amb-spec" tabindex="0">
+        <h3>Bunks &amp; storage <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>Three bunks at the back for the kids, with storage packed throughout.</p></div></div>
       </div>
     </div>
 
@@ -389,25 +393,8 @@
   </div>
 </footer>
 
-<script>
-/* Travel tips page in place: the stills stay put and only the cream panel's
-   question changes. With the script blocked every tip is still in the markup,
-   so nothing is lost — the first one just stays showing. */
-(function () {
-  var tips = [].slice.call(document.querySelectorAll('.amb-tip'));
-  if (tips.length < 2) return;
-  var at = 0;
-  function show(next) {
-    tips[at].classList.remove('is-on');
-    at = (next + tips.length) % tips.length;
-    tips[at].classList.add('is-on');
-  }
-  var prev = document.querySelector('.amb-tip-prev');
-  var nxt = document.querySelector('.amb-tip-next');
-  if (prev) prev.addEventListener('click', function () { show(at - 1); });
-  if (nxt) nxt.addEventListener('click', function () { show(at + 1); });
-})();
-</script>
+<script src="assets/js/video-embed.js?v=168"></script>
+<script src="assets/js/ambassador.js?v=168"></script>
 
 </body>
 </html>
