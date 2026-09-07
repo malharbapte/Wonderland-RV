@@ -36,7 +36,12 @@
    to the paragraph box instead put it adrift, because the copy is right
    aligned and every line starts at a different x. */
 .amb-intro-copy .qm-anchor { position: relative; }
-.amb-intro-copy .qmark { width: 1.02rem; fill: var(--orange); }
+/* max-width:none matters here. styles.css sets svg{max-width:100%}, and the
+   anchor this hangs off is a zero-width inline — so 100% resolves to 0 and
+   clamped the mark to nothing, which is why it vanished after it was moved
+   onto the anchor. The width below is absolute; the cap has to be lifted for
+   it to survive. */
+.amb-intro-copy .qmark { width: 1.02rem; max-width: none; fill: var(--orange); }
 
 /* ------------------------------------------------------------------ intro
    Full-bleed two-up: the bio sits in a narrow right-aligned column and the
