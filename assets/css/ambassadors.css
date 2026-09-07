@@ -10,14 +10,23 @@
    convention as the rest of the site (see HANDOFF.md §1).
    ========================================================================== */
 
-/* type-compact.css shrinks .hero h1 to 0.56rem for compact.html's single
-   word ("Contact us"). This page's hero is the two-line "Meet our /
-   Wonderlanders" lockup at the design's full 96px size, so it is restored
-   here — scoped to match type-compact.css's own min-width:901px guard so
-   the phone size (set generically for .hero h1 in styles.css) is untouched. */
+/* The SVG drew this hero at the original 96px and it was first reproduced at
+   that size — but every other live page runs the compact scale, where both
+   display lockups land on 0.56rem (.home-hero h1 in homepage.css, .hero h1
+   in type-compact.css). At 0.96rem this title read close to twice the size
+   of the homepage's "Adventure / your way", so the font-size override is
+   gone and it now inherits type-compact.css's 0.56rem like compact.html.
+   Only the line-height stays, matched to homepage.css's own two-line lockup
+   — type-compact.css leaves it at 1, which is loose for a stacked title. */
 @media (min-width: 901px) {
-  .hero.wl-hero h1 { font-size: 0.96rem; line-height: 1; letter-spacing: -0.05em; }
+  .hero.wl-hero h1 { line-height: 0.475rem; }
 }
+
+/* The group shot is 16:9 and the hero band is 2.7:1, so cover crops top and
+   bottom only (the width fills exactly — a horizontal object-position would
+   do nothing here). Dead centre clipped the group's feet; 62% keeps them in
+   frame and still holds the line of vans along the top edge. */
+.wl-hero .media > img { object-position: center 62%; }
 
 /* ---------------------------------------------------- voices to our inspiration
    Sized off the shared --t-* tokens (the same ones .experience-title,
