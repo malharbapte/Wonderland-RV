@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wonderlander card hover &mdash; 3 options</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=160">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=160">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=160">
+<style>
+
+/* ==========================================================================
+   THE PROBLEM
+   --------------------------------------------------------------------------
+   Two notes on the live hover:
+
+   1. The photo is pinned (.wl-card-media is absolute, inset:0) while the
+      blush panel grows upward over it. Nothing moves except the panel, so it
+      reads as though the panel is eating the picture. The photo should come
+      up with it.
+
+   2. The panel's bottom padding is 0.16rem, the same as its top -- but the
+      top edge has the title's cap-height above it while the bottom has the
+      bio's descenders running straight into it. It reads tight.
+
+   Every row below is the real card markup, real photos, real bios, straight
+   out of ambassadors.html. Hover any card. Row 0 is exactly what is live
+   right now, for comparison; 1-3 are the proposals. All three proposals
+   carry the same corrected bottom padding, so the only thing changing
+   between them is how the photo moves.
+   ========================================================================== */
+
+body { padding: 0 0 1rem; }
+.page-head { padding: 0.5rem var(--page-x) 0; }
+.page-head h1 { font-family: var(--aviano); font-size: 0.5rem; margin: 0 0 0.12rem; }
+.page-head p  { font-family: var(--gordita); font-size: var(--t-body);
+                line-height: var(--lh-body); max-width: 11rem; margin: 0; }
+
+.demo { padding-top: 0.7rem; }
+.demo h2 { font-family: var(--aviano); font-size: 0.30rem; margin: 0 0 0.08rem;
+           padding: 0 var(--page-x); }
+.demo-note {
+  font-family: var(--gordita); font-size: 0.22rem; line-height: 0.32rem;
+  color: #6b6b6b; margin: 0 0 0.28rem; padding: 0 var(--page-x); max-width: 13rem;
+}
+/* the samples sit in a normal page, not the full-bleed grid ambassadors.html
+   uses, so the break-out is neutralised and only three cards are shown */
+.demo .wl-cards { width: auto; margin-left: 0; margin-top: 0; }
+.demo .wl-cards-inner { width: auto; padding: 0 var(--page-x); }
+
+/* ---------------------------------------------------------------- shared --
+   Every proposal gets the roomier bottom padding. Top stays 0.16rem; bottom
+   goes to 0.30rem so the descenders on the last line clear the edge by about
+   the same optical gap the title has above it. */
+.v1 .wl-card-name,
+.v2 .wl-card-name,
+.v3 .wl-card-name { padding: 0.16rem 0.22rem 0.30rem; }
+
+/* ------------------------------------------------ 1 - photo rises with it --
+   Card becomes a bottom-aligned flex column. The photo keeps the card's full
+   height and the panel is added below it, so the pair overflows the top by
+   exactly the panel's height and is clipped there. Grow the panel and the
+   photo is pushed up by the same amount, with no number to keep in sync. */
+.v1 .wl-card, .v3 .wl-card { display: flex; flex-direction: column; justify-content: flex-end; }
+.v1 .wl-card-media, .v3 .wl-card-media { position: static; flex: 0 0 auto; height: 100%; }
+.v1 .wl-card-name, .v3 .wl-card-name { position: static; flex: 0 0 auto; }
+
+/* ----------------------------------------------- 2 - fixed lift, overlaid --
+   Layout stays exactly as live; the photo just translates up on hover. */
+.v2 .wl-card-media { transition: transform .30s ease; }
+.v2 .wl-card:hover .wl-card-media { transform: translateY(-0.22rem); }
+
+/* ---------------------------------------------------- 3 - rises + eases in */
+.v3 .wl-card-media > img { transition: transform .30s ease; transform-origin: 50% 100%; }
+.v3 .wl-card:hover .wl-card-media > img { transform: scale(1.06); }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>Wonderlander card &mdash; hover</h1>
+  <p>Row 0 is what is live right now. Rows 1&ndash;3 are the proposals: the photo comes up
+     with the panel, and the panel gets more room under the last line. Hover any card.</p>
+</div>
+
+<section class="demo">
+  <h2>0 &middot; As live now</h2>
+  <p class="demo-note">The photo is pinned while the blush panel grows upward over it, so the panel reads as if it is eating into the picture &mdash; and the last line of the bio sits tight against the bottom edge.</p>
+  <div class="wl-cards v0"><div class="wl-cards-inner">
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Lost Tribe Adventures">
+        <img src="assets/img/ambassadors/lost-tribe-adventures.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Lost Tribe Adventures</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Exploring breathtaking landscapes since 2021, Lost Tribe Adventures have turned
+            off-road caravanning into a lifestyle. Aaron and Steph are creating lasting memories with their two
+            beautiful children, Wes and Georgi.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Wheatland Wanderers</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Few Laps Around the Sun">
+        <img src="assets/img/ambassadors/few-laps-around-the-sun.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Few Laps Around the Sun</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Meet Zane and Casey, the adventurous duo behind &ldquo;Few Laps Around the
+            Sun,&rdquo; a captivating journey through the heart of Australia.</p>
+        </div></div>
+      </div>
+    </a>
+  </div></div>
+</section>
+
+<section class="demo">
+  <h2>1 &middot; Photo rises with the panel</h2>
+  <p class="demo-note">The card becomes a bottom-aligned column: photo, then panel. Whatever height the panel grows to, the photo is pushed up by exactly that much and clipped at the top. Fully proportional &mdash; a long bio lifts the photo further than a short one, with no fixed number to keep in sync.</p>
+  <div class="wl-cards v1"><div class="wl-cards-inner">
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Lost Tribe Adventures">
+        <img src="assets/img/ambassadors/lost-tribe-adventures.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Lost Tribe Adventures</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Exploring breathtaking landscapes since 2021, Lost Tribe Adventures have turned
+            off-road caravanning into a lifestyle. Aaron and Steph are creating lasting memories with their two
+            beautiful children, Wes and Georgi.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Wheatland Wanderers</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Few Laps Around the Sun">
+        <img src="assets/img/ambassadors/few-laps-around-the-sun.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Few Laps Around the Sun</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Meet Zane and Casey, the adventurous duo behind &ldquo;Few Laps Around the
+            Sun,&rdquo; a captivating journey through the heart of Australia.</p>
+        </div></div>
+      </div>
+    </a>
+  </div></div>
+</section>
+
+<section class="demo">
+  <h2>2 &middot; Photo lifts a fixed amount</h2>
+  <p class="demo-note">The panel still overlays the photo as it does now, but the photo slides up a set 0.22rem on hover. Same lift on every card regardless of how long the bio runs.</p>
+  <div class="wl-cards v2"><div class="wl-cards-inner">
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Lost Tribe Adventures">
+        <img src="assets/img/ambassadors/lost-tribe-adventures.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Lost Tribe Adventures</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Exploring breathtaking landscapes since 2021, Lost Tribe Adventures have turned
+            off-road caravanning into a lifestyle. Aaron and Steph are creating lasting memories with their two
+            beautiful children, Wes and Georgi.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Wheatland Wanderers</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Few Laps Around the Sun">
+        <img src="assets/img/ambassadors/few-laps-around-the-sun.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Few Laps Around the Sun</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Meet Zane and Casey, the adventurous duo behind &ldquo;Few Laps Around the
+            Sun,&rdquo; a captivating journey through the heart of Australia.</p>
+        </div></div>
+      </div>
+    </a>
+  </div></div>
+</section>
+
+<section class="demo">
+  <h2>3 &middot; Rises, and eases in closer</h2>
+  <p class="demo-note">Option 1 plus a slight scale on the photo anchored to its bottom edge, so the image drifts toward you as it lifts.</p>
+  <div class="wl-cards v3"><div class="wl-cards-inner">
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Lost Tribe Adventures">
+        <img src="assets/img/ambassadors/lost-tribe-adventures.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Lost Tribe Adventures</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Exploring breathtaking landscapes since 2021, Lost Tribe Adventures have turned
+            off-road caravanning into a lifestyle. Aaron and Steph are creating lasting memories with their two
+            beautiful children, Wes and Georgi.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Wheatland Wanderers</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </a>
+<a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Few Laps Around the Sun">
+        <img src="assets/img/ambassadors/few-laps-around-the-sun.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Few Laps Around the Sun</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Meet Zane and Casey, the adventurous duo behind &ldquo;Few Laps Around the
+            Sun,&rdquo; a captivating journey through the heart of Australia.</p>
+        </div></div>
+      </div>
+    </a>
+  </div></div>
+</section>
+
+</body>
+</html>
