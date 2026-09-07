@@ -22,7 +22,9 @@
    Same .hero shell as every other page (8.81rem, full-bleed media, scrim).
    Title and sub ride the shared tokens, so nothing is restated here beyond
    the two-line-safe line-height the other display lockups use. */
-.amb-hero h1 { line-height: 0.475rem; }
+@media (min-width: 901px) {
+  .amb-hero h1 { line-height: 0.475rem; }
+}
 
 /* The header shot is 3:2 and the band is 2.7:1, so cover crops top and bottom.
    Centred cut the family off at the knees; 65% keeps them whole, feet down,
@@ -397,42 +399,85 @@
 .amb-faq .is-tbc summary { color: #9a9a9a; font-style: italic; }
 
 /* ============================================================== phone pass
-   PROVISIONAL. The mobile design pass is deferred; this only stops the
-   desktop grids from overflowing a phone. Replace wholesale later. */
+   styles.css flattens rem to 16px below 901, so every rem written for the
+   desktop scale (where 1rem = 100 design px) shrinks by a factor of six down
+   here. Anything this page sets in rem therefore has to be restated in px, or
+   it collapses — the hero title came out with a 7.6px line-height, and both
+   attributions with 4.5px, stacking their own two lines on top of each other.
+
+   The other rule this block exists for: there is no hover on a touch screen.
+   Anything the desktop hides behind :hover has to be open outright here, the
+   way the Wonderlander cards already are.
+   ========================================================================== */
 @media (max-width: 900px) {
+  /* ---------------------------------------------------------------- intro */
   .amb-intro { grid-template-columns: 1fr; gap: 32px; }
-  .amb-intro-copy { padding: 0 24px; text-align: left; }
+  /* padding-top makes room for the quote mark, which hangs above line one */
+  .amb-intro-copy { padding: 34px 24px 0; text-align: left; }
   .amb-intro-copy p { margin-left: 0; max-width: none; font-size: 15px; line-height: 24px; }
-  .amb-intro-copy .qmark { width: 44px; }
+  /* On desktop the mark hangs to the LEFT of the first letter, which works
+     because the copy is right-aligned with room to its left. Left-aligned at a
+     24px gutter there is no such room — it was landing at -18px, off screen.
+     It sits directly above the first letter instead. */
+  .amb-intro-copy .qmark { width: 44px; left: 0; right: auto; bottom: 100%; }
+
   .amb-sign { margin-top: 24px; }
-  .amb-sign b, .amb-sign span { font-size: 15px; }
+  .amb-sign b, .amb-sign span { font-size: 15px; line-height: 22px; }
+
   .amb-socials { padding-left: 24px; gap: 20px; margin-top: 24px; }
   .amb-socials a, .amb-socials .ph { width: 44px; height: 44px; }
 
+  /* ---------------------------------------------------------- travel tips */
   .amb-tips-band { grid-template-columns: 1fr; }
   .amb-tips-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 24px; }
-  .amb-tips-panel { padding: 32px 44px; }
-  .amb-more-strip { padding: 0 24px; }
   .amb-tips-col--a .amb-tip-img:nth-child(1), .amb-tips-col--a .amb-tip-img:nth-child(2) { height: 40vw; }
   .amb-tips-col--b .amb-tip-img:nth-child(1), .amb-tips-col--c .amb-tip-img:nth-child(2) { height: 26vw; }
   .amb-tips-col--b .amb-tip-img:nth-child(2), .amb-tips-col--c .amb-tip-img:nth-child(1) { height: 54vw; }
 
+  /* The arrows flank the text on desktop. At 0.44rem they came out 7px square
+     here — far under a usable target — and flanking would eat the measure at
+     375 anyway, so they drop below the answer as a proper 44px pair. */
+  .amb-tips-panel { padding: 32px 24px; }
+  .amb-tips-arrows {
+    display: flex; justify-content: center; gap: 16px; margin-top: 22px;
+  }
+  .amb-tips-arrows button {
+    position: static; transform: none;
+    width: 44px; height: 44px;
+    background: rgba(0,0,0,.05);
+  }
+  .amb-tips-arrows svg { width: 18px; height: 18px; }
+
+  /* ------------------------------------------------------------ van layout */
   .amb-plan { height: 200px; }
   .amb-specs { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
   .amb-spec { padding: 0; }
   .amb-spec + .amb-spec { border-left: 0; }
   .amb-spec h3 { font-size: 15px; line-height: 20px; }
-  .amb-spec p { font-size: 14px; line-height: 20px; }
+  .amb-spec p { font-size: 14px; line-height: 20px; padding-top: 6px; }
+  /* No hover here, so the three descriptions would have been unreachable —
+     they sit open, and the chevron goes because there is nothing to toggle. */
+  .spec-wrap { grid-template-rows: 1fr; }
+  .spec-chev { display: none; }
+
   .btn-dream { width: 100%; max-width: 320px; height: 52px; line-height: 52px; font-size: 13px; }
 
+  /* ------------------------------------------------------------ quote band */
   .amb-quote { min-height: 0; padding: 40px 0; }
   .amb-quote .qmark { left: 24px; top: -14px; width: 52px; }
+  /* the breaks in this quote are hand-set for the desktop measure — same
+     treatment .experience-body and .testi-quote already get down here */
+  .amb-quote blockquote br { display: none; }
   .amb-quote blockquote { padding: 0 24px; font-size: 18px; line-height: 28px; }
   .amb-quote figcaption { padding-right: 24px; margin-top: 24px; }
-  .amb-quote figcaption b, .amb-quote figcaption span { font-size: 13px; }
+  .amb-quote figcaption b,
+  .amb-quote figcaption span { font-size: 13px; line-height: 19px; }
 
+  /* ------------------------------------------------------------- meet more */
+  .amb-more-strip { padding: 0 24px; }
   .amb-more-strip .wl-card { flex-basis: 70vw; }
 
+  /* ------------------------------------------------------------------ faq */
   .amb-faq summary { font-size: 15px; line-height: 22px; padding: 16px 0; }
   .amb-faq summary svg { width: 14px; height: 14px; }
   .amb-faq-body { font-size: 14px; line-height: 22px; padding-bottom: 18px; }
