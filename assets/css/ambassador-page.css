@@ -112,17 +112,26 @@
    this section moves horizontally. */
 .amb-tips { margin-top: var(--section-gap); }
 
+/* The split is proportional, not fixed rem. Written as 15.89rem/7.91rem it
+   came to 23.80rem inside a 100vw band: below a 2376 viewport that is
+   100.17vw, so the right edge was clipped, and above it rem caps at 100px so
+   the band stopped at 2380px and left bare space to the right. As fr units it
+   simply is the comp's ratio (1589:787 of 2376) at any zoom. */
 .amb-tips-band {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: 0.44rem;
   display: grid;
-  grid-template-columns: 15.89rem 7.91rem;   /* the comp's own split */
+  grid-template-columns: 1589fr 787fr;   /* the comp's own split, as a ratio */
 }
 
+/* Likewise the three columns divide whatever the left side is, rather than
+   being three fixed 5.15rem columns that cannot follow it. Tile heights stay
+   in rem, so they scale with the viewport up to 2376 and then hold — the same
+   way .hero keeps its 8.81rem height while spanning 100vw on a wide screen. */
 .amb-tips-grid {
   display: grid;
-  grid-template-columns: repeat(3, 5.15rem);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.22rem;
   align-content: start;
 }

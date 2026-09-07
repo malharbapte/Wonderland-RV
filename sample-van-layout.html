@@ -3,41 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Van layout dropdown &mdash; 3 options</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=166">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=166">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=166">
-<link rel="stylesheet" href="assets/css/ambassador-page.css?v=166">
+<title>Van layout &mdash; option 1 revised</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=167">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=167">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=167">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=167">
 <style>
 /* ==========================================================================
-   Van layout -- the three columns as a hover-to-expand dropdown.
-   Sub-heading always visible, body hidden until hover. All three use the
-   0fr -> 1fr grid row the Wonderlander cards animate with, so the reveal is
-   the same gesture and the same .30s across the site.
+   Van layout -- option 1, revised.
 
-   Each is shown with the real CTA underneath, since whether the button moves
-   is the main thing separating them.
+   The version you saw reserved the tallest body's height so the CTA could
+   never move. That is what left the standing gap: the space was always there,
+   just empty until something opened. The reserve is gone. The row is its
+   headings' height at rest and grows only while a column is open, so the CTA
+   sits tight underneath and rides down with it.
 
-   Hover is not reachable by keyboard, so every option also opens on
-   :focus-visible -- tab into them to check.
+   Everything animates on the same 0.30s -- the body's 0fr -> 1fr grid row and
+   the chevron -- so the CTA's travel is part of one movement rather than a
+   separate jump. Opening also works on keyboard focus, since hover alone is
+   unreachable without a mouse; tab into the headings to check.
    ========================================================================== */
 body { padding: 0 0 1.4rem; }
 .page-head { padding: 0.5rem var(--page-margin) 0; }
 .page-head h1 { font-family: var(--aviano); font-size: 0.5rem; margin: 0 0 0.12rem; }
 .page-head p { font-family: var(--gordita); font-size: var(--t-body);
-               line-height: var(--lh-body); max-width: 11rem; margin: 0; }
-.demo { padding: 0.9rem var(--page-margin) 0.3rem; }
-.demo h2 { font-family: var(--aviano); font-size: 0.30rem; margin: 0 0 0.08rem; }
-.demo-note { font-family: var(--gordita); font-size: 0.22rem; line-height: 0.32rem;
-             color: #6b6b6b; margin: 0; max-width: 13rem; }
-.demo-stage { padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+               line-height: var(--lh-body); max-width: 12rem; margin: 0 0 0.1rem; }
 
-/* the chevron every option shares */
-.spec-chev { display: inline-block; width: 0.20rem; height: 0.20rem; vertical-align: baseline;
-             transition: transform .30s ease; }
+.spec-chev { display: inline-block; width: 0.20rem; height: 0.20rem;
+             vertical-align: baseline; transition: transform .30s ease; }
+.amb-spec { cursor: default; outline-offset: 4px; }
 .amb-spec:hover .spec-chev,
 .amb-spec:focus-visible .spec-chev { transform: rotate(180deg); }
-.amb-spec { cursor: default; outline-offset: 4px; }
+
+/* No min-height here: the row is only as tall as it needs to be, so the CTA
+   below tracks the open column instead of sitting past a fixed reserve. */
+.amb-specs { align-items: start; }
 
 .spec-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .30s ease; }
 .spec-inner { overflow: hidden; min-height: 0; }
@@ -46,42 +46,24 @@ body { padding: 0 0 1.4rem; }
 .amb-spec p { margin: 0; padding-top: 0.14rem; font-family: var(--gordita);
               font-size: var(--t-caption); line-height: var(--lh-caption); color: #6b6b6b; }
 
-/* ------------------------------------------------- 1 - expands in place --- */
-/* the row holds the tallest body's height so the CTA never jumps */
-.v1 { align-items: start; min-height: 1.30rem; }
-
-/* ---------------------------------------------------- 2 - stacked rows --- */
-.v2 { grid-template-columns: 1fr; margin-inline: auto; max-width: 13.72rem; }
-.v2 .amb-spec { padding: 0.26rem 0; text-align: left; border-top: 1px solid #cfcfcf; }
-.v2 .amb-spec + .amb-spec { border-left: 0; }
-.v2 .amb-spec:last-child { border-bottom: 1px solid #cfcfcf; }
-.v2 h3 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; }
-
-/* --------------------------------------------------- 3 - shared panel --- */
-.v3-heads { margin-top: 0.62rem; }
-.v3-heads h3 { margin-bottom: 0; }
-.v3-panel { margin-top: 0.24rem; min-height: 0.66rem; text-align: center; }
-.v3-body { margin: 0; font-family: var(--gordita); font-size: var(--t-caption);
-           line-height: var(--lh-caption); color: #6b6b6b;
-           opacity: 0; transition: opacity .30s ease; }
-.v3-body { display: none; }
-.v3-body.is-on { display: block; opacity: 1; }
+/* the CTA's own margin is the only gap left, and it moves with the row */
+.amb-cta-row { transition: none; }
 </style>
 </head>
 <body>
 
 <div class="page-head">
-  <h1>Van layout &mdash; hover to expand</h1>
-  <p>Sub-headings stay visible, the body drops open on hover. Each option is shown with the
-     real CTA beneath it. Tab through them too &mdash; they open on keyboard focus as well.</p>
+  <h1>Van layout &mdash; option 1, revised</h1>
+  <p>The reserved gap is gone. At rest the CTA sits directly under the headings; hover a
+     column and the CTA rides down with it, on the same 0.30s as the reveal.</p>
+  <p>Shown in the real section, floorplan and all, so the spacing is the spacing.</p>
 </div>
 
-<section class="demo">
-  <h2>1 &middot; Expands in place</h2>
-  <p class="demo-note">Each column keeps its spot and drops its own line open underneath the heading, using the same 0fr&rarr;1fr grid the Wonderlander cards already animate with. The row reserves the tallest body&rsquo;s height, so opening one never nudges the CTA below it.</p>
-</section>
-<div class="container demo-stage">
-<div class="amb-specs v1">
+<section class="amb-layout">
+  <div class="container">
+    <h2 class="wl-intro-title">Van layout</h2>
+    <div class="amb-plan ph" data-ph="VAN FLOORPLAN &mdash; Sandy Van Travels"></div>
+<div class="amb-specs">
   <div class="amb-spec" tabindex="0">
     <h3>Front bed &amp; lounge <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
     <div class="spec-wrap"><div class="spec-inner"><p>A queen bed and a lounge up front, tucked away from the kids at the rear.</p></div></div>
@@ -95,62 +77,9 @@ body { padding: 0 0 1.4rem; }
     <div class="spec-wrap"><div class="spec-inner"><p>Three bunks at the back for the kids, with storage packed throughout.</p></div></div>
   </div>
 </div>
-  <div class="amb-cta-row"><a class="btn-dream" href="#">Your dream van awaits</a></div>
-</div>
-
-<section class="demo">
-  <h2>2 &middot; Stacked rows</h2>
-  <p class="demo-note">The three become full-width rows with a rule between them, closer to a conventional accordion. Reads as a list rather than three columns, and gives the body a much longer measure.</p>
+    <div class="amb-cta-row"><a class="btn-dream" href="#">Your dream van awaits</a></div>
+  </div>
 </section>
-<div class="container demo-stage">
-<div class="amb-specs v2">
-  <div class="amb-spec" tabindex="0">
-    <h3>Front bed &amp; lounge <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
-    <div class="spec-wrap"><div class="spec-inner"><p>A queen bed and a lounge up front, tucked away from the kids at the rear.</p></div></div>
-  </div>
-  <div class="amb-spec" tabindex="0">
-    <h3>Central ensuite <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
-    <div class="spec-wrap"><div class="spec-inner"><p>A large, full-width ensuite right in the middle of the van.</p></div></div>
-  </div>
-  <div class="amb-spec" tabindex="0">
-    <h3>Bunks &amp; storage <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
-    <div class="spec-wrap"><div class="spec-inner"><p>Three bunks at the back for the kids, with storage packed throughout.</p></div></div>
-  </div>
-</div>
-  <div class="amb-cta-row"><a class="btn-dream" href="#">Your dream van awaits</a></div>
-</div>
 
-<section class="demo">
-  <h2>3 &middot; Shared panel</h2>
-  <p class="demo-note">Headings stay put in their row and the body appears in one panel beneath, swapping as you move across them. Nothing shifts at all, and the three bodies always sit on the same baseline.</p>
-</section>
-<div class="container demo-stage">
-<div class="v3">
-  <div class="amb-specs v3-heads">
-    <div class="amb-spec" tabindex="0" data-spec="0"><h3>Front bed &amp; lounge <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3></div>
-    <div class="amb-spec" tabindex="0" data-spec="1"><h3>Central ensuite <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3></div>
-    <div class="amb-spec" tabindex="0" data-spec="2"><h3>Bunks &amp; storage <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3></div>
-  </div>
-  <div class="v3-panel">
-    <p class="v3-body is-on" data-body="0">A queen bed and a lounge up front, tucked away from the kids at the rear.</p>
-    <p class="v3-body" data-body="1">A large, full-width ensuite right in the middle of the van.</p>
-    <p class="v3-body" data-body="2">Three bunks at the back for the kids, with storage packed throughout.</p>
-  </div>
-</div>
-  <div class="amb-cta-row"><a class="btn-dream" href="#">Your dream van awaits</a></div>
-</div>
-
-<script>
-/* option 3 only: swap which body is showing as the pointer (or focus) moves */
-document.querySelectorAll('.v3-heads .amb-spec').forEach(function (h) {
-  function show() {
-    document.querySelectorAll('.v3-body').forEach(function (b) {
-      b.classList.toggle('is-on', b.dataset.body === h.dataset.spec);
-    });
-  }
-  h.addEventListener('mouseenter', show);
-  h.addEventListener('focus', show);
-});
-</script>
 </body>
 </html>
