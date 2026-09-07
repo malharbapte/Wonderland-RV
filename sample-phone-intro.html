@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wonderlander intro on the phone &mdash; 3 options</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=176">
+<style>
+body { font-family: var(--gordita); margin: 0; padding: 28px 20px 60px; background: #f4f4f4; }
+h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 24px; max-width: 860px; }
+.row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+.opt { width: 375px; }
+.opt h2 { font-family: var(--aviano); font-size: 15px; margin: 0 0 4px; }
+.opt h2 b { color: #D57114; }
+.opt p { font-size: 12.5px; line-height: 18px; color: #666; margin: 0 0 6px; min-height: 116px; }
+.metric { font-size: 12px; color: #D57114; font-weight: 700; margin: 0 0 10px; }
+.phone { width: 375px; height: 620px; border: 0; display: block; background: #fff;
+         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+.hint { font-size: 11.5px; color: #999; margin-top: 8px; min-height: 0; }
+</style>
+</head>
+<body>
+<h1>Wonderlander page &mdash; opening section on the phone</h1>
+<p class="lede">Each panel is a real 375px phone viewport. The thing worth fixing: today the section runs 723px and the video sits 444px into it, so a phone reader meets 91 words of bio before there is any sign of the film. The video box is left as its placeholder here &mdash; it is the exact size and shape the real clip fills, and what is being chosen is the order, not the footage. Desktop is untouched by all three.</p>
+<div class="row">
+  <div class="opt">
+    <h2>1 &middot; As it is today</h2>
+    <p>Bio, then video, then the social row. The writing leads, which suits the page, but 91 words is a long way to scroll on a phone before the most engaging thing on the section appears &mdash; and the social icons end up stranded at the very bottom.</p>
+    <p class="metric">723px tall &middot; video starts at 444px</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=1"></iframe>
+  </div>
+  <div class="opt">
+    <h2>2 &middot; Video leads</h2>
+    <p>The film moves above the copy, so it sits straight under the hero and is the first thing in view. The bio then reads underneath at full length. Same content, same height &mdash; only the order changes, and it costs nothing.</p>
+    <p class="metric">same height &middot; video starts at 0px</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=2"></iframe>
+  </div>
+  <div class="opt">
+    <h2>3 &middot; Video leads, bio folds <b>&mdash; shortest</b></h2>
+    <p>As 2, but only the first paragraph shows and the rest sits behind a &ldquo;Read more&rdquo;. The whole section fits close to a single screen, so travel tips arrive much sooner. The cost is that two thirds of their story is now a tap away rather than simply there.</p>
+    <p class="metric">roughly 480px &middot; video starts at 0px</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=3"></iframe>
+    <p class="hint">Tap &ldquo;Read more&rdquo;.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>intro frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=176">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=176">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=176">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=176">
+<style>
+/* ==========================================================================
+   The Wonderlander page's opening section, one option per frame at a real
+   phone width. Variant arrives as ?v= and lands on <html>.
+
+   The video is left as its labelled placeholder rather than three live
+   YouTube embeds — the box is the exact size and shape the real clip fills,
+   and what is being judged here is the order, not the footage.
+
+   Everything is inside the phone block. Desktop is gated; nothing here
+   touches it.
+   ========================================================================== */
+body { padding: 0 0 24px; }
+
+@media (max-width: 900px) {
+  /* ------------------------------------------ 2 and 3 - video leads ------
+     The section is one column on a phone, so the media block just moves
+     ahead of the copy. No markup change, only order. */
+  .v2 .amb-intro > div:last-child,
+  .v3 .amb-intro > div:last-child { order: -1; }
+  .v2 .amb-intro, .v3 .amb-intro { display: flex; flex-direction: column; gap: 24px; }
+  .v2 .amb-intro-copy, .v3 .amb-intro-copy { padding-top: 34px; }
+
+  /* ------------------------------------------------ 3 - the rest folds --- */
+  .v3 .amb-intro-copy p.is-more { display: none; }
+  .v3 .amb-intro-copy.is-open p.is-more { display: block; }
+  .amb-more-btn {
+    display: none;
+    margin: 4px 0 0;
+    padding: 10px 0;
+    font-family: var(--gordita);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--orange-deep);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .v3 .amb-more-btn { display: inline-flex; }
+  .amb-more-btn svg { width: 13px; height: 13px; transition: transform .3s ease; }
+  .amb-more-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+}
+</style>
+</head>
+<body>
+<section class="amb-intro">
+  <div class="amb-intro-copy">
+    <p><span class="qm-anchor"><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg></span>We&rsquo;re Jess and Doug, the family behind Sandy Van Travels, a full-time
+      travelling family of five exploring Australia with our three children,
+      Ellie and Arthur (our 7-year-old twins) and Harry&nbsp;(5).</p>
+    <p>After selling our home and most of what we owned in Brisbane, we custom
+      built our first van in April 2024 and hit the road to create a life
+      centred around family, adventure and&nbsp;experiences.</p>
+    <p>We now travel Australia full-time, working remotely, homeschooling our
+      kids and documenting the journey through photography, video and
+      honest&nbsp;storytelling.</p>
+    <p class="amb-sign"><b>JESS &amp; DOUG</b><span>SANDY VAN TRAVELS</span></p>
+  </div>
+
+  <div>
+    <!-- The shared .video-frame component, same as the homepage and Contact
+         page use — same player, same sound/CC buttons. The link lives in
+         assets/js/ambassador.js. -->
+    <div class="amb-video video-frame ph" data-ph="VIDEO — Sandy Van Travels"></div>
+    <!-- Social icons are to be copied across from the Wonderland site once
+         Sandy Van Travels' own profile links are confirmed. -->
+    <div class="amb-socials">
+      <div class="ph" data-ph="SOCIAL"></div>
+      <div class="ph" data-ph="SOCIAL"></div>
+      <div class="ph" data-ph="SOCIAL"></div>
+      <div class="ph" data-ph="SOCIAL"></div>
+    </div>
+  </div>
+</section>
+<script>
+var v = new URLSearchParams(location.search).get("v") || "1";
+document.documentElement.className = "v" + v;
+
+if (v === "3") {
+  var copy = document.querySelector(".amb-intro-copy");
+  var paras = [].slice.call(copy.querySelectorAll("p")).filter(function (p) {
+    return !p.classList.contains("amb-sign");
+  });
+  /* first paragraph stays, the rest fold away behind the button */
+  paras.slice(1).forEach(function (p) { p.classList.add("is-more"); });
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "amb-more-btn";
+  btn.setAttribute("aria-expanded", "false");
+  btn.innerHTML = 'Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  paras[paras.length - 1].after(btn);
+
+  btn.addEventListener("click", function () {
+    var open = copy.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", String(open));
+    btn.childNodes[0].nodeValue = open ? "Read less " : "Read more ";
+  });
+}
+</script>
+</body>
+</html>
