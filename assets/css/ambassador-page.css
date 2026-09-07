@@ -485,28 +485,64 @@
   }
   .amb-tips-arrows svg { width: 18px; height: 18px; }
 
-  /* ------------------------------------------------------------ van layout */
-  .amb-plan { height: 200px; }
-  .amb-specs { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
-  .amb-spec { padding: 0; }
-  .amb-spec + .amb-spec { border-left: 0; }
-  .amb-spec h3 { font-size: 15px; line-height: 20px; }
-  .amb-spec p { font-size: 14px; line-height: 20px; padding-top: 6px; }
-  /* No hover here, so the three descriptions would have been unreachable —
-     they sit open, and the chevron goes because there is nothing to toggle. */
-  .spec-wrap { grid-template-rows: 1fr; }
-  .spec-chev { display: none; }
+  /* ------------------------------------------------------------ van layout
+     The plan was rendering 220px wide: .amb-plan carries width:13.72rem from
+     the desktop scale and rem is a flat 16px down here, so inside a 200px box
+     set to object-fit:contain the artwork painted at 220 x 93 on a 375 screen,
+     letterboxed above and below. Sizing it from the artwork's own ratio fills
+     the text column instead — 327 x 138, a bit over twice the area. */
+  .amb-plan {
+    width: auto; height: auto; max-width: 100%;
+    aspect-ratio: 1993 / 840;
+    margin-top: 26px; margin-inline: 0;
+  }
+  .amb-plan > img { object-fit: cover; }
 
+  /* The three sub-headings become a dropdown, one below the other with the
+     chevron on the right — the same shape as the FAQ rows further down. The
+     whole row is the button, so the tap target is the full width. */
+  .amb-specs { display: block; margin-top: 30px; }
+  .amb-spec { padding: 0; text-align: left; border-top: 1px solid #dcdcdc; }
+  .amb-spec:last-child { border-bottom: 1px solid #dcdcdc; }
+  .amb-spec + .amb-spec { border-left: 0; }
+  .amb-spec h3 { display: block; margin: 0; font-size: 15px; line-height: 20px; }
+  .spec-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; width: 100%; padding: 15px 0;
+    font: inherit; color: inherit; text-align: left;
+    /* a button inherits neither of these on its own, and the caps here are
+       applied by CSS rather than typed into the markup */
+    text-transform: inherit; letter-spacing: inherit;
+    background: none; border: 0; cursor: pointer;
+  }
+  .spec-chev { display: block; flex: 0 0 auto; width: 14px; height: 14px; }
+  .amb-spec.is-open .spec-chev { transform: rotate(180deg); }
+  .spec-wrap { grid-template-rows: 0fr; }
+  .amb-spec.is-open .spec-wrap { grid-template-rows: 1fr; }
+  .amb-spec p { padding: 0 0 16px; font-size: 14px; line-height: 21px; }
+
+  .amb-cta-row { margin-top: 30px; }
   .btn-dream { width: 100%; max-width: 320px; height: 52px; line-height: 52px; font-size: 13px; }
 
-  /* ------------------------------------------------------------ quote band */
-  .amb-quote { min-height: 0; padding: 40px 0; }
+  /* ------------------------------------------------------------ quote band
+     The box had three axes at once — mark left, quote centred, attribution
+     right — and centring four lines of four different lengths gave it an
+     hourglass rag that broke mid-phrase on "so we / knew". Everything hangs
+     off one left edge now, at the same 24px the mark uses, and the lines
+     break on whole clauses so each is a complete thought. Gordita Medium,
+     which is what this copy is meant to be set in.
+
+     The desktop <br>s are untouched and still set its own three centred
+     lines; these spans only become blocks down here. */
+  .amb-quote { min-height: 0; padding: 40px 0; margin-top: 44px; }
+  .amb-quote blockquote { text-align: left; font-weight: 500; }
+  .amb-quote blockquote .ln { display: block; }
+  .amb-quote figcaption { text-align: left; padding: 0 24px; margin-top: 22px; }
   .amb-quote .qmark { left: 24px; top: -14px; width: 52px; }
   /* the breaks in this quote are hand-set for the desktop measure — same
      treatment .experience-body and .testi-quote already get down here */
   .amb-quote blockquote br { display: none; }
   .amb-quote blockquote { padding: 0 24px; font-size: 18px; line-height: 28px; }
-  .amb-quote figcaption { padding-right: 24px; margin-top: 24px; }
   .amb-quote figcaption b,
   .amb-quote figcaption span { font-size: 13px; line-height: 19px; }
 

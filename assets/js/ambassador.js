@@ -136,3 +136,31 @@ mountVideo(document.querySelector(".amb-video"), AMBASSADOR_VIDEO_URL,
   after.forEach(function (el) { rest.appendChild(el); });
   copy.parentNode.insertBefore(rest, copy.nextSibling);
 })();
+
+/* ---------------------------------------- phone: van layout as a dropdown --
+   The three sub-headings collapse behind a chevron. The row itself becomes
+   the button so the whole width is tappable, which also keeps the chevron on
+   the row rather than stacking under the name.
+
+   Phone only: on desktop these open on hover and there is nothing to toggle.
+   Built once, same as the other phone rearrangements on this page. */
+(function () {
+  if (!window.matchMedia("(max-width: 900px)").matches) return;
+
+  document.querySelectorAll(".amb-spec").forEach(function (spec) {
+    var h = spec.querySelector("h3");
+    if (!h || h.querySelector(".spec-toggle")) return;
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "spec-toggle";
+    btn.setAttribute("aria-expanded", "false");
+    while (h.firstChild) btn.appendChild(h.firstChild);
+    h.appendChild(btn);
+
+    btn.addEventListener("click", function () {
+      var open = spec.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+  });
+})();
