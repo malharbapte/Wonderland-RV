@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>van layout frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=178">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=178">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=178">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=178">
+<style>
+/* ==========================================================================
+   Van layout on the phone, one option per frame. ?v= lands on <html>.
+
+   Shared by all three, because they are fixes rather than choices:
+
+     - the plan was rendering 220px wide because .amb-plan keeps
+       width:13.72rem from desktop, and rem is a flat 16px below 901. With
+       object-fit:contain inside a 200px-tall box the artwork was painting at
+       220 x 93 on a 375 screen. Every option sizes it properly.
+     - the sub-headings become a dropdown: collapsed, chevron on the right,
+       one below the other, tapped to open. They were sitting permanently open
+       with no chevron.
+     - the gap between the CTA and the pink quote opens up from 19px.
+
+   What differs between the three is only how big the plan gets.
+   Everything is inside the phone block; desktop is gated.
+   ========================================================================== */
+body { padding: 0 0 10px; }
+
+@media (max-width: 900px) {
+  /* ---------------------------------------------------- the plan, resized */
+  .amb-plan {
+    width: auto; height: auto;          /* drop the leaked desktop rem */
+    max-width: none;                    /* desktop's max-width:100% was clamping
+                                           both full-bleed options back to the
+                                           327px container */
+    aspect-ratio: 1993 / 840;           /* the artwork's own ratio, no letterbox */
+    margin-inline: 0;
+  }
+  .amb-plan > img { object-fit: cover; }
+
+  /* A - fills the text column */
+  .va .amb-plan { margin-top: 26px; max-width: 100%; }
+
+  /* B - runs edge to edge */
+  .vb .amb-plan {
+    width: 100vw; margin-left: calc(50% - 50vw);
+    margin-top: 26px; border-radius: 0;
+  }
+
+  /* C - edge to edge and enlarged, swipe to read along the van */
+  .vc .amb-plan-scroll {
+    width: 100vw; margin-left: calc(50% - 50vw); margin-top: 26px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .vc .amb-plan-scroll::-webkit-scrollbar { display: none; }
+  .vc .amb-plan { width: 700px; border-radius: 0; margin: 0; }
+
+  /* ------------------------------------------- the sub-headings, dropdown
+     Same shape as the FAQ rows further down the page: a hairline between
+     each, the name left, a chevron right, and the body opening beneath. */
+  .amb-specs { display: block; margin-top: 30px; }
+  .amb-spec {
+    padding: 0; text-align: left;
+    border-top: 1px solid #dcdcdc;
+  }
+  .amb-spec:last-child { border-bottom: 1px solid #dcdcdc; }
+  .amb-spec + .amb-spec { border-left: 0; }
+  /* the row itself is the button, so the whole width is tappable and the
+     chevron sits on its right rather than stacking under the name */
+  .amb-spec h3 { display: block; margin: 0; font-size: 15px; line-height: 20px; }
+  .spec-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; width: 100%; padding: 15px 0;
+    font: inherit; color: inherit; text-align: left;
+    /* a button does not pick these up on its own, and the caps here are
+       applied by CSS rather than typed into the markup */
+    text-transform: inherit; letter-spacing: inherit;
+    background: none; border: 0; cursor: pointer;
+  }
+  .spec-chev {
+    display: block; flex: 0 0 auto;
+    width: 14px; height: 14px;
+    transition: transform .3s ease;
+  }
+  .amb-spec.is-open .spec-chev { transform: rotate(180deg); }
+  /* closed until tapped — the live page has these permanently open */
+  .spec-wrap { grid-template-rows: 0fr; }
+  .amb-spec.is-open .spec-wrap { grid-template-rows: 1fr; }
+  .amb-spec p { padding: 0 0 16px; font-size: 14px; line-height: 21px; }
+
+  /* --------------------------------------- more air before the pink quote */
+  .amb-cta-row { margin-top: 30px; }
+  .amb-quote { margin-top: 44px; }      /* was 19px of gap */
+}
+</style>
+</head>
+<body>
+<!-- ========================================================= VAN LAYOUT -->
+<section class="amb-layout">
+  <div class="container">
+    <h2 class="wl-intro-title">Van layout</h2>
+    <!-- The 2403Q2-F3.7 cutaway, taken from the live Sandy Van Travels page. -->
+    <div class="amb-plan ph" data-ph="VAN FLOORPLAN — Sandy Van Travels">
+      <img src="assets/img/ambassadors/sandy-van-travels/van-layout.jpg" alt="Cutaway of the Sandy Van Travels caravan layout"
+           onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
+
+    <div class="amb-specs">
+      <div class="amb-spec" tabindex="0">
+        <h3>Front bed &amp; lounge <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>A queen bed and a lounge up front, tucked away from the kids at the&nbsp;rear.</p></div></div>
+      </div>
+      <div class="amb-spec" tabindex="0">
+        <h3>Central ensuite <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>A large, full-width ensuite right in the middle of the&nbsp;van.</p></div></div>
+      </div>
+      <div class="amb-spec" tabindex="0">
+        <h3>Bunks &amp; storage <svg class="spec-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h3>
+        <div class="spec-wrap"><div class="spec-inner"><p>Three bunks at the back for the kids, with storage packed&nbsp;throughout.</p></div></div>
+      </div>
+    </div>
+
+    <div class="amb-cta-row"><a class="btn-dream" href="#">Your dream van awaits</a></div>
+  </div>
+</section>
+
+<!-- ============================================================== QUOTE -->
+<figure class="amb-quote">
+  <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
+  <blockquote>We&rsquo;d lived in a van for 18 months, so we knew<br>
+    exactly what we&rsquo;d change. Wonderland RV<br>
+    got it right. It&rsquo;s home for the five of&nbsp;us.</blockquote>
+  <figcaption><b>JESS &amp; DOUG</b><span>WONDERLANDER</span></figcaption>
+</figure>
+
+
+<script>
+var v = new URLSearchParams(location.search).get("v") || "a";
+document.documentElement.className = "v" + v;
+
+/* C needs a scroll frame around the plan so it can be wider than the screen */
+if (v === "c") {
+  var plan = document.querySelector(".amb-plan");
+  var wrap = document.createElement("div");
+  wrap.className = "amb-plan-scroll";
+  plan.parentNode.insertBefore(wrap, plan);
+  wrap.appendChild(plan);
+}
+
+/* the sub-headings, as a dropdown */
+document.querySelectorAll(".amb-spec").forEach(function (spec) {
+  var h = spec.querySelector("h3");
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "spec-toggle";
+  btn.setAttribute("aria-expanded", "false");
+  while (h.firstChild) btn.appendChild(h.firstChild);
+  h.appendChild(btn);
+  btn.addEventListener("click", function () {
+    var open = spec.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+});
+</script>
+</body>
+</html>

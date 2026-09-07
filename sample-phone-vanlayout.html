@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Van layout on the phone &mdash; 3 options</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=178">
+<style>
+body { font-family: var(--gordita); margin: 0; padding: 28px 20px 60px; background: #f4f4f4; }
+h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 10px; max-width: 940px; }
+.lede b { color: #D57114; }
+.fixed { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 24px; max-width: 940px;
+         padding: 12px 16px; background: #fff; border-left: 3px solid #D57114; }
+.row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+.opt { width: 375px; }
+.opt h2 { font-family: var(--aviano); font-size: 15px; margin: 0 0 4px; }
+.opt h2 b { color: #D57114; }
+.opt p { font-size: 12.5px; line-height: 18px; color: #666; margin: 0 0 6px; min-height: 92px; }
+.metric { font-size: 12px; color: #D57114; font-weight: 700; margin: 0 0 10px; min-height: 0; }
+.phone { width: 375px; height: 720px; border: 0; display: block; background: #fff;
+         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+</style>
+</head>
+<body>
+<h1>Van layout on the phone</h1>
+<p class="lede">Real 375px viewports, each running from the heading through to the pink quote, since that box belongs to this section. Tap a sub-heading to open it.</p>
+<p class="fixed"><b>Why the plan looked small:</b> it was not a design choice. <code>.amb-plan</code> keeps <code>width: 13.72rem</code> from the desktop scale, and rem flattens to 16px below 901 &mdash; so the box was <b>220px wide</b>, and inside a 200px-tall box set to <code>contain</code> the artwork was painting at just <b>220&nbsp;&times;&nbsp;93</b> on a 375 screen, letterboxed above and below. All three options size it from the artwork&rsquo;s own ratio instead. The dropdown sub-headings and the wider gap before the pink box are in all three too &mdash; those are fixes, not choices.</p>
+<div class="row">
+  <div class="opt">
+    <h2>A &middot; Fills the text column</h2>
+    <p>The plan sizes to its own ratio inside the existing margins, so the letterboxing goes and it lines up with the heading and the rows below it. The most restrained step up.</p>
+    <p class="metric">327 &times; 138 &mdash; 2.2&times; the area</p>
+    <iframe class="phone" src="sample-phone-vanlayout-frame.html?v=a"></iframe>
+  </div>
+  <div class="opt">
+    <h2>B &middot; Edge to edge <b>&mdash; my pick</b></h2>
+    <p>The plan breaks the margins and runs the full width, the way the hero and the travel-tip band already do on this page. Bigger again, and the cutaway is wide artwork that suits a full-bleed strip.</p>
+    <p class="metric">375 &times; 158 &mdash; 2.9&times; the area</p>
+    <iframe class="phone" src="sample-phone-vanlayout-frame.html?v=b"></iframe>
+  </div>
+  <div class="opt">
+    <h2>C &middot; Enlarged, swipe along it</h2>
+    <p>Full bleed and drawn at 700px in a strip you swipe sideways, so the bunks and the ensuite are legible rather than suggested. Biggest by far; the cost is that the whole van is no longer visible at once.</p>
+    <p class="metric">700 &times; 295 &mdash; 10&times; the area, needs a swipe</p>
+    <iframe class="phone" src="sample-phone-vanlayout-frame.html?v=c"></iframe>
+  </div>
+</div>
+</body>
+</html>
