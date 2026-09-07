@@ -132,8 +132,14 @@ body { padding: 0 0 24px; }
   /* C2 — make room for it. The lede is indented far enough that the mark sits
      entirely on the page, giving the exact desktop relationship with nothing
      off-screen. Costs the lede some measure. */
+  /* bottom:100%, not calc(100% - 5px). The 5px nudge pushed the mark BELOW
+     the cap line, so its lower-right corner drove into the W instead of
+     resting on it — which is what read as "slightly off". At 100% the mark's
+     underside lands exactly on the cap line, measured 0px, the same as the
+     desktop rule it is copied from. right:-6px keeps the 6px horizontal
+     overlap, which is what desktop's 9px-on-a-62px-mark works out to here. */
   .c2 .amb-intro-copy p { padding-left: 36px; }
-  .c2 .amb-intro-copy .qmark { width: 38px; right: -6px; bottom: calc(100% - 5px); }
+  .c2 .amb-intro-copy .qmark { width: 38px; right: -6px; bottom: 100%; }
 
   /* C3 — shrink it. A 26px mark overlapping by 5px starts at 3px, so it fits
      the gutter as-is: no bleed, no indent, no lost measure. The mark reads
