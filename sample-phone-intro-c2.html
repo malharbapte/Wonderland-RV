@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>C2 &mdash; how far to lift the mark</title>
+<title>C2 &mdash; how much larger</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=176">
 <style>
 body { font-family: var(--gordita); margin: 0; padding: 30px 20px 60px; background: #f4f4f4; }
@@ -15,7 +15,7 @@ h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
 .opt h2 { font-family: var(--aviano); font-size: 15px; margin: 0 0 4px; }
 .opt h2 b { color: #D57114; }
 .opt p { font-size: 12.5px; line-height: 18px; color: #666; margin: 0 0 10px; min-height: 54px; }
-.phone { width: 375px; height: 300px; border: 0; display: block; background: #fff;
+.phone { width: 375px; height: 310px; border: 0; display: block; background: #fff;
          border-radius: 14px 14px 0 0; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
 .was { opacity: .65; }
 .foot { margin-top: 34px; font-size: 13px; line-height: 20px; color: #555; max-width: 900px; }
@@ -23,30 +23,30 @@ h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
 </style>
 </head>
 <body>
-<h1>C2 &mdash; how far to lift the mark</h1>
-<p class="lede">I measured this rather than guessing again: the W&rsquo;s ink starts just <b>1px</b> below the top of its text box, so at a plain 100% the mark&rsquo;s underside is already level with the letter &mdash; technically on the corner, but crowding it, which is what you are seeing. So this is not a bug to fix but a distance to choose. Same C2 in all four, cropped to the top so the difference is easy to compare.</p>
+<h1>C2 &mdash; how much larger</h1>
+<p class="lede">Position is fixed at the 10px lift you approved and does not move in any of these. Because the mark is pinned by its <b>right</b> edge against the first letter, growing it pushes the left edge outward &mdash; so each step here reaches further past the 24px margin, which you said it may. The section is full bleed, so there is nothing for it to collide with out there.</p>
 <div class="row">
   <div class="opt was">
-    <h2>As you saw it &middot; 0px</h2>
-    <p>Mark level with the letter. Reads tight against the W.</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=0"></iframe>
+    <h2>38px &middot; as approved</h2>
+    <p>Current size. Left edge sits 4px inside the margin.</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=10&amp;size=38"></iframe>
   </div>
   <div class="opt ">
-    <h2>6px lift</h2>
-    <p>Just clear of the letter. The most restrained of the three.</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=6"></iframe>
+    <h2>46px <b>&mdash; my pick</b></h2>
+    <p>Noticeably weightier, left edge 4px past the margin. Still clearly punctuation.</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=10&amp;size=46"></iframe>
   </div>
   <div class="opt ">
-    <h2>10px lift <b>&mdash; my pick</b></h2>
-    <p>Sits on the corner with air under it, still clearly attached to the first word.</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=10"></iframe>
+    <h2>52px</h2>
+    <p>Left edge 10px past the margin. Starts to read as a graphic element in its own right.</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=10&amp;size=52"></iframe>
   </div>
   <div class="opt ">
-    <h2>14px lift</h2>
-    <p>Furthest up. Starts to read as a separate object again rather than an opening quote.</p>
-    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=14"></iframe>
+    <h2>58px</h2>
+    <p>Left edge 16px past the margin, close to the screen edge. The boldest of the four.</p>
+    <iframe class="phone" src="sample-phone-intro-frame.html?v=c2&amp;lift=10&amp;size=58"></iframe>
   </div>
 </div>
-<p class="foot">Tell me the number and I will set it. If none is right, say <b>higher</b> or <b>lower</b> and I will send the next step &mdash; the lift is a single value now, so it is a one-line change either way.</p>
+<p class="foot">Say the number. Size and lift are both single values now, so either is a one-line change &mdash; and I can go past 58 if you want it bolder still.</p>
 </body>
 </html>
