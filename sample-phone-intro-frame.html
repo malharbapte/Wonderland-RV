@@ -138,8 +138,15 @@ body { padding: 0 0 24px; }
      underside lands exactly on the cap line, measured 0px, the same as the
      desktop rule it is copied from. right:-6px keeps the 6px horizontal
      overlap, which is what desktop's 9px-on-a-62px-mark works out to here. */
+  /* bottom sits at 100% plus a lift. At a plain 100% the mark's underside is
+     level with the top of the W's ink (measured: the box top and the ink top
+     are 1px apart at this size), which is technically "on the corner" but
+     reads as crowding the letter. The lift is what clears it. */
   .c2 .amb-intro-copy p { padding-left: 36px; }
-  .c2 .amb-intro-copy .qmark { width: 38px; right: -6px; bottom: 100%; }
+  .c2 .amb-intro-copy .qmark {
+    width: 38px; right: -6px;
+    bottom: calc(100% + var(--qm-lift, 0px));
+  }
 
   /* C3 — shrink it. A 26px mark overlapping by 5px starts at 3px, so it fits
      the gutter as-is: no bleed, no indent, no lost measure. The mark reads
@@ -193,6 +200,9 @@ body { padding: 0 0 24px; }
 <script>
 var v = new URLSearchParams(location.search).get("v") || "a";
 /* b1/b2/b3 are refinements of B, so they carry .vb as well as their own class */
+var lift = new URLSearchParams(location.search).get("lift");
+if (lift) document.documentElement.style.setProperty("--qm-lift", lift + "px");
+
 document.documentElement.className =
   /^b[123]$/.test(v) ? ("vb " + v)
   : /^c[123]$/.test(v) ? ("vb b1 " + v)   /* corner tries ride on B1 */
