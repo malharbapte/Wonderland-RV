@@ -78,12 +78,14 @@
   gap: 0.495rem;
 }
 
-/* Each card is the CTA through to that Wonderlander's own page, so the whole
-   tile is the link rather than the name alone — bigger target, and the hover
-   that opens the bio is the same gesture that arms the click. */
+/* Each card is still the CTA through to that Wonderlander's own page, but the
+   card itself is no longer the <a>. The phone needs a chevron beside the name
+   to open the bio (there is no hover to do it), and a <button> cannot legally
+   sit inside an anchor — so the NAME carries the link and its ::after is
+   stretched across the whole tile. Same hit area as before, valid markup, and
+   room for a real button next to it. */
 .wl-card {
   display: block;
-  text-decoration: none;
   color: inherit;
   position: relative;
   aspect-ratio: 4 / 3;   /* landscape, per request — was the SVG's 759:793 */
@@ -114,12 +116,18 @@
    as the card leaning in rather than the image drifting off. Both run on the
    same .30s as the bio, so the whole card resolves as one movement. */
 .wl-card-media { transition: transform .30s ease; }
-.wl-card:hover .wl-card-media,
-.wl-card:focus-visible .wl-card-media { transform: translateY(-0.22rem); }
-
 .wl-card-media > img { transition: transform .30s ease; transform-origin: 50% 100%; }
-.wl-card:hover .wl-card-media > img,
-.wl-card:focus-visible .wl-card-media > img { transform: scale(1.06); }
+
+/* Gated on a real pointer. A tap leaves :hover stuck on a card on touch, which
+   would fight the chevron for control of the same bio. */
+@media (hover: hover) {
+  .wl-card:hover .wl-card-media { transform: translateY(-0.22rem); }
+  .wl-card:hover .wl-card-media > img { transform: scale(1.06); }
+  .wl-card:hover .wl-card-title { color: #fff; }
+  .wl-card:hover .wl-card-bio-wrap { grid-template-rows: 1fr; }
+}
+.wl-card:focus-within .wl-card-media { transform: translateY(-0.22rem); }
+.wl-card:focus-within .wl-card-media > img { transform: scale(1.06); }
 
 .wl-card-name {
   position: absolute; left: 0; right: 0; bottom: 0;
@@ -136,17 +144,32 @@
    signal that the tile is clickable, matched to the same .30s the bio uses
    so the whole card resolves as one movement. :focus-visible carries it for
    keyboard, since the card itself is now the focusable element. */
+.wl-card-head { display: flex; align-items: center; justify-content: space-between; gap: 0.08rem; }
+
 .wl-card-title {
   display: block;
+  text-decoration: none;
+  color: inherit;
   transition: color .30s ease;
 }
-.wl-card:hover .wl-card-title,
-.wl-card:focus-visible .wl-card-title { color: #fff; }
-
-.wl-card:focus-visible {
-  outline: 2px solid var(--orange-deep);
-  outline-offset: 2px;
+/* What keeps the whole tile clickable now the card is a div. The offsets look
+   odd because .wl-card-name is absolutely positioned and so is the containing
+   block here — inset:0 covered only the blush band, leaving the photo dead.
+   Reaching past the top of that band is what covers the card, and .wl-card's
+   own overflow:hidden clips the overshoot, so the hit area is exactly the
+   tile. Verified by hit-testing the middle of the photo. */
+.wl-card-title::after {
+  content: "";
+  position: absolute;
+  top: -100vh; right: 0; bottom: 0; left: 0;
+  z-index: 1;
 }
+.wl-card-title:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+
+/* Desktop opens the bio on hover, so there is nothing for a chevron to do. */
+.wl-card-toggle { display: none; }
+
+.wl-card:focus-within .wl-card-title { color: #fff; }
 
 /* Every card rests collapsed (name only) and expands on hover to show its
    bio, the way Sandy Van Travels used to sit permanently. A grid row
@@ -158,10 +181,7 @@
   transition: grid-template-rows .30s ease;
 }
 .wl-card-bio-inner { overflow: hidden; min-height: 0; }
-.wl-card:hover .wl-card-bio-wrap,
-.wl-card:focus-visible .wl-card-bio-wrap {
-  grid-template-rows: 1fr;
-}
+.wl-card:focus-within .wl-card-bio-wrap { grid-template-rows: 1fr; }
 
 .wl-card-bio {
   margin-top: 0.10rem;
@@ -180,22 +200,48 @@
   .wl-intro-kicker { margin-top: 10px; }
   .wl-intro-body { margin-top: 14px; }
 
-  .wl-cards { margin-top: 32px; }
+  /* Six full-width cards ran the section to 1364px, with every bio sitting
+     open because touch has no hover — a wall of text with the photography
+     buried under it. The cards pair up vertically and slide sideways instead,
+     which brings the section to about 400px, and the bios close behind a
+     chevron so the photos carry the rail. */
+  .wl-cards { width: 100%; margin-left: 0; margin-top: 32px; }
   .wl-cards-inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding-inline: 24px;
+    display: block; width: auto; max-width: none; padding: 0;
+    overflow-x: auto; scrollbar-width: none;
   }
+  .wl-cards-inner::-webkit-scrollbar { display: none; }
+  .wl-rail {
+    display: grid;
+    grid-auto-flow: column;              /* fills DOWN first, so cards pair up */
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: 62vw;
+    gap: 12px;
+    padding: 0 24px;
+  }
+
   .wl-card { border-radius: var(--radius); }
   .wl-card-name { padding: 10px 12px; font-size: 15px; }
-  /* no hover on a phone (§6) — bios sit open outright, same as Sandy Van
-     Travels already did before this card got the hover treatment */
-  .wl-card-bio-wrap { grid-template-rows: 1fr; }
+
+  /* Sits above the title's stretched ::after so the chevron takes its own
+     taps; everything else on the card still goes through to the page. */
+  .wl-card-toggle {
+    display: grid; place-items: center;
+    position: relative; z-index: 2;
+    flex: 0 0 auto;
+    width: 44px; height: 44px;           /* full target … */
+    margin: -13px -12px -13px 0;         /* … without deepening the band */
+    color: inherit;
+  }
+  .wl-card-toggle svg { width: 15px; height: 15px; transition: transform .3s ease; }
+  .wl-card-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+  .wl-card-bio-wrap { grid-template-rows: 0fr; }
+  .wl-card.is-open .wl-card-bio-wrap { grid-template-rows: 1fr; }
   .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
 }
 
 @media (max-width: 560px) {
-  /* Six cards at two-up is already tight; below 560 a single column reads
-     better than a shrinking 2-up grid. */
-  .wl-cards-inner { grid-template-columns: 1fr; max-width: 320px; }
+  /* a touch wider per card on the smallest screens, so the name still fits */
+  .wl-rail { grid-auto-columns: 68vw; }
 }

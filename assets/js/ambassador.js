@@ -60,7 +60,11 @@ mountVideo(document.querySelector(".amb-video"), AMBASSADOR_VIDEO_URL,
       var c = card.cloneNode(true);
       c.setAttribute("aria-hidden", "true");
       c.classList.add("is-clone");
-      c.setAttribute("tabindex", "-1");
+      /* The card is a div now, not the link — so the things that can actually
+         take focus are the name and the chevron inside it. */
+      [].slice.call(c.querySelectorAll("a, button")).forEach(function (el) {
+        el.setAttribute("tabindex", "-1");
+      });
       if (where === "before") strip.insertBefore(c, strip.firstChild);
       else strip.appendChild(c);
     });
