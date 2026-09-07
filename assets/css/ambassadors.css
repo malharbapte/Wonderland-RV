@@ -78,7 +78,13 @@
   gap: 0.495rem;
 }
 
+/* Each card is the CTA through to that Wonderlander's own page, so the whole
+   tile is the link rather than the name alone — bigger target, and the hover
+   that opens the bio is the same gesture that arms the click. */
 .wl-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   position: relative;
   aspect-ratio: 4 / 3;   /* landscape, per request — was the SVG's 759:793 */
   border-radius: 0.155rem;
@@ -112,7 +118,22 @@
   line-height: 1.1;
   color: #FFF2DC;
 }
-.wl-card-title { display: block; }
+
+/* The name rests in the band's cream and lifts to pure white on hover — the
+   signal that the tile is clickable, matched to the same .30s the bio uses
+   so the whole card resolves as one movement. :focus-visible carries it for
+   keyboard, since the card itself is now the focusable element. */
+.wl-card-title {
+  display: block;
+  transition: color .30s ease;
+}
+.wl-card:hover .wl-card-title,
+.wl-card:focus-visible .wl-card-title { color: #fff; }
+
+.wl-card:focus-visible {
+  outline: 2px solid var(--orange-deep);
+  outline-offset: 2px;
+}
 
 /* Every card rests collapsed (name only) and expands on hover to show its
    bio, the way Sandy Van Travels used to sit permanently. A grid row
@@ -125,7 +146,7 @@
 }
 .wl-card-bio-inner { overflow: hidden; min-height: 0; }
 .wl-card:hover .wl-card-bio-wrap,
-.wl-card-name:focus-within .wl-card-bio-wrap {
+.wl-card:focus-visible .wl-card-bio-wrap {
   grid-template-rows: 1fr;
 }
 
