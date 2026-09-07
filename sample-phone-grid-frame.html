@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>phone grid frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=173">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=173">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=173">
+<style>
+/* ==========================================================================
+   One option at a time, rendered at a real phone width. The variant comes in
+   as ?v= and lands on <html>, so the media queries below behave exactly as
+   they would on a device.
+
+   Everything here is inside the phone block. Desktop is gated and nothing in
+   this file touches it.
+   ========================================================================== */
+body { padding: 20px 0 28px; }
+
+@media (max-width: 900px) {
+  /* ------------------------------------------------ 2 - two rows, sliding */
+  .v2 .wl-cards { width: 100%; margin-left: 0; margin-top: 0; }
+  .v2 .wl-cards-inner {
+    display: block; width: auto; max-width: none; padding: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .v2 .wl-cards-inner::-webkit-scrollbar { display: none; }
+  .v2 .wl-rail {
+    display: grid;
+    grid-auto-flow: column;              /* fills DOWN first, so cards pair up */
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: 62vw;
+    gap: 12px;
+    padding: 0 24px;
+  }
+
+  /* --------------------------------------------- 3 - one row, big cards -- */
+  .v3 .wl-cards { width: 100%; margin-left: 0; margin-top: 0; }
+  .v3 .wl-cards-inner {
+    display: block; width: auto; max-width: none; padding: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .v3 .wl-cards-inner::-webkit-scrollbar { display: none; }
+  .v3 .wl-rail {
+    display: flex; gap: 12px; padding: 0 24px;
+  }
+  .v3 .wl-rail .wl-card { flex: 0 0 78vw; }
+}
+</style>
+</head>
+<body>
+<section class="wl-cards">
+  <div class="wl-cards-inner">
+    <a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Lost Tribe Adventures">
+        <img src="assets/img/ambassadors/lost-tribe-adventures.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Lost Tribe Adventures</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Exploring breathtaking landscapes since 2021, Lost Tribe Adventures have turned
+            off-road caravanning into a lifestyle. Aaron and Steph are creating lasting memories with their two
+            beautiful children, Wes and Georgi.</p>
+        </div></div>
+      </div>
+    </a>
+    <a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Wheatland Wanderers</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </a>
+    <a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Few Laps Around the Sun">
+        <img src="assets/img/ambassadors/few-laps-around-the-sun.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Few Laps Around the Sun</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Meet Zane and Casey, the adventurous duo behind &ldquo;Few Laps Around the
+            Sun,&rdquo; a captivating journey through the heart of Australia.</p>
+        </div></div>
+      </div>
+    </a>
+    <a class="wl-card" href="sandy-van-travels.html">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Sandy Van Travels">
+        <img src="assets/img/ambassadors/sandy-van-travels.jpg?v=173" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Sandy Van Travels</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Jess and Doug sold everything in Brisbane to travel Australia full-time with
+            their three kids, documenting the journey through photography, video and honest storytelling.</p>
+        </div></div>
+      </div>
+    </a>
+    <a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Livin In Sanity">
+        <img src="assets/img/ambassadors/livin-in-sanity.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Livin In Sanity</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Since February 2023, this beautiful family has been full-time travelling,
+            capturing awesome moments and sharing epic memories.</p>
+        </div></div>
+      </div>
+    </a>
+    <a class="wl-card" href="#">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Kiwi Van Life (TBC)">
+        <img src="assets/img/ambassadors/kiwi-van-life.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <span class="wl-card-title">Kiwi Van Life</span>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio wl-card-bio--tbc">Placeholder — not yet listed on wonderlandrv.com.au. Confirm before publishing.</p>
+        </div></div>
+      </div>
+    </a>
+  </div>
+</section>
+<script>
+var v = new URLSearchParams(location.search).get("v") || "1";
+document.documentElement.className = "v" + v;
+
+/* 2 and 3 wrap the cards in a rail and run endlessly, the same clone-set
+   approach the meet-more strip uses. 1 is left exactly as the page is today. */
+if (v !== "1") {
+  var inner = document.querySelector(".wl-cards-inner");
+  var rail = document.createElement("div");
+  rail.className = "wl-rail";
+  while (inner.firstChild) rail.appendChild(inner.firstChild);
+  inner.appendChild(rail);
+
+  var real = [].slice.call(rail.children);
+  function cloneSet(where) {
+    real.forEach(function (c) {
+      var k = c.cloneNode(true);
+      k.setAttribute("aria-hidden", "true");
+      k.setAttribute("tabindex", "-1");
+      if (where === "before") rail.insertBefore(k, rail.firstChild); else rail.appendChild(k);
+    });
+  }
+  cloneSet("after"); cloneSet("before");
+
+  var n = real.length, w = 0, ready = false;
+  function rest() {
+    w = rail.children[n].offsetLeft - rail.children[0].offsetLeft;
+    if (!w) return;
+    inner.style.scrollBehavior = "auto";
+    inner.scrollLeft = w;
+    ready = true;
+  }
+  var wrapping = false;
+  inner.addEventListener("scroll", function () {
+    if (!ready || wrapping) return;
+    if (inner.scrollLeft >= w * 2 || inner.scrollLeft <= 0) {
+      wrapping = true;
+      inner.scrollLeft += (inner.scrollLeft <= 0) ? w : -w;
+      wrapping = false;
+    }
+  });
+  window.addEventListener("resize", function () { ready = false; rest(); });
+  if (document.readyState === "complete") rest(); else window.addEventListener("load", rest);
+  rest();
+}
+</script>
+</body>
+</html>
