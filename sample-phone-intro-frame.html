@@ -67,6 +67,40 @@ body { padding: 0 0 24px; }
   .vb .amb-intro-rest .amb-sign b,
   .vb .amb-intro-rest .amb-sign span { font-size: 15px; line-height: 22px; }
 
+
+  /* ================================================== option B, mark fixes
+     As built, the mark's underside sat exactly on the lede's cap line and
+     flush to its left edge — no gap in either direction, so it read as a
+     graphic dropped on the text rather than as an opening quote. It was also
+     3px from the top of the section. Three ways to seat it properly. */
+
+  /* B1 — above, with air. Smaller mark, a real gap under it, and the section
+     given room at the top so it is not pinned to the edge. */
+  .b1 .amb-intro-copy { padding-top: 52px; }
+  .b1 .amb-intro-copy .qmark { width: 42px; bottom: calc(100% + 14px); }
+
+  /* B2 — beside the opening lines. The mark floats and the lede wraps around
+     it, which is the relationship the desktop has (mark to the LEFT of the
+     first letter) rather than an approximation of it. */
+  .b2 .amb-intro-copy { padding-top: 34px; }
+  .b2 .amb-intro-copy .qm-anchor {
+    position: static; float: left; margin: 7px 12px 2px 0;
+  }
+  .b2 .amb-intro-copy .qmark { position: static; width: 42px; }
+
+  /* B3 — on the line. The mark sits inline immediately before the first word,
+     the way a typed opening quotation would, so there is no floating object
+     above the copy at all. */
+  .b3 .amb-intro-copy { padding-top: 34px; }
+  .b3 .amb-intro-copy .qm-anchor {
+    position: static; display: inline-block; vertical-align: baseline;
+    margin-right: 9px;
+  }
+  .b3 .amb-intro-copy .qmark {
+    position: static; display: inline-block; width: 30px;
+    vertical-align: -1px;
+  }
+
   /* ------------------------------------------------ C - the story in cream
      The copy moves onto the same cream panel the travel tips answer sits on,
      so the two halves of the page read as one system rather than loose text
@@ -113,12 +147,13 @@ body { padding: 0 0 24px; }
 </section>
 <script>
 var v = new URLSearchParams(location.search).get("v") || "a";
-document.documentElement.className = "v" + v;
+/* b1/b2/b3 are refinements of B, so they carry .vb as well as their own class */
+document.documentElement.className = /^b[123]$/.test(v) ? ("vb " + v) : ("v" + v);
 
 /* B splits the copy: the first paragraph stays as the lede, everything after
    it moves below the film. Done here rather than in the markup so the sample
    stays a pure phone experiment. */
-if (v === "b") {
+if (v === "b" || /^b[123]$/.test(v)) {
   var copy = document.querySelector(".amb-intro-copy");
   var kids = [].slice.call(copy.children);
   var rest = document.createElement("div");
