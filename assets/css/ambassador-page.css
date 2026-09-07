@@ -209,11 +209,13 @@
   max-width: 100%;
   margin-inline: auto;
   height: 5.17rem;
-  border: 1px solid #1c1c1c;
   border-radius: 0.095rem;
   overflow: hidden;
 }
-.amb-plan.ph { border-color: #d0d0d0; }
+/* No border. The comp draws one, but that was the box standing in for artwork
+   that had not arrived — with the real cutaway in place it just fences the
+   image in. The .ph placeholder still reads on its own, from the striped
+   background styles.css gives it. */
 .amb-plan > img { width: 100%; height: 100%; object-fit: contain; }
 
 .amb-specs {
