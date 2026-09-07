@@ -30,7 +30,12 @@
    whatever it sits in. It is reused here rather than redrawn — an earlier
    pass hand-rolled two skewed divs under a .amb-qmark name, which both
    duplicated the component and collided with it. */
-.amb-intro-copy p { position: relative; }
+/* A zero-width inline span at the very start of the first line sits exactly
+   where the first letter does. .qmark's own right/bottom offsets then place
+   the mark above-left of that letter — which is what the comp draws. Anchoring
+   to the paragraph box instead put it adrift, because the copy is right
+   aligned and every line starts at a different x. */
+.amb-intro-copy .qm-anchor { position: relative; }
 .amb-intro-copy .qmark { width: 1.02rem; fill: var(--orange); }
 
 /* ------------------------------------------------------------------ intro
@@ -95,17 +100,68 @@
 }
 
 /* ------------------------------------------------------------- travel tips
-   A horizontally scrolling strip of staggered columns, as drawn: three
-   columns of 5.15rem, each a pair of tiles whose split differs so the
-   seam never lines up. The cream panel is the next column showing through.
-   Scroll-snap does the paging; the arrows just nudge the same scroller. */
+   Not a scroller. The comp draws a fixed three-column stack of stills on the
+   left and a flat cream panel on the right, and the live site shows what
+   belongs in that panel: the ambassador's travel-tip Q&A. The arrows page
+   between the questions in place — the stills stay put, so nothing about
+   this section moves horizontally. */
 .amb-tips { margin-top: var(--section-gap); }
-.amb-tips-head {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 0.40rem;
+
+.amb-tips-band {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.44rem;
+  display: grid;
+  grid-template-columns: 15.89rem 7.91rem;   /* the comp's own split */
 }
-.amb-tips-arrows { display: flex; gap: 0.24rem; }
+
+.amb-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 5.15rem);
+  gap: 0.22rem;
+  align-content: start;
+}
+.amb-tips-col { display: flex; flex-direction: column; gap: 0.21rem; }
+.amb-tips-col .ph { border-radius: 0.04rem; }
+/* the three columns split at different points so no seam runs straight across */
+.amb-tips-col--a .ph:nth-child(1) { height: 6.81rem; }
+.amb-tips-col--a .ph:nth-child(2) { height: 6.81rem; }
+.amb-tips-col--b .ph:nth-child(1) { height: 4.53rem; }
+.amb-tips-col--b .ph:nth-child(2) { height: 9.06rem; }
+.amb-tips-col--c .ph:nth-child(1) { height: 9.06rem; }
+.amb-tips-col--c .ph:nth-child(2) { height: 4.53rem; }
+
+.amb-tips-panel {
+  position: relative;
+  background: #FFF2DC;
+  padding: 0.80rem 1.00rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.amb-tip { display: none; }
+.amb-tip.is-on { display: block; }
+.amb-tip-q {
+  margin: 0 0 0.26rem;
+  font-family: var(--gordita);
+  font-weight: 700;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+}
+.amb-tip-a {
+  margin: 0;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
+  color: #4a4a4a;
+}
+
+/* The comp sits these just inside the panel's own left and right edges,
+   level with its middle. */
 .amb-tips-arrows button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 0.44rem; height: 0.44rem;
   display: grid; place-items: center;
   border-radius: 50%;
@@ -115,42 +171,8 @@
 .amb-tips-arrows button:hover,
 .amb-tips-arrows button:focus-visible { background: var(--orange); color: #fff; }
 .amb-tips-arrows svg { width: 0.20rem; height: 0.20rem; }
-
-.amb-tips-strip {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-top: 0.44rem;
-  padding: 0 var(--page-margin);
-  display: flex;
-  gap: 0.22rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-/* The comp fills the right third of this band with a flat cream panel. That
-   reads as the empty space past the last tile in a static picture, but here
-   the strip really scrolls, so a fixed panel just striped through the tiles.
-   It is carried instead as a cream tail that sits after the final column —
-   same colour doing the same job, without cutting across anything. */
-.amb-tips-tail {
-  flex: 0 0 7.91rem;
-  align-self: stretch;
-  background: #FFF2DC;
-}
-.amb-tips-strip::-webkit-scrollbar { display: none; }
-
-.amb-tips-col {
-  flex: 0 0 5.15rem;
-  display: flex; flex-direction: column; gap: 0.21rem;
-  scroll-snap-align: start;
-}
-.amb-tips-col .ph { border-radius: 0.04rem; }
-.amb-tips-col--a .ph:nth-child(1) { height: 6.81rem; }
-.amb-tips-col--a .ph:nth-child(2) { height: 6.81rem; }
-.amb-tips-col--b .ph:nth-child(1) { height: 4.53rem; }
-.amb-tips-col--b .ph:nth-child(2) { height: 9.06rem; }
-.amb-tips-col--c .ph:nth-child(1) { height: 9.06rem; }
-.amb-tips-col--c .ph:nth-child(2) { height: 4.53rem; }
+.amb-tip-prev { left: 0.30rem; }
+.amb-tip-next { right: 0.34rem; }
 
 /* ------------------------------------------------------------- van layout */
 .amb-layout { margin-top: var(--section-gap); }
@@ -253,7 +275,10 @@
    reveal and the blush name band all come from one place. Only the frame
    changes: the comp draws these portrait (693 x 794) rather than the 4:3
    the grid on ambassadors.html uses. */
-.amb-more { margin-top: var(--section-gap); }
+/* On ambassadors.html the Experience band gets its top gap from .service's
+   padding-bottom. This page has no .service between them, so the gap has to
+   come from here — without it the band butted straight onto the cards. */
+.amb-more { margin-top: var(--section-gap); margin-bottom: var(--section-gap); }
 .amb-more-strip {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -329,8 +354,10 @@
   .amb-socials { padding-left: 24px; gap: 20px; margin-top: 24px; }
   .amb-socials a, .amb-socials .ph { width: 44px; height: 44px; }
 
-  .amb-tips-strip, .amb-more-strip { padding: 0 24px; background: none; }
-  .amb-tips-col { flex-basis: 60vw; }
+  .amb-tips-band { grid-template-columns: 1fr; }
+  .amb-tips-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 24px; }
+  .amb-tips-panel { padding: 32px 44px; }
+  .amb-more-strip { padding: 0 24px; }
   .amb-tips-col--a .ph:nth-child(1), .amb-tips-col--a .ph:nth-child(2) { height: 40vw; }
   .amb-tips-col--b .ph:nth-child(1), .amb-tips-col--c .ph:nth-child(2) { height: 26vw; }
   .amb-tips-col--b .ph:nth-child(2), .amb-tips-col--c .ph:nth-child(1) { height: 54vw; }
