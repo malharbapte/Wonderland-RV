@@ -9,24 +9,22 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=173">
 <style>
 /* ==========================================================================
-   One option at a time, rendered at a real phone width. The variant comes in
-   as ?v= and lands on <html>, so the media queries below behave exactly as
-   they would on a device.
-
-   Everything here is inside the phone block. Desktop is gated and nothing in
-   this file touches it.
+   One option per frame, at a real phone width. Variant arrives as ?v= and
+   lands on <html>. Everything is inside the phone block — desktop is gated
+   and nothing here touches it.
    ========================================================================== */
 body { padding: 20px 0 28px; }
 
 @media (max-width: 900px) {
-  /* ------------------------------------------------ 2 - two rows, sliding */
-  .v2 .wl-cards { width: 100%; margin-left: 0; margin-top: 0; }
-  .v2 .wl-cards-inner {
+  /* the sliding rail, shared by both option-2 panels */
+  .v2 .wl-cards, .v2r .wl-cards { width: 100%; margin-left: 0; margin-top: 0; }
+  .v2 .wl-cards-inner, .v2r .wl-cards-inner {
     display: block; width: auto; max-width: none; padding: 0;
     overflow-x: auto; scrollbar-width: none;
   }
-  .v2 .wl-cards-inner::-webkit-scrollbar { display: none; }
-  .v2 .wl-rail {
+  .v2 .wl-cards-inner::-webkit-scrollbar,
+  .v2r .wl-cards-inner::-webkit-scrollbar { display: none; }
+  .v2 .wl-rail, .v2r .wl-rail {
     display: grid;
     grid-auto-flow: column;              /* fills DOWN first, so cards pair up */
     grid-template-rows: repeat(2, auto);
@@ -35,17 +33,29 @@ body { padding: 20px 0 28px; }
     padding: 0 24px;
   }
 
-  /* --------------------------------------------- 3 - one row, big cards -- */
-  .v3 .wl-cards { width: 100%; margin-left: 0; margin-top: 0; }
-  .v3 .wl-cards-inner {
-    display: block; width: auto; max-width: none; padding: 0;
-    overflow-x: auto; scrollbar-width: none;
+  /* ------------------------------------------------ 2 revised: the toggle --
+     A button cannot legally sit inside the card's own <a>, so on the phone the
+     card stops being one link wrapping everything: the NAME becomes the link
+     and the chevron sits beside it as a real button. Both are proper controls,
+     nothing is nested, and the card keeps its fixed 4:3 box so opening a bio
+     grows the blush band up over the photo rather than changing any row
+     height in the rail. */
+  .v2r .wl-card-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 6px;
   }
-  .v3 .wl-cards-inner::-webkit-scrollbar { display: none; }
-  .v3 .wl-rail {
-    display: flex; gap: 12px; padding: 0 24px;
+  .v2r .wl-card-title { text-decoration: none; color: inherit; }
+  .v2r .wl-card-toggle {
+    flex: 0 0 auto;
+    width: 44px; height: 44px;           /* full tap target … */
+    margin: -13px -12px -13px 0;         /* … without deepening the band */
+    display: grid; place-items: center;
+    color: inherit;
   }
-  .v3 .wl-rail .wl-card { flex: 0 0 78vw; }
+  .v2r .wl-card-toggle svg { width: 15px; height: 15px; transition: transform .3s ease; }
+  .v2r .wl-card-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  /* closed by default here, unlike the live phone block which sits them open */
+  .v2r .wl-card-bio-wrap { grid-template-rows: 0fr; }
+  .v2r .wl-card.is-open .wl-card-bio-wrap { grid-template-rows: 1fr; }
 }
 </style>
 </head>
@@ -130,10 +140,45 @@ body { padding: 20px 0 28px; }
 var v = new URLSearchParams(location.search).get("v") || "1";
 document.documentElement.className = "v" + v;
 
-/* 2 and 3 wrap the cards in a rail and run endlessly, the same clone-set
-   approach the meet-more strip uses. 1 is left exactly as the page is today. */
+var CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var inner = document.querySelector(".wl-cards-inner");
+
+/* ---- option 2 revised: re-cast each card so the toggle is legal ---------- */
+if (v === "2r") {
+  [].slice.call(inner.children).forEach(function (a) {
+    var href = a.getAttribute("href");
+    var name = a.querySelector(".wl-card-name");
+    var title = a.querySelector(".wl-card-title");
+    var bio = a.querySelector(".wl-card-bio-wrap");
+
+    var card = document.createElement("div");
+    card.className = "wl-card";
+    card.appendChild(a.querySelector(".wl-card-media"));
+
+    var head = document.createElement("div");
+    head.className = "wl-card-head";
+    var link = document.createElement("a");
+    link.className = "wl-card-title";
+    link.href = href;
+    link.textContent = title.textContent;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "wl-card-toggle";
+    btn.innerHTML = CHEV;
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "Show " + title.textContent + "'s story");
+    head.appendChild(link); head.appendChild(btn);
+
+    name.insertBefore(head, name.firstChild);
+    title.remove();
+    name.appendChild(bio);
+    card.appendChild(name);
+    a.replaceWith(card);
+  });
+}
+
+/* ---- the sliding rail, endless in both directions ----------------------- */
 if (v !== "1") {
-  var inner = document.querySelector(".wl-cards-inner");
   var rail = document.createElement("div");
   rail.className = "wl-rail";
   while (inner.firstChild) rail.appendChild(inner.firstChild);
@@ -144,7 +189,11 @@ if (v !== "1") {
     real.forEach(function (c) {
       var k = c.cloneNode(true);
       k.setAttribute("aria-hidden", "true");
-      k.setAttribute("tabindex", "-1");
+      /* nothing inside a hidden clone may take focus */
+      [].slice.call(k.querySelectorAll("a, button")).forEach(function (el) {
+        el.setAttribute("tabindex", "-1");
+      });
+      if (k.tagName === "A") k.setAttribute("tabindex", "-1");
       if (where === "before") rail.insertBefore(k, rail.firstChild); else rail.appendChild(k);
     });
   }
@@ -171,6 +220,15 @@ if (v !== "1") {
   if (document.readyState === "complete") rest(); else window.addEventListener("load", rest);
   rest();
 }
+
+/* ---- wire every toggle, clones included, so a wrapped card still works --- */
+document.addEventListener("click", function (e) {
+  var btn = e.target.closest && e.target.closest(".wl-card-toggle");
+  if (!btn) return;
+  var card = btn.closest(".wl-card");
+  var open = card.classList.toggle("is-open");
+  btn.setAttribute("aria-expanded", String(open));
+});
 </script>
 </body>
 </html>
