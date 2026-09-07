@@ -348,6 +348,10 @@
   scrollbar-width: none;
 }
 .amb-more-strip::-webkit-scrollbar { display: none; }
+/* The rail wraps by jumping a whole set width, which lands on an identical
+   card. Snapping would fight that jump, so the strip free-scrolls instead. */
+.amb-more-strip { scroll-snap-type: none; }
+.amb-more-strip .wl-card { scroll-snap-align: none; }
 .amb-more-strip .wl-card {
   flex: 0 0 6.93rem;
   aspect-ratio: 693 / 794;

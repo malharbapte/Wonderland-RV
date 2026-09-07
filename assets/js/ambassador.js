@@ -35,3 +35,74 @@ mountVideo(document.querySelector(".amb-video"), AMBASSADOR_VIDEO_URL,
   if (prev) prev.addEventListener("click", function () { show(at - 1); });
   if (nxt) nxt.addEventListener("click", function () { show(at + 1); });
 })();
+
+/* ------------------------------------------------- meet more: endless rail --
+   The strip is a native overflow scroller, so it stopped dead at the last
+   Wonderlander. Same idea reviews.js uses for the review slider — park clones
+   either side of the real set and step back into it, out of sight — but
+   applied to scrollLeft rather than a transform, so the finger, the trackpad
+   and the scrollbar all still drive it.
+
+   Three sets sit in the rail: clones, the real cards, clones. It rests on the
+   middle one, and whenever a scroll carries past a set boundary the position
+   jumps back by exactly one set width. That lands on the identical card, so
+   nothing moves on screen and the rail never reaches an end in either
+   direction. The clones are hidden from assistive tech and taken out of the
+   tab order — only the real five are reachable. */
+(function () {
+  var strip = document.querySelector(".amb-more-strip");
+  if (!strip) return;
+  var real = [].slice.call(strip.children);
+  if (real.length < 2) return;
+
+  function cloneSet(where) {
+    real.forEach(function (card) {
+      var c = card.cloneNode(true);
+      c.setAttribute("aria-hidden", "true");
+      c.classList.add("is-clone");
+      c.setAttribute("tabindex", "-1");
+      if (where === "before") strip.insertBefore(c, strip.firstChild);
+      else strip.appendChild(c);
+    });
+  }
+  cloneSet("after");
+  cloneSet("before");          // prepended in reverse, which is still one full set
+
+  var n = real.length;
+  function setWidth() {
+    // measured, not assumed, so the gap and any resize come along for free
+    return strip.children[n].offsetLeft - strip.children[0].offsetLeft;
+  }
+
+  var w = 0, ready = false;
+  function rest() {
+    w = setWidth();
+    if (!w) return;
+    strip.style.scrollBehavior = "auto";
+    strip.scrollLeft = w;      // start on the real set, a full set either side
+    ready = true;
+  }
+
+  /* Deliberately not rAF-throttled. rAF never fires in a background tab
+     (HANDOFF sec 9), and setting scrollLeft here fires another scroll event,
+     so the guard flag is what stops it re-entering — not a frame callback. */
+  var wrapping = false;
+  strip.addEventListener("scroll", function () {
+    if (!ready || wrapping) return;
+    if (strip.scrollLeft >= w * 2 || strip.scrollLeft <= 0) {
+      wrapping = true;
+      strip.scrollLeft += (strip.scrollLeft <= 0) ? w : -w;
+      wrapping = false;
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    ready = false;
+    rest();
+  });
+
+  /* Images decide the card heights, so measure once they are in. */
+  if (document.readyState === "complete") rest();
+  else window.addEventListener("load", rest);
+  rest();
+})();
