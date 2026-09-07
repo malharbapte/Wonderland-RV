@@ -147,6 +147,10 @@
   font-weight: 700;
   font-size: var(--t-body);
   line-height: var(--lh-body);
+  /* --orange-deep, not --orange: the tokens reserve the deep one for headings
+     and it is what .amb-spec h3 and .wl-intro-kicker already use. It also
+     holds up far better against the cream panel behind it. */
+  color: var(--orange-deep);
 }
 .amb-tip-a {
   margin: 0;
