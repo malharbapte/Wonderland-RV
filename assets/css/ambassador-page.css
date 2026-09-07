@@ -436,11 +436,10 @@
     padding-left: 36px;          /* the space the mark sits in */
     font-size: 19px; line-height: 28px;
   }
-  /* Placed breaks (HANDOFF §8). The lede is hand-broken so no line ends on a
-     hyphen — "full-time" and "7-year-old" were splitting across lines, which
-     is what read badly. The spans are inline on desktop, so its wrap is
-     untouched; the hyphens in both words are non-breaking as a second guard. */
-  .amb-intro-copy .ln { display: block; }
+  /* No placed breaks here. Hand-setting the lines was making the block 84px
+     taller for nothing — the non-breaking hyphens in "full-time" and
+     "7-year-old" are what actually stop those words splitting, and letting the
+     lede fill its measure takes it from nine lines to six. */
 
   /* The mark sits on the first letter's top-left corner, as it does on
      desktop: right edge 6px past that letter, underside lifted 6px clear of
