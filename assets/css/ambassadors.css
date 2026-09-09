@@ -126,8 +126,17 @@
   .wl-card:hover .wl-card-title { color: #fff; }
   .wl-card:hover .wl-card-bio-wrap { grid-template-rows: 1fr; }
 }
-.wl-card:focus-within .wl-card-media { transform: translateY(-0.22rem); }
-.wl-card:focus-within .wl-card-media > img { transform: scale(1.06); }
+/* Keyboard's equivalent of the hover above — and DESKTOP ONLY, deliberately.
+   A tap leaves focus sitting on the chevron, so on a phone :focus-within was
+   still true after the second tap: the class came off and aria-expanded went
+   to false, but this rule held the bio open at its full height and the card
+   would not close again. Hover is already gated for exactly this reason; this
+   is the same trap one selector along. Nothing changes above 901, where these
+   rules are all that carry a keyboard through the card. */
+@media (min-width: 901px) {
+  .wl-card:focus-within .wl-card-media { transform: translateY(-0.22rem); }
+  .wl-card:focus-within .wl-card-media > img { transform: scale(1.06); }
+}
 
 .wl-card-name {
   position: absolute; left: 0; right: 0; bottom: 0;
@@ -169,7 +178,9 @@
 /* Desktop opens the bio on hover, so there is nothing for a chevron to do. */
 .wl-card-toggle { display: none; }
 
-.wl-card:focus-within .wl-card-title { color: #fff; }
+@media (min-width: 901px) {
+  .wl-card:focus-within .wl-card-title { color: #fff; }
+}
 
 /* Every card rests collapsed (name only) and expands on hover to show its
    bio, the way Sandy Van Travels used to sit permanently. A grid row
@@ -181,7 +192,9 @@
   transition: grid-template-rows .30s ease;
 }
 .wl-card-bio-inner { overflow: hidden; min-height: 0; }
-.wl-card:focus-within .wl-card-bio-wrap { grid-template-rows: 1fr; }
+@media (min-width: 901px) {
+  .wl-card:focus-within .wl-card-bio-wrap { grid-template-rows: 1fr; }
+}
 
 .wl-card-bio {
   margin-top: 0.10rem;

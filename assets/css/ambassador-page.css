@@ -463,7 +463,13 @@
    <details>/<summary> so the accordion works with no JS and stays keyboard
    and screen-reader native. The marker is replaced by a drawn chevron that
    flips when the row is open. */
-.amb-faq { margin-top: var(--section-gap); }
+/* padding-bottom because "Where to next" now closes the page. That band is
+   full bleed and sits flush against whatever precedes it, which is right
+   where it follows another band — as it does on Contact Us and on the
+   Wonderlanders page — but not under a list of text rows, where the last
+   hairline would have run straight into the video. The FAQ takes the same
+   closing gap .amb-more already carries. */
+.amb-faq { margin-top: var(--section-gap); padding-bottom: var(--section-gap); }
 .amb-faq-list { margin-top: 0.52rem; }
 
 .amb-faq details { border-bottom: 1px solid #cfcfcf; }
@@ -667,6 +673,9 @@
   .amb-more-strip .wl-card { flex-basis: 70vw; }
 
   /* ------------------------------------------------------------------ faq */
+  /* --section-gap is 1.20rem, which is 19px once rem flattens down here —
+     too tight to read as a break before a full-bleed band. Stated in px. */
+  .amb-faq { padding-bottom: 40px; }
   .amb-faq summary { font-size: 15px; line-height: 22px; padding: 16px 0; }
   .amb-faq summary svg { width: 14px; height: 14px; }
   .amb-faq-body { font-size: 14px; line-height: 22px; padding-bottom: 18px; }
