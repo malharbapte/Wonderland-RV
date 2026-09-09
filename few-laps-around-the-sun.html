@@ -6,10 +6,10 @@
 <title>Few Laps Around the Sun — Wonderland RV</title>
 <meta name="description" content="Meet Few Laps Around the Sun, Wonderland RV Wonderlanders travelling Australia off-road.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=189">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=189">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=189">
-<link rel="stylesheet" href="assets/css/ambassador-page.css?v=189">
+<link rel="stylesheet" href="assets/css/styles.css?v=190">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=190">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=190">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=190">
 </head>
 <body>
 
@@ -97,13 +97,23 @@
          assets/js/ambassador.js. -->
     <div class="amb-video video-frame ph" data-ph="VIDEO — Few Laps Around the Sun"
          data-video="" data-title="Few Laps Around the Sun"></div>
-    <!-- Social icons to be added once Few Laps Around the Sun's own profile links are
-         confirmed. -->
+    <!-- Instagram, Facebook, LinkedIn, then their own site — left to right.
+         Each is a real anchor that carries no href yet, because the profile
+         URLs have not been supplied. An <a> with no href is inert by
+         definition: not focusable, not clickable, no pointer cursor, and the
+         CSS gates hover on [href] to match. Paste the URL in and the icon
+         goes live — target, rel and the label are already there, nothing
+         else changes. Note an empty href="" would NOT be inert: it points
+         at the current page and reloads it. -->
     <div class="amb-socials">
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
+      <a class="amb-social" data-net="instagram" target="_blank" rel="noopener noreferrer"
+         aria-label="Few Laps Around the Sun on Instagram"><img src="assets/img/social/instagram.png" alt=""></a>
+      <a class="amb-social" data-net="facebook" target="_blank" rel="noopener noreferrer"
+         aria-label="Few Laps Around the Sun on Facebook"><img src="assets/img/social/facebook.png" alt=""></a>
+      <a class="amb-social" data-net="linkedin" target="_blank" rel="noopener noreferrer"
+         aria-label="Few Laps Around the Sun on LinkedIn"><img src="assets/img/social/linkedin.png" alt=""></a>
+      <a class="amb-social" data-net="web" target="_blank" rel="noopener noreferrer"
+         aria-label="Few Laps Around the Sun — their own website"><img src="assets/img/social/web.png" alt=""></a>
     </div>
   </div>
 </section>
@@ -468,11 +478,11 @@
   </div>
 </footer>
 
-<script src="assets/js/wonderlanders.js?v=189"></script>
-<script src="assets/js/video-embed.js?v=189"></script>
-<script src="assets/js/ambassador.js?v=189"></script>
-<script src="assets/js/lightbox.js?v=189"></script>
+<script src="assets/js/wonderlanders.js?v=190"></script>
+<script src="assets/js/video-embed.js?v=190"></script>
+<script src="assets/js/ambassador.js?v=190"></script>
+<script src="assets/js/lightbox.js?v=190"></script>
 
-<script src="assets/js/nav.js?v=189"></script>
+<script src="assets/js/nav.js?v=190"></script>
 </body>
 </html>

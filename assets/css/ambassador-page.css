@@ -115,6 +115,29 @@
   border-radius: 0.04rem;
 }
 
+/* Instagram, Facebook, LinkedIn, then their own site. The four glyphs are one
+   matched set — same orange, transparent ground — but their bounding boxes
+   are not: Instagram fills its square edge to edge while the Facebook f is
+   narrow. Each sits in the same fixed box and is CONTAINED in it rather than
+   stretched, so a glyph keeps its own proportions and the row still reads on
+   an even rhythm.
+
+   Everything interactive is gated on [href]. Until a profile URL is supplied
+   these are anchors without one, which is inert by definition — no focus, no
+   click, and here no pointer and no hover either, so an icon never advertises
+   itself as a link it cannot follow. */
+.amb-social { display: grid; place-items: center; }
+.amb-social > img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.amb-social[href] { cursor: pointer; }
+.amb-social[href]:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 4px; }
+@media (hover: hover) {
+  .amb-social[href]:hover > img { transform: scale(1.10); opacity: .82; }
+}
+
 /* ------------------------------------------------------------- travel tips
    Not a scroller. The comp draws a fixed three-column stack of stills on the
    left and a flat cream panel on the right, and the live site shows what

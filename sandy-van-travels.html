@@ -6,10 +6,10 @@
 <title>Sandy Van Travels — Wonderland RV</title>
 <meta name="description" content="Meet Sandy Van Travels — Jess, Doug and their three kids, travelling Australia full-time in a custom Wonderland RV.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=189">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=189">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=189">
-<link rel="stylesheet" href="assets/css/ambassador-page.css?v=189">
+<link rel="stylesheet" href="assets/css/styles.css?v=190">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=190">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=190">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=190">
 </head>
 <body>
 
@@ -69,7 +69,7 @@
        The same file backs the Wonderlanders card, so it is kept at the
        source's 3:2 and each crop is taken by CSS. -->
   <div class="media ph" data-ph="HERO IMAGE — Sandy Van Travels">
-    <img src="assets/img/ambassadors/sandy-van-travels.jpg?v=189" alt="Jess, Doug and their three children in front of their caravan at the Coober Pedy sign" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    <img src="assets/img/ambassadors/sandy-van-travels.jpg?v=190" alt="Jess, Doug and their three children in front of their caravan at the Coober Pedy sign" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
   </div>
   <div class="hero-copy container">
     <h1>Sandy Van Travels</h1>
@@ -98,13 +98,23 @@
          assets/js/ambassador.js. -->
     <div class="amb-video video-frame ph" data-ph="VIDEO — Sandy Van Travels"
          data-video="https://youtu.be/yz8DaA1Q4hE" data-title="Sandy Van Travels"></div>
-    <!-- Social icons are to be copied across from the Wonderland site once
-         Sandy Van Travels' own profile links are confirmed. -->
+    <!-- Instagram, Facebook, LinkedIn, then their own site — left to right.
+         Each is a real anchor that carries no href yet, because the profile
+         URLs have not been supplied. An <a> with no href is inert by
+         definition: not focusable, not clickable, no pointer cursor, and the
+         CSS gates hover on [href] to match. Paste the URL in and the icon
+         goes live — target, rel and the label are already there, nothing
+         else changes. Note an empty href="" would NOT be inert: it points
+         at the current page and reloads it. -->
     <div class="amb-socials">
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
-      <div class="ph" data-ph="SOCIAL"></div>
+      <a class="amb-social" data-net="instagram" target="_blank" rel="noopener noreferrer"
+         aria-label="Sandy Van Travels on Instagram"><img src="assets/img/social/instagram.png" alt=""></a>
+      <a class="amb-social" data-net="facebook" target="_blank" rel="noopener noreferrer"
+         aria-label="Sandy Van Travels on Facebook"><img src="assets/img/social/facebook.png" alt=""></a>
+      <a class="amb-social" data-net="linkedin" target="_blank" rel="noopener noreferrer"
+         aria-label="Sandy Van Travels on LinkedIn"><img src="assets/img/social/linkedin.png" alt=""></a>
+      <a class="amb-social" data-net="web" target="_blank" rel="noopener noreferrer"
+         aria-label="Sandy Van Travels — their own website"><img src="assets/img/social/web.png" alt=""></a>
     </div>
   </div>
 </section>
@@ -459,11 +469,11 @@
   </div>
 </footer>
 
-<script src="assets/js/wonderlanders.js?v=189"></script>
-<script src="assets/js/video-embed.js?v=189"></script>
-<script src="assets/js/ambassador.js?v=189"></script>
-<script src="assets/js/lightbox.js?v=189"></script>
+<script src="assets/js/wonderlanders.js?v=190"></script>
+<script src="assets/js/video-embed.js?v=190"></script>
+<script src="assets/js/ambassador.js?v=190"></script>
+<script src="assets/js/lightbox.js?v=190"></script>
 
-<script src="assets/js/nav.js?v=189"></script>
+<script src="assets/js/nav.js?v=190"></script>
 </body>
 </html>
