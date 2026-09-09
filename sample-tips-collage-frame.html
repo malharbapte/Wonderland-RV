@@ -56,10 +56,19 @@ body { padding: 0 0 10px; }
 /* ------------------------------------------------------------ the tiles
    A tile is a real button once JS has bound it, so it takes a tap, a click,
    Enter and Space, and reads to a screen reader as something that opens. */
-.amb-tip-img[role="button"] { cursor: zoom-in; }
 .amb-tip-img[role="button"] > img { transition: transform .35s ease; }
 @media (hover: hover) {
   .amb-tip-img[role="button"]:hover > img { transform: scale(1.04); }
+  /* A small translucent white disc rather than the magnifying glass, drawn
+     as a real cursor with an inline SVG and the hotspot on its own centre —
+     so the compositor paints it and it cannot lag behind a fast mouse. 22px
+     is the whole-pixel value nearest 20% down from the 28 first sampled; the
+     bitmap is exactly this size, so a fractional edge would come out soft.
+     zoom-in stays as the fallback for anything that will not take an SVG
+     cursor. Gated on hover: a touch screen has no cursor to draw. */
+  .amb-tip-img[role="button"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Ccircle cx='11' cy='11' r='10.5' fill='%23fff' fill-opacity='.40'/%3E%3C/svg%3E") 11 11, zoom-in;
+  }
 }
 .amb-tip-img[role="button"]:focus-visible {
   outline: 2px solid var(--orange); outline-offset: 3px;
