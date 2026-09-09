@@ -121,7 +121,13 @@
    belongs in that panel: the ambassador's travel-tip Q&A. The arrows page
    between the questions in place — the stills stay put, so nothing about
    this section moves horizontally. */
-.amb-tips { margin-top: var(--section-gap); }
+/* One gap, both axes. The collage sets its spacing in two places — the grid
+   spaces the three columns, each column spaces its own two stills — and the
+   two numbers were never the same. On the phone they were not close, because
+   the down-gap was written in rem and rem is a flat 16px below 901: 8.00px
+   across against 3.36px down. Both now read this token. */
+.amb-tips { margin-top: var(--section-gap); --tips-gap: 0.22rem; }
+@media (max-width: 900px) { .amb-tips { --tips-gap: 8px; } }
 
 /* The split is proportional, not fixed rem. Written as 15.89rem/7.91rem it
    came to 23.80rem inside a 100vw band: below a 2376 viewport that is
@@ -143,19 +149,22 @@
 .amb-tips-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.22rem;
+  gap: var(--tips-gap);
   align-content: start;
 }
-.amb-tips-col { display: flex; flex-direction: column; gap: 0.21rem; }
+.amb-tips-col { display: flex; flex-direction: column; gap: var(--tips-gap); }
 /* Heights hang off .amb-tip-img, NOT .ph: each slot's inline onload drops the
    .ph class the moment its photo resolves, so a height keyed to .ph would
    vanish exactly when the photo arrives and the slot would collapse to the
    image's natural height. Same trap the Wonderlander cards fell into. */
 .amb-tip-img { border-radius: 0.04rem; overflow: hidden; }
 .amb-tip-img > img { width: 100%; height: 100%; object-fit: cover; }
-/* the three columns split at different points so no seam runs straight across */
-.amb-tips-col--a .amb-tip-img:nth-child(1) { height: 6.81rem; }
-.amb-tips-col--a .amb-tip-img:nth-child(2) { height: 6.81rem; }
+/* the three columns split at different points so no seam runs straight across.
+   A's pair is 6.795 rather than the comp's 6.81 so that all three columns come
+   to the same 13.59rem: at 6.81 column A ran about 1.8px longer than B and C
+   and the collage bottomed out unevenly against the cream panel. */
+.amb-tips-col--a .amb-tip-img:nth-child(1) { height: 6.795rem; }
+.amb-tips-col--a .amb-tip-img:nth-child(2) { height: 6.795rem; }
 .amb-tips-col--b .amb-tip-img:nth-child(1) { height: 4.53rem; }
 .amb-tips-col--b .amb-tip-img:nth-child(2) { height: 9.06rem; }
 .amb-tips-col--c .amb-tip-img:nth-child(1) { height: 9.06rem; }
@@ -207,6 +216,98 @@
 .amb-tips-arrows svg { width: 0.20rem; height: 0.20rem; }
 .amb-tip-prev { left: 0.30rem; }
 .amb-tip-next { right: 0.34rem; }
+
+/* ------------------------------------------------- the stills, enlarged
+   Wanted on the desktop and the phone both, so none of this is inside a
+   media query. lightbox.js turns each still into a real button — it only
+   does so once the photograph has actually arrived, since a slot whose file
+   is missing has its <img> removed by the inline onerror and has nothing to
+   enlarge. Everything here hangs off that [role="button"], so a placeholder
+   picks up no cursor, no outline and no lift. */
+.amb-tip-img[role="button"] > img { transition: transform .35s ease; }
+.amb-tip-img[role="button"]:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .amb-tip-img[role="button"]:hover > img { transform: scale(1.04); }
+  /* A small translucent white disc rather than the magnifying glass, drawn
+     as a real cursor from an inline SVG with the hotspot on its own centre —
+     the compositor paints it, so it cannot lag behind a fast mouse and costs
+     nothing on scroll. 22px because the bitmap is rasterised at exactly this
+     size and a fractional edge would come out soft. zoom-in stays after the
+     comma for anything that will not take an SVG cursor, and the whole rule
+     is gated on hover because a touch screen has no cursor to draw. */
+  .amb-tip-img[role="button"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Ccircle cx='11' cy='11' r='10.5' fill='%23fff' fill-opacity='.40'/%3E%3C/svg%3E") 11 11, zoom-in;
+  }
+}
+
+/* ---------------------------------------------------------- the lightbox */
+.lb { position: fixed; inset: 0; z-index: 200; display: none; }
+.lb.is-on { display: block; }
+.lb-back {
+  position: absolute; inset: 0;
+  background: rgba(18, 14, 10, .94);
+  opacity: 0; transition: opacity .25s ease;
+}
+.lb.is-in .lb-back { opacity: 1; }
+
+.lb-stage {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: 70px 20px 86px;          /* clear of the close button and the bar */
+}
+/* Sized against the viewport, not the stage. A percentage cap resolves
+   against a grid area this image itself sizes, so the browser drops it and
+   the photograph paints at its natural 1030 x 1812 and runs off the screen.
+   Viewport units carry no such circularity. */
+.lb-img {
+  display: block;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 170px);
+  object-fit: contain;
+  border-radius: 4px;
+  opacity: 0; transform: scale(.98);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.lb.is-in .lb-img { opacity: 1; transform: none; }
+.lb.is-swapping .lb-img { opacity: 0; }
+
+.lb button {
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  color: #fff; cursor: pointer;
+  transition: background .2s ease;
+}
+.lb button:hover,
+.lb button:focus-visible { background: var(--orange); }
+.lb button svg { width: 20px; height: 20px; }
+.lb-close { position: absolute; top: 16px; right: 16px; }
+
+/* prev / count / next ride one bar at the foot. On a desktop the two buttons
+   step out of it to the sides, where a big screen expects them, and the
+   counter stays where it was. */
+.lb-bar {
+  position: absolute; left: 0; right: 0; bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+}
+.lb-count {
+  font-family: var(--gordita); font-weight: 500;
+  font-size: 13px; letter-spacing: .10em;
+  color: rgba(255, 255, 255, .72);
+  min-width: 54px; text-align: center;
+}
+@media (min-width: 901px) {
+  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); }
+  .lb-prev { left: 22px; }
+  .lb-next { right: 22px; }
+  .lb button { width: 54px; height: 54px; }
+  /* the arrows sit beside the photograph here, so it gives up their width */
+  .lb-img { max-width: calc(100vw - 220px); max-height: calc(100vh - 140px); }
+}
 
 /* ------------------------------------------------------------- van layout */
 .amb-layout { margin-top: var(--section-gap); }
@@ -476,7 +577,12 @@
 
   /* ---------------------------------------------------------- travel tips */
   .amb-tips-band { grid-template-columns: 1fr; }
-  .amb-tips-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 24px; }
+  /* gap comes from --tips-gap now, which both axes read. The 24px the collage
+     is inset from the screen edge stays: that is the page's gutter, not a gap
+     between two photographs. */
+  .amb-tips-grid { grid-template-columns: repeat(3, 1fr); padding: 0 24px; }
+  /* restated in vw so the 6.795rem above cannot leak down here, where rem is
+     a flat 16px and it would come out 109px */
   .amb-tips-col--a .amb-tip-img:nth-child(1), .amb-tips-col--a .amb-tip-img:nth-child(2) { height: 40vw; }
   .amb-tips-col--b .amb-tip-img:nth-child(1), .amb-tips-col--c .amb-tip-img:nth-child(2) { height: 26vw; }
   .amb-tips-col--b .amb-tip-img:nth-child(2), .amb-tips-col--c .amb-tip-img:nth-child(1) { height: 54vw; }
