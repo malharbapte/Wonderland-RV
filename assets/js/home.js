@@ -364,10 +364,10 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   if (!figure) return;
 
   const MODELS = [
-    ["solara", "SOLARA", "Composite off-road", "https://wonderlandrv.com.au/range/solara/"],
-    ["xtr",    "XTR",    "Extreme off-road",   "https://wonderlandrv.com.au/range/xtr/"],
-    ["hornet", "HORNET", "Rugged off-road",    "https://wonderlandrv.com.au/range/hornet/"],
-    ["amaroo", "AMAROO", "Classic off-road",   "https://wonderlandrv.com.au/range/amaroo/"]
+    ["solara", "SOLARA", "Composite off-road", "#"],
+    ["xtr",    "XTR",    "Extreme off-road",   "#"],
+    ["hornet", "HORNET", "Rugged off-road",    "#"],
+    ["amaroo", "AMAROO", "Classic off-road",   "#"]
   ];
 
   let scroll = null, rail = null, poll, last = -1;
