@@ -110,7 +110,7 @@
 }
 .amb-socials a,
 .amb-socials .ph {
-  width: 0.94rem; height: 0.94rem;
+  width: 0.705rem; height: 0.705rem;   /* 25% down from 0.94 */
   flex: 0 0 auto;
   border-radius: 0.04rem;
 }
@@ -615,7 +615,13 @@
     order: 1; margin-top: 24px; gap: 20px;
     justify-content: center; padding-left: 0;
   }
+  /* The BOX stays 44px — that is the tap target, and shrinking it to 33
+     would put these under the size a thumb can reliably hit. The glyph
+     inside comes down the full 25% instead (44 -> 33) on 5.5px of padding,
+     so the icons read a quarter smaller while every one of them is still a
+     44px target with the same 20px between targets as before. */
   .amb-socials a, .amb-socials .ph { width: 44px; height: 44px; }
+  .amb-social { padding: 5.5px; }
 
   /* ---------------------------------------------------------- travel tips */
   .amb-tips-band { grid-template-columns: 1fr; }
