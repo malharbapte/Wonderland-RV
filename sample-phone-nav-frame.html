@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>phone nav frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=183">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=183">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=183">
+<style>
+/* ==========================================================================
+   The hamburger panel on the phone, one option per frame. ?v= lands on <html>.
+
+   What it does today: every link in the header is dumped out flat, all 15 of
+   them — the six top-level items plus the whole About mega-menu, including
+   all six Wonderlander names. 502px of centred list, and the rows are 39px
+   where a tap target wants 44.
+
+   Three fixes shared by all three options, because they are faults rather
+   than choices:
+
+     - rows go to 52px, so every one is a real tap target;
+     - the list left-aligns. Centred text has a different starting x on every
+       line, which is what makes a menu hard to run your eye down;
+     - "Build your Caravan" comes back. It is the site's primary action and
+       it is display:none on the phone right now, so the one thing the header
+       most wants you to do is the one thing the menu will not offer.
+
+   What differs is the structure: A hides the depth behind a chevron, B moves
+   through it one screen at a time, C takes the six Wonderlander names out of
+   the menu altogether.
+   ========================================================================== */
+body { margin: 0; min-height: 700px; background: #fff; }
+
+@media (max-width: 900px) {
+  /* --------------------------------------------------- shared, all three */
+  .main-nav {
+    align-items: stretch; text-align: left;
+    padding: 4px 0 0;
+    max-height: calc(100vh - 64px); overflow-y: auto;
+    box-shadow: 0 18px 30px rgba(0,0,0,.10);
+  }
+  .main-nav a { align-self: stretch; }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; width: 100%;
+    min-height: 52px; padding: 0 24px;
+    font: inherit; color: inherit; text-align: left;
+    background: none; border: 0; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  /* .nav-panel is in the list because option B re-parents the links into its
+     two sliding panels, at which point they stop being direct children of
+     .main-nav — and silently lost their height, padding and rule, which put
+     level one at 170px instead of 405. */
+  .main-nav > a, .nav-panel > a, .nav-item > a {
+    min-height: 52px; padding: 0 24px; display: flex; align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .nav-chev { flex: 0 0 auto; width: 14px; height: 14px; transition: transform .28s ease; }
+
+  /* the primary action, back where it belongs */
+  .nav-cta { padding: 16px 24px 20px; }
+  .nav-cta .btn-build {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 52px; border-radius: 0;
+  }
+
+  /* the six Wonderlander names, wherever an option chooses to show them */
+  .nav-dropdown { margin: 0; gap: 0; }
+  .nav-dropdown a {
+    display: flex; align-items: center;
+    min-height: 46px; padding: 0 24px 0 40px;
+    font-size: 14px; color: #6b6b6b;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .nav-dropdown .dd-item { justify-content: flex-start; }
+  .nav-dropdown .dd-item::before { content: none; }
+  .nav-dropdown .dd-item a { padding-left: 56px; }
+
+  /* ============================================================ option A
+     An accordion. Six rows and nothing else until you ask: About carries a
+     chevron and drops its nine children beneath it, on the same 0fr -> 1fr
+     grid the Wonderlander cards and the van-layout headings already use. The
+     structure of the desktop menu survives intact — it is just folded up. */
+  .na .nav-item > a { display: none; }             /* replaced by the button */
+  .na .nav-dropdown-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s ease; }
+  .na .nav-item.is-open .nav-dropdown-wrap { grid-template-rows: 1fr; }
+  .na .nav-dropdown-inner { overflow: hidden; min-height: 0; }
+  .na .nav-item.is-open .nav-chev { transform: rotate(180deg); }
+  .na .nav-dropdown { background: #fbfbfb; }
+
+  /* ============================================================ option B
+     A drill-down. The panel is one screen at a time: six rows, and About
+     slides the whole thing across to its own screen with a back row at the
+     top. Nothing is ever more than seven rows long, and you always know
+     which level you are on because the level is named. */
+  .nb .main-nav { overflow-x: hidden; transition: height .28s ease; }
+  /* align-items:flex-start so a short level does not get stretched to the
+     tall one's height; the panel's own height is then written onto the nav
+     when it switches, or level one would still sit in a 573px box with a
+     white void under it. */
+  .nb .nav-deck { display: flex; align-items: flex-start; width: 200%; transition: transform .28s ease; }
+  .nb .main-nav.at-2 .nav-deck { transform: translateX(-50%); }
+  .nb .nav-panel { width: 50%; flex: 0 0 50%; }
+  .nb .nav-item > a { display: none; }
+  .nb .nav-back {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; min-height: 52px; padding: 0 24px;
+    font: inherit; font-weight: 900; color: var(--orange-deep);
+    background: #fbfbfb; border: 0; border-bottom: 1px solid #f0f0f0;
+    text-align: left; cursor: pointer;
+  }
+  .nb .nav-back svg { width: 14px; height: 14px; transform: rotate(90deg); }
+  .nb .nav-dropdown a { padding-left: 24px; color: var(--ink); font-size: 15px; }
+  .nb .nav-dropdown .dd-item a { padding-left: 40px; color: #6b6b6b; font-size: 14px; }
+
+  /* ============================================================ option C
+     No interaction at all — a content decision instead. The six Wonderlander
+     names come out of the menu: they are one tap away on the Wonderlanders
+     page, which is where they live and where they have their photographs.
+     What is left is six primary rows, then the three About destinations as a
+     quieter group under a label. Nine rows, nothing hidden, nothing to learn. */
+  .nc .nav-dropdown .dd-item { display: none; }    /* the six names */
+  /* the three that remain read as children of the About row above them */
+  .nc .nav-dropdown a { padding-left: 40px; background: #fbfbfb; }
+}
+</style>
+</head>
+<body>
+<!-- ============================================================ HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav is-open" aria-label="Main">
+      <a href="#">Range</a>
+      <a href="#">Buy</a>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="ambassadors.html">Lost Tribe Adventures</a></div>
+            <div class="dd-item"><a href="ambassadors.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="ambassadors.html">Livin In Sanity</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="ambassadors.html">Few Laps Around the Sun</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+            <div class="dd-item"><a href="ambassadors.html">Kiwi Van Life</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="#">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="true">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+var v = new URLSearchParams(location.search).get("v") || "a";
+document.documentElement.className = "n" + v;
+
+var nav  = document.querySelector(".main-nav");
+var item = document.querySelector(".nav-item");
+var dd   = document.querySelector(".nav-dropdown");
+
+function chev() {
+  return '<svg class="nav-chev" viewBox="0 0 24 24" aria-hidden="true">' +
+         '<path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" ' +
+         'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+/* the primary action, appended to every option */
+function addCta(where) {
+  var cta = document.createElement("div");
+  cta.className = "nav-cta";
+  cta.innerHTML = '<a class="btn-build" href="#">Build your Caravan</a>';
+  where.appendChild(cta);
+}
+
+/* ------------------------------------------------------------- option A */
+if (v === "a") {
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "nav-row";
+  btn.setAttribute("aria-expanded", "false");
+  btn.innerHTML = "<span>About</span>" + chev();
+  item.insertBefore(btn, item.firstChild);
+
+  var wrap = document.createElement("div");
+  wrap.className = "nav-dropdown-wrap";
+  var inner = document.createElement("div");
+  inner.className = "nav-dropdown-inner";
+  item.appendChild(wrap); wrap.appendChild(inner); inner.appendChild(dd);
+
+  btn.addEventListener("click", function () {
+    var open = item.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  addCta(nav);
+}
+
+/* ------------------------------------------------------------- option B */
+if (v === "b") {
+  var deck = document.createElement("div");
+  deck.className = "nav-deck";
+  var p1 = document.createElement("div"); p1.className = "nav-panel nav-panel--1";
+  var p2 = document.createElement("div"); p2.className = "nav-panel nav-panel--2";
+  deck.appendChild(p1); deck.appendChild(p2);
+
+  /* everything currently in the nav becomes level one */
+  while (nav.firstChild) p1.appendChild(nav.firstChild);
+  nav.appendChild(deck);
+
+  var openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "nav-row";
+  openBtn.innerHTML = "<span>About</span>" + chev();
+  openBtn.querySelector(".nav-chev").style.transform = "rotate(-90deg)";
+  item.insertBefore(openBtn, item.firstChild);
+
+  var back = document.createElement("button");
+  back.type = "button";
+  back.className = "nav-back";
+  back.innerHTML = chev() + "<span>About</span>";
+  p2.appendChild(back);
+  p2.appendChild(dd);
+
+  addCta(p1); addCta(p2);
+
+  function level(n) {
+    nav.classList.toggle("at-2", n === 2);
+    nav.style.height = (n === 2 ? p2 : p1).scrollHeight + "px";
+  }
+  openBtn.addEventListener("click", function () { level(2); });
+  back.addEventListener("click", function () { level(1); });
+  level(1);
+}
+
+/* ------------------------------------------------------------- option C */
+if (v === "c") {
+  /* About stays a real row — it is a page in its own right, and turning it
+     into a group heading would have made it the one destination in the menu
+     you could not reach. Its three children sit indented underneath it, open,
+     with no chevron. Only the six Wonderlander names come out. */
+  addCta(nav);
+}
+</script>
+</body>
+</html>
