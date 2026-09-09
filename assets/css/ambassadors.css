@@ -251,6 +251,22 @@
 
   .wl-card-bio-wrap { grid-template-rows: 0fr; }
   .wl-card.is-open .wl-card-bio-wrap { grid-template-rows: 1fr; }
+
+  /* The photograph moves with the panel down here too. Desktop runs this on
+     :hover, which a touch screen never fires, so the card sat dead still
+     while its panel grew over the image — the one thing the lift exists to
+     prevent. It rides .is-open instead: the chevron opening the bio IS the
+     moment the panel grows, so it is the same event, and both run on the
+     .30s the bio uses so the card still resolves as one movement.
+
+     The scale carries over untouched because it is unitless. The lift cannot:
+     0.22rem is 22px on the desktop scale and 3.5px here, where rem is flat
+     16 — invisible. 8px is the same fraction of a phone card's height that
+     22px is of a desktop one. The card's overflow:hidden clips the 8px this
+     opens at the foot, and the blush band is 36px deep before the bio even
+     arrives, so nothing shows through. */
+  .wl-card.is-open .wl-card-media { transform: translateY(-8px); }
+  .wl-card.is-open .wl-card-media > img { transform: scale(1.06); }
   .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
 }
 
