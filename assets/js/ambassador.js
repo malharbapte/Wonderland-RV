@@ -1,22 +1,31 @@
 /* ==========================================================================
-   Wonderlander page behaviour.
+   Wonderlander page behaviour. One file for all six Wonderlander pages.
 
-   PASTE THE VIDEO LINK BELOW — same rules as the homepage and the Contact
-   page: a YouTube link, a Vimeo link, a direct .mp4/.webm, or a local path.
-   Leave it "" and the labelled placeholder stays put.
+   THE VIDEO LINK LIVES IN THE PAGE, not here: each page carries it on its own
+   .amb-video element as data-video, so a new Wonderlander needs no change to
+   this file. Same rules as the homepage and the Contact page — a YouTube
+   link, a Vimeo link, a direct .mp4/.webm, or a local path. Leave the
+   attribute empty (or off) and the labelled placeholder stays put, which is
+   what every page whose film has not been supplied yet does.
+
+     <div class="amb-video video-frame ph"
+          data-video="https://youtu.be/…"
+          data-title="Name of the Wonderlander"> …
 
    Requires video-embed.js, loaded before this file.
    ========================================================================== */
 
-const AMBASSADOR_VIDEO_URL = "https://youtu.be/yz8DaA1Q4hE";   // Sandy Van Travels
-
-/* -------------------------------------------------------------------------- */
-
 /* {captions:true} gives the sound and CC buttons — the same pair the Contact
    page's video carries. No nudge: the "Tap for sound" prompt is sized for a
    full-bleed clip and would sit on top of a column-width one. */
-mountVideo(document.querySelector(".amb-video"), AMBASSADOR_VIDEO_URL,
-           "Sandy Van Travels", { captions: true });
+(function () {
+  var frame = document.querySelector(".amb-video");
+  if (!frame) return;
+  var url = frame.getAttribute("data-video") || "";
+  if (!url) return;                       /* placeholder stays, as designed */
+  mountVideo(frame, url, frame.getAttribute("data-title") || "Wonderland RV",
+             { captions: true });
+})();
 
 /* ------------------------------------------------------------ travel tips --
    Pages the Q&A in place; the stills never move. With this blocked every tip
