@@ -353,13 +353,26 @@
 .amb-specs { align-items: start; }
 .spec-chev { display: inline-block; width: 0.20rem; height: 0.20rem;
              vertical-align: baseline; transition: transform .30s ease; }
-.amb-spec:hover .spec-chev,
-.amb-spec:focus-visible .spec-chev { transform: rotate(180deg); }
-
 .spec-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .30s ease; }
 .spec-inner { overflow: hidden; min-height: 0; }
-.amb-spec:hover .spec-wrap,
-.amb-spec:focus-visible .spec-wrap { grid-template-rows: 1fr; }
+
+/* Both openers are DESKTOP ONLY, deliberately. On a touch screen a tap leaves
+   :hover stuck on the column it landed in, so the second tap took .is-open
+   off and set aria-expanded false while this rule went on holding the row at
+   1fr — the panel never closed again. :focus-visible is the same trap one
+   selector along, since the tap leaves focus on the button it just fired.
+   The Wonderlander cards were gated for exactly this reason; the van layout
+   was written before that and never followed. Nothing changes above 901,
+   where these two rules are the only thing that opens a column at all —
+   .spec-toggle is not even built up there. */
+@media (hover: hover) {
+  .amb-spec:hover .spec-chev { transform: rotate(180deg); }
+  .amb-spec:hover .spec-wrap { grid-template-rows: 1fr; }
+}
+@media (min-width: 901px) {
+  .amb-spec:focus-visible .spec-chev { transform: rotate(180deg); }
+  .amb-spec:focus-visible .spec-wrap { grid-template-rows: 1fr; }
+}
 
 .amb-spec p {
   margin: 0;
