@@ -57,10 +57,17 @@
     tiles.forEach(function (tile) {
       var img = tile.querySelector("img");
       if (!img || !img.naturalWidth) return;
-      var n = shots.push({ src: img.currentSrc || img.src, alt: img.alt, tile: tile }) - 1;
+      shots.push({ src: img.currentSrc || img.src, alt: img.alt, tile: tile });
       tile.setAttribute("role", "button");
       tile.setAttribute("tabindex", "0");
-      tile.setAttribute("aria-label", "Enlarge photograph " + (n + 1) + " of " + tiles.length);
+    });
+    /* Counted AFTER the pass, over what actually resolved rather than over
+       the slots in the markup. A collage whose photographs have not all been
+       supplied announced "1 of 6" while the lightbox itself, which reads the
+       same list, showed "1 / 4". */
+    shots.forEach(function (s, k) {
+      s.tile.setAttribute("aria-label",
+        "Enlarge photograph " + (k + 1) + " of " + shots.length);
     });
   }
 
