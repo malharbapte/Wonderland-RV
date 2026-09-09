@@ -3,51 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phone menu &mdash; three options</title>
+<title>Phone menu &mdash; Option A</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=183">
 <style>
 body { font-family: var(--gordita); margin: 0; padding: 30px 20px 60px; background: #f4f4f4; }
 h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
 .lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 18px; max-width: 800px; }
-.note { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 26px; max-width: 800px;
+.note { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 12px; max-width: 800px;
         padding: 12px 16px; background: #fff; border-left: 3px solid #D57114; }
 .note b { color: #D57114; }
-.row { display: flex; gap: 26px; flex-wrap: wrap; align-items: flex-start; }
-.opt { width: 375px; }
-.opt h2 { font-family: var(--aviano); font-size: 17px; margin: 0 0 4px; }
-.opt p { font-size: 13px; line-height: 19px; color: #555; margin: 0 0 12px; min-height: 96px; }
-.opt p b { color: #D57114; }
-.phone { width: 375px; height: 720px; border: 0; display: block; background: #fff;
-         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+table { border-collapse: collapse; margin: 10px 0 0; font-size: 13px; }
+th, td { padding: 4px 18px 4px 0; text-align: left; font-weight: 400; color: #555; }
+th { color: #222; font-weight: 700; }
+td.was { color: #b00; } td.now { color: #197d19; }
+.phone { width: 375px; height: 760px; border: 0; display: block; background: #fff;
+         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); margin-top: 20px; }
 .cap { font-size: 12px; color: #888; margin: 12px 0 0; max-width: 800px; line-height: 18px; }
 </style>
 </head>
 <body>
-<h1>The phone menu</h1>
-<p class="lede">Three ways to handle the depth. Each frame is a true 375px viewport with the menu already open.</p>
+<h1>Option A &mdash; the two corrections</h1>
+<p class="lede">The accordion as approved. Only the type has changed.</p>
 
-<p class="note"><b>What it does now:</b> the header dumps every link out flat &mdash; <b>all 15</b>, the six top-level items plus the entire About mega-menu including all six Wonderlander names. That is 502px of centred list. Two other faults come along with it, and all three options fix them because they are faults rather than choices: the rows are <b>39px</b> where a tap target wants 44, and <b>&ldquo;Build your Caravan&rdquo; is <code>display:none</code> on the phone</b> &mdash; the site&rsquo;s primary action is the one thing the menu will not offer. The list also left-aligns in all three: centred text starts at a different x on every line, which is what makes a menu hard to run your eye down.</p>
+<p class="note"><b>&ldquo;Build your Caravan&rdquo; was setting at 3.46px.</b> Not a slip in the sample &mdash; <code>.btn-build</code> carries <code>font-size: 0.216rem</code> and <code>line-height: 0.46rem</code> from the desktop bar, where 1rem is 100 design px. Below 901px rem is a flat 16, so the label collapsed to almost nothing. It has never shown up on the live site because the button is <code>display:none</code> on the phone today &mdash; the sample is what put it on screen. Both values are restated in px now, at the 15px the rows use.</p>
 
-<div class="row">
-  <div class="opt">
-    <h2>A &mdash; Accordion</h2>
-    <p><b>Six rows until you ask for more.</b> About carries a chevron and drops its nine children beneath it, on the same open-and-close the Wonderlander cards and the van-layout headings already use. The desktop menu&rsquo;s structure survives intact &mdash; it is just folded up. Everything stays on one screen. <b>405px closed, 748 open.</b></p>
-    <iframe class="phone" src="sample-phone-nav-frame.html?v=a&amp;r=3"></iframe>
-  </div>
+<p class="note"><b>&ldquo;About&rdquo; was Aviano Regular.</b> You were right, and here is why: the weight lives on <code>.main-nav a</code>, and the About row is a <code>&lt;button&gt;</code> rather than an anchor, so it never matched the rule &mdash; the same reason a button drops <code>text-transform</code>. It now states Aviano Black itself.</p>
 
-  <div class="opt">
-    <h2>B &mdash; Drill-down</h2>
-    <p><b>One screen at a time.</b> Six rows, and About slides the panel across to its own screen with a back row at the top. Nothing is ever longer than seven rows, and the level you are on is always named. The pattern every phone app already teaches. <b>400px on level one, 573 on level two.</b></p>
-    <iframe class="phone" src="sample-phone-nav-frame.html?v=b&amp;r=3"></iframe>
-  </div>
+<table>
+  <tr><th></th><th>was</th><th>now</th></tr>
+  <tr><td>Build your Caravan</td><td class="was">3.46px</td><td class="now">15px</td></tr>
+  <tr><td>About</td><td class="was">Aviano 400</td><td class="now">Aviano 900</td></tr>
+  <tr><td>Range, Buy, Events, Media, Contact</td><td>Aviano 900, 15px</td><td class="now">unchanged</td></tr>
+</table>
 
-  <div class="opt">
-    <h2>C &mdash; Fewer links</h2>
-    <p><b>No interaction to learn &mdash; a content decision instead.</b> The six Wonderlander names come out of the menu: they are one tap away on the Wonderlanders page, which is where they live and where they have their photographs. Six primary rows, then the three About destinations as a quieter group. Nine rows plus the CTA, nothing hidden. The win here is fewer links, not a shorter panel: <b>546px</b>.</p>
-    <iframe class="phone" src="sample-phone-nav-frame.html?v=c&amp;r=3"></iframe>
-  </div>
-</div>
-
-<p class="cap">Tap About in A and B. Desktop is untouched in all three &mdash; every rule sits inside the phone block, and the header above 901px keeps its mega-menu exactly as it is.</p>
+<iframe class="phone" src="sample-phone-nav-frame.html?v=a&amp;r=7"></iframe>
+<p class="cap">A true 375px viewport. Tap About to open it. Desktop is untouched &mdash; every rule sits inside the phone block, and the mega-menu above 901px is exactly as it was.</p>
 </body>
 </html>
