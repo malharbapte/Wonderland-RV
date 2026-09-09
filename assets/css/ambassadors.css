@@ -111,17 +111,23 @@
 }
 
 /* On hover the panel still grows over the photo as it always did, but the
-   photo no longer sits there being eaten: it lifts a fixed 0.22rem and eases
+   photo no longer sits there being eaten: it lifts a fixed 0.34rem and eases
    very slightly closer, anchored to its own bottom edge so the growth reads
    as the card leaning in rather than the image drifting off. Both run on the
-   same .30s as the bio, so the whole card resolves as one movement. */
+   same .30s as the bio, so the whole card resolves as one movement.
+
+   0.34rem is about 6% of the card's height, up from the 0.22 (3.8%) it ran
+   at first — a deliberately bigger move, on the understanding that the vans
+   are being recentred in the source photographs so they stay in frame. The
+   strip this opens at the card's foot hides behind the blush band, which is
+   81px deep at 1440 against a 21px lift. */
 .wl-card-media { transition: transform .30s ease; }
 .wl-card-media > img { transition: transform .30s ease; transform-origin: 50% 100%; }
 
 /* Gated on a real pointer. A tap leaves :hover stuck on a card on touch, which
    would fight the chevron for control of the same bio. */
 @media (hover: hover) {
-  .wl-card:hover .wl-card-media { transform: translateY(-0.22rem); }
+  .wl-card:hover .wl-card-media { transform: translateY(-0.34rem); }
   .wl-card:hover .wl-card-media > img { transform: scale(1.06); }
   .wl-card:hover .wl-card-title { color: #fff; }
   .wl-card:hover .wl-card-bio-wrap { grid-template-rows: 1fr; }
@@ -134,7 +140,7 @@
    is the same trap one selector along. Nothing changes above 901, where these
    rules are all that carry a keyboard through the card. */
 @media (min-width: 901px) {
-  .wl-card:focus-within .wl-card-media { transform: translateY(-0.22rem); }
+  .wl-card:focus-within .wl-card-media { transform: translateY(-0.34rem); }
   .wl-card:focus-within .wl-card-media > img { transform: scale(1.06); }
 }
 
@@ -260,12 +266,13 @@
      .30s the bio uses so the card still resolves as one movement.
 
      The scale carries over untouched because it is unitless. The lift cannot:
-     0.22rem is 22px on the desktop scale and 3.5px here, where rem is flat
-     16 — invisible. 8px is the same fraction of a phone card's height that
-     22px is of a desktop one. The card's overflow:hidden clips the 8px this
-     opens at the foot, and the blush band is 36px deep before the bio even
-     arrives, so nothing shows through. */
-  .wl-card.is-open .wl-card-media { transform: translateY(-8px); }
+     0.34rem is 34px on the desktop scale and 5.4px here, where rem is flat
+     16 — barely a move. 11px is the same fraction of a phone card's height
+     (6.3%) that 0.34rem is of a desktop one (6.0%), so the two breakpoints
+     read as the same gesture rather than the same number. The card's
+     overflow:hidden clips the strip this opens at the foot, and the blush
+     band is 77px deep once the bio is out, against 12px exposed. */
+  .wl-card.is-open .wl-card-media { transform: translateY(-11px); }
   .wl-card.is-open .wl-card-media > img { transform: scale(1.06); }
   .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
 }
