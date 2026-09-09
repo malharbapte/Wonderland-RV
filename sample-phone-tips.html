@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel tips on the phone &mdash; three options</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=180">
+<style>
+body { font-family: var(--gordita); margin: 0; padding: 30px 20px 60px; background: #f4f4f4; }
+h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 18px; max-width: 760px; }
+.note { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 26px; max-width: 760px;
+        padding: 12px 16px; background: #fff; border-left: 3px solid #D57114; }
+.note b { color: #D57114; }
+.row { display: flex; gap: 26px; flex-wrap: wrap; align-items: flex-start; }
+.opt { width: 375px; }
+.opt h2 { font-family: var(--aviano); font-size: 17px; margin: 0 0 4px; }
+.opt p { font-size: 13px; line-height: 19px; color: #555; margin: 0 0 12px; min-height: 76px; }
+.opt p b { color: #D57114; }
+.phone { width: 375px; height: 820px; border: 0; display: block; background: #fff;
+         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+.cap { font-size: 12px; color: #888; margin: 10px 0 0; }
+</style>
+</head>
+<body>
+<h1>Travel tips &mdash; phone</h1>
+<p class="lede">Three different structures for the same section. Desktop is untouched in all three &mdash; everything sits inside the phone block.</p>
+<p class="note"><b>What is wrong with it now:</b> the desktop mosaic is still three columns at 375, so each of the six stills renders <b>104px wide</b> &mdash; photographs of a year on the road shown as contact-sheet thumbnails. The three columns are different heights, so the bottom of the mosaic runs ragged into the cream panel. And the answer sets at <b>12px/18px</b>, the smallest type anywhere on the page (everything else down here reads 14&ndash;15px). All three options fix those, because they are faults rather than choices &mdash; what differs is the structure.</p>
+
+<div class="row">
+  <div class="opt">
+    <h2>A &mdash; A photo per tip</h2>
+    <p>The still is bound to the question: one full-bleed photograph above the panel, and the arrows move both together, with a <b>1 / 4</b> counter. Matched by subject &mdash; the storage hatch to the storage question, the camp fire to cooking outside, the silo art to hidden gems, the bikes at dusk to essentials. <b>725px tall.</b></p>
+    <iframe class="phone" src="sample-phone-tips-frame.html?v=a&amp;r=2"></iframe>
+  </div>
+
+  <div class="opt">
+    <h2>B &mdash; Gallery, then the tips</h2>
+    <p>The two stay separate and each gets to be itself. The stills become a <b>swipeable gallery</b> &mdash; all six at 248px wide instead of 104, running off the right edge so it reads as continuing. The Q&amp;A pager sits underneath, unchanged in shape. <b>757px tall.</b></p>
+    <iframe class="phone" src="sample-phone-tips-frame.html?v=b&amp;r=2"></iframe>
+  </div>
+
+  <div class="opt">
+    <h2>C &mdash; All four questions visible</h2>
+    <p>No arrows. Every question is <b>listed and tapped open</b>, so you can see what is on offer instead of paging blind &mdash; the same accordion the FAQ at the foot of this page uses. The stills settle into an even two-up with a straight bottom edge. <b>The long one: 979px closed, 1217 as it opens.</b></p>
+    <iframe class="phone" src="sample-phone-tips-frame.html?v=c&amp;r=2"></iframe>
+  </div>
+</div>
+<p class="cap">Each frame is a true 375px viewport. Swipe the gallery in B; tap the questions in C.</p>
+</body>
+</html>

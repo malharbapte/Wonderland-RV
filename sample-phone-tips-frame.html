@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>travel tips frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=180">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=180">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=180">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=180">
+<style>
+/* ==========================================================================
+   Travel tips on the phone, one option per frame. ?v= lands on <html>.
+
+   What is wrong with it today (all three options fix these, because they are
+   faults rather than choices):
+
+     - the desktop mosaic is kept as three columns at 375, so each of the six
+       stills renders 104px wide. They are photographs of a family's year on
+       the road reduced to contact-sheet thumbnails.
+     - the columns are three different heights, so the bottom of the mosaic
+       runs ragged straight into the cream panel with no edge.
+     - the answer sets at 12px/18px. Everything else on this page down here
+       reads at 14-15px, so the tips are the smallest type on the page.
+
+   What differs between the three is the structure: A binds one still to each
+   tip, B keeps them apart and makes the stills a gallery, C stops hiding the
+   questions behind arrows altogether.
+   ========================================================================== */
+body { padding: 0 0 10px; }
+
+@media (max-width: 900px) {
+  /* ------------------------------------------------ shared, all options */
+  .amb-tips { margin-top: 0; }
+  .amb-tips-panel { padding: 28px 24px 30px; }
+  .amb-tip-q { font-size: 16px; line-height: 24px; margin-bottom: 12px; }
+  .amb-tip-a { font-size: 14px; line-height: 22px; }
+
+  /* ============================================================ option A
+     One still per tip, full bleed above the panel. The arrows move the
+     photograph and the question together, so the picture is finally saying
+     something about the answer under it instead of being wallpaper. */
+  .ta .amb-tips-grid { display: none; }
+  .ta .tipA-photo {
+    width: 100vw; margin-left: calc(50% - 50vw);
+    aspect-ratio: 4 / 3; overflow: hidden; background: #e9e4dc;
+  }
+  .ta .tipA-photo img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    transition: opacity .25s ease;
+  }
+  .ta .tipA-photo.is-swapping img { opacity: 0; }
+  /* arrows keep their 44px targets and gain a counter, because with the
+     photo tied to the tip you need to know how far through you are */
+  .ta .amb-tips-arrows { align-items: center; gap: 8px; }
+  .ta .tip-count {
+    min-width: 46px; text-align: center;
+    font-family: var(--gordita); font-weight: 500;
+    font-size: 13px; letter-spacing: .06em; color: #9a7c50;
+  }
+
+  /* ============================================================ option B
+     The stills become a gallery you swipe: six of them at 66vw, four fifths
+     of the screen each instead of 104px, running off both edges so it reads
+     as continuing. The Q&A stays exactly what it is underneath. */
+  .tb .amb-tips-grid {
+    display: flex; gap: 12px; padding: 0 24px;
+    overflow-x: auto; scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  .tb .amb-tips-grid::-webkit-scrollbar { display: none; }
+  .tb .amb-tips-col { display: contents; }   /* the six tiles become siblings */
+  .tb .amb-tips-grid .amb-tip-img {
+    flex: 0 0 66vw; height: auto; aspect-ratio: 4 / 5;
+    scroll-snap-align: center; border-radius: 6px;
+  }
+  .tb .amb-tips-panel { margin-top: 4px; }
+
+  /* ============================================================ option C
+     No arrows. All four questions sit in a list you can read at a glance and
+     tap open — the same accordion shape as the FAQ at the foot of this page,
+     so the page teaches the pattern once. The stills settle into an even
+     two-up above it, square, with a straight bottom edge. */
+  .tc .amb-tips-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 24px; }
+  .tc .amb-tips-col { display: contents; }
+  .tc .amb-tips-grid .amb-tip-img { height: auto; aspect-ratio: 1 / 1; }
+
+  .tc .amb-tips-panel { padding: 22px 24px 26px; }
+  .tc .amb-tip { display: block; border-top: 1px solid rgba(120, 90, 50, .22); }
+  .tc .amb-tip:last-of-type { border-bottom: 1px solid rgba(120, 90, 50, .22); }
+  .tc .tip-toggle {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 14px; width: 100%; padding: 16px 0;
+    font: inherit; color: inherit; text-align: left;
+    background: none; border: 0; cursor: pointer;
+  }
+  .tc .amb-tip-q { margin: 0; font-size: 15px; line-height: 22px; }
+  .tc .tip-chev {
+    flex: 0 0 auto; width: 14px; height: 14px; margin-top: 4px;
+    color: var(--orange-deep); transition: transform .3s ease;
+  }
+  .tc .amb-tip.is-open .tip-chev { transform: rotate(180deg); }
+  .tc .tip-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .tc .amb-tip.is-open .tip-wrap { grid-template-rows: 1fr; }
+  .tc .tip-inner { overflow: hidden; min-height: 0; }
+  .tc .amb-tip-a { padding: 0 0 18px; }
+  .tc .amb-tips-arrows { display: none; }
+}
+</style>
+</head>
+<body>
+<!-- ======================================================== TRAVEL TIPS -->
+<section class="amb-tips">
+  <div class="container"><h2 class="wl-intro-title">Travel tips</h2></div>
+  <div class="amb-tips-band">
+    <div class="amb-tips-grid">
+      <div class="amb-tips-col amb-tips-col--a">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-1">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-1.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-2">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-2.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="amb-tips-col amb-tips-col--b">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-3">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-3.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-4">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-4.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="amb-tips-col amb-tips-col--c">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-5">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-5.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-6">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-6.jpg" alt=""
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+    </div>
+    <div class="amb-tips-panel">
+      <div class="amb-tip is-on" data-tip="0">
+        <p class="amb-tip-q">How do you fit everything in your caravan? Any clever storage ideas?</p>
+        <p class="amb-tip-a">Living full-time in a caravan with three kids definitely teaches you to be intentional about what you own. Everything has a home, and if it doesn&rsquo;t have a purpose, it doesn&rsquo;t travel with us. We&rsquo;ve learnt that smart caravan design makes all the difference, functional space, dedicated storage spaces and keeping everyday items easy to access. We also use storage tubs to keep everyone&rsquo;s gear organised, everything has a place and is put away when not in&nbsp;use.</p>
+      </div>
+      <div class="amb-tip" data-tip="1">
+        <p class="amb-tip-q">What are your go-to meals when caravanning? Do you have any favourite camping recipes that you&rsquo;d like to share?</p>
+        <p class="amb-tip-a">We do around 99% of our cooking outside and absolutely love it. Some of our family favourites are anything Mexican, Italian, slow-cooked curries and fresh seafood whenever we&rsquo;re lucky enough to catch it ourselves. Cooking outdoors has become one of our favourite parts of travelling. We have the Panasonic 4 in 1 Microwave Convection oven built inside the van (we also had this in our first van and loved it, so we wanted it again). We also have a Wolstead 14-1 multi cooker, a TM7 and a&nbsp;Weber.</p>
+      </div>
+      <div class="amb-tip" data-tip="2">
+        <p class="amb-tip-q">What&rsquo;s the coolest thing you&rsquo;ve found on your travels? Any hidden gems or off-the-beaten-path places?</p>
+        <p class="amb-tip-a">It&rsquo;s impossible to choose just one. Spending three months at Ningaloo Reef is a memory we&rsquo;ll never forget. Watching our kids fall in love with fishing, snorkelling, exploring the beaches and spending every day outdoors reminded us exactly why we chose this lifestyle. The biggest surprise, though, has been discovering that some of Australia&rsquo;s best places aren&rsquo;t the famous ones. They&rsquo;re the unexpected campsites, quiet beaches and little towns you stumble across because you decided to take the scenic&nbsp;route.</p>
+      </div>
+      <div class="amb-tip" data-tip="3">
+        <p class="amb-tip-q">What are your must-have caravanning essentials? Any unexpected items that have become indispensable on your travels?</p>
+        <p class="amb-tip-a">Reliable off-grid power is a big one for us, along with Starlink so we can keep running our photography business from the road. Our camera gear travels everywhere with us, and with three active kids we have bikes and scooters. We also love our campfires and comfortable camp&nbsp;chairs.</p>
+      </div>
+      <div class="amb-tips-arrows">
+        <button class="amb-tip-prev" type="button" aria-label="Previous travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="amb-tip-next" type="button" aria-label="Next travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+var v = new URLSearchParams(location.search).get("v") || "a";
+document.documentElement.className = "t" + v;
+
+var tips  = [].slice.call(document.querySelectorAll(".amb-tip"));
+var panel = document.querySelector(".amb-tips-panel");
+var band  = document.querySelector(".amb-tips-band");
+
+/* ------------------------------------------------------------ options A and B
+   Both keep the arrow pager. A additionally hangs a still off the same index. */
+if (v === "a" || v === "b") {
+  var photo = null, img = null, count = null;
+
+  /* Which still belongs to which question. Not 1,2,3,4 in file order — the
+     point of A is that the picture answers the question, so they are matched
+     by subject: the storage hatch to the storage question, the camp fire and
+     chairs to cooking outside, the silo art to hidden gems, and the bikes on
+     the rack at dusk to the must-have essentials. tip-1 and tip-5 are the two
+     general beauty shots, so they are the ones this option leaves out. */
+  var PHOTO_FOR_TIP = ["tip-2", "tip-3", "tip-4", "tip-6"];
+
+  if (v === "a") {
+    photo = document.createElement("div");
+    photo.className = "tipA-photo";
+    img = document.createElement("img");
+    img.alt = "";
+    img.src = "assets/img/ambassadors/sandy-van-travels/" + PHOTO_FOR_TIP[0] + ".jpg";
+    photo.appendChild(img);
+    band.insertBefore(photo, panel);
+
+    count = document.createElement("span");
+    count.className = "tip-count";
+    document.querySelector(".amb-tip-next")
+      .parentNode.insertBefore(count, document.querySelector(".amb-tip-next"));
+  }
+
+  var i = 0;
+  function show(n) {
+    i = (n + tips.length) % tips.length;
+    tips.forEach(function (t, k) { t.classList.toggle("is-on", k === i); });
+    if (count) count.textContent = (i + 1) + " / " + tips.length;
+    if (img) {
+      /* fade out, swap the file, fade back in — so paging does not flash */
+      photo.classList.add("is-swapping");
+      var next = "assets/img/ambassadors/sandy-van-travels/" + PHOTO_FOR_TIP[i] + ".jpg";
+      var pre = new Image();
+      pre.onload = function () { img.src = next; photo.classList.remove("is-swapping"); };
+      pre.src = next;
+      setTimeout(function () { photo.classList.remove("is-swapping"); }, 600);
+    }
+  }
+  document.querySelector(".amb-tip-prev").addEventListener("click", function () { show(i - 1); });
+  document.querySelector(".amb-tip-next").addEventListener("click", function () { show(i + 1); });
+  show(0);
+}
+
+/* ----------------------------------------------------------------- option C
+   Every question becomes a row: the <p> moves inside a button with a chevron,
+   and its answer drops beneath it on the same 0fr -> 1fr grid the van layout
+   sub-headings and the Wonderlander cards already animate with. */
+if (v === "c") {
+  tips.forEach(function (tip, k) {
+    var q = tip.querySelector(".amb-tip-q");
+    var a = tip.querySelector(".amb-tip-a");
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "tip-toggle";
+    btn.setAttribute("aria-expanded", "false");
+    tip.insertBefore(btn, q);
+    btn.appendChild(q);
+    btn.insertAdjacentHTML("beforeend",
+      '<svg class="tip-chev" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round"/></svg>');
+
+    var wrap = document.createElement("div");
+    wrap.className = "tip-wrap";
+    var inner = document.createElement("div");
+    inner.className = "tip-inner";
+    tip.appendChild(wrap);
+    wrap.appendChild(inner);
+    inner.appendChild(a);
+
+    btn.addEventListener("click", function () {
+      var open = tip.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+
+    if (k === 0) { tip.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); }
+  });
+}
+</script>
+</body>
+</html>
