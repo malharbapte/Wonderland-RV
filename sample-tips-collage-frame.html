@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>travel tips collage frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=180">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=180">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=180">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=180">
+<style>
+/* ==========================================================================
+   Travel tips — the collage kept exactly as it is, with two fixes.
+
+   1. ONE GAP, BOTH AXES. The section currently sets the gap twice: the grid
+      spaces the three columns, and each column spaces its own two stills.
+      They were never the same number, and on the phone they are not even
+      close, because the column gap is written in rem and rem is flat 16px
+      below 901:
+
+          desktop 1440   13.33px across   12.73px down
+          phone   375     8.00px across    3.36px down
+
+      Both now read one --tips-gap, so the grid is square whatever the width.
+
+   2. A STRAIGHT BOTTOM EDGE. Column A's two stills total 13.62rem while B
+      and C total 13.59, so A hangs 1.8px lower and the collage bottoms out
+      unevenly against the cream panel. A's pair comes to 6.795rem each,
+      which is the same 13.59 — the shapes are unchanged to the eye.
+
+   3. CLICK TO ENLARGE, on desktop and phone both. Any still opens full
+      screen; arrows or a swipe move through all six; Esc, the close button
+      or the backdrop shut it. Everything below .lb- is new and sits outside
+      the media queries, because it is wanted at both sizes.
+   ========================================================================== */
+body { padding: 0 0 10px; }
+
+:root { --tips-gap: 0.22rem; }
+@media (max-width: 900px) { :root { --tips-gap: 8px; } }
+
+.amb-tips-grid { gap: var(--tips-gap); }
+.amb-tips-col  { gap: var(--tips-gap); }
+
+/* A's pair, brought level with B and C */
+.amb-tips-col--a .amb-tip-img:nth-child(1),
+.amb-tips-col--a .amb-tip-img:nth-child(2) { height: 6.795rem; }
+@media (max-width: 900px) {
+  /* the phone heights are already even at 80vw a column — restated only so
+     the rule above cannot leak its rem value down here */
+  .amb-tips-col--a .amb-tip-img:nth-child(1),
+  .amb-tips-col--a .amb-tip-img:nth-child(2) { height: 40vw; }
+}
+/* The 24px the collage is inset from the phone's screen edge is left alone —
+   that is the page's gutter, not a gap between two photographs. */
+
+/* ------------------------------------------------------------ the tiles
+   A tile is a real button once JS has bound it, so it takes a tap, a click,
+   Enter and Space, and reads to a screen reader as something that opens. */
+.amb-tip-img[role="button"] { cursor: zoom-in; }
+.amb-tip-img[role="button"] > img { transition: transform .35s ease; }
+@media (hover: hover) {
+  .amb-tip-img[role="button"]:hover > img { transform: scale(1.04); }
+}
+.amb-tip-img[role="button"]:focus-visible {
+  outline: 2px solid var(--orange); outline-offset: 3px;
+}
+
+/* -------------------------------------------------------- the lightbox */
+.lb { position: fixed; inset: 0; z-index: 200; display: none; }
+.lb.is-on { display: block; }
+.lb-back {
+  position: absolute; inset: 0;
+  background: rgba(18, 14, 10, .94);
+  opacity: 0; transition: opacity .25s ease;
+}
+.lb.is-in .lb-back { opacity: 1; }
+
+.lb-stage {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: 70px 20px 86px;      /* clear of the close button and the bar */
+}
+/* Sized against the viewport, not the stage. A percentage cap here resolves
+   against a grid area that is itself sized by this image, so the browser
+   drops it and the photograph paints at its natural 1030 x 1812 and runs off
+   the screen. Viewport units have no such circularity. The numbers subtracted
+   are the stage padding plus the room the arrows and the counter need. */
+.lb-img {
+  display: block;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 170px);
+  object-fit: contain; border-radius: 4px;
+  opacity: 0; transform: scale(.98);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.lb.is-in .lb-img { opacity: 1; transform: none; }
+.lb.is-swapping .lb-img { opacity: 0; }
+
+.lb button {
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  color: #fff; cursor: pointer;
+  transition: background .2s ease;
+}
+.lb button:hover,
+.lb button:focus-visible { background: var(--orange); }
+.lb button svg { width: 20px; height: 20px; }
+.lb-close { position: absolute; top: 16px; right: 16px; }
+
+/* prev / count / next ride one bar at the foot. On a desktop the two
+   buttons step out of it to the sides, where a big screen expects them,
+   and the counter stays where it was. */
+.lb-bar {
+  position: absolute; left: 0; right: 0; bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+}
+.lb-count {
+  font-family: var(--gordita); font-weight: 500;
+  font-size: 13px; letter-spacing: .10em;
+  color: rgba(255, 255, 255, .72);
+  min-width: 54px; text-align: center;
+}
+@media (min-width: 901px) {
+  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); }
+  .lb-prev { left: 22px; }
+  .lb-next { right: 22px; }
+  .lb button { width: 54px; height: 54px; }
+  /* the arrows sit beside the photograph here, so it gives up their width */
+  .lb-img { max-width: calc(100vw - 220px); max-height: calc(100vh - 140px); }
+}
+</style>
+</head>
+<body>
+<!-- ======================================================== TRAVEL TIPS -->
+<section class="amb-tips">
+  <div class="container"><h2 class="wl-intro-title">Travel tips</h2></div>
+  <div class="amb-tips-band">
+    <div class="amb-tips-grid">
+      <div class="amb-tips-col amb-tips-col--a">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-1">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-1.jpg" alt="Sandy Van Travels on the road below the ranges"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-2">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-2.jpg" alt="The slide-out fridge in the van's storage hatch"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="amb-tips-col amb-tips-col--b">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-3">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-3.jpg" alt="Camp set up among the gums, fire lit at dusk"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-4">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-4.jpg" alt="Silo art on a country grain silo"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="amb-tips-col amb-tips-col--c">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-5">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-5.jpg" alt="The van at sunset, awning out"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-6">
+          <img src="assets/img/ambassadors/sandy-van-travels/tip-6.jpg" alt="One of the children running back to the van at dusk"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+      </div>
+    </div>
+    <div class="amb-tips-panel">
+      <div class="amb-tip is-on" data-tip="0">
+        <p class="amb-tip-q">How do you fit everything in your caravan? Any clever storage ideas?</p>
+        <p class="amb-tip-a">Living full-time in a caravan with three kids definitely teaches you to be intentional about what you own. Everything has a home, and if it doesn&rsquo;t have a purpose, it doesn&rsquo;t travel with us. We&rsquo;ve learnt that smart caravan design makes all the difference, functional space, dedicated storage spaces and keeping everyday items easy to access. We also use storage tubs to keep everyone&rsquo;s gear organised, everything has a place and is put away when not in&nbsp;use.</p>
+      </div>
+      <div class="amb-tip" data-tip="1">
+        <p class="amb-tip-q">What are your go-to meals when caravanning? Do you have any favourite camping recipes that you&rsquo;d like to share?</p>
+        <p class="amb-tip-a">We do around 99% of our cooking outside and absolutely love it. Some of our family favourites are anything Mexican, Italian, slow-cooked curries and fresh seafood whenever we&rsquo;re lucky enough to catch it ourselves. Cooking outdoors has become one of our favourite parts of travelling. We have the Panasonic 4 in 1 Microwave Convection oven built inside the van (we also had this in our first van and loved it, so we wanted it again). We also have a Wolstead 14-1 multi cooker, a TM7 and a&nbsp;Weber.</p>
+      </div>
+      <div class="amb-tip" data-tip="2">
+        <p class="amb-tip-q">What&rsquo;s the coolest thing you&rsquo;ve found on your travels? Any hidden gems or off-the-beaten-path places?</p>
+        <p class="amb-tip-a">It&rsquo;s impossible to choose just one. Spending three months at Ningaloo Reef is a memory we&rsquo;ll never forget. Watching our kids fall in love with fishing, snorkelling, exploring the beaches and spending every day outdoors reminded us exactly why we chose this lifestyle. The biggest surprise, though, has been discovering that some of Australia&rsquo;s best places aren&rsquo;t the famous ones. They&rsquo;re the unexpected campsites, quiet beaches and little towns you stumble across because you decided to take the scenic&nbsp;route.</p>
+      </div>
+      <div class="amb-tip" data-tip="3">
+        <p class="amb-tip-q">What are your must-have caravanning essentials? Any unexpected items that have become indispensable on your travels?</p>
+        <p class="amb-tip-a">Reliable off-grid power is a big one for us, along with Starlink so we can keep running our photography business from the road. Our camera gear travels everywhere with us, and with three active kids we have bikes and scooters. We also love our campfires and comfortable camp&nbsp;chairs.</p>
+      </div>
+      <div class="amb-tips-arrows">
+        <button class="amb-tip-prev" type="button" aria-label="Previous travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="amb-tip-next" type="button" aria-label="Next travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- the Q&A pager, unchanged, so the section behaves as it does live -->
+<script>
+(function () {
+  var tips = [].slice.call(document.querySelectorAll(".amb-tip"));
+  var i = 0;
+  function show(n) {
+    i = (n + tips.length) % tips.length;
+    tips.forEach(function (t, k) { t.classList.toggle("is-on", k === i); });
+  }
+  document.querySelector(".amb-tip-prev").addEventListener("click", function () { show(i - 1); });
+  document.querySelector(".amb-tip-next").addEventListener("click", function () { show(i + 1); });
+})();
+</script>
+
+<!-- ========================================================== LIGHTBOX -->
+<script>
+(function () {
+  var CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<path d="%D" fill="none" stroke="currentColor" stroke-width="2" ' +
+             'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function icon(d) { return CHEV.replace("%D", d); }
+
+  var lb = document.createElement("div");
+  lb.className = "lb";
+  lb.setAttribute("role", "dialog");
+  lb.setAttribute("aria-modal", "true");
+  lb.setAttribute("aria-label", "Travel tip photographs");
+  lb.innerHTML =
+    '<div class="lb-back"></div>' +
+    '<div class="lb-stage"><img class="lb-img" alt=""></div>' +
+    '<button class="lb-close" type="button" aria-label="Close">' +
+      icon("M6 6l12 12M18 6L6 18") + '</button>' +
+    '<div class="lb-bar">' +
+      '<button class="lb-prev" type="button" aria-label="Previous photograph">' + icon("M15 5l-7 7 7 7") + '</button>' +
+      '<span class="lb-count" aria-live="polite"></span>' +
+      '<button class="lb-next" type="button" aria-label="Next photograph">' + icon("M9 5l7 7-7 7") + '</button>' +
+    '</div>';
+  document.body.appendChild(lb);
+
+  var lbImg   = lb.querySelector(".lb-img");
+  var lbCount = lb.querySelector(".lb-count");
+  var shots = [], at = 0, opener = null;
+
+  /* Only tiles whose photograph actually arrived become buttons. A slot whose
+     file 404s has its <img> removed by the inline onerror and stays a plain
+     placeholder — nothing to enlarge, so nothing to click.
+
+     The list is rebuilt in DOM order every time one of them resolves, and a
+     tile looks its own position up at the moment it is clicked. Numbering it
+     as the images arrive instead put the collage in network order: the fourth
+     still down the page announced itself as "5 / 6". */
+  var tiles = [].slice.call(document.querySelectorAll(".amb-tip-img"));
+
+  function build() {
+    shots = [];
+    tiles.forEach(function (tile) {
+      var img = tile.querySelector("img");
+      if (!img || !img.naturalWidth) return;
+      var n = shots.push({ src: img.currentSrc || img.src, alt: img.alt, tile: tile }) - 1;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.setAttribute("aria-label", "Enlarge photograph " + (n + 1) + " of " + tiles.length);
+    });
+  }
+
+  tiles.forEach(function (tile) {
+    var img = tile.querySelector("img");
+    if (!img) return;
+    if (img.complete) build(); else img.addEventListener("load", build);
+    function go(e) {
+      var n = shots.findIndex(function (s) { return s.tile === tile; });
+      if (n < 0) return;                       /* photograph never arrived */
+      if (e) e.preventDefault();
+      open(n);
+    }
+    tile.addEventListener("click", function () { go(); });
+    tile.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") go(e);
+    });
+  });
+  build();
+
+  function paint() {
+    var s = shots[at];
+    lb.classList.add("is-swapping");
+    var pre = new Image();
+    pre.onload = function () {
+      lbImg.src = s.src; lbImg.alt = s.alt || "";
+      lb.classList.remove("is-swapping");
+    };
+    pre.src = s.src;
+    setTimeout(function () { lb.classList.remove("is-swapping"); }, 500);
+    lbCount.textContent = (at + 1) + " / " + shots.length;
+  }
+  function step(d) { at = (at + d + shots.length) % shots.length; paint(); }
+
+  function open(n) {
+    opener = shots[n].tile;
+    at = n;
+    lbImg.src = shots[n].src; lbImg.alt = shots[n].alt || "";
+    lbCount.textContent = (at + 1) + " / " + shots.length;
+    lb.classList.add("is-on");
+    document.documentElement.style.overflow = "hidden";
+    requestAnimationFrame(function () { lb.classList.add("is-in"); });
+    lb.querySelector(".lb-close").focus();
+  }
+  function close() {
+    lb.classList.remove("is-in");
+    setTimeout(function () {
+      lb.classList.remove("is-on");
+      document.documentElement.style.overflow = "";
+      if (opener) opener.focus();
+    }, 250);
+  }
+
+  lb.querySelector(".lb-close").addEventListener("click", close);
+  lb.querySelector(".lb-back").addEventListener("click", close);
+  lb.querySelector(".lb-prev").addEventListener("click", function () { step(-1); });
+  lb.querySelector(".lb-next").addEventListener("click", function () { step(1); });
+  /* clicking the empty space around the photograph closes it too, the way a
+     backdrop does — but a click on the photograph itself does not */
+  lb.querySelector(".lb-stage").addEventListener("click", function (e) {
+    if (e.target === this) close();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (!lb.classList.contains("is-on")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
+    else if (e.key === "Tab") {
+      /* keep the keyboard inside the dialog while it is open */
+      var stops = [].slice.call(lb.querySelectorAll("button"));
+      var k = stops.indexOf(document.activeElement);
+      e.preventDefault();
+      stops[(k + (e.shiftKey ? -1 : 1) + stops.length) % stops.length].focus();
+    }
+  });
+
+  /* swipe, for the phone */
+  var x0 = null;
+  lb.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 45) step(dx < 0 ? 1 : -1);
+    x0 = null;
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

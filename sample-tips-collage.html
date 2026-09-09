@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel tips &mdash; even gaps and click to enlarge</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=180">
+<style>
+body { font-family: var(--gordita); margin: 0; padding: 30px 20px 60px; background: #f4f4f4; }
+h1 { font-family: var(--aviano); font-size: 26px; margin: 0 0 6px; }
+h2 { font-family: var(--aviano); font-size: 17px; margin: 0 0 8px; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 18px; max-width: 780px; }
+.note { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 12px; max-width: 780px;
+        padding: 12px 16px; background: #fff; border-left: 3px solid #D57114; }
+.note b { color: #D57114; }
+table { border-collapse: collapse; margin: 10px 0 0; font-size: 13px; }
+th, td { padding: 4px 18px 4px 0; text-align: left; font-weight: 400; color: #555; }
+th { color: #222; font-weight: 700; }
+td.was { color: #b00; } td.now { color: #197d19; }
+.block { margin: 0 0 34px; }
+.desk { width: 100%; max-width: 1280px; height: 780px; border: 0; display: block; background: #fff;
+        box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+.phone { width: 375px; height: 800px; border: 0; display: block; background: #fff;
+         border-radius: 14px; box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+.cap { font-size: 12px; color: #888; margin: 10px 0 0; }
+</style>
+</head>
+<body>
+<h1>Travel tips &mdash; the collage, fixed</h1>
+<p class="lede">The layout is untouched. Three changes only: the gaps are square, the bottom edge is straight, and any still opens full screen when you click or tap it.</p>
+
+<p class="note"><b>1. One gap, both axes.</b> The section sets the gap twice &mdash; once across the three columns, once down inside each column &mdash; and they were never the same number. On the phone they are not even close, because the down-gap is written in rem and rem is a flat 16px below 901px:
+<table>
+  <tr><th></th><th>across</th><th>down</th><th>now</th></tr>
+  <tr><td>desktop @ 1440</td><td class="was">13.33px</td><td class="was">12.73px</td><td class="now">13.33 / 13.33</td></tr>
+  <tr><td>phone @ 375</td><td class="was">8.00px</td><td class="was">3.36px</td><td class="now">8.00 / 8.00</td></tr>
+</table>
+</p>
+<p class="note"><b>2. A straight bottom edge.</b> Column A&rsquo;s two stills total 13.62rem, while B and C total 13.59 &mdash; so A hung about 1.8px lower and the collage bottomed out unevenly against the cream panel. A&rsquo;s pair is now 6.795rem each, the same 13.59. The shapes do not change to the eye.</p>
+<p class="note"><b>3. Click to enlarge, desktop and phone.</b> Every still is a real button: click, tap, Enter or Space opens it full screen over a dark backdrop. Arrows step through all six (at the sides on desktop, in a bar at the foot on the phone), and you can <b>swipe</b> on a phone. Esc, the close button, the backdrop or the space around the photograph all shut it. The keyboard stays inside the dialog while it is open, and focus returns to the still you came from. A slot whose file is missing stays a plain placeholder and is not clickable.</p>
+
+<div class="block">
+  <h2>Desktop</h2>
+  <iframe class="desk" src="sample-tips-collage-frame.html?r=1"></iframe>
+  <p class="cap">A 1280px-wide viewport. Click any photograph; then try the arrow keys and Esc.</p>
+</div>
+
+<div class="block">
+  <h2>Phone</h2>
+  <iframe class="phone" src="sample-tips-collage-frame.html?r=1"></iframe>
+  <p class="cap">A true 375px viewport. Tap a photograph; swipe left and right inside it.</p>
+</div>
+</body>
+</html>
