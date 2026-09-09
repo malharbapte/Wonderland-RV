@@ -28,16 +28,9 @@ mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
   "Wonderland RV — adventure your way");
 mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara");
 
-/* -------------------------------------------------- mobile nav toggle ---- */
-(function () {
-  const btn = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".main-nav");
-  if (!btn || !nav) return;
-  btn.addEventListener("click", function () {
-    const open = nav.classList.toggle("is-open");
-    btn.setAttribute("aria-expanded", String(open));
-  });
-})();
+/* The mobile nav toggle used to live here. It now lives in nav.js, which
+   every page loads — this copy would have bound a second listener on the
+   same button, and two toggles on one click cancel out. */
 
 /* ------------------------------------- State: chevron follows the value --- */
 (function () {

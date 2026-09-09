@@ -146,16 +146,9 @@ function buildControls(frame) {
   });
 }
 
-/* -------------------------------------------------- mobile nav toggle ---- */
-(function () {
-  const btn = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".main-nav");
-  if (!btn || !nav) return;
-  btn.addEventListener("click", function () {
-    const open = nav.classList.toggle("is-open");
-    btn.setAttribute("aria-expanded", String(open));
-  });
-})();
+/* The mobile nav toggle used to live here. It now lives in nav.js, which
+   every page loads — this copy would have bound a second listener on the
+   same button, and two toggles on one click cancel out. */
 
 /* ------------------------------------- State: chevron follows the value ---
    The artboard sits the arrow immediately after the word "State". A longer
