@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>travel tips mosaic (frame)</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=194">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=194">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=194">
+<style>
+/* Sample frame, desktop only. ?page=<slug> picks the Wonderlander,
+   ?debug=1 shows the working line underneath. */
+body { padding: 0 0 0.40rem; }
+
+/* One grid for tiles and panel, so one gutter everywhere. */
+.tc-band {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.44rem;
+  display: grid;
+  gap: var(--tips-gap);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 3.30rem 3.50rem 3.50rem 3.30rem;
+  grid-template-areas:
+    "t1  t1  t2  t3  t4  t4"
+    "t5  t6  p   p   t7  t8"
+    "t5  t9  p   p   t10 t8"
+    "t11 t12 t12 t13 t14 t14";
+}
+
+.tc-tile { position: relative; overflow: hidden; border-radius: 0.04rem; }
+/* two stacked faces per tile; the incoming one fades in over the outgoing */
+.tc-face {
+  position: absolute; inset: 0;
+  background: center / cover no-repeat;
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+.tc-face.on { opacity: 1; }
+.tc-face.is-orange { background-color: var(--orange); background-image: none; }
+
+.tc-panel {
+  grid-area: p;
+  position: relative;
+  background: #FFF2DC;
+  display: grid;
+  align-content: center;
+  padding: 0.55rem 1.05rem;
+}
+/* all answers share one cell, so the panel is as tall as the longest */
+.tc-tips { display: grid; width: 100%; max-width: 8.6rem; justify-self: center; }
+.tc-tips .amb-tip { display: block; grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .3s ease; }
+.tc-tips .amb-tip.is-on { visibility: visible; opacity: 1; }
+.tc-tips .amb-tip-q, .tc-tips .amb-tip-a { text-wrap: pretty; }
+
+/* sample-only readout */
+.tc-debug {
+  margin: 0.30rem auto 0; width: 21.76rem; max-width: 94%;
+  font: 13px/1.5 system-ui, sans-serif; color: #777;
+  display: flex; flex-wrap: wrap; gap: 4px 16px;
+}
+.tc-debug b { color: #333; font-weight: 600; }
+.tc-debug .ok { color: #197d19; }
+.tc-debug .warn { color: #b25d00; }
+</style>
+</head>
+<body>
+<section class="amb-tips">
+  <div class="container"><h2 class="wl-intro-title">Travel tips</h2></div>
+  <div class="tc-band" id="band">
+    <div class="tc-panel">
+      <div class="tc-tips" id="tips"></div>
+      <div class="amb-tips-arrows">
+        <button class="amb-tip-prev" type="button" aria-label="Previous travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="amb-tip-next" type="button" aria-label="Next travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="tc-debug" id="debug" hidden></div>
+</section>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var PAGES = {
+    "sandy-van-travels":       ["1","2","3","4","5","6","spare"],
+    "lost-tribe-adventures":   ["1","2","4","5"],
+    "wheatland-wanderers":     ["1","2","4","5"],
+    "livin-in-sanity":         ["1","2","4","5"],
+    "few-laps-around-the-sun": ["1","2","4","5"],
+    "kiwi-van-life":           []
+  };
+  var slug = PAGES[q.get("page")] ? q.get("page") : "sandy-van-travels";
+
+  /* ONLY this family's photos. Nothing is borrowed from another page. */
+  var POOL = PAGES[slug].map(function (n) { return "assets/img/ambassadors/" + slug + "/tip-" + n + ".jpg"; });
+  var ORANGE = "orange";
+
+  var EVERY = 3000, COOLDOWN = 8, SLOTS = 14;
+  var band = document.getElementById("band");
+
+  function rnd(n) { return Math.random() * n | 0; }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  var tiles = [];
+  for (var i = 1; i <= SLOTS; i++) {
+    var t = document.createElement("div");
+    t.className = "tc-tile";
+    t.style.gridArea = "t" + i;
+    t.innerHTML = '<div class="tc-face on"></div><div class="tc-face"></div>';
+    band.appendChild(t);
+    tiles.push(t);
+  }
+
+  /* ---- who touches whom, read off the laid-out grid rather than typed in,
+     so it stays right if the arrangement changes. Two tiles sharing a side
+     are EDGE neighbours; two meeting only at a corner are CORNER neighbours. */
+  var edge = [], corner = [];
+  function measure() {
+    var g = parseFloat(getComputedStyle(band).columnGap) || 0;
+    var r = tiles.map(function (t) { return t.getBoundingClientRect(); });
+    edge = tiles.map(function () { return []; });
+    corner = tiles.map(function () { return []; });
+    for (var a = 0; a < r.length; a++) for (var b = 0; b < r.length; b++) {
+      if (a === b) continue;
+      var ox = Math.min(r[a].right, r[b].right) - Math.max(r[a].left, r[b].left);
+      var oy = Math.min(r[a].bottom, r[b].bottom) - Math.max(r[a].top, r[b].top);
+      var nx = Math.abs(r[a].right + g - r[b].left) < 2 || Math.abs(r[b].right + g - r[a].left) < 2;
+      var ny = Math.abs(r[a].bottom + g - r[b].top) < 2 || Math.abs(r[b].bottom + g - r[a].top) < 2;
+      if ((nx && oy > 2) || (ny && ox > 2)) edge[a].push(b);
+      else if (nx && ny) corner[a].push(b);
+    }
+  }
+  measure();
+
+  /* how badly a set of orange tiles clumps: side-by-side pairs first, then
+     corner-to-corner pairs as the tie-break, so "dispersed" means no two
+     touching, and after that as few as possible meeting at a corner. */
+  function clump(isOrange) {
+    var e = 0, c = 0;
+    for (var a = 0; a < SLOTS; a++) if (isOrange[a]) {
+      edge[a].forEach(function (b) { if (b > a && isOrange[b]) e++; });
+      corner[a].forEach(function (b) { if (b > a && isOrange[b]) c++; });
+    }
+    return { e: e, c: c };
+  }
+
+  /* ---- place the orange tiles: try every arrangement (14 tiles is small
+     enough to be exhaustive) and pick at random among the least clumped. */
+  var K = Math.max(0, SLOTS - POOL.length);
+  function bestOrange(k) {
+    var best = [], bestScore = Infinity, pick = [];
+    (function rec(start, left) {
+      if (left === 0) {
+        var m = tiles.map(function () { return false; });
+        pick.forEach(function (x) { m[x] = true; });
+        var s = clump(m), score = s.e * 1000 + s.c;
+        if (score < bestScore) { bestScore = score; best = [pick.slice()]; }
+        else if (score === bestScore) best.push(pick.slice());
+        return;
+      }
+      for (var x = start; x <= SLOTS - left; x++) { pick.push(x); rec(x + 1, left - 1); pick.pop(); }
+    })(0, k);
+    return best[rnd(best.length)] || [];
+  }
+  var oranges = bestOrange(K);
+
+  var shown = new Array(SLOTS);
+  var photos = shuffle(POOL.slice());
+  var next = 0;
+  for (var s2 = 0; s2 < SLOTS; s2++) shown[s2] = oranges.indexOf(s2) >= 0 ? ORANGE : photos[next++];
+
+  function paint(face, what) {
+    face.classList.toggle("is-orange", what === ORANGE);
+    face.style.backgroundImage = what === ORANGE ? "none" : 'url("' + what + '")';
+  }
+  tiles.forEach(function (t, k) { paint(t.firstChild, shown[k]); });
+
+  function fadeTo(k, what) {
+    var tile = tiles[k], on = tile.querySelector(".tc-face.on"), off = tile.querySelector(".tc-face:not(.on)");
+    function swap() {
+      paint(off, what);
+      void off.offsetWidth;   // not rAF: rAF pauses in background tabs
+      off.classList.add("on"); on.classList.remove("on");
+    }
+    if (what === ORANGE) return swap();
+    var pre = new Image(); pre.onload = swap; pre.src = what;
+  }
+
+  /* ---- the shuffle */
+  var resting = [], lastSlot = -1, hovering = false;
+  band.addEventListener("mouseenter", function () { hovering = true; });
+  band.addEventListener("mouseleave", function () { hovering = false; });
+  function cap() { return Math.max(0, Math.min(COOLDOWN, POOL.length - SLOTS - 1)); }
+  function isOrangeMap(arr) { return arr.map(function (x) { return x === ORANGE; }); }
+
+  function tick() {
+    if (hovering || document.hidden) return;
+    var slot, guard = 0;
+    do { slot = rnd(SLOTS); } while ((slot === lastSlot || shown[slot] === ORANGE && POOL.length > SLOTS) && ++guard < 40);
+    lastSlot = slot;
+
+    /* 1. a fresh photo from the pool, if there is one that is not on screen
+          and not resting (only possible once a page has more than 14) */
+    var free = POOL.filter(function (u) { return shown.indexOf(u) < 0 && resting.indexOf(u) < 0; });
+    if (free.length && shown[slot] !== ORANGE) {
+      var incoming = free[rnd(free.length)], outgoing = shown[slot];
+      fadeTo(slot, incoming); shown[slot] = incoming;
+      resting.push(outgoing); while (resting.length > cap()) resting.shift();
+      return readout();
+    }
+
+    /* 2. otherwise two tiles trade places. An orange tile may trade with a
+          photo, but only if that leaves the orange no more clumped than it
+          is now, so the orange wanders without ever bunching up. */
+    /* Every allowed trade is listed first and one is drawn from the list.
+       Guessing at random instead could miss them all: with 10 orange tiles
+       at their least-bunched, most moves for an orange tile are refused,
+       and those turns passed with nothing changing. */
+    var before = clump(isOrangeMap(shown)), moves = [];
+    for (var a = 0; a < SLOTS; a++) for (var b = a + 1; b < SLOTS; b++) {
+      if (shown[a] === shown[b] || a === lastSlot || b === lastSlot) continue;
+      var trial = shown.slice(); trial[a] = shown[b]; trial[b] = shown[a];
+      var after = clump(isOrangeMap(trial));
+      if (after.e > before.e || (after.e === before.e && after.c > before.c)) continue;
+      moves.push([a, b, trial]);
+    }
+    if (moves.length) {
+      var m = moves[rnd(moves.length)];
+      fadeTo(m[0], m[2][m[0]]); fadeTo(m[1], m[2][m[1]]);
+      shown = m[2];
+      lastSlot = m[rnd(2)];
+    }
+    readout();
+  }
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tick, EVERY);
+
+  /* ---- sample-only readout */
+  var dbg = document.getElementById("debug");
+  function readout() {
+    if (q.get("debug") !== "1") return;
+    dbg.hidden = false;
+    var s = clump(isOrangeMap(shown));
+    var n = shown.filter(function (x) { return x === ORANGE; }).length;
+    dbg.innerHTML =
+      "<span><b>" + POOL.length + "</b> photos for this page</span>" +
+      "<span><b>" + n + "</b> orange</span>" +
+      (n === 0 ? "" : s.e === 0
+        ? '<span class="ok">no orange tiles side by side</span>'
+        : '<span class="warn"><b>' + s.e + "</b> orange pair" + (s.e > 1 ? "s" : "") + " side by side, the fewest possible with " + n + "</span>");
+  }
+  readout();
+
+  /* ---- the page's own Q&A, read straight from its live file */
+  fetch(slug + ".html").then(function (r) { return r.text(); }).then(function (html) {
+    var doc = new DOMParser().parseFromString(html, "text/html");
+    var box = document.getElementById("tips");
+    [].forEach.call(doc.querySelectorAll(".amb-tips-panel .amb-tip"), function (n, k) {
+      var c = document.importNode(n, true);
+      c.classList.toggle("is-on", k === 0);
+      box.appendChild(c);
+    });
+    report();
+  });
+  var at = 0;
+  function go(d) {
+    var tips = document.querySelectorAll("#tips .amb-tip");
+    if (!tips.length) return;
+    tips[at].classList.remove("is-on");
+    at = (at + d + tips.length) % tips.length;
+    tips[at].classList.add("is-on");
+  }
+  document.querySelector(".amb-tip-prev").addEventListener("click", function () { go(-1); });
+  document.querySelector(".amb-tip-next").addEventListener("click", function () { go(1); });
+
+  function report() { parent.postMessage({ tcMosaic: 1, h: document.documentElement.scrollHeight }, "*"); }
+  addEventListener("load", report); addEventListener("resize", function () { measure(); report(); });
+})();
+</script>
+</body>
+</html>
