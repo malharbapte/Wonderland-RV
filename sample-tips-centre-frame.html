@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>travel tips, Q&amp;A in the centre (frame)</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=194">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=194">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=194">
+<style>
+/* Sample frame. Desktop only: the phone layout is not part of this change.
+   ?v=a|b|c picks the arrangement, ?debug=1 shows the shuffle's working. */
+body { padding: 0 0 0.40rem; }
+
+/* ONE gap for the whole band. Every tile and the panel sit on the same CSS
+   grid, so the gutter is the grid's own gap and cannot differ between rows
+   and columns, or between a tile and the panel. */
+.tc-band {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.44rem;
+  display: grid;
+  gap: var(--tips-gap);
+}
+
+.tc-tile { position: relative; overflow: hidden; border-radius: 0.04rem; background: #ece6dc; }
+/* two stacked layers per tile: the incoming photo loads underneath, then
+   crossfades over the outgoing one, so a tile never flashes empty */
+.tc-tile img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+.tc-tile img.on { opacity: 1; }
+
+.tc-panel {
+  grid-area: p;
+  position: relative;
+  background: #FFF2DC;
+  display: grid;
+  align-content: center;
+  padding: 0.55rem 1.05rem;
+}
+/* All four answers share one grid cell, so the panel is always as tall as
+   the LONGEST answer and nothing around it jumps when you page. */
+.tc-tips { display: grid; }
+.tc-tips .amb-tip { display: block; grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .3s ease; }
+.tc-tips .amb-tip.is-on { visibility: visible; opacity: 1; }
+.tc-tips .amb-tip-q, .tc-tips .amb-tip-a { text-wrap: pretty; }
+/* a readable measure however wide the panel gets (A's is 634px at 1280) */
+.tc-tips, .tc-count { width: 100%; max-width: 8.6rem; justify-self: center; }
+.tc-count {
+  margin-top: 0.20rem;
+  font-family: var(--gordita); font-size: var(--t-caption);
+  color: #9a8f80; letter-spacing: .04em;
+}
+
+/* ---- A · Ring: ten photos in a frame, the panel in the middle band */
+.v-a {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 4.20rem minmax(4.80rem, auto) 4.20rem;
+  grid-template-areas:
+    "t1 t2 t3 t4"
+    "t5 p  p  t6"
+    "t7 t8 t9 t10";
+}
+
+/* ---- B · Wings: four photos either side, the panel a tall centre column */
+.v-b {
+  grid-template-columns: 1fr 1fr 1.7fr 1fr 1fr;
+  grid-template-rows: 5.40rem 5.40rem;
+  grid-template-areas:
+    "t1 t2 p t3 t4"
+    "t5 t6 p t7 t8";
+}
+
+/* ---- C · Mosaic: fourteen photos of mixed shapes, the panel 2 x 2 */
+.v-c {
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 3.30rem 3.50rem 3.50rem 3.30rem;
+  grid-template-areas:
+    "t1  t1  t2  t3  t4  t4"
+    "t5  t6  p   p   t7  t8"
+    "t5  t9  p   p   t10 t8"
+    "t11 t12 t12 t13 t14 t14";
+}
+
+/* sample-only readout, never shipped */
+.tc-debug {
+  margin: 0.30rem auto 0; width: 21.76rem; max-width: 94%;
+  font: 13px/1.5 system-ui, sans-serif; color: #777;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+}
+.tc-debug b { color: #333; font-weight: 600; }
+.tc-rest { display: flex; gap: 4px; }
+.tc-rest img { width: 34px; height: 24px; object-fit: cover; border-radius: 2px; }
+</style>
+</head>
+<body>
+<section class="amb-tips">
+  <div class="container"><h2 class="wl-intro-title">Travel tips</h2></div>
+  <div class="tc-band" id="band">
+    <div class="tc-panel">
+      <div class="tc-tips">
+        <div class="amb-tip is-on">
+          <p class="amb-tip-q">How do you fit everything in your caravan? Any clever storage ideas?</p>
+          <p class="amb-tip-a">Living full-time in a caravan with three kids definitely teaches you to be intentional about what you own. Everything has a home, and if it doesn&rsquo;t have a purpose, it doesn&rsquo;t travel with us. We&rsquo;ve learnt that smart caravan design makes all the difference, functional space, dedicated storage spaces and keeping everyday items easy to access. We also use storage tubs to keep everyone&rsquo;s gear organised, everything has a place and is put away when not in&nbsp;use.</p>
+        </div>
+        <div class="amb-tip">
+          <p class="amb-tip-q">What are your go-to meals when caravanning? Do you have any favourite camping recipes that you&rsquo;d like to share?</p>
+          <p class="amb-tip-a">We do around 99% of our cooking outside and absolutely love it. Some of our family favourites are anything Mexican, Italian, slow-cooked curries and fresh seafood whenever we&rsquo;re lucky enough to catch it ourselves. Cooking outdoors has become one of our favourite parts of travelling. We have the Panasonic 4 in 1 Microwave Convection oven built inside the van (we also had this in our first van and loved it, so we wanted it again). We also have a Wolstead 14-1 multi cooker, a TM7 and a&nbsp;Weber.</p>
+        </div>
+        <div class="amb-tip">
+          <p class="amb-tip-q">What&rsquo;s the coolest thing you&rsquo;ve found on your travels? Any hidden gems or off-the-beaten-path places?</p>
+          <p class="amb-tip-a">It&rsquo;s impossible to choose just one. Spending three months at Ningaloo Reef is a memory we&rsquo;ll never forget. Watching our kids fall in love with fishing, snorkelling, exploring the beaches and spending every day outdoors reminded us exactly why we chose this lifestyle. The biggest surprise, though, has been discovering that some of Australia&rsquo;s best places aren&rsquo;t the famous ones. They&rsquo;re the unexpected campsites, quiet beaches and little towns you stumble across because you decided to take the scenic&nbsp;route.</p>
+        </div>
+        <div class="amb-tip">
+          <p class="amb-tip-q">What are your must-have caravanning essentials? Any unexpected items that have become indispensable on your travels?</p>
+          <p class="amb-tip-a">Reliable off-grid power is a big one for us, along with Starlink so we can keep running our photography business from the road. Our camera gear travels everywhere with us, and with three active kids we have bikes and scooters. We also love our campfires and comfortable camp&nbsp;chairs.</p>
+        </div>
+      </div>
+      <p class="tc-count" id="count">1 / 4</p>
+      <div class="amb-tips-arrows">
+        <button class="amb-tip-prev" type="button" aria-label="Previous travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="amb-tip-next" type="button" aria-label="Next travel tip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="tc-debug" id="debug" hidden></div>
+</section>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var v = /^[abc]$/.test(q.get("v")) ? q.get("v") : "a";
+  var SLOTS = { a: 10, b: 8, c: 14 }[v];
+  var band = document.getElementById("band");
+  band.classList.add("v-" + v);
+
+  /* ---- the pool. On the live pages this is that family's own folder; for
+     the sample it borrows every still on the site (23) so the cooldown has
+     room to show what it does. */
+  var A = "assets/img/ambassadors/";
+  var POOL = [];
+  ["1","2","3","4","5","6","spare"].forEach(function (n) { POOL.push(A + "sandy-van-travels/tip-" + n + ".jpg"); });
+  ["lost-tribe-adventures","wheatland-wanderers","livin-in-sanity","few-laps-around-the-sun"].forEach(function (s) {
+    ["1","2","4","5"].forEach(function (n) { POOL.push(A + s + "/tip-" + n + ".jpg"); });
+  });
+
+  /* ---- the rules, all in one place */
+  var EVERY    = 3000;   // ms between changes, one tile at a time
+  var COOLDOWN = 8;      // a photo that leaves stays off screen for at least this many changes
+
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.random() * (i + 1) | 0, t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function pick(a) { return a[Math.random() * a.length | 0]; }
+
+  var tiles = [];
+  for (var i = 1; i <= SLOTS; i++) {
+    var t = document.createElement("div");
+    t.className = "tc-tile";
+    t.style.gridArea = "t" + i;
+    t.innerHTML = '<img class="on" alt=""><img alt="">';
+    band.appendChild(t);
+    tiles.push(t);
+  }
+  var deck = shuffle(POOL.slice());
+  var shown = tiles.map(function (t, i) { var u = deck[i % deck.length]; t.firstChild.src = u; return u; });
+
+  var resting = [];            // most recent last
+  var lastSlot = -1;
+  /* The cooldown can never be longer than the spare photos allow, or nothing
+     would be eligible: with 23 in the pool and 10 on screen, 13 are off
+     screen, 8 of those are resting, so 5 are always free to come in. */
+  function cap() { return Math.max(0, Math.min(COOLDOWN, POOL.length - tiles.length - 1)); }
+
+  function fadeIn(tile, url) {
+    var on = tile.querySelector("img.on"), off = tile.querySelector("img:not(.on)");
+    var pre = new Image();
+    pre.onload = function () {
+      off.src = url;
+      /* a forced reflow, not requestAnimationFrame: rAF is paused in a
+         background tab, and the swap must land when the record says it did */
+      void off.offsetWidth;
+      off.classList.add("on"); on.classList.remove("on");
+    };
+    pre.src = url;
+  }
+
+  var hovering = false;
+  band.addEventListener("mouseenter", function () { hovering = true; });
+  band.addEventListener("mouseleave", function () { hovering = false; });
+
+  function tick() {
+    if (hovering || document.hidden) return;
+    var slot, guard = 0;
+    do { slot = Math.random() * tiles.length | 0; } while (slot === lastSlot && ++guard < 20);
+    lastSlot = slot;
+
+    var free = POOL.filter(function (u) { return shown.indexOf(u) < 0 && resting.indexOf(u) < 0; });
+    if (free.length) {
+      var incoming = pick(free), outgoing = shown[slot];
+      fadeIn(tiles[slot], incoming);
+      shown[slot] = incoming;
+      resting.push(outgoing);
+      while (resting.length > cap()) resting.shift();
+    } else {
+      /* no spare photos yet: two tiles trade places instead */
+      var other, g2 = 0;
+      do { other = Math.random() * tiles.length | 0; } while (other === slot && ++g2 < 20);
+      var a = shown[slot], b = shown[other];
+      fadeIn(tiles[slot], b); fadeIn(tiles[other], a);
+      shown[slot] = b; shown[other] = a;
+    }
+    readout();
+  }
+
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce) setInterval(tick, EVERY);
+
+  /* ---- sample-only readout */
+  var dbg = document.getElementById("debug");
+  function readout() {
+    if (q.get("debug") !== "1") return;
+    dbg.hidden = false;
+    var free = POOL.length - tiles.length - resting.length;
+    dbg.innerHTML = "<span><b>" + POOL.length + "</b> in the pool</span>" +
+      "<span><b>" + tiles.length + "</b> on screen</span>" +
+      "<span><b>" + resting.length + "</b> resting</span>" +
+      "<span><b>" + Math.max(0, free) + "</b> free to come in</span>" +
+      '<span class="tc-rest">' + resting.map(function (u) { return '<img src="' + u + '" alt="">'; }).join("") + "</span>";
+  }
+  readout();
+
+  /* ---- Q&A pager, same behaviour as the live page */
+  var tips = [].slice.call(document.querySelectorAll(".amb-tip")), at = 0;
+  function go(d) {
+    tips[at].classList.remove("is-on");
+    at = (at + d + tips.length) % tips.length;
+    tips[at].classList.add("is-on");
+    document.getElementById("count").textContent = (at + 1) + " / " + tips.length;
+  }
+  document.querySelector(".amb-tip-prev").addEventListener("click", function () { go(-1); });
+  document.querySelector(".amb-tip-next").addEventListener("click", function () { go(1); });
+
+  /* tell the review page how tall this frame is */
+  function report() { parent.postMessage({ tcFrame: v, h: document.documentElement.scrollHeight }, "*"); }
+  addEventListener("load", report); addEventListener("resize", report); setTimeout(report, 400);
+})();
+</script>
+</body>
+</html>
