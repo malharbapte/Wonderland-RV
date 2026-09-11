@@ -6,10 +6,10 @@
 <title>Kiwi Van Life — Wonderland RV</title>
 <meta name="description" content="Meet Kiwi Van Life, Wonderland RV Wonderlanders travelling Australia off-road.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=194">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=194">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=194">
-<link rel="stylesheet" href="assets/css/ambassador-page.css?v=194">
+<link rel="stylesheet" href="assets/css/styles.css?v=195">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=195">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=195">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=195">
 </head>
 <body>
 
@@ -121,7 +121,12 @@
 </section>
 
 <!-- ======================================================== TRAVEL TIPS -->
-<section class="amb-tips">
+<!-- Desktop shows these as a shuffling mosaic around the questions
+     (assets/js/tips-mosaic.js); the phone keeps the six-slot collage.
+     To add a photo on desktop: put the file in the folder below and add
+     its name to data-photos. Tiles with no photo to fit them go orange. -->
+<section class="amb-tips" data-photo-dir="assets/img/ambassadors/kiwi-van-life/"
+         data-photos="">
   <div class="container"><h2 class="wl-intro-title">Travel tips</h2></div>
   <div class="amb-tips-band">
     <!-- Six stills. Drop files at assets/img/ambassadors/kiwi-van-life/
@@ -131,31 +136,31 @@
          anything large enough works. -->
     <div class="amb-tips-grid">
       <div class="amb-tips-col amb-tips-col--a">
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-1">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-1">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-1.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-2">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-2">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-2.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
       </div>
       <div class="amb-tips-col amb-tips-col--b">
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-3">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-3">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-3.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-4">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-4">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-4.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
       </div>
       <div class="amb-tips-col amb-tips-col--c">
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-5">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-5">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-5.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
-        <div class="amb-tip-img ph" data-ph="TRAVEL TIP — tip-6">
+        <div class="amb-tip-img ph" data-ph="TRAVEL TIP: tip-6">
           <img src="assets/img/ambassadors/kiwi-van-life/tip-6.jpg" alt=""
                onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
@@ -163,22 +168,22 @@
     </div>
     <div class="amb-tips-panel">
       <div class="amb-tip is-on" data-tip="0">
-        <p class="amb-tip-q">Travel tip 1 &mdash; question still to be supplied</p>
+        <p class="amb-tip-q">Travel tip 1: question still to be supplied</p>
         <p class="amb-tip-a">Placeholder. The Wonderlanders answer these in their own words, so nothing
           is written here until Kiwi Van Life&rsquo;s own answers are&nbsp;supplied.</p>
       </div>
       <div class="amb-tip" data-tip="1">
-        <p class="amb-tip-q">Travel tip 2 &mdash; question still to be supplied</p>
+        <p class="amb-tip-q">Travel tip 2: question still to be supplied</p>
         <p class="amb-tip-a">Placeholder. The Wonderlanders answer these in their own words, so nothing
           is written here until Kiwi Van Life&rsquo;s own answers are&nbsp;supplied.</p>
       </div>
       <div class="amb-tip" data-tip="2">
-        <p class="amb-tip-q">Travel tip 3 &mdash; question still to be supplied</p>
+        <p class="amb-tip-q">Travel tip 3: question still to be supplied</p>
         <p class="amb-tip-a">Placeholder. The Wonderlanders answer these in their own words, so nothing
           is written here until Kiwi Van Life&rsquo;s own answers are&nbsp;supplied.</p>
       </div>
       <div class="amb-tip" data-tip="3">
-        <p class="amb-tip-q">Travel tip 4 &mdash; question still to be supplied</p>
+        <p class="amb-tip-q">Travel tip 4: question still to be supplied</p>
         <p class="amb-tip-a">Placeholder. The Wonderlanders answer these in their own words, so nothing
           is written here until Kiwi Van Life&rsquo;s own answers are&nbsp;supplied.</p>
       </div>
@@ -481,11 +486,12 @@
   </div>
 </footer>
 
-<script src="assets/js/wonderlanders.js?v=194"></script>
-<script src="assets/js/video-embed.js?v=194"></script>
-<script src="assets/js/ambassador.js?v=194"></script>
-<script src="assets/js/lightbox.js?v=194"></script>
+<script src="assets/js/wonderlanders.js?v=195"></script>
+<script src="assets/js/video-embed.js?v=195"></script>
+<script src="assets/js/ambassador.js?v=195"></script>
+<script src="assets/js/lightbox.js?v=195"></script>
+<script src="assets/js/tips-mosaic.js?v=195"></script>
 
-<script src="assets/js/nav.js?v=194"></script>
+<script src="assets/js/nav.js?v=195"></script>
 </body>
 </html>

@@ -240,6 +240,76 @@
 .amb-tip-prev { left: 0.30rem; }
 .amb-tip-next { right: 0.34rem; }
 
+/* ------------------------------------------- travel tips, desktop mosaic
+   Desktop only, and only once tips-mosaic.js has built it (.is-mosaic). The
+   questions sit in the centre and fourteen tiles frame them, all on one grid
+   so there is one gutter everywhere. Below 901 none of this applies and the
+   collage above carries on as it was; the tiles are hidden down there, so a
+   window dragged narrow falls back cleanly. */
+.amb-tips .tc-tile { display: none; }
+@media (min-width: 901px) {
+  .amb-tips.is-mosaic .amb-tips-band {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 3.30rem 3.50rem 3.50rem 3.30rem;
+    grid-template-areas:
+      "t1  t1  t2  t3  t4  t4"
+      "t5  t6  p   p   t7  t8"
+      "t5  t9  p   p   t10 t8"
+      "t11 t12 t12 t13 t14 t14";
+    gap: var(--tips-gap);
+  }
+  .amb-tips.is-mosaic .amb-tips-grid { display: none; }
+
+  /* All answers share one cell, so the panel is as tall as the longest and
+     nothing around it moves when you page. The arrows' holder shares it too;
+     its buttons are positioned against the panel as before. */
+  .amb-tips.is-mosaic .amb-tips-panel {
+    grid-area: p;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    padding: 0.55rem 1.05rem;
+  }
+  .amb-tips.is-mosaic .amb-tip,
+  .amb-tips.is-mosaic .amb-tips-arrows { grid-area: 1 / 1; }
+  .amb-tips.is-mosaic .amb-tip {
+    display: block;
+    width: 100%;
+    max-width: 8.6rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .amb-tips.is-mosaic .amb-tip.is-on { visibility: visible; opacity: 1; }
+  .amb-tips.is-mosaic .amb-tip-q,
+  .amb-tips.is-mosaic .amb-tip-a { text-wrap: pretty; }
+
+  .amb-tips.is-mosaic .tc-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.04rem;
+    background: #ece6dc;
+  }
+  /* two faces per tile: the incoming one fades in over the outgoing */
+  .tc-face {
+    position: absolute; inset: 0;
+    background: center / cover no-repeat;
+    opacity: 0;
+    transition: opacity .9s ease, transform .35s ease;
+  }
+  .tc-face.on { opacity: 1; }
+  .tc-face.is-orange { background-color: var(--orange); background-image: none; }
+  .tc-tile[role="button"] { cursor: pointer; }
+  .tc-tile[role="button"]:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+}
+@media (min-width: 901px) and (hover: hover) {
+  .tc-tile[role="button"]:hover .tc-face.on { transform: scale(1.04); }
+  .tc-tile[role="button"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Ccircle cx='11' cy='11' r='10.5' fill='%23fff' fill-opacity='.40'/%3E%3C/svg%3E") 11 11, zoom-in;
+  }
+}
+
 /* ------------------------------------------------- the stills, enlarged
    Wanted on the desktop and the phone both, so none of this is inside a
    media query. lightbox.js turns each still into a real button — it only

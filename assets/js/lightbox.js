@@ -53,6 +53,7 @@
      inline onerror, so it never enters the list and never becomes a button:
      there is nothing to enlarge. */
   function build() {
+    if (lb.classList.contains("is-on")) return;   /* never under an open list */
     shots = [];
     tiles.forEach(function (tile) {
       var img = tile.querySelector("img");
@@ -150,6 +151,17 @@
       stops[(k + (e.shiftKey ? -1 : 1) + stops.length) % stops.length].focus();
     }
   });
+
+  /* The desktop mosaic (tips-mosaic.js) reshuffles its tiles, so it cannot be
+     read once like the collage above. It hands over the photographs on
+     screen at the moment of the click instead, and the tile to return
+     focus to. */
+  window.wlLightbox = {
+    open: function (list, n, from) {
+      shots = list.map(function (s) { return { src: s.src, alt: s.alt || "", tile: from }; });
+      open(n);
+    }
+  };
 
   /* swipe, for touch */
   var x0 = null;
