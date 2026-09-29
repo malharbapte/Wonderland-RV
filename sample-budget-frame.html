@@ -84,8 +84,22 @@ body.v3 .bud--3 { display: flex; }
 
    "Not sure yet" is the last node at Malhar's direction. It is not a
    magnitude, so it does not fill orange -- node and track both go grey, which
-   reads as off-the-scale rather than as the top of it. */
-body.v4 .bud--4 { display: block; margin-top: 0.40rem; }
+   reads as off-the-scale rather than as the top of it.
+
+   The whole field sits below the pill and only exists for Call back and Get a
+   Quote. It opens and closes on a height transition rather than appearing
+   from nowhere, and the top padding lives INSIDE the collapsing shell so the
+   gap above it collapses too -- on the outside it would leave a stray 0.40
+   behind every time the field closed. */
+body.v4 .bud--4 { display: block; }
+
+.bud-wrap {
+  overflow: hidden;
+  height: 0;
+  transition: height .34s cubic-bezier(.4, 0, .2, 1);
+}
+.bud-wrap.no-anim { transition: none; }
+.bud-inner { padding-top: 0.40rem; }
 
 .bud-head {
   display: flex; align-items: baseline; gap: 0.20rem;
@@ -151,6 +165,17 @@ body.v4 .bud--4 { display: block; margin-top: 0.40rem; }
    hole punched in the bar. It takes the fill's own colour and becomes a bulge
    on it instead -- which also says, plainly, that you have come past it. */
 .bud-stop.is-past::before { background: var(--orange); border-color: var(--orange); }
+
+/* Stated once, plainly, and always on screen -- not held back until someone
+   picks the wrong thing. Set to the same 0.17/0.24 as the consent fineprint
+   directly below it, so the form has one voice for small print. */
+.bud-disclaimer {
+  margin: 0.22rem 0 0;
+  font-family: var(--gordita);
+  font-size: 0.17rem;
+  line-height: 0.24rem;
+  color: var(--grey);
+}
 
 /* "Not sure yet" is an answer, not an amount, so it never takes the colour
    that means "the most" on the rest of the scale. Nothing is "past" it
@@ -289,30 +314,6 @@ body.v5 .bud--5 { display: block; margin-top: 0.40rem; }
           <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
         </div>
 
-        <!-- v4: stepped track -->
-        <div class="bud bud--4" id="bud4">
-          <div class="bud-head"><b>Budget</b><i id="bud-val">&mdash;</i></div>
-          <div class="bud-scale" role="radiogroup" aria-label="Budget">
-            <div class="bud-track"><span class="bud-fill" id="bud-fill"></span></div>
-            <label class="bud-stop" style="--p: 0">
-              <input type="radio" name="budget-4" value="$100,000 &ndash; $140,000" data-p="0">
-              <span>$100&ndash;140k</span>
-            </label>
-            <label class="bud-stop" style="--p: .33333">
-              <input type="radio" name="budget-4" value="$140,000 &ndash; $180,000" data-p=".33333">
-              <span>$140&ndash;180k</span>
-            </label>
-            <label class="bud-stop" style="--p: .66667">
-              <input type="radio" name="budget-4" value="$180,000 +" data-p=".66667">
-              <span>$180k +</span>
-            </label>
-            <label class="bud-stop bud-stop--na" style="--p: 1">
-              <input type="radio" name="budget-4" value="Not sure yet" data-p="1" data-na="1">
-              <span>Not sure yet</span>
-            </label>
-          </div>
-        </div>
-
         <!-- v5: off-language tiles -->
         <div class="bud bud--5">
           <div class="bud-tiles-label">Budget</div>
@@ -344,6 +345,35 @@ body.v5 .bud--5 { display: block; margin-top: 0.40rem; }
           <label class="chip"><input type="radio" name="budget-3" value="$140-180k"><span>$140&ndash;180k</span></label>
           <label class="chip"><input type="radio" name="budget-3" value="$180k+"><span>$180k +</span></label>
         </fieldset>
+
+        <!-- v4: stepped track, below the pill, revealed by it -->
+        <div class="bud bud--4" id="bud4">
+          <div class="bud-wrap no-anim" id="bud-wrap">
+            <div class="bud-inner">
+              <div class="bud-head"><b>Budget</b><i id="bud-val">&mdash;</i></div>
+              <div class="bud-scale" role="radiogroup" aria-label="Budget">
+                <div class="bud-track"><span class="bud-fill" id="bud-fill"></span></div>
+                <label class="bud-stop" style="--p: 0">
+                  <input type="radio" name="budget-4" value="$100,000 &ndash; $140,000" data-p="0">
+                  <span>$100&ndash;140k</span>
+                </label>
+                <label class="bud-stop" style="--p: .33333">
+                  <input type="radio" name="budget-4" value="$140,000 &ndash; $180,000" data-p=".33333">
+                  <span>$140&ndash;180k</span>
+                </label>
+                <label class="bud-stop" style="--p: .66667">
+                  <input type="radio" name="budget-4" value="$180,000 +" data-p=".66667">
+                  <span>$180k +</span>
+                </label>
+                <label class="bud-stop bud-stop--na" style="--p: 1">
+                  <input type="radio" name="budget-4" value="Not sure yet" data-p="1" data-na="1">
+                  <span>Not sure yet</span>
+                </label>
+              </div>
+              <p class="bud-disclaimer">We don&rsquo;t have caravans under $100,000.</p>
+            </div>
+          </div>
+        </div>
 
         <div class="field field--area">
           <label class="sr-only" for="message">Something else you want to tell us...</label>
@@ -425,6 +455,8 @@ document.querySelectorAll(".chips").forEach(function (chips) {
 (function () {
   var wrap = document.getElementById("bud4");
   if (!wrap) return;
+  var shell = document.getElementById("bud-wrap");
+  var inner = shell.firstElementChild;
   var fill = document.getElementById("bud-fill");
   var out = document.getElementById("bud-val");
   var ins = [].slice.call(wrap.querySelectorAll('input[name="budget-4"]'));
@@ -455,6 +487,42 @@ document.querySelectorAll(".chips").forEach(function (chips) {
 
   ins.forEach(function (i) { i.addEventListener("change", paint); });
   paint();
+
+  /* ---- the pill decides whether this field exists at all ----------------
+     Budget is only asked for a call back or a quote. Closed, the radios are
+     DISABLED rather than cleared: a disabled control is not submitted and is
+     not tabbable, so no budget can ride along on an enquiry that never asked
+     the question -- and someone who switches away and back still finds their
+     answer where they left it. */
+  var ASKS_BUDGET = ["Call back", "Get a Quote"];
+  var pill = document.querySelector(".chips");
+  if (!pill) return;
+  var open = null;
+
+  function wanted() {
+    var c = pill.querySelector('input[type="radio"]:checked');
+    return !!c && ASKS_BUDGET.indexOf(c.value) >= 0;
+  }
+
+  function setOpen(next, animate) {
+    if (next === open) return;
+    open = next;
+    ins.forEach(function (i) { i.disabled = !next; });
+    shell.classList.toggle("no-anim", !animate);
+    if (!animate) { shell.style.height = next ? "auto" : "0px"; return; }
+    /* from an explicit height, or the transition has nothing to run between */
+    shell.style.height = (next ? 0 : inner.offsetHeight) + "px";
+    void shell.offsetHeight;
+    shell.style.height = (next ? inner.offsetHeight : 0) + "px";
+  }
+
+  shell.addEventListener("transitionend", function (e) {
+    /* released to auto so the row can never be clipped if its content grows */
+    if (e.propertyName === "height" && open) shell.style.height = "auto";
+  });
+
+  setOpen(wanted(), false);
+  pill.addEventListener("change", function () { setOpen(wanted(), true); });
 })();
 </script>
 </body>
