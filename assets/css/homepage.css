@@ -1137,6 +1137,12 @@
 .faq-q:hover { color: var(--orange-deep); }
 .faq-q:focus-visible { outline: 0.02rem solid var(--orange-deep); outline-offset: 0.06rem; }
 
+/* The open question carries the orange, so the heading itself says which
+   answer you are reading — not just the sign at the end of the row. It
+   outranks the hover colour deliberately: once a row is the open one, there
+   is nothing useful for hover to tell you about it. */
+.faq-item.is-on .faq-q { color: var(--orange); }
+
 /* a plus that turns into a minus: one bar fixed, the other rotating flat */
 .faq-sign {
   display: none;
