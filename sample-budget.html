@@ -69,10 +69,14 @@ p, li { text-wrap: pretty; }
 </div>
 
 <div class="block">
-  <h2><small>Option 4</small>A stepped track</h2>
-  <div class="tags"><span class="tag tag--ok">brand vocabulary</span><span class="tag tag--h">+161</span><span class="tag tag--warn">new interaction</span></div>
-  <p>Five stops on a track, orange filling left to right as you pick, the chosen band printed in orange beside the label. The <b>vocabulary is all Wonderland</b> — brand orange, the pill's own 0.46s ease, the same radius family — but the interaction is new to the site, and a budget range is the one question where a sliding scale genuinely says something a dropdown does not: it shows people they're picking a position, not committing to a figure. Costs 161, the second tallest.</p>
+  <h2><small>Option 4 &mdash; your pick, revised</small>A stepped track</h2>
+  <div class="tags"><span class="tag tag--ok">brand vocabulary</span><span class="tag tag--h">+160</span><span class="tag tag--warn">new interaction</span></div>
+  <p><b>The amounts now sit on the nodes.</b> Each node is placed at its value along the track rather than in an equal flex cell, and the amount hangs directly beneath it. The track measures 453&ndash;1071 on screen, the same left and right edges as the textarea below it; the outer two nodes are inset by half a dot so they stay inside the track instead of poking past the form's left margin, and the outer two labels align to the ends so they cannot run past the measure. The orange fill ends exactly on the chosen node, computed from the same expression that places the node, so the two can never drift apart.</p>
+  <p><b>The under-$100k band is marked, not just explained.</b> Pick it and a cream note opens underneath &mdash; "Sorry, we don't have any vans under $100,000." More than that, <b>this node never turns brand orange</b>. It fills grey, its label stays grey, and the track stays empty, because a colour that means "chosen, good" everywhere else on the site would contradict the sentence sitting under it. The note opens on the accordion's own easing rather than holding 23px of empty space on every form nobody ever sees it on.</p>
+  <p><b>"Not sure yet" had to come off the track.</b> Once the amounts sit on the nodes, the track is a real monetary scale, and a node at the far right means <i>the most</i> &mdash; it cannot also mean <i>I don't know</i>. It now rides the label row opposite BUDGET, in the same radio group so it stays mutually exclusive, and it costs no extra height. Choosing it empties the track.</p>
+  <p>Nothing is selected when the form loads: empty track, an em dash where the amount goes. The field costs 160 artboard px.</p>
   <iframe class="desk" src="sample-budget-frame.html?v=4" title="Option 4"></iframe>
+  <p style="margin-top:14px"><b>Two things left for you.</b> The copy is your sentence verbatim &mdash; say if you want a second clause pointing people at where the range does start. And the four bands are still placeholders until you confirm them; that matters more now, because the track publishes them as a scale rather than hiding them in a dropdown.</p>
 </div>
 
 <div class="block">
@@ -86,7 +90,7 @@ p, li { text-wrap: pretty; }
   <b>Measured, not eyeballed</b>
   <ul>
     <li>Every figure above is the form's real height change, taken from the rendered page at 1280px and converted back to artboard px. Baseline form: 448px on screen.</li>
-    <li><b>+109 &middot; +109 &middot; +95 &middot; +161 &middot; +206</b> for options 1 to 5.</li>
+    <li><b>+109 &middot; +109 &middot; +95 &middot; +160 &middot; +206</b> for options 1 to 5. Option 4's figure is the revised build, measured with nothing selected.</li>
     <li>Option 1's Budget select measured identical to State &mdash; same left edge, same width, 58px below it. Option 2's measured identical to the textarea, same left edge, same width.</li>
   </ul>
 </div>
