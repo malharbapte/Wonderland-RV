@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQs — three layouts</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=196">
+<style>
+body { font-family: var(--gordita); margin: 0; padding: 30px 24px 80px; background: #f4f4f4; }
+h1 { font-family: var(--aviano); font-weight: 900; font-size: 26px; margin: 0 0 6px; }
+h2 { font-family: var(--aviano); font-weight: 900; font-size: 18px; margin: 0 0 2px; }
+h2 small { font-family: var(--gordita); font-weight: 400; font-size: 12px; letter-spacing: .14em;
+           text-transform: uppercase; color: #999; display: block; margin-bottom: 4px; }
+p, li { text-wrap: pretty; }
+.lede { font-size: 14px; line-height: 21px; color: #555; margin: 0 0 18px; max-width: 880px; }
+.note { font-size: 13px; line-height: 20px; color: #555; margin: 0 0 34px; max-width: 880px;
+        padding: 14px 18px; background: #fff; border-left: 3px solid #D57114; }
+.note b { color: #D57114; }
+.note ul { margin: 8px 0 0; padding-left: 20px; }
+.note li { margin: 0 0 5px; }
+.block { margin: 0 0 46px; }
+.block > p { font-size: 13px; line-height: 20px; color: #555; margin: 6px 0 12px; max-width: 880px; }
+.block > p b { color: #111; }
+.desk { width: 100%; max-width: 1280px; height: 700px; border: 0; display: block; background: #fff;
+        box-shadow: 0 6px 26px rgba(0,0,0,.14); }
+.tags { margin: 0 0 10px; }
+.tag { display: inline-block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+       padding: 3px 9px; border-radius: 3px; margin-right: 6px; }
+.tag--ok { background: #E8F0E6; color: #3D6B33; }
+.tag--warn { background: #FBEEDD; color: #8A5311; }
+.tag--h { background: #eee; color: #555; }
+</style>
+</head>
+<body>
+
+<h1>FAQs &mdash; three layouts</h1>
+<p class="lede">Sitting on <b>home.html</b>, between the contact band and the footer. That is the only page the brief fits: on the contact page the form is near the top, and the section before the footer there is Where to&nbsp;next. The hatched strips in each frame mark the seam either side &mdash; they are a sample device, not design. <b>Desktop only</b>: the whole section is hidden below 900px in all three.</p>
+
+<div class="note">
+  <b>Two things to know before you judge the copy</b>
+  <ul>
+    <li><b>Wonderland has no FAQ page.</b> I checked the sitemap &mdash; 61 pages, none of them FAQs &mdash; so there was nothing to lift. Rather than invent answers, every one of these five is grounded in something the business already publishes: the Campbellfield address and factory tours, the couples/family custom build, Cruisemaster, Goodrich and Dometic, the seven dealer locations, and the 35mm composite panels line from your own Things You Can't See section.</li>
+    <li><b>The two questions people actually ask most are deliberately missing: how long a build takes, and what the warranty covers.</b> I have no source for either and they are not the sort of thing to guess at in public. Give me the answers and they go in.</li>
+  </ul>
+</div>
+
+<div class="note" style="border-left-color:#8A5311">
+  <b>Flagging a design-language question, as you asked me to</b>
+  <p style="margin:8px 0 0">This site has <b>no desktop accordion</b>. All three that exist &mdash; <code>.why-acc</code>, <code>.dream-acc</code> and <code>.foot-acc</code> &mdash; live inside <code>@media (max-width: 900px)</code> and were built for the phone only. Option&nbsp;1 would introduce one. The one reveal pattern this site already ships on desktop is the travel-tips panel on the Wonderlander pages, which is what Option&nbsp;3 is built from. Option&nbsp;2 introduces nothing at all. That is the real choice here; the rest is taste.</p>
+</div>
+
+<div class="block">
+  <h2><small>Option 1</small>Accordion, full width</h2>
+  <div class="tags"><span class="tag tag--h">558px tall</span><span class="tag tag--warn">new desktop pattern</span></div>
+  <p>The conventional FAQ. Questions stacked on hairlines, a plus that rotates into a minus, one open at a time, height eased on the same curve as the Budget field and the phone accordions. Opens on the first question so the section is never a row of closed doors. <b>The pattern is new to this breakpoint</b>, though the movement is not.</p>
+  <iframe class="desk" src="sample-faq-frame.html?v=1&amp;r=1" title="Option 1"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>Option 2</small>Two columns, nothing hidden</h2>
+  <div class="tags"><span class="tag tag--ok">introduces nothing</span><span class="tag tag--h">532px tall</span></div>
+  <p>No interaction whatsoever. Both columns on the site's own 7.88 / 7.88 grid, every answer on screen, question in Aviano and answer in Gordita beneath it. Nothing new to the language, no state to get wrong, and every word visible to a search engine without a click. It reads as part of the page rather than as a widget sitting on it. The trade is that it cannot grow: at ten questions this becomes a wall.</p>
+  <iframe class="desk" src="sample-faq-frame.html?v=2&amp;r=1" title="Option 2"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>Option 3</small>Question list and answer panel</h2>
+  <div class="tags"><span class="tag tag--ok">already ships on desktop</span><span class="tag tag--h">474px &mdash; shortest, and fixed</span></div>
+  <p>The travel-tips mechanic from the Wonderlander pages: questions down the left, the answer crossfading into a cream panel on the right. <b>All five answers share one grid cell</b>, so the panel is always as tall as the longest of them and the section never changes height while someone reads &mdash; nothing below it ever moves. The cream is <code>#FFF2DC</code>, the same panel colour those pages already use and the same one the Budget disclaimer picked up.</p>
+  <p>It is the shortest of the three and the only one whose height is constant. It also scales best: ten questions make the left column longer without touching the panel.</p>
+  <iframe class="desk" src="sample-faq-frame.html?v=3&amp;r=1" title="Option 3"></iframe>
+</div>
+
+<div class="note" style="border-left-color:#3D6B33">
+  <b>Measured</b>
+  <ul>
+    <li>Section heights at 1280px: <b>558 &middot; 532 &middot; 474</b>. All three sit on the site's own content column, 203&ndash;1077, and use <code>--section-gap</code> top and bottom like every other section.</li>
+    <li>Hidden at 390px in all three &mdash; <code>display: none</code>, height 0.</li>
+  </ul>
+</div>
+
+</body>
+</html>

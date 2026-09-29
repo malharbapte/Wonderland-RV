@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQs — sample frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=196">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=196">
+<link rel="stylesheet" href="assets/css/homepage.css?v=196">
+<style>
+/* ===========================================================================
+   SAMPLE FRAME — an FAQ section for home.html, sitting between the contact
+   band and the footer. ?v=1|2|3 picks the layout.
+
+   DESKTOP ONLY. Everything is inside @media (min-width: 901px) and the whole
+   section is hidden below 900; the phone treatment is deliberately deferred.
+   =========================================================================== */
+body { background: #fff; }
+
+/* sample device only, so the seam either side is visible -- not design */
+.edge {
+  width: 100vw; margin-left: calc(50% - 50vw);
+  font-family: var(--gordita); font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; color: #b9b9b9; text-align: center;
+  padding: 10px 0; background: repeating-linear-gradient(
+    -45deg, #fafafa, #fafafa 6px, #f2f2f2 6px, #f2f2f2 12px);
+}
+.edge--above { background-color: #FFFAF4; }
+
+.faq { display: none; }
+
+@media (min-width: 901px) {
+
+.faq { display: block; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+.faq-title { font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 1; }
+.faq-lede {
+  margin-top: 0.22rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem;
+  color: var(--grey);
+}
+.faq-list { margin-top: 0.62rem; }
+
+/* ---------------------------------------------------------------- v1 ------
+   An accordion. NOTE this is a new desktop interaction: the three accordions
+   this site already has -- .why-acc, .dream-acc, .foot-acc -- are all inside
+   @media (max-width: 900px) and exist only on the phone. The height easing
+   and the hairline are borrowed from those, so it is at least the same
+   movement, but the pattern itself is new on this breakpoint. */
+body.v1 .faq-q {
+  width: 100%; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 0.30rem;
+  padding: 0.34rem 0;
+  background: none; border: 0;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 0.26rem; line-height: 0.34rem; color: var(--ink);
+  transition: color .22s ease;
+}
+body.v1 .faq-item { border-top: 0.0075rem solid #e4e2de; }
+body.v1 .faq-item:last-child { border-bottom: 0.0075rem solid #e4e2de; }
+body.v1 .faq-q:hover { color: var(--orange-deep); }
+body.v1 .faq-sign {
+  margin-left: auto; position: relative; flex: none;
+  width: 0.24rem; height: 0.24rem; color: var(--orange);
+}
+body.v1 .faq-sign::before,
+body.v1 .faq-sign::after {
+  content: ""; position: absolute; left: 0; top: 50%;
+  width: 100%; height: 0.02rem; background: currentColor;
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+}
+body.v1 .faq-sign::after { transform: rotate(90deg); }
+body.v1 .faq-item.is-on .faq-sign::after { transform: rotate(0deg); }
+body.v1 .faq-a {
+  overflow: hidden; height: 0;
+  transition: height .34s cubic-bezier(.4, 0, .2, 1);
+}
+body.v1 .faq-a p {
+  margin: 0; padding: 0 2.40rem 0.38rem 0;
+  font-family: var(--gordita); font-size: 0.22rem; line-height: 0.34rem;
+}
+
+/* ---------------------------------------------------------------- v2 ------
+   No interaction at all. Two columns, every answer on screen. Nothing new is
+   introduced, nothing is hidden from a search engine, and there is no state
+   to get wrong -- it is simply taller. */
+/* .faq-qs must dissolve, or the grid's only children are the wrapper and the
+   panel and all five questions stack in column one. */
+body.v1 .faq-panel, body.v2 .faq-panel { display: none; }
+body.v2 .faq-qs { display: contents; }
+body.v2 .faq-list { display: grid; grid-template-columns: 7.88rem 7.88rem; column-gap: 0.48rem; row-gap: 0.62rem; }
+body.v2 .faq-q {
+  display: block; padding: 0; background: none; border: 0; text-align: left;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 0.24rem; line-height: 0.32rem; color: var(--ink);
+}
+body.v2 .faq-sign { display: none; }
+body.v2 .faq-a { height: auto; }
+body.v2 .faq-a p {
+  margin: 0.16rem 0 0;
+  font-family: var(--gordita); font-size: 0.22rem; line-height: 0.34rem;
+  color: #4a4a4a;
+}
+
+/* ---------------------------------------------------------------- v3 ------
+   The travel-tips mechanic from the Wonderlander pages, which is the one
+   reveal pattern this site already ships ON DESKTOP. Questions on the left,
+   the answer crossfading in a fixed panel on the right. Every answer shares
+   one grid cell, so the panel is as tall as the LONGEST answer and the
+   section never changes height while you read it. */
+body.v3 .faq-list { display: grid; grid-template-columns: 7.40rem 8.36rem; column-gap: 0.48rem; align-items: start; }
+body.v3 .faq-qs { display: flex; flex-direction: column; }
+body.v3 .faq-item { border-top: 0.0075rem solid #e4e2de; }
+body.v3 .faq-item:last-child { border-bottom: 0.0075rem solid #e4e2de; }
+body.v3 .faq-q {
+  width: 100%; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 0.24rem;
+  padding: 0.30rem 0;
+  background: none; border: 0;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 0.24rem; line-height: 0.32rem; color: var(--ink);
+  transition: color .22s ease;
+}
+body.v3 .faq-q:hover { color: var(--orange-deep); }
+body.v3 .faq-item.is-on .faq-q { color: var(--orange); }
+body.v3 .faq-sign {
+  margin-left: auto; flex: none;
+  width: 0.20rem; height: 0.12rem; opacity: 0;
+  transition: opacity .22s ease, transform .3s cubic-bezier(.4, 0, .2, 1);
+  transform: translateX(-0.08rem);
+}
+body.v3 .faq-item.is-on .faq-sign { opacity: 1; transform: none; }
+body.v3 .faq-sign::before {
+  content: ""; display: block; width: 100%; height: 0.02rem;
+  margin-top: 0.05rem; background: var(--orange);
+}
+body.v3 .faq-panel {
+  background: #FFF2DC; border-radius: 0.05rem;
+  padding: 0.52rem 0.56rem;
+  display: grid;                       /* one cell, all answers stacked in it */
+}
+body.v3 .faq-a {
+  grid-area: 1 / 1; height: auto;
+  visibility: hidden; opacity: 0;
+  transition: opacity .3s ease;
+}
+body.v3 .faq-item.is-on .faq-a { visibility: visible; opacity: 1; }
+body.v3 .faq-a p {
+  margin: 0;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.36rem;
+}
+
+}  /* end min-width: 901px */
+</style>
+</head>
+<body>
+
+<div class="edge edge--above">&uarr;&ensp;contact section ends here</div>
+
+<section class="faq">
+  <div class="container">
+    <h2 class="faq-title">Frequently asked questions</h2>
+    <p class="faq-lede">The things people ask us before they build.</p>
+
+    <div class="faq-list">
+      <div class="faq-qs">
+        <div class="faq-item is-on">
+          <button class="faq-q" type="button">Where are your caravans built?<span class="faq-sign" aria-hidden="true"></span></button>
+          <div class="faq-a"><p>Every one of them in Australia, at our own factory at 46&nbsp;Lara&nbsp;Way, Campbellfield, Victoria. You are welcome to come and watch it happen &mdash; book a factory tour and we will walk you through a van on the line.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Can I change the layout?<span class="faq-sign" aria-hidden="true"></span></button>
+          <div class="faq-a"><p>That is rather the point. Because no two travellers are the same, we believe no two caravans should be either. Start from a couples or a family layout and we will build it around how you actually travel.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">What are they actually made of?<span class="faq-sign" aria-hidden="true"></span></button>
+          <div class="faq-a"><p>35mm composite panels, bonded and bolted into an aluminium frame. It is the part of the van you will never see, and it is the part that decides how it holds up.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Whose components do you use?<span class="faq-sign" aria-hidden="true"></span></button>
+          <div class="faq-a"><p>Only names we are prepared to stand behind &mdash; Cruisemaster suspension, Goodrich tyres and Dometic appliances among them. We would rather argue about the price than about the parts.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Where can I see one?<span class="faq-sign" aria-hidden="true"></span></button>
+          <div class="faq-a"><p>Through our dealers in Melbourne, Sydney, Port&nbsp;Stephens, Brisbane, Mackay, Perth and Tasmania &mdash; or at the factory in Campbellfield, which is where the vans are actually built.</p></div>
+        </div>
+      </div>
+      <div class="faq-panel"></div>
+    </div>
+  </div>
+</section>
+
+<div class="edge">&darr;&ensp;footer starts here</div>
+
+<script>
+var v = (new URLSearchParams(location.search).get("v") || "1");
+document.body.className = "v" + v;
+
+var items = [].slice.call(document.querySelectorAll(".faq-item"));
+
+if (v === "3") {
+  /* the answers move into the panel and share one grid cell */
+  var panel = document.querySelector(".faq-panel");
+  items.forEach(function (it) { panel.appendChild(it.querySelector(".faq-a")); });
+  items.forEach(function (it, i) {
+    it.querySelector(".faq-q").addEventListener("click", function () {
+      items.forEach(function (o, k) { o.classList.toggle("is-on", k === i); });
+      /* the answer is no longer inside its item, so it is keyed by index */
+      [].slice.call(panel.children).forEach(function (a, k) {
+        a.style.visibility = k === i ? "visible" : "hidden";
+        a.style.opacity = k === i ? 1 : 0;
+      });
+    });
+  });
+  [].slice.call(panel.children).forEach(function (a, k) {
+    a.style.visibility = k === 0 ? "visible" : "hidden";
+    a.style.opacity = k === 0 ? 1 : 0;
+  });
+}
+
+if (v === "1") {
+  items.forEach(function (it) {
+    var body = it.querySelector(".faq-a");
+    var open = it.classList.contains("is-on");
+    body.style.height = open ? "auto" : "0px";
+    it.querySelector(".faq-q").addEventListener("click", function () {
+      var willOpen = !it.classList.contains("is-on");
+      /* one at a time: whatever is open closes from its measured height */
+      items.forEach(function (o) {
+        if (o === it) return;
+        var b = o.querySelector(".faq-a");
+        if (o.classList.contains("is-on")) {
+          b.style.height = b.scrollHeight + "px";
+          void b.offsetHeight;
+          b.style.height = "0px";
+          o.classList.remove("is-on");
+        }
+      });
+      it.classList.toggle("is-on", willOpen);
+      body.style.height = (willOpen ? 0 : body.scrollHeight) + "px";
+      void body.offsetHeight;
+      body.style.height = (willOpen ? body.scrollHeight : 0) + "px";
+    });
+    body.addEventListener("transitionend", function (e) {
+      if (e.propertyName === "height" && it.classList.contains("is-on")) {
+        body.style.height = "auto";
+      }
+    });
+  });
+}
+</script>
+</body>
+</html>
