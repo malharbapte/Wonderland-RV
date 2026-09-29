@@ -49,14 +49,14 @@ p, li { text-wrap: pretty; }
   <h2><small>Option 1 — the straightforward one</small>One more of the same</h2>
   <div class="tags"><span class="tag tag--ok">no new components</span><span class="tag tag--h">+109</span></div>
   <p>A fourth row on the existing grid, with Budget as a second rounded select directly under State — same width, same height, same radius, same chevron. The new row repeats row&nbsp;3's height exactly, so the 40px of air above State is the 40px above Budget. <b>Nothing new is invented</b>: if you only want the field to exist and behave, this is it. The cost is an empty right-hand cell and a full extra row of height for one question.</p>
-  <iframe class="desk" src="sample-budget-frame.html?v=1&r=2" title="Option 1"></iframe>
+  <iframe class="desk" src="sample-budget-frame.html?v=1&r=3" title="Option 1"></iframe>
 </div>
 
 <div class="block">
   <h2><small>Option 2</small>Full width, above the pill</h2>
   <div class="tags"><span class="tag tag--ok">on-language</span><span class="tag tag--h">+109</span></div>
   <p>Budget leaves the two-up grid and takes the <b>textarea's width</b> instead (11.4737rem). That reads as a deliberate single question rather than half a row, and it joins the form's lower half — pill, notes, consent — which are all full-width already. It costs <b>exactly the same height as Option&nbsp;1</b> &mdash; 109 artboard px either way, because a 40 gap plus a 69 select is the same as repeating row&nbsp;3 &mdash; so the choice between them is purely about where the question belongs, not about space. No empty cell, though. The one thing to look at is whether a 1,148px-wide dropdown holding "$140,000&nbsp;&ndash;&nbsp;$180,000" feels generous or feels empty.</p>
-  <iframe class="desk" src="sample-budget-frame.html?v=2&r=2" title="Option 2"></iframe>
+  <iframe class="desk" src="sample-budget-frame.html?v=2&r=3" title="Option 2"></iframe>
 </div>
 
 <div class="block">
@@ -65,32 +65,33 @@ p, li { text-wrap: pretty; }
   <p>The travelling orange thumb is this form's signature, so the most Wonderland answer is to use it again. To stop the two pills competing, this one is <b>subordinate on purpose</b>: 70px tall against the main pill's 110, type at 0.24rem against 0.32, a tighter radius. Same easing, same squash as it travels.</p>
   <p><b>Something this option forced into the open.</b> A segmented pill has no way to show "unanswered" &mdash; the thumb has to sit somewhere, so whatever cell it starts in is a silent answer on every form that gets submitted untouched. My first pass defaulted to "Under&nbsp;$100k", which is the worst possible silent answer to give your sales team. So this pill has <b>five cells, opening on "Not sure yet"</b>. Options&nbsp;1, 2, 4 and 5 can all genuinely start empty; this one cannot.</p>
 <p><b>Flagging this one too.</b> Two pills stacked starts to read as a survey rather than a form, and the main pill loses some of its status as the one place you choose something. It also doubles a piece of known debt — the thumb script is already copied in <code>home.js</code> and <code>video.js</code> and the two copies have drifted. If you like this, the pill logic should come out into one shared file first.</p>
-  <iframe class="desk" src="sample-budget-frame.html?v=3&r=2" title="Option 3"></iframe>
+  <iframe class="desk" src="sample-budget-frame.html?v=3&r=3" title="Option 3"></iframe>
 </div>
 
 <div class="block">
-  <h2><small>Option 4 &mdash; your pick, revised</small>A stepped track</h2>
-  <div class="tags"><span class="tag tag--ok">brand vocabulary</span><span class="tag tag--h">+160</span><span class="tag tag--warn">new interaction</span></div>
-  <p><b>The amounts now sit on the nodes.</b> Each node is placed at its value along the track rather than in an equal flex cell, and the amount hangs directly beneath it. The track measures 453&ndash;1071 on screen, the same left and right edges as the textarea below it; the outer two nodes are inset by half a dot so they stay inside the track instead of poking past the form's left margin, and the outer two labels align to the ends so they cannot run past the measure. The orange fill ends exactly on the chosen node, computed from the same expression that places the node, so the two can never drift apart.</p>
-  <p><b>The under-$100k band is marked, not just explained.</b> Pick it and a cream note opens underneath &mdash; "Sorry, we don't have any vans under $100,000." More than that, <b>this node never turns brand orange</b>. It fills grey, its label stays grey, and the track stays empty, because a colour that means "chosen, good" everywhere else on the site would contradict the sentence sitting under it. The note opens on the accordion's own easing rather than holding 23px of empty space on every form nobody ever sees it on.</p>
-  <p><b>"Not sure yet" had to come off the track.</b> Once the amounts sit on the nodes, the track is a real monetary scale, and a node at the far right means <i>the most</i> &mdash; it cannot also mean <i>I don't know</i>. It now rides the label row opposite BUDGET, in the same radio group so it stays mutually exclusive, and it costs no extra height. Choosing it empties the track.</p>
-  <p>Nothing is selected when the form loads: empty track, an em dash where the amount goes. The field costs 160 artboard px.</p>
-  <iframe class="desk" src="sample-budget-frame.html?v=4&r=2" title="Option 4"></iframe>
-  <p style="margin-top:14px"><b>Two things left for you.</b> The copy is your sentence verbatim &mdash; say if you want a second clause pointing people at where the range does start. And the four bands are still placeholders until you confirm them; that matters more now, because the track publishes them as a scale rather than hiding them in a dropdown.</p>
+  <h2><small>Option 4 &mdash; your pick</small>A stepped track</h2>
+  <div class="tags"><span class="tag tag--ok">brand vocabulary</span><span class="tag tag--h">+174</span></div>
+  <p><b>Four bands.</b> $100&ndash;140k, $140&ndash;180k, $180k+, and Not sure yet as the last node. Under&nbsp;$100k is gone entirely, and the caution note with it &mdash; there is no longer a band below the range to warn anybody about.</p>
+  <p><b>The handle is twice the size.</b> 0.32rem, measured at 17.2px on screen, against a track 5.4px tall &mdash; three times the rail's own height, which is what makes it read as a slider rather than as a tick somebody added later. Doubling it moved the geometry with it: the track drops so the dot can centre on it, the labels follow, and the half-dot end inset goes from 0.08 to 0.16 so the outer dots still sit inside the track rather than past the form's left margin. The fill is built from that same inset, so the two cannot drift apart.</p>
+  <p><b>Nodes the fill has passed now take its colour.</b> At the first render a white node sat in the middle of the orange bar like a hole punched through it. Passed nodes are orange now, so the bar reads as one continuous run with bulges on it, and the selected node is simply where it stops.</p>
+  <p><b>Not sure yet, as you asked, is the last node</b> &mdash; with one adjustment. It does not fill orange and nothing counts as passed before it, so choosing it leaves the track empty with a grey handle at the far end, and the readout goes grey too. Filling the bar to 100% would have said <i>the largest budget</i>, which is the opposite of what the answer means. Everything else about its position is exactly as you specified.</p>
+  <p>Nothing is selected on load: empty track, four white nodes, an em dash where the amount goes. The field costs 174 artboard px.</p>
+  <iframe class="desk" src="sample-budget-frame.html?v=4&amp;r=3" title="Option 4"></iframe>
+  <p style="margin-top:14px"><b>Still yours to confirm:</b> the three price bands. The track publishes them as a visible scale rather than hiding them behind a click, so they are more exposed here than in any of the other four options.</p>
 </div>
 
 <div class="block">
   <h2><small>Option 5 — the one that breaks the rules</small>Charcoal tiles</h2>
   <div class="tags"><span class="tag tag--off">off-language on purpose</span><span class="tag tag--h">+206 &mdash; tallest</span></div>
   <p>This is the outlier you asked for, and it is <b>not Wonderland</b> — no orange anywhere, a 3px radius against the site's 14.6, letter-spaced micro-caps at 11px, tabular numerals, and a solid charcoal fill on the chosen tile. It behaves like a pricing table from a software product. It's included so you can see where the boundary actually is: it's clean, it's fast to read, and it's obviously from a different house. My read is that it would look imported, but you make that call.</p>
-  <iframe class="desk" src="sample-budget-frame.html?v=5&r=2" title="Option 5"></iframe>
+  <iframe class="desk" src="sample-budget-frame.html?v=5&r=3" title="Option 5"></iframe>
 </div>
 
 <div class="note" style="border-left-color:#3D6B33">
   <b>Measured, not eyeballed</b>
   <ul>
     <li>Every figure above is the form's real height change, taken from the rendered page at 1280px and converted back to artboard px. Baseline form: 448px on screen.</li>
-    <li><b>+109 &middot; +109 &middot; +95 &middot; +160 &middot; +206</b> for options 1 to 5. Option 4's figure is the revised build, measured with nothing selected.</li>
+    <li><b>+109 &middot; +109 &middot; +95 &middot; +174 &middot; +206</b> for options 1 to 5. Option 4's figure is the current build, measured with nothing selected.</li>
     <li>Option 1's Budget select measured identical to State &mdash; same left edge, same width, 58px below it. Option 2's measured identical to the textarea, same left edge, same width.</li>
   </ul>
 </div>
