@@ -1549,3 +1549,124 @@ input:-webkit-autofill:focus {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* ==========================================================================
+   BUDGET   — a stepped track under the enquiry pill, on both forms.
+
+   DESKTOP ONLY. Every rule is inside @media (min-width: 901px) and the field
+   is hidden below 900; the phone treatment is deliberately deferred, and the
+   radios ship `disabled` so that nothing can be submitted from a breakpoint
+   where the question was never asked (budget.js enables them on desktop).
+
+   The nodes are placed at their VALUE along the track rather than in equal
+   cells, so the amounts sit on the scale rather than beside it:
+       0.16rem + (track - 0.32rem) x p,   p = 0 / .33333 / .66667 / 1
+   The 0.16 inset is half a dot, keeping the outer dots inside the track
+   instead of past the form's left margin. The fill is built from the same
+   expression, so nodes and fill cannot drift apart.
+
+   The handle is 0.32 — three times the rail's own height — which is what
+   makes it read as a slider rather than a tick added afterwards.
+   ========================================================================== */
+@media (min-width: 901px) {
+
+.budget { width: 11.4737rem; }          /* the textarea's measure */
+
+/* the collapsing shell. The top padding is INSIDE it so the gap above the
+   field collapses with the field; outside, every close would leave 0.40
+   of empty form behind. */
+.budget-shell {
+  overflow: hidden;
+  height: 0;
+  transition: height .34s cubic-bezier(.4, 0, .2, 1);
+}
+.budget-shell.no-anim { transition: none; }
+.budget-inner { padding-top: 0.40rem; }
+
+.budget-head {
+  display: flex; align-items: baseline; gap: 0.20rem;
+  font-family: var(--gordita);
+  margin-bottom: 0.26rem;
+}
+.budget-head b {
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 0.16rem; letter-spacing: .06em; text-transform: uppercase;
+}
+.budget-value { font-style: normal; font-size: 0.26rem; color: var(--orange); font-weight: 500; }
+.budget.is-na .budget-value { color: var(--grey); }
+
+.budget-scale { position: relative; height: 0.64rem; }
+.budget-track {
+  position: absolute; left: 0; right: 0; top: 0.11rem;
+  height: 0.10rem; background: #E4E2DE; border-radius: 0.05rem;
+}
+.budget-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: var(--orange); border-radius: 0.05rem;
+  transition: width .46s cubic-bezier(.65, 0, .35, 1), background .28s ease;
+}
+.budget.is-na .budget-fill { background: var(--grey); }
+
+/* Each stop is a zero-width point on its own value. The dot is the ::before,
+   so it still belongs to the label and still takes the click. */
+.budget-stop {
+  position: absolute; top: 0; width: 0;
+  left: calc(0.16rem + (100% - 0.32rem) * var(--p));
+  cursor: pointer;
+}
+.budget-stop input { position: absolute; opacity: 0; pointer-events: none; }
+.budget-stop::before {
+  content: "";
+  position: absolute; left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 0.32rem; height: 0.32rem;
+  background: #fff; border: 0.015rem solid var(--grey); border-radius: 50%;
+  transition: background .28s ease, border-color .28s ease;
+}
+.budget-stop:hover::before { border-color: var(--ink); }
+.budget-stop:has(input:checked)::before { background: var(--orange); border-color: var(--orange); }
+.budget-stop:has(input:focus-visible)::before { box-shadow: 0 0 0 2px var(--orange-deep); }
+
+/* A node the fill has run past must not stay white, or it reads as a hole
+   punched in the bar. It takes the fill's colour and becomes a bulge on it. */
+.budget-stop.is-past::before { background: var(--orange); border-color: var(--orange); }
+
+/* the amount, directly under its node; the outer two align to the track's own
+   ends so the row starts and finishes on the form's margins */
+.budget-stop span {
+  position: absolute; top: 0.40rem; left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--gordita); font-size: 0.20rem; line-height: 0.24rem;
+  color: var(--grey);
+  transition: color .28s ease;
+}
+.budget-stop:first-of-type span { left: -0.16rem; transform: none; }
+.budget-stop:last-of-type  span { left:  0.16rem; transform: translateX(-100%); }
+.budget-stop:has(input:checked) span { color: var(--ink); font-weight: 500; }
+
+/* "Not sure yet" is an answer, not an amount, so it never takes the colour
+   that means "the most" on the rest of the scale, and nothing counts as past
+   it: the grey handle sits at the end with no trail, which is the honest
+   reading of "I don't know". */
+.budget-stop--na:has(input:checked) span { color: var(--grey); }
+.budget-stop--na:has(input:checked)::before { background: var(--grey); border-color: var(--grey); }
+
+/* Stated once and always on screen, at the same 0.17/0.24 as the consent
+   fineprint below it, so the form keeps one voice for small print. */
+.budget-note {
+  margin: 0.22rem 0 0;
+  font-family: var(--gordita);
+  font-size: 0.17rem;
+  line-height: 0.24rem;
+  color: var(--grey);
+}
+
+}  /* end min-width: 901px */
+
+/* The phone gate. The field is not there below 900, and budget.js leaves its
+   radios disabled, so no half-designed layout and no stray answer can reach a
+   breakpoint this round of work has not touched. */
+@media (max-width: 900px) {
+  .budget { display: none; }
+}

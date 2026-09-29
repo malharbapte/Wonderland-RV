@@ -684,6 +684,16 @@
 .home-chips .chip > span { font-size: 0.21rem; line-height: 0.26rem; }
 .home-form .btn-submit { margin-top: 0.55rem; margin-left: 0; }
 
+/* Budget sits below the whole two-column grid rather than inside the left
+   column with the pill: at 7.88 the four node labels would collide. Full
+   content column here, against 11.4737 on the Contact form, and the track is
+   built from percentages so it fits either without restating a number. The
+   0.55 above it matches the gap the Submit button keeps below it. */
+@media (min-width: 901px) {
+  .home-form .budget { width: 100%; }
+  .home-form .budget-inner { padding-top: 0.55rem; }
+}
+
 /* ==========================================================================
    RESPONSIVE  — the shared 900px rules in styles.css handle the header,
    footer, form fields and pill; these cover the homepage-only sections.
