@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — five ways</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=200">
+<style>
+body { font-family: var(--gordita); margin:0; padding:30px 24px 80px; background:#f4f4f4; }
+h1 { font-family: var(--aviano); font-weight:900; font-size:26px; margin:0 0 6px; }
+h2 { font-family: var(--aviano); font-weight:900; font-size:18px; margin:0 0 2px; }
+h2 small { font-family: var(--gordita); font-weight:400; font-size:12px; letter-spacing:.14em;
+           text-transform:uppercase; color:#999; display:block; margin-bottom:4px; }
+h3 { font-family: var(--aviano); font-weight:900; font-size:14px; margin:22px 0 6px; }
+p, li { text-wrap: pretty; }
+.lede { font-size:14px; line-height:21px; color:#555; margin:0 0 18px; max-width:900px; }
+.note { font-size:13px; line-height:20px; color:#555; margin:0 0 30px; max-width:900px;
+        padding:14px 18px; background:#fff; border-left:3px solid #D57114; }
+.note b { color:#D57114; }
+.note ul, .note ol { margin:8px 0 0; padding-left:20px; }
+.note li { margin:0 0 6px; }
+.block { margin:0 0 46px; }
+.block > p { font-size:13px; line-height:20px; color:#555; margin:6px 0 12px; max-width:900px; }
+.block > p b { color:#111; }
+.desk { width:100%; max-width:1280px; height:760px; border:0; display:block; background:#fff;
+        box-shadow:0 6px 26px rgba(0,0,0,.14); }
+.tags { margin:0 0 10px; }
+.tag { display:inline-block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+       padding:3px 9px; border-radius:3px; margin-right:6px; }
+.tag--ok { background:#E8F0E6; color:#3D6B33; }
+.tag--warn { background:#FBEEDD; color:#8A5311; }
+.tag--h { background:#eee; color:#555; }
+table.t { border-collapse:collapse; font-size:13px; margin:10px 0 0; background:#fff; }
+table.t th, table.t td { border:1px solid #e4e4e4; padding:6px 12px; text-align:left; }
+table.t th { background:#fafafa; }
+.src { font-size:12px; line-height:19px; color:#666; }
+.src a { color:#8A5311; }
+</style>
+</head>
+<body>
+
+<h1>Range &mdash; five ways to show four caravans</h1>
+<p class="lede">Desktop only; every version is hidden below 900px. <b>All imagery is left empty on purpose</b> &mdash; each placeholder carries the shot I would brief for that slot, so the direction travels with the layout.</p>
+
+<div class="note">
+  <b>What the research actually changed about my thinking</b>
+  <p style="margin:8px 0 0">The current Range section shows four caravans as <b>one flat composite image</b>, with no model names, no prices, no per-model copy and no way to click into any of them. Against the published research that is the textbook failure case, and three findings made it unavoidable:</p>
+  <ul>
+    <li><b>Price is the single most-cited missing attribute.</b> Baymard lists five attributes every product listing must carry &mdash; price, title, thumbnail, ratings, variations &mdash; and reports that <b>50% of sites get this wrong</b>, forcing "excessive back-and-forth pogo-sticking" that directly causes abandonment. Your four models have public starting prices. None of them appears on the homepage.</li>
+    <li><b>Grid beats list for visually-driven products</b>, and a caravan is both visual and spec-driven &mdash; which is why two of the five below lean visual and one leans spec.</li>
+    <li><b>Four items is the sweet spot for a comparison table.</b> NN/g caps useful comparison at five. You have exactly four models, which is why R2 is viable here and would not be at ten.</li>
+  </ul>
+  <p style="margin:10px 0 0"><b>What I deliberately did not propose: a carousel.</b> The site uses them well elsewhere, but for four items a carousel hides three of them, and the research is consistently unkind &mdash; low click-through, accessibility problems, and auto-advance that moves content before it is read. With four models and room for four, showing all four wins.</p>
+</div>
+
+<div class="note" style="border-left-color:#3D6B33">
+  <b>The data is real, and it is theirs</b>
+  <p style="margin:8px 0 0">Model names, positioning lines and starting prices are taken from wonderlandrv.com.au/range/ &mdash; nothing invented:</p>
+  <table class="t">
+    <tr><th>Model</th><th>Positioning</th><th>From</th></tr>
+    <tr><td>Amaroo</td><td>Classic off-road</td><td>$127,288</td></tr>
+    <tr><td>Hornet</td><td>Rugged off-road</td><td>$151,176</td></tr>
+    <tr><td>Solara</td><td>Composite off-road</td><td>$162,280</td></tr>
+    <tr><td>XTR</td><td>Extreme off-road</td><td>$195,701</td></tr>
+  </table>
+  <p style="margin:10px 0 0"><b>Two things this turned up for the Budget field we shipped earlier.</b> Your cheapest van is $127,288, so "we don't have caravans under $100,000" is <b>true</b>. But the $100&ndash;140k band now contains exactly one model, and $180k+ also contains exactly one. Bands of under&nbsp;$150k / $150&ndash;180k / $180k+ would split the range more evenly. Your call.</p>
+  <p style="margin:10px 0 0">Prices on the homepage mean prices to maintain. If that is unwelcome, every version below works with the price line removed &mdash; it just gives up the strongest single finding in the research.</p>
+</div>
+
+<div class="block">
+  <h2><small>R1</small>Four-up grid</h2>
+  <div class="tags"><span class="tag tag--ok">every required attribute</span><span class="tag tag--ok">no new patterns</span></div>
+  <p>The correct baseline. Four cards, each with a shot, the model name, its positioning line, a starting price and a route in. Nothing clever &mdash; but it is the first version of this section where a visitor can tell the four models apart, learn what each costs, and click into one. If the others all feel like too much, this is the one that fixes the actual problem.</p>
+  <iframe class="desk" src="sample-range-frame.html?v=1&amp;r=1" title="R1"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>R2</small>The ladder &mdash; a comparison table</h2>
+  <div class="tags"><span class="tag tag--ok">NN/g: 4 items is inside the limit</span><span class="tag tag--warn">reads commercial</span></div>
+  <p>Sorted by price so the range reads as a ladder from Amaroo up to XTR, with one column tinted and badged so the eye has somewhere to land &mdash; NN/g's "make the best option obvious". Only three rows, because the same source warns against comparing everything: what it is, what it costs, what it is built for.</p>
+  <p><b>The trade:</b> a table is the most useful thing you can give someone choosing between four similar products, and the least romantic. It makes a caravan feel like a spec sheet. On a brand this image-led that is a real cost.</p>
+  <iframe class="desk" src="sample-range-frame.html?v=2&amp;r=1" title="R2"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>R3</small>Sticky scrollytelling</h2>
+  <div class="tags"><span class="tag tag--h">most premium</span><span class="tag tag--warn">tallest by far</span></div>
+  <p>The van stays pinned while its story scrolls past it, one model at a time &mdash; the "sticky focal visual while surrounding text updates" pattern. It is the only version that gives a single model the whole screen, and the only one that feels like a brand rather than a catalogue.</p>
+  <p><b>The trade:</b> it needs roughly four screens of scroll to show four models, in the middle of a homepage that already runs long. It also rewards patience over scanning, which is the opposite of what someone comparing prices wants.</p>
+  <iframe class="desk" src="sample-range-frame.html?v=3&amp;r=1" title="R3"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>R4</small>Bento</h2>
+  <div class="tags"><span class="tag tag--h">facts and models in one composition</span><span class="tag tag--warn">hierarchy is an opinion</span></div>
+  <p>Asymmetric tiles: Solara takes a double-height hero, the other three take single tiles, and the three range facts &mdash; 30+ layouts, 6 bunks, 17'05"&ndash;24' &mdash; become tiles of their own. It is the only version where the <i>facts</i> and the <i>models</i> share one composition instead of sitting in separate rows, which is what the current section is trying to do and cannot, because its image is flat.</p>
+  <p><b>The trade:</b> a hero tile says one model matters more. That is defensible for Solara, which already has its own section above and the Queen of Hearts award &mdash; but it is a commercial decision, not a layout one.</p>
+  <iframe class="desk" src="sample-range-frame.html?v=4&amp;r=1" title="R4"></iframe>
+</div>
+
+<div class="block">
+  <h2><small>R5</small>The pill selector</h2>
+  <div class="tags"><span class="tag tag--ok">most in-language</span><span class="tag tag--ok">shortest</span><span class="tag tag--warn">three models hidden</span></div>
+  <p>Four names in <b>the site's own segmented pill</b> &mdash; the same travelling-thumb component the enquiry form runs on &mdash; switching a large shot and a copy panel beneath. NN/g: tabs suit a few long sections, and four models is squarely "a few". All four panels share one grid cell, so the section never changes height as you move between models.</p>
+  <p>Of the five this is the one that looks most like it was always part of this site, because it is built from a component that already is. It is also the shortest, and the only one that gives each model a proper CTA without repeating four of them.</p>
+  <p><b>The trade, and it is the real one:</b> three of the four models are hidden at any moment. That is the carousel objection in a different coat &mdash; softened, because all four names are visible and clickable rather than hiding behind arrows, but not eliminated.</p>
+  <iframe class="desk" src="sample-range-frame.html?v=5&amp;r=1" title="R5"></iframe>
+</div>
+
+<h3>Imagery &mdash; what I would brief</h3>
+<div class="note">
+  <ol>
+    <li><b>Shoot all four identically.</b> Same lens, same distance, same angle, same light, same ground line. This matters more than any other note: the entire job of a range section is comparison, and four vans shot differently read as four unrelated products rather than one ladder. It is also the most common thing done badly.</li>
+    <li><b>Three-quarter front, van turned roughly 30&deg;.</b> Shows the face and the length in one frame &mdash; the automotive lineup convention, for good reason. Use it for R1, R4's small tiles and R5.</li>
+    <li><b>Side elevation for R2 only.</b> A comparison table compares, and a flat profile is the most comparable framing there is; three-quarter shots defeat it because the foreshortening differs with every van length.</li>
+    <li><b>On location, but quiet.</b> These are off-road vans and terrain tells that story &mdash; but keep the background low-contrast and uncluttered so four backgrounds do not become the thing being compared. Dawn or overcast over hard midday sun.</li>
+    <li><b>Crop to the van, always.</b> Landscape gives way; the van is the subject and should fill the frame's height.</li>
+    <li><b>Budget more than one shot per model.</b> Baymard's current position is that a single image is no longer sufficient for visually-driven products, and that users forced to open a product page just to see more images frequently abandon instead. A second interior or layout shot per model, revealed on hover in R1 or shown in the R5 panel, would put this section ahead of most of the category.</li>
+  </ol>
+</div>
+
+<h3>Sources</h3>
+<p class="src">
+Read in full:
+<a href="https://baymard.com/blog/product-listing-information">Baymard &mdash; What Information to Display in Product Listings (50% Get It Wrong)</a> &middot;
+<a href="https://www.nngroup.com/articles/comparison-tables/">NN/g &mdash; Comparison Tables for Products, Services, and Features</a> &middot;
+<a href="https://www.smashingmagazine.com/2022/04/designing-better-carousel-ux/">Smashing &mdash; Usability Guidelines For Better Carousels UX</a><br><br>
+Reviewed:
+<a href="https://baymard.com/blog/current-state-product-list-and-filtering">Baymard &mdash; Product List UX Best Practices 2025</a> &middot;
+<a href="https://baymard.com/blog/secondary-hover-information">Baymard &mdash; Product List Thumbnail Best Practices</a> &middot;
+<a href="https://baymard.com/research/ecommerce-product-lists">Baymard &mdash; E-Commerce Product Lists &amp; Filtering UX</a> &middot;
+<a href="https://baymard.com/blog/provide-comparison-features">Baymard &mdash; Always Provide Comparison Features for Spec-Driven Industries</a> &middot;
+<a href="https://baymard.com/learn/ecommerce-category-page">Baymard &mdash; Ecommerce Category Pages</a> &middot;
+<a href="https://www.nngroup.com/videos/tabs-vs-accordions/">NN/g &mdash; Tabs vs. Accordions</a> &middot;
+<a href="https://www.nngroup.com/videos/carousels-websites-mobile-apps/">NN/g &mdash; Designing Effective Carousels</a> &middot;
+<a href="https://blog.logrocket.com/ux-design/ui-design-comparison-features/">LogRocket &mdash; Feature comparison tables that simplify decision-making</a> &middot;
+<a href="https://contentsquare.com/blog/comparing-products-design-practices-to-help-your-users-avoid-fragmented-comparison-7/">Contentsquare &mdash; Comparing products</a> &middot;
+<a href="https://www.smashingmagazine.com/2017/08/designing-perfect-feature-comparison-table/">Smashing &mdash; Designing The Perfect Feature Comparison Table</a> &middot;
+<a href="https://webflow.com/blog/scrollytelling-guide">Webflow &mdash; Scrollytelling in web design</a> &middot;
+<a href="https://www.vev.design/blog/website-scroll-animation/">Vev &mdash; Website Scroll Animation 101</a> &middot;
+<a href="https://htmlburger.com/blog/best-scrolling-websites/">HTMLBurger &mdash; Best Scrolling Websites</a> &middot;
+<a href="https://www.saasframe.io/blog/the-bento-layout-trend">SaaSFrame &mdash; Understanding The Bento Layout Trend</a> &middot;
+<a href="https://www.freecodecamp.org/news/bento-grids-in-web-design/">freeCodeCamp &mdash; How to Use Bento Grids</a> &middot;
+<a href="https://gillian-sarah.com/bento-grid-web-design-trend-2025/">Bento Grids in Web Design: Modular Layouts</a> &middot;
+<a href="https://www.subframe.com/tips/automotive-website-design-examples">Subframe &mdash; 25 Automotive Website Design Examples</a> &middot;
+<a href="https://www.fyresite.com/best-automotive-website-design-ux-visuals-speed/">Fyresite &mdash; Best Automotive Website Design</a> &middot;
+<a href="https://design4users.com/product-page-design-ecommerce-ux/">Design4Users &mdash; Product Page Design UX</a> &middot;
+<a href="https://blog.logrocket.com/ux-design/designing-accordion-menus-complex-content/">LogRocket &mdash; Designing effective accordion UIs</a>
+</p>
+
+</body>
+</html>

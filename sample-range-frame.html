@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — sample frame</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=200">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=200">
+<link rel="stylesheet" href="assets/css/homepage.css?v=200">
+<style>
+/* ===========================================================================
+   SAMPLE FRAME — five ways to show the Range. ?v=1..5.
+   DESKTOP ONLY: everything is inside @media (min-width: 901px) and the whole
+   thing is hidden below 900. Phone treatment deliberately deferred.
+   =========================================================================== */
+body { background: #fff; }
+.rng { display: none; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+.rng-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
+.rng-lede {
+  margin-top: 0.20rem; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
+}
+.rng-facts {
+  display: flex; gap: 0.60rem; margin-top: 0.34rem;
+  font-family: var(--gordita); font-size: 0.18rem; line-height: 0.26rem; color: var(--grey);
+}
+.rng-facts b { display: block; color: var(--ink); font-size: 0.30rem; line-height: 0.36rem; font-weight: 500; }
+
+@media (min-width: 901px) {
+body.v1 .rng--1, body.v2 .rng--2, body.v3 .rng--3,
+body.v4 .rng--4, body.v5 .rng--5 { display: block; }
+
+/* ---------------------------------------------------------------- R1 ------
+   Four-up grid. Baymard's five required list attributes, all present:
+   image, title, price, a line of positioning, and a route in. */
+.r1-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.32rem; margin-top: 0.62rem; }
+.r1-card { display: block; color: inherit; }
+.r1-shot {
+  aspect-ratio: 390 / 245; border-radius: var(--radius, 0.10rem);
+  overflow: hidden; background: #ece6dc;
+}
+.r1-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.r1-card:hover .r1-shot img { transform: scale(1.05); }
+.r1-name {
+  margin-top: 0.20rem;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.30rem; line-height: 1;
+  transition: color .2s ease;
+}
+.r1-card:hover .r1-name { color: var(--orange); }
+.r1-tag { margin-top: 0.10rem; font-family: var(--gordita); font-size: 0.19rem; line-height: 0.26rem; color: var(--grey); }
+.r1-price { margin-top: 0.12rem; font-family: var(--gordita); font-weight: 500; font-size: 0.21rem; line-height: 1; color: var(--orange); }
+.r1-go { margin-top: 0.16rem; font-family: var(--gordita); font-size: 0.18rem; color: var(--ink); border-bottom: 1px solid currentColor; display: inline-block; padding-bottom: 0.03rem; }
+
+/* ---------------------------------------------------------------- R2 ------
+   The ladder. NN/g: comparison tables work at five items or fewer — four is
+   squarely inside that. Sorted by price so the range reads as a ladder, and
+   one column carries the badge so the eye has somewhere to land. */
+.r2-tbl { margin-top: 0.62rem; display: grid; grid-template-columns: 2.80rem repeat(4, 1fr); }
+.r2-tbl > * { padding: 0.22rem 0.20rem; border-top: 0.0075rem solid #e4e2de; }
+.r2-lab { font-family: var(--gordita); font-size: 0.19rem; line-height: 0.26rem; color: var(--grey); padding-left: 0; }
+.r2-col-head { border-top: 0; padding-top: 0; }
+.r2-col-head .r1-shot { margin-bottom: 0.14rem; }
+.r2-name { font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; line-height: 1; }
+.r2-cell { font-family: var(--gordita); font-size: 0.20rem; line-height: 0.28rem; }
+.r2-cell--price { font-weight: 500; color: var(--orange); }
+.r2-pick { background: #FFF7EE; }
+.r2-badge {
+  display: inline-block; margin-bottom: 0.10rem;
+  font-family: var(--gordita); font-size: 0.14rem; letter-spacing: .1em; text-transform: uppercase;
+  color: #fff; background: var(--orange); border-radius: 0.04rem; padding: 0.04rem 0.10rem;
+}
+
+/* ---------------------------------------------------------------- R3 ------
+   Sticky scrollytelling. The van stays pinned while its story scrolls past,
+   one model at a time. Editorial, and the only option that gives a single
+   model the whole screen. */
+.r3-wrap { margin-top: 0.62rem; display: grid; grid-template-columns: 8.60rem 7.00rem; column-gap: 0.64rem; }
+.r3-stage { position: sticky; top: 1.40rem; height: 5.40rem; align-self: start; }
+.r3-shot {
+  position: absolute; inset: 0; border-radius: var(--radius, 0.10rem); overflow: hidden;
+  opacity: 0; transition: opacity .5s ease;
+}
+.r3-shot.is-on { opacity: 1; }
+.r3-shot img { width: 100%; height: 100%; object-fit: cover; }
+.r3-step { min-height: 5.40rem; display: flex; flex-direction: column; justify-content: center; }
+.r3-step + .r3-step { border-top: 0.0075rem solid #e4e2de; }
+.r3-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .14em; color: var(--grey); }
+.r3-name { margin-top: 0.10rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 1; }
+.r3-copy { margin-top: 0.18rem; font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; }
+.r3-price { margin-top: 0.20rem; font-family: var(--gordita); font-weight: 500; font-size: 0.24rem; color: var(--orange); }
+
+/* ---------------------------------------------------------------- R4 ------
+   Bento. Asymmetric tiles so the hero model, the other three and the range
+   facts share one composition instead of sitting in separate rows. */
+.r4-bento { margin-top: 0.62rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.18rem; }
+.r4-tile {
+  position: relative; overflow: hidden; border-radius: 0.16rem;
+  background: #ece6dc; min-height: 2.40rem; display: flex; align-items: flex-end;
+}
+.r4-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.r4-tile--hero { grid-column: span 2; grid-row: span 2; min-height: 5.00rem; }
+.r4-cap { position: relative; z-index: 1; padding: 0.24rem; color: #fff; text-shadow: 0 0.02rem 0.14rem rgba(0,0,0,.5); }
+.r4-cap b { display: block; font-family: var(--aviano); font-weight: 900; font-size: 0.28rem; line-height: 1; }
+.r4-tile--hero .r4-cap b { font-size: 0.48rem; }
+.r4-cap span { display: block; margin-top: 0.06rem; font-family: var(--gordita); font-size: 0.18rem; }
+.r4-tile--fact {
+  background: #FFF2DC; align-items: center; justify-content: center; text-align: center;
+  min-height: 0; padding: 0.24rem;
+}
+.r4-tile--fact strong { display: block; font-family: var(--aviano); font-weight: 900; font-size: 0.36rem; line-height: 1; color: var(--orange-deep); }
+.r4-tile--fact em { display: block; font-style: normal; margin-top: 0.08rem; font-family: var(--gordita); font-size: 0.17rem; line-height: 0.24rem; color: #6b6158; }
+
+/* ---------------------------------------------------------------- R5 ------
+   The pill selector. NN/g: tabs suit a few long sections, and four models is
+   squarely "a few". Reuses the site's own segmented pill, so it is the most
+   in-language of the five — the same component the enquiry form runs on. */
+.r5-wrap { margin-top: 0.52rem; }
+.r5-pill { max-width: 9.60rem; }
+.r5-stage { margin-top: 0.44rem; display: grid; grid-template-columns: 9.60rem 6.00rem; column-gap: 0.64rem; align-items: start; }
+.r5-media { position: relative; aspect-ratio: 390 / 245; border-radius: var(--radius, 0.10rem); overflow: hidden; background: #ece6dc; }
+.r5-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s ease; }
+.r5-media img.is-on { opacity: 1; }
+.r5-panel { display: grid; }          /* one cell: height = the longest panel */
+.r5-body { grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .35s ease; }
+.r5-body.is-on { visibility: visible; opacity: 1; }
+.r5-name { font-family: var(--aviano); font-weight: 900; font-size: 0.48rem; line-height: 1; }
+.r5-tag { margin-top: 0.10rem; font-family: var(--gordita); font-size: 0.19rem; letter-spacing: .1em; text-transform: uppercase; color: var(--grey); }
+.r5-copy { margin-top: 0.22rem; font-family: var(--gordita); font-size: 0.23rem; line-height: 0.33rem; }
+.r5-price { margin-top: 0.24rem; font-family: var(--gordita); font-weight: 500; font-size: 0.26rem; color: var(--orange); }
+.r5-cta {
+  display: inline-block; margin-top: 0.30rem;
+  background: var(--orange); color: #fff;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.16rem;
+  padding: 0 0.40rem; height: 0.62rem; line-height: 0.62rem;
+  box-shadow: inset 0 0 0 0.02rem var(--orange);
+  transition: background .4s ease, color .4s ease;
+}
+.r5-cta:hover { background: #fff; color: var(--orange); }
+}
+/* the placeholder fills its frame; the shared .ph label is sized for a full
+   band, so it is brought down to fit a card */
+.r3-fill, .r4-fill, .r5-inner { position: absolute; inset: 0; }
+.r5-fill { position: absolute; inset: 0; opacity: 0; transition: opacity .45s ease; }
+.r5-fill.is-on { opacity: 1; }
+.rng .ph::after {
+  font-size: 0.15rem; line-height: 0.21rem; padding: 0 0.16rem; letter-spacing: .08em;
+}
+.rng .r3-fill.ph::after, .rng .r4-tile--hero .ph::after { font-size: 0.20rem; line-height: 0.28rem; }
+.r4-tile--hero, .r4-tile { position: relative; }
+}
+@media (max-width: 900px) { .rng { display: none !important; } }
+</style>
+</head>
+<body>
+<div id="mount"></div>
+<script>
+var MODELS = [
+  { k:"amaroo", n:"Amaroo", t:"Classic off-road",   p:"127,288",
+    c:"Geared for off-road adventures, allowing you to venture off the beaten track." },
+  { k:"hornet", n:"Hornet", t:"Rugged off-road",    p:"151,176",
+    c:"Designed for performance and liveability in Australia’s harshest terrain." },
+  { k:"solara", n:"Solara", t:"Composite off-road", p:"162,280",
+    c:"Wonderland’s first off-road composite caravan. Built tough, without compromising on creature comforts." },
+  { k:"xtr",    n:"XTR",    t:"Extreme off-road",   p:"195,701",
+    c:"The ultimate off-road caravan, fully loaded with every imaginable luxury." }
+];
+/* Empty placeholders, with the recommended shot written into each one.
+   The label is the .ph pattern the rest of the site already uses. */
+var SHOT = function (m, brief, cls) {
+  return '<div class="' + cls + ' ph" data-ph="' + m.n.toUpperCase() + ' \u2014 ' + brief + '"></div>';
+};
+var HEAD =
+  '<h2 class="rng-title">Range</h2>' +
+  '<p class="rng-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>';
+var FACTS =
+  '<div class="rng-facts">' +
+  '<div><b>17’05” – 24′</b>single and tandem axles</div>' +
+  '<div><b>Up to 6</b>bunk beds for big families</div>' +
+  '<div><b>30+</b>couple and family layouts</div></div>';
+
+var v = (new URLSearchParams(location.search).get("v") || "1");
+document.body.className = "v" + v;
+var h = "";
+
+if (v === "1") {
+  h = '<section class="rng rng--1"><div class="container">' + HEAD + FACTS +
+      '<div class="r1-grid">' + MODELS.map(function (m) { return
+        '<a class="r1-card" href="#">' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r1-shot') + '' +
+        '<div class="r1-name">' + m.n + '</div><div class="r1-tag">' + m.t + '</div>' +
+        '<div class="r1-price">From $' + m.p + '</div><span class="r1-go">Explore ' + m.n + '</span></a>';
+      }).join("") + '</div></div></section>';
+}
+
+if (v === "2") {
+  var rows = [["What it is","t"],["From","p"],["Built for","c"]];
+  var cells = '<div class="r2-lab r2-col-head"></div>';
+  MODELS.forEach(function (m, i) {
+    cells += '<div class="r2-col-head' + (i===2?' r2-pick':'') + '">' +
+      (i===2?'<span class="r2-badge">Newest</span>':'') +
+      '' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r1-shot') + '' +
+      '<div class="r2-name">' + m.n + '</div></div>';
+  });
+  rows.forEach(function (r) {
+    cells += '<div class="r2-lab">' + (r[0]) + '</div>';
+    MODELS.forEach(function (m, i) {
+      cells += '<div class="r2-cell' + (r[1]==="p"?" r2-cell--price":"") + (i===2?' r2-pick':'') + '">' +
+        (r[1]==="p" ? "$"+m.p : m[r[1]]) + '</div>';
+    });
+  });
+  h = '<section class="rng rng--2"><div class="container">' + HEAD +
+      '<div class="r2-tbl">' + cells + '</div></div></section>';
+}
+
+if (v === "3") {
+  h = '<section class="rng rng--3"><div class="container">' + HEAD +
+      '<div class="r3-wrap"><div class="r3-stage">' +
+      MODELS.map(function (m, i) { return '<div class="r3-shot' + (i===0?' is-on':'') + '">' + SHOT(m, 'HERO, WIDE', 'r3-fill') + '</div>'; }).join("") +
+      '</div><div class="r3-steps">' +
+      MODELS.map(function (m, i) { return
+        '<div class="r3-step" data-i="' + i + '"><div class="r3-idx">0' + (i+1) + ' — ' + m.t.toUpperCase() + '</div>' +
+        '<div class="r3-name">' + m.n + '</div><p class="r3-copy">' + m.c + '</p>' +
+        '<div class="r3-price">From $' + m.p + '</div></div>';
+      }).join("") + '</div></div></div></section>';
+}
+
+if (v === "4") {
+  h = '<section class="rng rng--4"><div class="container">' + HEAD +
+      '<div class="r4-bento">' +
+      '<div class="r4-tile r4-tile--hero">' + SHOT(MODELS[2], 'HERO, WIDE', 'r4-fill') +
+        '<div class="r4-cap"><b>Solara</b><span>Composite off-road · from $162,280</span></div></div>' +
+      [0,1,3].map(function (i) { var m = MODELS[i]; return
+        '<div class="r4-tile">' + SHOT(m, 'TIGHT 3/4', 'r4-fill') +
+        '<div class="r4-cap"><b>' + m.n + '</b><span>' + m.t + ' · from $' + m.p + '</span></div></div>';
+      }).join("") +
+      '<div class="r4-tile r4-tile--fact"><div><strong>30+</strong><em>couple and family layouts</em></div></div>' +
+      '<div class="r4-tile r4-tile--fact"><div><strong>6</strong><em>bunks for big families</em></div></div>' +
+      '<div class="r4-tile r4-tile--fact"><div><strong>17’05”–24′</strong><em>single and tandem axles</em></div></div>' +
+      '</div></div></section>';
+}
+
+if (v === "5") {
+  h = '<section class="rng rng--5"><div class="container">' + HEAD + FACTS +
+      '<div class="r5-wrap"><fieldset class="chips r5-pill"><legend class="sr-only">Choose a model</legend>' +
+      '<span class="chips-thumb is-init" aria-hidden="true"></span>' +
+      MODELS.map(function (m, i) { return
+        '<label class="chip"><input type="radio" name="model" value="' + m.n + '"' + (i===2?' checked':'') + '><span>' + m.n + '</span></label>';
+      }).join("") + '</fieldset>' +
+      '<div class="r5-stage"><div class="r5-media">' +
+      MODELS.map(function (m, i) { return '<div class="r5-fill' + (i===2?' is-on':'') + '">' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r5-inner') + '</div>'; }).join("") +
+      '</div><div class="r5-panel">' +
+      MODELS.map(function (m, i) { return
+        '<div class="r5-body' + (i===2?' is-on':'') + '"><div class="r5-name">' + m.n + '</div>' +
+        '<div class="r5-tag">' + m.t + '</div><p class="r5-copy">' + m.c + '</p>' +
+        '<div class="r5-price">From $' + m.p + '</div>' +
+        '<a class="r5-cta" href="#">Explore ' + m.n + '</a></div>';
+      }).join("") + '</div></div></div></div></section>';
+}
+
+document.getElementById("mount").innerHTML = h;
+
+/* R3: whichever step is nearest the middle of the screen owns the stage */
+if (v === "3") {
+  var steps = [].slice.call(document.querySelectorAll(".r3-step"));
+  var shots = [].slice.call(document.querySelectorAll(".r3-shot"));
+  function paint() {
+    var mid = innerHeight / 2, best = 0, d = 1e9;
+    steps.forEach(function (s, i) {
+      var r = s.getBoundingClientRect();
+      var dist = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (dist < d) { d = dist; best = i; }
+    });
+    shots.forEach(function (s, i) { s.classList.toggle("is-on", i === best); });
+  }
+  addEventListener("scroll", paint, { passive: true });
+  addEventListener("resize", paint);
+  paint();
+}
+
+/* R5: the site's own pill, plus the panel swap */
+if (v === "5") {
+  var chips = document.querySelector(".chips");
+  var thumb = chips.querySelector(".chips-thumb");
+  var ins = [].slice.call(chips.querySelectorAll('input[type="radio"]'));
+  var imgs = [].slice.call(document.querySelectorAll(".r5-media .r5-fill"));
+  var bodies = [].slice.call(document.querySelectorAll(".r5-body"));
+  var settle;
+  function place() {
+    var c = chips.querySelector("input:checked"); if (!c) return;
+    var span = c.parentElement.querySelector("span");
+    var cb = chips.getBoundingClientRect(), sb = span.getBoundingClientRect();
+    thumb.style.left = (sb.left - cb.left - chips.clientLeft) + "px";
+    thumb.style.width = sb.width + "px";
+  }
+  function swap() {
+    var i = ins.findIndex(function (x) { return x.checked; });
+    imgs.forEach(function (im, k) { im.classList.toggle("is-on", k === i); });
+    bodies.forEach(function (b, k) { b.classList.toggle("is-on", k === i); });
+  }
+  place(); requestAnimationFrame(function () { thumb.classList.remove("is-init"); });
+  chips.addEventListener("change", function () {
+    thumb.classList.add("is-moving"); place(); swap();
+    clearTimeout(settle); settle = setTimeout(function () { thumb.classList.remove("is-moving"); }, 300);
+  });
+  addEventListener("resize", place);
+}
+</script>
+</body>
+</html>
