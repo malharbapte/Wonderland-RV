@@ -28,6 +28,17 @@
    =========================================================================== */
 .rs { display: none; }
 
+/* SAMPLE SCAFFOLDING */
+.edge {
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 14px;
+  font-family: var(--gordita); font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; color: #b9b9b9;
+  background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 6px, #f2f2f2 6px, #f2f2f2 12px);
+}
+.edge--in  { height: 40vh; }
+.edge--out { height: 110vh; align-items: flex-start; padding: 14px 0 0; }
+
 @media (min-width: 901px) {
 .rs { display: flex; height: 100vh; align-items: center; }
 
@@ -111,11 +122,25 @@
   .rs-shot, .rs-panel { visibility: visible; opacity: 1; transform: none; }
   .rs-shots, .rs-panels { display: block; }
 }
-@media (max-width: 900px) { .rs { display: none; } }
+@media (max-width: 900px) { .rs { display: none; }
+
+/* SAMPLE SCAFFOLDING */
+.edge {
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 14px;
+  font-family: var(--gordita); font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; color: #b9b9b9;
+  background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 6px, #f2f2f2 6px, #f2f2f2 12px);
+}
+.edge--in  { height: 40vh; }
+.edge--out { height: 110vh; align-items: flex-start; padding: 14px 0 0; } }
 </style>
 </head>
 <body>
-<div style="height:60vh"></div>
+<!-- SAMPLE SCAFFOLDING, not part of the section. A short run-up so you can
+     scroll INTO the section and see it take over, and a longer run-out so you
+     can see it hand the page back at the last van. -->
+<div class="edge edge--in">&uarr;&ensp;the section above ends here</div>
 
 <section class="rs">
   <div class="container">
@@ -192,7 +217,7 @@
   </div>
 </section>
 
-<div style="height:120vh"></div>
+<div class="edge edge--out">&darr;&ensp;the section below starts here</div>
 
 <script>
 /* Static markup: with no script every model is on the page and readable. */
