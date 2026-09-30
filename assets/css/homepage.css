@@ -1177,3 +1177,52 @@
 @media (max-width: 900px) {
   .faq { display: none; }
 }
+
+/* ==========================================================================
+   MEET THE WONDERLANDERS — the card strip from the individual Wonderlander
+   pages, between Legendary Service and Queen of Hearts.
+
+   The cards themselves are .wl-card out of ambassadors.css, which this page
+   now loads, so the hover lift, the bio reveal and the blush name band stay
+   in ONE place and cannot drift. Only the frame is restated here, rather than
+   loading ambassador-page.css for it — that file would also bring the
+   lightbox, the spec table and the tips mosaic, none of which belong here.
+
+   DESKTOP ONLY. Hidden below 900; the phone treatment is deferred.
+   ========================================================================== */
+@media (min-width: 901px) {
+
+/* Gaps: .service carries padding-bottom: 0, so the gap ABOVE is ours alone.
+   BELOW, .coty already carries padding-top: 1.20 — a margin-bottom here would
+   stack on it and make that side 2.40, double the other. So the bottom gap is
+   left to .coty and the section sits on 1.20 either side, which is the gap
+   Legendary Service gave Queen of Hearts before this section existed.
+   (The original rule on the Wonderlander pages DOES carry margin-bottom, and
+   is right to: nothing with its own padding follows the strip there.) */
+.amb-more { margin-top: var(--section-gap); margin-bottom: 0; }
+
+.amb-more-strip {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0.52rem;
+  padding: 0 var(--page-margin) 0.20rem;
+  display: flex;
+  gap: 0.44rem;
+  overflow-x: auto;
+  /* the rail wraps by jumping a whole set width onto an identical card;
+     snapping would fight that jump, so it free-scrolls */
+  scroll-snap-type: none;
+  scrollbar-width: none;
+}
+.amb-more-strip::-webkit-scrollbar { display: none; }
+.amb-more-strip .wl-card {
+  flex: 0 0 6.93rem;
+  aspect-ratio: 693 / 794;      /* the comp draws these portrait */
+  scroll-snap-align: none;
+}
+
+}  /* end min-width: 901px */
+
+@media (max-width: 900px) {
+  .amb-more { display: none; }
+}
