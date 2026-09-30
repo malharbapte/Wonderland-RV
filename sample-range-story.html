@@ -27,6 +27,23 @@
    container. Shipping this means changing that one word site-wide.
    =========================================================================== */
 html, body { overflow-x: clip; }
+
+/* SAMPLE ONLY */
+.s-switch {
+  position: fixed; z-index: 9; right: 14px; top: 14px;
+  display: flex; gap: 1px; background: #ddd; border-radius: 5px; overflow: hidden;
+  font-family: var(--gordita); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(0,0,0,.14);
+}
+.s-switch a { padding: 7px 11px; background: #fff; color: #555; }
+.s-switch a:hover { background: #f4f4f4; }
+html.s1 .s-switch a[href="?s=1"],
+html.s2 .s-switch a[href="?s=2"],
+html.s3 .s-switch a[href="?s=3"] { background: #D57114; color: #fff; }
+/* S1 only. NOTE for production: this is set on the document, so it would snap
+   the whole homepage, not just this section -- it would need turning on and
+   off as the section enters and leaves. */
+html.s1 { scroll-snap-type: y proximity; }
 .rs { display: none; }
 
 @media (min-width: 901px) {
@@ -57,11 +74,25 @@ html, body { overflow-x: clip; }
 .rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
 
 /* ------------------------------------------------------------- the story -- */
-/* Height comes from the ticks, which are absolute and therefore cost no
-   layout: four screens, one per model. */
-.rs-story { position: relative; height: 400vh; }
-.rs-ticks { position: absolute; inset: 0; pointer-events: none; }
-.rs-tick { height: 25%; }
+/* The ticks are in the flow now, because an absolutely positioned box is a
+   poor scroll-snap target. They are pulled back under the pin by exactly the
+   pin's height, so the story is still four screens and the first tick still
+   starts where the story does. */
+.rs-story { position: relative; }
+.rs-ticks { margin-top: -4.60rem; pointer-events: none; }
+.rs-tick { height: var(--dwell, 100vh); }
+
+/* --- S1  snap ------------------------------------------------------------
+   Native CSS snapping, set to `proximity` rather than `mandatory`: the page
+   only settles onto a van when you finish near one, so a deliberate long
+   scroll past the section is never caught and held. */
+body.s1 .rs-tick { scroll-snap-align: center; }
+
+/* --- S2  long dwell ------------------------------------------------------
+   No snapping at all. Each van simply owns half again as much scroll, so a
+   normal flick cannot clear a whole one. The freest of the three, and the
+   only one that never touches the page's own scrolling. */
+body.s2 { --dwell: 150vh; }
 
 /* The pinned pair. Its own height is the picture's height — 8.90 wide at
    390/245 is 5.591 — and parking its top at half that below the midline puts
@@ -77,8 +108,12 @@ html, body { overflow-x: clip; }
    proportion, 2.3:1, instead of the 390/245 the old crops used. */
 .rs-stage { position: relative; height: 100%; display: flex; align-items: center; }
 .rs-frame { position: relative; width: 100%; aspect-ratio: 2.3; }
-.rs-shot { position: absolute; inset: 0; opacity: 0; transform: scale(1.03);
-  transition: opacity .6s ease, transform .9s ease; }
+.rs-shot {
+  position: absolute; inset: 0; opacity: 0; transform: scale(1.04);
+  /* eased in and out on the curve the pill and the dream slideshow use */
+  transition: opacity .72s cubic-bezier(.65, 0, .35, 1),
+              transform .96s cubic-bezier(.65, 0, .35, 1);
+}
 .rs-shot.is-on { opacity: 1; transform: none; }
 /* CONTAIN, never cover. These vans are cut out of their background, so any
    crop takes a tow bar or a wheel off rather than sky. The four sources run
@@ -98,14 +133,16 @@ html, body { overflow-x: clip; }
 .rs-dots i {
   width: 0.12rem; height: 0.12rem; border-radius: 50%;
   background: #D9D3C8;
-  transition: background .4s ease, transform .4s cubic-bezier(.65, 0, .35, 1);
+  transition: background .5s cubic-bezier(.65, 0, .35, 1),
+              transform .5s cubic-bezier(.65, 0, .35, 1);
 }
 .rs-dots i.is-on { background: var(--orange-deep); transform: scale(1.4); }
 
 /* all four panels share one cell, so the column is as tall as the longest and
    nothing shifts as they swap */
 .rs-panels { display: grid; align-items: center; }
-.rs-panel { grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .4s ease; }
+.rs-panel { grid-area: 1 / 1; visibility: hidden; opacity: 0;
+  transition: opacity .56s cubic-bezier(.65, 0, .35, 1); }
 .rs-panel.is-on { visibility: visible; opacity: 1; }
 .rs-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grey); }
 .rs-name { margin-top: 0.10rem; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
@@ -147,6 +184,11 @@ html, body { overflow-x: clip; }
 </style>
 </head>
 <body>
+
+<!-- SAMPLE ONLY: pick a scroll behaviour -->
+<nav class="s-switch">
+  <a href="?s=1">1 &middot; Snap</a><a href="?s=2">2 &middot; Long dwell</a><a href="?s=3">3 &middot; One per gesture</a>
+</nav>
 
 <section class="rs">
   <div class="container">
@@ -221,30 +263,89 @@ html, body { overflow-x: clip; }
 
 <script>
 /* The markup is static: with no script, every model is still on the page.
-   An IntersectionObserver with a -50%/-50% root margin collapses the root to
-   one line across the middle of the screen. The ticks are contiguous, so
-   exactly one spans that line at a time — and the picture and the panel sit
-   on that same line, so what you see always matches what is measured. */
+
+   ?s=1 snap   ?s=2 long dwell   ?s=3 one van per gesture                     */
 (function () {
+  var mode = (new URLSearchParams(location.search).get("s") || "1");
+  document.documentElement.className = "s" + mode;
+  document.body.className = "s" + mode;
+
   if (!window.matchMedia("(min-width: 901px)").matches) return;
-  if (!("IntersectionObserver" in window)) return;
+
   var ticks  = [].slice.call(document.querySelectorAll(".rs-tick"));
   var shots  = [].slice.call(document.querySelectorAll(".rs-shot"));
   var panels = [].slice.call(document.querySelectorAll(".rs-panel"));
-  var pips   = [].slice.call(document.querySelectorAll(".rs-dots i"));
+  var dots   = [].slice.call(document.querySelectorAll(".rs-dots i"));
   if (!ticks.length) return;
 
+  var at = 0;
   function show(i) {
-    shots.forEach(function (s, k)  { s.classList.toggle("is-on", k === i); });
-    panels.forEach(function (p, k) { p.classList.toggle("is-on", k === i); });
-    pips.forEach(function (p, k)   { p.classList.toggle("is-on", k === i); });
+    if (i === at) return;
+    at = i;
+    shots.forEach(function (x, k)  { x.classList.toggle("is-on", k === i); });
+    panels.forEach(function (x, k) { x.classList.toggle("is-on", k === i); });
+    dots.forEach(function (x, k)   { x.classList.toggle("is-on", k === i); });
   }
 
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) show(+e.target.dataset.i); });
-  }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
+  /* Whichever tick's middle is nearest the middle of the screen. */
+  function nearest() {
+    var mid = innerHeight / 2, best = 0, d = Infinity;
+    ticks.forEach(function (t, i) {
+      var r = t.getBoundingClientRect();
+      var dist = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (dist < d) { d = dist; best = i; }
+    });
+    return best;
+  }
 
-  ticks.forEach(function (t) { io.observe(t); });
+  /* An observer alone can miss a tick that a fast scroll flies past, which is
+     how a van got skipped. So the observer drives the live swap, and this
+     settles the truth once the scrolling stops. */
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) show(+e.target.dataset.i); });
+    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
+    ticks.forEach(function (t) { io.observe(t); });
+  }
+  var settle;
+  addEventListener("scroll", function () {
+    clearTimeout(settle);
+    settle = setTimeout(function () { show(nearest()); }, 90);
+  }, { passive: true });
+
+  /* ---------------------------------------------------------------- S3 ----
+     One van per gesture. A flick is many wheel events, so the first one moves
+     exactly one step and the rest are swallowed until it lands.
+
+     The escape matters as much as the lock: at either end of the range the
+     wheel is NOT intercepted, so scrolling on simply leaves the section
+     instead of trapping you in it. */
+  if (mode !== "3") return;
+
+  var busy = false;
+  function centreOn(i) {
+    var r = ticks[i].getBoundingClientRect();
+    var to = scrollY + (r.top + r.bottom) / 2 - innerHeight / 2;
+    busy = true;
+    scrollTo({ top: to, behavior: "smooth" });
+    setTimeout(function () { busy = false; show(i); }, 620);
+  }
+
+  addEventListener("wheel", function (e) {
+    var first = ticks[0].getBoundingClientRect();
+    var last  = ticks[ticks.length - 1].getBoundingClientRect();
+    var mid   = innerHeight / 2;
+    /* only while the story owns the middle of the screen */
+    if (first.top > mid || last.bottom < mid) return;
+
+    var down = e.deltaY > 0;
+    var next = nearest() + (down ? 1 : -1);
+    if (next < 0 || next > ticks.length - 1) return;   /* let the page go */
+
+    e.preventDefault();
+    if (busy) return;
+    centreOn(next);
+  }, { passive: false });
 })();
 </script>
 </body>
