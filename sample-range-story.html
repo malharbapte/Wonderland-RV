@@ -67,23 +67,26 @@ html, body { overflow-x: clip; }
    390/245 is 5.591 — and parking its top at half that below the midline puts
    BOTH halves on the midline the ticks are measured against. */
 .rs-pin {
-  position: sticky; top: calc(50vh - 2.7955rem);
-  height: 5.591rem;
+  position: sticky; top: calc(50vh - 2.30rem);
+  height: 4.60rem;                  /* holds the widest frame and the longest panel */
   display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem;
   align-items: center;
 }
-.rs-stage { position: relative; height: 100%; }
-.rs-frame { position: relative; height: 100%; border-radius: 0.10rem; overflow: hidden; }
+/* These are cut-outs on white, not photographs in a frame -- so no box, no
+   radius, and nothing clipped. The frame simply takes the source set's own
+   proportion, 2.3:1, instead of the 390/245 the old crops used. */
+.rs-stage { position: relative; height: 100%; display: flex; align-items: center; }
+.rs-frame { position: relative; width: 100%; aspect-ratio: 2.3; }
 .rs-shot { position: absolute; inset: 0; opacity: 0; transform: scale(1.03);
   transition: opacity .6s ease, transform .9s ease; }
 .rs-shot.is-on { opacity: 1; transform: none; }
-/* The source shots are close to square and the frame is 390/245, so cover
-   takes roughly a third off the top and bottom. That is the right third to
-   lose on a caravan -- sky and ground -- and object-position holds the van
-   itself in the middle of what is kept. */
-.rs-shot > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
-/* outside the frame, which clips its overflow */
-.rs-rail { position: absolute; left: 0; right: 0; top: calc(100% + 0.28rem);
+/* CONTAIN, never cover. These vans are cut out of their background, so any
+   crop takes a tow bar or a wheel off rather than sky. The four sources run
+   2.13 to 2.43, so contain also lets the shorter ones sit centred with a
+   little air instead of being stretched to match. */
+.rs-shot > img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 50%; }
+/* tracks the bottom of the picture */
+.rs-rail { position: absolute; left: 0; right: 0; top: calc(100% + 0.22rem);
   height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
 .rs-rail i { flex: 1 1 0; background: transparent; border-radius: 0.02rem; transition: background .4s ease; }
 .rs-rail i.is-on { background: var(--orange); }
@@ -158,12 +161,12 @@ html, body { overflow-x: clip; }
       <div class="rs-pin">
         <div class="rs-stage">
           <div class="rs-frame">
-          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;3/4 FRONT, ON LOCATION"><img src="assets/img/home/range/amaroo-photo.jpg" alt="Wonderland RV Amaroo" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot phNone" data-ph="HORNET&#10;3/4 FRONT, ON LOCATION"><img src="assets/img/home/range/hornet-photo.jpg" alt="Wonderland RV Hornet" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot phNone" data-ph="SOLARA&#10;3/4 FRONT, ON LOCATION"><img src="assets/img/home/range/solara-photo.webp" alt="Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot phNone" data-ph="XTR&#10;3/4 FRONT, ON LOCATION"><img src="assets/img/home/range/xtr-photo.jpg" alt="Wonderland RV Xtr" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
+          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/amaroo-cut.webp" alt="Wonderland RV Amaroo" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
+          <div class="rs-shot ph" data-ph="HORNET&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/hornet-cut.webp" alt="Wonderland RV Hornet" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
+          <div class="rs-shot ph" data-ph="SOLARA&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/solara-cut.webp" alt="Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
+          <div class="rs-shot ph" data-ph="XTR&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/xtr-cut.webp" alt="Wonderland RV XTR" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
+            <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
           </div>
-          <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
         </div>
         <div class="rs-panels">
           <div class="rs-panel is-on" data-i="0">
