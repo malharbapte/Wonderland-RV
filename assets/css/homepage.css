@@ -1256,7 +1256,10 @@
    finished phone layout this round must not touch. */
 .range { display: none; }
 
-.rs { display: flex; height: 100vh; align-items: center; }
+/* Sized by its own content on the site's own section rhythm, NOT a full
+   screen. At 100vh this short section was centred inside a screen-tall box
+   and the empty bands above and below read as a gap. */
+.rs { display: block; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 
 .rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
 .rs-lede { margin-top: 0.18rem; max-width: 7.60rem;

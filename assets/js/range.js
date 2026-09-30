@@ -61,9 +61,13 @@
   }
 
   addEventListener("wheel", function (e) {
-    var r = sec.getBoundingClientRect(), mid = innerHeight / 2;
-    /* only while the section owns the middle of the screen */
-    if (r.top > mid || r.bottom < mid) return;
+    var r = sec.getBoundingClientRect();
+    /* Engage only once the section is genuinely on screen. The old test --
+       does it straddle the viewport's midline -- was true the moment its top
+       edge crossed the middle, so the wheel was taken over while the section
+       was still HALF off screen and the page froze there. */
+    var seen = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
+    if (seen < Math.min(r.height, innerHeight) * 0.8) return;
 
     var down = e.deltaY > 0;
     /* at either end the wheel is left alone, so the page carries on out of
@@ -79,8 +83,9 @@
   }, { passive: false });
 
   addEventListener("keydown", function (e) {
-    var r = sec.getBoundingClientRect(), mid = innerHeight / 2;
-    if (r.top > mid || r.bottom < mid) return;
+    var r = sec.getBoundingClientRect();
+    var seen = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
+    if (seen < Math.min(r.height, innerHeight) * 0.8) return;
     if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); show(at + 1); }
     if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  { e.preventDefault(); show(at - 1); }
   });
