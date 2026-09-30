@@ -14,7 +14,15 @@
 /* SAMPLE ONLY -- the strip frame, copied from ambassador-page.css so the
    sample does not have to load that whole file (it carries the lightbox,
    the spec table and the tips mosaic, none of which belong here). */
-.amb-more { margin-top: var(--section-gap); margin-bottom: var(--section-gap); }
+/* Gaps. .service carries padding-bottom: 0, so the gap ABOVE is ours alone --
+   one section-gap, which is what Legendary Service already gives Queen of
+   Hearts on the live page. BELOW, .coty already carries padding-top: 1.20, so
+   a margin-bottom here stacked on top of it and made that side 2.40: double
+   the other. Dropped to 0, which hands the gap back to .coty and leaves the
+   section sitting on 1.20 either side.
+   (On the Wonderlander pages the margin-bottom is right, because nothing with
+   its own padding follows it there -- that is why the original has it.) */
+.amb-more { margin-top: var(--section-gap); margin-bottom: 0; }
 .amb-more-strip {
   width: 100vw; margin-left: calc(50% - 50vw); margin-top: 0.52rem;
   padding: 0 var(--page-margin) 0.20rem;
