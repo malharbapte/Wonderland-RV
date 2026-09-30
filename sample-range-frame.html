@@ -206,8 +206,7 @@ var h = "";
 
 if (v === "1") {
   h = '<section class="rng rng--1"><div class="container">' + HEAD + FACTS +
-      '<div class="r1-grid">' + MODELS.map(function (m) { return
-        '<a class="r1-card" href="#">' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r1-shot') + '' +
+      '<div class="r1-grid">' + MODELS.map(function (m) { return '<a class="r1-card" href="#">' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r1-shot') + '' +
         '<div class="r1-name">' + m.n + '</div><div class="r1-tag">' + m.t + '</div>' +
         '<div class="r1-price">From $' + m.p + '</div><span class="r1-go">Explore ' + m.n + '</span></a>';
       }).join("") + '</div></div></section>';
@@ -238,8 +237,7 @@ if (v === "3") {
       '<div class="r3-wrap"><div class="r3-stage">' +
       MODELS.map(function (m, i) { return '<div class="r3-shot' + (i===0?' is-on':'') + '">' + SHOT(m, 'HERO, WIDE', 'r3-fill') + '</div>'; }).join("") +
       '</div><div class="r3-steps">' +
-      MODELS.map(function (m, i) { return
-        '<div class="r3-step" data-i="' + i + '"><div class="r3-idx">0' + (i+1) + ' — ' + m.t.toUpperCase() + '</div>' +
+      MODELS.map(function (m, i) { return '<div class="r3-step" data-i="' + i + '"><div class="r3-idx">0' + (i+1) + ' — ' + m.t.toUpperCase() + '</div>' +
         '<div class="r3-name">' + m.n + '</div><p class="r3-copy">' + m.c + '</p>' +
         '<div class="r3-price">From $' + m.p + '</div></div>';
       }).join("") + '</div></div></div></section>';
@@ -250,8 +248,7 @@ if (v === "4") {
       '<div class="r4-bento">' +
       '<div class="r4-tile r4-tile--hero">' + SHOT(MODELS[2], 'HERO, WIDE', 'r4-fill') +
         '<div class="r4-cap"><b>Solara</b><span>Composite off-road · from $162,280</span></div></div>' +
-      [0,1,3].map(function (i) { var m = MODELS[i]; return
-        '<div class="r4-tile">' + SHOT(m, 'TIGHT 3/4', 'r4-fill') +
+      [0,1,3].map(function (i) { var m = MODELS[i]; return '<div class="r4-tile">' + SHOT(m, 'TIGHT 3/4', 'r4-fill') +
         '<div class="r4-cap"><b>' + m.n + '</b><span>' + m.t + ' · from $' + m.p + '</span></div></div>';
       }).join("") +
       '<div class="r4-tile r4-tile--fact"><div><strong>30+</strong><em>couple and family layouts</em></div></div>' +
@@ -264,14 +261,12 @@ if (v === "5") {
   h = '<section class="rng rng--5"><div class="container">' + HEAD + FACTS +
       '<div class="r5-wrap"><fieldset class="chips r5-pill"><legend class="sr-only">Choose a model</legend>' +
       '<span class="chips-thumb is-init" aria-hidden="true"></span>' +
-      MODELS.map(function (m, i) { return
-        '<label class="chip"><input type="radio" name="model" value="' + m.n + '"' + (i===2?' checked':'') + '><span>' + m.n + '</span></label>';
+      MODELS.map(function (m, i) { return '<label class="chip"><input type="radio" name="model" value="' + m.n + '"' + (i===2?' checked':'') + '><span>' + m.n + '</span></label>';
       }).join("") + '</fieldset>' +
       '<div class="r5-stage"><div class="r5-media">' +
       MODELS.map(function (m, i) { return '<div class="r5-fill' + (i===2?' is-on':'') + '">' + SHOT(m, '3/4 FRONT, ON LOCATION', 'r5-inner') + '</div>'; }).join("") +
       '</div><div class="r5-panel">' +
-      MODELS.map(function (m, i) { return
-        '<div class="r5-body' + (i===2?' is-on':'') + '"><div class="r5-name">' + m.n + '</div>' +
+      MODELS.map(function (m, i) { return '<div class="r5-body' + (i===2?' is-on':'') + '"><div class="r5-name">' + m.n + '</div>' +
         '<div class="r5-tag">' + m.t + '</div><p class="r5-copy">' + m.c + '</p>' +
         '<div class="r5-price">From $' + m.p + '</div>' +
         '<a class="r5-cta" href="#">Explore ' + m.n + '</a></div>';
