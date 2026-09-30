@@ -8,140 +8,121 @@
 <link rel="stylesheet" href="assets/css/type-compact.css?v=200">
 <style>
 /* ===========================================================================
-   R3 + R5's detail. Desktop only; hidden below 900.
+   Range, as a scroll story. Desktop only; hidden below 900.
+
+   TWO THINGS ARE PINNED and one thing scrolls.
+     - the head (Range + the three facts) pins to the top of the screen
+     - the van AND its details pin together, level with each other, in the
+       middle of what is left
+     - nothing visible scrolls: the scroll length comes from four invisible
+       one-screen ticks, and crossing one swaps both the picture and the panel
+   Because the picture and the panel are the same pinned object, they cannot
+   drift out of line with one another — which is what went wrong when the
+   details were a scrolling column.
 
    THE SCROLL FIX. styles.css sets `body { overflow-x: hidden }`. Any overflow
    other than visible makes that element the scroll container for sticky
-   descendants, so the stage pinned to a box that was not the one doing the
-   scrolling -- which is what made this feel wrong. `clip` does the same
-   clipping job WITHOUT creating a scroll container, so sticky behaves.
-   Shipping this means changing that one word site-wide; see the note below.
+   descendants, so nothing here would pin to the box that is actually
+   scrolling. `clip` does the same clipping job WITHOUT creating a scroll
+   container. Shipping this means changing that one word site-wide.
    =========================================================================== */
 html, body { overflow-x: clip; }
-
 .rs { display: none; }
 
 @media (min-width: 901px) {
-.rs { display: block; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+.rs { display: block; padding-bottom: var(--section-gap); }
 
-/* ------------------------------------------------------------- the head -- */
+/* --------------------------------------------------------- the pinned head */
+.rs-head {
+  position: sticky; top: 0; z-index: 3;
+  background: #fff;                 /* opaque, or the story reads through it */
+  padding-top: var(--section-gap); padding-bottom: 0.30rem;
+}
 .rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
 .rs-lede {
-  margin-top: 0.20rem; max-width: 7.60rem;
+  margin-top: 0.18rem; max-width: 7.60rem;
   font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
 }
-/* The range facts. Icons are the site's own .range-icon set — the chassis,
-   the bunks and the layout plan were drawn for exactly these three points,
-   so nothing new is invented. Each fact is a two-column grid: icon, then the
-   heading and its line, which keeps the text block aligned to the icon's
-   cap-height rather than floating above it. */
+/* the facts. Icons are the site's own .range-icon set — the chassis, the
+   bunks and the layout plan were drawn for exactly these three points. */
 .rs-facts {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0.46rem; margin-top: 0.46rem;
-  padding: 0.36rem 0; border-top: 0.0075rem solid #e4e2de; border-bottom: 0.0075rem solid #e4e2de;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
+  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de;
 }
-.rs-fact { display: grid; grid-template-columns: 0.62rem 1fr; column-gap: 0.24rem; align-items: start; }
-.rs-fact .range-icon {
-  position: static;                 /* the live one is absolutely placed; here it is a grid cell */
-  width: 0.62rem; height: 0.62rem; color: var(--orange-deep);
-  margin-top: -0.06rem;             /* optical: sits on the heading's cap-height */
-}
+.rs-fact { display: grid; grid-template-columns: 0.54rem 1fr; column-gap: 0.20rem; align-items: start; }
+.rs-fact .range-icon { position: static; width: 0.54rem; height: 0.54rem; color: var(--orange-deep); margin-top: -0.05rem; }
 .rs-fact .range-icon svg { width: 100%; height: 100%; display: block; }
 .rs-fact .range-icon--tilt svg { transform: rotate(45deg); }
-.rs-fact h3 {
-  margin: 0; font-family: var(--gordita); font-weight: 700;
-  font-size: 0.22rem; line-height: 0.26rem; letter-spacing: .04em;
-}
-.rs-fact p {
-  margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
-  font-size: 0.19rem; line-height: 0.26rem; color: #6b6158;
-}
+.rs-fact h3 { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.21rem; line-height: 0.25rem; letter-spacing: .04em; }
+.rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
 
-/* ------------------------------------------------------------ the story -- */
-.rs-story { margin-top: 0.30rem; display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem; }
+/* ------------------------------------------------------------- the story -- */
+/* Height comes from the ticks, which are absolute and therefore cost no
+   layout: four screens, one per model. */
+.rs-story { position: relative; height: 400vh; }
+.rs-ticks { position: absolute; inset: 0; pointer-events: none; }
+.rs-tick { height: 25%; }
 
-/* Full-height and vertically centred, so the picture sits ON the viewport's
-   midline -- which is exactly the line the steps are measured against. When
-   the stage sat high and the trigger was the midline, the image changed at a
-   moment that had nothing to do with where it was. */
-/* The stage used to be 100vh with the picture centred inside it, which left
-   roughly a quarter of a screen of dead space above the van — the gap between
-   the specs and the image. The stage is now only as tall as what is in it,
-   and `top` does the centring instead: the frame is 8.90 wide at 390/245, so
-   it is 5.591 tall, and parking its top at 50vh minus half of that puts the
-   picture's centre exactly on the viewport midline — the same line the steps
-   are measured against. */
-.rs-stage {
-  position: sticky; align-self: start;
-  top: calc(50vh - 2.7955rem);
-  display: flex; flex-direction: column;
+/* The pinned pair. Its own height is the picture's height — 8.90 wide at
+   390/245 is 5.591 — and parking its top at half that below the midline puts
+   BOTH halves on the midline the ticks are measured against. */
+.rs-pin {
+  position: sticky; top: calc(50vh - 2.7955rem);
+  height: 5.591rem;
+  display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem;
+  align-items: center;
 }
-.rs-frame { position: relative; width: 100%; aspect-ratio: 390 / 245; border-radius: 0.10rem; overflow: hidden; }
-.rs-shot {
-  position: absolute; inset: 0;
-  opacity: 0; transform: scale(1.03);
-  transition: opacity .6s ease, transform .9s ease;
-}
+.rs-stage { position: relative; height: 100%; }
+.rs-frame { position: relative; height: 100%; border-radius: 0.10rem; overflow: hidden; }
+.rs-shot { position: absolute; inset: 0; opacity: 0; transform: scale(1.03);
+  transition: opacity .6s ease, transform .9s ease; }
 .rs-shot.is-on { opacity: 1; transform: none; }
-
-/* a quiet progress rail, so the section says how long it is */
-/* Outside .rs-frame: the frame clips its overflow, so a rail hung below it
-   from inside was never visible. */
-.rs-rail { margin-top: 0.30rem; height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
+/* outside the frame, which clips its overflow */
+.rs-rail { position: absolute; left: 0; right: 0; top: calc(100% + 0.28rem);
+  height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
 .rs-rail i { flex: 1 1 0; background: transparent; border-radius: 0.02rem; transition: background .4s ease; }
 .rs-rail i.is-on { background: var(--orange); }
 
-/* Each step is one screen, so exactly one of them owns the midline at a
-   time and the section cannot get out of step with itself. */
-.rs-step { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-.rs-idx {
-  font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--grey);
-}
-.rs-name {
-  margin-top: 0.12rem;
-  font-family: var(--aviano); font-weight: 900; font-size: 0.72rem; line-height: 1;
-}
-.rs-tag {
-  margin-top: 0.14rem;
-  font-family: var(--gordita); font-size: 0.20rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--orange);
-}
-.rs-copy { margin-top: 0.24rem; font-family: var(--gordita); font-size: 0.25rem; line-height: 0.36rem; }
-.rs-price { margin-top: 0.28rem; font-family: var(--gordita); font-weight: 500; font-size: 0.28rem; line-height: 1; }
-.rs-price small { display: block; font-size: 0.17rem; color: var(--grey); margin-bottom: 0.06rem; letter-spacing: .1em; text-transform: uppercase; }
+/* all four panels share one cell, so the column is as tall as the longest and
+   nothing shifts as they swap */
+.rs-panels { display: grid; align-items: center; }
+.rs-panel { grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .4s ease; }
+.rs-panel.is-on { visibility: visible; opacity: 1; }
+.rs-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grey); }
+.rs-name { margin-top: 0.10rem; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
+.rs-tag { margin-top: 0.12rem; font-family: var(--gordita); font-size: 0.19rem; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+.rs-copy { margin-top: 0.20rem; font-family: var(--gordita); font-size: 0.23rem; line-height: 0.33rem; }
+.rs-price { margin-top: 0.24rem; font-family: var(--gordita); font-weight: 500; font-size: 0.26rem; line-height: 1; }
+.rs-price small { display: block; font-size: 0.16rem; color: var(--grey); margin-bottom: 0.05rem; letter-spacing: .1em; text-transform: uppercase; }
 .rs-cta {
-  display: inline-block; margin-top: 0.34rem;
+  display: inline-block; margin-top: 0.28rem;
   background: var(--orange); color: #fff;
-  font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; letter-spacing: .04em;
-  padding: 0 0.44rem; height: 0.64rem; line-height: 0.64rem;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.15rem; letter-spacing: .04em;
+  padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
   box-shadow: inset 0 0 0 0.02rem var(--orange);
   transition: background .4s ease, color .4s ease;
 }
 .rs-cta:hover, .rs-cta:focus-visible { background: #fff; color: var(--orange); }
 
 /* placeholders, drawn so they read as artwork-goes-here */
-.rs .ph {
-  background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
-  box-shadow: inset 0 0 0 0.02rem #b9ae9c;
+.rs .ph { background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.02rem #b9ae9c; }
+.rs .ph::after { font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em; color: #6f6455;
+  font-weight: 500; white-space: pre-line; padding: 0 0.30rem; }
+.rs .ph::before { content: "IMAGE"; position: absolute; left: 0; top: 0; z-index: 2;
+  font-family: var(--gordita); font-size: 0.13rem; letter-spacing: .16em; color: #fff;
+  background: #b9ae9c; padding: 0.05rem 0.12rem; border-bottom-right-radius: 0.06rem; }
 }
-.rs .ph::after {
-  font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em;
-  color: #6f6455; font-weight: 500; white-space: pre-line; padding: 0 0.30rem;
-}
-.rs .ph::before {
-  content: "IMAGE"; position: absolute; left: 0; top: 0; z-index: 2;
-  font-family: var(--gordita); font-size: 0.13rem; letter-spacing: .16em;
-  color: #fff; background: #b9ae9c; padding: 0.05rem 0.12rem;
-  border-bottom-right-radius: 0.06rem;
-}
-}
+
+/* Nothing is pinned for anyone who has asked motion to stop: the four models
+   simply stack and read as a list. */
 @media (prefers-reduced-motion: reduce) {
-  /* no pinning for anyone who has asked motion to stop: the stage simply
-     flows with its step */
-  .rs-stage { position: static; height: auto; }
+  .rs-head, .rs-pin { position: static; }
+  .rs-story { height: auto; }
+  .rs-ticks { display: none; }
+  .rs-pin { height: auto; }
   .rs-shot { position: relative; opacity: 1; transform: none; }
-  .rs-shot + .rs-shot { margin-top: 0.20rem; }
+  .rs-panel { visibility: visible; opacity: 1; }
 }
 @media (max-width: 900px) { .rs { display: none; } }
 </style>
@@ -151,101 +132,100 @@ html, body { overflow-x: clip; }
 <section class="rs">
   <div class="container">
 
-    <h2 class="rs-title">Range</h2>
-    <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
-
-    <div class="rs-facts">
-      <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
-      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
-      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
+    <div class="rs-head">
+      <h2 class="rs-title">Range</h2>
+      <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+      <div class="rs-facts">
+        <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
+        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
+        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
+      </div>
     </div>
 
     <div class="rs-story">
-
-      <div class="rs-stage">
-        <div class="rs-frame">
-          <div class="rs-shot ph is-on" data-i="0" data-ph="AMAROO&#10;3/4 FRONT, ON LOCATION"></div>
-          <div class="rs-shot ph" data-i="1" data-ph="HORNET&#10;3/4 FRONT, ON LOCATION"></div>
-          <div class="rs-shot ph" data-i="2" data-ph="SOLARA&#10;3/4 FRONT, ON LOCATION"></div>
-          <div class="rs-shot ph" data-i="3" data-ph="XTR&#10;3/4 FRONT, ON LOCATION"></div>
-        </div>
-        <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+      <div class="rs-ticks" aria-hidden="true">
+        <div class="rs-tick" data-i="0"></div>
+        <div class="rs-tick" data-i="1"></div>
+        <div class="rs-tick" data-i="2"></div>
+        <div class="rs-tick" data-i="3"></div>
       </div>
 
-      <div class="rs-steps">
-
-        <div class="rs-step" data-i="0">
-          <div class="rs-idx">01 &nbsp;/&nbsp; 04</div>
-          <div class="rs-name">Amaroo</div>
-          <div class="rs-tag">Classic off-road</div>
-          <p class="rs-copy">Geared for off-road adventures, allowing you to venture off the beaten track.</p>
-          <div class="rs-price"><small>From</small>$127,288</div>
-          <a class="rs-cta" href="#">Explore Amaroo</a>
+      <div class="rs-pin">
+        <div class="rs-stage">
+          <div class="rs-frame">
+          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-ph="HORNET&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-ph="SOLARA&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-ph="XTR&#10;3/4 FRONT, ON LOCATION"></div>
+          </div>
+          <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
         </div>
-
-        <div class="rs-step" data-i="1">
-          <div class="rs-idx">02 &nbsp;/&nbsp; 04</div>
-          <div class="rs-name">Hornet</div>
-          <div class="rs-tag">Rugged off-road</div>
-          <p class="rs-copy">Designed for performance and liveability in Australia&rsquo;s harshest terrain.</p>
-          <div class="rs-price"><small>From</small>$151,176</div>
-          <a class="rs-cta" href="#">Explore Hornet</a>
+        <div class="rs-panels">
+          <div class="rs-panel is-on" data-i="0">
+            <div class="rs-idx">01 &nbsp;/&nbsp; 04</div>
+            <div class="rs-name">Amaroo</div>
+            <div class="rs-tag">Classic off-road</div>
+            <p class="rs-copy">Geared for off-road adventures, allowing you to venture off the beaten track.</p>
+            <div class="rs-price"><small>From</small>$127,288</div>
+            <a class="rs-cta" href="#">Explore Amaroo</a>
+          </div>
+          <div class="rs-panel" data-i="1">
+            <div class="rs-idx">02 &nbsp;/&nbsp; 04</div>
+            <div class="rs-name">Hornet</div>
+            <div class="rs-tag">Rugged off-road</div>
+            <p class="rs-copy">Designed for performance and liveability in Australia&rsquo;s harshest terrain.</p>
+            <div class="rs-price"><small>From</small>$151,176</div>
+            <a class="rs-cta" href="#">Explore Hornet</a>
+          </div>
+          <div class="rs-panel" data-i="2">
+            <div class="rs-idx">03 &nbsp;/&nbsp; 04</div>
+            <div class="rs-name">Solara</div>
+            <div class="rs-tag">Composite off-road</div>
+            <p class="rs-copy">Wonderland&rsquo;s first off-road composite caravan. Built tough, without compromising on creature comforts.</p>
+            <div class="rs-price"><small>From</small>$162,280</div>
+            <a class="rs-cta" href="#">Explore Solara</a>
+          </div>
+          <div class="rs-panel" data-i="3">
+            <div class="rs-idx">04 &nbsp;/&nbsp; 04</div>
+            <div class="rs-name">XTR</div>
+            <div class="rs-tag">Extreme off-road</div>
+            <p class="rs-copy">The ultimate off-road caravan, fully loaded with every imaginable luxury.</p>
+            <div class="rs-price"><small>From</small>$195,701</div>
+            <a class="rs-cta" href="#">Explore XTR</a>
+          </div>
         </div>
-
-        <div class="rs-step" data-i="2">
-          <div class="rs-idx">03 &nbsp;/&nbsp; 04</div>
-          <div class="rs-name">Solara</div>
-          <div class="rs-tag">Composite off-road</div>
-          <p class="rs-copy">Wonderland&rsquo;s first off-road composite caravan. Built tough, without compromising on creature comforts.</p>
-          <div class="rs-price"><small>From</small>$162,280</div>
-          <a class="rs-cta" href="#">Explore Solara</a>
-        </div>
-
-        <div class="rs-step" data-i="3">
-          <div class="rs-idx">04 &nbsp;/&nbsp; 04</div>
-          <div class="rs-name">XTR</div>
-          <div class="rs-tag">Extreme off-road</div>
-          <p class="rs-copy">The ultimate off-road caravan, fully loaded with every imaginable luxury.</p>
-          <div class="rs-price"><small>From</small>$195,701</div>
-          <a class="rs-cta" href="#">Explore XTR</a>
-        </div>
-
       </div>
     </div>
+
   </div>
 </section>
 
 <script>
-/* The markup above is static: if this script never runs, all four models are
-   still on the page and readable. It only decides which shot is showing.
-
+/* The markup is static: with no script, every model is still on the page.
    An IntersectionObserver with a -50%/-50% root margin collapses the root to
-   a single line across the middle of the viewport. A step is "intersecting"
-   only while it spans that line, and since the steps are contiguous, exactly
-   one does at a time. No scroll handler, no per-frame measuring, and nothing
-   that can drift out of step with the picture -- the picture sits on that
-   same line. */
+   one line across the middle of the screen. The ticks are contiguous, so
+   exactly one spans that line at a time — and the picture and the panel sit
+   on that same line, so what you see always matches what is measured. */
 (function () {
   if (!window.matchMedia("(min-width: 901px)").matches) return;
-  var steps = [].slice.call(document.querySelectorAll(".rs-step"));
-  var shots = [].slice.call(document.querySelectorAll(".rs-shot"));
-  var pips  = [].slice.call(document.querySelectorAll(".rs-rail i"));
-  if (!steps.length || !shots.length) return;
+  if (!("IntersectionObserver" in window)) return;
+  var ticks  = [].slice.call(document.querySelectorAll(".rs-tick"));
+  var shots  = [].slice.call(document.querySelectorAll(".rs-shot"));
+  var panels = [].slice.call(document.querySelectorAll(".rs-panel"));
+  var pips   = [].slice.call(document.querySelectorAll(".rs-rail i"));
+  if (!ticks.length) return;
 
   function show(i) {
-    shots.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
-    pips.forEach(function (p, k) { p.classList.toggle("is-on", k === i); });
+    shots.forEach(function (s, k)  { s.classList.toggle("is-on", k === i); });
+    panels.forEach(function (p, k) { p.classList.toggle("is-on", k === i); });
+    pips.forEach(function (p, k)   { p.classList.toggle("is-on", k === i); });
   }
 
-  if (!("IntersectionObserver" in window)) return;   /* first shot just stays */
-
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) show(+e.target.dataset.i);
-    });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) show(+e.target.dataset.i); });
   }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
 
-  steps.forEach(function (s) { io.observe(s); });
+  ticks.forEach(function (t) { io.observe(t); });
 })();
 </script>
 </body>
