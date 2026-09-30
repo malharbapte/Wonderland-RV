@@ -74,10 +74,12 @@ html.s1 { scroll-snap-type: y proximity; }
 .rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
 
 /* ------------------------------------------------------------- the story -- */
-/* The ticks are in the flow now, because an absolutely positioned box is a
-   poor scroll-snap target. They are pulled back under the pin by exactly the
-   pin's height, so the story is still four screens and the first tick still
-   starts where the story does. */
+/* The ticks are in the flow, because an absolutely positioned box is a poor
+   scroll-snap target. They are pulled back UNDER the pin by exactly the pin's
+   height -- which requires the pin to be the element above them in the
+   markup. It was not: the ticks came first, so the -4.60 lifted them clear of
+   the story and pushed the pin below all four screens of them. That is why
+   the section rendered as a heading and then nothing. */
 .rs-story { position: relative; }
 .rs-ticks { margin-top: -4.60rem; pointer-events: none; }
 .rs-tick { height: var(--dwell, 100vh); }
@@ -226,13 +228,6 @@ body.s2 { --dwell: 150vh; }
     </div>
 
     <div class="rs-story">
-      <div class="rs-ticks" aria-hidden="true">
-        <div class="rs-tick" data-i="0"></div>
-        <div class="rs-tick" data-i="1"></div>
-        <div class="rs-tick" data-i="2"></div>
-        <div class="rs-tick" data-i="3"></div>
-      </div>
-
       <div class="rs-pin">
         <div class="rs-stage">
           <div class="rs-frame">
@@ -277,6 +272,13 @@ body.s2 { --dwell: 150vh; }
             <a class="rs-cta" href="#">Explore XTR</a>
           </div>
         </div>
+      </div>
+
+      <div class="rs-ticks" aria-hidden="true">
+        <div class="rs-tick" data-i="0"></div>
+        <div class="rs-tick" data-i="1"></div>
+        <div class="rs-tick" data-i="2"></div>
+        <div class="rs-tick" data-i="3"></div>
       </div>
     </div>
 
