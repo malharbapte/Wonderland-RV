@@ -225,67 +225,83 @@
   var dots   = [].slice.call(document.querySelectorAll(".rs-dot"));
   if (!sec || !shots.length) return;
 
-  var N = shots.length, at = 0;
+  var N = shots.length;
 
-  var MOVE  = 760;   /* the transition plus its delay, plus a little */
-  var QUIET = 150;   /* the wheel going silent is what ends a gesture */
+  var QUIET = 150;   /* a gap this long between wheel events ends a gesture */
+  var MOVE  = 620;   /* the crossfade; the lock lasts exactly this, no more */
+  var ALIGN = 620;   /* the one-off scroll that centres the section */
 
-  var moving = false;   /* the animation is still playing */
-  var armed  = true;    /* ready to accept a NEW gesture */
-  var endTimer = null;
+  var at = 0;
+  var engaged  = false;   /* the section has taken the wheel */
+  var lastWheel = 0;      /* when the previous wheel event arrived */
+  var until = 0;          /* nothing may step before this moment */
 
   function show(i) {
-    if (i === at || i < 0 || i > N - 1) { armed = true; return; }
+    if (i === at || i < 0 || i > N - 1) return;
     at = i;
     shots.forEach(function (x, k)  { x.classList.toggle("is-on", k === i); });
     panels.forEach(function (x, k) { x.classList.toggle("is-on", k === i); });
     dots.forEach(function (x, k)   { x.classList.toggle("is-on", k === i); });
-    moving = true;
-    setTimeout(function () { moving = false; }, MOVE);
+    until = performance.now() + MOVE;
   }
 
   dots.forEach(function (b) {
-    b.addEventListener("click", function () { armed = false; show(+b.dataset.i); rearm(); });
+    b.addEventListener("click", function () { show(+b.dataset.i); });
   });
 
-  /* Re-arm only once BOTH are true: the gesture has ended, and the animation
-     has finished. A trackpad flick keeps firing for a second or more after
-     the fingers lift -- that tail is the same gesture, so it must not buy a
-     second van. */
-  function rearm() {
-    clearTimeout(endTimer);
-    endTimer = setTimeout(function () {
-      if (!moving) { armed = true; return; }
-      setTimeout(function () { armed = true; }, MOVE);
-    }, QUIET);
+  function onScreen() {
+    var r = sec.getBoundingClientRect();
+    var seen = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
+    return seen >= Math.min(r.height, innerHeight) * 0.8;
+  }
+
+  /* One smooth scroll so the section sits centred the moment it takes over.
+     Without it the takeover happens wherever the flick happened to stop,
+     which is what made it feel like the page had died rather than like the
+     section had caught you. */
+  function centre() {
+    var r = sec.getBoundingClientRect();
+    var off = (r.top + r.bottom) / 2 - innerHeight / 2;
+    if (Math.abs(off) < 30) return;
+    scrollTo({ top: scrollY + off, behavior: "smooth" });
   }
 
   addEventListener("wheel", function (e) {
-    var r = sec.getBoundingClientRect();
-    /* Engage only once the section is genuinely on screen. The old test --
-       does it straddle the viewport's midline -- was true the moment its top
-       edge crossed the middle, so the wheel was taken over while the section
-       was still HALF off screen and the page froze there. */
-    var seen = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
-    if (seen < Math.min(r.height, innerHeight) * 0.8) return;
+    if (!onScreen()) { engaged = false; return; }
+
+    var now = performance.now();
+    var fresh = (now - lastWheel) > QUIET;   /* the start of a new gesture */
+    lastWheel = now;
+
+    /* FIRST CONTACT: arrive, do not advance. The van on screen is the one you
+       came to see; stepping here would skip it. */
+    if (!engaged) {
+      engaged = true;
+      e.preventDefault();
+      centre();
+      until = now + ALIGN;
+      return;
+    }
 
     var down = e.deltaY > 0;
-    /* at either end the wheel is left alone, so the page carries on out of
-       the section instead of trapping you in it */
-    if ((down && at === N - 1) || (!down && at === 0)) return;
+    var end  = (down && at === N - 1) || (!down && at === 0);
+
+    /* At an end, the page is released only by a NEW gesture. The tail of the
+       flick that just landed the last van is absorbed instead -- letting it
+       through is what scrolled the page away before XTR had appeared. */
+    if (end) {
+      if (fresh && now >= until) { engaged = false; return; }
+      e.preventDefault();
+      return;
+    }
 
     e.preventDefault();
-    rearm();                 /* every event of the flick pushes the end back */
-
-    if (!armed) return;      /* still the same gesture, or still animating */
-    armed = false;
+    if (!fresh || now < until) return;       /* same gesture, or still moving */
     show(at + (down ? 1 : -1));
   }, { passive: false });
 
   addEventListener("keydown", function (e) {
-    var r = sec.getBoundingClientRect();
-    var seen = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
-    if (seen < Math.min(r.height, innerHeight) * 0.8) return;
+    if (!onScreen()) return;
     if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); show(at + 1); }
     if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  { e.preventDefault(); show(at - 1); }
   });
