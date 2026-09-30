@@ -30,19 +30,31 @@ html, body { overflow-x: clip; }
   margin-top: 0.20rem; max-width: 7.60rem;
   font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
 }
-/* the range facts, carried over from R5 */
+/* The range facts. Icons are the site's own .range-icon set — the chassis,
+   the bunks and the layout plan were drawn for exactly these three points,
+   so nothing new is invented. Each fact is a two-column grid: icon, then the
+   heading and its line, which keeps the text block aligned to the icon's
+   cap-height rather than floating above it. */
 .rs-facts {
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0.40rem; margin-top: 0.46rem;
-  padding: 0.34rem 0; border-top: 0.0075rem solid #e4e2de; border-bottom: 0.0075rem solid #e4e2de;
+  gap: 0.46rem; margin-top: 0.46rem;
+  padding: 0.36rem 0; border-top: 0.0075rem solid #e4e2de; border-bottom: 0.0075rem solid #e4e2de;
 }
-.rs-fact b {
-  display: block; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.34rem; line-height: 1; color: var(--orange-deep);
+.rs-fact { display: grid; grid-template-columns: 0.62rem 1fr; column-gap: 0.24rem; align-items: start; }
+.rs-fact .range-icon {
+  position: static;                 /* the live one is absolutely placed; here it is a grid cell */
+  width: 0.62rem; height: 0.62rem; color: var(--orange-deep);
+  margin-top: -0.06rem;             /* optical: sits on the heading's cap-height */
 }
-.rs-fact span {
-  display: block; margin-top: 0.10rem;
-  font-family: var(--gordita); font-size: 0.19rem; line-height: 0.26rem; color: #6b6158;
+.rs-fact .range-icon svg { width: 100%; height: 100%; display: block; }
+.rs-fact .range-icon--tilt svg { transform: rotate(45deg); }
+.rs-fact h3 {
+  margin: 0; font-family: var(--gordita); font-weight: 700;
+  font-size: 0.22rem; line-height: 0.26rem; letter-spacing: .04em;
+}
+.rs-fact p {
+  margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.19rem; line-height: 0.26rem; color: #6b6158;
 }
 
 /* ------------------------------------------------------------ the story -- */
@@ -52,9 +64,17 @@ html, body { overflow-x: clip; }
    midline -- which is exactly the line the steps are measured against. When
    the stage sat high and the trigger was the midline, the image changed at a
    moment that had nothing to do with where it was. */
+/* The stage used to be 100vh with the picture centred inside it, which left
+   roughly a quarter of a screen of dead space above the van — the gap between
+   the specs and the image. The stage is now only as tall as what is in it,
+   and `top` does the centring instead: the frame is 8.90 wide at 390/245, so
+   it is 5.591 tall, and parking its top at 50vh minus half of that puts the
+   picture's centre exactly on the viewport midline — the same line the steps
+   are measured against. */
 .rs-stage {
-  position: sticky; top: 0; align-self: start;
-  height: 100vh; display: flex; align-items: center;
+  position: sticky; align-self: start;
+  top: calc(50vh - 2.7955rem);
+  display: flex; flex-direction: column;
 }
 .rs-frame { position: relative; width: 100%; aspect-ratio: 390 / 245; border-radius: 0.10rem; overflow: hidden; }
 .rs-shot {
@@ -65,7 +85,9 @@ html, body { overflow-x: clip; }
 .rs-shot.is-on { opacity: 1; transform: none; }
 
 /* a quiet progress rail, so the section says how long it is */
-.rs-rail { position: absolute; left: 0; right: 0; bottom: -0.34rem; height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
+/* Outside .rs-frame: the frame clips its overflow, so a rail hung below it
+   from inside was never visible. */
+.rs-rail { margin-top: 0.30rem; height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
 .rs-rail i { flex: 1 1 0; background: transparent; border-radius: 0.02rem; transition: background .4s ease; }
 .rs-rail i.is-on { background: var(--orange); }
 
@@ -133,9 +155,9 @@ html, body { overflow-x: clip; }
     <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
 
     <div class="rs-facts">
-      <div class="rs-fact"><b>17&rsquo;05&rdquo; &ndash; 24&prime;</b><span>Custom lengths, single and tandem axles</span></div>
-      <div class="rs-fact"><b>Up to 6</b><span>Bunk beds for big families</span></div>
-      <div class="rs-fact"><b>30+</b><span>Couple and family layouts</span></div>
+      <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
     </div>
 
     <div class="rs-story">
@@ -146,8 +168,8 @@ html, body { overflow-x: clip; }
           <div class="rs-shot ph" data-i="1" data-ph="HORNET&#10;3/4 FRONT, ON LOCATION"></div>
           <div class="rs-shot ph" data-i="2" data-ph="SOLARA&#10;3/4 FRONT, ON LOCATION"></div>
           <div class="rs-shot ph" data-i="3" data-ph="XTR&#10;3/4 FRONT, ON LOCATION"></div>
-          <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
         </div>
+        <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
       </div>
 
       <div class="rs-steps">
