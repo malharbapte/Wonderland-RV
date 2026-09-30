@@ -1221,3 +1221,121 @@
 @media (max-width: 900px) {
   .amb-more { display: none; }
 }
+
+
+/* ==========================================================================
+   RANGE — the stepper. Replaces the baked four-up grid on desktop only.
+   ========================================================================== */
+/* ===========================================================================
+   Range, as a stepper. Desktop only; hidden below 900.
+
+   WHY THE OTHER THREE FELT ROUGH. All of them changed the van when the scroll
+   crossed a threshold, WHILE the page was still scrolling. A fixed-length
+   fade running against scroll momentum can never look smooth, and a fast
+   flick started a new one before the last had finished.
+
+   So the scroll stops. The section is one screen tall; while it is on screen
+   a wheel gesture is taken as a single step instead of as scrolling, the
+   transition plays through with nothing competing with it, and then it waits.
+   One swipe moves one van and then stops, because a new step is only accepted
+   once the animation has finished AND the wheel has been quiet for 140ms --
+   a trackpad's momentum tail is one long gesture, not four.
+
+   Nothing is pinned, so the body { overflow-x: hidden } issue does not arise.
+   At the first van scrolling up, and the last scrolling down, the wheel is
+   not touched at all, so the page simply carries on out of the section.
+   =========================================================================== */
+.rs { display: none; }
+
+
+
+@media (min-width: 901px) {
+/* The OLD range section stays in the markup and is only hidden here. Its
+   phone carousel is built by home.js out of that very markup, and home.js
+   tears it down again above 900 -- so deleting the section would break a
+   finished phone layout this round must not touch. */
+.range { display: none; }
+
+.rs { display: flex; height: 100vh; align-items: center; }
+
+.rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
+.rs-lede { margin-top: 0.18rem; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
+.rs-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
+  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de; }
+.rs-fact { display: grid; grid-template-columns: 0.54rem 1fr; column-gap: 0.20rem; align-items: start; }
+.rs-fact .range-icon { position: static; width: 0.54rem; height: 0.54rem; color: var(--orange-deep); margin-top: -0.05rem; }
+.rs-fact .range-icon svg { width: 100%; height: 100%; display: block; }
+.rs-fact .range-icon--tilt svg { transform: rotate(45deg); }
+.rs-fact h3 { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.21rem; line-height: 0.25rem; letter-spacing: .04em; }
+.rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
+
+.rs-stage { margin-top: 0.52rem; display: grid; grid-template-columns: 8.90rem 6.70rem;
+  column-gap: 0.64rem; align-items: center; }
+
+/* one cell, four vans -- so the box never changes size as they swap */
+.rs-shots { display: grid; position: relative; aspect-ratio: 2.3; }
+.rs-shot {
+  grid-area: 1 / 1; position: relative;
+  opacity: 0; transform: scale(1.015);
+  will-change: opacity, transform;
+  transition: opacity .62s cubic-bezier(.45, 0, .2, 1),
+              transform .62s cubic-bezier(.45, 0, .2, 1),
+              visibility 0s linear .62s;
+  visibility: hidden;
+}
+.rs-shot.is-on {
+  opacity: 1; transform: none; visibility: visible;
+  /* the incoming one waits for the outgoing to clear, so two cut-out
+     silhouettes are never both half-there on top of each other */
+  transition-delay: .12s, .12s, 0s;
+}
+.rs-shot > img { width: 100%; height: 100%; object-fit: contain; }
+
+.rs-panels { display: grid; }
+.rs-panel {
+  grid-area: 1 / 1;
+  opacity: 0; visibility: hidden; transform: translateY(0.12rem);
+  /* visibility cannot be interpolated, so it is held back by the fade's own
+     length on the way out -- listed plainly it flips at once and cancels the
+     fade-out entirely */
+  transition: opacity .52s cubic-bezier(.45, 0, .2, 1),
+              transform .52s cubic-bezier(.45, 0, .2, 1),
+              visibility 0s linear .52s;
+}
+.rs-panel.is-on {
+  opacity: 1; visibility: visible; transform: none;
+  transition-delay: .10s, .10s, 0s;
+}
+.rs-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grey); }
+.rs-name { margin: 0.10rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
+.rs-tag { margin-top: 0.12rem; font-family: var(--gordita); font-size: 0.19rem; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+.rs-copy { margin-top: 0.20rem; font-family: var(--gordita); font-size: 0.23rem; line-height: 0.33rem; }
+.rs-price { margin-top: 0.24rem; font-family: var(--gordita); font-weight: 500; font-size: 0.26rem; line-height: 1; }
+.rs-price small { display: block; font-size: 0.16rem; color: var(--grey); margin-bottom: 0.05rem; letter-spacing: .1em; text-transform: uppercase; }
+.rs-cta { display: inline-block; margin-top: 0.28rem; background: var(--orange); color: #fff;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.15rem; letter-spacing: .04em;
+  padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
+  box-shadow: inset 0 0 0 0.02rem var(--orange);
+  transition: background .4s ease, color .4s ease; }
+.rs-cta:hover, .rs-cta:focus-visible { background: #fff; color: var(--orange); }
+
+.rs-dots { display: flex; justify-content: center; gap: 0.16rem; margin-top: 0.46rem; }
+.rs-dot { width: 0.12rem; height: 0.12rem; border-radius: 50%; border: 0; padding: 0;
+  background: #D9D3C8; cursor: pointer;
+  transition: background .5s cubic-bezier(.45, 0, .2, 1), transform .5s cubic-bezier(.45, 0, .2, 1); }
+.rs-dot.is-on { background: var(--orange-deep); transform: scale(1.4); }
+
+.rs .ph { background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.02rem #b9ae9c; }
+.rs .ph::after { font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em; color: #6f6455;
+  font-weight: 500; white-space: pre-line; padding: 0 0.30rem; }
+}
+
+/* the wheel is never intercepted for anyone who has asked motion to stop */
+@media (prefers-reduced-motion: reduce) {
+  .rs { height: auto; display: block; padding: 2rem 0; }
+  .rs-shot, .rs-panel { visibility: visible; opacity: 1; transform: none; }
+  .rs-shots, .rs-panels { display: block; }
+}
+@media (max-width: 900px) { .rs { display: none; } }
