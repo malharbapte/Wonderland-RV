@@ -3,69 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Range — the scroll story</title>
+<title>Range — stepper</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=200">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=200">
 <style>
 /* ===========================================================================
-   Range, as a scroll story. Desktop only; hidden below 900.
+   Range, as a stepper. Desktop only; hidden below 900.
 
-   TWO THINGS ARE PINNED and one thing scrolls.
-     - the head (Range + the three facts) pins to the top of the screen
-     - the van AND its details pin together, level with each other, in the
-       middle of what is left
-     - nothing visible scrolls: the scroll length comes from four invisible
-       one-screen ticks, and crossing one swaps both the picture and the panel
-   Because the picture and the panel are the same pinned object, they cannot
-   drift out of line with one another — which is what went wrong when the
-   details were a scrolling column.
+   WHY THE OTHER THREE FELT ROUGH. All of them changed the van when the scroll
+   crossed a threshold, WHILE the page was still scrolling. A fixed-length
+   fade running against scroll momentum can never look smooth, and a fast
+   flick started a new one before the last had finished.
 
-   THE SCROLL FIX. styles.css sets `body { overflow-x: hidden }`. Any overflow
-   other than visible makes that element the scroll container for sticky
-   descendants, so nothing here would pin to the box that is actually
-   scrolling. `clip` does the same clipping job WITHOUT creating a scroll
-   container. Shipping this means changing that one word site-wide.
+   So the scroll stops. The section is one screen tall; while it is on screen
+   a wheel gesture is taken as a single step instead of as scrolling, the
+   transition plays through with nothing competing with it, and then it waits.
+   One swipe moves one van and then stops, because a new step is only accepted
+   once the animation has finished AND the wheel has been quiet for 140ms --
+   a trackpad's momentum tail is one long gesture, not four.
+
+   Nothing is pinned, so the body { overflow-x: hidden } issue does not arise.
+   At the first van scrolling up, and the last scrolling down, the wheel is
+   not touched at all, so the page simply carries on out of the section.
    =========================================================================== */
-html, body { overflow-x: clip; }
-
-/* SAMPLE ONLY */
-.s-switch {
-  position: fixed; z-index: 9; right: 14px; top: 14px;
-  display: flex; gap: 1px; background: #ddd; border-radius: 5px; overflow: hidden;
-  font-family: var(--gordita); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-  box-shadow: 0 2px 10px rgba(0,0,0,.14);
-}
-.s-switch a { padding: 7px 11px; background: #fff; color: #555; }
-.s-switch a:hover { background: #f4f4f4; }
-html.s1 .s-switch a[href="?s=1"],
-html.s2 .s-switch a[href="?s=2"],
-html.s3 .s-switch a[href="?s=3"] { background: #D57114; color: #fff; }
-/* S1 only. NOTE for production: this is set on the document, so it would snap
-   the whole homepage, not just this section -- it would need turning on and
-   off as the section enters and leaves. */
-html.s1 { scroll-snap-type: y proximity; }
 .rs { display: none; }
 
 @media (min-width: 901px) {
-.rs { display: block; padding-bottom: var(--section-gap); }
+.rs { display: flex; height: 100vh; align-items: center; }
 
-/* --------------------------------------------------------- the pinned head */
-.rs-head {
-  position: sticky; top: 0; z-index: 3;
-  background: #fff;                 /* opaque, or the story reads through it */
-  padding-top: var(--section-gap); padding-bottom: 0.30rem;
-}
 .rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
-.rs-lede {
-  margin-top: 0.18rem; max-width: 7.60rem;
-  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
-}
-/* the facts. Icons are the site's own .range-icon set — the chassis, the
-   bunks and the layout plan were drawn for exactly these three points. */
-.rs-facts {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
-  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de;
-}
+.rs-lede { margin-top: 0.18rem; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
+.rs-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
+  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de; }
 .rs-fact { display: grid; grid-template-columns: 0.54rem 1fr; column-gap: 0.20rem; align-items: start; }
 .rs-fact .range-icon { position: static; width: 0.54rem; height: 0.54rem; color: var(--orange-deep); margin-top: -0.05rem; }
 .rs-fact .range-icon svg { width: 100%; height: 100%; display: block; }
@@ -73,303 +43,228 @@ html.s1 { scroll-snap-type: y proximity; }
 .rs-fact h3 { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.21rem; line-height: 0.25rem; letter-spacing: .04em; }
 .rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
 
-/* ------------------------------------------------------------- the story -- */
-/* The ticks are in the flow, because an absolutely positioned box is a poor
-   scroll-snap target. They are pulled back UNDER the pin by exactly the pin's
-   height -- which requires the pin to be the element above them in the
-   markup. It was not: the ticks came first, so the -4.60 lifted them clear of
-   the story and pushed the pin below all four screens of them. That is why
-   the section rendered as a heading and then nothing. */
-.rs-story { position: relative; }
-.rs-ticks { margin-top: -4.60rem; pointer-events: none; }
-.rs-tick { height: var(--dwell, 100vh); }
+.rs-stage { margin-top: 0.52rem; display: grid; grid-template-columns: 8.90rem 6.70rem;
+  column-gap: 0.64rem; align-items: center; }
 
-/* --- S1  snap ------------------------------------------------------------
-   Native CSS snapping, set to `proximity` rather than `mandatory`: the page
-   only settles onto a van when you finish near one, so a deliberate long
-   scroll past the section is never caught and held. */
-body.s1 .rs-tick { scroll-snap-align: center; }
-
-/* --- S2  long dwell ------------------------------------------------------
-   No snapping at all. Each van simply owns half again as much scroll, so a
-   normal flick cannot clear a whole one. The freest of the three, and the
-   only one that never touches the page's own scrolling. */
-body.s2 { --dwell: 150vh; }
-
-/* The pinned pair. Its own height is the picture's height — 8.90 wide at
-   390/245 is 5.591 — and parking its top at half that below the midline puts
-   BOTH halves on the midline the ticks are measured against. */
-.rs-pin {
-  position: sticky; top: calc(50vh - 2.30rem);
-  height: 4.60rem;                  /* holds the widest frame and the longest panel */
-  display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem;
-  align-items: center;
-}
-/* These are cut-outs on white, not photographs in a frame -- so no box, no
-   radius, and nothing clipped. The frame simply takes the source set's own
-   proportion, 2.3:1, instead of the 390/245 the old crops used. */
-.rs-stage { position: relative; height: 100%; display: flex; align-items: center; }
-.rs-frame { position: relative; width: 100%; aspect-ratio: 2.3; }
+/* one cell, four vans -- so the box never changes size as they swap */
+.rs-shots { display: grid; position: relative; aspect-ratio: 2.3; }
 .rs-shot {
-  position: absolute; inset: 0;
-  opacity: 0; transform: scale(1.02);
+  grid-area: 1 / 1; position: relative;
+  opacity: 0; transform: scale(1.015);
   will-change: opacity, transform;
-  /* eased in and out on the curve the pill and the dream slideshow use.
-     transform now ENDS WITH the fade rather than running a quarter-second
-     past it -- a picture still growing after it has arrived reads as drift,
-     not as motion. */
-  transition: opacity .62s cubic-bezier(.65, 0, .35, 1),
-              transform .62s cubic-bezier(.65, 0, .35, 1);
+  transition: opacity .62s cubic-bezier(.45, 0, .2, 1),
+              transform .62s cubic-bezier(.45, 0, .2, 1),
+              visibility 0s linear .62s;
+  visibility: hidden;
 }
-/* the incoming van waits for the outgoing one to clear, so two cut-outs are
-   never both half-there on top of each other */
 .rs-shot.is-on {
-  opacity: 1; transform: none;
-  transition-delay: .14s;
+  opacity: 1; transform: none; visibility: visible;
+  /* the incoming one waits for the outgoing to clear, so two cut-out
+     silhouettes are never both half-there on top of each other */
+  transition-delay: .12s, .12s, 0s;
 }
-/* CONTAIN, never cover. These vans are cut out of their background, so any
-   crop takes a tow bar or a wheel off rather than sky. The four sources run
-   2.13 to 2.43, so contain also lets the shorter ones sit centred with a
-   little air instead of being stretched to match. */
-.rs-shot > img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 50%; }
-/* Carousel markers, tracking the bottom of the picture. The colours and the
-   6px weight are the site's own dot rails -- .service-dot, .range-dot,
-   .coty-dot -- brought up to this breakpoint; note that every one of those
-   lives inside max-width: 900 and was built for the phone. Those rails stretch
-   the active dot into a pill; these stay circles, as asked, and mark the
-   active one by filling and growing it instead. */
-.rs-dots {
-  position: absolute; left: 0; right: 0; top: calc(100% + 0.26rem);
-  display: flex; justify-content: center; gap: 0.16rem;
-}
-.rs-dots i {
-  width: 0.12rem; height: 0.12rem; border-radius: 50%;
-  background: #D9D3C8;
-  transition: background .5s cubic-bezier(.65, 0, .35, 1),
-              transform .5s cubic-bezier(.65, 0, .35, 1);
-}
-.rs-dots i.is-on { background: var(--orange-deep); transform: scale(1.4); }
+.rs-shot > img { width: 100%; height: 100%; object-fit: contain; }
 
-/* all four panels share one cell, so the column is as tall as the longest and
-   nothing shifts as they swap */
-.rs-panels { display: grid; align-items: center; }
-/* visibility cannot be interpolated, so listing it plainly made it flip the
-   instant the class changed -- which cancelled the fade OUT and left the
-   outgoing copy vanishing rather than dissolving. Held back by exactly the
-   fade's own length on the way out, and released immediately on the way in. */
+.rs-panels { display: grid; }
 .rs-panel {
   grid-area: 1 / 1;
-  visibility: hidden; opacity: 0;
-  transition: opacity .56s cubic-bezier(.65, 0, .35, 1),
-              visibility 0s linear .56s;
+  opacity: 0; visibility: hidden; transform: translateY(0.12rem);
+  /* visibility cannot be interpolated, so it is held back by the fade's own
+     length on the way out -- listed plainly it flips at once and cancels the
+     fade-out entirely */
+  transition: opacity .52s cubic-bezier(.45, 0, .2, 1),
+              transform .52s cubic-bezier(.45, 0, .2, 1),
+              visibility 0s linear .52s;
 }
 .rs-panel.is-on {
-  visibility: visible; opacity: 1;
-  transition: opacity .56s cubic-bezier(.65, 0, .35, 1),
-              visibility 0s linear 0s;
+  opacity: 1; visibility: visible; transform: none;
+  transition-delay: .10s, .10s, 0s;
 }
 .rs-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grey); }
-.rs-name { margin-top: 0.10rem; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
+.rs-name { margin: 0.10rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
 .rs-tag { margin-top: 0.12rem; font-family: var(--gordita); font-size: 0.19rem; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
 .rs-copy { margin-top: 0.20rem; font-family: var(--gordita); font-size: 0.23rem; line-height: 0.33rem; }
 .rs-price { margin-top: 0.24rem; font-family: var(--gordita); font-weight: 500; font-size: 0.26rem; line-height: 1; }
 .rs-price small { display: block; font-size: 0.16rem; color: var(--grey); margin-bottom: 0.05rem; letter-spacing: .1em; text-transform: uppercase; }
-.rs-cta {
-  display: inline-block; margin-top: 0.28rem;
-  background: var(--orange); color: #fff;
+.rs-cta { display: inline-block; margin-top: 0.28rem; background: var(--orange); color: #fff;
   font-family: var(--aviano); font-weight: 900; font-size: 0.15rem; letter-spacing: .04em;
   padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
   box-shadow: inset 0 0 0 0.02rem var(--orange);
-  transition: background .4s ease, color .4s ease;
-}
+  transition: background .4s ease, color .4s ease; }
 .rs-cta:hover, .rs-cta:focus-visible { background: #fff; color: var(--orange); }
 
-/* placeholders, drawn so they read as artwork-goes-here */
+.rs-dots { display: flex; justify-content: center; gap: 0.16rem; margin-top: 0.46rem; }
+.rs-dot { width: 0.12rem; height: 0.12rem; border-radius: 50%; border: 0; padding: 0;
+  background: #D9D3C8; cursor: pointer;
+  transition: background .5s cubic-bezier(.45, 0, .2, 1), transform .5s cubic-bezier(.45, 0, .2, 1); }
+.rs-dot.is-on { background: var(--orange-deep); transform: scale(1.4); }
+
 .rs .ph { background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
   box-shadow: inset 0 0 0 0.02rem #b9ae9c; }
 .rs .ph::after { font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em; color: #6f6455;
   font-weight: 500; white-space: pre-line; padding: 0 0.30rem; }
-.rs .ph::before { content: "IMAGE"; position: absolute; left: 0; top: 0; z-index: 2;
-  font-family: var(--gordita); font-size: 0.13rem; letter-spacing: .16em; color: #fff;
-  background: #b9ae9c; padding: 0.05rem 0.12rem; border-bottom-right-radius: 0.06rem; }
 }
 
-/* Nothing is pinned for anyone who has asked motion to stop: the four models
-   simply stack and read as a list. */
+/* the wheel is never intercepted for anyone who has asked motion to stop */
 @media (prefers-reduced-motion: reduce) {
-  .rs-head, .rs-pin { position: static; }
-  .rs-story { height: auto; }
-  .rs-ticks { display: none; }
-  .rs-pin { height: auto; }
-  .rs-shot { position: relative; opacity: 1; transform: none; }
-  .rs-panel { visibility: visible; opacity: 1; }
+  .rs { height: auto; display: block; padding: 2rem 0; }
+  .rs-shot, .rs-panel { visibility: visible; opacity: 1; transform: none; }
+  .rs-shots, .rs-panels { display: block; }
 }
 @media (max-width: 900px) { .rs { display: none; } }
 </style>
 </head>
 <body>
-
-<!-- SAMPLE ONLY: pick a scroll behaviour -->
-<nav class="s-switch">
-  <a href="?s=1">1 &middot; Snap</a><a href="?s=2">2 &middot; Long dwell</a><a href="?s=3">3 &middot; One per gesture</a>
-</nav>
+<div style="height:60vh"></div>
 
 <section class="rs">
   <div class="container">
+    <h2 class="rs-title">Range</h2>
+    <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
 
-    <div class="rs-head">
-      <h2 class="rs-title">Range</h2>
-      <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
-      <div class="rs-facts">
-        <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
-        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
-        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
-      </div>
+    <div class="rs-facts">
+      <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
     </div>
 
-    <div class="rs-story">
-      <div class="rs-pin">
-        <div class="rs-stage">
-          <div class="rs-frame">
-          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/amaroo-cut.webp" alt="Wonderland RV Amaroo" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="HORNET&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/hornet-cut.webp" alt="Wonderland RV Hornet" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="SOLARA&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/solara-cut.webp" alt="Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="XTR&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/xtr-cut.webp" alt="Wonderland RV XTR" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-            <div class="rs-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+    <div class="rs-stage">
+      <div class="rs-shots">
+          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/amaroo-cut.webp" alt="Wonderland RV Amaroo"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
           </div>
-        </div>
-        <div class="rs-panels">
-          <div class="rs-panel is-on" data-i="0">
+          <div class="rs-shot ph" data-ph="HORNET&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/hornet-cut.webp" alt="Wonderland RV Hornet"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+          <div class="rs-shot ph" data-ph="SOLARA&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/solara-cut.webp" alt="Wonderland RV Solara"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+          <div class="rs-shot ph" data-ph="XTR&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/xtr-cut.webp" alt="Wonderland RV XTR"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+      </div>
+      <div class="rs-panels">
+          <div class="rs-panel is-on">
             <div class="rs-idx">01 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Amaroo</div>
+            <h3 class="rs-name">Amaroo</h3>
             <div class="rs-tag">Classic off-road</div>
             <p class="rs-copy">Geared for off-road adventures, allowing you to venture off the beaten track.</p>
             <div class="rs-price"><small>From</small>$127,288</div>
             <a class="rs-cta" href="#">Explore Amaroo</a>
           </div>
-          <div class="rs-panel" data-i="1">
+          <div class="rs-panel">
             <div class="rs-idx">02 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Hornet</div>
+            <h3 class="rs-name">Hornet</h3>
             <div class="rs-tag">Rugged off-road</div>
             <p class="rs-copy">Designed for performance and liveability in Australia&rsquo;s harshest terrain.</p>
             <div class="rs-price"><small>From</small>$151,176</div>
             <a class="rs-cta" href="#">Explore Hornet</a>
           </div>
-          <div class="rs-panel" data-i="2">
+          <div class="rs-panel">
             <div class="rs-idx">03 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Solara</div>
+            <h3 class="rs-name">Solara</h3>
             <div class="rs-tag">Composite off-road</div>
             <p class="rs-copy">Wonderland&rsquo;s first off-road composite caravan. Built tough, without compromising on creature comforts.</p>
             <div class="rs-price"><small>From</small>$162,280</div>
             <a class="rs-cta" href="#">Explore Solara</a>
           </div>
-          <div class="rs-panel" data-i="3">
+          <div class="rs-panel">
             <div class="rs-idx">04 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">XTR</div>
+            <h3 class="rs-name">XTR</h3>
             <div class="rs-tag">Extreme off-road</div>
             <p class="rs-copy">The ultimate off-road caravan, fully loaded with every imaginable luxury.</p>
             <div class="rs-price"><small>From</small>$195,701</div>
             <a class="rs-cta" href="#">Explore XTR</a>
           </div>
-        </div>
-      </div>
-
-      <div class="rs-ticks" aria-hidden="true">
-        <div class="rs-tick" data-i="0"></div>
-        <div class="rs-tick" data-i="1"></div>
-        <div class="rs-tick" data-i="2"></div>
-        <div class="rs-tick" data-i="3"></div>
       </div>
     </div>
 
+    <div class="rs-dots">
+        <button class="rs-dot is-on" type="button" data-i="0" aria-label="Amaroo"></button>
+        <button class="rs-dot" type="button" data-i="1" aria-label="Hornet"></button>
+        <button class="rs-dot" type="button" data-i="2" aria-label="Solara"></button>
+        <button class="rs-dot" type="button" data-i="3" aria-label="XTR"></button>
+    </div>
   </div>
 </section>
 
+<div style="height:120vh"></div>
+
 <script>
-/* The markup is static: with no script, every model is still on the page.
-
-   ?s=1 snap   ?s=2 long dwell   ?s=3 one van per gesture                     */
+/* Static markup: with no script every model is on the page and readable. */
 (function () {
-  var mode = (new URLSearchParams(location.search).get("s") || "1");
-  document.documentElement.className = "s" + mode;
-  document.body.className = "s" + mode;
-
   if (!window.matchMedia("(min-width: 901px)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  var ticks  = [].slice.call(document.querySelectorAll(".rs-tick"));
+  var sec    = document.querySelector(".rs");
   var shots  = [].slice.call(document.querySelectorAll(".rs-shot"));
   var panels = [].slice.call(document.querySelectorAll(".rs-panel"));
-  var dots   = [].slice.call(document.querySelectorAll(".rs-dots i"));
-  if (!ticks.length) return;
+  var dots   = [].slice.call(document.querySelectorAll(".rs-dot"));
+  if (!sec || !shots.length) return;
 
-  var at = 0;
+  var N = shots.length, at = 0;
+
+  var MOVE  = 760;   /* the transition plus its delay, plus a little */
+  var QUIET = 150;   /* the wheel going silent is what ends a gesture */
+
+  var moving = false;   /* the animation is still playing */
+  var armed  = true;    /* ready to accept a NEW gesture */
+  var endTimer = null;
+
   function show(i) {
-    if (i === at) return;
+    if (i === at || i < 0 || i > N - 1) { armed = true; return; }
     at = i;
     shots.forEach(function (x, k)  { x.classList.toggle("is-on", k === i); });
     panels.forEach(function (x, k) { x.classList.toggle("is-on", k === i); });
     dots.forEach(function (x, k)   { x.classList.toggle("is-on", k === i); });
+    moving = true;
+    setTimeout(function () { moving = false; }, MOVE);
   }
 
-  /* Whichever tick's middle is nearest the middle of the screen. */
-  function nearest() {
-    var mid = innerHeight / 2, best = 0, d = Infinity;
-    ticks.forEach(function (t, i) {
-      var r = t.getBoundingClientRect();
-      var dist = Math.abs((r.top + r.bottom) / 2 - mid);
-      if (dist < d) { d = dist; best = i; }
-    });
-    return best;
-  }
+  dots.forEach(function (b) {
+    b.addEventListener("click", function () { armed = false; show(+b.dataset.i); rearm(); });
+  });
 
-  /* An observer alone can miss a tick that a fast scroll flies past, which is
-     how a van got skipped. So the observer drives the live swap, and this
-     settles the truth once the scrolling stops. */
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) show(+e.target.dataset.i); });
-    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
-    ticks.forEach(function (t) { io.observe(t); });
-  }
-  var settle;
-  addEventListener("scroll", function () {
-    clearTimeout(settle);
-    settle = setTimeout(function () { show(nearest()); }, 90);
-  }, { passive: true });
-
-  /* ---------------------------------------------------------------- S3 ----
-     One van per gesture. A flick is many wheel events, so the first one moves
-     exactly one step and the rest are swallowed until it lands.
-
-     The escape matters as much as the lock: at either end of the range the
-     wheel is NOT intercepted, so scrolling on simply leaves the section
-     instead of trapping you in it. */
-  if (mode !== "3") return;
-
-  var busy = false;
-  function centreOn(i) {
-    var r = ticks[i].getBoundingClientRect();
-    var to = scrollY + (r.top + r.bottom) / 2 - innerHeight / 2;
-    busy = true;
-    scrollTo({ top: to, behavior: "smooth" });
-    setTimeout(function () { busy = false; show(i); }, 620);
+  /* Re-arm only once BOTH are true: the gesture has ended, and the animation
+     has finished. A trackpad flick keeps firing for a second or more after
+     the fingers lift -- that tail is the same gesture, so it must not buy a
+     second van. */
+  function rearm() {
+    clearTimeout(endTimer);
+    endTimer = setTimeout(function () {
+      if (!moving) { armed = true; return; }
+      setTimeout(function () { armed = true; }, MOVE);
+    }, QUIET);
   }
 
   addEventListener("wheel", function (e) {
-    var first = ticks[0].getBoundingClientRect();
-    var last  = ticks[ticks.length - 1].getBoundingClientRect();
-    var mid   = innerHeight / 2;
-    /* only while the story owns the middle of the screen */
-    if (first.top > mid || last.bottom < mid) return;
+    var r = sec.getBoundingClientRect(), mid = innerHeight / 2;
+    /* only while the section owns the middle of the screen */
+    if (r.top > mid || r.bottom < mid) return;
 
     var down = e.deltaY > 0;
-    var next = nearest() + (down ? 1 : -1);
-    if (next < 0 || next > ticks.length - 1) return;   /* let the page go */
+    /* at either end the wheel is left alone, so the page carries on out of
+       the section instead of trapping you in it */
+    if ((down && at === N - 1) || (!down && at === 0)) return;
 
     e.preventDefault();
-    if (busy) return;
-    centreOn(next);
+    rearm();                 /* every event of the flick pushes the end back */
+
+    if (!armed) return;      /* still the same gesture, or still animating */
+    armed = false;
+    show(at + (down ? 1 : -1));
   }, { passive: false });
+
+  addEventListener("keydown", function (e) {
+    var r = sec.getBoundingClientRect(), mid = innerHeight / 2;
+    if (r.top > mid || r.bottom < mid) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); show(at + 1); }
+    if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  { e.preventDefault(); show(at - 1); }
+  });
 })();
 </script>
 </body>
