@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — the scroll story</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=200">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=200">
+<style>
+/* ===========================================================================
+   R3 + R5's detail. Desktop only; hidden below 900.
+
+   THE SCROLL FIX. styles.css sets `body { overflow-x: hidden }`. Any overflow
+   other than visible makes that element the scroll container for sticky
+   descendants, so the stage pinned to a box that was not the one doing the
+   scrolling -- which is what made this feel wrong. `clip` does the same
+   clipping job WITHOUT creating a scroll container, so sticky behaves.
+   Shipping this means changing that one word site-wide; see the note below.
+   =========================================================================== */
+html, body { overflow-x: clip; }
+
+.rs { display: none; }
+
+@media (min-width: 901px) {
+.rs { display: block; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+
+/* ------------------------------------------------------------- the head -- */
+.rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
+.rs-lede {
+  margin-top: 0.20rem; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
+}
+/* the range facts, carried over from R5 */
+.rs-facts {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0.40rem; margin-top: 0.46rem;
+  padding: 0.34rem 0; border-top: 0.0075rem solid #e4e2de; border-bottom: 0.0075rem solid #e4e2de;
+}
+.rs-fact b {
+  display: block; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.34rem; line-height: 1; color: var(--orange-deep);
+}
+.rs-fact span {
+  display: block; margin-top: 0.10rem;
+  font-family: var(--gordita); font-size: 0.19rem; line-height: 0.26rem; color: #6b6158;
+}
+
+/* ------------------------------------------------------------ the story -- */
+.rs-story { margin-top: 0.30rem; display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem; }
+
+/* Full-height and vertically centred, so the picture sits ON the viewport's
+   midline -- which is exactly the line the steps are measured against. When
+   the stage sat high and the trigger was the midline, the image changed at a
+   moment that had nothing to do with where it was. */
+.rs-stage {
+  position: sticky; top: 0; align-self: start;
+  height: 100vh; display: flex; align-items: center;
+}
+.rs-frame { position: relative; width: 100%; aspect-ratio: 390 / 245; border-radius: 0.10rem; overflow: hidden; }
+.rs-shot {
+  position: absolute; inset: 0;
+  opacity: 0; transform: scale(1.03);
+  transition: opacity .6s ease, transform .9s ease;
+}
+.rs-shot.is-on { opacity: 1; transform: none; }
+
+/* a quiet progress rail, so the section says how long it is */
+.rs-rail { position: absolute; left: 0; right: 0; bottom: -0.34rem; height: 0.04rem; background: #e4e2de; border-radius: 0.02rem; display: flex; gap: 0.04rem; }
+.rs-rail i { flex: 1 1 0; background: transparent; border-radius: 0.02rem; transition: background .4s ease; }
+.rs-rail i.is-on { background: var(--orange); }
+
+/* Each step is one screen, so exactly one of them owns the midline at a
+   time and the section cannot get out of step with itself. */
+.rs-step { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+.rs-idx {
+  font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--grey);
+}
+.rs-name {
+  margin-top: 0.12rem;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.72rem; line-height: 1;
+}
+.rs-tag {
+  margin-top: 0.14rem;
+  font-family: var(--gordita); font-size: 0.20rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--orange);
+}
+.rs-copy { margin-top: 0.24rem; font-family: var(--gordita); font-size: 0.25rem; line-height: 0.36rem; }
+.rs-price { margin-top: 0.28rem; font-family: var(--gordita); font-weight: 500; font-size: 0.28rem; line-height: 1; }
+.rs-price small { display: block; font-size: 0.17rem; color: var(--grey); margin-bottom: 0.06rem; letter-spacing: .1em; text-transform: uppercase; }
+.rs-cta {
+  display: inline-block; margin-top: 0.34rem;
+  background: var(--orange); color: #fff;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; letter-spacing: .04em;
+  padding: 0 0.44rem; height: 0.64rem; line-height: 0.64rem;
+  box-shadow: inset 0 0 0 0.02rem var(--orange);
+  transition: background .4s ease, color .4s ease;
+}
+.rs-cta:hover, .rs-cta:focus-visible { background: #fff; color: var(--orange); }
+
+/* placeholders, drawn so they read as artwork-goes-here */
+.rs .ph {
+  background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.02rem #b9ae9c;
+}
+.rs .ph::after {
+  font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em;
+  color: #6f6455; font-weight: 500; white-space: pre-line; padding: 0 0.30rem;
+}
+.rs .ph::before {
+  content: "IMAGE"; position: absolute; left: 0; top: 0; z-index: 2;
+  font-family: var(--gordita); font-size: 0.13rem; letter-spacing: .16em;
+  color: #fff; background: #b9ae9c; padding: 0.05rem 0.12rem;
+  border-bottom-right-radius: 0.06rem;
+}
+}
+@media (prefers-reduced-motion: reduce) {
+  /* no pinning for anyone who has asked motion to stop: the stage simply
+     flows with its step */
+  .rs-stage { position: static; height: auto; }
+  .rs-shot { position: relative; opacity: 1; transform: none; }
+  .rs-shot + .rs-shot { margin-top: 0.20rem; }
+}
+@media (max-width: 900px) { .rs { display: none; } }
+</style>
+</head>
+<body>
+
+<section class="rs">
+  <div class="container">
+
+    <h2 class="rs-title">Range</h2>
+    <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+
+    <div class="rs-facts">
+      <div class="rs-fact"><b>17&rsquo;05&rdquo; &ndash; 24&prime;</b><span>Custom lengths, single and tandem axles</span></div>
+      <div class="rs-fact"><b>Up to 6</b><span>Bunk beds for big families</span></div>
+      <div class="rs-fact"><b>30+</b><span>Couple and family layouts</span></div>
+    </div>
+
+    <div class="rs-story">
+
+      <div class="rs-stage">
+        <div class="rs-frame">
+          <div class="rs-shot ph is-on" data-i="0" data-ph="AMAROO&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-i="1" data-ph="HORNET&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-i="2" data-ph="SOLARA&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-shot ph" data-i="3" data-ph="XTR&#10;3/4 FRONT, ON LOCATION"></div>
+          <div class="rs-rail" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+
+      <div class="rs-steps">
+
+        <div class="rs-step" data-i="0">
+          <div class="rs-idx">01 &nbsp;/&nbsp; 04</div>
+          <div class="rs-name">Amaroo</div>
+          <div class="rs-tag">Classic off-road</div>
+          <p class="rs-copy">Geared for off-road adventures, allowing you to venture off the beaten track.</p>
+          <div class="rs-price"><small>From</small>$127,288</div>
+          <a class="rs-cta" href="#">Explore Amaroo</a>
+        </div>
+
+        <div class="rs-step" data-i="1">
+          <div class="rs-idx">02 &nbsp;/&nbsp; 04</div>
+          <div class="rs-name">Hornet</div>
+          <div class="rs-tag">Rugged off-road</div>
+          <p class="rs-copy">Designed for performance and liveability in Australia&rsquo;s harshest terrain.</p>
+          <div class="rs-price"><small>From</small>$151,176</div>
+          <a class="rs-cta" href="#">Explore Hornet</a>
+        </div>
+
+        <div class="rs-step" data-i="2">
+          <div class="rs-idx">03 &nbsp;/&nbsp; 04</div>
+          <div class="rs-name">Solara</div>
+          <div class="rs-tag">Composite off-road</div>
+          <p class="rs-copy">Wonderland&rsquo;s first off-road composite caravan. Built tough, without compromising on creature comforts.</p>
+          <div class="rs-price"><small>From</small>$162,280</div>
+          <a class="rs-cta" href="#">Explore Solara</a>
+        </div>
+
+        <div class="rs-step" data-i="3">
+          <div class="rs-idx">04 &nbsp;/&nbsp; 04</div>
+          <div class="rs-name">XTR</div>
+          <div class="rs-tag">Extreme off-road</div>
+          <p class="rs-copy">The ultimate off-road caravan, fully loaded with every imaginable luxury.</p>
+          <div class="rs-price"><small>From</small>$195,701</div>
+          <a class="rs-cta" href="#">Explore XTR</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* The markup above is static: if this script never runs, all four models are
+   still on the page and readable. It only decides which shot is showing.
+
+   An IntersectionObserver with a -50%/-50% root margin collapses the root to
+   a single line across the middle of the viewport. A step is "intersecting"
+   only while it spans that line, and since the steps are contiguous, exactly
+   one does at a time. No scroll handler, no per-frame measuring, and nothing
+   that can drift out of step with the picture -- the picture sits on that
+   same line. */
+(function () {
+  if (!window.matchMedia("(min-width: 901px)").matches) return;
+  var steps = [].slice.call(document.querySelectorAll(".rs-step"));
+  var shots = [].slice.call(document.querySelectorAll(".rs-shot"));
+  var pips  = [].slice.call(document.querySelectorAll(".rs-rail i"));
+  if (!steps.length || !shots.length) return;
+
+  function show(i) {
+    shots.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
+    pips.forEach(function (p, k) { p.classList.toggle("is-on", k === i); });
+  }
+
+  if (!("IntersectionObserver" in window)) return;   /* first shot just stays */
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) show(+e.target.dataset.i);
+    });
+  }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
+
+  steps.forEach(function (s) { io.observe(s); });
+})();
+</script>
+</body>
+</html>
