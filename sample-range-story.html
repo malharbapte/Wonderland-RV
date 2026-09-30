@@ -3,69 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Range — the scroll story</title>
+<title>Range — horizontal</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=200">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=200">
 <style>
 /* ===========================================================================
-   Range, as a scroll story. Desktop only; hidden below 900.
+   Range, as a HORIZONTAL rail. Desktop only; hidden below 900.
 
-   TWO THINGS ARE PINNED and one thing scrolls.
-     - the head (Range + the three facts) pins to the top of the screen
-     - the van AND its details pin together, level with each other, in the
-       middle of what is left
-     - nothing visible scrolls: the scroll length comes from four invisible
-       one-screen ticks, and crossing one swaps both the picture and the panel
-   Because the picture and the panel are the same pinned object, they cannot
-   drift out of line with one another — which is what went wrong when the
-   details were a scrolling column.
+   This is the carousel this site already runs in five other places, brought
+   to desktop: overflow-x auto, x-mandatory snapping, and —
+       scroll-snap-stop: always
+   — which is the whole answer to "one van per swipe, never two". It is not my
+   phrase; it is the comment already sitting at homepage.css:847, on the phone
+   version of this very section.
 
-   THE SCROLL FIX. styles.css sets `body { overflow-x: hidden }`. Any overflow
-   other than visible makes that element the scroll container for sticky
-   descendants, so nothing here would pin to the box that is actually
-   scrolling. `clip` does the same clipping job WITHOUT creating a scroll
-   container. Shipping this means changing that one word site-wide.
+   Two problems disappear with the direction change. Each van now carries its
+   OWN picture inside its own slide, so the image cannot fall out of step with
+   the van — there is no index to keep in sync. And nothing is pinned, so the
+   `body { overflow-x: hidden }` change I flagged as a blocker is no longer
+   needed at all.
    =========================================================================== */
-html, body { overflow-x: clip; }
-
-/* SAMPLE ONLY */
-.s-switch {
-  position: fixed; z-index: 9; right: 14px; top: 14px;
-  display: flex; gap: 1px; background: #ddd; border-radius: 5px; overflow: hidden;
-  font-family: var(--gordita); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-  box-shadow: 0 2px 10px rgba(0,0,0,.14);
-}
-.s-switch a { padding: 7px 11px; background: #fff; color: #555; }
-.s-switch a:hover { background: #f4f4f4; }
-html.s1 .s-switch a[href="?s=1"],
-html.s2 .s-switch a[href="?s=2"],
-html.s3 .s-switch a[href="?s=3"] { background: #D57114; color: #fff; }
-/* S1 only. NOTE for production: this is set on the document, so it would snap
-   the whole homepage, not just this section -- it would need turning on and
-   off as the section enters and leaves. */
-html.s1 { scroll-snap-type: y proximity; }
 .rs { display: none; }
 
 @media (min-width: 901px) {
-.rs { display: block; padding-bottom: var(--section-gap); }
+.rs { display: block; padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 
-/* --------------------------------------------------------- the pinned head */
-.rs-head {
-  position: sticky; top: 0; z-index: 3;
-  background: #fff;                 /* opaque, or the story reads through it */
-  padding-top: var(--section-gap); padding-bottom: 0.30rem;
-}
+/* ------------------------------------------------------------------ head -- */
+.rs-head { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 0.60rem; }
 .rs-title { font-family: var(--aviano); font-weight: 900; font-size: 0.64rem; line-height: 1; }
-.rs-lede {
-  margin-top: 0.18rem; max-width: 7.60rem;
-  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a;
+.rs-lede { margin-top: 0.18rem; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
+
+/* prev / next, grouped, as the carousel research prefers */
+.rs-nav { display: flex; gap: 0.12rem; }
+.rs-arrow {
+  width: 0.62rem; height: 0.62rem; border-radius: 50%;
+  background: none; cursor: pointer; color: var(--ink);
+  box-shadow: inset 0 0 0 0.0075rem #cfc9bf;
+  display: grid; place-items: center;
+  transition: background .3s ease, color .3s ease, box-shadow .3s ease;
 }
-/* the facts. Icons are the site's own .range-icon set — the chassis, the
-   bunks and the layout plan were drawn for exactly these three points. */
-.rs-facts {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
-  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de;
-}
+.rs-arrow svg { width: 0.22rem; height: 0.22rem; }
+.rs-arrow:hover:not(:disabled) { background: var(--orange); color: #fff; box-shadow: inset 0 0 0 0.0075rem var(--orange); }
+.rs-arrow:disabled { opacity: .3; cursor: default; }
+
+/* the facts, with the site's own .range-icon set */
+.rs-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.46rem;
+  margin-top: 0.34rem; padding-top: 0.30rem; border-top: 0.0075rem solid #e4e2de; }
 .rs-fact { display: grid; grid-template-columns: 0.54rem 1fr; column-gap: 0.20rem; align-items: start; }
 .rs-fact .range-icon { position: static; width: 0.54rem; height: 0.54rem; color: var(--orange-deep); margin-top: -0.05rem; }
 .rs-fact .range-icon svg { width: 100%; height: 100%; display: block; }
@@ -73,79 +57,32 @@ html.s1 { scroll-snap-type: y proximity; }
 .rs-fact h3 { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.21rem; line-height: 0.25rem; letter-spacing: .04em; }
 .rs-fact p { margin: 0.06rem 0 0; font-family: var(--gordita); font-style: italic; font-size: 0.18rem; line-height: 0.25rem; color: #6b6158; }
 
-/* ------------------------------------------------------------- the story -- */
-/* The ticks are in the flow now, because an absolutely positioned box is a
-   poor scroll-snap target. They are pulled back under the pin by exactly the
-   pin's height, so the story is still four screens and the first tick still
-   starts where the story does. */
-.rs-story { position: relative; }
-.rs-ticks { margin-top: -4.60rem; pointer-events: none; }
-.rs-tick { height: var(--dwell, 100vh); }
-
-/* --- S1  snap ------------------------------------------------------------
-   Native CSS snapping, set to `proximity` rather than `mandatory`: the page
-   only settles onto a van when you finish near one, so a deliberate long
-   scroll past the section is never caught and held. */
-body.s1 .rs-tick { scroll-snap-align: center; }
-
-/* --- S2  long dwell ------------------------------------------------------
-   No snapping at all. Each van simply owns half again as much scroll, so a
-   normal flick cannot clear a whole one. The freest of the three, and the
-   only one that never touches the page's own scrolling. */
-body.s2 { --dwell: 150vh; }
-
-/* The pinned pair. Its own height is the picture's height — 8.90 wide at
-   390/245 is 5.591 — and parking its top at half that below the midline puts
-   BOTH halves on the midline the ticks are measured against. */
-.rs-pin {
-  position: sticky; top: calc(50vh - 2.30rem);
-  height: 4.60rem;                  /* holds the widest frame and the longest panel */
+/* ------------------------------------------------------------------ rail -- */
+.rs-rail {
+  margin-top: 0.52rem;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;     /* the page behind never scrolls with it */
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.rs-rail::-webkit-scrollbar { display: none; }
+.rs-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;           /* one van per swipe, never two */
   display: grid; grid-template-columns: 8.90rem 6.70rem; column-gap: 0.64rem;
   align-items: center;
 }
-/* These are cut-outs on white, not photographs in a frame -- so no box, no
-   radius, and nothing clipped. The frame simply takes the source set's own
-   proportion, 2.3:1, instead of the 390/245 the old crops used. */
-.rs-stage { position: relative; height: 100%; display: flex; align-items: center; }
-.rs-frame { position: relative; width: 100%; aspect-ratio: 2.3; }
-.rs-shot {
-  position: absolute; inset: 0; opacity: 0; transform: scale(1.04);
-  /* eased in and out on the curve the pill and the dream slideshow use */
-  transition: opacity .72s cubic-bezier(.65, 0, .35, 1),
-              transform .96s cubic-bezier(.65, 0, .35, 1);
-}
-.rs-shot.is-on { opacity: 1; transform: none; }
-/* CONTAIN, never cover. These vans are cut out of their background, so any
-   crop takes a tow bar or a wheel off rather than sky. The four sources run
-   2.13 to 2.43, so contain also lets the shorter ones sit centred with a
-   little air instead of being stretched to match. */
-.rs-shot > img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 50%; }
-/* Carousel markers, tracking the bottom of the picture. The colours and the
-   6px weight are the site's own dot rails -- .service-dot, .range-dot,
-   .coty-dot -- brought up to this breakpoint; note that every one of those
-   lives inside max-width: 900 and was built for the phone. Those rails stretch
-   the active dot into a pill; these stay circles, as asked, and mark the
-   active one by filling and growing it instead. */
-.rs-dots {
-  position: absolute; left: 0; right: 0; top: calc(100% + 0.26rem);
-  display: flex; justify-content: center; gap: 0.16rem;
-}
-.rs-dots i {
-  width: 0.12rem; height: 0.12rem; border-radius: 50%;
-  background: #D9D3C8;
-  transition: background .5s cubic-bezier(.65, 0, .35, 1),
-              transform .5s cubic-bezier(.65, 0, .35, 1);
-}
-.rs-dots i.is-on { background: var(--orange-deep); transform: scale(1.4); }
 
-/* all four panels share one cell, so the column is as tall as the longest and
-   nothing shifts as they swap */
-.rs-panels { display: grid; align-items: center; }
-.rs-panel { grid-area: 1 / 1; visibility: hidden; opacity: 0;
-  transition: opacity .56s cubic-bezier(.65, 0, .35, 1); }
-.rs-panel.is-on { visibility: visible; opacity: 1; }
+.rs-shot { position: relative; width: 100%; aspect-ratio: 2.3; }
+/* CONTAIN, never cover: these vans are cut out, so a crop takes a tow bar or
+   a wheel off rather than sky. */
+.rs-shot > img { width: 100%; height: 100%; object-fit: contain; }
+
 .rs-idx { font-family: var(--gordita); font-size: 0.16rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grey); }
-.rs-name { margin-top: 0.10rem; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
+.rs-name { margin: 0.10rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.68rem; line-height: 1; }
 .rs-tag { margin-top: 0.12rem; font-family: var(--gordita); font-size: 0.19rem; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
 .rs-copy { margin-top: 0.20rem; font-family: var(--gordita); font-size: 0.23rem; line-height: 0.33rem; }
 .rs-price { margin-top: 0.24rem; font-family: var(--gordita); font-weight: 500; font-size: 0.26rem; line-height: 1; }
@@ -160,192 +97,167 @@ body.s2 { --dwell: 150vh; }
 }
 .rs-cta:hover, .rs-cta:focus-visible { background: #fff; color: var(--orange); }
 
-/* placeholders, drawn so they read as artwork-goes-here */
+/* ------------------------------------------------------------------ dots -- */
+.rs-dots { display: flex; justify-content: center; gap: 0.16rem; margin-top: 0.40rem; }
+.rs-dot {
+  width: 0.12rem; height: 0.12rem; border-radius: 50%; border: 0; padding: 0;
+  background: #D9D3C8; cursor: pointer;
+  transition: background .5s cubic-bezier(.65, 0, .35, 1),
+              transform .5s cubic-bezier(.65, 0, .35, 1);
+}
+.rs-dot.is-on { background: var(--orange-deep); transform: scale(1.4); }
+
+/* placeholder, if a file ever fails */
 .rs .ph { background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
   box-shadow: inset 0 0 0 0.02rem #b9ae9c; }
 .rs .ph::after { font-size: 0.22rem; line-height: 0.30rem; letter-spacing: .1em; color: #6f6455;
   font-weight: 500; white-space: pre-line; padding: 0 0.30rem; }
-.rs .ph::before { content: "IMAGE"; position: absolute; left: 0; top: 0; z-index: 2;
-  font-family: var(--gordita); font-size: 0.13rem; letter-spacing: .16em; color: #fff;
-  background: #b9ae9c; padding: 0.05rem 0.12rem; border-bottom-right-radius: 0.06rem; }
-}
-
-/* Nothing is pinned for anyone who has asked motion to stop: the four models
-   simply stack and read as a list. */
-@media (prefers-reduced-motion: reduce) {
-  .rs-head, .rs-pin { position: static; }
-  .rs-story { height: auto; }
-  .rs-ticks { display: none; }
-  .rs-pin { height: auto; }
-  .rs-shot { position: relative; opacity: 1; transform: none; }
-  .rs-panel { visibility: visible; opacity: 1; }
 }
 @media (max-width: 900px) { .rs { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- SAMPLE ONLY: pick a scroll behaviour -->
-<nav class="s-switch">
-  <a href="?s=1">1 &middot; Snap</a><a href="?s=2">2 &middot; Long dwell</a><a href="?s=3">3 &middot; One per gesture</a>
-</nav>
-
 <section class="rs">
   <div class="container">
 
     <div class="rs-head">
-      <h2 class="rs-title">Range</h2>
-      <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
-      <div class="rs-facts">
-        <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
-        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
-        <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
+      <div>
+        <h2 class="rs-title">Range</h2>
+        <p class="rs-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+      </div>
+      <div class="rs-nav">
+        <button class="rs-arrow" type="button" data-step="-1" aria-label="Previous model" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="rs-arrow" type="button" data-step="1" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
     </div>
 
-    <div class="rs-story">
-      <div class="rs-ticks" aria-hidden="true">
-        <div class="rs-tick" data-i="0"></div>
-        <div class="rs-tick" data-i="1"></div>
-        <div class="rs-tick" data-i="2"></div>
-        <div class="rs-tick" data-i="3"></div>
-      </div>
+    <div class="rs-facts">
+      <div class="rs-fact"><span class="range-icon range-icon--tilt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 9.2h18.8v5.6H2.6z"/><path d="M6.4 9.2v2.6M10.1 9.2v3.7M13.9 9.2v2.6M17.6 9.2v3.7"/></svg></span><div><h3>CUSTOM LENGTHS</h3><p>17&rsquo;05&rdquo; to 24&prime; single and tandem axles</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 5.4v13.2M20.6 5.4v13.2"/><path d="M3.4 9.4h17.2v2.6H3.4zM3.4 15.4h17.2V18H3.4z"/></svg></span><div><h3>BUNKS GALORE</h3><p>Up to 6 bunk beds for big families</p></div></div>
+      <div class="rs-fact"><span class="range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 4.6h17.2v14.8H3.4z"/><path d="M3.4 11.4h9.2M12.6 4.6v14.8M12.6 15h8"/></svg></span><div><h3>CUSTOM LAYOUTS</h3><p>30+ couple and family layouts</p></div></div>
+    </div>
 
-      <div class="rs-pin">
-        <div class="rs-stage">
-          <div class="rs-frame">
-          <div class="rs-shot ph is-on" data-ph="AMAROO&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/amaroo-cut.webp" alt="Wonderland RV Amaroo" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="HORNET&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/hornet-cut.webp" alt="Wonderland RV Hornet" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="SOLARA&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/solara-cut.webp" alt="Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-          <div class="rs-shot ph" data-ph="XTR&#10;CUT-OUT ON WHITE"><img src="assets/img/home/range/xtr-cut.webp" alt="Wonderland RV XTR" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()"></div>
-            <div class="rs-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+    <div class="rs-rail" tabindex="0" aria-label="The range">
+        <article class="rs-slide" aria-label="Amaroo">
+          <div class="rs-shot ph" data-ph="AMAROO&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/amaroo-cut.webp" alt="Wonderland RV Amaroo"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
           </div>
-        </div>
-        <div class="rs-panels">
-          <div class="rs-panel is-on" data-i="0">
+          <div class="rs-panel">
             <div class="rs-idx">01 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Amaroo</div>
+            <h3 class="rs-name">Amaroo</h3>
             <div class="rs-tag">Classic off-road</div>
             <p class="rs-copy">Geared for off-road adventures, allowing you to venture off the beaten track.</p>
             <div class="rs-price"><small>From</small>$127,288</div>
             <a class="rs-cta" href="#">Explore Amaroo</a>
           </div>
-          <div class="rs-panel" data-i="1">
+        </article>
+        <article class="rs-slide" aria-label="Hornet">
+          <div class="rs-shot ph" data-ph="HORNET&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/hornet-cut.webp" alt="Wonderland RV Hornet"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+          <div class="rs-panel">
             <div class="rs-idx">02 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Hornet</div>
+            <h3 class="rs-name">Hornet</h3>
             <div class="rs-tag">Rugged off-road</div>
             <p class="rs-copy">Designed for performance and liveability in Australia&rsquo;s harshest terrain.</p>
             <div class="rs-price"><small>From</small>$151,176</div>
             <a class="rs-cta" href="#">Explore Hornet</a>
           </div>
-          <div class="rs-panel" data-i="2">
+        </article>
+        <article class="rs-slide" aria-label="Solara">
+          <div class="rs-shot ph" data-ph="SOLARA&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/solara-cut.webp" alt="Wonderland RV Solara"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+          <div class="rs-panel">
             <div class="rs-idx">03 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">Solara</div>
+            <h3 class="rs-name">Solara</h3>
             <div class="rs-tag">Composite off-road</div>
             <p class="rs-copy">Wonderland&rsquo;s first off-road composite caravan. Built tough, without compromising on creature comforts.</p>
             <div class="rs-price"><small>From</small>$162,280</div>
             <a class="rs-cta" href="#">Explore Solara</a>
           </div>
-          <div class="rs-panel" data-i="3">
+        </article>
+        <article class="rs-slide" aria-label="XTR">
+          <div class="rs-shot ph" data-ph="XTR&#10;CUT-OUT ON WHITE">
+            <img src="assets/img/home/range/xtr-cut.webp" alt="Wonderland RV XTR"
+                 onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+          </div>
+          <div class="rs-panel">
             <div class="rs-idx">04 &nbsp;/&nbsp; 04</div>
-            <div class="rs-name">XTR</div>
+            <h3 class="rs-name">XTR</h3>
             <div class="rs-tag">Extreme off-road</div>
             <p class="rs-copy">The ultimate off-road caravan, fully loaded with every imaginable luxury.</p>
             <div class="rs-price"><small>From</small>$195,701</div>
             <a class="rs-cta" href="#">Explore XTR</a>
           </div>
-        </div>
-      </div>
+        </article>
+    </div>
+
+    <div class="rs-dots">
+        <button class="rs-dot is-on" type="button" data-i="0" aria-label="Amaroo"></button>
+        <button class="rs-dot" type="button" data-i="1" aria-label="Hornet"></button>
+        <button class="rs-dot" type="button" data-i="2" aria-label="Solara"></button>
+        <button class="rs-dot" type="button" data-i="3" aria-label="XTR"></button>
     </div>
 
   </div>
 </section>
 
 <script>
-/* The markup is static: with no script, every model is still on the page.
+/* Each van carries its own picture inside its own slide, so nothing has to be
+   kept in sync — the image cannot show the wrong van. This only drives the
+   dots and the arrows.
 
-   ?s=1 snap   ?s=2 long dwell   ?s=3 one van per gesture                     */
+   Index is read from a POLL rather than scroll events: this project's notes
+   record that scroll events are unreliable, and a poll also catches a snap
+   settling after the finger has left. */
 (function () {
-  var mode = (new URLSearchParams(location.search).get("s") || "1");
-  document.documentElement.className = "s" + mode;
-  document.body.className = "s" + mode;
-
   if (!window.matchMedia("(min-width: 901px)").matches) return;
+  var rail = document.querySelector(".rs-rail");
+  if (!rail) return;
+  var slides = [].slice.call(rail.children);
+  var dots   = [].slice.call(document.querySelectorAll(".rs-dot"));
+  var arrows = [].slice.call(document.querySelectorAll(".rs-arrow"));
+  var at = -1;
 
-  var ticks  = [].slice.call(document.querySelectorAll(".rs-tick"));
-  var shots  = [].slice.call(document.querySelectorAll(".rs-shot"));
-  var panels = [].slice.call(document.querySelectorAll(".rs-panel"));
-  var dots   = [].slice.call(document.querySelectorAll(".rs-dots i"));
-  if (!ticks.length) return;
-
-  var at = 0;
-  function show(i) {
-    if (i === at) return;
-    at = i;
-    shots.forEach(function (x, k)  { x.classList.toggle("is-on", k === i); });
-    panels.forEach(function (x, k) { x.classList.toggle("is-on", k === i); });
-    dots.forEach(function (x, k)   { x.classList.toggle("is-on", k === i); });
-  }
-
-  /* Whichever tick's middle is nearest the middle of the screen. */
-  function nearest() {
-    var mid = innerHeight / 2, best = 0, d = Infinity;
-    ticks.forEach(function (t, i) {
-      var r = t.getBoundingClientRect();
-      var dist = Math.abs((r.top + r.bottom) / 2 - mid);
-      if (dist < d) { d = dist; best = i; }
+  /* nearest to the rail's own centre: the last slide can never reach the
+     left edge, so measuring from the left would never select it */
+  function index() {
+    var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, d = Infinity;
+    slides.forEach(function (s, i) {
+      var c = s.offsetLeft + s.offsetWidth / 2;
+      if (Math.abs(c - mid) < d) { d = Math.abs(c - mid); best = i; }
     });
     return best;
   }
 
-  /* An observer alone can miss a tick that a fast scroll flies past, which is
-     how a van got skipped. So the observer drives the live swap, and this
-     settles the truth once the scrolling stops. */
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) show(+e.target.dataset.i); });
-    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
-    ticks.forEach(function (t) { io.observe(t); });
-  }
-  var settle;
-  addEventListener("scroll", function () {
-    clearTimeout(settle);
-    settle = setTimeout(function () { show(nearest()); }, 90);
-  }, { passive: true });
-
-  /* ---------------------------------------------------------------- S3 ----
-     One van per gesture. A flick is many wheel events, so the first one moves
-     exactly one step and the rest are swallowed until it lands.
-
-     The escape matters as much as the lock: at either end of the range the
-     wheel is NOT intercepted, so scrolling on simply leaves the section
-     instead of trapping you in it. */
-  if (mode !== "3") return;
-
-  var busy = false;
-  function centreOn(i) {
-    var r = ticks[i].getBoundingClientRect();
-    var to = scrollY + (r.top + r.bottom) / 2 - innerHeight / 2;
-    busy = true;
-    scrollTo({ top: to, behavior: "smooth" });
-    setTimeout(function () { busy = false; show(i); }, 620);
+  function paint() {
+    var i = index();
+    if (i === at) return;
+    at = i;
+    dots.forEach(function (x, k) { x.classList.toggle("is-on", k === i); });
+    arrows[0].disabled = i === 0;
+    arrows[1].disabled = i === slides.length - 1;
   }
 
-  addEventListener("wheel", function (e) {
-    var first = ticks[0].getBoundingClientRect();
-    var last  = ticks[ticks.length - 1].getBoundingClientRect();
-    var mid   = innerHeight / 2;
-    /* only while the story owns the middle of the screen */
-    if (first.top > mid || last.bottom < mid) return;
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    rail.scrollTo({ left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: "smooth" });
+  }
 
-    var down = e.deltaY > 0;
-    var next = nearest() + (down ? 1 : -1);
-    if (next < 0 || next > ticks.length - 1) return;   /* let the page go */
+  arrows.forEach(function (b) {
+    b.addEventListener("click", function () { go(index() + (+b.dataset.step)); });
+  });
+  dots.forEach(function (b) {
+    b.addEventListener("click", function () { go(+b.dataset.i); });
+  });
 
-    e.preventDefault();
-    if (busy) return;
-    centreOn(next);
-  }, { passive: false });
+  setInterval(paint, 120);
+  paint();
 })();
 </script>
 </body>
