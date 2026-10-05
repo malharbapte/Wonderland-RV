@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 1 (type)</title>
+<style>
+/* Throwaway sample: Step 1, three options. Not linked from any live page.
+   All px, no rem (see HANDOFF §3). Photos are stand-ins from the homepage. */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; }
+:root { --orange:#E37921; --orange-deep:#D57114; --sand:#EFE5DB; --line:#E6E6E6; --m:24px; --r:10px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:left; }
+
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; padding:32px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; }
+.phone { width:375px; height:812px; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+
+/* shared chrome — same as the live build page */
+.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+.prog { flex:none; padding:16px var(--m) 0; }
+.seg { display:grid; grid-template-columns:repeat(6,1fr); gap:4px; }
+.seg i { height:3px; background:var(--line); border-radius:2px; }
+.seg i:first-child { background:var(--orange); }
+.plabel { margin-top:10px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--orange-deep); }
+.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
+h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
+.foot { flex:none; padding:12px var(--m) 20px; border-top:1px solid #eee; }
+.prev { width:100%; height:52px; border:2px solid var(--orange); color:var(--orange-deep); font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; justify-content:center; }
+
+.ic { stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+
+/* A — stacked rows */
+.A .list { flex:1; min-height:0; display:grid; grid-template-rows:1fr 1fr; gap:16px; padding:20px 0; }
+.A .opt { display:flex; align-items:center; gap:20px; padding:0 20px; border:1.5px solid var(--line); border-radius:var(--r); transition:border-color .15s; }
+.A .disc { flex:none; width:96px; height:96px; border-radius:50%; background:var(--sand); color:var(--orange); display:grid; place-items:center; transition:background .15s,color .15s; }
+.A .disc svg { width:76px; height:auto; }
+.A b, .B b { display:block; font-family:var(--aviano); font-weight:900; font-size:20px; line-height:24px; text-transform:uppercase; }
+.A small, .B small { display:block; margin-top:6px; font-size:15px; line-height:23px; color:#444; }
+.A .opt.on { border-color:var(--orange); } .A .opt.on .disc { background:var(--orange); color:#fff; }
+
+/* B — side by side */
+.B .list { flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:20px 0; }
+.B .opt { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:0; padding:0 12px; border:1.5px solid var(--line); border-radius:var(--r); transition:border-color .15s; }
+.B .disc { width:112px; height:112px; border-radius:50%; background:var(--sand); color:var(--orange); display:grid; place-items:center; margin-bottom:24px; transition:background .15s,color .15s; }
+.B .disc svg { width:76px; height:auto; }
+.B small { margin-top:8px; }
+.B .opt.on { border-color:var(--orange); } .B .opt.on .disc { background:var(--orange); color:#fff; }
+
+/* C — photo panels */
+.C .list { flex:1; min-height:0; display:grid; grid-template-rows:1fr 1fr; gap:12px; padding:20px 0; }
+.C .opt { position:relative; overflow:hidden; border-radius:var(--r); color:#fff; display:flex; align-items:flex-end; padding:20px; background:#222 center/cover; outline:3px solid transparent; outline-offset:-3px; transition:outline-color .15s; }
+.C .opt::before { content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.88), rgba(0,0,0,.55) 45%, rgba(0,0,0,.05) 85%); }
+.C .opt > * { position:relative; }
+.C .row { display:flex; align-items:center; gap:16px; width:100%; }
+.C .disc { flex:none; width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.16); border:1.5px solid rgba(255,255,255,.7); display:grid; place-items:center; }
+.C .disc svg { width:44px; height:auto; }
+.C b { display:block; font-family:var(--aviano); font-weight:900; font-size:20px; line-height:24px; text-transform:uppercase; }
+.C small { display:block; font-size:15px; line-height:23px; opacity:.92; }
+.C .opt.on { outline-color:var(--orange); }
+
+/* phone width: one option at a time, full height */
+.pick { display:none; }
+@media (max-width:900px) {
+  body { background:#fff; }
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:40px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .phone { width:100%; height:calc(100dvh - 40px); box-shadow:none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- one adult: head + shoulders, baseline at y=0, centred on x=0 -->
+    <g id="adult"><circle cx="0" cy="-35" r="6"/><path d="M-11 0v-14a11 11 0 0 1 22 0v14z"/></g>
+  </defs>
+  <symbol id="couples" viewBox="0 0 72 64">
+    <path d="M36 15.5c-5.4-3.9-8.6-6.5-8.6-10a4.5 4.5 0 0 1 8.6-1.9 4.5 4.5 0 0 1 8.6 1.9c0 3.5-3.2 6.1-8.6 10z"/>
+    <use href="#adult" x="20" y="62"/><use href="#adult" x="52" y="62"/>
+  </symbol>
+  <symbol id="family" viewBox="0 0 72 64">
+    <use href="#adult" x="14" y="62"/><use href="#adult" x="58" y="62"/>
+    <g transform="translate(36 62) scale(.66)"><circle cx="0" cy="-35" r="6" vector-effect="non-scaling-stroke"/><path d="M-11 0v-14a11 11 0 0 1 22 0v14z" vector-effect="non-scaling-stroke"/></g>
+  </symbol>
+</svg>
+
+<div class="pick" id="pick"><button class="on" data-v="A">A · Rows</button><button data-v="B">B · Cards</button><button data-v="C">C · Photos</button></div>
+<div class="stage" id="stage"></div>
+
+<script>
+var IMG = { couples: "assets/img/home/dream-interior.jpg", family: "assets/img/home/dream-awning.jpg" };
+var TXT = { couples: ["Couples", "I’m looking for a couples caravan."], family: ["Family", "I’d love a caravan to fit my family."] };
+function icon(t, cls) { return '<svg class="ic" viewBox="0 0 72 64" aria-hidden="true"><use href="#' + t + '"/></svg>'; }
+function opt(v, t) {
+  var tx = TXT[t];
+  if (v === "C") return '<button class="opt" data-t="' + t + '" style="background-image:url(' + IMG[t] + ')"><span class="row"><span class="disc">' + icon(t) + '</span><span><b>' + tx[0] + '</b><small>' + tx[1] + '</small></span></span></button>';
+  if (v === "B") return '<button class="opt" data-t="' + t + '"><span class="disc">' + icon(t) + '</span><b>' + tx[0] + '</b><small>' + tx[1] + '</small></button>';
+  return '<button class="opt" data-t="' + t + '"><span class="disc">' + icon(t) + '</span><span><b>' + tx[0] + '</b><small>' + tx[1] + '</small></span></button>';
+}
+var NOTES = { A: ["A · Rows", "Icon left, text right. Closest to today."], B: ["B · Cards", "Two tall cards side by side, bigger icons."], C: ["C · Photos", "Photo panels. Images here are stand-ins."] };
+var html = "";
+["A","B","C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+  '<div class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+  '<div class="prog"><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="plabel">Step 1 of 6 · Layout</p></div>' +
+  '<div class="body"><h1>Select your caravan type</h1><div class="list">' + opt(v, "couples") + opt(v, "family") + '</div></div>' +
+  '<footer class="foot"><div class="prev">Previous</div></footer></div></div>';
+});
+document.getElementById("stage").innerHTML = html;
+
+document.querySelectorAll(".opt").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var all = b.parentNode.querySelectorAll(".opt");
+    all.forEach(function (x) { x.classList.remove("on"); });
+    b.classList.add("on");
+    setTimeout(function () { b.classList.remove("on"); }, 900);
+  });
+});
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (x) { x.classList.toggle("on", x === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+</script>
+</body>
+</html>
