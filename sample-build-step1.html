@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 1 (type)</title>
 <style>
-/* Throwaway sample: Step 1, three layouts x three copy sets. Not linked from any live page.
+/* Throwaway sample: Step 1 as one split circle, three treatments x three wordings. Not linked from any live page.
    Circles are the CTAs: solid orange, white line icons, no outlines. All px, no rem. */
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; }
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; }
@@ -41,28 +41,32 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .foot { flex:none; padding:12px var(--m) 20px; border-top:1px solid #eee; }
 .prev { width:100%; height:52px; border:2px solid var(--orange); color:var(--orange-deep); font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; justify-content:center; }
 
-/* the CTA: solid orange disc, white line icon */
-.disc { flex:none; border-radius:50%; background:var(--orange); color:#fff; display:grid; place-items:center; transition:transform .15s, background .15s, box-shadow .15s; }
-.disc svg { width:58%; height:auto; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-.opt:active .disc, .opt.on .disc { background:var(--orange-deep); transform:scale(.95); box-shadow:0 0 0 7px rgba(227,121,33,.22); }
-.opt b { display:block; font-family:var(--aviano); font-weight:900; font-size:20px; line-height:24px; text-transform:uppercase; }
-.opt small { display:block; margin-top:6px; font-size:15px; line-height:22px; color:#444; }
+/* one circle, split down the middle: left half = Couples, right half = Family.
+   Each half is its own CTA. Solid orange, white line icons, no outlines. */
+.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 16px; }
+.circle { flex:none; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; background:#fff; }
+.half { flex:1; min-width:0; background:var(--orange); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:0 8px; transition:background .15s, filter .15s; }
+.half svg { width:88px; height:auto; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.half b, .cap b { display:block; font-family:var(--aviano); font-weight:900; font-size:16px; line-height:20px; text-transform:uppercase; text-align:center; }
+.half:active, .half.on { filter:brightness(.86); }
+.captions { flex:none; width:300px; display:flex; }
+.cap { flex:1; min-width:0; padding:0 10px; text-align:center; cursor:pointer; }
+.cap small { display:block; font-size:15px; line-height:22px; color:#444; }
+.cap b { display:none; margin-bottom:6px; font-size:18px; line-height:22px; color:#000; }
 
-/* A — stacked, centred */
-.A .list { flex:1; min-height:0; display:grid; grid-template-rows:1fr 1fr; padding:8px 0 16px; }
-.A .opt { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.A .disc { width:108px; height:108px; margin-bottom:12px; }
-.A small { max-width:280px; }
+/* A — a clean white gap between the halves, same orange */
+.A .circle { gap:6px; }
+.A .captions { gap:6px; }
 
-/* B — side by side */
-.B .list { flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:8px 0 16px; }
-.B .opt { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:56px; text-align:center; }
-.B .disc { width:140px; height:140px; margin-bottom:20px; }
+/* B — no gap, two tones */
+.B .half.R { background:#B85A0C; }
 
-/* C — rows */
-.C .list { flex:1; min-height:0; display:grid; grid-template-rows:1fr 1fr; padding:8px 0 16px; }
-.C .opt { display:flex; align-items:center; gap:22px; text-align:left; }
-.C .disc { width:108px; height:108px; }
+/* C — icons only in the circle; label and line sit underneath */
+.C .circle { gap:6px; }
+.C .captions { gap:6px; }
+.C .half b { display:none; }
+.C .half svg { width:104px; }
+.C .cap b { display:block; }
 
 .pick, .pick2 { display:none; }
 @media (max-width:900px) {
@@ -97,7 +101,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 </svg>
 
 <div class="copybar" id="copybar"><span>Wording</span></div>
-<div class="pick" id="pick"><button class="on" data-v="A">A · Stacked</button><button data-v="B">B · Side by side</button><button data-v="C">C · Rows</button></div>
+<div class="pick" id="pick"><button class="on" data-v="A">A · Gap</button><button data-v="B">B · Two-tone</button><button data-v="C">C · Icons only</button></div>
 <div class="pick2" id="pick2"></div>
 <div class="stage" id="stage"></div>
 
@@ -107,28 +111,29 @@ var COPY = [
   { name: "1 · Your words",
     h: "Who&rsquo;s coming along?",
     couples: ["Couples", "I&rsquo;m looking to travel with my partner."],
-    family:  ["Family", "I&rsquo;m looking to travel with my family. Room for up to eight."] },
+    family:  ["Family", "I&rsquo;m looking to travel with my family."] },
   { name: "2 · Plain",
     h: "Who will you be travelling with?",
     couples: ["My partner", "A caravan built for two."],
-    family:  ["My family", "Layouts for up to eight: two parents and six kids."] },
+    family:  ["My family", "A caravan built for the whole family."] },
   { name: "3 · Warm",
     h: "Tell us about your crew.",
     couples: ["Just the two of us", "Me and my partner, hitting the road."],
-    family:  ["The whole crew", "Two parents and up to six kids."] }
+    family:  ["The whole crew", "Parents, kids and everyone in between."] }
 ];
-var NOTES = { A: ["A · Stacked", "Two big circles, one above the other, text beneath."], B: ["B · Side by side", "Two circles across the screen, as on the live site."], C: ["C · Rows", "Circle left, text right."] };
+var NOTES = { A: ["A \u00B7 Gap", "One circle, a thin white gap between the halves. Label inside, line below."], B: ["B \u00B7 Two-tone", "No gap; right half a deeper orange. Label inside, line below."], C: ["C \u00B7 Icons only", "Circle carries just the icons; label and line sit underneath."] };
 var cur = 0;
 
-function opt(t) {
-  return '<button class="opt" data-t="' + t + '"><span class="disc"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#' + t + '"/></svg></span><span class="tx"><b></b><small></small></span></button>';
+function half(t, side) {
+  return '<button class="half ' + side + '" data-t="' + t + '"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#' + t + '"/></svg><b></b></button>';
 }
+function cap(t) { return '<div class="cap" data-t="' + t + '"><b></b><small></small></div>'; }
 var html = "";
 ["A","B","C"].forEach(function (v, i) {
   html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
   '<div class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
   '<div class="prog"><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="plabel">Step 1 of 6 · Layout</p></div>' +
-  '<div class="body"><h1></h1><div class="list">' + opt("couples") + opt("family") + '</div></div>' +
+  '<div class="body"><h1></h1><div class="wrap"><div class="circle">' + half("couples","L") + half("family","R") + '</div><div class="captions">' + cap("couples") + cap("family") + '</div></div></div>' +
   '<footer class="foot"><div class="prev">Previous</div></footer></div></div>';
 });
 document.getElementById("stage").innerHTML = html;
@@ -136,9 +141,10 @@ document.getElementById("stage").innerHTML = html;
 function applyCopy(n) {
   cur = n; var c = COPY[n];
   document.querySelectorAll("h1").forEach(function (h) { h.innerHTML = c.h; });
-  document.querySelectorAll(".opt").forEach(function (o) {
-    var d = c[o.dataset.t];
-    o.querySelector("b").innerHTML = d[0]; o.querySelector("small").innerHTML = d[1];
+  document.querySelectorAll("[data-t]").forEach(function (o) {
+    var d = c[o.dataset.t], b = o.querySelector("b"), sm = o.querySelector("small");
+    if (b) b.innerHTML = d[0];
+    if (sm) sm.innerHTML = d[1];
   });
   document.querySelectorAll("#copybar button, #pick2 button").forEach(function (b) { b.classList.toggle("on", +b.dataset.c === n); });
 }
@@ -152,10 +158,11 @@ COPY.forEach(function (c, i) {
 });
 applyCopy(0);
 
-document.querySelectorAll(".opt").forEach(function (b) {
+document.querySelectorAll("[data-t]").forEach(function (b) {
   b.addEventListener("click", function () {
-    b.classList.add("on");
-    setTimeout(function () { b.classList.remove("on"); }, 900);
+    var ph = b.closest(".phone"), t = b.dataset.t, on = ph.querySelectorAll('.half[data-t="' + t + '"]');
+    on.forEach(function (h) { h.classList.add("on"); });
+    setTimeout(function () { on.forEach(function (h) { h.classList.remove("on"); }); }, 900);
   });
 });
 document.querySelectorAll("#pick button").forEach(function (b) {
