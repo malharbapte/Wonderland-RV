@@ -5,27 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 1 (type)</title>
 <style>
-/* Throwaway sample: Step 1 as one split circle, three treatments x three wordings. Not linked from any live page.
-   Circles are the CTAs: solid orange, white line icons, no outlines. All px, no rem. */
+/* Throwaway sample: Step 1 — one split circle, icons only, text underneath.
+   The halves behave like the site's other CTAs (.btn-build): solid orange with a
+   2px inset outline; hover/focus flips to white with orange content; press flips back.
+   All px, no rem (HANDOFF §3). Not linked from any live page. */
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; }
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; }
 @font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; }
-@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; }
 :root { --orange:#E37921; --orange-deep:#D57114; --line:#E6E6E6; --m:24px;
   --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
 button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 
-.copybar { display:flex; justify-content:center; align-items:center; gap:8px; padding:20px 16px 0; flex-wrap:wrap; }
-.copybar span { font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-right:4px; }
-.copybar button { height:36px; padding:0 14px; border:1.5px solid #888; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
-.copybar button.on { background:#111; border-color:#111; color:#fff; }
-
-.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; padding:24px 16px 48px; }
-.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
-.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; }
-.phone { width:375px; height:812px; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+.phone { width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+@media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
 
 .bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
 .bar img { display:block; height:26px; width:auto; }
@@ -41,46 +35,34 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .foot { flex:none; padding:12px var(--m) 20px; border-top:1px solid #eee; }
 .prev { width:100%; height:52px; border:2px solid var(--orange); color:var(--orange-deep); font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; justify-content:center; }
 
-/* one circle, split down the middle: left half = Couples, right half = Family.
-   Each half is its own CTA. Solid orange, white line icons, no outlines. */
+/* one circle, two halves. Each half is rounded on its own outer edge so the inset
+   outline follows the arc (a clipped container would cut it off). 6px gap between. */
 .wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 16px; }
-.circle { flex:none; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; background:#fff; }
-.half { flex:1; min-width:0; background:var(--orange); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:0 8px; transition:background .15s, filter .15s; }
-.half svg { width:88px; height:auto; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-.half b, .cap b { display:block; font-family:var(--aviano); font-weight:900; font-size:16px; line-height:20px; text-transform:uppercase; text-align:center; }
-.half:active, .half.on { filter:brightness(.86); }
-.captions { flex:none; width:300px; display:flex; }
-.cap { flex:1; min-width:0; padding:0 10px; text-align:center; cursor:pointer; }
-.cap small { display:block; font-size:15px; line-height:22px; color:#444; }
-.cap b { display:none; margin-bottom:6px; font-size:18px; line-height:22px; color:#000; }
-
-/* A — a clean white gap between the halves, same orange */
-.A .circle { gap:6px; }
-.A .captions { gap:6px; }
-
-/* B — no gap, two tones */
-.B .half.R { background:#B85A0C; }
-
-/* C — icons only in the circle; label and line sit underneath */
-.C .circle { gap:6px; }
-.C .captions { gap:6px; }
-.C .half b { display:none; }
-.C .half svg { width:104px; }
-.C .cap b { display:block; }
-
-.pick, .pick2 { display:none; }
-@media (max-width:900px) {
-  body { background:#fff; }
-  .copybar { display:none; }
-  .stage { display:block; padding:0; }
-  .pick { display:flex; height:36px; background:#111; }
-  .pick2 { display:flex; height:36px; background:#2a2a2a; }
-  .pick button, .pick2 button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
-  .pick button.on, .pick2 button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
-  .slot { display:none; } .slot.show { display:block; }
-  .slot > h2 { display:none; }
-  .phone { width:100%; height:calc(100dvh - 72px); box-shadow:none; }
+.circle { flex:none; width:300px; height:300px; display:flex; gap:6px; }
+.half {
+  --fill: var(--orange-deep);
+  flex:1; min-width:0; display:grid; place-items:center;
+  background:var(--fill); color:#fff;
+  box-shadow:inset 0 0 0 2px var(--fill);
+  transition:background .42s ease, color .42s ease, box-shadow .42s ease;
 }
+.half.L { border-radius:147px 0 0 147px / 150px 0 0 150px; }
+.half.R { border-radius:0 147px 147px 0 / 0 150px 150px 0; }
+.half svg { width:104px; height:auto; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+/* hover/focus, and the caption beneath counts as part of the same button */
+.half:hover, .half:focus-visible,
+.wrap:has(.cap.L:hover) .half.L, .wrap:has(.cap.R:hover) .half.R { background:#fff; color:var(--fill); }
+.half:active, .half.on,
+.wrap:has(.cap.L:active) .half.L, .wrap:has(.cap.R:active) .half.R { background:var(--fill); color:#fff; }
+.half:focus-visible { outline:2px solid #000; outline-offset:3px; }
+
+/* captions hug the dividing line: left text right-aligned, right text left-aligned */
+.captions { flex:none; width:300px; display:flex; gap:6px; }
+.cap { flex:1; min-width:0; cursor:pointer; }
+.cap.L { text-align:right; padding:0 12px 0 0; }
+.cap.R { text-align:left; padding:0 0 0 12px; }
+.cap b { display:block; margin-bottom:6px; font-family:var(--aviano); font-weight:900; font-size:18px; line-height:22px; text-transform:uppercase; }
+.cap small { display:block; font-size:15px; line-height:22px; color:#444; }
 </style>
 </head>
 <body>
@@ -100,75 +82,38 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
   </symbol>
 </svg>
 
-<div class="copybar" id="copybar"><span>Wording</span></div>
-<div class="pick" id="pick"><button class="on" data-v="A">A · Gap</button><button data-v="B">B · Two-tone</button><button data-v="C">C · Icons only</button></div>
-<div class="pick2" id="pick2"></div>
-<div class="stage" id="stage"></div>
+<main class="phone">
+  <header class="bar">
+    <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+  </header>
+  <div class="prog">
+    <div class="seg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="plabel">Step 1 of 6 &middot; Layout</p>
+  </div>
+  <div class="body">
+    <h1>Who&rsquo;s <span style="white-space:nowrap">coming along?</span></h1>
+    <div class="wrap">
+      <div class="circle">
+        <button class="half L" type="button" data-t="couples" aria-label="Couple&rsquo;s"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#couples"/></svg></button>
+        <button class="half R" type="button" data-t="family" aria-label="Family"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#family"/></svg></button>
+      </div>
+      <div class="captions">
+        <div class="cap L" data-t="couples"><b>Couple&rsquo;s</b><small>I&rsquo;m looking to travel with my&nbsp;partner.</small></div>
+        <div class="cap R" data-t="family"><b>Family</b><small>I&rsquo;m looking to travel with my&nbsp;family.</small></div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><div class="prev">Previous</div></footer>
+</main>
 
 <script>
-/* Three wording sets. Same layouts, different voice. */
-var COPY = [
-  { name: "1 · Your words",
-    h: "Who&rsquo;s coming along?",
-    couples: ["Couples", "I&rsquo;m looking to travel with my partner."],
-    family:  ["Family", "I&rsquo;m looking to travel with my family."] },
-  { name: "2 · Plain",
-    h: "Who will you be travelling with?",
-    couples: ["My partner", "A caravan built for two."],
-    family:  ["My family", "A caravan built for the whole family."] },
-  { name: "3 · Warm",
-    h: "Tell us about your crew.",
-    couples: ["Just the two of us", "Me and my partner, hitting the road."],
-    family:  ["The whole crew", "Parents, kids and everyone in between."] }
-];
-var NOTES = { A: ["A \u00B7 Gap", "One circle, a thin white gap between the halves. Label inside, line below."], B: ["B \u00B7 Two-tone", "No gap; right half a deeper orange. Label inside, line below."], C: ["C \u00B7 Icons only", "Circle carries just the icons; label and line sit underneath."] };
-var cur = 0;
-
-function half(t, side) {
-  return '<button class="half ' + side + '" data-t="' + t + '"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#' + t + '"/></svg><b></b></button>';
-}
-function cap(t) { return '<div class="cap" data-t="' + t + '"><b></b><small></small></div>'; }
-var html = "";
-["A","B","C"].forEach(function (v, i) {
-  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
-  '<div class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
-  '<div class="prog"><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="plabel">Step 1 of 6 · Layout</p></div>' +
-  '<div class="body"><h1></h1><div class="wrap"><div class="circle">' + half("couples","L") + half("family","R") + '</div><div class="captions">' + cap("couples") + cap("family") + '</div></div></div>' +
-  '<footer class="foot"><div class="prev">Previous</div></footer></div></div>';
-});
-document.getElementById("stage").innerHTML = html;
-
-function applyCopy(n) {
-  cur = n; var c = COPY[n];
-  document.querySelectorAll("h1").forEach(function (h) { h.innerHTML = c.h; });
-  document.querySelectorAll("[data-t]").forEach(function (o) {
-    var d = c[o.dataset.t], b = o.querySelector("b"), sm = o.querySelector("small");
-    if (b) b.innerHTML = d[0];
-    if (sm) sm.innerHTML = d[1];
-  });
-  document.querySelectorAll("#copybar button, #pick2 button").forEach(function (b) { b.classList.toggle("on", +b.dataset.c === n); });
-}
-COPY.forEach(function (c, i) {
-  ["copybar", "pick2"].forEach(function (id) {
-    var b = document.createElement("button"); b.dataset.c = i;
-    b.textContent = id === "pick2" ? "Words " + (i + 1) : c.name;
-    b.addEventListener("click", function () { applyCopy(i); });
-    document.getElementById(id).appendChild(b);
-  });
-});
-applyCopy(0);
-
-document.querySelectorAll("[data-t]").forEach(function (b) {
-  b.addEventListener("click", function () {
-    var ph = b.closest(".phone"), t = b.dataset.t, on = ph.querySelectorAll('.half[data-t="' + t + '"]');
-    on.forEach(function (h) { h.classList.add("on"); });
-    setTimeout(function () { on.forEach(function (h) { h.classList.remove("on"); }); }, 900);
-  });
-});
-document.querySelectorAll("#pick button").forEach(function (b) {
-  b.addEventListener("click", function () {
-    document.querySelectorAll("#pick button").forEach(function (x) { x.classList.toggle("on", x === b); });
-    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+/* a tap on a half or its caption flashes the pressed state on the half */
+document.querySelectorAll("[data-t]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    var h = document.querySelector('.half[data-t="' + el.dataset.t + '"]');
+    h.classList.add("on");
+    setTimeout(function () { h.classList.remove("on"); }, 700);
   });
 });
 </script>
