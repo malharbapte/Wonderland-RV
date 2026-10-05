@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build progress header (10 options)</title>
+<style>
+/* Throwaway sample: ten ways to show "where am I" in the configurator header.
+   Section only: the logo bar plus the progress area, nothing else. Use the step
+   control at the top to move all ten at once. All px, no rem (HANDOFF §3). */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+:root { --o:#D57114; --line:#E6E6E6; --grey:#9a9a9a; --m:24px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+
+.ctl { position:sticky; top:0; z-index:5; background:#111; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; flex-wrap:wrap; }
+.ctl span { font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-right:6px; }
+.ctl button { width:44px; height:36px; border:1.5px solid #777; font-family:var(--aviano); font-weight:700; font-size:13px; }
+.ctl button.on { background:var(--o); border-color:var(--o); }
+
+.grid { display:grid; grid-template-columns:repeat(auto-fill, 375px); justify-content:center; gap:36px 32px; padding:28px 16px 56px; }
+.item > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+.item > p { font-size:13px; line-height:19px; color:#444; margin:2px 0 10px; }
+.frame { background:#fff; box-shadow:0 6px 28px rgba(0,0,0,.18); overflow:hidden; }
+.item { min-width:0; }
+@media (max-width:900px) { .grid { grid-template-columns:minmax(0,1fr); padding:20px 0 40px; } .item > h2, .item > p { padding:0 var(--m); } }
+
+/* shared chrome: the logo bar, as on the live build page */
+.bar { height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; position:relative; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+.zone { padding:16px var(--m) 18px; }
+.cap { font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.o { color:var(--o); }
+
+/* 1 · dots */
+.c1 { display:flex; flex-direction:column; align-items:center; gap:10px; }
+.c1 .dots { display:flex; gap:8px; align-items:center; height:10px; }
+.c1 .dots i { height:8px; width:8px; border-radius:4px; background:var(--line); transition:width .35s ease, background .35s ease; }
+.c1 .dots i.past { background:var(--o); } .c1 .dots i.now { background:var(--o); width:28px; }
+
+/* 2 · caravan on the road */
+.c2 .road { position:relative; height:30px; }
+.c2 .road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
+.c2 .road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--o); transition:width .6s ease; }
+.c2 .van { position:absolute; bottom:4px; width:40px; height:22px; transition:left .6s ease; }
+.c2 .row { display:flex; justify-content:space-between; margin-top:8px; }
+
+/* 3 · ring */
+.c3 { display:flex; align-items:center; gap:16px; }
+.c3 svg { width:56px; height:56px; flex:none; transform:rotate(-90deg); }
+.c3 circle { fill:none; stroke-width:5; }
+.c3 .tr { stroke:var(--line); } .c3 .fg { stroke:var(--o); stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+.c3 .num { position:relative; }
+.c3 .ring { position:relative; width:56px; height:56px; flex:none; }
+.c3 .ring b { position:absolute; inset:0; display:grid; place-items:center; font-family:var(--aviano); font-weight:900; font-size:13px; }
+.c3 h3, .c6 h3 { font-family:var(--aviano); font-weight:900; font-size:20px; line-height:24px; text-transform:uppercase; }
+.c3 small { display:block; font-size:13px; line-height:19px; color:#666; }
+
+/* 4 · numbered stepper */
+.c4 .nodes { display:flex; align-items:center; }
+.c4 .n { flex:none; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-family:var(--aviano); font-weight:700; font-size:12px; color:var(--grey); box-shadow:inset 0 0 0 2px #d4d4d4; background:#fff; transition:all .35s ease; }
+.c4 .n svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; display:none; }
+.c4 .n.past { background:var(--o); box-shadow:none; } .c4 .n.past svg { display:block; } .c4 .n.past span { display:none; }
+.c4 .n.now { color:var(--o); box-shadow:inset 0 0 0 2px var(--o), 0 0 0 4px rgba(213,113,20,.18); }
+.c4 .l { flex:1; height:2px; background:#d4d4d4; position:relative; }
+.c4 .l::after { content:""; position:absolute; inset:0; background:var(--o); transform:scaleX(0); transform-origin:left; transition:transform .35s ease; }
+.c4 .l.past::after { transform:scaleX(1); }
+.c4 .cap { margin-top:12px; text-align:center; }
+
+/* 5 · winding road */
+.c5 svg { display:block; width:100%; height:46px; overflow:visible; }
+.c5 .base { fill:none; stroke:#d4d4d4; stroke-width:3; stroke-dasharray:2 7; stroke-linecap:round; }
+.c5 .prog { fill:none; stroke:var(--o); stroke-width:3; stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+.c5 .row { display:flex; justify-content:space-between; margin-top:8px; }
+
+/* 6 · editorial numerals */
+.c6 .top { display:flex; align-items:flex-end; gap:14px; }
+.c6 .big { font-family:var(--aviano); font-weight:900; font-size:46px; line-height:44px; color:var(--o); }
+.c6 .big small { font-size:18px; color:#bbb; margin-left:2px; }
+.c6 .hl { margin-top:14px; height:2px; background:var(--line); position:relative; }
+.c6 .hl i { position:absolute; left:0; top:0; bottom:0; background:var(--o); transition:width .6s ease; }
+
+/* 7 · capsule with a name bubble */
+.c7 { padding-top:34px; position:relative; }
+.c7 .track { height:10px; border-radius:5px; background:var(--line); position:relative; }
+.c7 .track i { position:absolute; left:0; top:0; bottom:0; border-radius:5px; background:var(--o); transition:width .6s ease; }
+.c7 .bub { position:absolute; top:0; transform:translateX(-50%); background:#000; color:#fff; padding:4px 10px; border-radius:6px; white-space:nowrap; transition:left .6s ease; }
+.c7 .bub::after { content:""; position:absolute; left:50%; bottom:-5px; margin-left:-5px; border:5px solid transparent; border-bottom:0; border-top-color:#000; }
+
+/* 8 · breadcrumb chips */
+.c8 { padding-left:0; padding-right:0; }
+.c8 .rail { display:flex; gap:8px; overflow:hidden; padding:0 var(--m); scroll-behavior:smooth; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
+.c8 .chip { flex:none; height:36px; padding:0 16px; border-radius:18px; display:flex; align-items:center; gap:6px; box-shadow:inset 0 0 0 1.5px #d4d4d4; color:var(--grey); transition:all .35s ease; }
+.c8 .chip svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; display:none; }
+.c8 .chip.past { color:var(--o); box-shadow:inset 0 0 0 1.5px var(--o); } .c8 .chip.past svg { display:block; }
+.c8 .chip.now { background:var(--o); color:#fff; box-shadow:none; }
+
+/* 9 · gauge */
+.c9 { display:flex; flex-direction:column; align-items:center; }
+.c9 svg { width:200px; height:auto; overflow:visible; }
+.c9 .base { fill:none; stroke:var(--line); stroke-width:6; stroke-linecap:round; }
+.c9 .fg { fill:none; stroke:var(--o); stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+.c9 .tick { stroke:#c9c9c9; stroke-width:2; transition:stroke .35s; } .c9 .tick.on { stroke:var(--o); }
+.c9 .needle { transition:transform .6s cubic-bezier(.3,1.4,.5,1); transform-origin:100px 100px; }
+.c9 .cap { margin-top:-6px; }
+
+/* 10 · folded into the header */
+.c10 .bar { border-bottom:0; }
+.c10 .meta { display:flex; align-items:center; gap:4px; }
+.c10 .meta .cap { text-align:right; }
+.c10 .line { position:absolute; left:0; right:0; bottom:0; height:3px; background:var(--line); }
+.c10 .line i { position:absolute; left:0; top:0; bottom:0; background:var(--o); transition:width .6s ease; }
+.saved { display:inline-block; margin-left:6px; font-family:var(--gordita); font-weight:400; letter-spacing:0; text-transform:none; color:#2a7a3a; font-size:12px; }
+</style>
+</head>
+<body>
+
+<div class="ctl" id="ctl"><span>Step</span></div>
+<div class="grid" id="grid"></div>
+
+<script>
+var N = 6, NAMES = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
+var LOGO = '<img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">';
+var XB = '<span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>';
+var BAR = '<div class="bar">' + LOGO + XB + '</div>';
+var CHECK = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.2 3.2L12 3.8"/></svg>';
+function $(el, q) { return el.querySelector(q); }
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+var C = [];
+
+/* 1 */ C.push({ t: "Dots", d: "Six dots; the current one stretches into a pill. Quietest option.",
+  html: BAR + '<div class="zone c1"><div class="dots">' + '<i></i>'.repeat(N) + '</div><p class="cap o lab"></p></div>',
+  up: function (e, s) { e.querySelectorAll(".dots i").forEach(function (d, i) { d.className = i < s ? "past" : i === s ? "now" : ""; }); $(e, ".lab").textContent = (s + 1) + " of " + N + " · " + NAMES[s]; } });
+
+/* 2 */ C.push({ t: "Caravan on the road", d: "A caravan drives along a dashed road, leaving a solid orange track behind it.",
+  html: BAR + '<div class="zone c2"><div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div><div class="row"><span class="cap o l1"></span><span class="cap r1" style="color:#888"></span></div></div>',
+  up: function (e, s) { var p = s / (N - 1), w = e.querySelector(".road").clientWidth || 327;
+    $(e, ".van").style.left = "calc((100% - 40px) * " + p + ")"; $(e, ".done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
+    $(e, ".l1").textContent = NAMES[s]; $(e, ".r1").textContent = (s + 1) + " / " + N; } });
+
+/* 3 */ C.push({ t: "Ring", d: "A small progress ring with the count inside, the step name and what comes next beside it.",
+  html: BAR + '<div class="zone c3"><div class="ring"><svg viewBox="0 0 56 56"><circle class="tr" cx="28" cy="28" r="23"/><circle class="fg" cx="28" cy="28" r="23" stroke-dasharray="144.5" stroke-dashoffset="144.5"/></svg><b class="cnt"></b></div><div><p class="cap o">Step <span class="sn"></span></p><h3 class="nm"></h3><small class="nx"></small></div></div>',
+  up: function (e, s) { $(e, ".fg").style.strokeDashoffset = 144.5 * (1 - (s + 1) / N); $(e, ".cnt").textContent = (s + 1) + "/" + N;
+    $(e, ".sn").textContent = s + 1; $(e, ".nm").textContent = NAMES[s]; $(e, ".nx").textContent = s < N - 1 ? "Next: " + NAMES[s + 1] : "Last step"; } });
+
+/* 4 */ C.push({ t: "Numbered steps", d: "Six numbered circles on a line. Done steps tick, the current one glows.",
+  html: BAR + '<div class="zone c4"><div class="nodes"></div><p class="cap o lab"></p></div>',
+  init: function (e) { var h = ""; for (var i = 0; i < N; i++) h += '<div class="n"><span>' + (i + 1) + '</span>' + CHECK + '</div>' + (i < N - 1 ? '<div class="l"></div>' : ""); $(e, ".nodes").innerHTML = h; },
+  up: function (e, s) { e.querySelectorAll(".n").forEach(function (n, i) { n.className = "n" + (i < s ? " past" : i === s ? " now" : ""); });
+    e.querySelectorAll(".l").forEach(function (l, i) { l.className = "l" + (i < s ? " past" : ""); }); $(e, ".lab").textContent = NAMES[s]; } });
+
+/* 5 */ C.push({ t: "Winding road", d: "A curving route; the marker follows the bend and the road behind it fills in.",
+  html: BAR + '<div class="zone c5"><svg viewBox="0 0 327 46"><path class="base" d="M4 38C50 38 62 8 112 8s62 30 112 26 80-24 99-24"/><path class="prog" d="M4 38C50 38 62 8 112 8s62 30 112 26 80-24 99-24"/><g class="mk"><circle r="9" fill="#fff" stroke="#D57114" stroke-width="3"/><circle r="3.5" fill="#D57114"/></g></svg><div class="row"><span class="cap o l1"></span><span class="cap r1" style="color:#888"></span></div></div>',
+  init: function (e) { var pr = $(e, ".prog"); pr._len = pr.getTotalLength(); pr.style.strokeDasharray = pr._len; },
+  up: function (e, s) { var pr = $(e, ".prog"), len = pr._len || pr.getTotalLength(), p = s / (N - 1);
+    pr.style.strokeDashoffset = len * (1 - p); var pt = pr.getPointAtLength(len * p); $(e, ".mk").setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+    $(e, ".l1").textContent = NAMES[s]; $(e, ".r1").textContent = (s + 1) + " / " + N; } });
+
+/* 6 */ C.push({ t: "Big numeral", d: "Editorial: a large 01 / 06 with the step name beside it and a hairline underneath.",
+  html: BAR + '<div class="zone c6"><div class="top"><div class="big"><span class="cur"></span><small>/ 06</small></div><h3 class="nm"></h3></div><div class="hl"><i></i></div></div>',
+  up: function (e, s) { $(e, ".cur").textContent = pad(s + 1); $(e, ".nm").textContent = NAMES[s]; $(e, ".hl i").style.width = ((s + 1) / N * 100) + "%"; } });
+
+/* 7 */ C.push({ t: "Capsule + bubble", d: "One fat capsule fills up; a black bubble rides the end of it and names the step.",
+  html: BAR + '<div class="zone"><div class="c7"><div class="bub cap"></div><div class="track"><i></i></div></div></div>',
+  up: function (e, s) { var p = (s + 1) / N * 100; $(e, ".track i").style.width = p + "%";
+    var b = $(e, ".bub"); b.textContent = NAMES[s]; var half = (b.offsetWidth / 2) || 30, w = $(e, ".c7").clientWidth || 327;
+    var x = Math.min(Math.max(w * p / 100, half), w - half); b.style.left = x + "px"; } });
+
+/* 8 */ C.push({ t: "Breadcrumb chips", d: "A row of pills; done ones are outlined with a tick, the current one is solid. It scrolls itself to centre the current step.",
+  html: BAR + '<div class="zone c8"><div class="rail"></div></div>',
+  init: function (e) { $(e, ".rail").innerHTML = NAMES.map(function (n) { return '<span class="chip cap">' + CHECK + n + '</span>'; }).join(""); },
+  up: function (e, s) { var r = $(e, ".rail"), cs = r.querySelectorAll(".chip");
+    cs.forEach(function (c, i) { c.className = "chip cap" + (i < s ? " past" : i === s ? " now" : ""); });
+    var c = cs[s]; r.scrollLeft = c.offsetLeft - (r.clientWidth - c.offsetWidth) / 2; } });
+
+/* 9 */ C.push({ t: "Gauge", d: "A half-dial like a speedometer: six ticks, a needle that swings, orange arc behind it.",
+  html: BAR + '<div class="zone c9"><svg viewBox="0 0 200 112"><path class="base" d="M20 100A80 80 0 0 1 180 100"/><path class="fg" d="M20 100A80 80 0 0 1 180 100" stroke-dasharray="251.3" stroke-dashoffset="251.3"/><g class="ticks"></g><g class="needle"><line x1="100" y1="100" x2="100" y2="36" stroke="#000" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#000"/></g></svg><p class="cap o lab"></p></div>',
+  init: function (e) { var h = ""; for (var i = 0; i < N; i++) { var a = Math.PI - i * Math.PI / (N - 1); h += '<line class="tick" x1="' + (100 + 66 * Math.cos(a)) + '" y1="' + (100 - 66 * Math.sin(a)) + '" x2="' + (100 + 74 * Math.cos(a)) + '" y2="' + (100 - 74 * Math.sin(a)) + '"/>'; } $(e, ".ticks").innerHTML = h; },
+  up: function (e, s) { $(e, ".fg").style.strokeDashoffset = 251.3 * (1 - s / (N - 1)); $(e, ".needle").style.transform = "rotate(" + (-90 + s * 36) + "deg)";
+    e.querySelectorAll(".tick").forEach(function (t, i) { t.setAttribute("class", "tick" + (i <= s ? " on" : "")); }); $(e, ".lab").textContent = (s + 1) + " / " + N + " · " + NAMES[s]; } });
+
+/* 10 */ C.push({ t: "Folded into the header", d: "No separate block: the header's bottom edge becomes the progress line, with the count beside the close button. Gives the step back about 60px.", cls: "c10",
+  html: '<div class="bar">' + LOGO + '<div class="meta"><span class="cap"><span class="o cur"></span> <span style="color:#888" class="nm"></span></span>' + XB + '</div><div class="line"><i></i></div></div>',
+  up: function (e, s) { $(e, ".cur").textContent = (s + 1) + "/" + N; $(e, ".nm").textContent = NAMES[s]; $(e, ".line i").style.width = ((s + 1) / N * 100) + "%"; } });
+
+var grid = document.getElementById("grid"), frames = [];
+C.forEach(function (c, i) {
+  var it = document.createElement("div"); it.className = "item";
+  it.innerHTML = '<h2>' + (i + 1) + ' · ' + c.t + '</h2><p>' + c.d + '</p><div class="frame ' + (c.cls || "") + '">' + c.html + '</div>';
+  grid.appendChild(it); var f = it.querySelector(".frame"); frames.push(f); if (c.init) c.init(f);
+});
+
+var cur = 0, ctl = document.getElementById("ctl");
+for (var i = 0; i < N; i++) (function (i) { var b = document.createElement("button"); b.textContent = i + 1; b.addEventListener("click", function () { go(i); }); ctl.appendChild(b); })(i);
+function go(s) { cur = s; ctl.querySelectorAll("button").forEach(function (b, i) { b.classList.toggle("on", i === s); }); C.forEach(function (c, i) { c.up(frames[i], s); }); }
+document.fonts.ready.then(function () { go(0); });
+go(0);
+</script>
+</body>
+</html>
