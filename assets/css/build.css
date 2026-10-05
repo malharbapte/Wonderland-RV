@@ -1,0 +1,109 @@
+/* Build your Caravan — phone configurator shell.
+   Self-contained on purpose: all px, no rem, so the 1rem=100px desktop scaling
+   in styles.css cannot collapse anything here. Brand tokens match styles.css. */
+
+@font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+
+:root {
+  --orange: #E37921;
+  --orange-deep: #D57114;
+  --sand: #EFE5DB;
+  --ink: #000;
+  --line: #E6E6E6;
+  --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
+  --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
+  --margin: 24px;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--gordita);
+  font-size: 15px; line-height: 23px; color: var(--ink);
+  background: #fff;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+/* the app: exactly one screen, nothing scrolls */
+.app {
+  height: 100dvh; max-width: 430px; margin: 0 auto;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: #fff;
+}
+@media (min-width: 901px) {
+  body { background: #d9d9d9; }
+  .app { height: min(100dvh, 860px); margin-top: max(0px, calc((100dvh - 860px) / 2)); box-shadow: 0 8px 40px rgba(0,0,0,.18); }
+}
+
+/* header — same 64px bar as the site */
+.bar {
+  flex: none; height: 64px; padding: 0 var(--margin);
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+.bar img { display: block; height: 26px; width: auto; }
+.bar .close {
+  width: 44px; height: 44px; margin-right: -12px;
+  display: grid; place-items: center;
+}
+.bar .close svg { width: 18px; height: 18px; }
+
+/* progress */
+.prog { flex: none; padding: 16px var(--margin) 0; }
+.prog-seg { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.prog-seg i { height: 3px; background: var(--line); border-radius: 2px; }
+.prog-seg i.on { background: var(--orange); }
+.prog-label {
+  margin-top: 10px; font-family: var(--aviano); font-weight: 700;
+  font-size: 12px; line-height: 18px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--orange-deep);
+}
+
+/* screens */
+.screen { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 20px var(--margin) 0; }
+.screen[hidden] { display: none; }
+.screen h1 {
+  flex: none; font-family: var(--aviano); font-weight: 900;
+  font-size: 30px; line-height: 33px; text-transform: uppercase;
+}
+
+/* the two choices share the space left over, so they always fit */
+.choices { flex: 1; min-height: 0; display: grid; grid-template-rows: 1fr 1fr; gap: 16px; padding: 20px 0; }
+.choice {
+  min-height: 0; display: flex; align-items: center; gap: 20px; text-align: left;
+  padding: 0 20px; border: 1.5px solid var(--line); border-radius: var(--radius);
+  background: #fff; transition: border-color .15s, background .15s;
+}
+.choice .ico {
+  flex: none; width: 88px; height: 88px; border-radius: 50%;
+  background: var(--sand); display: grid; place-items: center; transition: background .15s;
+}
+.choice .ico svg { width: 52px; height: 52px; stroke: var(--orange); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .15s; }
+.choice b {
+  display: block; font-family: var(--aviano); font-weight: 900;
+  font-size: 20px; line-height: 24px; text-transform: uppercase;
+}
+.choice span { display: block; margin-top: 6px; font-size: 15px; line-height: 23px; color: #444; }
+.choice:active, .choice.is-picked { border-color: var(--orange); }
+.choice.is-picked .ico { background: var(--orange); }
+.choice.is-picked .ico svg { stroke: #fff; }
+
+/* footer: Previous only — choosing a tile moves you on */
+.foot { flex: none; padding: 12px var(--margin) max(20px, env(safe-area-inset-bottom)); border-top: 1px solid #eee; }
+.btn-prev {
+  width: 100%; height: 52px; border: 2px solid var(--orange); color: var(--orange-deep);
+  font-family: var(--aviano); font-weight: 900; font-size: 15px; line-height: 1;
+  letter-spacing: .06em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center; text-decoration: none;
+}
+.btn-prev:active { background: var(--orange); color: #fff; }
+
+/* stub for the screens not designed yet */
+.stub { flex: 1; display: grid; align-content: center; justify-items: start; gap: 12px; padding-bottom: 24px; }
+.stub p { color: #444; }

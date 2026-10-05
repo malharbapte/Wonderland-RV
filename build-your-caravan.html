@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build Your Caravan — Wonderland RV</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/build.css?v=1">
+</head>
+<body>
+<main class="app">
+
+  <header class="bar">
+    <a href="home.html" aria-label="Wonderland RV — home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a>
+    <a class="close" href="home.html" aria-label="Close the configurator">
+      <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>
+    </a>
+  </header>
+
+  <div class="prog">
+    <div class="prog-seg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="prog-label" id="prog-label">Step 1 of 6 &middot; Layout</p>
+  </div>
+
+  <!-- STEP 1 -->
+  <section class="screen" aria-labelledby="s1">
+    <h1 id="s1">Select your caravan type</h1>
+    <div class="choices">
+      <button class="choice" type="button" data-type="couples">
+        <span class="ico"><svg viewBox="0 0 52 52" aria-hidden="true"><path d="M26 10c-1.6-2.6-5.6-2.2-5.6 1 0 2.6 3.2 4.4 5.6 6.4 2.4-2 5.6-3.8 5.6-6.4 0-3.2-4-3.6-5.6-1z"/><circle cx="17" cy="26" r="5"/><circle cx="35" cy="26" r="5"/><path d="M7 43c0-6 4-10 10-10s10 4 10 10zM25 43c0-6 4-10 10-10s10 4 10 10z"/></svg></span>
+        <span><b>Couples</b><span>I&rsquo;m looking for a couples caravan.</span></span>
+      </button>
+      <button class="choice" type="button" data-type="family">
+        <span class="ico"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="15" cy="13" r="4.5"/><circle cx="37" cy="13" r="4.5"/><circle cx="26" cy="25" r="3.5"/><path d="M8 40v-9a7 7 0 0 1 14 0v9M30 40v-9a7 7 0 0 1 14 0v9M20 44v-8a6 6 0 0 1 12 0v8"/></svg></span>
+        <span><b>Family</b><span>I&rsquo;d love a caravan to fit my family.</span></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- STEPS 2-6: not designed yet -->
+  <section class="screen" hidden>
+    <div class="stub">
+      <h1>Size</h1>
+      <p>This step is next on the rebuild.</p>
+    </div>
+  </section>
+  <section class="screen" hidden><div class="stub"><h1>Model</h1><p>Not designed yet.</p></div></section>
+  <section class="screen" hidden><div class="stub"><h1>Bed</h1><p>Not designed yet.</p></div></section>
+  <section class="screen" hidden><div class="stub"><h1>Selection</h1><p>Not designed yet.</p></div></section>
+  <section class="screen" hidden><div class="stub"><h1>Customise</h1><p>Not designed yet.</p></div></section>
+
+  <footer class="foot">
+    <a class="btn-prev" id="prev" href="home.html">Previous</a>
+  </footer>
+
+</main>
+<script src="assets/js/build.js?v=1"></script>
+</body>
+</html>
