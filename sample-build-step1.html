@@ -18,7 +18,7 @@
 body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
 button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 
-.phone { width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+.phone { position:relative; width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
 @media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
 
 .bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
@@ -32,12 +32,22 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .plabel { margin-top:10px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--orange-deep); }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-.foot { flex:none; padding:12px var(--m) 20px; border-top:1px solid #eee; }
-.prev { width:100%; height:52px; border:2px solid var(--orange); color:var(--orange-deep); font-family:var(--aviano); font-weight:900; font-size:15px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; justify-content:center; }
+/* back: a white circle, orange outline, arrow inside; sits in the bottom-left corner.
+   Same CTA behaviour as the halves: hover/focus flips to solid orange with a white arrow. */
+.back {
+  position:absolute; left:var(--m); bottom:max(24px, env(safe-area-inset-bottom));
+  width:52px; height:52px; border-radius:50%; display:grid; place-items:center;
+  background:#fff; color:var(--orange-deep); box-shadow:inset 0 0 0 2px var(--orange-deep);
+  transition:background .42s ease, color .42s ease;
+}
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { background:var(--orange-deep); color:#fff; }
+.back:active { background:#fff; color:var(--orange-deep); }
+.back:focus-visible { outline:2px solid #000; outline-offset:3px; }
 
 /* one circle, two halves. Each half is rounded on its own outer edge so the inset
    outline follows the arc (a clipped container would cut it off). 6px gap between. */
-.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 16px; }
+.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 64px; }
 .circle { flex:none; width:300px; height:300px; display:flex; gap:6px; }
 .half {
   --fill: var(--orange-deep);
@@ -57,7 +67,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .half:focus-visible { outline:2px solid #000; outline-offset:3px; }
 
 /* captions hug the dividing line: left text right-aligned, right text left-aligned */
-.captions { flex:none; width:300px; display:flex; gap:6px; }
+.captions { flex:none; width:327px; display:flex; gap:6px; }
 .cap { flex:1; min-width:0; cursor:pointer; }
 .cap.L { text-align:right; padding:0 12px 0 0; }
 .cap.R { text-align:left; padding:0 0 0 12px; }
@@ -104,7 +114,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
       </div>
     </div>
   </div>
-  <footer class="foot"><div class="prev">Previous</div></footer>
+  <a class="back" href="home.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7"/></svg></a>
 </main>
 
 <script>
