@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 1 (type)</title>
 <style>
-/* Throwaway sample: Step 1 — one split circle, icons only, text underneath.
+/* Throwaway sample: Step 1, adopted direction: progress folded into the header (option 10) — one split circle. Option 2 (caravan on the road) is kept in sample-build-step1-road.html, icons only, text underneath.
    The halves behave like the site's other CTAs (.btn-build): solid orange with a
    2px inset outline; hover/focus flips to white with orange content; press flips back.
    All px, no rem (HANDOFF §3). Not linked from any live page. */
@@ -25,11 +25,14 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .bar img { display:block; height:26px; width:auto; }
 .bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
 .bar .x svg { width:18px; height:18px; }
-.prog { flex:none; padding:16px var(--m) 0; }
-.seg { display:grid; grid-template-columns:repeat(6,1fr); gap:4px; }
-.seg i { height:3px; background:var(--line); border-radius:2px; }
-.seg i:first-child { background:var(--orange); }
-.plabel { margin-top:10px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--orange-deep); }
+/* progress folded into the header: the bar's bottom edge is the progress line,
+   and the count sits beside the close button. No separate block. */
+.bar { border-bottom:0; position:relative; }
+.meta { display:flex; align-items:center; gap:4px; }
+.meta .cap { font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; text-align:right; }
+.meta .cap .n { color:var(--orange-deep); } .meta .cap .t { color:#888; }
+.pline { position:absolute; left:0; right:0; bottom:0; height:3px; background:var(--line); }
+.pline i { position:absolute; left:0; top:0; bottom:0; background:var(--orange-deep); transition:width .6s ease; }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
 /* back: just a chevron, bottom-left. Deliberately quiet: going back is allowed but not encouraged.
@@ -93,12 +96,10 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 <main class="phone">
   <header class="bar">
     <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
-    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+    <div class="meta"><span class="cap" aria-label="Step 1 of 6"><span class="n">1/6</span> <span class="t">Layout</span></span>
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+    <div class="pline" aria-hidden="true"><i></i></div>
   </header>
-  <div class="prog">
-    <div class="seg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <p class="plabel">Step 1 of 6 &middot; Layout</p>
-  </div>
   <div class="body">
     <h1>Who&rsquo;s <span style="white-space:nowrap">coming along?</span></h1>
     <div class="wrap">
@@ -123,6 +124,18 @@ document.querySelectorAll("[data-t]").forEach(function (el) {
     h.classList.add("on");
     setTimeout(function () { h.classList.remove("on"); }, 700);
   });
+});
+
+/* progress demo: tapping a half nudges the line on to step 2, then it returns */
+var STEPS = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
+function setStep(s) {
+  document.querySelector(".pline i").style.width = ((s + 1) / STEPS.length * 100) + "%";
+  document.querySelector(".meta .n").textContent = (s + 1) + "/" + STEPS.length;
+  document.querySelector(".meta .t").textContent = STEPS[s];
+}
+setStep(0);
+document.querySelectorAll("[data-t]").forEach(function (el) {
+  el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 2200); });
 });
 </script>
 </body>
