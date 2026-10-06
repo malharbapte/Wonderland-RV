@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sample — Build step 1 (type)</title>
+<title>Sample — Build step 1 (progress: caravan on the road)</title>
 <style>
-/* Throwaway sample: Step 1 — one split circle, icons only, text underneath.
+/* Throwaway sample: Step 1 with progress option 2 (caravan on the road) — one split circle, icons only, text underneath.
    The halves behave like the site's other CTAs (.btn-build): solid orange with a
    2px inset outline; hover/focus flips to white with orange content; press flips back.
    All px, no rem (HANDOFF §3). Not linked from any live page. */
@@ -25,11 +25,14 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .bar img { display:block; height:26px; width:auto; }
 .bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
 .bar .x svg { width:18px; height:18px; }
-.prog { flex:none; padding:16px var(--m) 0; }
-.seg { display:grid; grid-template-columns:repeat(6,1fr); gap:4px; }
-.seg i { height:3px; background:var(--line); border-radius:2px; }
-.seg i:first-child { background:var(--orange); }
-.plabel { margin-top:10px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--orange-deep); }
+/* progress: a caravan drives along a dashed road, leaving a solid orange track behind it */
+.prog { flex:none; padding:14px var(--m) 0; }
+.road { position:relative; height:30px; }
+.road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
+.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--orange-deep); transition:width .6s ease; }
+.road .van { position:absolute; bottom:4px; width:40px; height:22px; transition:left .6s ease; }
+.prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.prow .l { color:var(--orange-deep); } .prow .r { color:#888; }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
 /* back: a white circle, orange outline, arrow inside; sits in the bottom-left corner.
@@ -97,9 +100,9 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
     <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
     <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
   </header>
-  <div class="prog">
-    <div class="seg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <p class="plabel">Step 1 of 6 &middot; Layout</p>
+  <div class="prog" aria-label="Step 1 of 6">
+    <div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div class="prow"><span class="l">Layout</span><span class="r">1 / 6</span></div>
   </div>
   <div class="body">
     <h1>Who&rsquo;s <span style="white-space:nowrap">coming along?</span></h1>
@@ -125,6 +128,20 @@ document.querySelectorAll("[data-t]").forEach(function (el) {
     h.classList.add("on");
     setTimeout(function () { h.classList.remove("on"); }, 700);
   });
+});
+
+/* progress demo: tapping a half nudges the van on to step 2, then it returns so you can watch it drive */
+var STEPS = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
+function setStep(s) {
+  var p = s / (STEPS.length - 1);
+  document.querySelector(".van").style.left = "calc((100% - 40px) * " + p + ")";
+  document.querySelector(".road .done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
+  document.querySelector(".prow .l").textContent = STEPS[s];
+  document.querySelector(".prow .r").textContent = (s + 1) + " / " + STEPS.length;
+}
+setStep(0);
+document.querySelectorAll("[data-t]").forEach(function (el) {
+  el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 2200); });
 });
 </script>
 </body>
