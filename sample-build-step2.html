@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 2 (size), three options</title>
 <style>
-/* Throwaway sample: Step 2 (size), three treatments. Same chrome as the adopted Step 1:
+/* Throwaway sample: Step 2 (size), three treatments using the ORIGINAL size icons from the live configurator. Same chrome as the adopted Step 1:
    caravan-on-the-road progress with a divider, bare chevron back, CTA hover = white with
    orange content. Lengths are from the live configurator. All px, no rem (HANDOFF §3). */
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
@@ -45,14 +45,17 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .ln { font-family:var(--gordita); color:#444; }
 .sb { font-family:var(--gordita); color:#666; }
 
-/* the caravan outline, drawn once; fill and stroke come from the element that uses it */
-.ic { stroke-linejoin:round; stroke-linecap:round; }
+/* the size icons are the originals from the live configurator (orange line art, cropped to
+   their drawn area only). On the orange discs they are turned white; on hover they go back
+   to their own orange, as the discs turn white. */
+.ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
+.cta:hover .ico, .cta:focus-visible .ico { filter:none; }
+.cta:active .ico, .cta.on .ico { filter:brightness(0) invert(1); }
 
-/* CTA behaviour shared by A and B: solid orange, white content; hover/focus flips it */
+/* CTA behaviour, as on Step 1: solid orange, white content; hover/focus flips it */
 .cta { --bg:var(--orange-deep); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--orange-deep); transition:background .42s ease, color .42s ease; }
 .cta:hover, .cta:focus-visible { --bg:#fff; --fg:var(--orange-deep); }
 .cta:active, .cta.on { --bg:var(--orange-deep); --fg:#fff; }
-.cta .ic { fill:currentColor; stroke:currentColor; stroke-width:3; --cut:var(--bg); transition:fill .42s ease, stroke .42s ease; }
 .cta:focus-visible { outline:2px solid #000; outline-offset:3px; }
 
 /* A — growing circles: three discs that get bigger, bottoms aligned */
@@ -60,7 +63,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .A .opt { display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; }
 .A .disc { border-radius:50%; display:grid; place-items:center; margin-bottom:12px; }
 .A .s1 .disc { width:82px; height:82px; } .A .s2 .disc { width:100px; height:100px; } .A .s3 .disc { width:118px; height:118px; }
-.A .disc .ic { width:70%; height:auto; stroke-width:1; }
+.A .s1 .ico { width:46px; } .A .s2 .ico { width:56px; } .A .s3 .ico { width:66px; }
 .A .nm { font-size:14px; line-height:18px; }
 .A .ln { font-size:13px; line-height:18px; margin-top:2px; white-space:nowrap; }
 .A .sb { font-size:13px; line-height:18px; margin-top:8px; width:104px; }
@@ -71,24 +74,22 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .B .circle { position:relative; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; flex-direction:column; gap:6px; }
 .B .circle::after { content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 2px var(--orange-deep); pointer-events:none; }
 .B .slice { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:14px; padding:0 18px; text-align:left; }
-.B .slice .ic { flex:none; height:auto; stroke-width:1; }
-.B .s1 .ic { width:58px; } .B .s2 .ic { width:66px; } .B .s3 .ic { width:74px; }
+.B .s1 .ico { width:52px; } .B .s2 .ico { width:58px; } .B .s3 .ico { width:64px; }
 .B .nm { font-size:15px; line-height:19px; }
 .B .ln { font-size:13px; line-height:18px; color:inherit; opacity:.9; }
 .B .tx { width:112px; }
+.B .ico { flex:none; }
 
-/* C — length ruler: the vans are the buttons, drawn to relative length, hitches aligned */
-.C .list { width:327px; display:flex; flex-direction:column; gap:18px; }
-.C .opt { display:block; text-align:left; width:100%; cursor:pointer; }
-.C .top { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; }
-.C .nm { font-size:16px; line-height:20px; }
-.C .ln { font-size:14px; line-height:20px; }
-.C .ic { display:block; height:auto; fill:var(--orange-deep); stroke:var(--orange-deep); stroke-width:3; --cut:#fff; transition:fill .42s ease; }
-.C .s1 .ic { width:234px; } .C .s2 .ic { width:263px; } .C .s3 .ic { width:288px; }
-.C .opt:hover .ic, .C .opt:focus-visible .ic { fill:#fff; }
-.C .opt:active .ic, .C .opt.on .ic { fill:var(--orange-deep); }
+/* C — rows: a disc per size, text beside it, discs of one size so the icons carry the difference */
+.C .list { width:327px; display:flex; flex-direction:column; gap:22px; }
+.C .opt { display:flex; align-items:center; gap:20px; text-align:left; width:100%; cursor:pointer; }
+.C .disc { flex:none; width:96px; height:96px; border-radius:50%; display:grid; place-items:center; }
+.C .s1 .ico { width:56px; } .C .s2 .ico { width:62px; } .C .s3 .ico { width:68px; }
+.C .nm { font-size:18px; line-height:22px; }
+.C .ln { font-size:14px; line-height:20px; margin-top:2px; }
+.C .sb { font-size:14px; line-height:20px; margin-top:6px; }
+.C .opt:hover .nm, .C .opt:focus-visible .nm { color:var(--orange-deep); }
 .C .opt:focus-visible { outline:none; }
-.C .sbx { display:none; }
 
 .pick { display:none; }
 @media (max-width:900px) {
@@ -105,22 +106,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <!-- Wonderland van outline, hitch left. fill/stroke/--cut come from whoever references it. -->
-  <symbol id="vano" viewBox="0 0 260 100">
-    <rect x="138" y="8" width="36" height="7" rx="3"/><rect x="190" y="9" width="16" height="6" rx="3"/>
-    <path d="M88 70V32L102 14H226Q238 14 238 26V70Z"/>
-    <path d="M56 72V54L66 47H88V72Z"/>
-    <path d="M60 71L4 80" fill="none" stroke-width="5"/>
-    <path d="M20 78V90" fill="none" stroke-width="3"/><circle cx="20" cy="92" r="5"/>
-    <rect x="34" y="59" width="9" height="13" rx="3"/><rect x="45" y="59" width="9" height="13" rx="3"/>
-    <rect x="232" y="68" width="22" height="6" rx="3"/><circle cx="250" cy="52" r="13"/>
-    <circle cx="166" cy="82" r="20" style="fill:var(--cut);stroke:none"/><circle cx="204" cy="82" r="20" style="fill:var(--cut);stroke:none"/>
-    <circle cx="166" cy="82" r="15"/><circle cx="204" cy="82" r="15"/>
-  </symbol>
-</svg>
-
-<div class="pick" id="pick"><button class="on" data-v="A">A · Growing</button><button data-v="B">B · Sliced</button><button data-v="C">C · Ruler</button></div>
+<div class="pick" id="pick"><button class="on" data-v="A">A · Growing</button><button data-v="B">B · Sliced</button><button data-v="C">C · Rows</button></div>
 <div class="stage" id="stage"></div>
 
 <script>
@@ -134,11 +120,12 @@ var NOTES = {
   B: ["B · Sliced circle", "One circle cut into three, echoing Step 1's split. Name and length inside."],
   C: ["C · Length ruler", "The vans themselves are the buttons, drawn to relative length."]
 };
-function ic(extra) { return '<svg class="ic" viewBox="0 0 260 100" aria-hidden="true"><use href="#vano"/></svg>'; }
+var ICON = { compact: "assets/img/build/size-compact.png", mid: "assets/img/build/size-mid.png", spacious: "assets/img/build/size-spacious.png" };
+function ic(z) { return '<img class="ico" src="' + ICON[z.k] + '" alt="" width="' + ({compact:76,mid:85,spacious:94}[z.k]) + '">'; }
 
-function optA(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic() + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button>'; }
-function optB(z, i) { return '<button class="slice cta s' + (i + 1) + '" data-k="' + z.k + '">' + ic() + '<span class="tx"><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span></span></button>'; }
-function optC(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="top"><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></span>' + ic() + '</button>'; }
+function optA(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic(z) + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button>'; }
+function optB(z, i) { return '<button class="slice cta s' + (i + 1) + '" data-k="' + z.k + '">' + ic(z) + '<span class="tx"><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span></span></button>'; }
+function optC(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic(z) + '</span><span><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span><span class="sb" style="display:block">' + z.sb + '</span></span></button>'; }
 
 function content(v) {
   if (v === "A") return '<div class="row">' + SIZES.map(optA).join("") + '</div>';
