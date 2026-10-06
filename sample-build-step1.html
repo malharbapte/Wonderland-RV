@@ -38,7 +38,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 /* back: just a chevron, bottom-left. Deliberately quiet: going back is allowed but not encouraged.
    The 52px box is the tap target; the chevron's left edge lines up with the 24px page margin. */
 .back {
-  position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom));
+  position:absolute; left:calc(var(--m) - 14px); bottom:calc(29px + env(safe-area-inset-bottom));
   width:52px; height:52px; display:grid; place-items:center;
   color:#8a8a8a; transition:color .42s ease;
 }
@@ -48,7 +48,7 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 
 /* one circle, two halves. Each half is rounded on its own outer edge so the inset
    outline follows the arc (a clipped container would cut it off). 6px gap between. */
-.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 64px; }
+.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:24px 0 96px; }
 .circle { flex:none; width:300px; height:300px; display:flex; gap:6px; }
 .half {
   --fill: var(--orange-deep);
@@ -74,6 +74,9 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .cap.R { text-align:left; padding:0 0 0 12px; }
 .cap b { display:block; margin-bottom:6px; font-family:var(--aviano); font-weight:900; font-size:18px; line-height:22px; text-transform:uppercase; }
 .cap small { display:block; font-size:15px; line-height:22px; color:#444; }
+
+/* margin guides: open the page with ?guides to see the page frame (24px sides, 40px bottom) */
+.phone.guides::after { content:""; position:absolute; left:var(--m); right:var(--m); top:64px; bottom:40px; border:1px dashed rgba(230,0,0,.55); pointer-events:none; z-index:9; }
 </style>
 </head>
 <body>
@@ -141,6 +144,7 @@ setStep(0);
 document.querySelectorAll("[data-t]").forEach(function (el) {
   el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 2200); });
 });
+if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>
 </body>
 </html>

@@ -3,24 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sample — Build step 2 (size), three options</title>
+<title>Sample — Build step 2 (size)</title>
 <style>
-/* Throwaway sample: Step 2 (size), three treatments using the ORIGINAL size icons from the live configurator. Same chrome as the adopted Step 1:
-   caravan-on-the-road progress with a divider, bare chevron back, CTA hover = white with
-   orange content. Lengths are from the live configurator. All px, no rem (HANDOFF §3). */
+/* Throwaway sample: Step 2 (size) as a number line (option 9 of the ten). Discs sit where their lengths
+   fall on a 17′–24′ ruler; range bars underneath. Original size icons from the live configurator.
+   All px, no rem (HANDOFF §3). Add ?guides to see the page margins. */
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
 @font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-:root { --orange:#E37921; --orange-deep:#D57114; --line:#E6E6E6; --m:24px;
+:root { --o:#D57114; --line:#E6E6E6; --m:24px;
   --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
-button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:inherit; }
 
-.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; padding:24px 16px 48px; }
-.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
-.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; }
-.phone { position:relative; width:375px; height:812px; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+.phone { position:relative; width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+@media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
 
 /* chrome, as adopted on Step 1 */
 .bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
@@ -30,140 +28,79 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .prog { flex:none; padding:14px var(--m) 14px; border-bottom:1px solid #eee; }
 .road { position:relative; height:30px; }
 .road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
-.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--orange-deep); transition:width .6s ease; }
-.road .van { position:absolute; bottom:4px; width:40px; height:22px; transition:left .6s ease; }
+.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--o); }
+.road .van { position:absolute; bottom:4px; width:40px; height:22px; }
 .prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
-.prow .l { color:var(--orange-deep); } .prow .r { color:#888; }
+.prow .l { color:var(--o); } .prow .r { color:#888; }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back { position:absolute; left:calc(var(--m) - 14px); bottom:calc(29px + env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
 .back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.back:hover, .back:focus-visible { color:var(--orange-deep); }
+.back:hover, .back:focus-visible { color:var(--o); }
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:24px; padding-bottom:96px; }
 
-.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:64px; }
-.nm { font-family:var(--aviano); font-weight:900; text-transform:uppercase; }
-.ln { font-family:var(--gordita); color:#444; }
-.sb { font-family:var(--gordita); color:#666; }
-
-/* the size icons are the originals from the live configurator (orange line art, cropped to
-   their drawn area only). On the orange discs they are turned white; on hover they go back
-   to their own orange, as the discs turn white. */
+/* number line */
+.v9 .wrap { position:relative; width:327px; height:424px; }
+.v9 .p { position:absolute; display:flex; flex-direction:column; align-items:center; width:110px; text-align:center; cursor:pointer; }
+.disc { border-radius:50%; display:grid; place-items:center; }
 .ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
-.cta:hover .ico, .cta:focus-visible .ico { filter:none; }
-.cta:active .ico, .cta.on .ico { filter:brightness(0) invert(1); }
+.cta { --bg:var(--o); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--o); transition:background .42s ease, color .42s ease; }
+.p:hover .cta, .p:focus-visible .cta { --bg:#fff; --fg:var(--o); }
+.p:hover .ico, .p:focus-visible .ico { filter:none; }
+.p:active .cta, .p.on .cta { --bg:var(--o); --fg:#fff; }
+.p:active .ico, .p.on .ico { filter:brightness(0) invert(1); }
+.p:hover .nm, .p:focus-visible .nm { color:var(--o); }
+.p:focus-visible { outline:none; }
+.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; font-size:14px; line-height:18px; margin-top:8px; transition:color .42s ease; }
+.ln { display:block; font-size:12px; line-height:17px; color:#444; white-space:nowrap; }
+.v9 .tk { font-family:var(--gordita); font-size:11px; fill:#888; text-anchor:middle; }
 
-/* CTA behaviour, as on Step 1: solid orange, white content; hover/focus flips it */
-.cta { --bg:var(--orange-deep); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--orange-deep); transition:background .42s ease, color .42s ease; }
-.cta:hover, .cta:focus-visible { --bg:#fff; --fg:var(--orange-deep); }
-.cta:active, .cta.on { --bg:var(--orange-deep); --fg:#fff; }
-.cta:focus-visible { outline:2px solid #000; outline-offset:3px; }
-
-/* A — growing circles: three discs that get bigger, bottoms aligned */
-.A .row { display:flex; align-items:flex-end; justify-content:center; gap:8px; width:327px; }
-.A .opt { display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; }
-.A .disc { border-radius:50%; display:grid; place-items:center; margin-bottom:12px; }
-.A .s1 .disc { width:82px; height:82px; } .A .s2 .disc { width:100px; height:100px; } .A .s3 .disc { width:118px; height:118px; }
-.A .s1 .ico { width:46px; } .A .s2 .ico { width:56px; } .A .s3 .ico { width:66px; }
-.A .nm { font-size:14px; line-height:18px; }
-.A .ln { font-size:13px; line-height:18px; margin-top:2px; white-space:nowrap; }
-.A .sb { font-size:13px; line-height:18px; margin-top:8px; width:104px; }
-.A .s1 .sb { width:92px; }
-.A .opt:hover .nm, .A .opt:focus-within .nm { color:var(--orange-deep); }
-
-/* B — one circle sliced into three, the 6px gap echoing Step 1's split */
-.B .circle { position:relative; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; flex-direction:column; gap:6px; }
-.B .circle::after { content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 2px var(--orange-deep); pointer-events:none; }
-.B .slice { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:14px; padding:0 18px; text-align:left; }
-.B .s1 .ico { width:52px; } .B .s2 .ico { width:58px; } .B .s3 .ico { width:64px; }
-.B .nm { font-size:15px; line-height:19px; }
-.B .ln { font-size:13px; line-height:18px; color:inherit; opacity:.9; }
-.B .tx { width:112px; }
-.B .ico { flex:none; }
-
-/* C — rows: a disc per size, text beside it, discs of one size so the icons carry the difference */
-.C .list { width:327px; display:flex; flex-direction:column; gap:22px; }
-.C .opt { display:flex; align-items:center; gap:20px; text-align:left; width:100%; cursor:pointer; }
-.C .disc { flex:none; width:96px; height:96px; border-radius:50%; display:grid; place-items:center; }
-.C .s1 .ico { width:56px; } .C .s2 .ico { width:62px; } .C .s3 .ico { width:68px; }
-.C .nm { font-size:18px; line-height:22px; }
-.C .ln { font-size:14px; line-height:20px; margin-top:2px; }
-.C .sb { font-size:14px; line-height:20px; margin-top:6px; }
-.C .opt:hover .nm, .C .opt:focus-visible .nm { color:var(--orange-deep); }
-.C .opt:focus-visible { outline:none; }
-
-.pick { display:none; }
-@media (max-width:900px) {
-  body { background:#fff; }
-  .stage { display:block; padding:0; }
-  .pick { display:flex; height:36px; background:#111; }
-  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
-  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
-  .slot { display:none; } .slot.show { display:block; }
-  .slot > h2 { display:none; }
-  .phone { width:100%; height:calc(100dvh - 36px); box-shadow:none; }
-}
+/* margin guides: open the page with ?guides to see the page frame (24px sides, 40px bottom) */
+.phone.guides::after { content:""; position:absolute; left:var(--m); right:var(--m); top:64px; bottom:40px; border:1px dashed rgba(230,0,0,.55); pointer-events:none; z-index:9; }
 </style>
 </head>
 <body>
-
-<div class="pick" id="pick"><button class="on" data-v="A">A · Growing</button><button data-v="B">B · Sliced</button><button data-v="C">C · Rows</button></div>
-<div class="stage" id="stage"></div>
+<main class="phone">
+  <header class="bar">
+    <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+  </header>
+  <div class="prog" aria-label="Step 2 of 6">
+    <div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div>
+  </div>
+  <div class="body">
+    <h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1>
+    <div class="content v9"><div class="wrap" id="wrap"></div></div>
+  </div>
+  <a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</main>
 
 <script>
 var SIZES = [
-  { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", sb: "Tight campsites, winding roads." },
-  { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", sb: "A balance of space and manoeuvrability." },
-  { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", sb: "Ample room to spread out." }
+  { k: "compact",  nm: "Compact",  ln: "17\u203209\u2033 \u2013 20\u2032", mid: 18.875, w: 76, src: "assets/img/build/size-compact.png" },
+  { k: "mid",      nm: "Mid-size", ln: "20\u203206\u2033 \u2013 22\u2032", mid: 21.25,  w: 85, src: "assets/img/build/size-mid.png" },
+  { k: "spacious", nm: "Spacious", ln: "22\u203206\u2033 \u2013 24\u2032", mid: 23.25,  w: 94, src: "assets/img/build/size-spacious.png" }
 ];
-var NOTES = {
-  A: ["A · Growing circles", "Three discs that grow with the size. Name, length and a line under each."],
-  B: ["B · Sliced circle", "One circle cut into three, echoing Step 1's split. Name and length inside."],
-  C: ["C · Length ruler", "The vans themselves are the buttons, drawn to relative length."]
-};
-var ICON = { compact: "assets/img/build/size-compact.png", mid: "assets/img/build/size-mid.png", spacious: "assets/img/build/size-spacious.png" };
-function ic(z) { return '<img class="ico" src="' + ICON[z.k] + '" alt="" width="' + ({compact:76,mid:85,spacious:94}[z.k]) + '">'; }
+/* ruler: 17' to 24' maps to x = 20 .. 307 */
+var x = function (ft) { return 20 + (ft - 17) / 7 * 287; };
+var P = [{ cx: x(SIZES[0].mid), t: 4, d: 88, s: 50 }, { cx: x(SIZES[1].mid), t: 116, d: 88, s: 56 }, { cx: x(SIZES[2].mid), t: 4, d: 88, s: 60 }];
+var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 424, RB = 56, ry = 26, tick = "";
+for (var f = 17; f <= 24; f++) tick += '<line x1="' + x(f) + '" x2="' + x(f) + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/><text class="tk" x="' + x(f) + '" y="' + (ry + 22) + '">' + f + '\u2032</text>';
+var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
+var conn = P.map(function (p) { return '<line x1="' + p.cx + '" x2="' + p.cx + '" y1="' + (p.t + p.d + 44) + '" y2="' + (H - RB + ry - 8) + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
+document.getElementById("wrap").innerHTML =
+  '<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 ' + H + '" aria-hidden="true">' + conn + '<g transform="translate(0 ' + (H - RB) + ')">' + tick + bars + '</g></svg>' +
+  SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - 55) + 'px;top:' + p.t + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
 
-function optA(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic(z) + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button>'; }
-function optB(z, i) { return '<button class="slice cta s' + (i + 1) + '" data-k="' + z.k + '">' + ic(z) + '<span class="tx"><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span></span></button>'; }
-function optC(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic(z) + '</span><span><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span><span class="sb" style="display:block">' + z.sb + '</span></span></button>'; }
+var rd = document.querySelector(".road");
+rd.querySelector(".van").style.left = "calc((100% - 40px) * 0.2)";
+rd.querySelector(".done").style.width = "calc((100% - 40px) * 0.2 + 24px)";
 
-function content(v) {
-  if (v === "A") return '<div class="row">' + SIZES.map(optA).join("") + '</div>';
-  if (v === "B") return '<div class="circle">' + SIZES.map(optB).join("") + '</div>';
-  return '<div class="list">' + SIZES.map(optC).join("") + '</div>';
-}
-
-var html = "";
-["A", "B", "C"].forEach(function (v, i) {
-  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
-  '<div class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
-  '<div class="prog" aria-label="Step 2 of 6"><div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div><div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div></div>' +
-  '<div class="body"><h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1><div class="content">' + content(v) + '</div></div>' +
-  '<a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></div></div>';
+document.querySelectorAll(".p").forEach(function (b) {
+  b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
 });
-document.getElementById("stage").innerHTML = html;
-
-/* progress at step 2 of 6 */
-document.querySelectorAll(".road").forEach(function (r) {
-  var p = 1 / 5;
-  r.querySelector(".van").style.left = "calc((100% - 40px) * " + p + ")";
-  r.querySelector(".done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
-});
-
-/* tap flash */
-document.querySelectorAll("[data-k]").forEach(function (b) {
-  b.addEventListener("click", function () {
-    var t = b.classList.contains("slice") ? b : (b.querySelector(".disc") || b);
-    b.classList.add("on"); t.classList.add("on");
-    setTimeout(function () { b.classList.remove("on"); t.classList.remove("on"); }, 700);
-  });
-});
-document.querySelectorAll("#pick button").forEach(function (b) {
-  b.addEventListener("click", function () {
-    document.querySelectorAll("#pick button").forEach(function (x) { x.classList.toggle("on", x === b); });
-    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
-  });
-});
+if (/[?&]guides/.test(location.search)) document.querySelector(".phone").classList.add("guides");
 </script>
 </body>
 </html>

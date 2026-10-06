@@ -37,10 +37,10 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .prow .l { color:var(--o); } .prow .r { color:#888; }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back { position:absolute; left:calc(var(--m) - 14px); bottom:calc(29px + env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
 .back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .back:hover, .back:focus-visible { color:var(--o); }
-.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:60px; }
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:24px; padding-bottom:96px; }
 
 /* type */
 .nm { font-family:var(--aviano); font-weight:900; text-transform:uppercase; }
@@ -149,6 +149,9 @@ svg .z:active .sh { fill:var(--o); } svg .z:active text { fill:#fff; } svg .z:ac
   .slot > h2 { display:none; }
   .phone { width:100%; height:calc(100dvh - 44px); box-shadow:none; }
 }
+
+/* margin guides: open the page with ?guides to see the page frame (24px sides, 40px bottom) */
+.phone.guides::after { content:""; position:absolute; left:var(--m); right:var(--m); top:64px; bottom:40px; border:1px dashed rgba(230,0,0,.55); pointer-events:none; z-index:9; }
 </style>
 </head>
 <body>
@@ -303,6 +306,7 @@ function show(n) { cur = (n + V.length) % V.length; slots.forEach(function (s, i
 document.getElementById("pp").addEventListener("click", function () { show(cur - 1); });
 document.getElementById("pn").addEventListener("click", function () { show(cur + 1); });
 show(0);
+if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>
 </body>
 </html>

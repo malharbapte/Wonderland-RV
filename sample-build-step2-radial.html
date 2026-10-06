@@ -33,13 +33,13 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .prow .l { color:var(--o); } .prow .r { color:#888; }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back { position:absolute; left:calc(var(--m) - 14px); bottom:calc(29px + env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
 .back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .back:hover, .back:focus-visible { color:var(--o); }
-.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:60px; }
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:24px; padding-bottom:96px; }
 
-/* the radial: a 327 x 430 stage; centre of the ring at (163.5, 166) */
-.stage { position:relative; width:327px; height:430px; }
+/* the radial: a 327 x 446 stage; centre of the ring at (163.5, 182) */
+.stage { position:relative; width:327px; height:446px; }
 
 .opt { position:absolute; display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; width:112px; }
 .disc { width:104px; height:104px; border-radius:50%; display:grid; place-items:center; }
@@ -57,6 +57,9 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 /* the top disc keeps its text above it so the three labels never collide */
 .opt.top .tx { order:-1; margin-bottom:10px; }
 .opt.top .nm { margin-top:0; }
+
+/* margin guides: open the page with ?guides to see the page frame (24px sides, 40px bottom) */
+.phone.guides::after { content:""; position:absolute; left:var(--m); right:var(--m); top:64px; bottom:40px; border:1px dashed rgba(230,0,0,.55); pointer-events:none; z-index:9; }
 </style>
 </head>
 <body>
@@ -83,7 +86,7 @@ var SIZES = [
   { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", sb: "Ample room to spread out.",              w: 94, src: "assets/img/build/size-spacious.png" }
 ];
 /* ring of radius R about (CX, CY): Compact at 12 o'clock, Spacious at 4, Mid-size at 8 */
-var CX = 163.5, CY = 166, R = 100, D = 104;
+var CX = 163.5, CY = 182, R = 100, D = 104;
 var ANG = [-90, 150, 30];
 var out = "";
 SIZES.forEach(function (z, i) {
@@ -103,6 +106,7 @@ r.querySelector(".done").style.width = "calc((100% - 40px) * 0.2 + 24px)";
 document.querySelectorAll(".opt").forEach(function (b) {
   b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
 });
+if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>
 </body>
 </html>
