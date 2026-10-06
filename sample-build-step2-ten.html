@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 2 (size), ten layouts</title>
+<style>
+/* Throwaway sample: Step 2 (size), ten layouts, all using the ORIGINAL size icons from the live
+   configurator. Same chrome as the adopted Step 1: caravan-on-the-road progress with divider, bare
+   chevron back, CTA hover = white with orange content. Lengths are from the live configurator.
+   All px, no rem (HANDOFF §3). */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+:root { --orange:#E37921; --o:#D57114; --line:#E6E6E6; --m:24px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:inherit; }
+
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.phone { position:relative; width:375px; height:812px; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+
+/* chrome, as adopted on Step 1 */
+.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+.prog { flex:none; padding:14px var(--m) 14px; border-bottom:1px solid #eee; }
+.road { position:relative; height:30px; }
+.road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
+.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--o); }
+.road .van { position:absolute; bottom:4px; width:40px; height:22px; }
+.prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.prow .l { color:var(--o); } .prow .r { color:#888; }
+.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
+h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
+.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { color:var(--o); }
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:60px; }
+
+/* type */
+.nm { font-family:var(--aviano); font-weight:900; text-transform:uppercase; }
+.ln { font-family:var(--gordita); }
+.sb { font-family:var(--gordita); color:#666; }
+
+/* the originals: orange line art; white on an orange disc, their own orange on a white one */
+.ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
+.cta { --bg:var(--o); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--o); transition:background .42s ease, color .42s ease; }
+.hov:hover .cta, .cta:hover, .cta:focus-visible { --bg:#fff; --fg:var(--o); }
+.hov:hover .cta .ico, .cta:hover .ico, .cta:focus-visible .ico { filter:none; }
+.hov:active .cta, .cta:active, .cta.on, .hov.on .cta { --bg:var(--o); --fg:#fff; }
+.hov:active .cta .ico, .cta:active .ico, .cta.on .ico, .hov.on .cta .ico { filter:brightness(0) invert(1); }
+.hov:hover .nm { color:var(--o); }
+.disc { border-radius:50%; display:grid; place-items:center; flex:none; }
+.opt { cursor:pointer; text-align:center; }
+.cap { display:block; }
+
+/* SVG variants: same behaviour on <g class="z"> groups */
+svg .z { cursor:pointer; }
+svg .z .sh { fill:var(--o); stroke:var(--o); stroke-width:2; transition:fill .42s ease; }
+svg .z text { fill:#fff; font-family:var(--aviano); font-weight:900; text-transform:uppercase; text-anchor:middle; transition:fill .42s ease; }
+svg .z text.l { font-family:var(--gordita); font-weight:400; text-transform:none; }
+svg .z image { filter:brightness(0) invert(1); transition:filter .42s ease; }
+svg .z:hover .sh, svg .z.on .sh { fill:#fff; }
+svg .z:hover text, svg .z.on text { fill:var(--o); }
+svg .z:hover image, svg .z.on image { filter:none; }
+svg .z:active .sh { fill:var(--o); } svg .z:active text { fill:#fff; } svg .z:active image { filter:brightness(0) invert(1); }
+
+/* 1 · staircase */
+.v1 .wrap { position:relative; width:327px; height:446px; }
+.v1 .rise { position:absolute; inset:0; }
+.v1 .step { position:absolute; display:flex; flex-direction:column; align-items:center; }
+.v1 .nm { font-size:14px; line-height:18px; margin-top:12px; }
+.v1 .ln { font-size:13px; line-height:18px; color:#444; }
+.v1 .sb { font-size:13px; line-height:18px; margin-top:6px; }
+
+/* 5 · snowman stack */
+.v5 .col { display:flex; flex-direction:column; align-items:flex-start; width:327px; }
+.v5 .row { display:flex; align-items:center; gap:22px; width:100%; text-align:left; }
+.v5 .row + .row { margin-top:-8px; }
+.v5 .ax { flex:none; width:136px; display:grid; place-items:center; }
+.v5 .disc { box-shadow:inset 0 0 0 2px var(--o), 0 0 0 4px #fff; }
+.v5 .nm { font-size:18px; line-height:22px; } .v5 .ln { font-size:14px; line-height:20px; color:#444; } .v5 .sb { font-size:13px; line-height:19px; margin-top:4px; }
+
+/* 6 · zigzag */
+.v6 .col { width:327px; display:flex; flex-direction:column; gap:26px; }
+.v6 .row { display:flex; align-items:center; gap:20px; }
+.v6 .row.r { flex-direction:row-reverse; text-align:right; }
+.v6 .row.l { text-align:left; }
+.v6 .nm { font-size:18px; line-height:22px; } .v6 .ln { font-size:14px; line-height:20px; color:#444; } .v6 .sb { font-size:13px; line-height:19px; margin-top:4px; }
+
+/* 7 · bubble cluster */
+.v7 .wrap { position:relative; width:327px; height:452px; }
+.v7 .b { position:absolute; display:flex; flex-direction:column; align-items:center; }
+.v7 .nm { font-size:15px; line-height:19px; margin-top:10px; } .v7 .ln { font-size:13px; line-height:18px; color:#444; }
+
+/* 8 · thirds */
+.v8 .circle { position:relative; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; gap:6px; }
+.v8 .circle::after { content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 2px var(--o); pointer-events:none; }
+.v8 .th { flex:1; min-width:0; display:grid; place-items:center; }
+.v8 .caps { width:300px; display:flex; gap:6px; margin-top:16px; }
+.v8 .caps .opt { flex:1; min-width:0; padding:0 4px; }
+.v8 .nm { font-size:13px; line-height:18px; } .v8 .ln { font-size:12px; line-height:17px; color:#444; } .v8 .sb { font-size:12px; line-height:17px; margin-top:6px; }
+
+/* 9 · number line */
+.v9 .wrap { position:relative; width:327px; height:424px; }
+.v9 .p { position:absolute; display:flex; flex-direction:column; align-items:center; width:110px; }
+.v9 .nm { font-size:14px; line-height:18px; margin-top:8px; } .v9 .ln { font-size:12px; line-height:17px; color:#444; }
+.v9 .rule { position:absolute; left:0; right:0; bottom:0; height:56px; }
+.v9 .tk { font-family:var(--gordita); font-size:11px; fill:#888; text-anchor:middle; }
+
+/* 10 · typographic list */
+.v10 .col { width:327px; }
+.v10 .row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:20px 0; width:100%; text-align:left; border-top:1px solid #eee; }
+.v10 .row:first-child { border-top:0; }
+.v10 .nm { font-size:28px; line-height:32px; } .v10 .ln { font-size:15px; line-height:22px; color:#444; margin-top:2px; } .v10 .sb { font-size:13px; line-height:19px; margin-top:2px; }
+
+/* 4 · carousel */
+.v4 .car { position:relative; width:327px; }
+.v4 .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; }
+.v4 .rail::-webkit-scrollbar { display:none; }
+.v4 .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.v4 .big { width:204px; height:204px; }
+.v4 .nm { font-size:26px; line-height:30px; margin-top:22px; }
+.v4 .ln { font-size:15px; line-height:22px; color:#444; margin-top:2px; }
+.v4 .sb { font-size:14px; line-height:20px; margin-top:6px; }
+.v4 .nav { position:absolute; top:78px; width:44px; height:48px; display:grid; place-items:center; color:#8a8a8a; }
+.v4 .nav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.v4 .nav:hover { color:var(--o); }
+.v4 .nav.p { left:-12px; } .v4 .nav.n { right:-12px; }
+.v4 .dots { display:flex; gap:8px; justify-content:center; margin-top:22px; }
+.v4 .dots i { width:8px; height:8px; border-radius:4px; background:var(--line); transition:all .35s ease; }
+.v4 .dots i.on { width:26px; background:var(--o); }
+
+/* pager for phone widths */
+.pick { display:none; }
+@media (max-width:900px) {
+  body { background:#fff; }
+  .stage { display:block; padding:0; }
+  .pick { display:flex; align-items:center; height:44px; background:#111; color:#fff; }
+  .pick button { width:56px; height:44px; display:grid; place-items:center; }
+  .pick button svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+  .pick .lab { flex:1; text-align:center; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .phone { width:100%; height:calc(100dvh - 44px); box-shadow:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="pick" id="pick">
+  <button type="button" id="pp" aria-label="Previous layout"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <span class="lab" id="plab"></span>
+  <button type="button" id="pn" aria-label="Next layout"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+<div class="stage" id="stage"></div>
+
+<script>
+var SIZES = [
+  { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", sb: "Tight campsites, winding roads.",        w: 76, mid: 18.875 },
+  { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", sb: "A balance of space and manoeuvrability.", w: 85, mid: 21.25 },
+  { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", sb: "Ample room to spread out.",              w: 94, mid: 23.25 }
+];
+var SRC = { compact: "assets/img/build/size-compact.png", mid: "assets/img/build/size-mid.png", spacious: "assets/img/build/size-spacious.png" };
+var HH = { compact: 58, mid: 59, spacious: 58 };
+function img(z, w) { return '<img class="ico" src="' + SRC[z.k] + '" alt="" style="width:' + w + 'px">'; }
+function si(z, cx, cy, w) { var h = w * HH[z.k] / z.w; return '<image href="' + SRC[z.k] + '" x="' + (cx - w / 2) + '" y="' + (cy - h / 2) + '" width="' + w + '" height="' + h + '"/>'; }
+function T(x, y, cls, size, s) { return '<text class="' + cls + '" x="' + x + '" y="' + y + '" font-size="' + size + '">' + s + '</text>'; }
+function pol(cx, cy, r, deg) { var a = deg * Math.PI / 180; return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; }
+
+var V = [];
+
+/* 1 · staircase */
+V.push({ t: "Staircase", d: "Three discs climbing a dashed rise, growing as they go. Name, length and line under each.",
+  html: function () {
+    var P = [{ l: 0, t: 252, d: 84, w: 96, s: 46 }, { l: 100, t: 138, d: 104, w: 100, s: 56 }, { l: 205, t: 22, d: 122, w: 122, s: 66 }];
+    return '<div class="wrap"><svg class="rise" viewBox="0 0 327 446" aria-hidden="true"><path d="M48 294 L150 190 L266 83" fill="none" stroke="#d4d4d4" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/></svg>' +
+    SIZES.map(function (z, i) { var p = P[i]; return '<button class="step opt hov" data-k="' + z.k + '" style="left:' + p.l + 'px;top:' + p.t + 'px;width:' + p.w + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + img(z, p.s) + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button>'; }).join("") + '</div>';
+  } });
+
+/* 2 · concentric rings */
+V.push({ t: "Concentric rings", d: "Sizes nested like a target: the smallest in the core, the biggest on the outside.",
+  html: function () {
+    var c = 163.5, ring = function (R, r) { return 'M' + (c + R) + ' ' + c + 'A' + R + ' ' + R + ' 0 1 1 ' + (c - R) + ' ' + c + 'A' + R + ' ' + R + ' 0 1 1 ' + (c + R) + ' ' + c + 'Z' + (r ? 'M' + (c + r) + ' ' + c + 'A' + r + ' ' + r + ' 0 1 0 ' + (c - r) + ' ' + c + 'A' + r + ' ' + r + ' 0 1 0 ' + (c + r) + ' ' + c + 'Z' : ''); };
+    var S = SIZES;
+    return '<svg viewBox="0 0 327 327" width="327" height="327">' +
+      '<g class="z" data-k="spacious"><path class="sh" fill-rule="evenodd" d="' + ring(161, 118) + '"/>' + T(c, 28, "n", 11, S[2].nm) + T(c, 41, "l", 10, S[2].ln) + si(S[2], c, 301, 40) + '</g>' +
+      '<g class="z" data-k="mid"><path class="sh" fill-rule="evenodd" d="' + ring(114, 76) + '"/>' + T(c, 70, "n", 11, S[1].nm) + T(c, 83, "l", 10, S[1].ln) + si(S[1], c, 258, 36) + '</g>' +
+      '<g class="z" data-k="compact"><path class="sh" d="' + ring(72, 0) + '"/>' + si(S[0], c, c - 14, 54) + T(c, c + 30, "n", 11, S[0].nm) + T(c, c + 44, "l", 10, S[0].ln) + '</g></svg>';
+  } });
+
+/* 3 · half fan */
+V.push({ t: "Half fan", d: "A semicircle in three wedges, echoing Step 1's split. Name and length beneath each wedge.",
+  html: function () {
+    var cx = 163.5, cy = 186, R = 160, g = 1.6, ang = [[180, 120], [120, 60], [60, 0]], out = '';
+    SIZES.forEach(function (z, i) {
+      var a1 = ang[i][0] - (i === 0 ? 0.0 : g), a2 = ang[i][1] + (i === 2 ? 0.0 : g), p1 = pol(cx, cy, R, a1), p2 = pol(cx, cy, R, a2), m = (ang[i][0] + ang[i][1]) / 2, ct = pol(cx, cy, 98, m), tx = pol(cx, cy, 98, m)[0];
+      var d = 'M' + cx + ' ' + cy + 'L' + p1[0] + ' ' + p1[1] + 'A' + R + ' ' + R + ' 0 0 1 ' + p2[0] + ' ' + p2[1] + 'Z';
+      out += '<g class="z" data-k="' + z.k + '"><path class="sh" d="' + d + '"/>' + si(z, ct[0], ct[1], [46, 52, 58][i]) + '</g>' +
+             '<g class="z" data-k="' + z.k + '">' + '<rect x="' + (tx - 41) + '" y="' + (cy + 8) + '" width="82" height="50" fill="transparent"/>' + T(tx, cy + 28, "n", 12, z.nm).replace('<text', '<text style="fill:#000"') + T(tx, cy + 44, "l", 11, z.ln).replace('<text', '<text style="fill:#444"') + '</g>';
+    });
+    return '<svg viewBox="0 0 327 250" width="327" height="250">' + out + '</svg>';
+  } });
+
+/* 4 · carousel */
+V.push({ t: "Carousel", d: "One size at a time in a big disc. Swipe or use the chevrons; tap the disc to choose.",
+  html: function () {
+    var sc = [1.12, 1.15, 1.2];
+    return '<div class="car"><div class="rail">' + SIZES.map(function (z, i) {
+      return '<div class="slide"><button class="opt hov" data-k="' + z.k + '" style="display:flex;flex-direction:column;align-items:center"><span class="disc cta big">' + img(z, Math.round(z.w * sc[i])) + '</span><span class="nm nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button></div>';
+    }).join("") + '</div>' +
+    '<button class="nav p" type="button" aria-label="Previous size"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="nav n" type="button" aria-label="Next size"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
+    '<div class="dots"><i class="on"></i><i></i><i></i></div></div>';
+  },
+  init: function (ph) {
+    var r = ph.querySelector(".rail"), ds = ph.querySelectorAll(".dots i");
+    function upd() { var i = Math.round(r.scrollLeft / 327); ds.forEach(function (d, j) { d.classList.toggle("on", j === i); }); }
+    r.addEventListener("scroll", upd); setInterval(upd, 250);
+    ph.querySelector(".nav.p").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
+    ph.querySelector(".nav.n").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
+  } });
+
+/* 5 · snowman stack */
+V.push({ t: "Stack", d: "Discs stacked like a snowman, small on top to large at the bottom, text beside each.",
+  html: function () {
+    var D = [86, 108, 130], W = [48, 58, 70];
+    return '<div class="col">' + SIZES.map(function (z, i) { return '<button class="row opt hov" data-k="' + z.k + '"><span class="ax"><span class="disc cta" style="width:' + D[i] + 'px;height:' + D[i] + 'px">' + img(z, W[i]) + '</span></span><span><span class="nm cap">' + z.nm + '</span><span class="ln cap">' + z.ln + '</span><span class="sb cap">' + z.sb + '</span></span></button>'; }).join("") + '</div>';
+  } });
+
+/* 6 · zigzag */
+V.push({ t: "Zigzag", d: "Discs alternate left and right down the screen, text on the opposite side.",
+  html: function () {
+    return '<div class="col">' + SIZES.map(function (z, i) { return '<button class="row opt hov ' + (i === 1 ? 'r' : 'l') + '" data-k="' + z.k + '"><span class="disc cta" style="width:104px;height:104px">' + img(z, Math.round(z.w * 0.72)) + '</span><span style="flex:1"><span class="nm cap">' + z.nm + '</span><span class="ln cap">' + z.ln + '</span><span class="sb cap">' + z.sb + '</span></span></button>'; }).join("") + '</div>';
+  } });
+
+/* 7 · bubble cluster */
+V.push({ t: "Bubble cluster", d: "Two smaller bubbles above, the biggest settled below. Name and length under each.",
+  html: function () {
+    var P = [{ l: 4, t: 12, d: 98, w: 56 }, { l: 205, t: 66, d: 114, w: 66 }, { l: 93, t: 232, d: 144, w: 86 }];
+    return '<div class="wrap">' + SIZES.map(function (z, i) { var p = P[i], cw = Math.max(p.d, 120); return '<button class="b opt hov" data-k="' + z.k + '" style="left:' + (p.l - (cw - p.d) / 2) + 'px;top:' + p.t + 'px;width:' + cw + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + img(z, p.w) + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div>';
+  } });
+
+/* 8 · thirds */
+V.push({ t: "Thirds", d: "Step 1's circle, now cut in three vertical slices. Details under each slice.",
+  html: function () {
+    return '<div class="circle">' + SIZES.map(function (z, i) { return '<button class="th cta" data-k="' + z.k + '" aria-label="' + z.nm + '">' + img(z, [50, 58, 64][i]) + '</button>'; }).join("") + '</div>' +
+           '<div class="caps">' + SIZES.map(function (z) { return '<button class="opt hov" data-k="' + z.k + '"><span class="nm cap">' + z.nm + '</span><span class="ln cap">' + z.ln + '</span><span class="sb cap">' + z.sb + '</span></button>'; }).join("") + '</div>';
+  } });
+
+/* 9 · number line */
+V.push({ t: "Number line", d: "Discs sit where their lengths fall on a ruler from 17′ to 24′. Range bars underneath.",
+  html: function () {
+    var x = function (ft) { return 20 + (ft - 17) / 7 * 287; };
+    var P = [{ cx: x(SIZES[0].mid), t: 4, d: 88, w: 50 }, { cx: x(SIZES[1].mid), t: 116, d: 88, w: 56 }, { cx: x(SIZES[2].mid), t: 4, d: 88, w: 60 }];
+    var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], ry = 26, tick = '';
+    for (var f = 17; f <= 24; f++) tick += '<line x1="' + x(f) + '" x2="' + x(f) + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/><text class="tk" x="' + x(f) + '" y="' + (ry + 22) + '">' + f + '′</text>';
+    var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
+    var conn = P.map(function (p, i) { var top = p.t + p.d + 44; var bot = 424 - 56 + ry - 8; return '<line x1="' + p.cx + '" x2="' + p.cx + '" y1="' + top + '" y2="' + bot + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
+    return '<div class="wrap"><svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 424" aria-hidden="true">' + conn + '<g transform="translate(0 ' + (424 - 56) + ')">' + tick + bars + '</g></svg>' +
+      SIZES.map(function (z, i) { var p = P[i]; return '<button class="p opt hov" data-k="' + z.k + '" style="left:' + (p.cx - 55) + 'px;top:' + p.t + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + img(z, p.w) + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div>';
+  } });
+
+/* 10 · typographic list */
+V.push({ t: "Type-first list", d: "The names set big; a small disc at the right edge is the button. Hairlines between rows.",
+  html: function () {
+    return '<div class="col">' + SIZES.map(function (z) { return '<button class="row opt hov" data-k="' + z.k + '"><span style="text-align:left"><span class="nm cap">' + z.nm + '</span><span class="ln cap">' + z.ln + '</span><span class="sb cap">' + z.sb + '</span></span><span class="disc cta" style="width:84px;height:84px">' + img(z, Math.round(z.w * 0.56)) + '</span></button>'; }).join("") + '</div>';
+  } });
+
+var CHROME_VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg>';
+var html = "";
+V.forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-i="' + i + '"><h2>' + (i + 1) + ' · ' + v.t + '<small>' + v.d + '</small></h2>' +
+    '<div class="phone v' + (i + 1) + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 2 of 6"><div class="road"><div class="done"></div>' + CHROME_VAN + '</div><div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div></div>' +
+    '<div class="body"><h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1><div class="content">' + v.html() + '</div></div>' +
+    '<a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a></div></div>';
+});
+document.getElementById("stage").innerHTML = html;
+
+document.querySelectorAll(".road").forEach(function (r) {
+  r.querySelector(".van").style.left = "calc((100% - 40px) * 0.2)";
+  r.querySelector(".done").style.width = "calc((100% - 40px) * 0.2 + 24px)";
+});
+V.forEach(function (v, i) { if (v.init) v.init(document.querySelector('.v' + (i + 1))); });
+
+/* tap flash */
+document.querySelectorAll("[data-k]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var all = b.closest(".phone").querySelectorAll('[data-k="' + b.dataset.k + '"]');
+    all.forEach(function (e) { e.classList.add("on"); });
+    setTimeout(function () { all.forEach(function (e) { e.classList.remove("on"); }); }, 700);
+  });
+});
+
+/* phone-width pager */
+var cur = 0, slots = document.querySelectorAll(".slot");
+function show(n) { cur = (n + V.length) % V.length; slots.forEach(function (s, i) { s.classList.toggle("show", i === cur); }); document.getElementById("plab").textContent = (cur + 1) + " / " + V.length + " · " + V[cur].t; }
+document.getElementById("pp").addEventListener("click", function () { show(cur - 1); });
+document.getElementById("pn").addEventListener("click", function () { show(cur + 1); });
+show(0);
+</script>
+</body>
+</html>
