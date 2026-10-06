@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 1 (progress: filling silhouette)</title>
+<style>
+/* Throwaway sample: Step 1 with progress option 11 (caravan silhouette that fills as steps complete) — one split circle, icons only, text underneath.
+   The halves behave like the site's other CTAs (.btn-build): solid orange with a
+   2px inset outline; hover/focus flips to white with orange content; press flips back.
+   All px, no rem (HANDOFF §3). Not linked from any live page. */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; }
+:root { --orange:#E37921; --orange-deep:#D57114; --line:#E6E6E6; --m:24px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+
+.phone { position:relative; width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+@media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
+
+.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+/* progress: an empty caravan silhouette that fills with orange as steps complete,
+   solid on step 6. The fill is a clip that wipes left to right. */
+.prog { flex:none; display:flex; align-items:center; gap:18px; padding:14px var(--m) 0; }
+.sil { flex:none; width:120px; height:auto; display:block; overflow:visible; }
+.sil .base { fill:#f1f1f1; stroke:#cfcfcf; stroke-width:2.5; stroke-linejoin:round; --cut:#fff; }
+.sil .fill { fill:var(--orange-deep); stroke:var(--orange-deep); stroke-width:2.5; stroke-linejoin:round; --cut:#fff; }
+.sil #clipw { transition:width .6s ease; }
+.ptxt { font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.ptxt .a { color:var(--orange-deep); display:block; }
+.ptxt .b { display:block; margin-top:2px; font-weight:900; font-size:20px; line-height:24px; letter-spacing:0; color:#000; }
+.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
+h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
+/* back: just a chevron, bottom-left. Deliberately quiet: going back is allowed but not encouraged.
+   The 52px box is the tap target; the chevron's left edge lines up with the 24px page margin. */
+.back {
+  position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom));
+  width:52px; height:52px; display:grid; place-items:center;
+  color:#8a8a8a; transition:color .42s ease;
+}
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { color:var(--orange-deep); }
+.back:focus-visible { outline:2px solid #000; outline-offset:3px; }
+
+/* one circle, two halves. Each half is rounded on its own outer edge so the inset
+   outline follows the arc (a clipped container would cut it off). 6px gap between. */
+.wrap { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:0 0 64px; }
+.circle { flex:none; width:300px; height:300px; display:flex; gap:6px; }
+.half {
+  --fill: var(--orange-deep);
+  flex:1; min-width:0; display:grid; place-items:center;
+  background:var(--fill); color:#fff;
+  box-shadow:inset 0 0 0 2px var(--fill);
+  transition:background .42s ease, color .42s ease, box-shadow .42s ease;
+}
+.half.L { border-radius:147px 0 0 147px / 150px 0 0 150px; }
+.half.R { border-radius:0 147px 147px 0 / 0 150px 150px 0; }
+.half svg { width:104px; height:auto; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+/* hover/focus, and the caption beneath counts as part of the same button */
+.half:hover, .half:focus-visible,
+.wrap:has(.cap.L:hover) .half.L, .wrap:has(.cap.R:hover) .half.R { background:#fff; color:var(--fill); }
+.half:active, .half.on,
+.wrap:has(.cap.L:active) .half.L, .wrap:has(.cap.R:active) .half.R { background:var(--fill); color:#fff; }
+.half:focus-visible { outline:2px solid #000; outline-offset:3px; }
+
+/* captions hug the dividing line: left text right-aligned, right text left-aligned */
+.captions { flex:none; width:327px; display:flex; gap:6px; }
+.cap { flex:1; min-width:0; cursor:pointer; }
+.cap.L { text-align:right; padding:0 12px 0 0; }
+.cap.R { text-align:left; padding:0 0 0 12px; }
+.cap b { display:block; margin-bottom:6px; font-family:var(--aviano); font-weight:900; font-size:18px; line-height:22px; text-transform:uppercase; }
+.cap small { display:block; font-size:15px; line-height:22px; color:#444; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- one adult: head + shoulders, baseline y=0, centred on x=0 -->
+    <g id="adult"><circle cx="0" cy="-35" r="6"/><path d="M-11 0v-14a11 11 0 0 1 22 0v14z"/></g>
+  </defs>
+  <symbol id="couples" viewBox="0 0 72 64">
+    <path d="M36 15.5c-5.4-3.9-8.6-6.5-8.6-10a4.5 4.5 0 0 1 8.6-1.9 4.5 4.5 0 0 1 8.6 1.9c0 3.5-3.2 6.1-8.6 10z"/>
+    <use href="#adult" x="20" y="62"/><use href="#adult" x="52" y="62"/>
+  </symbol>
+  <symbol id="family" viewBox="0 0 72 64">
+    <use href="#adult" x="14" y="62"/><use href="#adult" x="58" y="62"/>
+    <g transform="translate(36 62) scale(.66)"><circle cx="0" cy="-35" r="6" vector-effect="non-scaling-stroke"/><path d="M-11 0v-14a11 11 0 0 1 22 0v14z" vector-effect="non-scaling-stroke"/></g>
+  </symbol>
+</svg>
+
+<main class="phone">
+  <header class="bar">
+    <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+  </header>
+  <div class="prog" aria-label="Step 1 of 6">
+    <svg class="sil" viewBox="0 0 220 96" aria-hidden="true">
+      <defs>
+        <clipPath id="clipfill"><rect id="clipw" x="0" y="0" width="0" height="96"/></clipPath>
+        <g id="van">
+          <rect x="98" y="11" width="24" height="7" rx="3.5"/>
+          <path d="M38 64L30 34Q29 18 46 18H186Q204 18 204 36V64Z"/>
+          <rect x="34" y="63" width="174" height="7" rx="3.5"/>
+          <path d="M33 66L6 76" fill="none"/><path d="M13 71V84" fill="none"/>
+          <circle cx="120" cy="72" r="12"/><circle cx="150" cy="72" r="12"/>
+          <circle cx="120" cy="72" r="4" style="fill:var(--cut);stroke:none"/><circle cx="150" cy="72" r="4" style="fill:var(--cut);stroke:none"/>
+          <rect x="66" y="30" width="42" height="19" rx="4" style="fill:var(--cut);stroke:none"/>
+          <rect x="136" y="28" width="30" height="35" rx="4" style="fill:none;stroke:var(--cut);stroke-width:3"/>
+        </g>
+      </defs>
+      <use href="#van" class="base"/>
+      <use href="#van" class="fill" clip-path="url(#clipfill)"/>
+    </svg>
+    <p class="ptxt"><span class="a">Step 1 of 6</span><span class="b">Layout</span></p>
+  </div>
+  <div class="body">
+    <h1>Who&rsquo;s <span style="white-space:nowrap">coming along?</span></h1>
+    <div class="wrap">
+      <div class="circle">
+        <button class="half L" type="button" data-t="couples" aria-label="Couple&rsquo;s"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#couples"/></svg></button>
+        <button class="half R" type="button" data-t="family" aria-label="Family"><svg viewBox="0 0 72 64" aria-hidden="true"><use href="#family"/></svg></button>
+      </div>
+      <div class="captions">
+        <div class="cap L" data-t="couples"><b>Couple&rsquo;s</b><small>I&rsquo;m looking to travel with my&nbsp;partner.</small></div>
+        <div class="cap R" data-t="family"><b>Family</b><small>I&rsquo;m looking to travel with my&nbsp;family.</small></div>
+      </div>
+    </div>
+  </div>
+  <a class="back" href="home.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</main>
+
+<script>
+/* a tap on a half or its caption flashes the pressed state on the half */
+document.querySelectorAll("[data-t]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    var h = document.querySelector('.half[data-t="' + el.dataset.t + '"]');
+    h.classList.add("on");
+    setTimeout(function () { h.classList.remove("on"); }, 700);
+  });
+});
+
+/* progress demo: tapping a half nudges the fill on to step 2, then it returns so you can watch it fill */
+var STEPS = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
+function setStep(s) {
+  var p = (s + 1) / STEPS.length;
+  document.getElementById("clipw").style.width = (20 + 190 * p) + "px";
+  document.querySelector(".ptxt .a").textContent = "Step " + (s + 1) + " of " + STEPS.length;
+  document.querySelector(".ptxt .b").textContent = STEPS[s];
+}
+setStep(0);
+document.querySelectorAll("[data-t]").forEach(function (el) {
+  el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 2200); });
+});
+</script>
+</body>
+</html>
