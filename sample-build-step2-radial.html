@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 2 (size), radial</title>
+<style>
+/* Throwaway sample: Step 2 (size) as a radial arrangement. Three equal discs placed around a
+   centre at 12, 4 and 8 o'clock, ordered small to large clockwise on a dashed track (the road
+   motif from the header). Original size icons from the live configurator. All px, no rem. */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+:root { --o:#D57114; --line:#E6E6E6; --m:24px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:inherit; }
+
+.phone { position:relative; width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+@media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
+
+/* chrome, as adopted on Step 1 */
+.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+.prog { flex:none; padding:14px var(--m) 14px; border-bottom:1px solid #eee; }
+.road { position:relative; height:30px; }
+.road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
+.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--o); }
+.road .van { position:absolute; bottom:4px; width:40px; height:22px; }
+.prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.prow .l { color:var(--o); } .prow .r { color:#888; }
+.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
+h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
+.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { color:var(--o); }
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:60px; }
+
+/* the radial: a 327 x 430 stage; centre of the ring at (163.5, 166) */
+.stage { position:relative; width:327px; height:430px; }
+.track { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.hub { position:absolute; left:163.5px; top:166px; transform:translate(-50%,-50%); width:84px; text-align:center; font-family:var(--aviano); font-weight:700; font-size:10px; line-height:14px; letter-spacing:.08em; text-transform:uppercase; color:#999; }
+.hub svg { display:block; margin:0 auto 4px; width:20px; height:20px; fill:none; stroke:#bbb; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+.opt { position:absolute; display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; width:112px; }
+.disc { width:104px; height:104px; border-radius:50%; display:grid; place-items:center; }
+.ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
+.cta { --bg:var(--o); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--o), 0 0 0 4px #fff; transition:background .42s ease, color .42s ease; }
+.opt:hover .cta, .opt:focus-visible .cta { --bg:#fff; --fg:var(--o); box-shadow:inset 0 0 0 2px var(--o), 0 0 0 4px #fff; }
+.opt:hover .ico, .opt:focus-visible .ico { filter:none; }
+.opt:active .cta, .opt.on .cta { --bg:var(--o); --fg:#fff; }
+.opt:active .ico, .opt.on .ico { filter:brightness(0) invert(1); }
+.opt:hover .nm, .opt:focus-visible .nm { color:var(--o); }
+.opt:focus-visible { outline:none; }
+.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; font-size:15px; line-height:19px; margin-top:10px; transition:color .42s ease; }
+.ln { display:block; font-size:13px; line-height:18px; color:#444; white-space:nowrap; }
+.sb { display:block; font-size:13px; line-height:18px; color:#666; margin-top:6px; width:112px; }
+/* the top disc keeps its text above it so the three labels never collide */
+.opt.top .tx { order:-1; margin-bottom:10px; }
+.opt.top .nm { margin-top:0; }
+</style>
+</head>
+<body>
+<main class="phone">
+  <header class="bar">
+    <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+  </header>
+  <div class="prog" aria-label="Step 2 of 6">
+    <div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div>
+  </div>
+  <div class="body">
+    <h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1>
+    <div class="content"><div class="stage" id="stage"></div></div>
+  </div>
+  <a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</main>
+
+<script>
+var SIZES = [
+  { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", sb: "Tight campsites, winding roads.",        w: 76, src: "assets/img/build/size-compact.png" },
+  { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", sb: "A balance of space and manoeuvrability.", w: 85, src: "assets/img/build/size-mid.png" },
+  { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", sb: "Ample room to spread out.",              w: 94, src: "assets/img/build/size-spacious.png" }
+];
+/* ring of radius R about (CX, CY): Compact at 12 o'clock, Mid-size at 4, Spacious at 8, so size grows clockwise */
+var CX = 163.5, CY = 166, R = 100, D = 104;
+var ANG = [-90, 30, 150];
+var out = '<svg class="track" viewBox="0 0 327 430" aria-hidden="true"><circle cx="' + CX + '" cy="' + CY + '" r="' + R + '" fill="none" stroke="#d4d4d4" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/></svg>';
+out += '<div class="hub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.5-5.8"/><path d="M20 4v4.5h-4.5"/></svg>Small<br>to large</div>';
+SIZES.forEach(function (z, i) {
+  var a = ANG[i] * Math.PI / 180, x = CX + R * Math.cos(a), y = CY + R * Math.sin(a);
+  var left = x - 56, top = y - D / 2;
+  var tx = '<span class="tx"><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span>' + (i === 0 ? '' : '<span class="sb">' + z.sb + '</span>') + '</span>';
+  if (i === 0) tx = '<span class="tx"><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></span>';
+  out += '<button class="opt' + (i === 0 ? ' top' : '') + '" data-k="' + z.k + '" style="left:' + left + 'px;top:' + (i === 0 ? top - 38 : top) + 'px">' +
+         '<span class="disc cta"><img class="ico" src="' + z.src + '" alt="" style="width:' + Math.round(z.w * 0.72) + 'px"></span>' + tx + '</button>';
+});
+document.getElementById("stage").innerHTML = out;
+
+var r = document.querySelector(".road");
+r.querySelector(".van").style.left = "calc((100% - 40px) * 0.2)";
+r.querySelector(".done").style.width = "calc((100% - 40px) * 0.2 + 24px)";
+
+document.querySelectorAll(".opt").forEach(function (b) {
+  b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+});
+</script>
+</body>
+</html>
