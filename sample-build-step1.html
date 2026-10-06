@@ -32,17 +32,15 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer;
 .plabel { margin-top:10px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--orange-deep); }
 .body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
 h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-/* back: a white circle, orange outline, arrow inside; sits in the bottom-left corner.
-   Same CTA behaviour as the halves: hover/focus flips to solid orange with a white arrow. */
+/* back: just a chevron, bottom-left. Deliberately quiet: going back is allowed but not encouraged.
+   The 52px box is the tap target; the chevron's left edge lines up with the 24px page margin. */
 .back {
-  position:absolute; left:var(--m); bottom:max(24px, env(safe-area-inset-bottom));
-  width:52px; height:52px; border-radius:50%; display:grid; place-items:center;
-  background:#fff; color:var(--orange-deep); box-shadow:inset 0 0 0 2px var(--orange-deep);
-  transition:background .42s ease, color .42s ease;
+  position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom));
+  width:52px; height:52px; display:grid; place-items:center;
+  color:#8a8a8a; transition:color .42s ease;
 }
-.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-.back:hover, .back:focus-visible { background:var(--orange-deep); color:#fff; }
-.back:active { background:#fff; color:var(--orange-deep); }
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { color:var(--orange-deep); }
 .back:focus-visible { outline:2px solid #000; outline-offset:3px; }
 
 /* one circle, two halves. Each half is rounded on its own outer edge so the inset
