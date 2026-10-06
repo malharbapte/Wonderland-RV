@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 2 (size), three options</title>
+<style>
+/* Throwaway sample: Step 2 (size), three treatments. Same chrome as the adopted Step 1:
+   caravan-on-the-road progress with a divider, bare chevron back, CTA hover = white with
+   orange content. Lengths are from the live configurator. All px, no rem (HANDOFF §3). */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+:root { --orange:#E37921; --orange-deep:#D57114; --line:#E6E6E6; --m:24px;
+  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; }
+.phone { position:relative; width:375px; height:812px; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
+
+/* chrome, as adopted on Step 1 */
+.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
+.bar img { display:block; height:26px; width:auto; }
+.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
+.bar .x svg { width:18px; height:18px; }
+.prog { flex:none; padding:14px var(--m) 14px; border-bottom:1px solid #eee; }
+.road { position:relative; height:30px; }
+.road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
+.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--orange-deep); transition:width .6s ease; }
+.road .van { position:absolute; bottom:4px; width:40px; height:22px; transition:left .6s ease; }
+.prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+.prow .l { color:var(--orange-deep); } .prow .r { color:#888; }
+.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
+h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
+.back { position:absolute; left:calc(var(--m) - 22px); bottom:max(24px, env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
+.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.back:hover, .back:focus-visible { color:var(--orange-deep); }
+
+.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:64px; }
+.nm { font-family:var(--aviano); font-weight:900; text-transform:uppercase; }
+.ln { font-family:var(--gordita); color:#444; }
+.sb { font-family:var(--gordita); color:#666; }
+
+/* the caravan outline, drawn once; fill and stroke come from the element that uses it */
+.ic { stroke-linejoin:round; stroke-linecap:round; }
+
+/* CTA behaviour shared by A and B: solid orange, white content; hover/focus flips it */
+.cta { --bg:var(--orange-deep); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--orange-deep); transition:background .42s ease, color .42s ease; }
+.cta:hover, .cta:focus-visible { --bg:#fff; --fg:var(--orange-deep); }
+.cta:active, .cta.on { --bg:var(--orange-deep); --fg:#fff; }
+.cta .ic { fill:currentColor; stroke:currentColor; stroke-width:3; --cut:var(--bg); transition:fill .42s ease, stroke .42s ease; }
+.cta:focus-visible { outline:2px solid #000; outline-offset:3px; }
+
+/* A — growing circles: three discs that get bigger, bottoms aligned */
+.A .row { display:flex; align-items:flex-end; justify-content:center; gap:8px; width:327px; }
+.A .opt { display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; }
+.A .disc { border-radius:50%; display:grid; place-items:center; margin-bottom:12px; }
+.A .s1 .disc { width:82px; height:82px; } .A .s2 .disc { width:100px; height:100px; } .A .s3 .disc { width:118px; height:118px; }
+.A .disc .ic { width:70%; height:auto; stroke-width:1; }
+.A .nm { font-size:14px; line-height:18px; }
+.A .ln { font-size:13px; line-height:18px; margin-top:2px; white-space:nowrap; }
+.A .sb { font-size:13px; line-height:18px; margin-top:8px; width:104px; }
+.A .s1 .sb { width:92px; }
+.A .opt:hover .nm, .A .opt:focus-within .nm { color:var(--orange-deep); }
+
+/* B — one circle sliced into three, the 6px gap echoing Step 1's split */
+.B .circle { position:relative; width:300px; height:300px; border-radius:50%; overflow:hidden; display:flex; flex-direction:column; gap:6px; }
+.B .circle::after { content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 2px var(--orange-deep); pointer-events:none; }
+.B .slice { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:14px; padding:0 18px; text-align:left; }
+.B .slice .ic { flex:none; height:auto; stroke-width:1; }
+.B .s1 .ic { width:58px; } .B .s2 .ic { width:66px; } .B .s3 .ic { width:74px; }
+.B .nm { font-size:15px; line-height:19px; }
+.B .ln { font-size:13px; line-height:18px; color:inherit; opacity:.9; }
+.B .tx { width:112px; }
+
+/* C — length ruler: the vans are the buttons, drawn to relative length, hitches aligned */
+.C .list { width:327px; display:flex; flex-direction:column; gap:18px; }
+.C .opt { display:block; text-align:left; width:100%; cursor:pointer; }
+.C .top { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; }
+.C .nm { font-size:16px; line-height:20px; }
+.C .ln { font-size:14px; line-height:20px; }
+.C .ic { display:block; height:auto; fill:var(--orange-deep); stroke:var(--orange-deep); stroke-width:3; --cut:#fff; transition:fill .42s ease; }
+.C .s1 .ic { width:234px; } .C .s2 .ic { width:263px; } .C .s3 .ic { width:288px; }
+.C .opt:hover .ic, .C .opt:focus-visible .ic { fill:#fff; }
+.C .opt:active .ic, .C .opt.on .ic { fill:var(--orange-deep); }
+.C .opt:focus-visible { outline:none; }
+.C .sbx { display:none; }
+
+.pick { display:none; }
+@media (max-width:900px) {
+  body { background:#fff; }
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .phone { width:100%; height:calc(100dvh - 36px); box-shadow:none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- Wonderland van outline, hitch left. fill/stroke/--cut come from whoever references it. -->
+  <symbol id="vano" viewBox="0 0 260 100">
+    <rect x="138" y="8" width="36" height="7" rx="3"/><rect x="190" y="9" width="16" height="6" rx="3"/>
+    <path d="M88 70V32L102 14H226Q238 14 238 26V70Z"/>
+    <path d="M56 72V54L66 47H88V72Z"/>
+    <path d="M60 71L4 80" fill="none" stroke-width="5"/>
+    <path d="M20 78V90" fill="none" stroke-width="3"/><circle cx="20" cy="92" r="5"/>
+    <rect x="34" y="59" width="9" height="13" rx="3"/><rect x="45" y="59" width="9" height="13" rx="3"/>
+    <rect x="232" y="68" width="22" height="6" rx="3"/><circle cx="250" cy="52" r="13"/>
+    <circle cx="166" cy="82" r="20" style="fill:var(--cut);stroke:none"/><circle cx="204" cy="82" r="20" style="fill:var(--cut);stroke:none"/>
+    <circle cx="166" cy="82" r="15"/><circle cx="204" cy="82" r="15"/>
+  </symbol>
+</svg>
+
+<div class="pick" id="pick"><button class="on" data-v="A">A · Growing</button><button data-v="B">B · Sliced</button><button data-v="C">C · Ruler</button></div>
+<div class="stage" id="stage"></div>
+
+<script>
+var SIZES = [
+  { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", sb: "Tight campsites, winding roads." },
+  { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", sb: "A balance of space and manoeuvrability." },
+  { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", sb: "Ample room to spread out." }
+];
+var NOTES = {
+  A: ["A · Growing circles", "Three discs that grow with the size. Name, length and a line under each."],
+  B: ["B · Sliced circle", "One circle cut into three, echoing Step 1's split. Name and length inside."],
+  C: ["C · Length ruler", "The vans themselves are the buttons, drawn to relative length."]
+};
+function ic(extra) { return '<svg class="ic" viewBox="0 0 260 100" aria-hidden="true"><use href="#vano"/></svg>'; }
+
+function optA(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="disc cta">' + ic() + '</span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span><span class="sb">' + z.sb + '</span></button>'; }
+function optB(z, i) { return '<button class="slice cta s' + (i + 1) + '" data-k="' + z.k + '">' + ic() + '<span class="tx"><span class="nm" style="display:block">' + z.nm + '</span><span class="ln" style="display:block">' + z.ln + '</span></span></button>'; }
+function optC(z, i) { return '<button class="opt s' + (i + 1) + '" data-k="' + z.k + '"><span class="top"><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></span>' + ic() + '</button>'; }
+
+function content(v) {
+  if (v === "A") return '<div class="row">' + SIZES.map(optA).join("") + '</div>';
+  if (v === "B") return '<div class="circle">' + SIZES.map(optB).join("") + '</div>';
+  return '<div class="list">' + SIZES.map(optC).join("") + '</div>';
+}
+
+var html = "";
+["A", "B", "C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+  '<div class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+  '<div class="prog" aria-label="Step 2 of 6"><div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg></div><div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div></div>' +
+  '<div class="body"><h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1><div class="content">' + content(v) + '</div></div>' +
+  '<a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></div></div>';
+});
+document.getElementById("stage").innerHTML = html;
+
+/* progress at step 2 of 6 */
+document.querySelectorAll(".road").forEach(function (r) {
+  var p = 1 / 5;
+  r.querySelector(".van").style.left = "calc((100% - 40px) * " + p + ")";
+  r.querySelector(".done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
+});
+
+/* tap flash */
+document.querySelectorAll("[data-k]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var t = b.classList.contains("slice") ? b : (b.querySelector(".disc") || b);
+    b.classList.add("on"); t.classList.add("on");
+    setTimeout(function () { b.classList.remove("on"); t.classList.remove("on"); }, 700);
+  });
+});
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (x) { x.classList.toggle("on", x === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+</script>
+</body>
+</html>
