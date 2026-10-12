@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 4 (bed), three visual styles</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=14">
+<style>
+/* Throwaway sample: the SAME Step 4 layout three times, with three different ways of drawing the bed.
+   A soft plan (top-down, warm, with shadows)   B cutaway (a 3D corner of the van)   C line art (fine lines, the shared gradient on the table and chest).
+   Both the big drawing and the small icons change with the style. Prices are the live configurator's for the chosen model. All px, no rem.
+   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+.pick { display:none; }
+.phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
+.pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
+
+.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#F4EEE7; flex:none; }
+.seg button { position:relative; flex:1; height:44px; border-radius:26px; display:flex; align-items:center; justify-content:center; color:var(--ink); font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.05em; text-transform:uppercase; transition:color .42s ease; }
+.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--grad); opacity:0; transition:opacity .42s ease; }
+.seg button > * { position:relative; }
+.seg button.on { color:#fff; } .seg button.on::before { opacity:1; }
+.seg button:not(.on):hover, .seg button:not(.on):focus-visible { color:var(--o); } .seg button:focus-visible { outline:none; }
+
+.ics { display:flex; gap:8px; margin-top:12px; flex:none; }
+.ic { position:relative; flex:none; width:74px; height:56px; border-radius:16px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:grid; place-items:center; transition:box-shadow .3s ease, background .3s ease; }
+.ic svg { width:60px; height:46px; display:block; }
+.ic:hover, .ic:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); outline:none; }
+.ic.on { background:#FFF1E2; box-shadow:inset 0 0 0 2px var(--o); }
+.cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
+
+.dg { flex:none; margin-top:18px; }
+.dg .cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
+.dg svg { display:block; width:100%; height:auto; -webkit-mask-image:linear-gradient(90deg,#000 80%,transparent); mask-image:linear-gradient(90deg,#000 80%,transparent); }
+
+.foot { margin-top:auto; flex:none; display:flex; align-items:center; justify-content:space-between; }
+.foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
+.foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
+.go { position:relative; width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; flex:none; }
+.go::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
+.go svg { position:relative; width:26px; height:26px; fill:none; stroke:#fff; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
+.go:hover::before, .go:focus-visible::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); } .go:focus-visible { outline:none; }
+.go:active::before, .go.on::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
+
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px); }
+}
+</style>
+</head>
+<body>
+<div class="pick" id="pick"><button class="on" data-v="A">A · Soft plan</button><button data-v="B">B · Cutaway</button><button data-v="C">C · Line art</button></div>
+<div class="stage" id="stage"></div>
+
+<script src="assets/js/build-data.js?v=2"></script>
+<script src="assets/js/build-progress.js?v=10"></script>
+<script>
+var Q = location.search;
+var CH = WLProgress.choices();
+var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
+var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
+var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+var BEDLINE = { "king-table": "King, side table on the door side", "king-chest": "King, storage chest on the door side", "king-lift": "King, electric lift-up", "queen-dual-table": "Queen, a table each side", "queen-dual-chest": "Queen, a storage chest each side", "queen-chest-table": "Queen, chest on the road side, table on the door side", "queen-ew": "Queen, east–west, storage at the bed head" };
+var BEDS = wlBeds(TYPE, SIZE, MODEL).filter(function (b) { return b.price !== null; });
+var GROUPS = ["King", "Queen"].filter(function (g) { return BEDS.some(function (b) { return b.group === g; }); });
+
+/* ---------- the geometry, in feet. Head of the bed at the front (left), road side at the top, door side at the bottom. ---------- */
+var U = 13, WFT = 7.5, PADD = 6, O = "#D57114", WALL = "#2B2B2B";
+var DIM = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
+  "queen-dual-table": { l: 6.25, w: 5.0, near: "t", far: "t" }, "queen-dual-chest": { l: 6.5, w: 5.0, near: "c", far: "c" }, "queen-chest-table": { l: 6.5, w: 5.0, near: "t", far: "c" }, "queen-ew": { ew: 1 } };
+function geo(k) {
+  var b = DIM[k], x0 = .42;
+  if (b.ew) return { bed: { x: x0, y: 1.3, l: 5.0, w: 5.95 }, items: [{ t: "c", x: x0, y: .18, l: 5.0, w: .95 }], ew: 1 };
+  var y0 = b.w > 5.5 ? .32 : 1.25, items = [];
+  var item = function (kind, y) { return kind === "t" ? { t: "t", x: x0, y: y, l: 1, w: 1 } : { t: "c", x: x0, y: y, l: b.l, w: .95 }; };
+  if (b.far) items.push(item(b.far, y0 - 1.06));
+  if (b.near) items.push(item(b.near, y0 + b.w + .06));
+  return { bed: { x: x0, y: y0, l: b.l, w: b.w }, items: items, up: b.up, ew: 0 };
+}
+var uidN = 0, uid = function () { return "g" + (++uidN); };
+var n2 = function (v) { return (+v).toFixed(2); };
+var shellPath = function (L) { return 'M1.4 0H' + L + 'V' + WFT + 'H1.4A1.4 1.4 0 0 1 0 ' + (WFT - 1.4) + 'V1.4A1.4 1.4 0 0 1 1.4 0Z'; };
+
+/* ---------- A: soft plan ---------- */
+function drawA(k, o) {
+  var G = geo(k), L = 30, crop = o.crop, id = uid(), s = "", ic = o.icon;
+  var rect = function (x, y, w, h, fill, rx, extra) { return '<rect x="' + n2(x) + '" y="' + n2(y) + '" width="' + n2(w) + '" height="' + n2(h) + '" rx="' + (rx || 0) + '" fill="' + fill + '" ' + (extra || "") + '/>'; };
+  s += '<defs><linearGradient id="' + id + 'f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FCF9F5"/><stop offset="1" stop-color="#F3EADF"/></linearGradient><linearGradient id="' + id + 'o" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F08C3C"/><stop offset="1" stop-color="#CC6A12"/></linearGradient><filter id="' + id + 's" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx=".06" dy=".12" stdDeviation=".14" flood-color="#5A3A1A" flood-opacity=".28"/></filter><clipPath id="' + id + 'c"><path d="' + shellPath(L) + '"/></clipPath></defs>';
+  s += '<path d="' + shellPath(L) + '" fill="url(#' + id + 'f)"/>';
+  if (!ic) { s += '<g clip-path="url(#' + id + 'c)" stroke="#EBDFD1" stroke-width=".035">'; for (var y = .75; y < WFT; y += .75) s += '<line x1="0" y1="' + y + '" x2="' + L + '" y2="' + y + '"/>'; s += '</g>'; }
+  /* road-side window and the front window */
+  s += rect(2.6, -.04, 3.2, .34, "#D6E4EB", .1) + (ic ? "" : rect(2.6, .1, 3.2, .06, "#fff", 0, 'opacity=".7"'));
+  s += '<path d="' + shellPath(L) + '" fill="none" stroke="' + WALL + '" stroke-width=".24" stroke-linejoin="round"/>';
+  var B = G.bed, f = ' filter="url(#' + id + 's)"';
+  var item = function (it) {
+    var g = '<g' + f + '>' + rect(it.x, it.y, it.l, it.w, "url(#" + id + "o)", it.t === "t" ? .26 : .32) + '</g>';
+    if (it.t === "t") g += '<circle cx="' + n2(it.x + .5) + '" cy="' + n2(it.y + .5) + '" r=".24" fill="#FFF1E2"/>';
+    else g += rect(it.x + .5, it.y + it.w / 2 - .035, it.l - 1, .07, "#fff", .035, 'opacity=".45"') + rect(it.x + it.l / 2 - .7, it.y + .2, 1.4, .1, "#FFD9B0", .05) + rect(it.x + it.l / 2 - .7, it.y + .64, 1.4, .1, "#FFD9B0", .05);
+    return g;
+  };
+  G.items.forEach(function (it) { if (it.y < B.y) s += item(it); });
+  /* the bed: mattress, duvet, a throw across it, pillows */
+  s += '<g' + f + '>' + rect(B.x, B.y, B.l, B.w, "#EFE2D1", .4) + '</g>';
+  var dvx = B.ew ? B.x : B.x + .95, dvy = B.ew ? B.y + 1.15 : B.y + .12;
+  if (G.ew) {
+    s += rect(B.x + .1, B.y + 1.15, B.l - .2, B.w - 1.25, "#fff", .32, 'stroke="#E7DBCB" stroke-width=".05"') + rect(B.x + .1, B.y + B.w * .48, B.l - .2, .85, "#CDB89A", .0);
+    s += '<g' + f + '>' + rect(B.x + .25, B.y + .16, B.l / 2 - .38, .85, "#fff", .3, 'stroke="#E7DBCB" stroke-width=".05"') + rect(B.x + B.l / 2 + .13, B.y + .16, B.l / 2 - .38, .85, "#fff", .3, 'stroke="#E7DBCB" stroke-width=".05"') + '</g>';
+  } else {
+    var ph = B.w / 2 - .28;
+    s += rect(B.x + .95, B.y + .1, B.l - 1.05, B.w - .2, "#fff", .32, 'stroke="#E7DBCB" stroke-width=".05"');
+    s += rect(B.x + B.l * .46, B.y + .1, .95, B.w - .2, "#CDB89A", 0) + rect(B.x + B.l * .46 + .28, B.y + .1, .05, B.w - .2, "#B8A27F", 0, 'opacity=".5"');
+    s += '<g' + f + '>' + rect(B.x + .14, B.y + .2, .78, ph, "#fff", .3, 'stroke="#E7DBCB" stroke-width=".05"') + rect(B.x + .14, B.y + B.w - .2 - ph, .78, ph, "#fff", .3, 'stroke="#E7DBCB" stroke-width=".05"') + '</g>';
+    if (G.up) { var ax = B.x + B.l * .78, ay = B.y + B.w * .34; s += '<path d="M' + n2(ax) + ' ' + n2(B.y + B.w * .66) + 'V' + n2(ay) + 'M' + n2(ax - .7) + ' ' + n2(ay + .7) + 'L' + n2(ax) + ' ' + n2(ay) + 'L' + n2(ax + .7) + ' ' + n2(ay + .7) + '" fill="none" stroke="' + O + '" stroke-width=".3" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  }
+  G.items.forEach(function (it) { if (it.y >= B.y) s += item(it); });
+  var vbw = crop * U + PADD * 2;
+  return '<svg viewBox="0 0 ' + vbw + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')">' + s + '</g></svg>';
+}
+
+/* ---------- B: a cutaway, the corner of the van drawn in 3D ---------- */
+function drawB(k, o) {
+  var G = geo(k), H = 4.2, KY = .5, KZ = .16, SY = .5, SZ = .85, crop = o.crop, id = uid(), s = "";
+  var P = function (x, y, z) { return [((x + KY * (WFT - y) + KZ * z) * U + PADD), ((SY * y - SZ * z + SZ * H) * U + PADD)]; };
+  var poly = function (pts, fill, extra) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width="1" stroke-linejoin="round" ' + (extra || "") + '/>'; };
+  var xz = function (y, x1, x2, z1, z2, fill) { return poly([P(x1, y, z1), P(x2, y, z1), P(x2, y, z2), P(x1, y, z2)], fill); };
+  var yz = function (x, y1, y2, z1, z2, fill) { return poly([P(x, y1, z1), P(x, y2, z1), P(x, y2, z2), P(x, y1, z2)], fill); };
+  var xy = function (z, x1, x2, y1, y2, fill) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill); };
+  var box = function (x, y, z, l, w, h, c) { return xy(z + h, x, x + l, y, y + w, c[0]) + xz(y + w, x, x + l, z, z + h, c[1]) + yz(x + l, y, y + w, z, z + h, c[2]); };
+  var L = crop, WH = ["#F1E9DF", "#E5DCD0", "#D8CEC1"], CT = ["#F29A4B", "#D57114", "#B05A0C"], CB = ["#EDE4D6", "#D9CCB9", "#C8B8A2"], CW = ["#FFFFFF", "#EFE8DD", "#E2D8CA"];
+  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="2.2"/></filter></defs>';
+  s += xy(0, 0, L, 0, WFT, "#CDC4B8");                                    /* floor */
+  s += xz(0, 0, L, 0, H, "#F6F3EE") + yz(0, 0, WFT, 0, H, "#E4DED5");   /* road-side wall and front wall, inside faces */
+  s += xz(0, 2.2, 5.8, 1.9, 3.7, "#CFE0E8") + yz(0, 2.0, 5.5, 1.9, 3.7, "#C3D6DF");   /* windows */
+  s += xz(0, 2.2, 5.8, 3.45, 3.7, "#fff");
+  var B = G.bed;
+  s += xy(0, B.x - .15, B.x + B.l + .5, B.y + .1, B.y + B.w + .35, "rgba(40,25,10,.32)").replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
+  G.items.forEach(function (it) { if (it.y < B.y) s += box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, CT); });
+  s += box(B.x, B.y, 0, B.l, B.w, 1.2, CB);
+  if (G.ew) {
+    s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .22, CW) + xy(1.42, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, "#CDB89A");
+    s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, .45, CW) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, .45, CW);
+  } else {
+    var ph = B.w / 2 - .28;
+    s += box(B.x + .95, B.y + .1, 1.2, B.l - 1.05, B.w - .2, .22, CW) + xy(1.42, B.x + B.l * .46, B.x + B.l * .46 + .95, B.y + .1, B.y + B.w - .1, "#B79F78");
+    s += box(B.x + .12, B.y + .2, 1.2, .8, ph, .45, CW) + box(B.x + .12, B.y + B.w - .2 - ph, 1.2, .8, ph, .45, CW);
+    if (G.up) { var ax = B.x + B.l * .78, ay = B.y + B.w * .34, p = function (x, y) { var q = P(x, y, 1.44); return n2(q[0]) + " " + n2(q[1]); }; s += '<path d="M' + p(ax, B.y + B.w * .66) + 'L' + p(ax, ay) + 'M' + p(ax - .7, ay + .7) + 'L' + p(ax, ay) + 'L' + p(ax + .7, ay + .7) + '" fill="none" stroke="' + O + '" stroke-width="' + (o.icon ? 2 : 2.4) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  }
+  G.items.forEach(function (it) { if (it.y >= B.y) s += box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, CT); });
+  s += xz(WFT, 0, L, -.6, 0, "#2B2B2B");                                  /* the dark lower wall on the door side */
+  var vbw = (L + KY * WFT + KZ * H) * U + PADD * 2, vbh = (SY * WFT + SZ * H + .6 * SZ) * U + PADD * 2;
+  return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
+}
+
+/* ---------- C: line art, the table and chest in the shared gradient ---------- */
+function drawC(k, o) {
+  var G = geo(k), L = 30, crop = o.crop, id = uid(), s = "", ic = o.icon, sw = ic ? 1.3 : 1.7, INK = "#3a3a3a";
+  var line = function (x, y, w, h, rx, extra) { return '<rect x="' + n2(x) + '" y="' + n2(y) + '" width="' + n2(w) + '" height="' + n2(h) + '" rx="' + rx + '" fill="#fff" stroke="' + INK + '" stroke-width="' + sw + '" vector-effect="non-scaling-stroke" ' + (extra || "") + '/>'; };
+  var ln = function (d, col, w) { return '<path d="' + d + '" fill="none" stroke="' + (col || INK) + '" stroke-width="' + (w || sw) + '" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'; };
+  s += '<defs><linearGradient id="' + id + 'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--g0)"/><stop offset=".52" stop-color="var(--g1)"/><stop offset="1" stop-color="var(--g2)"/></linearGradient></defs>';
+  s += '<path d="' + shellPath(L) + '" fill="#fff" stroke="' + WALL + '" stroke-width="' + (ic ? 1.8 : 2.4) + '" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+  if (!ic) s += ln("M2.6 .55H5.8M2.6 .85H5.8", "#B9B0A6", 1.2);
+  var B = G.bed;
+  var item = function (it) {
+    var g = '<rect x="' + n2(it.x) + '" y="' + n2(it.y) + '" width="' + n2(it.l) + '" height="' + n2(it.w) + '" rx="' + (it.t === "t" ? .26 : .32) + '" fill="url(#' + id + 'g)"/>';
+    if (!ic) g += it.t === "t" ? '<circle cx="' + n2(it.x + .5) + '" cy="' + n2(it.y + .5) + '" r=".2" fill="none" stroke="#fff" stroke-width="1.3" vector-effect="non-scaling-stroke"/>' : ln("M" + n2(it.x + it.l / 2 - .6) + " " + n2(it.y + it.w / 2) + "H" + n2(it.x + it.l / 2 + .6), "#fff", 1.6);
+    return g;
+  };
+  G.items.forEach(function (it) { if (it.y < B.y) s += item(it); });
+  s += line(B.x, B.y, B.l, B.w, .4);
+  if (G.ew) {
+    s += ln("M" + n2(B.x) + " " + n2(B.y + 1.2) + "H" + n2(B.x + B.l)) + ln("M" + n2(B.x) + " " + n2(B.y + B.w * .5) + "H" + n2(B.x + B.l), INK, sw);
+    s += line(B.x + .25, B.y + .16, B.l / 2 - .38, .85, .3) + line(B.x + B.l / 2 + .13, B.y + .16, B.l / 2 - .38, .85, .3);
+  } else {
+    var ph = B.w / 2 - .28;
+    s += ln("M" + n2(B.x + .95) + " " + n2(B.y) + "V" + n2(B.y + B.w)) + ln("M" + n2(B.x + B.l * .46) + " " + n2(B.y) + "V" + n2(B.y + B.w) + "M" + n2(B.x + B.l * .46 + .95) + " " + n2(B.y) + "V" + n2(B.y + B.w), INK, sw);
+    s += line(B.x + .14, B.y + .2, .66, ph, .3) + line(B.x + .14, B.y + B.w - .2 - ph, .66, ph, .3);
+    if (G.up) { var ax = B.x + B.l * .78, ay = B.y + B.w * .34; s += ln("M" + n2(ax) + " " + n2(B.y + B.w * .66) + "V" + n2(ay) + "M" + n2(ax - .7) + " " + n2(ay + .7) + "L" + n2(ax) + " " + n2(ay) + "L" + n2(ax + .7) + " " + n2(ay + .7), "url(#" + id + "g)", ic ? 2 : 2.6); }
+  }
+  G.items.forEach(function (it) { if (it.y >= B.y) s += item(it); });
+  var vbw = crop * U + PADD * 2;
+  return '<svg viewBox="0 0 ' + vbw + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')">' + s + '</g></svg>';
+}
+var DRAW = { A: drawA, B: drawB, C: drawC };
+
+/* ---------- the screen, the same for all three ---------- */
+function Pane(v, ph) {
+  var S = { g: null, k: null }, out = ph.querySelector(".pane");
+  var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
+  S.g = cheapest(BEDS).group;
+  function render() {
+    var inG = BEDS.filter(function (b) { return b.group === S.g; });
+    if (!inG.some(function (b) { return b.key === S.k; })) S.k = cheapest(inG).key;
+    var cur = inG.filter(function (b) { return b.key === S.k; })[0];
+    out.innerHTML =
+      '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + DRAW[v](b.key, { crop: v === "B" ? 8.2 : 8.6, icon: true }) + '</button>'; }).join("") + '</div>' +
+      '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
+      '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + DRAW[v](S.k, { crop: 12.4 }) + '<div class="cap"><span></span><span>Door side</span></div></div>' +
+      '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div><button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>';
+    out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
+    out.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
+    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("plan", null); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
+  }
+  render();
+}
+
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = {
+  A: ["A · Soft plan", "Top-down, warm and finished: a plank floor, a window, soft shadows, a duvet with a throw, and the table or chest as a solid orange piece of furniture."],
+  B: ["B · Cutaway", "The corner of the van drawn in 3D, like the site’s own renders but simpler: walls, a window, the bed, and the table or chest standing beside it."],
+  C: ["C · Line art", "Fine dark lines on white, so it feels like the other icons. The only colour is the shared gradient, on the table and chest, so the eye goes straight to what you are choosing."]
+};
+var html = "";
+["A", "B", "C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
+    '<div class="body"><h1>Your bed</h1><div class="content"><div class="pane"></div></div></div>' +
+    '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
+["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>
