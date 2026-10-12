@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 3 (model)</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=7">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=11">
 <style>
 /* Throwaway sample: Step 3 (model), hero and dock, Dusk gradient. The hero shows the model in focus; the
    dock below holds the OTHER models. Tapping a dock circle pops it up out of the dock into the hero spot while
@@ -15,7 +15,6 @@
    ?ms=300..1500 overrides the pop time (850 ms by default).  ?markers=outback previews the reserve marker theme. */
 
 /* the disc: white underneath, the Dusk gradient on a layer that fades on hover; the van breaks out of it */
-:root { --grad: linear-gradient(180deg, #FFC47F 0%, #E37921 52%, #B04C07 100%); }
 .disc { position:relative; flex:none; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); }
 .disc::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
 .hov:hover .disc::before, .hov:focus-visible .disc::before { opacity:0; }
@@ -81,7 +80,7 @@
   <div class="sr" id="live" aria-live="polite"></div>
 </main>
 
-<script src="assets/js/build-progress.js?v=4"></script>
+<script src="assets/js/build-progress.js?v=6"></script>
 <script>
 /* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
    tag = the range label: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the website as written;

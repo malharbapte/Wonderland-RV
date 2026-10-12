@@ -17,6 +17,11 @@
   --orange: #E37921; --orange-deep: #D57114; --o: var(--orange-deep);
   --line: #E6E6E6; --ink: #000;
   --m: 24px; --head: 64px; --mb: 40px; --clear: 96px;
+  /* THE gradient ("Dusk"). One set of stops, used by every circle, path and track in the configurator.
+     --grad runs top to bottom (circles); --grad-h runs left to right (the covered path, the size scale). Change it here only. */
+  --g0: #FFC47F; --g1: #E37921; --g2: #B04C07;
+  --grad:   linear-gradient(180deg, var(--g0) 0%, var(--g1) 52%, var(--g2) 100%);
+  --grad-h: linear-gradient(90deg,  var(--g0) 0%, var(--g1) 52%, var(--g2) 100%);
   --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
   --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
 }
@@ -40,7 +45,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .road::before { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; border-top: 3px dashed #d4d4d4; }
 .road .done { position: absolute; left: 0; bottom: 1.5px; height: 6px; border-radius: 3px; overflow: hidden; transition: width var(--pm) var(--ease); }
 /* the gradient is laid across the WHOLE road (100cqw) and revealed as the path grows, so each spot on the road keeps its colour */
-.road .done::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 100cqw; background: linear-gradient(90deg, #F2A04E 0%, #E37921 50%, #B8520A 100%); } /* the covered path: twice the weight of the road ahead (3px), round at both ends, centred on it */
+.road .done::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 100cqw; background: var(--grad-h); } /* the covered path: twice the weight of the road ahead (3px), round at both ends, centred on it */
 .road .van { position: absolute; bottom: 4px; width: 40px; height: 22px; overflow: visible; transition: left var(--pm) var(--ease); }
 .prow { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--aviano); font-weight: 700; font-size: 12px; line-height: 18px; letter-spacing: .08em; text-transform: uppercase; }
 .prow .l { color: var(--orange-deep); } .prow .r { color: #888; }
@@ -93,3 +98,47 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 /* used to place the van instantly at its starting stop before a step page animates it forward */
 .road.no-anim .van, .road.no-anim .done, .road.no-anim .mk, .road.no-anim .mk * { transition: none !important; }
 @media (prefers-reduced-motion: reduce) { .road { --pm: 0ms; } .road .mk, .road .mk * { transition: none !important; } }
+
+/* Orange header variants (preview with ?hdr=solid | grad | full on any step page).
+   On orange the markers are drawn in white: pale while ahead, full white once passed. Solid colours rather than see-through ones,
+   so the stroke and fill of one shape never double up where they overlap. */
+.prog--solid .mk .a { fill: #E5A76D; stroke: #E5A76D; } .prog--solid .mk .b { fill: #E19956; stroke: #E19956; } .prog--solid .mk .s { stroke: #E5A76D; }
+.prog--grad  .mk .a { fill: #EEAC75; stroke: #EEAC75; } .prog--grad  .mk .b { fill: #EB9F5F; stroke: #EB9F5F; } .prog--grad  .mk .s { stroke: #EEAC75; }
+.prog--solid .mk.passed .a, .prog--grad .mk.passed .a { fill: #fff; stroke: #fff; }
+.prog--solid .mk.passed .b, .prog--grad .mk.passed .b { fill: #FFE9D4; stroke: #FFE9D4; }
+.prog--solid .mk.passed .s, .prog--grad .mk.passed .s { stroke: #fff; }
+/* "full": the orange runs up behind the logo bar too; the logo and the close cross turn white */
+.hdr-full .bar { background: var(--orange-deep); border-bottom: 0; }
+.hdr-full .bar img { filter: brightness(0) invert(1); }
+.hdr-full .bar .x svg path { stroke: #fff; }
+
+/* ===== The orange pill: the DEFAULT progress header on every step =====
+   The pill is the brand's shape. It sits inside the page margins with fully rounded ends; the van, the covered path, the markers and
+   the step name are all white on orange. 28px of inner padding keeps everything clear of the curved ends.
+   Other looks stay available through ?hdr= on any step page:  white | solid | grad | full | pillgrad  (default: pill = solid orange). */
+.prog { margin: 10px var(--m); padding: 8px 28px; border-bottom: 0; border-radius: 999px; background: var(--orange-deep); }
+.prog .road::before { border-top-color: rgba(255,255,255,.5); }
+.prog .road .done::before { background: #fff; }
+.prog .road .van { color: #fff; --vcut: var(--orange-deep); }
+.prog .prow { margin-top: 4px; justify-content: center; }
+.prog .prow .l { color: #fff; }
+.prog .mk .a { fill: #E5A76D; stroke: #E5A76D; } .prog .mk .b { fill: #E19956; stroke: #E19956; } .prog .mk .s { stroke: #E5A76D; }
+.prog .mk.passed .a { fill: #fff; stroke: #fff; } .prog .mk.passed .b { fill: #FFE9D4; stroke: #FFE9D4; } .prog .mk.passed .s { stroke: #fff; }
+
+/* the same pill carrying the shared gradient */
+.prog.prog--pillgrad { background: var(--grad); }
+.prog.prog--pillgrad .road .van { --vcut: #E27820; }
+.prog.prog--pillgrad .mk .a { fill: #EEAC75; stroke: #EEAC75; } .prog.prog--pillgrad .mk .b { fill: #EB9F5F; stroke: #EB9F5F; } .prog.prog--pillgrad .mk .s { stroke: #EEAC75; }
+.prog.prog--pillgrad .mk.passed .a { fill: #fff; stroke: #fff; } .prog.prog--pillgrad .mk.passed .b { fill: #FFE9D4; stroke: #FFE9D4; } .prog.prog--pillgrad .mk.passed .s { stroke: #fff; }
+
+/* the earlier full-width looks, kept for comparison */
+.prog.prog--white, .prog.prog--solid, .prog.prog--grad { margin: 0; padding: 14px var(--m); border-radius: 0; }
+.prog.prog--white .prow, .prog.prog--solid .prow, .prog.prog--grad .prow { margin-top: 8px; justify-content: space-between; }
+.prog.prog--grad { background: var(--grad); }
+.prog.prog--white { background: transparent; border-bottom: 1px solid #eee; }
+.prog.prog--white .road::before { border-top-color: #d4d4d4; }
+.prog.prog--white .road .done::before { background: var(--grad-h); }
+.prog.prog--white .road .van { color: var(--orange-deep); --vcut: #fff; }
+.prog.prog--white .prow .l { color: var(--orange-deep); }
+.prog.prog--white .mk .a { fill: #dcdcdc; stroke: #dcdcdc; } .prog.prog--white .mk .b { fill: #cdcdcd; stroke: #cdcdcd; } .prog.prog--white .mk .s { stroke: #dcdcdc; }
+.prog.prog--white .mk.passed .a { fill: var(--orange-deep); stroke: var(--orange-deep); } .prog.prog--white .mk.passed .b { fill: #B04C07; stroke: #B04C07; } .prog.prog--white .mk.passed .s { stroke: var(--orange-deep); }
