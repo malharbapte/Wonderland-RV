@@ -3,101 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sample — Build step 4 (bed), three options</title>
+<title>Sample — Build step 4 (plan), three options</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=14">
 <style>
-/* Throwaway sample: Step 4 (bed), three options. Shared shell (margins, capsule-road header, chevron). The beds on offer, their prices and
-   which models they work with come from the live configurator (assets/js/build-data.js): only beds that exist for the chosen type and
-   size are shown, and a bed that the chosen model doesn't take is greyed with the reason. Photos are the site's own renders.
-   All px, no rem.  ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+/* Throwaway sample: Step 4, the bed and the floorplan in ONE step, shown as drawn plans instead of photos.
+   Filters: King | Queen, then the bed arrangement (table, chest ...), then bunks for families. Prices are the live configurator's
+   for the chosen model; only plans that exist for the chosen type, size and model are listed. Plans are drawn by assets/js/build-plans.js.
+   All px, no rem.   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
 .stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
 .slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
 .slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
 .slot .phone { margin:0; }
 .pick { display:none; }
+.phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
+.pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
+.out { flex:1; min-height:0; display:flex; flex-direction:column; margin-top:10px; }
 
-/* a photo disc: the render fills the circle, with an orange ring. Hover washes it white; press tints it orange. */
-.pd { position:relative; display:block; flex:none; border-radius:50%; overflow:hidden; background:#e9e5e0; }
-.pd img { display:block; width:100%; height:100%; object-fit:cover; }
-.pd::after { content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 2px var(--o); background:rgba(255,255,255,0); transition:background .42s ease, box-shadow .42s ease; pointer-events:none; }
-.hov:hover .pd::after, .hov:focus-visible .pd::after { background:rgba(255,255,255,.38); box-shadow:inset 0 0 0 3px var(--o); }
-.hov:active .pd::after, .hov.on .pd::after { background:rgba(213,113,20,.28); }
-.hov { cursor:pointer; text-align:center; } .hov:focus-visible { outline:none; }
-.hov.off, .mini.off { cursor:default; pointer-events:none; }
-.hov.off .pd, .mini.off .pd { filter:grayscale(1) opacity(.45); } .mini.off .pd::after, .hov.off .pd::after { box-shadow:inset 0 0 0 2px #cfcfcf; }
-.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; transition:color .42s ease; }
-.hov:hover .nm, .hov:focus-visible .nm { color:var(--o); }
-.pr { display:block; color:#222; line-height:24px; }
-.pr .pf { font-size:14px; color:#666; margin-right:5px; }
-.pr .pv { font-family:var(--gordita); font-weight:700; font-size:19px; letter-spacing:-.005em; }
-.dl { display:block; font-size:12px; line-height:17px; color:#777; }
-.dt { display:block; font-size:13px; line-height:19px; color:#444; }
-.na { color:#999; font-size:13px; }
+/* filter 1: King | Queen, a pill (the brand's shape); the chosen side carries the shared gradient */
+.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#F4EEE7; flex:none; }
+.seg button { position:relative; flex:1; height:48px; border-radius:26px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--ink); transition:color .42s ease; }
+.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--grad); opacity:0; transition:opacity .42s ease; }
+.seg button > * { position:relative; }
+.seg .sn { font-family:var(--aviano); font-weight:900; font-size:14px; line-height:16px; letter-spacing:.05em; text-transform:uppercase; }
+.seg .sp { font-size:12px; line-height:15px; color:#8b8176; transition:color .42s ease; }
+.seg button.on { color:#fff; } .seg button.on::before { opacity:1; } .seg button.on .sp { color:rgba(255,255,255,.92); }
+.seg button:not(.on):hover .sn, .seg button:not(.on):focus-visible .sn { color:var(--o); } .seg button:focus-visible { outline:none; }
 
-/* the "?" that explains door side and road side */
-.q { display:inline-grid; place-items:center; width:20px; height:20px; margin-left:6px; border-radius:50%; box-shadow:inset 0 0 0 1.5px #999; color:#777; font-family:var(--gordita); font-weight:700; font-size:12px; line-height:1; vertical-align:middle; cursor:pointer; }
-.q:hover, .q:focus-visible, .q.open { box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); outline:none; }
-.tip { position:absolute; left:50%; transform:translateX(-50%); width:270px; padding:10px 14px; border-radius:14px; background:#111; color:#fff; font-size:12px; line-height:18px; text-align:left; z-index:7; opacity:0; pointer-events:none; transition:opacity .25s ease; }
-.tip.open { opacity:1; pointer-events:auto; }
-.tip b { font-family:var(--aviano); font-weight:700; letter-spacing:.04em; }
+/* filters 2 and 3: chips that run to the screen edge so a long row shows it scrolls */
+.chips { display:flex; gap:8px; margin:6px calc(var(--m) * -1) 0; padding:0 var(--m); overflow-x:auto; scrollbar-width:none; flex:none; }
+.chips::-webkit-scrollbar { display:none; }
+.chips:empty { display:none; }
+.chip { flex:none; height:36px; padding:0 14px; border-radius:18px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:flex; align-items:center; gap:7px; font-weight:700; font-size:13px; white-space:nowrap; transition:box-shadow .3s ease, color .3s ease, background .3s ease; }
+.chip small { font-weight:400; font-size:12px; color:#9a9086; }
+.chip:hover, .chip:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); outline:none; }
+.chip.on { background:#FFF1E2; box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); } .chip.on small { color:var(--o); }
 
-/* A: hero and grouped docks */
-.A .hero { display:flex; flex-direction:column; align-items:center; }
-.A .hero .pd { width:120px; height:120px; }
-.A .hero .nm { font-size:24px; line-height:28px; margin-top:14px; }
-.A .hero .pr { margin-top:2px; }
-.A .docks { margin-top:18px; display:flex; flex-direction:column; gap:12px; width:327px; }
-.A .dnote { margin-top:10px; text-align:center; font-size:12px; line-height:17px; color:#888; }
-.A .grp { display:flex; align-items:flex-start; gap:12px; }
-.A .gl { flex:none; width:44px; padding-top:20px; font-family:var(--aviano); font-weight:700; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#888; text-align:left; }
-.A .row { display:flex; gap:6px; flex:1; }
-.A .mini { display:flex; flex-direction:column; align-items:center; width:60px; cursor:pointer; }
-.A .mini .pd { width:52px; height:52px; }
-.A .mini .sn { margin-top:6px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:13px; letter-spacing:.02em; text-transform:uppercase; text-align:center; white-space:nowrap; }
-.A .mini:hover .sn { color:var(--o); }
-.fly { position:absolute; z-index:6; pointer-events:none; }
-.fly img { display:block; width:100%; height:100%; object-fit:cover; }
+/* a drawn plan, its captions and the facts under it */
+.pb { position:relative; border-radius:14px; overflow:hidden; }
+.pb .plan { display:block; width:100%; height:auto; }
+.pb::after { content:""; position:absolute; inset:0; border-radius:14px; box-shadow:inset 0 0 0 1.5px #EBE2D8; transition:box-shadow .35s ease; pointer-events:none; }
+.hv:hover .pb::after, .hv:focus-visible .pb::after { box-shadow:inset 0 0 0 2.5px var(--o); } .hv:focus-visible { outline:none; }
+.hv.on .pb::after { box-shadow:inset 0 0 0 3px var(--o); }
+.soon { height:110px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:#FBF8F4; padding:0 20px; text-align:center; }
+.soon svg { width:44px; height:24px; margin-bottom:2px; } .soon b { font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9a8f82; } .soon span { font-size:12px; line-height:16px; color:#8b8176; }
+.cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
+.hv { display:block; width:100%; text-align:left; cursor:pointer; }
+.ln { display:block; font-family:var(--aviano); font-weight:900; font-size:24px; line-height:28px; transition:color .42s ease; }
+.hv:hover .ln, .hv:focus-visible .ln, .hv.on .ln { color:var(--o); }
+.ft { display:block; font-size:14px; line-height:20px; font-weight:700; }
+.bd { display:block; font-size:13px; line-height:19px; color:#6d645a; }
+.pr { display:block; line-height:26px; } .pr .pf { font-size:14px; color:#666; margin-right:5px; } .pr .pv { font-weight:700; font-size:19px; letter-spacing:-.005em; }
+.prr { display:flex; justify-content:space-between; align-items:center; }
+.tap { display:block; font-family:var(--aviano); font-weight:700; font-size:10px; line-height:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--o); }
+.empty { text-align:center; color:#777; padding:30px 10px; }
 
-/* B: size first, then the layout */
-.B .halves { display:flex; gap:6px; }
-.B .half { position:relative; width:150px; height:150px; padding:0; overflow:hidden; }
-.B .half.L { border-radius:75px 0 0 75px; } .B .half.R { border-radius:0 75px 75px 0; } .B .half.only { border-radius:75px; width:150px; }
-.B .half img { width:100%; height:100%; object-fit:cover; display:block; }
-.B .half::after { content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px var(--o); background:rgba(255,255,255,0); transition:background .42s ease, box-shadow .42s ease; pointer-events:none; }
-.B .half.dim::after { background:rgba(255,255,255,.62); box-shadow:inset 0 0 0 2px #d9d9d9; }
-.B .half:hover::after { box-shadow:inset 0 0 0 3px var(--o); }
-.B .caps { display:flex; gap:6px; width:306px; margin-top:12px; }
-.B .caps .c { flex:1; text-align:center; cursor:pointer; }
-.B .caps .nm { font-size:16px; line-height:20px; }
-.B .caps .pr .pv { font-size:15px; } .B .caps .pr { line-height:20px; }
-.B .caps .c.dim .nm { color:#b5b5b5; }
-.B .lay { margin-top:24px; width:327px; }
-.B .lay .lh { font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#888; text-align:center; margin-bottom:10px; }
-.B .vrow { display:flex; gap:10px; justify-content:center; }
-.B .v { display:flex; flex-direction:column; align-items:center; width:72px; cursor:pointer; }
-.B .v .pd { width:62px; height:62px; }
-.B .v .sn { margin-top:7px; font-family:var(--aviano); font-weight:700; font-size:10px; line-height:13px; letter-spacing:.03em; text-transform:uppercase; text-align:center; }
-.B .v .vd { font-size:11px; line-height:15px; color:#777; white-space:nowrap; }
-.B .v:hover .sn { color:var(--o); }
+/* A: one plan at a time */
+.A .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; flex:none; }
+.A .rail::-webkit-scrollbar { display:none; }
+.A .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; }
+.A .slide .ln { margin-top:12px; } .A .slide .prr { margin-top:4px; }
+.A .dnav { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:6px; flex:none; }
+.A .dnav button { width:48px; height:44px; display:grid; place-items:center; color:var(--ink); transition:color .42s ease; }
+.A .dnav button:hover { color:var(--o); } .A .dnav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.A .dnav .ct { min-width:70px; text-align:center; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.1em; color:#8b8176; }
 
-/* C: carousel with a top-down diagram that shows which side things sit on */
-.C .car { position:relative; width:327px; }
-.C .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; }
+/* B: all the plans in a list */
+.B .lg { flex:none; font-size:12px; line-height:17px; color:#8b8176; margin-bottom:8px; }
+.B .list { flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; margin:0 -12px; padding:2px 12px 24px; -webkit-mask-image:linear-gradient(#000 calc(100% - 28px), transparent); mask-image:linear-gradient(#000 calc(100% - 28px), transparent); }
+.B .list::-webkit-scrollbar { display:none; }
+.B .card { margin-bottom:20px; }
+.B .card .row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-top:10px; }
+.B .card .ln { font-size:20px; line-height:24px; } .B .card .pr { text-align:right; flex:none; line-height:22px; } .B .card .pr .pv { font-size:18px; }
+
+/* C: a big plan, and the others in a rail below */
+.C .hero { flex:none; } .C .hero .ln { margin-top:12px; } .C .hero .prr { margin-top:4px; }
+.C .rail { display:flex; gap:10px; margin:auto calc(var(--m) * -1) 0; padding:4px var(--m) 2px; overflow-x:auto; scrollbar-width:none; flex:none; }
 .C .rail::-webkit-scrollbar { display:none; }
-.C .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; display:flex; flex-direction:column; align-items:center; }
-.C .slide .hov { display:flex; flex-direction:column; align-items:center; width:100%; }
-.C .slide .pd { width:148px; height:148px; }
-.C .slide .nm { font-size:24px; line-height:28px; margin-top:14px; }
-.C .dg { margin-top:10px; width:156px; }
-.C .dg svg { display:block; width:156px; height:auto; }
-.C .dg .sl { display:flex; justify-content:space-between; font-family:var(--aviano); font-weight:700; font-size:8.5px; letter-spacing:.08em; color:#999; text-transform:uppercase; margin-top:3px; }
-.C .nav { position:absolute; bottom:-20px; width:44px; height:48px; display:grid; place-items:center; color:var(--ink); }
-.C .nav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.C .nav:hover { color:var(--o); } .C .nav.p { left:56px; } .C .nav.n { left:auto; right:56px; } /* beside the dots, well clear of the back chevron */
-.C .dots { display:flex; gap:8px; justify-content:center; margin-top:20px; }
-.C .dots i { width:8px; height:8px; border-radius:4px; background:var(--line); transition:all .35s ease; }
-.C .dots i.on { width:26px; background:var(--o); }
-.C .note { margin-top:10px; text-align:center; font-size:12px; line-height:17px; color:#888; }
+.C .th { flex:none; width:118px; text-align:center; cursor:pointer; }
+.C .th .tb { height:40px; border-radius:10px; overflow:hidden; background:#FBF8F4; display:grid; place-items:center; position:relative; }
+.C .th .tb svg { width:100%; height:100%; display:block; }
+.C .th .tb::after { content:""; position:absolute; inset:0; border-radius:10px; box-shadow:inset 0 0 0 1.5px #EBE2D8; transition:box-shadow .3s ease; }
+.C .th:hover .tb::after { box-shadow:inset 0 0 0 2px var(--o); } .C .th.on .tb::after { box-shadow:inset 0 0 0 3px var(--o); }
+.C .th .tl { display:block; margin-top:5px; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.04em; transition:color .3s ease; } .C .th:hover .tl, .C .th.on .tl { color:var(--o); }
+.C .th .tp { display:block; font-size:11px; line-height:14px; color:#8b8176; }
 
 @media (max-width:900px) {
   .stage { display:block; padding:0; }
@@ -111,11 +99,12 @@
 </style>
 </head>
 <body>
-<div class="pick" id="pick"><button class="on" data-v="A">A · Hero</button><button data-v="B">B · Size first</button><button data-v="C">C · Diagram</button></div>
+<div class="pick" id="pick"><button class="on" data-v="A">A · One at a time</button><button data-v="B">B · List</button><button data-v="C">C · Big plan + rail</button></div>
 <div class="stage" id="stage"></div>
 
-<script src="assets/js/build-data.js?v=1"></script>
-<script src="assets/js/build-progress.js?v=9"></script>
+<script src="assets/js/build-data.js?v=2"></script>
+<script src="assets/js/build-plans.js?v=3"></script>
+<script src="assets/js/build-progress.js?v=10"></script>
 <script>
 var Q = location.search;
 var CH = WLProgress.choices();
@@ -123,160 +112,125 @@ var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
 var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
 var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
 var MNAME = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" }[MODEL];
-var BEDS = wlBeds(TYPE, SIZE, MODEL);
-var AVAIL = BEDS.filter(function (b) { return b.price !== null; });
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
-var cheapest = AVAIL.slice().sort(function (a, b) { return a.price - b.price; })[0];
-var BY = {}; BEDS.forEach(function (b) { BY[b.key] = b; });
-var priceHTML = function (b) { return b.price === null ? '<span class="pr"><span class="na">Not offered with ' + MNAME + '</span></span>' : '<span class="pr"><span class="pf">From</span><span class="pv">' + fmt(b.price) + '</span></span>'; };
-var deltaTxt = function (b) { return b.price === null ? "" : (b.delta === 0 ? "The base bed" : "+" + fmt(b.delta) + " on the base bed"); };
-var HELP = '<b>Door side</b> is the side of the van with the entry door. <b>Road side</b> is the opposite side.';
-var detailWithQ = function (b) { return b.len + " · " + b.detail + '<button class="q" type="button" aria-label="What are door side and road side?">?</button>'; };
-function photo(b, cls) { return '<span class="pd ' + (cls || "") + '"><img src="' + b.img + '" alt="" loading="eager"></span>'; }
-function choose(b, el) { if (b.price === null) return; if (el) el.classList.add("on"); WLProgress.choose("bed", b.key); WLProgress.go("sample-build-step5.html", 520); }
-function wireTips(root) {
-  root.querySelectorAll(".q").forEach(function (q) {
-    q.addEventListener("click", function (e) {
-      e.stopPropagation(); e.preventDefault();
-      var tip = root.querySelector(".tip"); var open = !tip.classList.contains("open");
-      tip.classList.toggle("open", open); q.classList.toggle("open", open);
-      if (open) { var r = q.getBoundingClientRect(), pr = root.getBoundingClientRect(); tip.style.top = (r.bottom - pr.top + 8) + "px"; }
-    });
-  });
-}
 
+/* the plans on offer: every plan for this type and size that has a price for the chosen model, shortest first */
+var LAY = { L: "L-shaped lounge", C: "Café dinette", SC: "U-shaped lounge", XLE: "L-shaped lounge, large ensuite", RC: "Rear lounge, ensuite beside the bed" };
+var BEDN = { "king-table": "Side table", "king-chest": "Storage chest", "king-lift": "Lift-up bed", "queen-dual-table": "Two tables", "queen-dual-chest": "Two chests", "queen-chest-table": "Chest + table", "queen-ew": "East–west" };
+var BEDLINE = { "king-table": "King bed, side table on the door side", "king-chest": "King bed, storage chest on the door side", "king-lift": "King bed, electric lift-up", "queen-dual-table": "Queen bed, a table each side", "queen-dual-chest": "Queen bed, a storage chest each side", "queen-chest-table": "Queen bed, chest road side, table door side", "queen-ew": "Queen bed, east–west, storage at the bed head" };
+var PLANS = [], RAW = WL_PLANS[TYPE + "|" + SIZE] || {}, HIDDEN = 0;
+Object.keys(RAW).forEach(function (code) {
+  var r = RAW[code], price = r.p[MODEL]; if (price == null) { HIDDEN++; return; }
+  var ft = +code.slice(0, 2), inch = +code.slice(2, 4), info = WL_BED_INFO[r.bed];
+  PLANS.push({ code: code, bed: r.bed, group: info.group, bunks: r.bunks || 0, desc: r.desc || "", price: price, sp: WLPlans.spec(code, r.bed), len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″" });
+});
+PLANS.sort(function (a, b) { return a.len - b.len || a.price - b.price; });
+var MAXFT = Math.ceil(Math.max.apply(null, PLANS.map(function (p) { return p.len; })) + .25);   /* every plan is drawn at one scale, sized so the longest on offer fills the width */
+var GROUPS = ["King", "Queen"].filter(function (g) { return PLANS.some(function (p) { return p.group === g; }); });
+var cheapest = PLANS.slice().sort(function (a, b) { return a.price - b.price; })[0];
+var nice = function (s) { s = s.replace(/roadside/g, "road side").replace(/doorside/g, "door side"); return s.charAt(0).toUpperCase() + s.slice(1); };
+var featOf = function (p) { return p.sp ? LAY[p.sp.layout] : nice(p.desc); };
+var doorOf = function (p) { return p.sp ? (p.sp.door === "front" ? "Door beside the bed" : "Door at the rear") : ""; };
+
+var SOON = '<div class="soon"><svg viewBox="0 0 44 24" aria-hidden="true"><rect x="1" y="2" width="42" height="20" rx="8" fill="none" stroke="#C9BCAD" stroke-width="2" stroke-dasharray="4 4"/></svg><b>Plan being drawn</b><span>__D__</span></div>';
+function planBox(p, labels, fit) { return '<div class="pb">' + (p.sp ? WLPlans.svg(p.sp, { labels: labels, fit: fit, maxFt: MAXFT, label: p.lenTxt + " floor plan" }) : SOON.replace("__D__", nice(p.desc))) + '</div>'; }
+function priceHTML(p) { return '<span class="pr"><span class="pf">From</span><span class="pv">' + fmt(p.price) + '</span></span>'; }
+function big(p, tapText) {
+  return '<span class="cap"><span>Front</span><span>Road side</span></span>' + planBox(p, true) + '<span class="cap"><span></span><span>Door side</span></span>' +
+    '<span class="ln">' + p.lenTxt + '</span><span class="ft">' + featOf(p) + (doorOf(p) ? ' · ' + doorOf(p) : '') + '</span><span class="bd">' + BEDLINE[p.bed] + '</span>' + '<span class="prr">' + priceHTML(p) + (tapText ? '<span class="tap">' + tapText + '</span>' : '') + '</span>';
+}
+function pick(p, el) { if (el) el.classList.add("on"); WLProgress.choose("plan", p.code); WLProgress.choose("bed", p.bed); WLProgress.go("sample-build-step5.html", 520); }
+var EMPTY = '<div class="empty">No plans match those choices.</div>';
+
+/* ---------- the views: A one at a time, B a list, C a big plan with a rail ---------- */
 var VIEW = {};
-
-/* ---------- A: hero and grouped docks, with the pop from Step 3 ---------- */
 VIEW.A = {
-  html: function () {
-    return '<div class="hero"><button class="hov" id="aHero" type="button" style="display:flex;flex-direction:column;align-items:center"><span id="aDisc"></span><span class="nm" id="aNm"></span><span id="aPr"></span><span class="dl" id="aDl"></span><span class="dt" id="aDt"></span></button></div><div class="docks" id="aDocks"></div><div class="dnote" id="aNote">' + (AVAIL.length < BEDS.length ? 'Greyed layouts aren\u2019t offered with the ' + MNAME + '.' : '') + '</div><div class="tip" id="aTip">' + HELP + '</div>';
-  },
-  init: function (ph) {
-    var content = ph.querySelector(".content"); content.style.position = "relative";
-    var heroK = cheapest.key, busy = false, HD = 120, MD = 52;
-    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var disc = ph.querySelector("#aDisc");
-    function setHero(k) {
-      var b = BY[k]; heroK = k; disc.outerHTML = photo(b).replace('class="pd ', 'id="aDisc" class="pd '); disc = ph.querySelector("#aDisc");
-      ph.querySelector("#aNm").textContent = b.name; ph.querySelector("#aPr").innerHTML = priceHTML(b);
-      ph.querySelector("#aDl").textContent = deltaTxt(b); ph.querySelector("#aDt").innerHTML = detailWithQ(b); wireTips(ph);
-      disc.style.width = disc.style.height = HD + "px";
-    }
-    function dock() {
-      var groups = {}; BEDS.forEach(function (b) { if (b.key !== heroK) (groups[b.group] = groups[b.group] || []).push(b); });
-      ph.querySelector("#aDocks").innerHTML = ["King", "Queen"].filter(function (g) { return groups[g]; }).map(function (g) {
-        return '<div class="grp"><div class="gl">' + g + '</div><div class="row">' + groups[g].map(function (b) {
-          return '<button class="mini hov' + (b.price === null ? ' off' : '') + '" type="button" data-k="' + b.key + '" aria-label="' + b.live + (b.price === null ? ', not offered with ' + MNAME : ', ' + fmt(b.price)) + '">' + photo(b) + '<span class="sn">' + b.short + '</span></button>';
-        }).join("") + '</div></div>';
-      }).join("");
-      ph.querySelectorAll(".mini").forEach(function (m) { m.addEventListener("click", function () { if (!m.classList.contains("off")) promote(m); }); });
-    }
-    function rectIn(el) { var r = el.getBoundingClientRect(), c = content.getBoundingClientRect(); return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height }; }
-    function tf(B, T, k, lift) { var s = (T.w / B.w) * k, w = B.w * s, h = B.h * s; return "translate(" + ((T.x + T.w / 2) - B.x - w / 2).toFixed(2) + "px," + ((T.y + T.h / 2) - B.y - h / 2 - (lift || 0)).toFixed(2) + "px) scale(" + s.toFixed(4) + ")"; }
-    function flier(b, B) { var d = document.createElement("span"); d.className = "pd fly"; d.style.cssText = "left:" + B.x + "px;top:" + B.y + "px;width:" + B.w + "px;height:" + B.h + "px;transform-origin:0 0;will-change:transform"; d.innerHTML = '<img src="' + b.img + '" alt="">'; content.appendChild(d); return d; }
-    var MS = 850; var qms = parseInt((Q.match(/[?&]ms=(\d+)/) || [])[1], 10); if (qms >= 300 && qms <= 1500) MS = qms;
-    function promote(btn) {
-      if (busy) return; busy = true;
-      var newK = btn.dataset.k, oldK = heroK, nb = BY[newK], ob = BY[oldK];
-      var slot = btn.querySelector(".pd"), A = rectIn(slot), B = rectIn(disc);
-      var texts = [ph.querySelector("#aNm"), ph.querySelector("#aPr"), ph.querySelector("#aDl"), ph.querySelector("#aDt")];
-      /* new state underneath at once; the real discs stay hidden until the copies land */
-      btn.dataset.k = oldK; slot.innerHTML = '<img src="' + ob.img + '" alt="">'; btn.querySelector(".sn").textContent = ob.short; btn.classList.toggle("off", ob.price === null);
-      setHero(newK); disc.style.visibility = "hidden"; slot.style.visibility = "hidden";
-      var done = function () { if (!busy) return; busy = false; content.querySelectorAll(".fly").forEach(function (f) { f.remove(); }); disc.style.visibility = ""; slot.style.visibility = ""; dock(); };
-      if (reduce || !disc.animate) { done(); return; }
-      var up = flier(nb, B);
-      up.animate([{ offset: 0, transform: tf(B, A, 1, 0), easing: "cubic-bezier(.2,.8,.2,1)" }, { offset: .55, transform: tf(B, B, 1.1, 14), easing: "ease-in-out" }, { offset: .8, transform: tf(B, B, .97, 0), easing: "ease-out" }, { offset: 1, transform: tf(B, B, 1, 0) }], { duration: MS, fill: "forwards" });
-      var dn = flier(ob, B);
-      dn.animate([{ offset: 0, transform: tf(B, B, 1, 0), easing: "cubic-bezier(.5,0,.2,1)" }, { offset: .72, transform: tf(B, A, 1.08, 0), easing: "ease-out" }, { offset: 1, transform: tf(B, A, 1, 0) }], { duration: Math.round(MS * .77), fill: "forwards" });
-      texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(10px) scale(.95)" }, { opacity: 1, transform: "translateY(-2px) scale(1.03)", offset: .6 }, { opacity: 1, transform: "none" }], { duration: 380 * MS / 600, delay: (180 + i * 60) * MS / 600, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" }); });
-      setTimeout(done, MS + 60);
-    }
-    setHero(heroK); dock();
-    ph.querySelector("#aHero").addEventListener("click", function (e) { if (e.target.closest(".q")) return; choose(BY[heroK], this); });
+  render: function (list, out) {
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    out.innerHTML = '<div class="rail">' + list.map(function (p, i) { return '<div class="slide"><button class="hv" type="button" data-i="' + i + '">' + big(p, "Tap to choose") + '</button></div>'; }).join("") + '</div>' +
+      '<div class="dnav"><button class="pv" type="button" aria-label="Previous plan"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ct"></span><button class="nx" type="button" aria-label="Next plan"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div>';
+    var r = out.querySelector(".rail"), ct = out.querySelector(".ct");
+    function upd() { var i = Math.round(r.scrollLeft / 327); ct.textContent = (i + 1) + " of " + list.length; }
+    r.addEventListener("scroll", function () { requestAnimationFrame(upd); }); upd();
+    out.querySelector(".pv").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
+    out.querySelector(".nx").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
+    out.querySelectorAll(".hv").forEach(function (h) { h.addEventListener("click", function () { pick(list[+h.dataset.i], h); }); });
   }
 };
-
-/* ---------- B: choose the size, then the layout ---------- */
 VIEW.B = {
-  html: function () { return '<div class="halves" id="bHalves"></div><div class="caps" id="bCaps"></div><div class="lay"><div class="lh">Pick your layout</div><div class="vrow" id="bRow"></div></div><div class="tip" id="bTip">' + HELP + '</div>'; },
-  init: function (ph) {
-    var groups = {}; BEDS.forEach(function (b) { (groups[b.group] = groups[b.group] || []).push(b); });
-    var names = ["King", "Queen"].filter(function (g) { return groups[g]; });
-    var sel = groups.Queen ? "Queen" : "King";
-    function minPrice(g) { var p = groups[g].filter(function (b) { return b.price !== null; }).map(function (b) { return b.price; }); return p.length ? Math.min.apply(null, p) : null; }
-    function lens(g) { var s = {}; groups[g].forEach(function (b) { s[b.len] = 1; }); return Object.keys(s).join(" / "); }
-    function draw() {
-      ph.querySelector("#bHalves").innerHTML = names.map(function (g, i) {
-        var rep = groups[g].filter(function (b) { return b.price !== null; })[0] || groups[g][0];
-        return '<button class="half hov ' + (names.length === 1 ? 'only' : i === 0 ? 'L' : 'R') + (g === sel ? '' : ' dim') + '" type="button" data-g="' + g + '" aria-label="' + g + '"><img src="' + rep.img + '" alt=""></button>';
-      }).join("");
-      ph.querySelector("#bCaps").style.width = names.length === 1 ? "150px" : "306px";
-      ph.querySelector("#bCaps").innerHTML = names.map(function (g) { var p = minPrice(g); return '<div class="c hov' + (g === sel ? '' : ' dim') + '" data-g="' + g + '"><span class="nm">' + g + '</span><span class="pr">' + (p === null ? '<span class="na">Not offered with ' + MNAME + '</span>' : '<span class="pf">from</span><span class="pv">' + fmt(p) + '</span>') + '</span><span class="dl">' + lens(g) + '</span></div>'; }).join("");
-      ph.querySelector("#bRow").innerHTML = groups[sel].map(function (b) {
-        return '<button class="v hov' + (b.price === null ? ' off' : '') + '" type="button" data-k="' + b.key + '" aria-label="' + b.live + (b.price === null ? ', not offered with ' + MNAME : ', ' + fmt(b.price)) + '">' + photo(b) + '<span class="sn">' + b.short + '</span><span class="vd">' + (b.price === null ? "Not offered" : b.delta === 0 ? "Base" : "+" + fmt(b.delta)) + '</span></button>';
-      }).join("");
-      ph.querySelectorAll("#bHalves .half, #bCaps .c").forEach(function (e) { e.addEventListener("click", function () { if (sel !== e.dataset.g) { sel = e.dataset.g; draw(); } }); });
-      ph.querySelectorAll("#bRow .v").forEach(function (v) { v.addEventListener("click", function () { choose(BY[v.dataset.k], v); }); });
-    }
-    draw();
+  render: function (list, out) {
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    out.innerHTML = '<div class="lg">Front of the van is on the left. The top of each plan is the road side, the bottom is the door side.</div><div class="list">' + list.map(function (p, i) {
+      return '<button class="hv card" type="button" data-i="' + i + '">' + planBox(p, true) + '<span class="row"><span><span class="ln">' + p.lenTxt + '</span><span class="ft">' + featOf(p) + '</span><span class="bd">' + (doorOf(p) ? doorOf(p) + ' · ' : '') + BEDN[p.bed] + '</span></span>' + priceHTML(p) + '</span></button>';
+    }).join("") + '</div>';
+    out.querySelectorAll(".hv").forEach(function (h) { h.addEventListener("click", function () { pick(list[+h.dataset.i], h); }); });
   }
 };
-
-/* ---------- C: carousel, each bed with a diagram of what sits on which side ---------- */
-function diagram(k) {
-  /* top-down, bed head at the top. Door side is drawn on the left, road side on the right. A schematic, not to scale. */
-  var o = "var(--o)", sand = "#F3D5B8", ln = "#d4d4d4", s = "";
-  var bed = function (x, w) { return '<rect x="' + x + '" y="10" width="' + w + '" height="62" rx="7" fill="' + sand + '"/><rect x="' + (x + 7) + '" y="15" width="' + (w / 2 - 10) + '" height="11" rx="4" fill="#fff"/><rect x="' + (x + w / 2 + 3) + '" y="15" width="' + (w / 2 - 10) + '" height="11" rx="4" fill="#fff"/>'; };
-  var table = function (x) { return '<rect x="' + x + '" y="12" width="15" height="15" rx="4" fill="' + o + '"/>'; };
-  var chest = function (x) { return '<rect x="' + x + '" y="30" width="16" height="40" rx="4" fill="' + o + '"/>'; };
-  if (k === "king-table") s = bed(34, 88) + table(14);
-  else if (k === "king-chest") s = bed(34, 88) + chest(12);
-  else if (k === "king-lift") s = bed(34, 88) + '<path d="M78 56V40M72 46l6-6 6 6" fill="none" stroke="' + o + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>';
-  else if (k === "queen-dual-table") s = bed(44, 68) + table(22) + table(119);
-  else if (k === "queen-dual-chest") s = bed(46, 64) + chest(24) + chest(116);
-  else if (k === "queen-chest-table") s = bed(44, 68) + table(22) + chest(118);
-  else if (k === "queen-ew") s = '<rect x="22" y="22" width="102" height="40" rx="7" fill="' + sand + '"/><rect x="108" y="27" width="11" height="12" rx="4" fill="#fff"/><rect x="108" y="45" width="11" height="12" rx="4" fill="#fff"/><rect x="126" y="22" width="16" height="40" rx="4" fill="' + o + '"/>';
-  return '<svg viewBox="0 0 156 82" aria-hidden="true"><rect x="1" y="1" width="154" height="80" rx="10" fill="none" stroke="' + ln + '" stroke-width="1.5"/>' + s + '</svg><div class="sl"><span>Door side</span><span>Road side</span></div>';
-}
 VIEW.C = {
-  html: function () {
-    var hidden = BEDS.length - AVAIL.length;
-    return '<div class="car"><div class="rail">' + AVAIL.map(function (b) {
-      return '<div class="slide"><button class="hov" type="button" data-k="' + b.key + '">' + photo(b) + '<span class="nm">' + b.name + '</span>' + priceHTML(b) + '<span class="dl">' + deltaTxt(b) + '</span><span class="dt">' + b.len + ' · ' + b.detail + '</span></button><div class="dg">' + diagram(b.key) + '</div></div>';
-    }).join("") + '</div><button class="nav p" type="button" aria-label="Previous bed"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="nav n" type="button" aria-label="Next bed"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
-      '<div class="dots">' + AVAIL.map(function (_, i) { return '<i' + (i === 0 ? ' class="on"' : '') + '></i>'; }).join("") + '</div>' +
-      (hidden ? '<div class="note">' + hidden + ' other bed layout' + (hidden > 1 ? 's aren’t' : ' isn’t') + ' offered with the ' + MNAME + '.</div>' : '') + '</div>';
-  },
-  init: function (ph) {
-    var r = ph.querySelector(".rail"), ds = ph.querySelectorAll(".dots i");
-    function upd() { var i = Math.round(r.scrollLeft / 327); ds.forEach(function (d, j) { d.classList.toggle("on", j === i); }); }
-    r.addEventListener("scroll", upd); setInterval(upd, 250);
-    ph.querySelector(".nav.p").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
-    ph.querySelector(".nav.n").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
-    ph.querySelectorAll(".slide .hov").forEach(function (h) { h.addEventListener("click", function () { choose(BY[h.dataset.k], h); }); });
+  sel: null,
+  render: function (list, out) {
+    var me = this;
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    var cur = list.filter(function (p) { return p.code === me.sel; })[0] || list[0]; me.sel = cur.code;
+    out.innerHTML = '<button class="hv hero" type="button"></button><div class="rail">' + list.map(function (p, i) {
+      return '<button class="th' + (p === cur ? ' on' : '') + '" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + featOf(p) + '"><span class="tb">' + (p.sp ? WLPlans.svg(p.sp, { fit: true, label: "" }) : '') + '</span><span class="tl">' + p.lenTxt + '</span><span class="tp">' + fmt(p.price) + '</span></button>';
+    }).join("") + '</div>';
+    var hero = out.querySelector(".hero"), ths = out.querySelectorAll(".th"), at = list.indexOf(cur);
+    function show(i, animate) {
+      var p = list[i], dir = i >= at ? 1 : -1; me.sel = p.code; at = i;
+      hero.innerHTML = big(p, "Tap to choose"); hero.onclick = function () { pick(p, hero); };
+      ths.forEach(function (t, j) { t.classList.toggle("on", j === i); });
+      if (animate && hero.animate) hero.animate([{ opacity: 0, transform: "translateX(" + (dir * 28) + "px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" });
+    }
+    ths.forEach(function (t, i) { t.addEventListener("click", function () { if (i !== at) show(i, true); }); });
+    show(at, false);
+    var on = out.querySelector(".th.on"); if (on) out.querySelector(".rail").scrollLeft = Math.max(0, on.offsetLeft - 24);
   }
 };
 
-var NOTES = {
-  A: ["A · Hero + docks", "The bed in focus in a big photo circle; the others in two rows below, King and Queen. Tap one and it pops up into the hero spot, as on Step 3. Tap the big circle to choose."],
-  B: ["B · Size, then layout", "Two big halves for King and Queen, as on Step 1. Pick a size and its layouts appear below; tapping a layout chooses it."],
-  C: ["C · Diagram", "One bed at a time. A small top-down diagram shows exactly which side things sit on, so door side and road side are no longer jargon."]
-};
+/* ---------- the filters, shared by all three ---------- */
+function Pane(v, ph) {
+  var st = { g: cheapest ? cheapest.group : GROUPS[0], arr: null, bun: null };
+  var seg = ph.querySelector(".seg"), cA = ph.querySelector("[data-r=arr]"), cB = ph.querySelector("[data-r=bun]"), out = ph.querySelector(".out");
+  var inG = function () { return PLANS.filter(function (p) { return p.group === st.g; }); };
+  var list = function () { return inG().filter(function (p) { return (!st.arr || p.bed === st.arr) && (!st.bun || p.bunks === st.bun); }); };
+  function chips(el, items, cur, key) {
+    el.innerHTML = items.length < 2 ? "" : items.map(function (it) { return '<button class="chip' + (it.v === cur ? " on" : "") + '" type="button" data-v="' + it.v + '">' + it.l + ' <small>' + it.n + '</small></button>'; }).join("");
+    el.querySelectorAll(".chip").forEach(function (c) { c.addEventListener("click", function () { st[key] = c.dataset.v === "" ? null : (key === "bun" ? +c.dataset.v : c.dataset.v); refresh(); }); });
+  }
+  function refresh() {
+    seg.innerHTML = GROUPS.map(function (g) {
+      var m = Math.min.apply(null, PLANS.filter(function (p) { return p.group === g; }).map(function (p) { return p.price; }));
+      return '<button type="button" class="' + (g === st.g ? "on" : "") + '" data-g="' + g + '"><span class="sn">' + g + '</span><span class="sp">from ' + fmt(m) + '</span></button>';
+    }).join("");
+    seg.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { if (st.g !== b.dataset.g) { st.g = b.dataset.g; st.arr = null; st.bun = null; refresh(); } }); });
+    var g = inG(), byBun = g.filter(function (p) { return !st.bun || p.bunks === st.bun; }), byArr = g.filter(function (p) { return !st.arr || p.bed === st.arr; });
+    var beds = WL_BED_ORDER.filter(function (k) { return byBun.some(function (p) { return p.bed === k; }); });
+    chips(cA, [{ v: "", l: "All beds", n: byBun.length }].concat(beds.map(function (k) { return { v: k, l: BEDN[k], n: byBun.filter(function (p) { return p.bed === k; }).length }; })), st.arr || "", "arr");
+    var bs = []; byArr.forEach(function (p) { if (p.bunks && bs.indexOf(p.bunks) < 0) bs.push(p.bunks); }); bs.sort(function (a, b) { return a - b; });
+    chips(cB, [{ v: "", l: "Any bunks", n: byArr.length }].concat(bs.map(function (n) { return { v: n, l: n + (n > 1 ? " bunks" : " bunk"), n: byArr.filter(function (p) { return p.bunks === n; }).length }; })), st.bun || "", "bun");
+    VIEW[v].render(list(), out);
+  }
+  refresh();
+}
+
 var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = {
+  A: ["A · One at a time", "One big plan per swipe, with the facts beneath it. Arrows and a counter show how many there are. Best for taking it in; slowest to compare."],
+  B: ["B · List", "Every matching plan in a scrolling list, shortest van first, so plans can be compared by scrolling. A one-line key explains the plan’s orientation."],
+  C: ["C · Big plan + rail", "The plan in focus is large; the rest sit in a rail below with their length and price. Tap one and it slides into focus, as the models do on Step 3."]
+};
 var html = "";
 ["A", "B", "C"].forEach(function (v, i) {
   html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
     '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
-    '<div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
-    '<div class="body"><h1><span style="white-space:nowrap">How do you</span> <span style="white-space:nowrap">like to sleep?</span></h1><div class="content">' + VIEW[v].html() + '</div></div>' +
+    '<div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Plan</span></div></div>' +
+    '<div class="body"><h1>Pick your plan</h1><div class="content"><div class="pane"><div class="seg" role="group" aria-label="Bed size"></div><div class="chips" data-r="arr"></div><div class="chips" data-r="bun"></div><div class="out"></div></div></div></div>' +
     '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
 });
 document.getElementById("stage").innerHTML = html;
 document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
-["A", "B", "C"].forEach(function (v) { VIEW[v].init(document.querySelector(".phone." + v)); });
-document.querySelectorAll(".phone").forEach(function (ph) { ph.addEventListener("click", function (e) { if (!e.target.closest(".q") && !e.target.closest(".tip")) ph.querySelectorAll(".tip.open,.q.open").forEach(function (t) { t.classList.remove("open"); }); }); });
+["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
 document.querySelectorAll("#pick button").forEach(function (b) {
   b.addEventListener("click", function () {
     document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
