@@ -58,3 +58,16 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 
 /* margin guides: add ?guides to the page address */
 .phone.guides::after { content: ""; position: absolute; left: var(--m); right: var(--m); top: var(--head); bottom: var(--mb); border: 1px dashed rgba(230,0,0,.55); pointer-events: none; z-index: 9; }
+
+/* progress band variants. The default stays white; these fill the whole progress section edge to edge with colour and
+   turn the van, the track and the words white. The van is drawn in currentColor, with --vcut for its windows and wheel hubs. */
+.road .van { color: var(--orange-deep); }
+.prog--grad, .prog--solid { border-bottom: 0; }
+.prog--grad  { background: linear-gradient(180deg, #F5A257 0%, #E37921 46%, #B04C07 100%); }  /* Dusk, with a deeper top so white stays legible */
+.prog--solid { background: var(--orange-deep); }
+.prog--grad .road::before, .prog--solid .road::before { border-top-color: rgba(255,255,255,.5); }
+.prog--grad .road .done, .prog--solid .road .done { background: #fff; }
+.prog--grad .prow .l, .prog--solid .prow .l { color: #fff; }
+.prog--grad .prow .r, .prog--solid .prow .r { color: rgba(255,255,255,.88); }
+.prog--grad .van { color: #fff; --vcut: #E27820; }
+.prog--solid .van { color: #fff; --vcut: var(--orange-deep); }
