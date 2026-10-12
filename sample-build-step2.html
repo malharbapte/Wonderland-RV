@@ -6,8 +6,7 @@
 <title>Sample — Build step 2 (size)</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=1">
 <style>
-/* Throwaway sample: Step 2 (size) as a number line (option 9 of the ten). Discs sit where their lengths
-   fall on a 17′–24′ ruler; range bars underneath. Original size icons from the live configurator.
+/* Throwaway sample: Step 2 (size) as a number line (option 9 of the ten) with the graded-track scale (option B). Original size icons from the live configurator.
    All px, no rem (HANDOFF §3). Add ?guides to see the page margins. */
 /* number line */
 .v9 .wrap { position:relative; width:327px; height:448px; }
@@ -23,7 +22,15 @@
 .p:focus-visible { outline:none; }
 .nm { display:block; white-space:nowrap; font-family:var(--aviano); font-weight:900; text-transform:uppercase; font-size:14px; line-height:18px; margin-top:8px; transition:color .42s ease; }
 .ln { display:block; font-size:12px; line-height:17px; color:#444; white-space:nowrap; }
-.v9 .tk { font-family:var(--gordita); font-size:11px; fill:#888; text-anchor:middle; }
+.rule { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+/* the scale: one gradient from sand to deep orange, cut into the three spans, each labelled.
+   Touching a disc rings its own span and tints its label (no connecting lines needed). */
+.seg { transition:stroke .3s ease; stroke:transparent; stroke-width:2; }
+.sl { font-family:var(--gordita); font-size:11px; fill:#666; text-anchor:middle; transition:fill .3s ease; }
+.phone:has(.p[data-k="compact"]:hover) .seg-compact, .phone:has(.p[data-k="mid"]:hover) .seg-mid, .phone:has(.p[data-k="spacious"]:hover) .seg-spacious,
+.phone:has(.p[data-k="compact"].on) .seg-compact, .phone:has(.p[data-k="mid"].on) .seg-mid, .phone:has(.p[data-k="spacious"].on) .seg-spacious { stroke:#8f4709; }
+.phone:has(.p[data-k="compact"]:hover) .sl-compact, .phone:has(.p[data-k="mid"]:hover) .sl-mid, .phone:has(.p[data-k="spacious"]:hover) .sl-spacious,
+.phone:has(.p[data-k="compact"].on) .sl-compact, .phone:has(.p[data-k="mid"].on) .sl-mid, .phone:has(.p[data-k="spacious"].on) .sl-spacious { fill:var(--o); }
 
 </style>
 </head>
@@ -46,30 +53,36 @@
 
 <script>
 var SIZES = [
-  { k: "compact",  nm: "Compact",  ln: "17\u203209\u2033 \u2013 20\u2032", mid: 18.875, w: 76, src: "assets/img/build/size-compact.png" },
-  { k: "mid",      nm: "Mid-size", ln: "20\u203206\u2033 \u2013 22\u2032", mid: 21.25,  w: 85, src: "assets/img/build/size-mid.png" },
-  { k: "spacious", nm: "Spacious", ln: "22\u203206\u2033 \u2013 24\u2032", mid: 23.25,  w: 94, src: "assets/img/build/size-spacious.png" }
+  { k: "compact",  nm: "Compact",  ln: "17\u203209\u2033 \u2013 20\u2032", mid: 18.875, w: 76, ink: [-5.5, -3.4], src: "assets/img/build/size-compact.png" },
+  { k: "mid",      nm: "Mid-size", ln: "20\u203206\u2033 \u2013 22\u2032", mid: 21.25,  w: 85, ink: [-6.3, -1.1], src: "assets/img/build/size-mid.png" },
+  { k: "spacious", nm: "Spacious", ln: "22\u203206\u2033 \u2013 24\u2032", mid: 23.25,  w: 94, ink: [-4.6, -3.1], src: "assets/img/build/size-spacious.png" }
 ];
-/* THE RULER is true to scale: 17\u203209\u2033 (17.75 ft) to 24\u2032 runs from margin to margin, with the round
+/* THE SCALE is true to scale: 17\u203209\u2033 (17.75 ft) to 24\u2032 runs from margin to margin, with the round
    caps of the first and last bars flush to the margins (x = 3.5 .. 323.5). */
 var x = function (ft) { return 3.5 + (ft - 17.75) / 6.25 * 320; };
 /* THE DISCS are spread evenly from margin to margin (equal gaps) and climb in equal steps, Compact lowest.
-   Their true lengths are on the ruler below, in the same left-to-right order. */
+   Their true lengths are on the scale below, in the same left-to-right order; touching a disc rings its span. */
 var D = 88, GAP = (327 - 3 * D) / 2;
 var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i], d: D, s: [50, 56, 60][i], bar: x(z.mid) }; });
-var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 448, RB = 64, ry = 26, tick = "";
-/* ticks: the first is 17\u203209\u2033 itself, set on two lines at the margin to save width; whole feet follow */
-[[17.75, null], [19, "19\u2032"], [20, "20\u2032"], [21, "21\u2032"], [22, "22\u2032"], [23, "23\u2032"], [24, "24\u2032"]].forEach(function (t) {
-  var px = x(t[0]), lab;
-  if (t[1] === null) lab = '<text class="tk" style="text-anchor:start" x="0" y="' + (ry + 22) + '">17\u2032</text><text class="tk" style="text-anchor:start" x="0" y="' + (ry + 34) + '">09\u2033</text>';
-  else if (t[0] === 24) lab = '<text class="tk" style="text-anchor:end" x="327" y="' + (ry + 22) + '">' + t[1] + '</text>';
-  else lab = '<text class="tk" x="' + px + '" y="' + (ry + 22) + '">' + t[1] + '</text>';
-  tick += '<line x1="' + px + '" x2="' + px + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/>' + lab;
+var H = 448, RB = 64;
+/* the track is true to scale and runs exactly margin to margin (x = 0 .. 327) */
+var xb = function (ft) { return (ft - 17.75) / 6.25 * 327; };
+/* the scale (option B, graded track): one gradient across 17\u203209\u2033 to 24\u2032, cut into the three spans,
+   each span labelled with its own range */
+var SPANS = [[17.75, 20], [20.5, 22], [22.5, 24]];
+var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="327" y2="0"><stop offset="0" stop-color="#F3D5B8"/><stop offset=".55" stop-color="#E49A55"/><stop offset="1" stop-color="#C9620C"/></linearGradient></defs>';
+SIZES.forEach(function (z, i) {
+  var w = xb(SPANS[i][1]) - xb(SPANS[i][0]);
+  scale += '<rect class="seg seg-' + z.k + '" x="' + xb(SPANS[i][0]) + '" y="14" width="' + w + '" height="12" rx="6" fill="url(#gB)"/>' +
+           '<text class="sl sl-' + z.k + '" x="' + (xb(SPANS[i][0]) + w / 2) + '" y="46">' + z.ln + '</text>';
 });
-var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
+/* optical centring: each PNG is cropped to its drawing, so its box is centred in the disc, but the drawing's
+   weight sits left and up (body on the left, hitch and wheels thin at the edges). Nudge by the measured offset
+   of the ink centroid, scaled to the displayed size. */
+var nudge = function (z, s) { var k = s / z.w; return 'translate(' + (-z.ink[0] * k).toFixed(2) + 'px,' + (-z.ink[1] * k).toFixed(2) + 'px)'; };
 document.getElementById("wrap").innerHTML =
-  '<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + tick + bars + '</g></svg>' +
-  SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + '<img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
+  '<svg class="rule" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
+  SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + '<img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px;transform:' + nudge(z, p.s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
 
 var rd = document.querySelector(".road");
 rd.querySelector(".van").style.left = "calc((100% - 40px) * 0.2)";
