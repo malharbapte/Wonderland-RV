@@ -11,6 +11,7 @@
 @font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
 @font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 
 :root {
   --orange: #E37921; --orange-deep: #D57114; --o: var(--orange-deep);
