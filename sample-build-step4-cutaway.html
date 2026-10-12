@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 4 (bed), cutaway refined</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=14">
+<style>
+/* Throwaway sample: Step 4 (bed) with the isometric cutaway only. Two versions of the drawing, four versions of the pill:
+   COLOUR   the cutaway in warm tones, tables in orange, chests in teal
+   MONOTONE the whole cutaway in neutral greys; only the tables (orange) and chests (teal) carry colour
+   PILL     1 black outline, gradient fill   2 orange outline, gradient fill   3 black outline, solid orange fill   4 orange outline, solid orange fill
+   Prices are the live configurator's for the chosen model. All px, no rem.
+   ?guides margins   ?pill=1..4   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+.pick { display:none; }
+.ctl { display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 16px 0; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; flex-wrap:wrap; }
+.ctl button { height:34px; padding:0 14px; border-radius:17px; background:#fff; box-shadow:inset 0 0 0 1.5px #bbb; font-family:var(--gordita); font-size:13px; letter-spacing:0; text-transform:none; }
+.ctl button.on { background:#111; color:#fff; box-shadow:none; }
+.phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
+.pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
+
+/* King | Queen: a white pill with an outline. --pc is the outline, --sel the fill of the chosen side. Set by body[data-pill]. */
+body { --pc:#111; --sel:var(--grad); }
+body[data-pill="2"] { --pc:var(--o); --sel:var(--grad); }
+body[data-pill="3"] { --pc:#111; --sel:var(--o); }
+body[data-pill="4"] { --pc:var(--o); --sel:var(--o); }
+.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#fff; box-shadow:inset 0 0 0 1.5px var(--pc); flex:none; }
+.seg button { position:relative; flex:1; height:44px; border-radius:26px; display:flex; align-items:center; justify-content:center; color:var(--ink); font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.05em; text-transform:uppercase; transition:color .42s ease; }
+.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--sel); opacity:0; transition:opacity .42s ease; }
+.seg button > * { position:relative; }
+.seg button.on { color:#fff; } .seg button.on::before { opacity:1; }
+.seg button:not(.on):hover, .seg button:not(.on):focus-visible { color:var(--o); } .seg button:focus-visible { outline:none; }
+
+.ics { display:flex; gap:8px; margin-top:12px; flex:none; }
+.ic { position:relative; flex:none; width:74px; height:56px; border-radius:16px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:grid; place-items:center; transition:box-shadow .3s ease, background .3s ease; }
+.ic svg { width:60px; height:46px; display:block; }
+.ic:hover, .ic:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); outline:none; }
+.ic.on { background:#FFF1E2; box-shadow:inset 0 0 0 2px var(--o); }
+.cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
+
+.dg { flex:none; margin-top:10px; }
+.dg svg { display:block; max-height:236px; width:100%; height:auto; margin:0 auto; }
+.leg { display:flex; gap:16px; justify-content:center; margin-top:2px; font-size:12px; line-height:16px; color:#6d645a; flex:none; }
+.leg i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+
+.foot { margin-top:auto; flex:none; padding-bottom:2px; }
+.foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
+.foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
+/* the next button: a gradient circle with a chevron, on the same row and the same height as the back chevron, mirrored to the right margin */
+.go { position:absolute; right:var(--m); bottom:calc(var(--mb) - 15px + env(safe-area-inset-bottom)); width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; z-index:2; }
+.go::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
+.go svg { position:relative; width:24px; height:24px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
+.go:hover::before, .go:focus-visible::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); } .go:focus-visible { outline:none; }
+.go:active::before, .go.on::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
+
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .ctl { padding:8px 8px; gap:6px; background:#f2f2f2; } .ctl button { padding:0 11px; }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px - 50px); }
+}
+</style>
+</head>
+<body data-pill="1">
+<div class="pick" id="pick"><button class="on" data-v="A">Colour</button><button data-v="B">Monotone</button></div>
+<div class="ctl" id="ctl"><span>Pill</span>
+  <button data-p="1" class="on">1 · Black outline, gradient</button><button data-p="2">2 · Orange outline, gradient</button><button data-p="3">3 · Black outline, solid</button><button data-p="4">4 · Orange outline, solid</button></div>
+<div class="stage" id="stage"></div>
+
+<script src="assets/js/build-data.js?v=2"></script>
+<script src="assets/js/build-progress.js?v=11"></script>
+<script>
+var Q = location.search;
+var CH = WLProgress.choices();
+var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
+var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
+var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+var BEDLINE = { "king-table": "King, side table on the door side", "king-chest": "King, storage chest on the door side", "king-lift": "King, electric lift-up", "queen-dual-table": "Queen, a table each side", "queen-dual-chest": "Queen, a storage chest each side", "queen-chest-table": "Queen, chest on the road side, table on the door side", "queen-ew": "Queen, east–west, storage at the bed head" };
+var BEDS = wlBeds(TYPE, SIZE, MODEL).filter(function (b) { return b.price !== null; });
+var GROUPS = ["King", "Queen"].filter(function (g) { return BEDS.some(function (b) { return b.group === g; }); });
+
+/* ---------- geometry, in feet. Head of the bed at the front, road side at the back right, door side open towards us. ---------- */
+var U = 13, WFT = 7.5, PADD = 6, O = "#D57114";
+var DIM = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
+  "queen-dual-table": { l: 6.25, w: 5.0, near: "t", far: "t" }, "queen-dual-chest": { l: 6.5, w: 5.0, near: "c", far: "c" }, "queen-chest-table": { l: 6.5, w: 5.0, near: "t", far: "c" }, "queen-ew": { ew: 1 } };
+function geo(k) {
+  var b = DIM[k], x0 = .42;
+  if (b.ew) return { bed: { x: x0, y: 1.3, l: 5.0, w: 5.95 }, items: [{ t: "c", x: x0, y: .18, l: 5.0, w: .95 }], ew: 1 };
+  var y0 = b.w > 5.5 ? .32 : 1.25, items = [];
+  var item = function (kind, y) { return kind === "t" ? { t: "t", x: x0, y: y, l: 1, w: 1 } : { t: "c", x: x0, y: y, l: b.l, w: .95 }; };
+  if (b.far) items.push(item(b.far, y0 - 1.06));
+  if (b.near) items.push(item(b.near, y0 + b.w + .06));
+  return { bed: { x: x0, y: y0, l: b.l, w: b.w }, items: items, up: b.up, ew: 0 };
+}
+var uidN = 0, uid = function () { return "g" + (++uidN); };
+var n2 = function (v) { return (+v).toFixed(2); };
+
+/* colours: tables are orange, chests are teal, in both versions. Everything else is warm (colour) or neutral grey (monotone). */
+var TABLE = ["#F29A4B", "#D57114", "#A8560A"], CHEST = ["#5DB0BE", "#2F7C8A", "#1E5963"];
+var PAL = {
+  colour: { floor: "#CFC6BA", plank: "#BFB5A8", wall: ["#FFFFFF", "#EEE9E2", "#D2CABF"], bed: ["#EDE4D6", "#D9CCB9", "#C4B49D"], linen: ["#F8F4EC", "#EFE8DD", "#DFD5C6"], pillow: ["#FFFFFF", "#E7DFD3", "#D2C8B8"], runner: "#B79F78", glass: "#CFE0E8", glassA: "#B4C9D3", glassB: "#A3BAC6", shadow: "rgba(40,25,10,.30)" },
+  mono:   { floor: "#CBC8C3", plank: "#BCB9B4", wall: ["#FFFFFF", "#EDECEA", "#D2D0CD"], bed: ["#EDECEA", "#D8D6D3", "#C3C1BE"], linen: ["#F7F6F4", "#EFEDEA", "#DDDBD8"], pillow: ["#FFFFFF", "#E6E4E1", "#D0CECB"], runner: "#B3B0AC", glass: "#DCE1E4", glassA: "#C2C9CE", glassB: "#B1B9BE", shadow: "rgba(30,30,30,.28)" }
+};
+
+/* ---------- the cutaway, true isometric (30 degree axes, right angles) ---------- */
+function drawIso(k, o) {
+  var G = geo(k), H = 3.9, C30 = .8660254, L = o.crop, id = uid(), s = "", T = .25, ic = o.icon, Pl = PAL[o.mono ? "mono" : "colour"];
+  var MG = ic ? .3 : 1.1, ox = (WFT + T) * C30 + .2 + MG, oy = H + T + .2 + MG;
+  var P = function (x, y, z) { return [((x - y) * C30 + ox) * U + PADD, ((x + y) * .5 - z + oy) * U + PADD]; };
+  var poly = function (pts, fill, sw) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width="' + (sw || .8) + '" stroke-linejoin="round"/>'; };
+  var xz = function (y, x1, x2, z1, z2, fill, sw) { return poly([P(x1, y, z1), P(x2, y, z1), P(x2, y, z2), P(x1, y, z2)], fill, sw); };
+  var yz = function (x, y1, y2, z1, z2, fill, sw) { return poly([P(x, y1, z1), P(x, y2, z1), P(x, y2, z2), P(x, y1, z2)], fill, sw); };
+  var xy = function (z, x1, x2, y1, y2, fill, sw) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill, sw); };
+  /* sw makes the edges of a piece softer: a thick stroke in the piece's own colour rounds every corner */
+  var box = function (x, y, z, l, w, h, c, sw) { return xy(z + h, x, x + l, y, y + w, c[0], sw) + xz(y + w, x, x + l, z, z + h, c[1], sw) + yz(x + l, y, y + w, z, z + h, c[2], sw); };
+  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter></defs>';
+  s += xy(0, 0, L, 0, WFT, Pl.floor);
+  if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(L, yy, 0); s += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
+  s += box(-T, -T, 0, L + T, T, H, Pl.wall) + box(-T, 0, 0, T, WFT, H, Pl.wall);                    /* road-side wall, front wall (with thickness) */
+  /* windows with a little depth: the glass sits back from the wall, so the top and the near side are in shade, and a sill sticks out below */
+  s += xz(0, 2.2, 5.8, 1.8, 3.5, Pl.glass) + xz(0, 2.2, 5.8, 3.28, 3.5, Pl.glassB) + xz(0, 2.2, 2.42, 1.8, 3.28, Pl.glassA);
+  s += yz(0, 2.0, 5.6, 1.8, 3.5, Pl.glass) + yz(0, 2.0, 5.6, 3.28, 3.5, Pl.glassB) + yz(0, 5.38, 5.6, 1.8, 3.28, Pl.glassA);
+  if (!ic) s += box(2.05, 0, 1.62, 3.9, .3, .14, Pl.wall) + box(0, 1.85, 1.62, .3, 3.9, .14, Pl.wall);
+  var B = G.bed, ph = B.w / 2 - .28;
+  s += xy(0, B.x - .1, B.x + B.l + .45, B.y + .1, B.y + B.w + .4, Pl.shadow).replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
+  var piece = function (it) { return box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, it.t === "t" ? TABLE : CHEST, 1.6); };
+  G.items.forEach(function (it) { if (it.y < B.y) s += piece(it); });
+  s += box(B.x, B.y, 0, B.l, B.w, 1.2, Pl.bed);
+  if (G.ew) {
+    s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .2, Pl.linen, 1.8) + xy(1.4, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, Pl.runner);
+    s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, .28, Pl.pillow, 3.4) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, .28, Pl.pillow, 3.4);
+  } else {
+    s += box(B.x + .95, B.y + .1, 1.2, B.l - 1.05, B.w - .2, .2, Pl.linen, 1.8) + xy(1.4, B.x + B.l * .46, B.x + B.l * .46 + .95, B.y + .1, B.y + B.w - .1, Pl.runner);
+    s += box(B.x + .14, B.y + .22, 1.2, .76, ph - .04, .28, Pl.pillow, 3.4) + box(B.x + .14, B.y + B.w - .22 - ph + .04, 1.2, .76, ph - .04, .28, Pl.pillow, 3.4);     /* low, plump pillows */
+    if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  }
+  G.items.forEach(function (it) { if (it.y >= B.y) s += piece(it); });
+  s += xz(WFT, 0, L, -.6, 0, "#2B2B2B") + yz(L, 0, WFT, -.6, 0, "#1C1C1C");                        /* the dark lower wall: door side, and the cut end */
+  if (!ic) {
+    var tag = function (txt, x, y, z, rot) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="#a89d90">' + txt + '</text>'; };
+    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
+  }
+  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T + .6 + .4 + 2 * MG) * U + PADD * 2;
+  return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
+}
+
+/* ---------- the screen ---------- */
+function Pane(v, ph) {
+  var S = { g: null, k: null }, out = ph.querySelector(".pane"), mono = v === "B";
+  var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
+  S.g = cheapest(BEDS).group;
+  function render() {
+    var inG = BEDS.filter(function (b) { return b.group === S.g; });
+    if (!inG.some(function (b) { return b.key === S.k; })) S.k = cheapest(inG).key;
+    var cur = inG.filter(function (b) { return b.key === S.k; })[0], gg = geo(S.k), hasT = gg.items.some(function (i) { return i.t === "t"; }), hasC = gg.items.some(function (i) { return i.t === "c"; });
+    out.innerHTML =
+      '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 8.4, icon: true, mono: mono }) + '</button>'; }).join("") + '</div>' +
+      '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
+      '<div class="dg">' + drawIso(S.k, { crop: 10.2, mono: mono }) + '</div>' +
+      '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div>' +
+      '<div class="foot"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div>' +
+      '<button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>';
+    out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
+    out.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
+    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
+  }
+  render();
+}
+
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = {
+  A: ["Colour", "Warm tones. Side tables are orange, storage chests are teal. Plumper, lower pillows; a recessed window with a sill; the next button sits on the back chevron’s row."],
+  B: ["Monotone", "The whole cutaway in neutral greys. Only the side tables (orange) and the storage chests (teal) carry colour, so the eye goes straight to what you are choosing."]
+};
+var html = "";
+["A", "B"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
+    '<div class="body"><h1>Your bed</h1><div class="content"><div class="pane"></div></div></div>' +
+    '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
+["A", "B"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+function setPill(p) { document.body.dataset.pill = p; document.querySelectorAll("#ctl button").forEach(function (b) { b.classList.toggle("on", b.dataset.p === String(p)); }); }
+document.querySelectorAll("#ctl button").forEach(function (b) { b.addEventListener("click", function () { setPill(b.dataset.p); }); });
+setPill((Q.match(/[?&]pill=([1-4])/) || [])[1] || 1);
+if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>
