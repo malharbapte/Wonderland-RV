@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Progress pill, five options</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=13">
+<style>
+/* Throwaway sample: five ways to do the progress pill. Each frame is the real header: the logo bar, the pill, and the heading
+   beneath it, so you can judge how it sits. Use the step buttons to move the van through the six stops. All px, no rem.
+   The shared progress code (assets/js/build-progress.js) drives A-D unchanged; E is its own capsule. */
+.ctl { position:sticky; top:0; z-index:9; background:#111; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; flex-wrap:wrap; }
+.ctl span { font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-right:6px; }
+.ctl button { min-width:40px; height:34px; padding:0 8px; border:1.5px solid #777; font-family:var(--aviano); font-weight:700; font-size:13px; color:#fff; }
+.ctl button.on { background:var(--o); border-color:var(--o); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, 375px); justify-content:center; gap:34px 32px; padding:26px 16px 56px; }
+.item { min-width:0; }
+.item > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+.item > p { font-size:13px; line-height:19px; color:#444; margin:2px 0 10px; max-width:375px; }
+.frame { background:#fff; box-shadow:0 6px 28px rgba(0,0,0,.18); overflow:hidden; padding-bottom:18px; }
+.frame .body { padding-top:14px; }
+@media (max-width:900px) { .grid { grid-template-columns:minmax(0,1fr); padding:20px 0 40px; } .item > h2, .item > p { padding:0 var(--m); } }
+
+/* shared look for anything drawn on orange: white van, white path, white and pale markers */
+.oo .road::before { border-top-color:rgba(255,255,255,.5); }
+.oo .road .done::before { background:#fff; }
+.oo .road .van { color:#fff; --vcut:var(--orange-deep); }
+.oo .mk .a { fill:#E5A76D; stroke:#E5A76D; } .oo .mk .b { fill:#E19956; stroke:#E19956; } .oo .mk .s { stroke:#E5A76D; }
+.oo .mk.passed .a { fill:#fff; stroke:#fff; } .oo .mk.passed .b { fill:#FFE9D4; stroke:#FFE9D4; } .oo .mk.passed .s { stroke:#fff; }
+.nm { font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
+
+/* A · Inline pill: slim, the step name at the left and the road beside it, all on one row */
+.pA { margin:12px var(--m) 0; height:52px; border-radius:26px; background:var(--orange-deep); display:flex; align-items:center; padding:0 22px; gap:14px; }
+.pA .nm { width:78px; color:#fff; flex:none; }
+.pA .sep { width:1px; height:24px; background:rgba(255,255,255,.4); flex:none; }
+.pA .road { flex:1; min-width:0; height:28px; --vw:30px; --ms:.72; }
+.pA .road .mk { bottom:11px; }
+.pA .road::before { bottom:5px; } .pA .road .done { bottom:3.5px; } .pA .road .van { bottom:6px; }
+
+/* B · The pill is the road: a capsule track, the van and the pines stand on it */
+.pB { margin:12px var(--m) 0; }
+.pB .road { height:54px; }
+.pB .road::before { border-top:0; bottom:0; height:18px; border-radius:9px; background:#F1E8DE; }
+.pB .road .done { bottom:0; height:18px; border-radius:9px; }
+.pB .road .mk { bottom:18px; }
+.pB .road .van { bottom:13px; }
+.pB .nm { display:block; margin-top:8px; color:var(--orange-deep); }
+
+/* C · A name chip, then the road running free beside it */
+.pC { margin:14px var(--m) 0; display:flex; align-items:center; gap:14px; }
+.pC .chip { flex:none; width:96px; height:32px; border-radius:16px; background:var(--orange-deep); color:#fff; display:grid; place-items:center; }
+.pC .road { flex:1; min-width:0; height:34px; --vw:34px; --ms:.85; }
+.pC .road .mk { bottom:13px; } .pC .road::before { bottom:7px; } .pC .road .done { bottom:5.5px; } .pC .road .van { bottom:8px; }
+
+/* D · Outlined pill: white inside, orange outline like the buttons, the name as a legend tab on the outline */
+.pD { position:relative; margin:22px var(--m) 0; height:60px; border-radius:30px; border:2px solid var(--orange-deep); background:#fff; padding:0 26px; display:flex; align-items:center; }
+.pD .legend { position:absolute; left:28px; top:-11px; background:#fff; padding:0 8px; color:var(--orange-deep); }
+.pD .road { flex:1; height:34px; margin-top:4px; --vw:36px; --ms:.9; }
+.pD .road .mk { bottom:13px; } .pD .road::before { bottom:7px; } .pD .road .done { bottom:5.5px; } .pD .road .van { bottom:8px; }
+
+/* E · Capsule progress: the pill itself fills up; the van rides inside it, stops are dots, the flag waits at the end */
+.pE { margin:12px var(--m) 0; }
+.pE .nm { display:block; color:var(--orange-deep); margin-bottom:6px; padding-left:4px; }
+.pE .cap { position:relative; height:42px; border-radius:21px; background:#F3EBE2; overflow:hidden; }
+.pE .fill { position:absolute; left:0; top:0; bottom:0; border-radius:21px; background:var(--grad-h); background-size:327px 100%; transition:width var(--pm,1200ms) var(--ease,cubic-bezier(.65,0,.35,1)); }
+.pE .van { position:absolute; top:11px; width:32px; height:18px; color:#fff; --vcut:var(--orange-deep); transition:left var(--pm,1200ms) var(--ease,cubic-bezier(.65,0,.35,1)); z-index:2; overflow:visible; }
+.pE .dot { position:absolute; top:19px; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:#cfc6bb; z-index:1; transition:background .4s ease; }
+.pE .dot.passed { background:rgba(255,255,255,.9); }
+.pE .dot.cur { opacity:0; }
+.pE .flag { position:absolute; right:12px; top:11px; width:16px; height:20px; z-index:1; }
+.pE .flag .a, .pE .flag .b { stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; transition:fill .4s ease, stroke .4s ease; }
+.pE .flag .a { fill:#d3c9bd; stroke:#d3c9bd; } .pE .flag .b { fill:#c4b9ac; stroke:#c4b9ac; }
+.pE .flag.passed .a { fill:#fff; stroke:#fff; } .pE .flag.passed .b { fill:#FFE9D4; stroke:#FFE9D4; }
+.pE .flag.cur { opacity:0; }
+</style>
+</head>
+<body>
+<div class="ctl" id="ctl"><span>Step</span></div>
+<div class="grid" id="grid"></div>
+
+<script src="assets/js/build-progress.js?v=7"></script>
+<script>
+var N = 6, NAMES = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var XB = '<span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>';
+var HEAD = '<div class="body"><h1><span style="white-space:nowrap">Where will you</span> <span style="white-space:nowrap">take it?</span></h1></div>';
+var ROAD = '<div class="road"><div class="done"></div>' + VAN + '</div>';
+var FLAG = '<svg class="flag" viewBox="0 0 20 26" aria-hidden="true"><rect class="b" x="3" y="2" width="1.8" height="23.5" rx=".9"/><path class="a" d="M5 3H16.5L13.2 7.5L16.5 12H5Z"/></svg>';
+
+var OPTS = [
+  { t: "Inline pill", d: "A slim orange pill. The step name sits at the left, the road beside it, all on one row. Least height, least weight.",
+    html: '<div class="pA oo"><span class="nm lab"></span><span class="sep"></span>' + ROAD + '</div>' },
+  { t: "The pill is the road", d: "No container. The road itself is a rounded capsule filled by the gradient, and the van and the pines stand on top of it. The name sits beneath.",
+    html: '<div class="pB">' + ROAD + '<span class="nm lab"></span></div>' },
+  { t: "Name chip + free road", d: "A small orange pill carries just the step name. The road runs free beside it, light and uncontained.",
+    html: '<div class="pC"><span class="chip nm lab"></span>' + ROAD + '</div>' },
+  { t: "Outlined pill", d: "White inside with an orange outline, like the buttons on hover. The name is a legend tab on the outline; the road is full strength inside.",
+    html: '<div class="pD"><span class="nm legend lab"></span>' + ROAD + '</div>' },
+  { t: "Capsule progress", d: "The pill itself fills up with the gradient as you go. The van rides inside it, stops are dots, and the flag waits at the end.",
+    html: '<div class="pE"><span class="nm lab"></span><div class="cap"><div class="fill"></div>' + '<span class="dots"></span>' + VAN + FLAG + '</div></div>' }
+];
+
+var grid = document.getElementById("grid"), frames = [];
+OPTS.forEach(function (o, i) {
+  var it = document.createElement("div"); it.className = "item";
+  it.innerHTML = '<h2>' + (i + 1) + ' · ' + o.t + '</h2><p>' + o.d + '</p><div class="frame"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">' + XB + '</header>' + o.html + HEAD + '</div>';
+  grid.appendChild(it); frames.push(it.querySelector(".frame"));
+});
+/* option E needs its own stop dots */
+(function () {
+  var cap = frames[4].querySelector(".cap");
+  for (var i = 0; i < N - 1; i++) { var d = document.createElement("span"); d.className = "dot"; d.style.left = "calc(21px + (100% - 42px) * " + (i / (N - 1)) + ")"; cap.appendChild(d); }
+})();
+
+var cur = 0, ctl = document.getElementById("ctl"), timer = null;
+for (var k = 0; k < N; k++) (function (k) { var b = document.createElement("button"); b.textContent = k + 1; b.addEventListener("click", function () { stop(); go(k); }); ctl.appendChild(b); })(k);
+var playBtn = document.createElement("button"); playBtn.textContent = "▶ Play"; playBtn.style.padding = "0 12px"; ctl.appendChild(playBtn);
+function go(s) {
+  ctl.querySelectorAll("button").forEach(function (b, i) { if (i < N) b.classList.toggle("on", i === s); });
+  frames.forEach(function (f, fi) {
+    f.querySelectorAll(".lab").forEach(function (l) { l.textContent = NAMES[s]; });
+    if (fi < 4) { WLProgress.set(f.querySelector(".road"), s); return; }
+    /* capsule */
+    var p = s / (N - 1), van = f.querySelector(".van"), fill = f.querySelector(".fill");
+    van.style.left = "calc(6px + (100% - 44px) * " + p + ")";
+    fill.style.width = "calc(6px + (100% - 44px) * " + p + " + 36px)";
+    f.querySelectorAll(".dot").forEach(function (d, i) { d.classList.toggle("passed", i < s); d.classList.toggle("cur", i === s); });
+    var fl = f.querySelector(".flag"); fl.classList.toggle("passed", 5 < s); fl.classList.toggle("cur", 5 === s);
+  });
+  cur = s;
+}
+function stop() { if (timer) { clearInterval(timer); timer = null; playBtn.textContent = "▶ Play"; } }
+playBtn.addEventListener("click", function () { if (timer) { stop(); return; } playBtn.textContent = "❚❚ Pause"; go(0); timer = setInterval(function () { go((cur + 1) % N); }, 1700); });
+go(2);
+</script>
+</body>
+</html>

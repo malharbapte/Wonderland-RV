@@ -46,7 +46,7 @@
     THEMES[THEME].forEach(function (k, i) {
       var m = document.createElement("span");
       m.className = "mk";
-      m.style.left = "calc(20px + (100% - 40px) * " + (i / (N - 1)) + ")";
+      m.style.left = "calc(var(--vw, 40px) / 2 + (100% - var(--vw, 40px)) * " + (i / (N - 1)) + ")";
       m.innerHTML = '<svg viewBox="0 0 20 26" aria-hidden="true">' + GLYPH[k] + "</svg>";
       road.insertBefore(m, van);
     });
@@ -74,8 +74,8 @@
     if (qpm >= 200 && qpm <= 4000) road.style.setProperty("--pm", qpm + "ms");
     var from = road.dataset.step === undefined ? step : +road.dataset.step, ms = journeyMs(road);
     var p = step / (N - 1);
-    road.querySelector(".van").style.left = "calc((100% - 40px) * " + p + ")";
-    road.querySelector(".done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
+    road.querySelector(".van").style.left = "calc((100% - var(--vw, 40px)) * " + p + ")";
+    road.querySelector(".done").style.width = "calc((100% - var(--vw, 40px)) * " + p + " + var(--vw, 40px) * .6)";
     road.querySelectorAll(".mk").forEach(function (m, i) {
       var delay = 0;
       if (from !== step && i >= Math.min(from, step) && i <= Math.max(from, step)) {

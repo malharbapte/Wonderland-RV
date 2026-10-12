@@ -46,7 +46,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .road .done { position: absolute; left: 0; bottom: 1.5px; height: 6px; border-radius: 3px; overflow: hidden; transition: width var(--pm) var(--ease); }
 /* the gradient is laid across the WHOLE road (100cqw) and revealed as the path grows, so each spot on the road keeps its colour */
 .road .done::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 100cqw; background: var(--grad-h); } /* the covered path: twice the weight of the road ahead (3px), round at both ends, centred on it */
-.road .van { position: absolute; bottom: 4px; width: 40px; height: 22px; overflow: visible; transition: left var(--pm) var(--ease); }
+.road .van { position: absolute; bottom: 4px; width: var(--vw, 40px); height: calc(var(--vw, 40px) * .55); overflow: visible; transition: left var(--pm) var(--ease); }
 .prow { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--aviano); font-weight: 700; font-size: 12px; line-height: 18px; letter-spacing: .08em; text-transform: uppercase; }
 .prow .l { color: var(--orange-deep); } .prow .r { color: #888; }
 
@@ -81,8 +81,8 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 
 /* checkpoint markers on the road (drawn by assets/js/build-progress.js). Grey while ahead, orange once passed,
    hidden while the van is parked on them. The van sits above the path, the path above the markers. */
-.road .mk { position: absolute; bottom: 5px; width: 20px; height: 26px; margin-left: -10px; pointer-events: none; transition: opacity .3s ease var(--md, 0ms); }
-.road .mk svg { display: block; width: 20px; height: 26px; overflow: visible; }
+.road .mk { position: absolute; bottom: 9px; width: calc(20px * var(--ms, 1)); height: calc(26px * var(--ms, 1)); margin-left: calc(-10px * var(--ms, 1)); pointer-events: none; transition: opacity .3s ease var(--md, 0ms); }
+.road .mk svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .mk .a, .mk .b, .mk .w, .mk .s { stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; transition: fill .4s ease var(--md, 0ms), stroke .4s ease var(--md, 0ms); }
 .mk .a { fill: #dcdcdc; stroke: #dcdcdc; }
 .mk .b { fill: #cdcdcd; stroke: #cdcdcd; }
