@@ -100,5 +100,17 @@
     var road = document.querySelector(".road");
     if (road && road.dataset.pageStep !== undefined) { var st = +road.dataset.pageStep; road.dataset.step = st; enter(road, st); }
   });
-  window.WLProgress = { set: set, enter: enter, theme: THEME, themes: THEMES };
+  /* The customer's choices travel with the session so every step can use them (and the form can send them later).
+     Choosing an earlier answer clears the later ones, since they may no longer apply. */
+  var CK = "wl-choice", ORDER = ["type", "size", "model"];
+  function choices() { try { return JSON.parse(sessionStorage.getItem(CK) || "{}"); } catch (e) { return {}; } }
+  function choose(key, value) {
+    var c = choices(); c[key] = value;
+    ORDER.slice(ORDER.indexOf(key) + 1).forEach(function (k) { delete c[k]; });
+    try { sessionStorage.setItem(CK, JSON.stringify(c)); } catch (e) {}
+  }
+  /* move to the next step after a short beat, so the tap's pressed state is seen. Test flags in the address (?guides, ?markers=...) are carried along. */
+  function go(url, delay) { setTimeout(function () { location.href = url + location.search; }, delay == null ? 420 : delay); }
+
+  window.WLProgress = { set: set, enter: enter, choices: choices, choose: choose, go: go, theme: THEME, themes: THEMES };
 })();

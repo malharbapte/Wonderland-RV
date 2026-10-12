@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 5 (Floorplan), placeholder</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=8">
+<style>
+/* Placeholder for a step that has not been designed yet, so the whole journey can be walked from Step 1 to the flag.
+   Shows what has been chosen so far. Not a design; replace when the step is built. All px, no rem. ?guides shows margins. */
+:root { --grad: linear-gradient(180deg, #FFC47F 0%, #E37921 52%, #B04C07 100%); }
+.stub { display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; }
+.stub p { color:#555; max-width:260px; }
+.sum { font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--o); }
+.go { margin-top:10px; display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+.go .disc { position:relative; width:104px; height:104px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; }
+.go .disc::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
+.go svg { position:relative; width:34px; height:34px; fill:none; stroke:#fff; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
+.go:hover .disc::before, .go:focus-visible .disc::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); }
+.go:active .disc::before, .go.on .disc::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
+.go .nm { margin-top:12px; font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.04em; text-transform:uppercase; }
+.go:focus-visible { outline:none; }
+</style>
+</head>
+<body>
+<main class="phone" id="phone">
+  <header class="bar">
+    <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    <span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span>
+  </header>
+  <div class="prog" aria-label="Step 5 of 6">
+    <div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+    <div class="prow"><span class="l">Floorplan</span></div>
+  </div>
+  <div class="body">
+    <h1>Floorplan</h1>
+    <div class="content"><div class="stub">
+      <p>Pick the layout you like best. This step is next on the rebuild.</p>
+      <div class="sum" id="sum"></div>
+      <button class="go" id="go" type="button" aria-label="Continue"><span class="disc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span><span class="nm">Continue</span></button>
+    </div></div>
+  </div>
+  <a class="back" href="sample-build-step4.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</main>
+<script src="assets/js/build-progress.js?v=4"></script>
+<script>
+WLProgress.enter(document.querySelector(".road"), 4);
+/* what has been chosen so far */
+var C = WLProgress.choices(), TYPE = { couples: "Couple\u2019s", family: "Family" }, SIZE = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, MODEL = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
+var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model]].filter(Boolean);
+document.getElementById("sum").textContent = bits.length ? bits.join(" \u00B7 ") : "";
+var go = document.getElementById("go");
+if (go) go.addEventListener("click", function () { go.classList.add("on"); WLProgress.go("sample-build-step6.html"); });
+if (/[?&]guides/.test(location.search)) document.getElementById("phone").classList.add("guides");
+</script>
+</body>
+</html>

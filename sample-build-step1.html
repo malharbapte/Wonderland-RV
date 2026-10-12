@@ -83,7 +83,7 @@
   <a class="back" href="home.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
 
-<script src="assets/js/build-progress.js?v=3"></script>
+<script src="assets/js/build-progress.js?v=4"></script>
 <script>
 /* a tap on a half or its caption flashes the pressed state on the half */
 document.querySelectorAll("[data-t]").forEach(function (el) {
@@ -94,15 +94,11 @@ document.querySelectorAll("[data-t]").forEach(function (el) {
   });
 });
 
-/* progress demo: tapping a half nudges the van on to step 2, then it returns so you can watch it drive */
-var STEPS = ["Layout", "Size", "Model", "Bed", "Floorplan", "Details"];
-function setStep(s) {
-  WLProgress.set(document.querySelector(".road"), s);
-  document.querySelector(".prow .l").textContent = STEPS[s];
-}
+/* a new journey starts here: the progress van is parked at the first stop */
 WLProgress.enter(document.querySelector(".road"), 0);
+/* choosing Couple's or Family moves on to Step 2 */
 document.querySelectorAll("[data-t]").forEach(function (el) {
-  el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 3400); });
+  el.addEventListener("click", function () { WLProgress.choose("type", el.dataset.t); WLProgress.go("sample-build-step2.html"); });
 });
 if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>

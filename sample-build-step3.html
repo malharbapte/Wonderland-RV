@@ -81,22 +81,35 @@
   <div class="sr" id="live" aria-live="polite"></div>
 </main>
 
-<script src="assets/js/build-progress.js?v=3"></script>
+<script src="assets/js/build-progress.js?v=4"></script>
 <script>
 /* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
    tag = the range label: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the website as written;
    Solara ("Composite off-road") and XTR ("Extreme off-road") are mapped by inference. ink = where the photo's visual
    weight sits in its box (% of width / height) for optical centring. */
 var MODELS = [
-  { k: "xtr",    nm: "XTR",    price: 195701.21, tag: "Complete Offroad – Flagship",     ink: [-2.6, -7.0], H: 343 },
-  { k: "solara", nm: "Solara", price: 162279.87, tag: "Luxury Offroad – Full Composite", ink: [-4.8, -4.6], H: 386 },
-  { k: "hornet", nm: "Hornet", price: 151175.87, tag: "Rugged Offroad",                       ink: [-2.9, -7.1], H: 343 },
-  { k: "amaroo", nm: "Amaroo", price: 127288.44, tag: "Classic Offroad",                      ink: [-4.6, -5.6], H: 327 }
+  { k: "xtr",    nm: "XTR",    tag: "Complete Offroad \u2013 Flagship",     ink: [-2.6, -7.0], H: 343 },
+  { k: "solara", nm: "Solara", tag: "Luxury Offroad \u2013 Full Composite", ink: [-4.8, -4.6], H: 386 },
+  { k: "hornet", nm: "Hornet", tag: "Rugged Offroad",                       ink: [-2.9, -7.1], H: 343 },
+  { k: "amaroo", nm: "Amaroo", tag: "Classic Offroad",                      ink: [-4.6, -5.6], H: 327 }
 ];
+/* Starting prices by what was chosen on Steps 1 and 2 (price_inc_gst, lowest across bed options), read from the live configurator
+   2026-10-12. A missing model is not offered for that combination. */
+var PRICES = {
+  "couples|compact":  { amaroo: 127288.44, hornet: 151175.87, solara: 162279.87, xtr: 195701.21 },
+  "couples|mid":      { amaroo: 141935.21, hornet: 161912.74, solara: 181010.25, xtr: 206226.72 },
+  "couples|spacious": { amaroo: 151681.52, hornet: 172514.15,                    xtr: 216619.44 },
+  "family|compact":   { amaroo: 135844.75, hornet: 158574.05,                    xtr: 202953.75 },
+  "family|mid":       { amaroo: 144241.65, hornet: 164201.16, solara: 185678.21, xtr: 208470.10 },
+  "family|spacious":  { amaroo: 150140.04, hornet: 170984.71,                    xtr: 215120.11 }
+};
+var CH = WLProgress.choices();
+var TAB = PRICES[(CH.type || "couples") + "|" + (CH.size || "compact")];
+MODELS.forEach(function (m) { m.price = TAB[m.k]; m.na = TAB[m.k] === undefined; });
 var BY = {}; MODELS.forEach(function (m) { BY[m.k] = m; });
 var Q = location.search;
 var UNAVAILABLE = /[?&]unavailable/.test(Q) ? "solara" : null;
-var off = function (m) { return m.k === UNAVAILABLE; };
+var off = function (m) { return m.na || m.k === UNAVAILABLE; };
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
 var HERO_DISC = 184, HERO_W = 266, MINI_DISC = 66;
 /* the van is the same fraction of its disc everywhere (266 / 184), so a disc travelling between dock and hero is one rigid
@@ -196,7 +209,7 @@ function promote(btn) {
   setTimeout(done, durUp() + 60);
 }
 
-document.getElementById("heroBtn").addEventListener("click", function () { var b = this; b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+document.getElementById("heroBtn").addEventListener("click", function () { var b = this; if (b.parentNode.classList.contains("off")) return; b.classList.add("on"); WLProgress.choose("model", heroK); WLProgress.go("sample-build-step4.html", 520); });
 setHero(heroK); renderDock();
 
 WLProgress.enter(document.querySelector(".road"), 2);

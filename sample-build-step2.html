@@ -51,7 +51,7 @@
   <a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
 
-<script src="assets/js/build-progress.js?v=3"></script>
+<script src="assets/js/build-progress.js?v=4"></script>
 <script>
 var SIZES = [
   { k: "compact",  nm: "Compact",  ln: "17\u203209\u2033 \u2013 20\u2032", mid: 18.875, w: 76, ink: [-5.5, -3.4], src: "assets/img/build/size-compact.png" },
@@ -88,7 +88,7 @@ document.getElementById("wrap").innerHTML =
 WLProgress.enter(document.querySelector(".road"), 1);
 
 document.querySelectorAll(".p").forEach(function (b) {
-  b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+  b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); WLProgress.go("sample-build-step3.html"); });
 });
 if (/[?&]guides/.test(location.search)) document.querySelector(".phone").classList.add("guides");
 </script>
