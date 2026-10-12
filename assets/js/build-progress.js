@@ -1,18 +1,18 @@
 /* Build your Caravan: the progress road. One place that draws the checkpoint markers, parks the van and
    stretches the covered path, so every step of the configurator shows progress identically.
 
-   WLProgress.set(roadElement, stepIndex)     jump or glide to a step (0-based: 0 = Layout, 1 = Size, 2 = Model, 3 = Plan, 4 = Details)
+   WLProgress.set(roadElement, stepIndex)     jump or glide to a step (0-based: 0 = Layout, 1 = Size, 2 = Model, 3 = Bed, 4 = Floorplan, 5 = Details)
    WLProgress.enter(roadElement, stepIndex)   for a step page on arrival: start at the previous stop, then drive here
 
    Marker themes:
-     pines    (ACTIVE)   four pines, then a flag as the last checkpoint, so the finish reads clearly
-     outback  (RESERVE)  a different landmark per step: tree, hills, boab, peak, flag
+     pines    (ACTIVE)   five pines, then a flag as the last checkpoint, so the finish reads clearly
+     outback  (RESERVE)  a different landmark per step: tree, hills, boab, windmill, peak, flag
    Preview the reserve theme on any step page with  ?markers=outback   (or switch THEME below).
 
    Glyphs are drawn in a 20 x 26 box with their base on y = 25.5. Classes: a = main shape, b = second tone,
    w = small white detail, s = stroke-only. Round joins on a 1.6px stroke give every corner a minimal curve. */
 (function () {
-  var N = 5, THEME = "pines";
+  var N = 6, THEME = "pines";
   var GLYPH = {
     pine:  '<path class="a" d="M10 1.5L16 11H4Z"/><path class="a" d="M10 7L18 19H2Z"/><rect class="b" x="8.7" y="19" width="2.6" height="6.5" rx="1.2"/>',
     flag:  '<rect class="b" x="3" y="2" width="1.8" height="23.5" rx=".9"/><path class="a" d="M5 3H16.5L13.2 7.5L16.5 12H5Z"/>',
@@ -23,8 +23,8 @@
     peak:  '<path class="a" d="M1.5 25L8 8L14.5 25Z"/><path class="a" d="M9.5 25L14.5 13L18.5 25Z"/>'
   };
   var THEMES = {
-    pines:   ["pine", "pine", "pine", "pine", "flag"],
-    outback: ["tree", "hills", "boab", "peak", "flag"]
+    pines:   ["pine", "pine", "pine", "pine", "pine", "flag"],
+    outback: ["tree", "hills", "boab", "mill", "peak", "flag"]
   };
   var q = (location.search.match(/[?&]markers=(\w+)/) || [])[1];
   if (q && THEMES[q]) THEME = q;
@@ -102,7 +102,7 @@
   });
   /* The customer's choices travel with the session so every step can use them (and the form can send them later).
      Choosing an earlier answer clears the later ones, since they may no longer apply. */
-  var CK = "wl-choice", ORDER = ["type", "size", "model", "plan", "bed"];
+  var CK = "wl-choice", ORDER = ["type", "size", "model", "bed", "plan"];
   function choices() { try { return JSON.parse(sessionStorage.getItem(CK) || "{}"); } catch (e) { return {}; } }
   function choose(key, value) {
     var c = choices(); c[key] = value;

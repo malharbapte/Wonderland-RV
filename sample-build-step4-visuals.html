@@ -61,7 +61,7 @@
 <div class="stage" id="stage"></div>
 
 <script src="assets/js/build-data.js?v=2"></script>
-<script src="assets/js/build-progress.js?v=10"></script>
+<script src="assets/js/build-progress.js?v=11"></script>
 <script>
 var Q = location.search;
 var CH = WLProgress.choices();
@@ -208,7 +208,7 @@ function Pane(v, ph) {
       '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div><button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>';
     out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
     out.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
-    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("plan", null); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
+    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
   }
   render();
 }
@@ -223,7 +223,7 @@ var html = "";
 ["A", "B", "C"].forEach(function (v, i) {
   html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
     '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
-    '<div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
+    '<div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
     '<div class="body"><h1>Your bed</h1><div class="content"><div class="pane"></div></div></div>' +
     '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
 });

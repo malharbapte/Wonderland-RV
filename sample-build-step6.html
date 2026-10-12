@@ -42,12 +42,12 @@
   <a class="back" href="sample-build-step5.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
 <script src="assets/js/build-data.js?v=1"></script>
-<script src="assets/js/build-progress.js?v=9"></script>
+<script src="assets/js/build-progress.js?v=11"></script>
 <script>
 WLProgress.enter(document.querySelector(".road"), 5);
 /* what has been chosen so far */
 var C = WLProgress.choices(), TYPE = { couples: "Couple\u2019s", family: "Family" }, SIZE = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, MODEL = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
-var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model], C.bed && WL_BED_INFO[C.bed] ? WL_BED_INFO[C.bed].name : null].filter(Boolean);
+var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model], C.bed && WL_BED_INFO[C.bed] ? WL_BED_INFO[C.bed].live.split(" bed")[0].replace(/ \(.*\)/, "") + " \u00B7 " + WL_BED_INFO[C.bed].short : null, C.plan ? C.plan.replace(/-/g, "\u2011") : null].filter(Boolean);
 document.getElementById("sum").textContent = bits.length ? bits.join(" \u00B7 ") : "";
 var go = document.getElementById("go");
 if (go) go.addEventListener("click", function () { go.classList.add("on"); WLProgress.go(""); });
