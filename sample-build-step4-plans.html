@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample (archive) — full floor plans, superseded by the lighter bed step</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=14">
+<style>
+/* Throwaway sample: Step 4, the bed and the floorplan in ONE step, shown as drawn plans instead of photos.
+   Filters: King | Queen, then the bed arrangement (table, chest ...), then bunks for families. Prices are the live configurator's
+   for the chosen model; only plans that exist for the chosen type, size and model are listed. Plans are drawn by assets/js/build-plans.js.
+   All px, no rem.   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+.pick { display:none; }
+.phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
+.pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
+.out { flex:1; min-height:0; display:flex; flex-direction:column; margin-top:10px; }
+
+/* filter 1: King | Queen, a pill (the brand's shape); the chosen side carries the shared gradient */
+.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#F4EEE7; flex:none; }
+.seg button { position:relative; flex:1; height:48px; border-radius:26px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--ink); transition:color .42s ease; }
+.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--grad); opacity:0; transition:opacity .42s ease; }
+.seg button > * { position:relative; }
+.seg .sn { font-family:var(--aviano); font-weight:900; font-size:14px; line-height:16px; letter-spacing:.05em; text-transform:uppercase; }
+.seg .sp { font-size:12px; line-height:15px; color:#8b8176; transition:color .42s ease; }
+.seg button.on { color:#fff; } .seg button.on::before { opacity:1; } .seg button.on .sp { color:rgba(255,255,255,.92); }
+.seg button:not(.on):hover .sn, .seg button:not(.on):focus-visible .sn { color:var(--o); } .seg button:focus-visible { outline:none; }
+
+/* filters 2 and 3: chips that run to the screen edge so a long row shows it scrolls */
+.chips { display:flex; gap:8px; margin:6px calc(var(--m) * -1) 0; padding:0 var(--m); overflow-x:auto; scrollbar-width:none; flex:none; }
+.chips::-webkit-scrollbar { display:none; }
+.chips:empty { display:none; }
+.chip { flex:none; height:36px; padding:0 14px; border-radius:18px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:flex; align-items:center; gap:7px; font-weight:700; font-size:13px; white-space:nowrap; transition:box-shadow .3s ease, color .3s ease, background .3s ease; }
+.chip small { font-weight:400; font-size:12px; color:#9a9086; }
+.chip:hover, .chip:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); outline:none; }
+.chip.on { background:#FFF1E2; box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); } .chip.on small { color:var(--o); }
+
+/* a drawn plan, its captions and the facts under it */
+.pb { position:relative; border-radius:14px; overflow:hidden; }
+.pb .plan { display:block; width:100%; height:auto; }
+.pb::after { content:""; position:absolute; inset:0; border-radius:14px; box-shadow:inset 0 0 0 1.5px #EBE2D8; transition:box-shadow .35s ease; pointer-events:none; }
+.hv:hover .pb::after, .hv:focus-visible .pb::after { box-shadow:inset 0 0 0 2.5px var(--o); } .hv:focus-visible { outline:none; }
+.hv.on .pb::after { box-shadow:inset 0 0 0 3px var(--o); }
+.soon { height:110px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:#FBF8F4; padding:0 20px; text-align:center; }
+.soon svg { width:44px; height:24px; margin-bottom:2px; } .soon b { font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9a8f82; } .soon span { font-size:12px; line-height:16px; color:#8b8176; }
+.cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
+.hv { display:block; width:100%; text-align:left; cursor:pointer; }
+.ln { display:block; font-family:var(--aviano); font-weight:900; font-size:24px; line-height:28px; transition:color .42s ease; }
+.hv:hover .ln, .hv:focus-visible .ln, .hv.on .ln { color:var(--o); }
+.ft { display:block; font-size:14px; line-height:20px; font-weight:700; }
+.bd { display:block; font-size:13px; line-height:19px; color:#6d645a; }
+.pr { display:block; line-height:26px; } .pr .pf { font-size:14px; color:#666; margin-right:5px; } .pr .pv { font-weight:700; font-size:19px; letter-spacing:-.005em; }
+.prr { display:flex; justify-content:space-between; align-items:center; }
+.tap { display:block; font-family:var(--aviano); font-weight:700; font-size:10px; line-height:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--o); }
+.empty { text-align:center; color:#777; padding:30px 10px; }
+
+/* A: one plan at a time */
+.A .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; flex:none; }
+.A .rail::-webkit-scrollbar { display:none; }
+.A .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; }
+.A .slide .ln { margin-top:12px; } .A .slide .prr { margin-top:4px; }
+.A .dnav { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:6px; flex:none; }
+.A .dnav button { width:48px; height:44px; display:grid; place-items:center; color:var(--ink); transition:color .42s ease; }
+.A .dnav button:hover { color:var(--o); } .A .dnav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.A .dnav .ct { min-width:70px; text-align:center; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.1em; color:#8b8176; }
+
+/* B: all the plans in a list */
+.B .lg { flex:none; font-size:12px; line-height:17px; color:#8b8176; margin-bottom:8px; }
+.B .list { flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; margin:0 -12px; padding:2px 12px 24px; -webkit-mask-image:linear-gradient(#000 calc(100% - 28px), transparent); mask-image:linear-gradient(#000 calc(100% - 28px), transparent); }
+.B .list::-webkit-scrollbar { display:none; }
+.B .card { margin-bottom:20px; }
+.B .card .row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-top:10px; }
+.B .card .ln { font-size:20px; line-height:24px; } .B .card .pr { text-align:right; flex:none; line-height:22px; } .B .card .pr .pv { font-size:18px; }
+
+/* C: a big plan, and the others in a rail below */
+.C .hero { flex:none; } .C .hero .ln { margin-top:12px; } .C .hero .prr { margin-top:4px; }
+.C .rail { display:flex; gap:10px; margin:auto calc(var(--m) * -1) 0; padding:4px var(--m) 2px; overflow-x:auto; scrollbar-width:none; flex:none; }
+.C .rail::-webkit-scrollbar { display:none; }
+.C .th { flex:none; width:118px; text-align:center; cursor:pointer; }
+.C .th .tb { height:40px; border-radius:10px; overflow:hidden; background:#FBF8F4; display:grid; place-items:center; position:relative; }
+.C .th .tb svg { width:100%; height:100%; display:block; }
+.C .th .tb::after { content:""; position:absolute; inset:0; border-radius:10px; box-shadow:inset 0 0 0 1.5px #EBE2D8; transition:box-shadow .3s ease; }
+.C .th:hover .tb::after { box-shadow:inset 0 0 0 2px var(--o); } .C .th.on .tb::after { box-shadow:inset 0 0 0 3px var(--o); }
+.C .th .tl { display:block; margin-top:5px; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.04em; transition:color .3s ease; } .C .th:hover .tl, .C .th.on .tl { color:var(--o); }
+.C .th .tp { display:block; font-size:11px; line-height:14px; color:#8b8176; }
+
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px); }
+}
+</style>
+</head>
+<body>
+<div class="pick" id="pick"><button class="on" data-v="A">A · One at a time</button><button data-v="B">B · List</button><button data-v="C">C · Big plan + rail</button></div>
+<div class="stage" id="stage"></div>
+
+<script src="assets/js/build-data.js?v=2"></script>
+<script src="assets/js/build-plans.js?v=4"></script>
+<script src="assets/js/build-progress.js?v=10"></script>
+<script>
+var Q = location.search;
+var CH = WLProgress.choices();
+var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
+var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
+var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
+var MNAME = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" }[MODEL];
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+
+/* the plans on offer: every plan for this type and size that has a price for the chosen model, shortest first */
+var LAY = { L: "L-shaped lounge", C: "Café dinette", SC: "U-shaped lounge", XLE: "L-shaped lounge, large ensuite", RC: "Rear lounge, ensuite beside the bed" };
+var BEDN = { "king-table": "Side table", "king-chest": "Storage chest", "king-lift": "Lift-up bed", "queen-dual-table": "Two tables", "queen-dual-chest": "Two chests", "queen-chest-table": "Chest + table", "queen-ew": "East–west" };
+var BEDLINE = { "king-table": "King bed, side table on the door side", "king-chest": "King bed, storage chest on the door side", "king-lift": "King bed, electric lift-up", "queen-dual-table": "Queen bed, a table each side", "queen-dual-chest": "Queen bed, a storage chest each side", "queen-chest-table": "Queen bed, chest road side, table door side", "queen-ew": "Queen bed, east–west, storage at the bed head" };
+var PLANS = [], RAW = WL_PLANS[TYPE + "|" + SIZE] || {}, HIDDEN = 0;
+Object.keys(RAW).forEach(function (code) {
+  var r = RAW[code], price = r.p[MODEL]; if (price == null) { HIDDEN++; return; }
+  var ft = +code.slice(0, 2), inch = +code.slice(2, 4), info = WL_BED_INFO[r.bed];
+  PLANS.push({ code: code, bed: r.bed, group: info.group, bunks: r.bunks || 0, desc: r.desc || "", price: price, sp: WLPlans.spec(code, r.bed), len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″" });
+});
+PLANS.sort(function (a, b) { return a.len - b.len || a.price - b.price; });
+var MAXFT = Math.ceil(Math.max.apply(null, PLANS.map(function (p) { return p.len; })) + .25);   /* every plan is drawn at one scale, sized so the longest on offer fills the width */
+var GROUPS = ["King", "Queen"].filter(function (g) { return PLANS.some(function (p) { return p.group === g; }); });
+var cheapest = PLANS.slice().sort(function (a, b) { return a.price - b.price; })[0];
+var nice = function (s) { s = s.replace(/roadside/g, "road side").replace(/doorside/g, "door side"); return s.charAt(0).toUpperCase() + s.slice(1); };
+var featOf = function (p) { return p.sp ? LAY[p.sp.layout] : nice(p.desc); };
+var doorOf = function (p) { return p.sp ? (p.sp.door === "front" ? "Door beside the bed" : "Door at the rear") : ""; };
+
+var SOON = '<div class="soon"><svg viewBox="0 0 44 24" aria-hidden="true"><rect x="1" y="2" width="42" height="20" rx="8" fill="none" stroke="#C9BCAD" stroke-width="2" stroke-dasharray="4 4"/></svg><b>Plan being drawn</b><span>__D__</span></div>';
+function planBox(p, labels, fit) { return '<div class="pb">' + (p.sp ? WLPlans.svg(p.sp, { labels: labels, fit: fit, maxFt: MAXFT, label: p.lenTxt + " floor plan" }) : SOON.replace("__D__", nice(p.desc))) + '</div>'; }
+function priceHTML(p) { return '<span class="pr"><span class="pf">From</span><span class="pv">' + fmt(p.price) + '</span></span>'; }
+function big(p, tapText) {
+  return '<span class="cap"><span>Front</span><span>Road side</span></span>' + planBox(p, true) + '<span class="cap"><span></span><span>Door side</span></span>' +
+    '<span class="ln">' + p.lenTxt + '</span><span class="ft">' + featOf(p) + (doorOf(p) ? ' · ' + doorOf(p) : '') + '</span><span class="bd">' + BEDLINE[p.bed] + '</span>' + '<span class="prr">' + priceHTML(p) + (tapText ? '<span class="tap">' + tapText + '</span>' : '') + '</span>';
+}
+function pick(p, el) { if (el) el.classList.add("on"); WLProgress.choose("plan", p.code); WLProgress.choose("bed", p.bed); WLProgress.go("sample-build-step5.html", 520); }
+var EMPTY = '<div class="empty">No plans match those choices.</div>';
+
+/* ---------- the views: A one at a time, B a list, C a big plan with a rail ---------- */
+var VIEW = {};
+VIEW.A = {
+  render: function (list, out) {
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    out.innerHTML = '<div class="rail">' + list.map(function (p, i) { return '<div class="slide"><button class="hv" type="button" data-i="' + i + '">' + big(p, "Tap to choose") + '</button></div>'; }).join("") + '</div>' +
+      '<div class="dnav"><button class="pv" type="button" aria-label="Previous plan"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ct"></span><button class="nx" type="button" aria-label="Next plan"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div>';
+    var r = out.querySelector(".rail"), ct = out.querySelector(".ct");
+    function upd() { var i = Math.round(r.scrollLeft / 327); ct.textContent = (i + 1) + " of " + list.length; }
+    r.addEventListener("scroll", function () { requestAnimationFrame(upd); }); upd();
+    out.querySelector(".pv").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
+    out.querySelector(".nx").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
+    out.querySelectorAll(".hv").forEach(function (h) { h.addEventListener("click", function () { pick(list[+h.dataset.i], h); }); });
+  }
+};
+VIEW.B = {
+  render: function (list, out) {
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    out.innerHTML = '<div class="lg">Front of the van is on the left. The top of each plan is the road side, the bottom is the door side.</div><div class="list">' + list.map(function (p, i) {
+      return '<button class="hv card" type="button" data-i="' + i + '">' + planBox(p, true) + '<span class="row"><span><span class="ln">' + p.lenTxt + '</span><span class="ft">' + featOf(p) + '</span><span class="bd">' + (doorOf(p) ? doorOf(p) + ' · ' : '') + BEDN[p.bed] + '</span></span>' + priceHTML(p) + '</span></button>';
+    }).join("") + '</div>';
+    out.querySelectorAll(".hv").forEach(function (h) { h.addEventListener("click", function () { pick(list[+h.dataset.i], h); }); });
+  }
+};
+VIEW.C = {
+  sel: null,
+  render: function (list, out) {
+    var me = this;
+    if (!list.length) { out.innerHTML = EMPTY; return; }
+    var cur = list.filter(function (p) { return p.code === me.sel; })[0] || list[0]; me.sel = cur.code;
+    out.innerHTML = '<button class="hv hero" type="button"></button><div class="rail">' + list.map(function (p, i) {
+      return '<button class="th' + (p === cur ? ' on' : '') + '" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + featOf(p) + '"><span class="tb">' + (p.sp ? WLPlans.svg(p.sp, { fit: true, label: "" }) : '') + '</span><span class="tl">' + p.lenTxt + '</span><span class="tp">' + fmt(p.price) + '</span></button>';
+    }).join("") + '</div>';
+    var hero = out.querySelector(".hero"), ths = out.querySelectorAll(".th"), at = list.indexOf(cur);
+    function show(i, animate) {
+      var p = list[i], dir = i >= at ? 1 : -1; me.sel = p.code; at = i;
+      hero.innerHTML = big(p, "Tap to choose"); hero.onclick = function () { pick(p, hero); };
+      ths.forEach(function (t, j) { t.classList.toggle("on", j === i); });
+      if (animate && hero.animate) hero.animate([{ opacity: 0, transform: "translateX(" + (dir * 28) + "px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" });
+    }
+    ths.forEach(function (t, i) { t.addEventListener("click", function () { if (i !== at) show(i, true); }); });
+    show(at, false);
+    var on = out.querySelector(".th.on"); if (on) out.querySelector(".rail").scrollLeft = Math.max(0, on.offsetLeft - 24);
+  }
+};
+
+/* ---------- the filters, shared by all three ---------- */
+function Pane(v, ph) {
+  var st = { g: cheapest ? cheapest.group : GROUPS[0], arr: null, bun: null };
+  var seg = ph.querySelector(".seg"), cA = ph.querySelector("[data-r=arr]"), cB = ph.querySelector("[data-r=bun]"), out = ph.querySelector(".out");
+  var inG = function () { return PLANS.filter(function (p) { return p.group === st.g; }); };
+  var list = function () { return inG().filter(function (p) { return (!st.arr || p.bed === st.arr) && (!st.bun || p.bunks === st.bun); }); };
+  function chips(el, items, cur, key) {
+    el.innerHTML = items.length < 2 ? "" : items.map(function (it) { return '<button class="chip' + (it.v === cur ? " on" : "") + '" type="button" data-v="' + it.v + '">' + it.l + ' <small>' + it.n + '</small></button>'; }).join("");
+    el.querySelectorAll(".chip").forEach(function (c) { c.addEventListener("click", function () { st[key] = c.dataset.v === "" ? null : (key === "bun" ? +c.dataset.v : c.dataset.v); refresh(); }); });
+  }
+  function refresh() {
+    seg.innerHTML = GROUPS.map(function (g) {
+      var m = Math.min.apply(null, PLANS.filter(function (p) { return p.group === g; }).map(function (p) { return p.price; }));
+      return '<button type="button" class="' + (g === st.g ? "on" : "") + '" data-g="' + g + '"><span class="sn">' + g + '</span><span class="sp">from ' + fmt(m) + '</span></button>';
+    }).join("");
+    seg.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { if (st.g !== b.dataset.g) { st.g = b.dataset.g; st.arr = null; st.bun = null; refresh(); } }); });
+    var g = inG(), byBun = g.filter(function (p) { return !st.bun || p.bunks === st.bun; }), byArr = g.filter(function (p) { return !st.arr || p.bed === st.arr; });
+    var beds = WL_BED_ORDER.filter(function (k) { return byBun.some(function (p) { return p.bed === k; }); });
+    chips(cA, [{ v: "", l: "All beds", n: byBun.length }].concat(beds.map(function (k) { return { v: k, l: BEDN[k], n: byBun.filter(function (p) { return p.bed === k; }).length }; })), st.arr || "", "arr");
+    var bs = []; byArr.forEach(function (p) { if (p.bunks && bs.indexOf(p.bunks) < 0) bs.push(p.bunks); }); bs.sort(function (a, b) { return a - b; });
+    chips(cB, [{ v: "", l: "Any bunks", n: byArr.length }].concat(bs.map(function (n) { return { v: n, l: n + (n > 1 ? " bunks" : " bunk"), n: byArr.filter(function (p) { return p.bunks === n; }).length }; })), st.bun || "", "bun");
+    VIEW[v].render(list(), out);
+  }
+  refresh();
+}
+
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = {
+  A: ["A · One at a time", "One big plan per swipe, with the facts beneath it. Arrows and a counter show how many there are. Best for taking it in; slowest to compare."],
+  B: ["B · List", "Every matching plan in a scrolling list, shortest van first, so plans can be compared by scrolling. A one-line key explains the plan’s orientation."],
+  C: ["C · Big plan + rail", "The plan in focus is large; the rest sit in a rail below with their length and price. Tap one and it slides into focus, as the models do on Step 3."]
+};
+var html = "";
+["A", "B", "C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Plan</span></div></div>' +
+    '<div class="body"><h1>Pick your plan</h1><div class="content"><div class="pane"><div class="seg" role="group" aria-label="Bed size"></div><div class="chips" data-r="arr"></div><div class="chips" data-r="bun"></div><div class="out"></div></div></div></div>' +
+    '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
+["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>

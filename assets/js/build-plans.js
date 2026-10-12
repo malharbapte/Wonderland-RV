@@ -55,7 +55,7 @@
     var ph = bw / 2 - .28;
     o += rect(x0 + .14, y0 + .2, .78, ph, C.pillow, null, .22) + rect(x0 + .14, y0 + bw - .2 - ph, .78, ph, C.pillow, null, .22);
     o += rect(x0 + b.len * .46, y0, .95, bw, C.runner, null, 0);
-    var item = function (kind, y) { return kind === "table" ? rect(x0, y, 1.0, 1.0, C.accent, null, .25) : rect(x0, y, 1.0, 3.0, C.accent, null, .22); };
+    var item = function (kind, y) { return kind === "table" ? rect(x0, y, 1.0, 1.0, C.accent, null, .25) : rect(x0, y, b.len, .95, C.accent, null, .3); };   /* a chest is a long low unit along the side of the bed */
     if (far) o += item(far, y0 - 1.06);
     if (near) o += item(near, y0 + bw + .06);
     return { svg: o, end: x0 + b.len, lx: x0 + b.len * .76, ly: y0 + bw / 2 };
