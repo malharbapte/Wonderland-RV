@@ -21,7 +21,7 @@
 .hov:active .disc::before, .hov.on .disc::before { opacity:1; }
 .hov:focus-visible { outline:none; }
 .mv { position:absolute; left:50%; top:50%; height:auto; max-width:none; pointer-events:none;
-      transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny) + 3px)); filter:drop-shadow(0 6px 6px rgba(0,0,0,.22)); }
+      transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny) + var(--gy))); filter:drop-shadow(0 var(--sh) var(--sh) rgba(0,0,0,.22)); }
 .hov { cursor:pointer; text-align:center; }
 
 .content { position:relative; }
@@ -43,7 +43,7 @@
 /* the dock holds the other three models */
 .dock { display:flex; gap:26px; justify-content:center; margin-top:26px; }
 .mini { display:flex; flex-direction:column; align-items:center; width:78px; cursor:pointer; }
-.mini .disc { width:66px; height:66px; }
+.mini .disc { width:66px; height:66px; } /* van inside = 95.4px, the hero's proportion */
 .mini .nm { font-size:10px; line-height:14px; margin-top:10px; }
 .mini .mp { display:none; font-family:var(--gordita); font-weight:700; font-size:11px; line-height:15px; color:#444; }
 .dockprice .mini .mp { display:block; }
@@ -95,15 +95,15 @@ var Q = location.search;
 var UNAVAILABLE = /[?&]unavailable/.test(Q) ? "solara" : null;
 var off = function (m) { return m.k === UNAVAILABLE; };
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
-var HERO_W = 266, MINI_W = 80, DUR_UP = 600, DUR_DOWN = 460;
+var HERO_DISC = 184, HERO_W = 266, MINI_DISC = 66, DUR_UP = 600, DUR_DOWN = 460;
+/* the van is the same fraction of its disc everywhere (266 / 184), so a disc travelling between dock and hero is one rigid
+   object scaled by a single transform; nothing inside it changes proportion, so nothing can drift or jump. */
+var MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1);
 
 function mv(m, w) {
   var h = w * m.H / 900;
-  return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px">';
+  return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">';
 }
-/* the van's transform for a given width, as a literal (used while animating the van's size) */
-function vanTf(m, w) { var h = w * m.H / 900; return "translate(calc(-50% + " + (-m.ink[0] / 100 * w).toFixed(2) + "px), calc(-50% + " + ((-m.ink[1] / 100 * h) + 3).toFixed(2) + "px))"; }
-
 var content = document.getElementById("content"), hero = document.getElementById("hero"), dock = document.getElementById("dock");
 var heroDisc = document.getElementById("heroDisc"), hNm = document.getElementById("hNm"), hPr = document.getElementById("hPr"), hTag = document.getElementById("hTag");
 var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -133,8 +133,10 @@ function wireDock() {
 
 /* position of an element inside .content, so the flying copies can be placed over it */
 function rectIn(el) { var r = el.getBoundingClientRect(), c = content.getBoundingClientRect(); return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height }; }
-function flier(m, r, vw) { var d = document.createElement("span"); d.className = "disc fly"; d.style.cssText = "left:" + r.x + "px;top:" + r.y + "px;width:" + r.w + "px;height:" + r.h + "px"; d.innerHTML = mv(m, vw); content.appendChild(d); return d; }
-function box(r, s, lift) { var w = r.w * s, h = r.h * s; return { left: (r.x + (r.w - w) / 2) + "px", top: (r.y + (r.h - h) / 2 - (lift || 0)) + "px", width: w + "px", height: h + "px" }; }
+/* a flying disc is built at HERO size (disc + van together) and only ever moved with one transform */
+function flier(m, B) { var d = document.createElement("span"); d.className = "disc fly"; d.style.cssText = "left:" + B.x + "px;top:" + B.y + "px;width:" + B.w + "px;height:" + B.h + "px;transform-origin:0 0;will-change:transform"; d.innerHTML = mv(m, HERO_W); content.appendChild(d); return d; }
+/* the transform that makes a hero-sized disc (sitting at B) fill rect T, scaled by k about T's centre, lifted by `lift` px */
+function tf(B, T, k, lift) { var s = (T.w / B.w) * k, w = B.w * s, h = B.h * s; return "translate(" + ((T.x + T.w / 2) - B.x - w / 2).toFixed(2) + "px," + ((T.y + T.h / 2) - B.y - h / 2 - (lift || 0)).toFixed(2) + "px) scale(" + s.toFixed(4) + ")"; }
 
 /* the pop: the chosen circle leaves the dock, overshoots on the way up, settles into the hero spot */
 function promote(btn) {
@@ -160,35 +162,21 @@ function promote(btn) {
   };
   if (reduce || !heroDisc.animate) { done(); return; }
 
-  /* up: from the dock slot to the hero spot, with an overshoot, a settle and a lift in shadow */
-  var up = flier(nm, A, MINI_W), upImg = up.querySelector(".mv");
-  var s1 = box(B, 1.1, 16), s2 = box(B, 0.97, 0), s3 = box(B, 1, 0);
-  var fromBox = { left: A.x + "px", top: A.y + "px", width: A.w + "px", height: A.h + "px" };
+  /* up: ONE element (disc and van together), ONE transform: from the dock slot, overshoot, settle, into the hero spot */
+  var up = flier(nm, B);
   up.animate([
-    Object.assign({ offset: 0, filter: "drop-shadow(0 0 0 rgba(0,0,0,0))", easing: "cubic-bezier(.2,.8,.2,1)" }, fromBox),
-    Object.assign({ offset: .55, filter: "drop-shadow(0 18px 16px rgba(0,0,0,.22))", easing: "ease-in-out" }, s1),
-    Object.assign({ offset: .8, filter: "drop-shadow(0 6px 8px rgba(0,0,0,.12))", easing: "ease-out" }, s2),
-    Object.assign({ offset: 1, filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" }, s3)
-  ], { duration: DUR_UP, fill: "forwards" });
-  upImg.animate([
-    { offset: 0, width: MINI_W + "px", transform: vanTf(nm, MINI_W) },
-    { offset: .55, width: HERO_W * 1.1 + "px", transform: vanTf(nm, HERO_W * 1.1) },
-    { offset: .8, width: HERO_W * .97 + "px", transform: vanTf(nm, HERO_W * .97) },
-    { offset: 1, width: HERO_W + "px", transform: vanTf(nm, HERO_W) }
+    { offset: 0,   transform: tf(B, A, 1, 0),     filter: "drop-shadow(0 0 0 rgba(0,0,0,0))",              easing: "cubic-bezier(.2,.8,.2,1)" },
+    { offset: .55, transform: tf(B, B, 1.1, 16),  filter: "drop-shadow(0 18px 16px rgba(0,0,0,.22))",       easing: "ease-in-out" },
+    { offset: .8,  transform: tf(B, B, 0.97, 0),  filter: "drop-shadow(0 6px 8px rgba(0,0,0,.12))",         easing: "ease-out" },
+    { offset: 1,   transform: tf(B, B, 1, 0),     filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" }
   ], { duration: DUR_UP, fill: "forwards" });
 
-  /* down: the old hero shrinks into the slot the new one left, with a little rebound */
-  var dn = flier(om, B, HERO_W), dnImg = dn.querySelector(".mv");
-  var a1 = box(A, 1.08, 0), a3 = box(A, 1, 0);
+  /* down: the old hero, also one rigid element, shrinks into the slot the new one left, with a little rebound */
+  var dn = flier(om, B);
   dn.animate([
-    Object.assign({ offset: 0, easing: "cubic-bezier(.5,0,.2,1)" }, { left: B.x + "px", top: B.y + "px", width: B.w + "px", height: B.h + "px" }),
-    Object.assign({ offset: .72, easing: "ease-out" }, a1),
-    Object.assign({ offset: 1 }, a3)
-  ], { duration: DUR_DOWN, fill: "forwards" });
-  dnImg.animate([
-    { offset: 0, width: HERO_W + "px", transform: vanTf(om, HERO_W) },
-    { offset: .72, width: MINI_W * 1.08 + "px", transform: vanTf(om, MINI_W * 1.08) },
-    { offset: 1, width: MINI_W + "px", transform: vanTf(om, MINI_W) }
+    { offset: 0,   transform: tf(B, B, 1, 0),    easing: "cubic-bezier(.5,0,.2,1)" },
+    { offset: .72, transform: tf(B, A, 1.08, 0), easing: "ease-out" },
+    { offset: 1,   transform: tf(B, A, 1, 0) }
   ], { duration: DUR_DOWN, fill: "forwards" });
 
   /* the words: the old ones step aside, the new ones pop in one after another */
