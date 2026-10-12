@@ -47,7 +47,7 @@
 WLProgress.enter(document.querySelector(".road"), 4);
 /* what has been chosen so far */
 var C = WLProgress.choices(), TYPE = { couples: "Couple\u2019s", family: "Family" }, SIZE = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, MODEL = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
-var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model], C.plan ? C.plan.replace(/-/g, "\u2011") : null].filter(Boolean);
+var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model], C.plan ? C.plan.replace(/-/g, "\u2011") : (C.bed && WL_BED_INFO[C.bed] ? WL_BED_INFO[C.bed].live.split(" bed")[0].replace(/ \(.*\)/, "") + " \u00B7 " + WL_BED_INFO[C.bed].short : null)].filter(Boolean);
 document.getElementById("sum").textContent = bits.length ? bits.join(" \u00B7 ") : "";
 var go = document.getElementById("go");
 if (go) go.addEventListener("click", function () { go.classList.add("on"); WLProgress.go(""); });

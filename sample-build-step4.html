@@ -3,17 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sample — Build step 4 (bed and length), three options</title>
+<title>Sample — Build step 4 (bed)</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=14">
 <style>
-/* Throwaway sample: Step 4, lighter. No floor plans: just the bed (where it sits in the van and what is beside it), shown as drawings
-   and icons, then the length. Bed arrangements are icons, not words. Prices are the live configurator's for the chosen model.
-   All px, no rem.   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
-.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
-.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
-.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
-.slot .phone { margin:0; }
-.pick { display:none; }
+/* Throwaway sample: Step 4, the bed only. King or Queen, then the arrangement of the bedside table and storage chest as icons.
+   One drawing of the front of the van shows where the bed sits. No length, no layouts: those come later.
+   Prices are the live configurator's for the chosen model. All px, no rem.
+   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
 .phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
 .pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
 
@@ -25,54 +21,21 @@
 .seg button.on { color:#fff; } .seg button.on::before { opacity:1; }
 .seg button:not(.on):hover, .seg button:not(.on):focus-visible { color:var(--o); } .seg button:focus-visible { outline:none; }
 
-/* bed arrangements as icons: a little drawing of the bed with its table or chest in the orange */
-.ics { display:flex; gap:8px; margin-top:10px; flex:none; }
+/* arrangements as icons: a little drawing of the bed with its table or chest in the orange */
+.ics { display:flex; gap:8px; margin-top:12px; flex:none; }
 .ic { position:relative; flex:none; width:74px; height:56px; border-radius:16px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:grid; place-items:center; transition:box-shadow .3s ease, background .3s ease; }
 .ic svg { width:58px; height:51px; display:block; }
 .ic:hover, .ic:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); outline:none; }
 .ic.on { background:#FFF1E2; box-shadow:inset 0 0 0 2px var(--o); }
-.cap1 { flex:none; margin-top:7px; height:19px; font-size:13px; line-height:19px; color:#6d645a; }
-
-/* chips (bunks, length, variants) run to the screen edge so a long row shows it scrolls */
-.chips { display:flex; gap:8px; margin:8px calc(var(--m) * -1) 0; padding:0 var(--m); overflow-x:auto; scrollbar-width:none; flex:none; }
-.chips::-webkit-scrollbar { display:none; } .chips:empty { display:none; }
-.chip { flex:none; height:36px; padding:0 14px; border-radius:18px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:flex; align-items:center; font-weight:700; font-size:13px; white-space:nowrap; transition:box-shadow .3s ease, color .3s ease, background .3s ease; }
-.chip:hover, .chip:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); outline:none; }
-.chip.on { background:#FFF1E2; box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); }
-.chip.len { font-family:var(--aviano); font-size:12px; letter-spacing:.03em; }
-.chip.sm { height:32px; font-weight:400; font-size:12px; }
-.chip.sm.on { font-weight:700; }
+.cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
 
 /* the bed drawing */
-.dg { flex:none; margin-top:6px; }
-.dg .cap { display:flex; justify-content:space-between; height:13px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:13px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
-.dg svg { display:block; width:100%; height:auto; }
-
-/* B: a length ruler */
-.rule { position:relative; flex:none; height:52px; margin-top:2px; }
-.rule .tr { position:absolute; left:14px; right:14px; top:24px; height:6px; border-radius:3px; background:var(--grad-h); }
-.rule .tr::after { content:""; position:absolute; inset:0; border-radius:3px; background:#F1E8DE; left:var(--p, 0%); }
-.rule .dot { position:absolute; top:17px; width:20px; height:20px; margin-left:-10px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px #E3D9CE; transition:box-shadow .3s ease, transform .3s ease; }
-.rule .dot:hover, .rule .dot:focus-visible { box-shadow:inset 0 0 0 2px var(--o); outline:none; }
-.rule .dot.pass { box-shadow:inset 0 0 0 2px var(--o); }
-.rule .dot.on { background:var(--grad); box-shadow:none; transform:scale(1.25); }
-.rule .lb { position:absolute; top:37px; font-family:var(--aviano); font-weight:700; font-size:10px; letter-spacing:.04em; color:#8b8176; transform:translateX(-50%); white-space:nowrap; }
-.rule .lb.on { color:var(--o); font-size:12px; top:0; } .rule .lb.e0 { transform:none; } .rule .lb.e1 { transform:translateX(-100%); }
-
-/* C: the options are drawings */
-.tiles { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; flex:none; }
-.tile { position:relative; height:94px; border-radius:16px; overflow:hidden; background:#FBF8F4; }
-.tile svg { position:absolute; left:0; top:0; width:100%; height:100%; display:block; }
-.tile::after { content:""; position:absolute; inset:0; border-radius:16px; box-shadow:inset 0 0 0 1.5px #EBE2D8; transition:box-shadow .3s ease; }
-.tile:hover::after, .tile:focus-visible::after { box-shadow:inset 0 0 0 2px var(--o); } .tile:focus-visible { outline:none; }
-.tile.on::after { box-shadow:inset 0 0 0 3px var(--o); }
-.step { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:4px; flex:none; }
-.step button { width:48px; height:40px; display:grid; place-items:center; color:var(--ink); transition:color .42s ease; } .step button:hover { color:var(--o); }
-.step svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.step .v { min-width:110px; text-align:center; font-family:var(--aviano); font-weight:900; font-size:22px; line-height:28px; }
+.dg { flex:none; margin-top:18px; }
+.dg .cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
+.dg svg { display:block; width:100%; height:auto; -webkit-mask-image:linear-gradient(90deg,#000 78%,transparent); mask-image:linear-gradient(90deg,#000 78%,transparent); }
 
 /* footer: the price, and the round gradient CTA */
-.foot { margin-top:auto; padding-top:4px; flex:none; display:flex; align-items:center; justify-content:space-between; }
+.foot { margin-top:auto; flex:none; display:flex; align-items:center; justify-content:space-between; }
 .foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
 .foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
 .go { position:relative; width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; flex:none; }
@@ -80,24 +43,17 @@
 .go svg { position:relative; width:26px; height:26px; fill:none; stroke:#fff; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
 .go:hover::before, .go:focus-visible::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); } .go:focus-visible { outline:none; }
 .go:active::before, .go.on::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
-
-@media (max-width:900px) {
-  .stage { display:block; padding:0; }
-  .pick { display:flex; height:36px; background:#111; }
-  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
-  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
-  .slot { display:none; } .slot.show { display:block; }
-  .slot > h2 { display:none; }
-  .slot .phone { height:calc(100dvh - 36px); }
-}
 </style>
 </head>
 <body>
-<div class="pick" id="pick"><button class="on" data-v="A">A · Drawing + icons</button><button data-v="B">B · Length ruler</button><button data-v="C">C · Drawings as options</button></div>
-<div class="stage" id="stage"></div>
+<main class="phone" id="phone">
+  <header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>
+  <div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div><div class="prow"><span class="l">Bed</span></div></div>
+  <div class="body"><h1>Your bed</h1><div class="content"><div class="pane" id="pane"></div></div></div>
+  <a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+</main>
 
 <script src="assets/js/build-data.js?v=2"></script>
-<script src="assets/js/build-plans.js?v=4"></script>
 <script src="assets/js/build-progress.js?v=10"></script>
 <script>
 var Q = location.search;
@@ -107,34 +63,23 @@ var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "com
 var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
 
-/* the plans on offer for this type, size and model; what is drawn here is only the bed, the plan code just carries the length and the price */
-var LAY = { L: "L-shaped lounge", C: "Café dinette", SC: "U-shaped lounge", XLE: "L-shaped lounge, large ensuite", RC: "Rear lounge" };
+/* the beds on offer for this type, size and model, with the lowest price for each */
 var BEDLINE = { "king-table": "King, side table on the door side", "king-chest": "King, storage chest on the door side", "king-lift": "King, electric lift-up", "queen-dual-table": "Queen, a table each side", "queen-dual-chest": "Queen, a storage chest each side", "queen-chest-table": "Queen, chest on the road side, table on the door side", "queen-ew": "Queen, east–west, storage at the bed head" };
-var PLANS = [], RAW = WL_PLANS[TYPE + "|" + SIZE] || {};
-var nice = function (s) { s = s.replace(/roadside/g, "road side").replace(/doorside/g, "door side"); return s.charAt(0).toUpperCase() + s.slice(1); };
-Object.keys(RAW).forEach(function (code) {
-  var r = RAW[code], price = r.p[MODEL]; if (price == null) return;
-  var ft = +code.slice(0, 2), inch = +code.slice(2, 4), sp = WLPlans.spec(code, r.bed);
-  var v = sp ? LAY[sp.layout] + (sp.door === "front" ? ", door beside the bed" : ", door at the rear") : nice(r.desc || "");
-  PLANS.push({ code: code, bed: r.bed, group: WL_BED_INFO[r.bed].group, bunks: r.bunks || 0, price: price, len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″", vname: v });
-});
-PLANS.sort(function (a, b) { return a.len - b.len || a.price - b.price; });
-var GROUPS = ["King", "Queen"].filter(function (g) { return PLANS.some(function (p) { return p.group === g; }); });
-var MAXFT = Math.ceil(Math.max.apply(null, PLANS.map(function (p) { return p.len; })) + .25);
+var BEDS = wlBeds(TYPE, SIZE, MODEL).filter(function (b) { return b.price !== null; });
+var GROUPS = ["King", "Queen"].filter(function (g) { return BEDS.some(function (b) { return b.group === g; }); });
 
 /* ---------- drawings ---------- */
 var O = "#D57114", BEDC = "#F3D5B8", RUN = "#E3C7A4", FLOOR = "#FBF8F4", WALL = "#2B2B2B", U = 13, WFT = 7.5, PADD = 6;
 var R = function (x, y, w, h, fill, rx) { return '<rect x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + w.toFixed(2) + '" height="' + h.toFixed(2) + '" rx="' + (rx || 0) + '" fill="' + fill + '"/>'; };
-var BEDS = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
+var DIM = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
   "queen-dual-table": { l: 6.25, w: 5.0, near: "t", far: "t" }, "queen-dual-chest": { l: 6.5, w: 5.0, near: "c", far: "c" }, "queen-chest-table": { l: 6.5, w: 5.0, near: "t", far: "c" }, "queen-ew": { ew: 1 } };
 /* the bed and what sits beside it, in feet, head at the front (left). Road side is the top, door side the bottom. */
 function bedParts(k) {
-  var b = BEDS[k], x0 = .42, o = "", y0;
+  var b = DIM[k], x0 = .42, o = "", y0;
   if (b.ew) {                       /* east-west: the bed lies across the van, its head chest on the road side */
     var bw = 5.0, bl = 5.95; y0 = 1.3;
     o += R(x0, y0, bw, bl, BEDC, .35) + R(x0 + .25, y0 + .14, bw / 2 - .38, .8, "#fff", .22) + R(x0 + bw / 2 + .13, y0 + .14, bw / 2 - .38, .8, "#fff", .22) + R(x0, y0 + bl * .5, bw, .8, RUN, 0);
-    o += R(x0, .18, bw, .95, O, .3);
-    return o;
+    return o + R(x0, .18, bw, .95, O, .3);
   }
   y0 = b.w > 5.5 ? .32 : 1.25;
   var ph = b.w / 2 - .28;
@@ -145,99 +90,34 @@ function bedParts(k) {
   if (b.up) { var ax = x0 + b.l * .7, ay = y0 + b.w * .34; o += '<path d="M' + ax + ' ' + (y0 + b.w * .66) + 'V' + ay + 'M' + (ax - .7) + ' ' + (ay + .7) + 'L' + ax + ' ' + ay + 'L' + (ax + .7) + ' ' + (ay + .7) + '" fill="none" stroke="' + O + '" stroke-width=".32" stroke-linecap="round" stroke-linejoin="round"/>'; }
   return o;
 }
-/* the van as an empty shell of the chosen length, with only the bed in it. One scale, sized for the longest van on offer. cropFt shows just the front. */
-function bedDiagram(k, lenFt, maxFt, cropFt) {
-  var L = lenFt, vbw = (cropFt || maxFt) * U + PADD * 2;
-  var shell = 'M1.4 0H' + (L - .5) + 'A.5 .5 0 0 1 ' + L + ' .5V' + (WFT - .5) + 'A.5 .5 0 0 1 ' + (L - .5) + ' ' + WFT + 'H1.4A1.4 1.4 0 0 1 0 ' + (WFT - 1.4) + 'V1.4A1.4 1.4 0 0 1 1.4 0Z';
-  return '<svg viewBox="0 0 ' + vbw + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')"><path d="' + shell + '" fill="' + FLOOR + '" stroke="' + WALL + '" stroke-width=".2" stroke-linejoin="round"/>' + bedParts(k) + '</g></svg>';
+/* the front of the van, open at the back so no length is implied, with only the bed in it */
+function frontDiagram(k) {
+  var cropFt = 12.4, shell = 'M1.4 0H30V' + WFT + 'H1.4A1.4 1.4 0 0 1 0 ' + (WFT - 1.4) + 'V1.4A1.4 1.4 0 0 1 1.4 0Z';
+  return '<svg viewBox="0 0 ' + (cropFt * U + PADD * 2) + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><defs><linearGradient id="fd" x1="0" x2="1"><stop offset=".78" stop-color="#FBF8F4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')"><path d="' + shell + '" fill="url(#fd)" stroke="' + WALL + '" stroke-width=".2" stroke-linejoin="round"/>' + bedParts(k) + '</g></svg>';
 }
-/* the same, as an icon: just the head of the van, the bed and its table or chest */
 function bedIcon(k) { return '<svg viewBox="0 0 58 51" aria-hidden="true"><g transform="translate(1 1) scale(6.5)"><path d="M1.4 0H8.6V7.5H1.4A1.4 1.4 0 0 1 0 6.1V1.4A1.4 1.4 0 0 1 1.4 0Z" fill="' + FLOOR + '" stroke="' + WALL + '" stroke-width=".3" stroke-linejoin="round"/>' + bedParts(k) + '</g></svg>'; }
 
-/* ---------- state and the shared controls ---------- */
-var minPrice = function (list) { return Math.min.apply(null, list.map(function (p) { return p.price; })); };
-function Pane(v, ph) {
-  var S = { g: null, arr: null, bun: null, len: null, v: null }, out = ph.querySelector(".pane");
-  S.g = GROUPS.slice().sort(function (a, b) { return minPrice(PLANS.filter(function (p) { return p.group === a; })) - minPrice(PLANS.filter(function (p) { return p.group === b; })); })[0];
-  function derive() {
-    var D = {};
-    D.inG = PLANS.filter(function (p) { return p.group === S.g; });
-    D.buns = []; D.inG.forEach(function (p) { if (p.bunks && D.buns.indexOf(p.bunks) < 0) D.buns.push(p.bunks); }); D.buns.sort(function (a, b) { return a - b; });
-    if (S.bun && D.buns.indexOf(S.bun) < 0) S.bun = null;
-    D.byB = D.inG.filter(function (p) { return !S.bun || p.bunks === S.bun; });
-    D.beds = WL_BED_ORDER.filter(function (k) { return D.byB.some(function (p) { return p.bed === k; }); });
-    if (D.beds.indexOf(S.arr) < 0) S.arr = D.beds.slice().sort(function (a, b) { return minPrice(D.byB.filter(function (p) { return p.bed === a; })) - minPrice(D.byB.filter(function (p) { return p.bed === b; })); })[0];
-    D.pa = D.byB.filter(function (p) { return p.bed === S.arr; });
-    D.lens = []; D.pa.forEach(function (p) { if (D.lens.indexOf(p.len) < 0) D.lens.push(p.len); });
-    if (D.lens.indexOf(S.len) < 0) S.len = D.lens[0];
-    D.vars = D.pa.filter(function (p) { return p.len === S.len; }).sort(function (a, b) { return a.price - b.price; });
-    if (!D.vars.some(function (p) { return p.code === S.v; })) S.v = D.vars[0].code;
-    D.cur = D.vars.filter(function (p) { return p.code === S.v; })[0];
-    D.lenTxt = function (l) { return D.pa.filter(function (p) { return p.len === l; })[0].lenTxt; };
-    return D;
-  }
-  var X = {
-    seg: function () { return '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>'; },
-    icons: function (D) { return '<div class="ics">' + D.beds.map(function (k) { return '<button type="button" class="ic' + (k === S.arr ? " on" : "") + '" data-k="' + k + '" aria-label="' + BEDLINE[k] + '">' + bedIcon(k) + '</button>'; }).join("") + '</div><div class="cap1">' + BEDLINE[S.arr] + '</div>'; },
-    bunks: function (D) { return D.buns.length < 2 ? "" : '<div class="chips" data-r="bun">' + [0].concat(D.buns).map(function (n) { return '<button type="button" class="chip sm' + ((S.bun || 0) === n ? " on" : "") + '" data-n="' + n + '">' + (n ? n + (n > 1 ? " bunks" : " bunk") : "Any bunks") + '</button>'; }).join("") + '</div>'; },
-    diagram: function (D) { return '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + bedDiagram(S.arr, S.len, MAXFT) + '<div class="cap"><span></span><span>Door side</span></div></div>'; },
-    lens: function (D) { return D.lens.length < 2 ? "" : '<div class="chips" data-r="len">' + D.lens.map(function (l) { return '<button type="button" class="chip len' + (l === S.len ? " on" : "") + '" data-l="' + l + '">' + D.lenTxt(l) + '</button>'; }).join("") + '</div>'; },
-    vars: function (D) { return D.vars.length < 2 ? "" : '<div class="chips" data-r="var">' + D.vars.map(function (p) { return '<button type="button" class="chip sm' + (p.code === S.v ? " on" : "") + '" data-c="' + p.code + '">' + p.vname + '</button>'; }).join("") + '</div>'; },
-    foot: function (D) { return '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(D.cur.price) + '</span></span><span class="fl">' + D.cur.lenTxt + '</span></div><button class="go" type="button" aria-label="Choose this bed and length"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>'; }
-  };
-  var VIEWS = {
-    A: function (D) { return X.seg() + X.icons(D) + X.bunks(D) + X.diagram(D) + X.lens(D) + X.vars(D) + X.foot(D); },
-    B: function (D) {
-      var lo = D.lens[0], hi = D.lens[D.lens.length - 1], pos = function (l) { return hi === lo ? 50 : (l - lo) / (hi - lo) * 100; };
-      var rule = D.lens.length < 2 ? "" : '<div class="rule" style="--p:' + pos(S.len) + '%"><div class="tr"></div>' + D.lens.map(function (l) { var on = l === S.len, left = 'calc(14px + (100% - 28px) * ' + pos(l) / 100 + ')'; return '<button type="button" class="dot' + (on ? " on" : l < S.len ? " pass" : "") + '" data-l="' + l + '" style="left:' + left + '" aria-label="' + D.lenTxt(l) + '"></button>'; }).join("") +
-        '<span class="lb on" style="left:calc(14px + (100% - 28px) * ' + pos(S.len) / 100 + ')">' + D.lenTxt(S.len) + '</span>' + (S.len !== lo ? '<span class="lb e0" style="left:0">' + D.lenTxt(lo) + '</span>' : '') + (S.len !== hi ? '<span class="lb e1" style="left:100%">' + D.lenTxt(hi) + '</span>' : '') + '</div>';
-      return X.seg() + X.icons(D) + X.bunks(D) + X.diagram(D) + rule + X.vars(D) + X.foot(D);
-    },
-    C: function (D) {
-      var tiles = '<div class="tiles">' + D.beds.map(function (k) { return '<button type="button" class="tile' + (k === S.arr ? " on" : "") + '" data-k="' + k + '" aria-label="' + BEDLINE[k] + '">' + bedDiagram(k, 30, 30, 11.4) + '</button>'; }).join("") + '</div>';
-      var i = D.lens.indexOf(S.len), step = '<div class="step"><button type="button" class="pv" aria-label="Shorter"' + (i === 0 ? ' style="opacity:.25;pointer-events:none"' : '') + '><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="v">' + D.lenTxt(S.len) + '</span><button type="button" class="nx" aria-label="Longer"' + (i === D.lens.length - 1 ? ' style="opacity:.25;pointer-events:none"' : '') + '><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div>';
-      return X.seg() + tiles + '<div class="cap1" style="margin-top:8px">' + BEDLINE[S.arr] + '</div>' + X.bunks(D) + step + X.vars(D) + X.foot(D);
-    }
-  };
-  function render() {
-    var D = derive(); out.innerHTML = VIEWS[v](D);
-    out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.arr = null; S.bun = null; render(); } }); });
-    out.querySelectorAll(".ic, .tile").forEach(function (b) { b.addEventListener("click", function () { S.arr = b.dataset.k; render(); }); });
-    out.querySelectorAll("[data-r=bun] .chip").forEach(function (b) { b.addEventListener("click", function () { S.bun = +b.dataset.n || null; render(); }); });
-    out.querySelectorAll("[data-r=len] .chip, .rule .dot").forEach(function (b) { b.addEventListener("click", function () { S.len = +b.dataset.l; render(); }); });
-    out.querySelectorAll("[data-r=var] .chip").forEach(function (b) { b.addEventListener("click", function () { S.v = b.dataset.c; render(); }); });
-    var pv = out.querySelector(".step .pv"), nx = out.querySelector(".step .nx");
-    if (pv) pv.addEventListener("click", function () { S.len = D.lens[D.lens.indexOf(S.len) - 1]; render(); });
-    if (nx) nx.addEventListener("click", function () { S.len = D.lens[D.lens.indexOf(S.len) + 1]; render(); });
-    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("plan", D.cur.code); WLProgress.choose("bed", D.cur.bed); WLProgress.go("sample-build-step5.html", 520); });
-  }
-  render();
+/* ---------- the screen ---------- */
+var S = { g: null, k: null };
+var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
+S.g = cheapest(BEDS).group;
+function render() {
+  var inG = BEDS.filter(function (b) { return b.group === S.g; });
+  if (!inG.some(function (b) { return b.key === S.k; })) S.k = cheapest(inG).key;
+  var cur = inG.filter(function (b) { return b.key === S.k; })[0];
+  document.getElementById("pane").innerHTML =
+    '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
+    '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + bedIcon(b.key) + '</button>'; }).join("") + '</div>' +
+    '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
+    '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + frontDiagram(S.k) + '<div class="cap"><span></span><span>Door side</span></div></div>' +
+    '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div><button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>';
+  document.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
+  document.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
+  document.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("plan", null); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
 }
-
-var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
-var NOTES = {
-  A: ["A · Drawing + icons", "King or Queen, then the bed arrangement as icons (the orange is the bedside table or storage chest). One drawing of the empty van shows where the bed sits; length is a row of pills."],
-  B: ["B · Length ruler", "Same top half. Length is a ruler: slide along it and the van in the drawing gets longer or shorter, at the same scale."],
-  C: ["C · Drawings as options", "No separate drawing: the options are the drawings. Each tile shows the front of the van with that bed in it. Length is a stepper."]
-};
-var html = "";
-["A", "B", "C"].forEach(function (v, i) {
-  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
-    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
-    '<div class="prog" aria-label="Step 4 of 5"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
-    '<div class="body"><h1>Your bed</h1><div class="content"><div class="pane"></div></div></div>' +
-    '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
-});
-document.getElementById("stage").innerHTML = html;
-document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
-["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
-document.querySelectorAll("#pick button").forEach(function (b) {
-  b.addEventListener("click", function () {
-    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
-    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
-  });
-});
-if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+WLProgress.enter(document.querySelector(".road"), 3);
+render();
+if (/[?&]guides/.test(Q)) document.getElementById("phone").classList.add("guides");
 </script>
 </body>
 </html>
