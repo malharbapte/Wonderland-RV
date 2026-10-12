@@ -35,9 +35,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* header */
 .bar { flex: none; height: var(--head); padding: 0 var(--m); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
-.bar img { display: block; height: 30px; width: auto; }
-.bar .x { width: 44px; height: 44px; margin-right: -12px; display: grid; place-items: center; }
-.bar .x svg { width: 18px; height: 18px; }
+.bar .logo { display: block; line-height: 0; }   /* the logo is the way home: no close cross */
+.bar img { display: block; height: 42px; width: auto; }
 
 /* progress: THE PILL IS THE ROAD. The road is a rounded capsule (the brand's shape). The shared gradient fills it as the journey
    advances; the van and the pines stand on top of it; the step name sits beneath. No container, no heavy block. */

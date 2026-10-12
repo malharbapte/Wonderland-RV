@@ -142,7 +142,7 @@ var html = "";
     return '<button class="p" data-k="' + z.k + '" style="left:' + (cx - D / 2) + 'px;top:' + TOPS[i] + 'px;width:' + D + 'px"><span class="disc cta" style="width:' + D + 'px;height:' + D + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + ICON[i] + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>';
   }).join("");
   html += '<div class="slot' + (vi === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
-    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<main class="phone ' + v + '"><header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>' +
     '<div class="prog" aria-label="Step 2 of 6"><div class="road"><div class="done"></div>' + CHROME_VAN + '</div><div class="prow"><span class="l">Size</span><span class="r">2 / 6</span></div></div>' +
     '<div class="body"><h1><span style="white-space:nowrap">How much room</span> <span style="white-space:nowrap">do you need?</span></h1>' +
     '<div class="content v9"><div class="wrap"><svg class="rule" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + BUILD[v]() + '</g></svg>' + discs + '</div></div></div>' +

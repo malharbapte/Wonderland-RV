@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 5 (floorplan), three options</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=14">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=15">
 <style>
 /* Throwaway sample: Step 5, the floorplan, for the bed chosen on Step 4 (the plans are those that exist with that bed).
    Previously: the bed and the floorplan in ONE step, shown as drawn plans instead of photos.
@@ -230,7 +230,7 @@ var NOTES = {
 var html = "";
 ["A", "B", "C"].forEach(function (v, i) {
   html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
-    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<main class="phone ' + v + '"><header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>' +
     '<div class="prog" aria-label="Step 5 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Floorplan</span></div></div>' +
     '<div class="body"><h1>Your floorplan</h1><div class="content"><div class="pane"><div class="seg" style="display:none"></div><div class="sumb">' + BEDSUM + '</div><div class="chips" data-r="arr" style="display:none"></div><div class="chips" data-r="bun"></div><div class="out"></div></div></div></div>' +
     '<a class="back" href="sample-build-step4.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
