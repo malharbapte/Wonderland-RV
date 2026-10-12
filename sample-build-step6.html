@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 6 (Details), placeholder</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=13">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=14">
 <style>
 /* Placeholder for a step that has not been designed yet, so the whole journey can be walked from Step 1 to the flag.
    Shows what has been chosen so far. Not a design; replace when the step is built. All px, no rem. ?guides shows margins. */
@@ -41,12 +41,13 @@
   </div>
   <a class="back" href="sample-build-step5.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
-<script src="assets/js/build-progress.js?v=7"></script>
+<script src="assets/js/build-data.js?v=1"></script>
+<script src="assets/js/build-progress.js?v=9"></script>
 <script>
 WLProgress.enter(document.querySelector(".road"), 5);
 /* what has been chosen so far */
 var C = WLProgress.choices(), TYPE = { couples: "Couple\u2019s", family: "Family" }, SIZE = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, MODEL = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
-var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model]].filter(Boolean);
+var bits = [TYPE[C.type], SIZE[C.size], MODEL[C.model], C.bed && WL_BED_INFO[C.bed] ? WL_BED_INFO[C.bed].name : null].filter(Boolean);
 document.getElementById("sum").textContent = bits.length ? bits.join(" \u00B7 ") : "";
 var go = document.getElementById("go");
 if (go) go.addEventListener("click", function () { go.classList.add("on"); WLProgress.go(""); });

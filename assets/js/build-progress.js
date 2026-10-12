@@ -29,17 +29,6 @@
   var q = (location.search.match(/[?&]markers=(\w+)/) || [])[1];
   if (q && THEMES[q]) THEME = q;
 
-  /* The default header is the orange pill. ?hdr=  switches the look on any step page (and is carried from step to step):
-       white    the earlier white section with the gradient path
-       solid    a full-width orange band          grad  the same band in the shared gradient
-       full     orange behind the logo bar too    pillgrad  the pill carrying the shared gradient */
-  var HDR = (location.search.match(/[?&]hdr=(white|solid|grad|full|pillgrad)/) || [])[1];
-  if (HDR) {
-    var pg = document.querySelector(".prog"), ph = document.querySelector(".phone");
-    if (pg) pg.classList.add(HDR === "full" ? "prog--solid" : "prog--" + HDR);
-    if (ph && HDR === "full") ph.classList.add("hdr-full");
-  }
-
   function build(road) {
     if (road.querySelector(".mk")) return;
     var van = road.querySelector(".van");
@@ -113,7 +102,7 @@
   });
   /* The customer's choices travel with the session so every step can use them (and the form can send them later).
      Choosing an earlier answer clears the later ones, since they may no longer apply. */
-  var CK = "wl-choice", ORDER = ["type", "size", "model"];
+  var CK = "wl-choice", ORDER = ["type", "size", "model", "bed"];
   function choices() { try { return JSON.parse(sessionStorage.getItem(CK) || "{}"); } catch (e) { return {}; } }
   function choose(key, value) {
     var c = choices(); c[key] = value;
