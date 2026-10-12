@@ -73,3 +73,19 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 .prog--grad .prow .r, .prog--solid .prow .r { color: rgba(255,255,255,.88); }
 .prog--grad .van { color: #fff; --vcut: #E27820; }
 .prog--solid .van { color: #fff; --vcut: var(--orange-deep); }
+
+/* checkpoint markers on the road (drawn by assets/js/build-progress.js). Grey while ahead, orange once passed,
+   hidden while the van is parked on them. The van sits above the path, the path above the markers. */
+.road .mk { position: absolute; bottom: 5px; width: 20px; height: 26px; margin-left: -10px; pointer-events: none; transition: opacity .3s ease; }
+.road .mk svg { display: block; width: 20px; height: 26px; overflow: visible; }
+.mk .a, .mk .b, .mk .w, .mk .s { stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; transition: fill .4s ease, stroke .4s ease; }
+.mk .a { fill: #dcdcdc; stroke: #dcdcdc; }
+.mk .b { fill: #cdcdcd; stroke: #cdcdcd; }
+.mk .w { fill: #fff; stroke: #fff; }
+.mk .s { fill: none; stroke: #dcdcdc; stroke-width: 2.2; }
+.mk.passed .a { fill: var(--orange-deep); stroke: var(--orange-deep); }
+.mk.passed .b { fill: #B04C07; stroke: #B04C07; }
+.mk.passed .s { stroke: var(--orange-deep); }
+.mk.cur { opacity: 0; }
+.road .van { z-index: 2; }
+.road .done { z-index: 1; }

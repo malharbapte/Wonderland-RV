@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 3 (model)</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=5">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=6">
 <style>
 /* Throwaway sample: Step 3 (model), hero and dock, Dusk gradient. The hero shows the model in focus; the
    dock below holds the OTHER models. Tapping a dock circle pops it up out of the dock into the hero spot while
@@ -12,7 +12,7 @@
    Data from the live configurator (Couple's + Compact, GST inclusive). All px, no rem.
    ?guides shows margins   ?unavailable previews Solara as not offered
    ?dockprice adds a small price under each dock circle   ?hint adds a "Tap to choose" line under the hero.
-   ?hdr=white|grad|solid picks the progress header   ?ms=300..1500 sets the pop time. The controls beside the chevron are for the sample only. */
+   ?ms=300..1500 overrides the pop time (850 ms by default).  ?markers=outback previews the reserve marker theme. */
 
 /* the disc: white underneath, the Dusk gradient on a layer that fades on hover; the van breaks out of it */
 :root { --grad: linear-gradient(180deg, #FFC47F 0%, #E37921 52%, #B04C07 100%); }
@@ -56,15 +56,6 @@
 .fly { position:absolute; z-index:6; pointer-events:none; }
 .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
-/* sample-only tuning controls; they live in the empty bottom zone beside the chevron and are not part of the design */
-.tune { position:absolute; left:92px; right:24px; bottom:29px; height:52px; display:flex; align-items:center; gap:6px; font-size:11px; line-height:14px; color:#555; border-left:1px dashed #ccc; padding-left:12px; }
-.tune .r1 { display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:center; }
-.tune .r1 b { color:#000; font-family:var(--gordita); font-weight:700; }
-.tune input[type=range] { width:100%; accent-color:var(--o); height:18px; margin:0; }
-.tune .r2 { display:flex; gap:6px; align-items:center; }
-.tune .r2 span { margin-right:2px; }
-.tune .r2 button { height:24px; padding:0 9px; border:1px solid #bbb; border-radius:12px; font-size:11px; color:#333; background:#fff; }
-.tune .r2 button.on { background:#111; border-color:#111; color:#fff; }
 </style>
 </head>
 <body>
@@ -76,7 +67,7 @@
   </header>
   <div class="prog" id="prog" aria-label="Step 3 of 6">
     <div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
-    <div class="prow"><span class="l">Model</span><span class="r">3 / 6</span></div>
+    <div class="prow"><span class="l">Model</span></div>
   </div>
   <div class="body">
     <h1><span style="white-space:nowrap">Where will you</span> <span style="white-space:nowrap">take it?</span></h1>
@@ -87,12 +78,10 @@
     </div>
   </div>
   <a class="back" href="sample-build-step2.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
-  <div class="tune" id="tune">
-    <div class="r2" role="group" aria-label="Progress header style"><span>Header</span><button type="button" data-h="white">White</button><button type="button" data-h="grad">Gradient</button><button type="button" data-h="solid">Solid</button></div>
-  </div>
   <div class="sr" id="live" aria-live="polite"></div>
 </main>
 
+<script src="assets/js/build-progress.js?v=1"></script>
 <script>
 /* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
    tag = the range label: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the website as written;
@@ -207,17 +196,10 @@ function promote(btn) {
   setTimeout(done, durUp() + 60);
 }
 
-var HDR = (Q.match(/[?&]hdr=(white|grad|solid)/) || [])[1] || "grad";
-function setHdr(h) { HDR = h; var p = document.getElementById("prog"); p.classList.remove("prog--grad", "prog--solid"); if (h !== "white") p.classList.add("prog--" + h);
-  document.querySelectorAll(".tune [data-h]").forEach(function (b) { b.classList.toggle("on", b.dataset.h === h); }); }
-document.querySelectorAll(".tune [data-h]").forEach(function (b) { b.addEventListener("click", function () { setHdr(b.dataset.h); }); });
-setHdr(HDR);
 document.getElementById("heroBtn").addEventListener("click", function () { var b = this; b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
 setHero(heroK); renderDock();
 
-var rd = document.querySelector(".road");
-rd.querySelector(".van").style.left = "calc((100% - 40px) * 0.4)";
-rd.querySelector(".done").style.width = "calc((100% - 40px) * 0.4 + 24px)";
+WLProgress.set(document.querySelector(".road"), 2);
 if (/[?&]guides/.test(Q)) document.getElementById("phone").classList.add("guides");
 </script>
 </body>
