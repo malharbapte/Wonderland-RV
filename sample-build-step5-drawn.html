@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample (archive) — Build step 5, drawn plans, three options</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=15">
+<style>
+/* Throwaway sample: Step 5, the floorplan, for the bed chosen on Step 4. Built the way Step 4 is: the plan up top, then a footer with what
+   is chosen (length and layout) on the left, the price on the right, and the round Next button on the back chevron's row.
+   Plans are drawn by assets/js/build-plans.js and labelled. Prices are the live configurator's for the chosen model. All px, no rem.
+   ?guides margins   ?bed=queen-dual-table (preview a bed)   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+.pick { display:none; }
+.phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
+.pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
+.sumb { flex:none; font-size:14px; line-height:20px; color:#6d645a; }
+.out { flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center; }
+
+/* chips (bunks, length, layout) run to the screen edge so a long row shows it scrolls */
+.chips { display:flex; gap:8px; margin:10px calc(var(--m) * -1) 0; padding:0 var(--m); overflow-x:auto; scrollbar-width:none; flex:none; }
+.chips::-webkit-scrollbar { display:none; } .chips:empty { display:none; }
+.chip { flex:none; height:36px; padding:0 14px; border-radius:18px; background:#fff; box-shadow:inset 0 0 0 1px #D9CFC3; display:flex; align-items:center; font-weight:700; font-size:13px; white-space:nowrap; transition:box-shadow .3s ease, color .3s ease, background .3s ease; }
+.chip:hover, .chip:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); outline:none; }
+.chip.on { background:#FFF1E2; box-shadow:inset 0 0 0 1.5px var(--o); color:var(--o); }
+.chip.len { font-family:var(--aviano); font-size:12px; letter-spacing:.03em; }
+.chip.sm { height:32px; font-weight:400; font-size:12px; } .chip.sm.on { font-weight:700; }
+
+/* a drawn plan, with its captions */
+.cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
+.pb { position:relative; border-radius:14px; overflow:hidden; }
+.pb .plan { display:block; width:100%; height:auto; }
+.pb::after { content:""; position:absolute; inset:0; border-radius:14px; box-shadow:inset 0 0 0 1px #E6DCD0; pointer-events:none; }
+.soon { height:110px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:#FBF8F4; padding:0 20px; text-align:center; }
+.soon svg { width:44px; height:24px; margin-bottom:2px; } .soon b { font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9a8f82; } .soon span { font-size:12px; line-height:16px; color:#8b8176; }
+.empty { text-align:center; color:#777; padding:30px 10px; }
+
+/* A: one at a time */
+.A .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; flex:none; }
+.A .rail::-webkit-scrollbar { display:none; }
+.A .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; }
+.A .dnav { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:12px; flex:none; }
+.A .dnav button { width:48px; height:44px; display:grid; place-items:center; color:var(--ink); transition:color .42s ease; } .A .dnav button:hover { color:var(--o); }
+.A .dnav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.A .dnav .ct { min-width:70px; text-align:center; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.1em; color:#8b8176; }
+
+/* B: pick the length, then the layout */
+.B .vw { flex:none; margin-top:16px; }
+.B .vars { margin-top:6px; }
+
+/* C: a big plan, the others in a rail */
+.C .hero { flex:none; } .C .rail { display:flex; gap:10px; margin:18px calc(var(--m) * -1) 0; padding:4px var(--m) 2px; overflow-x:auto; scrollbar-width:none; flex:none; }
+.C .rail::-webkit-scrollbar { display:none; }
+.C .th { flex:none; width:118px; text-align:center; cursor:pointer; }
+.C .th .tb { display:block; height:42px; border-radius:10px; overflow:hidden; background:#FBF8F4; position:relative; }
+.C .th .tb svg { width:100%; height:100%; display:block; }
+.C .th .tb::after { content:""; position:absolute; inset:0; border-radius:10px; box-shadow:inset 0 0 0 1px #E6DCD0; transition:box-shadow .3s ease; }
+.C .th:hover .tb::after { box-shadow:inset 0 0 0 2px var(--o); } .C .th.on .tb::after { box-shadow:inset 0 0 0 3px var(--o); }
+.C .th .tl { display:block; margin-top:5px; font-family:var(--aviano); font-weight:700; font-size:11px; letter-spacing:.04em; transition:color .3s ease; } .C .th:hover .tl, .C .th.on .tl { color:var(--o); }
+.C .th .tp { display:block; font-size:11px; line-height:14px; color:#8b8176; }
+
+/* the footer: what is chosen on the left, the price on the right, both from the same top line */
+.foot { margin-top:auto; flex:none; padding-bottom:2px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.foot .ch { min-width:0; } .foot .ln { display:block; font-family:var(--aviano); font-weight:900; font-size:22px; line-height:34px; } .foot .ft { display:block; font-size:12px; line-height:16px; color:#6d645a; }
+.foot .pb2 { text-align:right; flex:none; }
+.foot .pr { line-height:34px; } .foot .pf { font-size:15px; color:#666; margin-right:6px; } .foot .pv { font-weight:700; font-size:32px; letter-spacing:-.01em; }
+.foot .fl { display:block; font-size:13px; line-height:18px; font-weight:700; color:var(--o); }
+.go { position:absolute; right:var(--m); bottom:calc(var(--mb) - 15px + env(safe-area-inset-bottom)); width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; z-index:2; }
+.go::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
+.go svg { position:relative; width:24px; height:24px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
+.go:hover::before, .go:focus-visible::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); } .go:focus-visible { outline:none; }
+.go:active::before, .go.on::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
+
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px); }
+}
+</style>
+</head>
+<body>
+<div class="pick" id="pick"><button class="on" data-v="A">A · One at a time</button><button data-v="B">B · Length, then layout</button><button data-v="C">C · Big plan + rail</button></div>
+<div class="stage" id="stage"></div>
+
+<script src="assets/js/build-data.js?v=2"></script>
+<script src="assets/js/build-plans.js?v=4"></script>
+<script src="assets/js/build-progress.js?v=11"></script>
+<script>
+var Q = location.search;
+var CH = WLProgress.choices();
+var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
+var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
+var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+
+/* the plans on offer: those for the bed chosen on Step 4, with a price for the chosen model, shortest first */
+var LAY = { L: "L-shaped lounge", C: "Café dinette", SC: "U-shaped lounge", XLE: "L-shaped lounge, large ensuite", RC: "Rear lounge, ensuite beside the bed" };
+var BEDSUM = { "king-table": "King bed, side table on the door side", "king-chest": "King bed, storage chest on the door side", "king-lift": "King bed, electric lift-up", "queen-dual-table": "Queen bed, a table each side", "queen-dual-chest": "Queen bed, a storage chest each side", "queen-chest-table": "Queen bed, chest on the road side, table on the door side", "queen-ew": "Queen bed, east–west, storage at the bed head" };
+var nice = function (s) { s = s.replace(/roadside/g, "road side").replace(/doorside/g, "door side"); return s.charAt(0).toUpperCase() + s.slice(1); };
+var ALL = [], RAW = WL_PLANS[TYPE + "|" + SIZE] || {};
+Object.keys(RAW).forEach(function (code) {
+  var r = RAW[code], price = r.p[MODEL]; if (price == null) return;
+  var ft = +code.slice(0, 2), inch = +code.slice(2, 4), sp = WLPlans.spec(code, r.bed);
+  ALL.push({ code: code, bed: r.bed, bunks: r.bunks || 0, desc: r.desc || "", price: price, sp: sp, len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″" });
+});
+ALL.sort(function (a, b) { return a.len - b.len || a.price - b.price; });
+var BEDK = (Q.match(/[?&]bed=([\w-]+)/) || [])[1] || CH.bed;
+if (!ALL.some(function (p) { return p.bed === BEDK; })) BEDK = (ALL.slice().sort(function (a, b) { return a.price - b.price; })[0] || {}).bed;
+var PLANS = ALL.filter(function (p) { return p.bed === BEDK; });
+var MAXFT = Math.ceil(Math.max.apply(null, PLANS.map(function (p) { return p.len; })) + .25);
+var BASE = Math.min.apply(null, PLANS.map(function (p) { return p.price; }));
+var featOf = function (p) { return p.sp ? LAY[p.sp.layout] + (p.sp.door === "front" ? " · door beside the bed" : " · door at the rear") : nice(p.desc); };
+var layName = function (p) { return p.sp ? LAY[p.sp.layout] + (p.sp.door === "front" ? ", door beside the bed" : ", door at the rear") : nice(p.desc); };
+
+var SOON = '<div class="soon"><svg viewBox="0 0 44 24" aria-hidden="true"><rect x="1" y="2" width="42" height="20" rx="8" fill="none" stroke="#C9BCAD" stroke-width="2" stroke-dasharray="4 4"/></svg><b>Plan being drawn</b><span>__D__</span></div>';
+function planBox(p, fit) { return '<div class="pb">' + (p.sp ? WLPlans.svg(p.sp, { labels: !fit, fit: fit, maxFt: fit ? 0 : MAXFT, label: p.lenTxt + " floor plan" }) : SOON.replace("__D__", nice(p.desc))) + '</div>'; }
+function bigPlan(p) { return '<div class="cap"><span>Front</span><span>Road side</span></div>' + planBox(p, false) + '<div class="cap"><span></span><span>Door side</span></div>'; }
+
+/* ---------- state, footer, and the three ways of choosing ---------- */
+function Pane(v, ph) {
+  var S = { bun: null, i: 0, len: null }, pane = ph.querySelector(".pane"), cur;
+  var list = function () { return PLANS.filter(function (p) { return !S.bun || p.bunks === S.bun; }); };
+  var buns = []; PLANS.forEach(function (p) { if (p.bunks && buns.indexOf(p.bunks) < 0) buns.push(p.bunks); }); buns.sort(function (a, b) { return a - b; });
+  function foot() {
+    var p = list()[S.i]; if (!p) return; cur = p;
+    var d = Math.round(p.price - BASE);
+    ph.querySelector(".foot").innerHTML = '<div class="ch"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + layName(p).replace(/, /, "<br>") + '</span></div><div class="pb2"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl">' + (d ? "+" + fmt(d) + " on the base plan" : "The base plan") + '</span></div>';
+  }
+  var VIEWS = {
+    A: function (out, L) {
+      out.innerHTML = '<div class="rail">' + L.map(function (p) { return '<div class="slide">' + bigPlan(p) + '</div>'; }).join("") + '</div><div class="dnav"><button class="pv" type="button" aria-label="Previous plan"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ct"></span><button class="nx" type="button" aria-label="Next plan"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div>';
+      var r = out.querySelector(".rail"), ct = out.querySelector(".ct");
+      function upd() { var i = Math.max(0, Math.min(L.length - 1, Math.round(r.scrollLeft / 327))); ct.textContent = (i + 1) + " of " + L.length; if (i !== S.i) { S.i = i; foot(); } }
+      r.addEventListener("scroll", function () { requestAnimationFrame(upd); }); r.scrollLeft = S.i * 327; ct.textContent = (S.i + 1) + " of " + L.length;
+      out.querySelector(".pv").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
+      out.querySelector(".nx").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
+    },
+    B: function (out, L) {
+      var lens = []; L.forEach(function (p) { if (lens.indexOf(p.len) < 0) lens.push(p.len); });
+      if (S.len == null || lens.indexOf(S.len) < 0) S.len = L[S.i].len;
+      var at = L.filter(function (p) { return p.len === S.len; });
+      if (!at.some(function (p) { return p === L[S.i]; })) S.i = L.indexOf(at[0]);
+      out.innerHTML = '<div class="chips" data-r="len">' + lens.map(function (l) { var p = L.filter(function (q) { return q.len === l; })[0]; return '<button type="button" class="chip len' + (l === S.len ? " on" : "") + '" data-l="' + l + '">' + p.lenTxt + '</button>'; }).join("") + '</div><div class="vw">' + bigPlan(L[S.i]) + '</div>' +
+        (at.length > 1 ? '<div class="chips vars" data-r="var">' + at.map(function (p) { return '<button type="button" class="chip sm' + (p === L[S.i] ? " on" : "") + '" data-i="' + L.indexOf(p) + '">' + layName(p) + '</button>'; }).join("") + '</div>' : '');
+      out.querySelectorAll("[data-r=len] .chip").forEach(function (b) { b.addEventListener("click", function () { S.len = +b.dataset.l; S.i = L.indexOf(L.filter(function (p) { return p.len === S.len; })[0]); render(); }); });
+      out.querySelectorAll("[data-r=var] .chip").forEach(function (b) { b.addEventListener("click", function () { S.i = +b.dataset.i; render(); }); });
+    },
+    C: function (out, L) {
+      out.innerHTML = '<div class="hero"></div><div class="rail">' + L.map(function (p, i) { return '<button class="th' + (i === S.i ? " on" : "") + '" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + featOf(p) + '"><span class="tb">' + (p.sp ? WLPlans.svg(p.sp, { fit: true, label: "" }) : "") + '</span><span class="tl">' + p.lenTxt + '</span><span class="tp">' + fmt(p.price) + '</span></button>'; }).join("") + '</div>';
+      var hero = out.querySelector(".hero"), ths = out.querySelectorAll(".th"), at = S.i;
+      function show(i, anim) {
+        var dir = i >= at ? 1 : -1; at = S.i = i; hero.innerHTML = bigPlan(L[i]);
+        ths.forEach(function (t, j) { t.classList.toggle("on", j === i); }); foot();
+        if (anim && hero.animate) hero.animate([{ opacity: 0, transform: "translateX(" + (dir * 28) + "px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" });
+      }
+      ths.forEach(function (t, i) { t.addEventListener("click", function () { if (i !== at) show(i, true); }); });
+      show(at, false);
+      var on = out.querySelector(".th.on"); if (on) out.querySelector(".rail").scrollLeft = Math.max(0, on.offsetLeft - 24);
+    }
+  };
+  function render() {
+    var L = list(); if (S.i >= L.length) S.i = 0;
+    pane.innerHTML = '<div class="sumb">' + (BEDSUM[BEDK] || "") + '</div>' +
+      (buns.length > 1 ? '<div class="chips" data-r="bun">' + [0].concat(buns).map(function (n) { return '<button type="button" class="chip sm' + ((S.bun || 0) === n ? " on" : "") + '" data-n="' + n + '">' + (n ? n + (n > 1 ? " bunks" : " bunk") : "Any bunks") + '</button>'; }).join("") + '</div>' : '') +
+      '<div class="out"></div><div class="foot"></div><button class="go" type="button" aria-label="Choose this floorplan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>';
+    pane.querySelectorAll("[data-r=bun] .chip").forEach(function (b) { b.addEventListener("click", function () { S.bun = +b.dataset.n || null; S.i = 0; S.len = null; render(); }); });
+    if (L.length) { VIEWS[v](pane.querySelector(".out"), L); foot(); } else pane.querySelector(".out").innerHTML = '<div class="empty">No plans match those choices.</div>';
+    pane.querySelector(".go").addEventListener("click", function () { if (!cur) return; this.classList.add("on"); WLProgress.choose("plan", cur.code); WLProgress.go("sample-build-step6.html", 520); });
+  }
+  render();
+}
+
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = {
+  A: ["A · One at a time", "Swipe through the plans for your bed, one at a time. The footer shows the one on screen: its length, layout and price. Next chooses it."],
+  B: ["B · Length, then layout", "Pick a length from the row; if that length comes in more than one layout, a second row offers them. Fewest plans on screen at once."],
+  C: ["C · Big plan + rail", "The plan in focus is large and the rest sit in a rail below with their length and price. Tap one and it slides into focus."]
+};
+var html = "";
+["A", "B", "C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>' +
+    '<div class="prog" aria-label="Step 5 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Floorplan</span></div></div>' +
+    '<div class="body"><h1>Your floorplan</h1><div class="content"><div class="pane"></div></div></div>' +
+    '<a class="back" href="sample-build-step4.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 4); else WLProgress.set(rd, 4); });
+["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>
