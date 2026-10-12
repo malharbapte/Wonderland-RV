@@ -36,12 +36,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* progress: a caravan drives along a dashed road, leaving a solid orange track behind it */
 .prog { flex: none; padding: 14px var(--m) 14px; border-bottom: 1px solid #eee; }
-.road { position: relative; height: 30px; container-type: inline-size; }
+.road { position: relative; height: 30px; container-type: inline-size; --pm: 1200ms; --ease: cubic-bezier(.65, 0, .35, 1); } /* the van's journey: 1.2s, ease in and out. The van and the covered path share both values so they never part. */
 .road::before { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; border-top: 3px dashed #d4d4d4; }
-.road .done { position: absolute; left: 0; bottom: 1.5px; height: 6px; border-radius: 3px; overflow: hidden; transition: width .6s ease; }
+.road .done { position: absolute; left: 0; bottom: 1.5px; height: 6px; border-radius: 3px; overflow: hidden; transition: width var(--pm) var(--ease); }
 /* the gradient is laid across the WHOLE road (100cqw) and revealed as the path grows, so each spot on the road keeps its colour */
 .road .done::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 100cqw; background: linear-gradient(90deg, #F2A04E 0%, #E37921 50%, #B8520A 100%); } /* the covered path: twice the weight of the road ahead (3px), round at both ends, centred on it */
-.road .van { position: absolute; bottom: 4px; width: 40px; height: 22px; overflow: visible; transition: left .6s ease; }
+.road .van { position: absolute; bottom: 4px; width: 40px; height: 22px; overflow: visible; transition: left var(--pm) var(--ease); }
 .prow { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--aviano); font-weight: 700; font-size: 12px; line-height: 18px; letter-spacing: .08em; text-transform: uppercase; }
 .prow .l { color: var(--orange-deep); } .prow .r { color: #888; }
 
@@ -76,9 +76,9 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 
 /* checkpoint markers on the road (drawn by assets/js/build-progress.js). Grey while ahead, orange once passed,
    hidden while the van is parked on them. The van sits above the path, the path above the markers. */
-.road .mk { position: absolute; bottom: 5px; width: 20px; height: 26px; margin-left: -10px; pointer-events: none; transition: opacity .3s ease; }
+.road .mk { position: absolute; bottom: 5px; width: 20px; height: 26px; margin-left: -10px; pointer-events: none; transition: opacity .3s ease var(--md, 0ms); }
 .road .mk svg { display: block; width: 20px; height: 26px; overflow: visible; }
-.mk .a, .mk .b, .mk .w, .mk .s { stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; transition: fill .4s ease, stroke .4s ease; }
+.mk .a, .mk .b, .mk .w, .mk .s { stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; transition: fill .4s ease var(--md, 0ms), stroke .4s ease var(--md, 0ms); }
 .mk .a { fill: #dcdcdc; stroke: #dcdcdc; }
 .mk .b { fill: #cdcdcd; stroke: #cdcdcd; }
 .mk .w { fill: #fff; stroke: #fff; }
@@ -89,3 +89,7 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 .mk.cur { opacity: 0; }
 .road .van { z-index: 2; }
 .road .done { z-index: 1; }
+
+/* used to place the van instantly at its starting stop before a step page animates it forward */
+.road.no-anim .van, .road.no-anim .done, .road.no-anim .mk, .road.no-anim .mk * { transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .road { --pm: 0ms; } .road .mk, .road .mk * { transition: none !important; } }

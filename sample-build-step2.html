@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 2 (size)</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=6">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=7">
 <style>
 /* Throwaway sample: Step 2 (size) as a number line (option 9 of the ten) with the graded-track scale (option B). Original size icons from the live configurator.
    All px, no rem (HANDOFF §3). Add ?guides to see the page margins. */
@@ -51,7 +51,7 @@
   <a class="back" href="sample-build-step1.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
 
-<script src="assets/js/build-progress.js?v=1"></script>
+<script src="assets/js/build-progress.js?v=2"></script>
 <script>
 var SIZES = [
   { k: "compact",  nm: "Compact",  ln: "17\u203209\u2033 \u2013 20\u2032", mid: 18.875, w: 76, ink: [-5.5, -3.4], src: "assets/img/build/size-compact.png" },
@@ -85,7 +85,7 @@ document.getElementById("wrap").innerHTML =
   '<svg class="rule" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
   SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + '<img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px;transform:' + nudge(z, p.s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
 
-WLProgress.set(document.querySelector(".road"), 1);
+WLProgress.enter(document.querySelector(".road"), 1);
 
 document.querySelectorAll(".p").forEach(function (b) {
   b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });

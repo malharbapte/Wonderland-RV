@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 3 (model)</title>
-<link rel="stylesheet" href="assets/css/build-shell.css?v=6">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=7">
 <style>
 /* Throwaway sample: Step 3 (model), hero and dock, Dusk gradient. The hero shows the model in focus; the
    dock below holds the OTHER models. Tapping a dock circle pops it up out of the dock into the hero spot while
@@ -81,7 +81,7 @@
   <div class="sr" id="live" aria-live="polite"></div>
 </main>
 
-<script src="assets/js/build-progress.js?v=1"></script>
+<script src="assets/js/build-progress.js?v=2"></script>
 <script>
 /* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
    tag = the range label: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the website as written;
@@ -199,7 +199,7 @@ function promote(btn) {
 document.getElementById("heroBtn").addEventListener("click", function () { var b = this; b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
 setHero(heroK); renderDock();
 
-WLProgress.set(document.querySelector(".road"), 2);
+WLProgress.enter(document.querySelector(".road"), 2);
 if (/[?&]guides/.test(Q)) document.getElementById("phone").classList.add("guides");
 </script>
 </body>

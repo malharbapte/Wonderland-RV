@@ -1,7 +1,8 @@
 /* Build your Caravan: the progress road. One place that draws the checkpoint markers, parks the van and
    stretches the covered path, so every step of the configurator shows progress identically.
 
-   WLProgress.set(roadElement, stepIndex)   stepIndex is 0-based: 0 = Layout ... 5 = Details
+   WLProgress.set(roadElement, stepIndex)     jump or glide to a step (0-based: 0 = Layout ... 5 = Details)
+   WLProgress.enter(roadElement, stepIndex)   for a step page on arrival: start at the previous stop, then drive here
 
    Marker themes:
      pines    (ACTIVE)   five pines, then a flag as the last checkpoint, so the finish reads clearly
@@ -39,12 +40,50 @@
       road.insertBefore(m, van);
     });
   }
+  /* The van's journey uses ease-in-out, so it is slow at the start and end and quick in the middle. A marker should light up
+     when the van REACHES it, not when the journey starts, so we invert the easing curve: given how far along the road a marker
+     is (0..1), find how far through the journey's TIME the van gets there. Same curve as --ease in the stylesheet. */
+  var P1X = .65, P1Y = 0, P2X = .35, P2Y = 1;
+  function bez(t, a, b) { var u = 1 - t; return 3 * u * u * t * a + 3 * u * t * t * b + t * t * t; }
+  function progressAt(tau) {                       /* eased distance (0..1) after a fraction tau of the time */
+    var lo = 0, hi = 1, t;
+    for (var i = 0; i < 28; i++) { t = (lo + hi) / 2; if (bez(t, P1X, P2X) < tau) lo = t; else hi = t; }
+    return bez((lo + hi) / 2, P1Y, P2Y);
+  }
+  function timeAt(q) {                             /* fraction of the journey's time at which the van has covered fraction q of the road */
+    var lo = 0, hi = 1, m;
+    for (var i = 0; i < 28; i++) { m = (lo + hi) / 2; if (progressAt(m) < q) lo = m; else hi = m; }
+    return (lo + hi) / 2;
+  }
+  var qpm = parseInt((location.search.match(/[?&]pm=(\d+)/) || [])[1], 10);       /* ?pm=800 overrides the journey time, for testing */
+  function journeyMs(road) { var v = parseFloat(getComputedStyle(road).getPropertyValue("--pm")); return isFinite(v) ? v : 1200; }
+
   function set(road, step) {
     build(road);
+    if (qpm >= 200 && qpm <= 4000) road.style.setProperty("--pm", qpm + "ms");
+    var from = road.dataset.step === undefined ? step : +road.dataset.step, ms = journeyMs(road);
     var p = step / (N - 1);
     road.querySelector(".van").style.left = "calc((100% - 40px) * " + p + ")";
     road.querySelector(".done").style.width = "calc((100% - 40px) * " + p + " + 24px)";
-    road.querySelectorAll(".mk").forEach(function (m, i) { m.classList.toggle("passed", i < step); m.classList.toggle("cur", i === step); });
+    road.querySelectorAll(".mk").forEach(function (m, i) {
+      var delay = 0;
+      if (from !== step && i >= Math.min(from, step) && i <= Math.max(from, step)) {
+        var q = Math.abs(i - from) / Math.abs(step - from);                 /* how far along the road this marker is */
+        delay = Math.round(Math.min(timeAt(q), .9) * ms);                  /* the moment the van gets there (the arrival marker hides just before it lands) */
+      }
+      m.style.setProperty("--md", delay + "ms");
+      m.classList.toggle("passed", i < step); m.classList.toggle("cur", i === step);
+    });
+    road.dataset.step = step;
   }
-  window.WLProgress = { set: set, theme: THEME, themes: THEMES };
+  /* a step page calls this on arrival: the van starts at the previous stop, then drives to this one */
+  function enter(road, step) {
+    if (step <= 0) { set(road, step); return; }
+    road.classList.add("no-anim");
+    set(road, step - 1);
+    void road.offsetWidth;                            /* commit the starting position with no transition */
+    road.classList.remove("no-anim");
+    setTimeout(function () { set(road, step); }, 60);
+  }
+  window.WLProgress = { set: set, enter: enter, theme: THEME, themes: THEMES };
 })();
