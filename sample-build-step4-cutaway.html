@@ -38,13 +38,13 @@ body { --pc:#111; --sel:var(--o); }
 .cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
 
 .dg { position:relative; flex:none; margin-top:10px; }
-.dg svg { display:block; max-height:262px; width:100%; height:auto; margin:0 auto; }
+.dg svg { display:block; max-height:246px; width:100%; height:auto; margin:0 auto; }
 .leg { position:absolute; left:0; bottom:4px; display:flex; flex-direction:column; align-items:flex-start; gap:3px; font-size:12px; line-height:16px; color:#6d645a; }
 .leg i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
 
 .foot { margin-top:auto; flex:none; padding-bottom:2px; text-align:right; }
-.foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
-.foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
+.foot .pr { line-height:34px; } .foot .pf { font-size:15px; color:#666; margin-right:6px; } .foot .pv { font-weight:700; font-size:32px; letter-spacing:-.01em; }
+.foot .fl { display:block; font-size:13px; line-height:18px; font-weight:700; color:var(--o); }
 /* the next button: a gradient circle with a chevron, on the same row and the same height as the back chevron, mirrored to the right margin */
 .go { position:absolute; right:var(--m); bottom:calc(var(--mb) - 15px + env(safe-area-inset-bottom)); width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; z-index:2; }
 .go::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
