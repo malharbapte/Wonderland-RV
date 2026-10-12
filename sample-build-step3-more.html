@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 3 (model), six more layouts</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=1">
+<style>
+/* Throwaway sample: Step 3 (model), six NEW layouts (none repeat the carousel, grid or list).
+   Same data, shell and margins as sample-build-step3.html. The circle behind each van carries a
+   gradient; on hover/press it fades to white with the orange outline, like every other CTA.
+   All px, no rem. ?guides shows the margins; ?unavailable previews Solara as not offered. */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+
+/* the disc: white underneath, a gradient layer on top that fades on hover; the van breaks out of it */
+.disc { position:relative; flex:none; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); }
+.disc::before { content:""; position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 30% 24%, #F4A860 0%, #DC7B1E 42%, #BC590B 100%); transition:opacity .42s ease; }
+.hov:hover .disc::before, .hov:focus-visible .disc::before { opacity:0; }
+.hov:active .disc::before, .hov.on .disc::before { opacity:1; }
+.hov:focus-visible { outline:none; }
+.mv { position:absolute; left:50%; top:50%; height:auto; max-width:none; pointer-events:none;
+      transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny) + 3px)); filter:drop-shadow(0 6px 6px rgba(0,0,0,.22)); }
+.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; transition:color .42s ease; }
+.pr { display:block; color:#222; }
+.tr { display:block; color:#666; }
+.hov:hover .nm, .hov:focus-visible .nm { color:var(--o); }
+.hov { cursor:pointer; text-align:center; }
+.hov.off { cursor:default; pointer-events:none; }
+.hov.off .disc { background:#ebe8e4; box-shadow:none; }
+.hov.off .disc::before { opacity:0; }
+.hov.off .mv { filter:grayscale(1) opacity(.45); }
+.hov.off .nm { color:#aaa; } .hov.off .pr, .hov.off .tr { color:#999; }
+
+/* 1 · hero and dock */
+.V1 .hero { display:flex; flex-direction:column; align-items:center; }
+.V1 .hero .disc { width:172px; height:172px; }
+.V1 .hero .nm { font-size:26px; line-height:30px; margin-top:24px; }
+.V1 .hero .pr { font-size:15px; line-height:22px; margin-top:3px; }
+.V1 .hero .tr { font-size:13px; line-height:19px; margin-top:5px; max-width:262px; min-height:38px; }
+.V1 .dock { display:flex; gap:14px; justify-content:center; margin-top:22px; }
+.V1 .mini { display:flex; flex-direction:column; align-items:center; width:64px; cursor:pointer; }
+.V1 .mini .disc { width:60px; height:60px; transition:box-shadow .3s ease; }
+.V1 .mini.sel .disc { box-shadow:inset 0 0 0 2px var(--o), 0 0 0 3px #fff, 0 0 0 5px var(--o); }
+.V1 .mini .nm { font-size:10px; line-height:14px; margin-top:9px; }
+.V1 .mini.sel .nm { color:var(--o); }
+.V1 .mini.off { opacity:1; } .V1 .mini.off .disc { background:#ebe8e4; box-shadow:none; } .V1 .mini.off .disc::before { opacity:0; } .V1 .mini.off .mv { filter:grayscale(1) opacity(.45); }
+
+/* 2 · price staircase */
+.V2 .wrap { position:relative; width:327px; height:404px; }
+.V2 .o { position:absolute; width:72px; display:flex; flex-direction:column; align-items:center; }
+.V2 .disc { width:72px; height:72px; }
+.V2 .nm { font-size:12px; line-height:16px; margin-top:10px; }
+.V2 .pr { font-size:11px; line-height:16px; white-space:nowrap; }
+
+/* 3 · quartered circle */
+.V3 .circle { width:300px; height:300px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:6px; }
+.V3 .q { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; border:0; }
+.V3 .q.tl { border-radius:147px 0 0 0; padding:20px 0 0 22px; } .V3 .q.tr_ { border-radius:0 147px 0 0; padding:20px 22px 0 0; }
+.V3 .q.bl { border-radius:0 0 0 147px; padding:0 0 18px 22px; } .V3 .q.br { border-radius:0 0 147px 0; padding:0 22px 18px 0; }
+.V3 .q { background:#fff; box-shadow:inset 0 0 0 2px var(--o); }
+.V3 .q::before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(circle at 30% 24%, #F4A860 0%, #DC7B1E 42%, #BC590B 100%); transition:opacity .42s ease; }
+.V3 .q:hover::before, .V3 .q:focus-visible::before { opacity:0; }
+.V3 .q:active::before, .V3 .q.on::before { opacity:1; }
+.V3 .q > * { position:relative; }
+.V3 .qv { position:relative; width:112px; height:44px; }
+.V3 .qv .mv { transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny))); }
+.V3 .q .nm { font-size:12px; line-height:16px; margin-top:6px; color:#fff; }
+.V3 .q .pr { font-size:11px; line-height:15px; color:#fff; opacity:.92; }
+.V3 .q:hover .nm, .V3 .q:focus-visible .nm { color:var(--o); } .V3 .q:hover .pr { color:#444; }
+.V3 .q.off { background:#ebe8e4; box-shadow:none; } .V3 .q.off::before { opacity:0; } .V3 .q.off .mv { filter:grayscale(1) opacity(.45); } .V3 .q.off .nm, .V3 .q.off .pr { color:#999; }
+
+/* 4 · accordion */
+.V4 .acc { width:327px; }
+.V4 .row { border-top:1px solid #eee; }
+.V4 .row:first-child { border-top:0; }
+.V4 .head { display:flex; align-items:center; gap:14px; width:100%; height:56px; text-align:left; cursor:pointer; }
+.V4 .head .disc { width:44px; height:44px; }
+.V4 .head .nm { font-size:20px; line-height:24px; flex:1; }
+.V4 .head .pr { font-size:13px; }
+.V4 .head .chev { width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; transition:transform .3s ease; }
+.V4 .row.open .chev { transform:rotate(180deg); }
+.V4 .panel { overflow:hidden; height:0; transition:height .35s ease; }
+.V4 .inner { display:flex; flex-direction:column; align-items:center; padding:4px 0 10px; }
+.V4 .inner .disc { width:120px; height:120px; }
+.V4 .inner .pr { font-size:15px; line-height:22px; margin-top:16px; }
+.V4 .inner .tr { font-size:13px; line-height:19px; margin-top:3px; max-width:262px; }
+.V4 .row.off .head { opacity:.55; cursor:default; }
+
+/* 5 · price pillars */
+.V5 .wrap { position:relative; width:327px; height:412px; }
+.V5 .col { position:absolute; bottom:44px; width:72px; display:flex; flex-direction:column; align-items:center; }
+.V5 .pillar { width:26px; border-radius:13px 13px 0 0; background:linear-gradient(to top, #F3D5B8, #D57114); margin-top:-14px; }
+.V5 .disc { width:72px; height:72px; z-index:1; }
+.V5 .lab { position:absolute; bottom:0; width:82px; margin-left:-5px; text-align:center; }
+.V5 .lab .nm { font-size:12px; line-height:16px; } .V5 .lab .pr { font-size:11px; line-height:15px; white-space:nowrap; }
+.V5 .base { position:absolute; left:0; right:0; bottom:44px; height:1px; background:#d9d9d9; }
+
+/* 6 · honeycomb */
+.V6 .wrap { position:relative; width:327px; height:420px; }
+.V6 .h { position:absolute; width:150px; display:flex; flex-direction:column; align-items:center; }
+.V6 .h .disc { width:116px; height:116px; }
+.V6 .h .nm { font-size:15px; line-height:19px; margin-top:10px; } .V6 .h .pr { font-size:12px; line-height:17px; }
+
+.pick { display:none; }
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; align-items:center; height:36px; background:#111; color:#fff; }
+  .pick button { width:56px; height:36px; display:grid; place-items:center; }
+  .pick button svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+  .pick .lab { flex:1; text-align:center; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px); }
+}
+</style>
+</head>
+<body>
+<div class="pick" id="pick">
+  <button type="button" id="pp" aria-label="Previous layout"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="lab" id="plab"></span>
+  <button type="button" id="pn" aria-label="Next layout"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+<div class="stage" id="stage"></div>
+
+<script>
+/* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
+   ink = where the photo's visual weight sits in its box, % of width/height, for optical centring. */
+var MODELS = [
+  { k: "xtr",    nm: "XTR",    price: 195701.21, tr: "Remote desert tracks and rugged mountain trails.",     ink: [-2.6, -7.0], H: 343 },
+  { k: "solara", nm: "Solara", price: 162279.87, tr: "Composite-built, with every creature comfort.",         ink: [-4.8, -4.6], H: 386 },
+  { k: "hornet", nm: "Hornet", price: 151175.87, tr: "Rocky trails and deep bush tracks.",                    ink: [-2.9, -7.1], H: 343 },
+  { k: "amaroo", nm: "Amaroo", price: 127288.44, tr: "Well-maintained dirt roads and light off-road tracks.", ink: [-4.6, -5.6], H: 327 }
+];
+var BY = {}; MODELS.forEach(function (m) { BY[m.k] = m; });
+var ASC = [BY.amaroo, BY.hornet, BY.solara, BY.xtr];       /* by price, lowest first */
+var UNAVAILABLE = /[?&]unavailable/.test(location.search) ? "solara" : null;
+var off = function (m) { return m.k === UNAVAILABLE; };
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+var priceTxt = function (m, withFrom) { return off(m) ? "Not offered in this size" : (withFrom === false ? fmt(m.price) : "From " + fmt(m.price)); };
+function mv(m, w) {
+  var h = w * m.H / 900;
+  return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px">';
+}
+var A = function (m) { return ' data-k="' + m.k + '"' + (off(m) ? ' aria-disabled="true" tabindex="-1"' : ''); };
+var OFF = function (m) { return off(m) ? ' off' : ''; };
+
+var V = [];
+
+/* 1 · hero and dock */
+V.push({ t: "Hero + dock", d: "One big disc for the model in focus, a dock of four small discs below to switch. Tap the big disc to choose.",
+  html: function () {
+    var first = MODELS.filter(function (m) { return !off(m); })[0];
+    return '<div class="hero"><button class="hov" id="heroBtn" type="button"><span class="disc" id="heroDisc" style="display:block;width:172px;height:172px;margin:0 auto"></span><span class="nm" id="hNm"></span><span class="pr" id="hPr"></span><span class="tr" id="hTr"></span></button></div>' +
+      '<div class="dock">' + MODELS.map(function (m) { return '<button class="mini' + OFF(m) + (m === first ? ' sel' : '') + '" type="button"' + A(m) + '><span class="disc hov">' + mv(m, 72) + '</span><span class="nm">' + m.nm + '</span></button>'; }).join("") + '</div>';
+  },
+  init: function (ph) {
+    function show(k) {
+      var m = BY[k]; ph.querySelectorAll(".mini").forEach(function (b) { b.classList.toggle("sel", b.dataset.k === k); });
+      ph.querySelector("#heroDisc").innerHTML = mv(m, 250);
+      ph.querySelector("#hNm").textContent = m.nm; ph.querySelector("#hPr").textContent = priceTxt(m); ph.querySelector("#hTr").textContent = m.tr;
+    }
+    ph.querySelectorAll(".mini").forEach(function (b) { b.addEventListener("click", function () { if (!b.classList.contains("off")) show(b.dataset.k); }); });
+    show(ph.querySelector(".mini.sel").dataset.k);
+  } });
+
+/* 2 · price staircase */
+V.push({ t: "Price staircase", d: "Four discs climbing from the lowest starting price to the highest. Echoes Step 2's ascending steps.",
+  html: function () {
+    return '<div class="wrap">' + ASC.map(function (m, i) {
+      return '<button class="o hov' + OFF(m) + '"' + A(m) + ' style="left:' + (5 + i * 80) + 'px;top:' + (276 - i * 92) + 'px"><span class="disc">' + mv(m, 86) + '</span><span class="nm">' + m.nm + '</span><span class="pr">' + (off(m) ? 'Not offered' : priceTxt(m, false)) + '</span></button>';
+    }).join("") + '</div>';
+  } });
+
+/* 3 · quartered circle */
+V.push({ t: "Quartered circle", d: "One circle cut into four, with the same 6px cross as Step 1's split. Each quarter holds a van, name and price.",
+  html: function () {
+    var pos = ["tl", "tr_", "bl", "br"];
+    return '<div class="circle">' + MODELS.map(function (m, i) {
+      return '<button class="q ' + pos[i] + OFF(m) + ' hov"' + A(m) + '><span class="qv">' + mv(m, 112) + '</span><span class="nm">' + m.nm + '</span><span class="pr">' + (off(m) ? 'Not offered' : priceTxt(m, false)) + '</span></button>';
+    }).join("") + '</div>';
+  } });
+
+/* 4 · accordion */
+V.push({ t: "Accordion", d: "Four slim rows; touching one opens it in place with the big disc, price and terrain. One open at a time.",
+  html: function () {
+    return '<div class="acc">' + MODELS.map(function (m, i) {
+      return '<div class="row' + OFF(m) + (i === 0 ? ' open' : '') + '"><button class="head hov" type="button"' + A(m) + '><span class="disc" style="width:44px;height:44px">' + mv(m, 54) + '</span><span class="nm">' + m.nm + '</span><span class="pr">' + (off(m) ? 'Not offered' : priceTxt(m, false)) + '</span>' +
+        '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>' +
+        '<div class="panel"><div class="inner"><button class="hov" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" style="display:block;width:120px;height:120px">' + mv(m, 174) + '</span><span class="pr">' + priceTxt(m) + '</span><span class="tr">' + m.tr + '</span></button></div></div></div>';
+    }).join("") + '</div>';
+  },
+  init: function (ph) {
+    var rows = ph.querySelectorAll(".row");
+    function set(r, open) { var p = r.querySelector(".panel"); r.classList.toggle("open", open); p.style.height = open ? p.firstElementChild.offsetHeight + "px" : "0px"; }
+    rows.forEach(function (r) { set(r, r.classList.contains("open")); r.querySelector(".head").addEventListener("click", function () { if (r.classList.contains("off")) return; var was = r.classList.contains("open"); rows.forEach(function (x) { set(x, false); }); set(r, !was); }); });
+  } });
+
+/* 5 · price pillars */
+V.push({ t: "Price pillars", d: "Each van's disc sits on a pillar whose height follows its starting price. Lowest on the left, highest on the right.",
+  html: function () {
+    var lo = ASC[0].price, hi = ASC[3].price;
+    return '<div class="wrap"><div class="base"></div>' + ASC.map(function (m, i) {
+      var h = 56 + (m.price - lo) / (hi - lo) * 214;
+      return '<button class="col hov' + OFF(m) + '"' + A(m) + ' style="left:' + (5 + i * 80) + 'px"><span class="disc">' + mv(m, 86) + '</span><span class="pillar" style="height:' + h.toFixed(0) + 'px"></span></button>' +
+             '<span class="lab" style="left:' + (5 + i * 80) + 'px"><span class="nm">' + m.nm + '</span><span class="pr">' + (off(m) ? 'Not offered' : priceTxt(m, false)) + '</span></span>';
+    }).join("") + '</div>';
+  } });
+
+/* 6 · honeycomb */
+V.push({ t: "Honeycomb", d: "Two staggered columns, so the discs nest instead of lining up in a grid. Reads XTR, Solara, Hornet, Amaroo.",
+  html: function () {
+    var P = [[13, 0], [184, 78], [13, 188], [184, 266]];
+    return '<div class="wrap">' + MODELS.map(function (m, i) { var p = P[i];
+      return '<button class="h hov' + OFF(m) + '"' + A(m) + ' style="left:' + (p[0] - 12) + 'px;top:' + (p[1] - 0) + 'px"><span class="disc">' + mv(m, 140) + '</span><span class="nm">' + m.nm + '</span><span class="pr">' + (off(m) ? 'Not offered' : priceTxt(m)) + '</span></button>';
+    }).join("") + '</div>';
+  } });
+
+var CHROME_VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg>';
+var html = "";
+V.forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '"><h2>' + (i + 1) + ' · ' + v.t + '<small>' + v.d + '</small></h2>' +
+    '<main class="phone V' + (i + 1) + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 3 of 6"><div class="road"><div class="done"></div>' + CHROME_VAN + '</div><div class="prow"><span class="l">Model</span><span class="r">3 / 6</span></div></div>' +
+    '<div class="body"><h1><span style="white-space:nowrap">Where will you</span> <span style="white-space:nowrap">take it?</span></h1><div class="content">' + v.html() + '</div></div>' +
+    '<a class="back" href="sample-build-step2.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+
+document.querySelectorAll(".road").forEach(function (r) {
+  r.querySelector(".van").style.left = "calc((100% - 40px) * 0.4)";
+  r.querySelector(".done").style.width = "calc((100% - 40px) * 0.4 + 24px)";
+});
+V.forEach(function (v, i) { if (v.init) v.init(document.querySelector(".phone.V" + (i + 1))); });
+
+document.querySelectorAll(".hov, .mini").forEach(function (b) {
+  b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+});
+var cur = 0, slots = document.querySelectorAll(".slot");
+function show(n) { cur = (n + V.length) % V.length; slots.forEach(function (s, i) { s.classList.toggle("show", i === cur); }); document.getElementById("plab").textContent = (cur + 1) + " / " + V.length + " · " + V[cur].t;
+  var ph = document.querySelector(".phone.V4"); if (cur === 3) ph.querySelectorAll(".row.open").forEach(function (r) { var p = r.querySelector(".panel"); p.style.height = p.firstElementChild.offsetHeight + "px"; }); }
+document.getElementById("pp").addEventListener("click", function () { show(cur - 1); });
+document.getElementById("pn").addEventListener("click", function () { show(cur + 1); });
+show(0);
+if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>
