@@ -76,14 +76,29 @@
     });
     road.dataset.step = step;
   }
-  /* a step page calls this on arrival: the van starts at the previous stop, then drives to this one */
+  /* a step page calls this on arrival. The van starts where the journey was LAST (remembered for this browser session)
+     and drives to this page's stop: forward when you move on, back by one milestone when you go back. With no history
+     (a page opened directly) it drives in from the previous stop, so the motion can still be seen. */
+  var KEY = "wl-step";
+  function lastStep() { try { var v = parseInt(sessionStorage.getItem(KEY), 10); return v >= 0 && v < N ? v : null; } catch (e) { return null; } }
+  function remember(step) { try { sessionStorage.setItem(KEY, step); } catch (e) {} }
   function enter(road, step) {
-    if (step <= 0) { set(road, step); return; }
+    road.dataset.pageStep = step;
+    var prev = lastStep();
+    if (prev === null) prev = step > 0 ? step - 1 : step;     /* no history: arrive from the previous stop */
+    remember(step);                                           /* this page is now where the journey stands */
+    if (prev === step) { set(road, step); return; }           /* a reload: no movement */
     road.classList.add("no-anim");
-    set(road, step - 1);
-    void road.offsetWidth;                            /* commit the starting position with no transition */
+    set(road, prev);                                          /* park the van at the last stop... */
+    void road.offsetWidth;
     road.classList.remove("no-anim");
-    setTimeout(function () { set(road, step); }, 60);
+    setTimeout(function () { set(road, step); }, 60);         /* ...then glide to this one */
   }
+  /* returning to a page from the browser's back/forward cache restores it as it was: replay the glide from where the journey was */
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var road = document.querySelector(".road");
+    if (road && road.dataset.pageStep !== undefined) { var st = +road.dataset.pageStep; road.dataset.step = st; enter(road, st); }
+  });
   window.WLProgress = { set: set, enter: enter, theme: THEME, themes: THEMES };
 })();

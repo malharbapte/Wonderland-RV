@@ -83,7 +83,7 @@
   <a class="back" href="home.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
 </main>
 
-<script src="assets/js/build-progress.js?v=2"></script>
+<script src="assets/js/build-progress.js?v=3"></script>
 <script>
 /* a tap on a half or its caption flashes the pressed state on the half */
 document.querySelectorAll("[data-t]").forEach(function (el) {
@@ -100,7 +100,7 @@ function setStep(s) {
   WLProgress.set(document.querySelector(".road"), s);
   document.querySelector(".prow .l").textContent = STEPS[s];
 }
-setStep(0);
+WLProgress.enter(document.querySelector(".road"), 0);
 document.querySelectorAll("[data-t]").forEach(function (el) {
   el.addEventListener("click", function () { setStep(1); setTimeout(function () { setStep(0); }, 3400); });
 });
