@@ -1,0 +1,59 @@
+/* Build your Caravan: the shared screen shell, used by EVERY step of the phone configurator.
+   One place for the page margins and the chrome, so no step can drift.
+   All px, no rem (HANDOFF §3: rem collapses to 16px below 901px).
+
+   Page frame (open any step with ?guides to see it):
+     sides   --m      24px   everything aligns to this: logo, progress, heading, content
+     below   --head   64px   the logo bar
+     bottom  --mb     40px   nothing, chevron included, crosses this
+     clear   --clear  96px   content stops this far above the screen bottom, so the chevron has air */
+
+@font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+
+:root {
+  --orange: #E37921; --orange-deep: #D57114; --o: var(--orange-deep);
+  --line: #E6E6E6; --ink: #000;
+  --m: 24px; --head: 64px; --mb: 40px; --clear: 96px;
+  --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
+  --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--gordita); font-size: 15px; line-height: 23px; background: #d9d9d9; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: inherit; }
+
+/* the screen: one phone, nothing scrolls. On a desktop browser it shows as a phone-width card. */
+.phone { position: relative; width: 375px; height: 812px; margin: 32px auto; background: #fff; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,.2); }
+@media (max-width: 900px) { body { background: #fff; } .phone { width: 100%; height: 100dvh; margin: 0; box-shadow: none; } }
+
+/* header */
+.bar { flex: none; height: var(--head); padding: 0 var(--m); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
+.bar img { display: block; height: 30px; width: auto; }
+.bar .x { width: 44px; height: 44px; margin-right: -12px; display: grid; place-items: center; }
+.bar .x svg { width: 18px; height: 18px; }
+
+/* progress: a caravan drives along a dashed road, leaving a solid orange track behind it */
+.prog { flex: none; padding: 14px var(--m) 14px; border-bottom: 1px solid #eee; }
+.road { position: relative; height: 30px; }
+.road::before { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; border-top: 3px dashed #d4d4d4; }
+.road .done { position: absolute; left: 0; bottom: 3px; height: 3px; background: var(--orange-deep); transition: width .6s ease; }
+.road .van { position: absolute; bottom: 4px; width: 40px; height: 22px; transition: left .6s ease; }
+.prow { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--aviano); font-weight: 700; font-size: 12px; line-height: 18px; letter-spacing: .08em; text-transform: uppercase; }
+.prow .l { color: var(--orange-deep); } .prow .r { color: #888; }
+
+/* heading and the content zone */
+.body { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 20px var(--m) 0; }
+h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; line-height: 33px; text-transform: uppercase; }
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 24px; padding-bottom: var(--clear); }
+
+/* back: a bare chevron, the same black as the close cross. Quiet by design: going back is allowed
+   but not encouraged. The 52px box is the tap target. The glyph sits 32px from the left and 48px from
+   the bottom edge, so it is inside the page frame, not on its line. */
+.back { position: absolute; left: calc(var(--m) - 14px); bottom: calc(var(--mb) - 11px + env(safe-area-inset-bottom)); width: 52px; height: 52px; display: grid; place-items: center; color: var(--ink); transition: color .42s ease; }
+.back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.back:hover, .back:focus-visible { color: var(--orange-deep); }
+.back:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+
+/* margin guides: add ?guides to the page address */
+.phone.guides::after { content: ""; position: absolute; left: var(--m); right: var(--m); top: var(--head); bottom: var(--mb); border: 1px dashed rgba(230,0,0,.55); pointer-events: none; z-index: 9; }

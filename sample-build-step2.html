@@ -4,43 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sample — Build step 2 (size)</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=1">
 <style>
 /* Throwaway sample: Step 2 (size) as a number line (option 9 of the ten). Discs sit where their lengths
    fall on a 17′–24′ ruler; range bars underneath. Original size icons from the live configurator.
    All px, no rem (HANDOFF §3). Add ?guides to see the page margins. */
-@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
-@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-:root { --o:#D57114; --line:#E6E6E6; --m:24px;
-  --aviano:"Aviano Sans","Trebuchet MS",sans-serif; --gordita:"Gordita","Helvetica Neue",Arial,sans-serif; }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:var(--gordita); font-size:15px; line-height:23px; background:#d9d9d9; color:#000; -webkit-tap-highlight-color:transparent; }
-button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:inherit; }
-
-.phone { position:relative; width:375px; height:812px; margin:32px auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.2); }
-@media (max-width:900px) { body { background:#fff; } .phone { width:100%; height:100dvh; margin:0; box-shadow:none; } }
-
-/* chrome, as adopted on Step 1 */
-.bar { flex:none; height:64px; padding:0 var(--m); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eee; }
-.bar img { display:block; height:26px; width:auto; }
-.bar .x { width:44px; height:44px; margin-right:-12px; display:grid; place-items:center; }
-.bar .x svg { width:18px; height:18px; }
-.prog { flex:none; padding:14px var(--m) 14px; border-bottom:1px solid #eee; }
-.road { position:relative; height:30px; }
-.road::before { content:""; position:absolute; left:0; right:0; bottom:3px; border-top:3px dashed #d4d4d4; }
-.road .done { position:absolute; left:0; bottom:3px; height:3px; background:var(--o); }
-.road .van { position:absolute; bottom:4px; width:40px; height:22px; }
-.prow { display:flex; justify-content:space-between; margin-top:8px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; }
-.prow .l { color:var(--o); } .prow .r { color:#888; }
-.body { flex:1; min-height:0; display:flex; flex-direction:column; padding:20px var(--m) 0; }
-h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line-height:33px; text-transform:uppercase; }
-.back { position:absolute; left:calc(var(--m) - 14px); bottom:calc(29px + env(safe-area-inset-bottom)); width:52px; height:52px; display:grid; place-items:center; color:#8a8a8a; transition:color .42s ease; }
-.back svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.back:hover, .back:focus-visible { color:var(--o); }
-.content { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:24px; padding-bottom:96px; }
-
 /* number line */
-.v9 .wrap { position:relative; width:327px; height:424px; }
+.v9 .wrap { position:relative; width:327px; height:440px; }
 .v9 .p { position:absolute; display:flex; flex-direction:column; align-items:center; width:110px; text-align:center; cursor:pointer; }
 .disc { border-radius:50%; display:grid; place-items:center; }
 .ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
@@ -55,8 +25,6 @@ h1 { flex:none; font-family:var(--aviano); font-weight:900; font-size:30px; line
 .ln { display:block; font-size:12px; line-height:17px; color:#444; white-space:nowrap; }
 .v9 .tk { font-family:var(--gordita); font-size:11px; fill:#888; text-anchor:middle; }
 
-/* margin guides: open the page with ?guides to see the page frame (24px sides, 40px bottom) */
-.phone.guides::after { content:""; position:absolute; left:var(--m); right:var(--m); top:64px; bottom:40px; border:1px dashed rgba(230,0,0,.55); pointer-events:none; z-index:9; }
 </style>
 </head>
 <body>
@@ -82,11 +50,15 @@ var SIZES = [
   { k: "mid",      nm: "Mid-size", ln: "20\u203206\u2033 \u2013 22\u2032", mid: 21.25,  w: 85, src: "assets/img/build/size-mid.png" },
   { k: "spacious", nm: "Spacious", ln: "22\u203206\u2033 \u2013 24\u2032", mid: 23.25,  w: 94, src: "assets/img/build/size-spacious.png" }
 ];
-/* ruler: 17' to 24' maps to x = 20 .. 307 */
-var x = function (ft) { return 20 + (ft - 17) / 7 * 287; };
-var P = [{ cx: x(SIZES[0].mid), t: 4, d: 88, s: 50 }, { cx: x(SIZES[1].mid), t: 116, d: 88, s: 56 }, { cx: x(SIZES[2].mid), t: 4, d: 88, s: 60 }];
-var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 424, RB = 56, ry = 26, tick = "";
-for (var f = 17; f <= 24; f++) tick += '<line x1="' + x(f) + '" x2="' + x(f) + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/><text class="tk" x="' + x(f) + '" y="' + (ry + 22) + '">' + f + '\u2032</text>';
+/* ruler: 17′09″ (17.75 ft) to 24′ maps to x = 22 .. 305, so the scale starts where Compact starts */
+var x = function (ft) { return 22 + (ft - 17.75) / 6.25 * 283; };
+/* ascending: Compact lowest, Mid-size in the middle, Spacious highest */
+var P = [{ cx: x(SIZES[0].mid), t: 232, d: 88, s: 50 }, { cx: x(SIZES[1].mid), t: 118, d: 88, s: 56 }, { cx: x(SIZES[2].mid), t: 4, d: 88, s: 60 }];
+var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 440, RB = 56, ry = 26, tick = "";
+/* ticks: the first is 17\u203209\u2033 itself; whole feet follow (18\u2032 is left out, it sits 11px from the first tick) */
+[[17.75, "17\u203209\u2033"], [19, "19\u2032"], [20, "20\u2032"], [21, "21\u2032"], [22, "22\u2032"], [23, "23\u2032"], [24, "24\u2032"]].forEach(function (t) {
+  tick += '<line x1="' + x(t[0]) + '" x2="' + x(t[0]) + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/><text class="tk" x="' + x(t[0]) + '" y="' + (ry + 22) + '">' + t[1] + '</text>';
+});
 var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
 var conn = P.map(function (p) { return '<line x1="' + p.cx + '" x2="' + p.cx + '" y1="' + (p.t + p.d + 44) + '" y2="' + (H - RB + ry - 8) + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
 document.getElementById("wrap").innerHTML =
