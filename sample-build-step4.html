@@ -6,52 +6,66 @@
 <title>Sample — Build step 4 (bed)</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=15">
 <style>
-/* Throwaway sample: Step 4, the bed only. King or Queen, then the arrangement of the bedside table and storage chest as icons.
-   One drawing of the front of the van shows where the bed sits. No length, no layouts: those come later.
+/* Throwaway sample: Step 4 (bed), the isometric cutaway, coloured version, pill 3 (black outline, solid orange fill).
+   Two versions of the pillows: LOWER (half the height) and GRADIENT (almost flat, shaded like a pillow instead).
    Prices are the live configurator's for the chosen model. All px, no rem.
    ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { display:none; } .slot > h2.unused { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+.pick { display:none; }
+.ctl { display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 16px 0; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; flex-wrap:wrap; }
+.ctl button { height:34px; padding:0 14px; border-radius:17px; background:#fff; box-shadow:inset 0 0 0 1.5px #bbb; font-family:var(--gordita); font-size:13px; letter-spacing:0; text-transform:none; }
+.ctl button.on { background:#111; color:#fff; box-shadow:none; }
 .phone .content { justify-content:flex-start; align-items:stretch; padding-top:16px; }
 .pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
 
-/* King | Queen: a pill, the chosen side carries the shared gradient */
-.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#F4EEE7; flex:none; }
+/* King | Queen: a white pill with an outline. --pc is the outline, --sel the fill of the chosen side. Set by body[data-pill]. */
+body { --pc:#111; --sel:var(--o); }
+.seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#fff; box-shadow:inset 0 0 0 1.5px var(--pc); flex:none; }
 .seg button { position:relative; flex:1; height:44px; border-radius:26px; display:flex; align-items:center; justify-content:center; color:var(--ink); font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.05em; text-transform:uppercase; transition:color .42s ease; }
-.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--grad); opacity:0; transition:opacity .42s ease; }
+.seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--sel); opacity:0; transition:opacity .42s ease; }
 .seg button > * { position:relative; }
 .seg button.on { color:#fff; } .seg button.on::before { opacity:1; }
 .seg button:not(.on):hover, .seg button:not(.on):focus-visible { color:var(--o); } .seg button:focus-visible { outline:none; }
 
-/* arrangements as icons: a little drawing of the bed with its table or chest in the orange */
 .ics { display:flex; gap:8px; margin-top:12px; flex:none; }
 .ic { position:relative; flex:none; width:74px; height:56px; border-radius:16px; background:#fff; box-shadow:inset 0 0 0 1.5px #E3D9CE; display:grid; place-items:center; transition:box-shadow .3s ease, background .3s ease; }
-.ic svg { width:58px; height:51px; display:block; }
+.ic svg { width:60px; height:46px; display:block; }
 .ic:hover, .ic:focus-visible { box-shadow:inset 0 0 0 1.5px var(--o); outline:none; }
 .ic.on { background:#FFF1E2; box-shadow:inset 0 0 0 2px var(--o); }
 .cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
 
-/* the bed drawing */
-.dg { flex:none; margin-top:18px; }
-.dg .cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
-.dg svg { display:block; width:100%; height:auto; -webkit-mask-image:linear-gradient(90deg,#000 78%,transparent); mask-image:linear-gradient(90deg,#000 78%,transparent); }
+.dg { position:relative; flex:none; margin-top:10px; }
+.dg svg { display:block; max-height:246px; width:100%; height:auto; margin:0 auto; }
+.leg { position:absolute; left:0; bottom:4px; display:flex; flex-direction:column; align-items:flex-start; gap:3px; font-size:12px; line-height:16px; color:#6d645a; }
+.leg i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
 
-/* footer: the price, and the round gradient CTA */
-.foot { margin-top:auto; flex:none; display:flex; align-items:center; justify-content:space-between; }
-.foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
-.foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
-.go { position:relative; width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; flex:none; }
+.foot { margin-top:auto; flex:none; padding-bottom:2px; text-align:right; }
+.foot .pr { line-height:34px; } .foot .pf { font-size:15px; color:#666; margin-right:6px; } .foot .pv { font-weight:700; font-size:32px; letter-spacing:-.01em; }
+.foot .fl { display:block; font-size:13px; line-height:18px; font-weight:700; color:var(--o); }
+/* the next button: a gradient circle with a chevron, on the same row and the same height as the back chevron, mirrored to the right margin */
+.go { position:absolute; right:var(--m); bottom:calc(var(--mb) - 15px + env(safe-area-inset-bottom)); width:60px; height:60px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); display:grid; place-items:center; z-index:2; }
 .go::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
-.go svg { position:relative; width:26px; height:26px; fill:none; stroke:#fff; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
+.go svg { position:relative; width:24px; height:24px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .42s ease; }
 .go:hover::before, .go:focus-visible::before { opacity:0; } .go:hover svg, .go:focus-visible svg { stroke:var(--o); } .go:focus-visible { outline:none; }
 .go:active::before, .go.on::before { opacity:1; } .go:active svg, .go.on svg { stroke:#fff; }
+
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:none; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:100dvh; }
+}
 </style>
 </head>
 <body>
-<main class="phone" id="phone">
-  <header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>
-  <div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div><svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div><div class="prow"><span class="l">Bed</span></div></div>
-  <div class="body"><h1>Your bed</h1><div class="content"><div class="pane" id="pane"></div></div></div>
-  <a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
-</main>
+<div class="pick" id="pick" hidden><button class="on" data-v="A">Floor and walls fade</button></div>
+<div class="stage" id="stage"></div>
 
 <script src="assets/js/build-data.js?v=2"></script>
 <script src="assets/js/build-progress.js?v=11"></script>
@@ -62,62 +76,132 @@ var TYPE = (Q.match(/[?&](couples|family)\b/) || [])[1] || CH.type || "couples";
 var SIZE = (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || CH.size || "compact";
 var MODEL = (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || CH.model || "xtr";
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
-
-/* the beds on offer for this type, size and model, with the lowest price for each */
 var BEDLINE = { "king-table": "King, side table on the door side", "king-chest": "King, storage chest on the door side", "king-lift": "King, electric lift-up", "queen-dual-table": "Queen, a table each side", "queen-dual-chest": "Queen, a storage chest each side", "queen-chest-table": "Queen, chest on the road side, table on the door side", "queen-ew": "Queen, east–west, storage at the bed head" };
 var BEDS = wlBeds(TYPE, SIZE, MODEL).filter(function (b) { return b.price !== null; });
 var GROUPS = ["King", "Queen"].filter(function (g) { return BEDS.some(function (b) { return b.group === g; }); });
 
-/* ---------- drawings ---------- */
-var O = "#D57114", BEDC = "#F3D5B8", RUN = "#E3C7A4", FLOOR = "#FBF8F4", WALL = "#2B2B2B", U = 13, WFT = 7.5, PADD = 6;
-var R = function (x, y, w, h, fill, rx) { return '<rect x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + w.toFixed(2) + '" height="' + h.toFixed(2) + '" rx="' + (rx || 0) + '" fill="' + fill + '"/>'; };
+/* ---------- geometry, in feet. Head of the bed at the front, road side at the back right, door side open towards us. ---------- */
+var U = 13, WFT = 7.5, PADD = 6, O = "#D57114";
 var DIM = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
   "queen-dual-table": { l: 6.25, w: 5.0, near: "t", far: "t" }, "queen-dual-chest": { l: 6.5, w: 5.0, near: "c", far: "c" }, "queen-chest-table": { l: 6.5, w: 5.0, near: "t", far: "c" }, "queen-ew": { ew: 1 } };
-/* the bed and what sits beside it, in feet, head at the front (left). Road side is the top, door side the bottom. */
-function bedParts(k) {
-  var b = DIM[k], x0 = .42, o = "", y0;
-  if (b.ew) {                       /* east-west: the bed lies across the van, its head chest on the road side */
-    var bw = 5.0, bl = 5.95; y0 = 1.3;
-    o += R(x0, y0, bw, bl, BEDC, .35) + R(x0 + .25, y0 + .14, bw / 2 - .38, .8, "#fff", .22) + R(x0 + bw / 2 + .13, y0 + .14, bw / 2 - .38, .8, "#fff", .22) + R(x0, y0 + bl * .5, bw, .8, RUN, 0);
-    return o + R(x0, .18, bw, .95, O, .3);
+function geo(k) {
+  var b = DIM[k], x0 = .42;
+  if (b.ew) return { bed: { x: x0, y: 1.3, l: 5.0, w: 5.95 }, items: [{ t: "c", x: x0, y: .18, l: 5.0, w: .95 }], ew: 1 };
+  var y0 = b.w > 5.5 ? .32 : 1.25, items = [];
+  var item = function (kind, y) { return kind === "t" ? { t: "t", x: x0, y: y, l: 1, w: 1 } : { t: "c", x: x0, y: y, l: b.l, w: .95 }; };
+  if (b.far) items.push(item(b.far, y0 - 1.06));
+  if (b.near) items.push(item(b.near, y0 + b.w + .06));
+  return { bed: { x: x0, y: y0, l: b.l, w: b.w }, items: items, up: b.up, ew: 0 };
+}
+var uidN = 0, uid = function () { return "g" + (++uidN); };
+var n2 = function (v) { return (+v).toFixed(2); };
+
+/* colours: tables are orange, chests are teal, in both versions. Everything else is warm (colour) or neutral grey (monotone). */
+var TABLE = ["#F29A4B", "#D57114", "#A8560A"], CHEST = ["#5DB0BE", "#2F7C8A", "#1E5963"];
+var PAL = { floor: "#CFC6BA", plank: "#BFB5A8", wall: ["#FFFFFF", "#EEE9E2", "#D2CABF"], bed: ["#EDE4D6", "#D9CCB9", "#C4B49D"], linen: ["#F8F4EC", "#EFE8DD", "#DFD5C6"], pillow: ["#FFFFFF", "#E7DFD3", "#D2C8B8"], runner: "#CDC1AD", glass: "#CFE0E8", shadow: "rgba(40,25,10,.30)" };
+
+/* ---------- the cutaway, true isometric (30 degree axes, right angles) ---------- */
+function drawIso(k, o) {
+  var G = geo(k), H = 3.9, C30 = .8660254, L = o.crop, id = uid(), s = "", T = .25, ic = o.icon, Pl = PAL;
+  var MG = ic ? .3 : .9, ox = (WFT + T) * C30 + .2 + MG, oy = H + T + .2 + MG;
+  var P = function (x, y, z) { return [((x - y) * C30 + ox) * U + PADD, ((x + y) * .5 - z + oy) * U + PADD]; };
+  var poly = function (pts, fill, sw) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width="' + (sw || .8) + '" stroke-linejoin="round"/>'; };
+  var xz = function (y, x1, x2, z1, z2, fill, sw) { return poly([P(x1, y, z1), P(x2, y, z1), P(x2, y, z2), P(x1, y, z2)], fill, sw); };
+  var yz = function (x, y1, y2, z1, z2, fill, sw) { return poly([P(x, y1, z1), P(x, y2, z1), P(x, y2, z2), P(x, y1, z2)], fill, sw); };
+  var xy = function (z, x1, x2, y1, y2, fill, sw) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill, sw); };
+  /* sw makes the edges of a piece softer: a thick stroke in the piece's own colour rounds every corner */
+  var box = function (x, y, z, l, w, h, c, sw) { return xy(z + h, x, x + l, y, y + w, c[0], sw) + xz(y + w, x, x + l, z, z + h, c[1], sw) + yz(x + l, y, y + w, z, z + h, c[2], sw); };
+  var pw = { h: .06, c: ["url(#" + id + "p)", Pl.pillow[1], Pl.pillow[2]] };      /* almost flat pillows, shaded with a diagonal gradient: light at the top, dark at the bottom */
+  var ZB = -.6;
+  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter>' +
+    '<linearGradient id="' + id + 'p" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".4" stop-color="#F2EDE4"/><stop offset="1" stop-color="#C9BFAF"/></linearGradient></defs>';
+  /* The floor runs on past the end of the walls (to Lf) and is blurred out there: the van carries on. The dark lower wall on the door side goes with it. */
+  var Lf = L + (ic ? 1.8 : 3.0), fl = xy(0, 0, Lf, 0, WFT, Pl.floor);
+  if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(Lf, yy, 0); fl += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
+  fl += xz(WFT, 0, Lf, ZB, 0, "#2B2B2B");
+  var Lw = L + (ic ? .6 : 1.0), wl = box(-T, -T, 0, Lw + T, T, H, Pl.wall) + box(-T, 0, 0, T, WFT, H, Pl.wall);        /* road-side wall, front wall (with thickness); they fade out at the rear */
+  /* one window, in the road-side wall: an outline, the glass, and two flat streaks of reflection */
+  var wp = function (pts) { return pts.map(function (p) { var q = P(p[0], 0, p[1]); return n2(q[0]) + "," + n2(q[1]); }).join(" "); };
+  wl += '<polygon points="' + wp([[2.2, 1.8], [5.8, 1.8], [5.8, 3.5], [2.2, 3.5]]) + '" fill="' + Pl.glass + '" stroke="#5E6A72" stroke-width="' + (ic ? .9 : 1.5) + '" stroke-linejoin="round"/>';
+  if (!ic) wl += '<polygon points="' + wp([[2.75, 1.8], [3.55, 1.8], [4.55, 3.5], [3.75, 3.5]]) + '" fill="#fff" fill-opacity=".62"/><polygon points="' + wp([[3.85, 1.8], [4.2, 1.8], [5.2, 3.5], [4.85, 3.5]]) + '" fill="#fff" fill-opacity=".4"/>';
+  s += '<g mask="url(#' + id + 'mw)">' + wl + '</g>';
+  var B = G.bed, ph = B.w / 2 - .28;
+  s += xy(0, B.x - .1, B.x + B.l + .45, B.y + .1, B.y + B.w + .4, Pl.shadow).replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
+  var piece = function (it) { return box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, it.t === "t" ? TABLE : CHEST, 1.6); };
+  G.items.forEach(function (it) { if (it.y < B.y) s += piece(it); });
+  s += box(B.x, B.y, 0, B.l, B.w, 1.2, Pl.bed);
+  if (G.ew) {
+    s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .2, Pl.linen, 1.8) + xy(1.4, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, Pl.runner);
+    s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, pw.h, pw.c, 3.4) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, pw.h, pw.c, 3.4);
+  } else {
+    s += box(B.x + .95, B.y + .1, 1.2, B.l - 1.05, B.w - .2, .2, Pl.linen, 1.8) + xy(1.4, B.x + B.l * .46, B.x + B.l * .46 + .95, B.y + .1, B.y + B.w - .1, Pl.runner);
+    s += [B.y + .22, B.y + B.w - .22 - ph + .04].map(function (py) { return xy(1.4, B.x + .1, B.x + .98, py + .06, py + ph + .08, "rgba(70,50,25,.30)").replace("<polygon", '<polygon filter="url(#' + id + 'b)"'); }).join("") + box(B.x + .14, B.y + .22, 1.2, .76, ph - .04, pw.h, pw.c, 3.4) + box(B.x + .14, B.y + B.w - .22 - ph + .04, 1.2, .76, ph - .04, pw.h, pw.c, 3.4);
+    if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
   }
-  y0 = b.w > 5.5 ? .32 : 1.25;
-  var ph = b.w / 2 - .28;
-  o += R(x0, y0, b.l, b.w, BEDC, .35) + R(x0 + .14, y0 + .2, .78, ph, "#fff", .22) + R(x0 + .14, y0 + b.w - .2 - ph, .78, ph, "#fff", .22) + R(x0 + b.l * .46, y0, .95, b.w, RUN, 0);
-  var item = function (kind, y) { return kind === "t" ? R(x0, y, 1.0, 1.0, O, .25) : R(x0, y, b.l, .95, O, .3); };
-  if (b.far) o += item(b.far, y0 - 1.06);
-  if (b.near) o += item(b.near, y0 + b.w + .06);
-  if (b.up) { var ax = x0 + b.l * .7, ay = y0 + b.w * .34; o += '<path d="M' + ax + ' ' + (y0 + b.w * .66) + 'V' + ay + 'M' + (ax - .7) + ' ' + (ay + .7) + 'L' + ax + ' ' + ay + 'L' + (ax + .7) + ' ' + (ay + .7) + '" fill="none" stroke="' + O + '" stroke-width=".32" stroke-linecap="round" stroke-linejoin="round"/>'; }
-  return o;
+  G.items.forEach(function (it) { if (it.y >= B.y) s += piece(it); });
+  var vbw = ((Lf + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((Lf + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
+  /* how the floor blurs out, one of three:  fade = fades to nothing, no blur   prog = sharp, then blurring, then gone   heavy = sharp, then a short stretch of strong blur, then gone */
+  var BL = { fade: { sharp: [[0, 1], [.12, 1], [1, 0]], blur: null, sd: 0 }, prog: { sharp: [[0, 1], [.1, 1], [.65, 0]], blur: [[0, 0], [.12, 0], [.5, 1], [.75, 1], [1, 0]], sd: 3.4 }, heavy: { sharp: [[0, 1], [.2, 1], [.3, 0]], blur: [[0, 0], [.2, 0], [.32, 1], [.62, 1], [1, 0]], sd: 7 } }[o.blur || "prog"];
+  var xs = L - 1.5, S0 = P(xs, WFT / 2, 0), S1 = P(Lf, WFT / 2, 0), vx = S1[0] - S0[0], vy = S1[1] - S0[1], dd = vx * .5 + vy * .866;          /* the fade runs across the van, with its contours parallel to the width, not tilted */
+  var gv = 'gradientUnits="userSpaceOnUse" x1="' + n2(S0[0]) + '" y1="' + n2(S0[1]) + '" x2="' + n2(S0[0] + dd * .5) + '" y2="' + n2(S0[1] + dd * .866) + '"', mr = 'x="-50" y="-50" width="' + n2(vbw + 100) + '" height="' + n2(vbh + 100) + '"';
+  var gstops = function (a) { return a.map(function (q) { var v = Math.round(q[1] * 255); return '<stop offset="' + q[0] + '" stop-color="rgb(' + v + ',' + v + ',' + v + ')"/>'; }).join(""); };
+  var flr = '<defs><g id="' + id + 'fl">' + fl + '</g><linearGradient id="' + id + 'gs" ' + gv + '>' + gstops(BL.sharp) + '</linearGradient><mask id="' + id + 'ms" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gs)"/></mask>' +
+    (BL.blur ? '<linearGradient id="' + id + 'gb" ' + gv + '>' + gstops(BL.blur) + '</linearGradient><mask id="' + id + 'mb" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gb)"/></mask><filter id="' + id + 'k" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="' + (ic ? BL.sd * .35 : BL.sd) + '"/></filter>' : '') + '</defs>' +
+    '<g mask="url(#' + id + 'ms)"><use href="#' + id + 'fl"/></g>' + (BL.blur ? '<g mask="url(#' + id + 'mb)"><use href="#' + id + 'fl" filter="url(#' + id + 'k)"/></g>' : '');
+  var W0 = P(Lw - (ic ? 2.4 : 3.8), WFT / 2, 0), W1 = P(Lw + .2, WFT / 2, 0), wdx = W1[0] - W0[0], wdy = W1[1] - W0[1], wd = wdx * .5 + wdy * .866;
+  var wgv = 'gradientUnits="userSpaceOnUse" x1="' + n2(W0[0]) + '" y1="' + n2(W0[1]) + '" x2="' + n2(W0[0] + wd * .5) + '" y2="' + n2(W0[1] + wd * .866) + '"';
+  flr += '<defs><linearGradient id="' + id + 'gw" ' + wgv + '>' + gstops([[0, 1], [.12, 1], [1, 0]]) + '</linearGradient><mask id="' + id + 'mw" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gw)"/></mask></defs>';
+  s = flr + s;
+  if (!ic) {
+    var tag = function (txt, x, y, z, rot, col) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="' + (col || "#a89d90") + '">' + txt + '</text>'; };
+    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
+  }
+  return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
 }
-/* the front of the van, open at the back so no length is implied, with only the bed in it */
-function frontDiagram(k) {
-  var cropFt = 12.4, shell = 'M1.4 0H30V' + WFT + 'H1.4A1.4 1.4 0 0 1 0 ' + (WFT - 1.4) + 'V1.4A1.4 1.4 0 0 1 1.4 0Z';
-  return '<svg viewBox="0 0 ' + (cropFt * U + PADD * 2) + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><defs><linearGradient id="fd" x1="0" x2="1"><stop offset=".78" stop-color="#FBF8F4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')"><path d="' + shell + '" fill="url(#fd)" stroke="' + WALL + '" stroke-width=".2" stroke-linejoin="round"/>' + bedParts(k) + '</g></svg>';
-}
-function bedIcon(k) { return '<svg viewBox="0 0 58 51" aria-hidden="true"><g transform="translate(1 1) scale(6.5)"><path d="M1.4 0H8.6V7.5H1.4A1.4 1.4 0 0 1 0 6.1V1.4A1.4 1.4 0 0 1 1.4 0Z" fill="' + FLOOR + '" stroke="' + WALL + '" stroke-width=".3" stroke-linejoin="round"/>' + bedParts(k) + '</g></svg>'; }
 
 /* ---------- the screen ---------- */
-var S = { g: null, k: null };
-var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
-S.g = cheapest(BEDS).group;
-function render() {
-  var inG = BEDS.filter(function (b) { return b.group === S.g; });
-  if (!inG.some(function (b) { return b.key === S.k; })) S.k = cheapest(inG).key;
-  var cur = inG.filter(function (b) { return b.key === S.k; })[0];
-  document.getElementById("pane").innerHTML =
-    '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
-    '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + bedIcon(b.key) + '</button>'; }).join("") + '</div>' +
-    '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
-    '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + frontDiagram(S.k) + '<div class="cap"><span></span><span>Door side</span></div></div>' +
-    '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div><button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>';
-  document.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
-  document.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
-  document.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
+function Pane(v, ph) {
+  var S = { g: null, k: null }, out = ph.querySelector(".pane"), blur = "fade";
+  var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
+  S.g = cheapest(BEDS).group;
+  function render() {
+    var inG = BEDS.filter(function (b) { return b.group === S.g; });
+    if (!inG.some(function (b) { return b.key === S.k; })) S.k = cheapest(inG).key;
+    var cur = inG.filter(function (b) { return b.key === S.k; })[0], gg = geo(S.k), hasT = gg.items.some(function (i) { return i.t === "t"; }), hasC = gg.items.some(function (i) { return i.t === "c"; });
+    out.innerHTML =
+      '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 7.6, icon: true, blur: blur }) + '</button>'; }).join("") + '</div>' +
+      '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
+      '<div class="dg">' + drawIso(S.k, { crop: 8.4, blur: blur }) + '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div></div>' +
+      '<div class="foot"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div>' +
+      '<button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>';
+    out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
+    out.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
+    out.querySelector(".go").addEventListener("click", function () { this.classList.add("on"); WLProgress.choose("bed", S.k); WLProgress.go("sample-build-step5.html", 520); });
+  }
+  render();
 }
-WLProgress.enter(document.querySelector(".road"), 3);
-render();
-if (/[?&]guides/.test(Q)) document.getElementById("phone").classList.add("guides");
+
+var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+var NOTES = { A: ["Cutaway: floor and walls fade", "The floor and both walls fade out towards the rear, so the van carries on past the edge."] };
+var html = "";
+["A"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>' +
+    '<div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
+    '<div class="body"><h1>Your bed</h1><div class="content"><div class="pane"></div></div></div>' +
+    '<a class="back" href="sample-build-step3.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
+["A"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>
 </body>
 </html>
