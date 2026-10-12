@@ -3,15 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sample — Build step 4 (bed), cutaway refined</title>
+<title>Sample — Build step 4 (bed), cutaway round 3</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=14">
 <style>
-/* Throwaway sample: Step 4 (bed) with the isometric cutaway only. Two versions of the drawing, four versions of the pill:
-   COLOUR   the cutaway in warm tones, tables in orange, chests in teal
-   MONOTONE the whole cutaway in neutral greys; only the tables (orange) and chests (teal) carry colour
-   PILL     1 black outline, gradient fill   2 orange outline, gradient fill   3 black outline, solid orange fill   4 orange outline, solid orange fill
+/* Throwaway sample: Step 4 (bed), the isometric cutaway, coloured version, pill 3 (black outline, solid orange fill).
+   Two versions of the pillows: LOWER (half the height) and GRADIENT (almost flat, shaded like a pillow instead).
    Prices are the live configurator's for the chosen model. All px, no rem.
-   ?guides margins   ?pill=1..4   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
+   ?guides margins   ?couples|family  ?compact|mid|spacious  ?m=xtr|solara|hornet|amaroo   (preview a combination directly) */
 .stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
 .slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
 .slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
@@ -24,10 +22,7 @@
 .pane { flex:1; min-height:0; display:flex; flex-direction:column; width:327px; align-self:center; }
 
 /* King | Queen: a white pill with an outline. --pc is the outline, --sel the fill of the chosen side. Set by body[data-pill]. */
-body { --pc:#111; --sel:var(--grad); }
-body[data-pill="2"] { --pc:var(--o); --sel:var(--grad); }
-body[data-pill="3"] { --pc:#111; --sel:var(--o); }
-body[data-pill="4"] { --pc:var(--o); --sel:var(--o); }
+body { --pc:#111; --sel:var(--o); }
 .seg { display:flex; width:327px; padding:4px; border-radius:30px; background:#fff; box-shadow:inset 0 0 0 1.5px var(--pc); flex:none; }
 .seg button { position:relative; flex:1; height:44px; border-radius:26px; display:flex; align-items:center; justify-content:center; color:var(--ink); font-family:var(--aviano); font-weight:900; font-size:14px; letter-spacing:.05em; text-transform:uppercase; transition:color .42s ease; }
 .seg button::before { content:""; position:absolute; inset:0; border-radius:inherit; background:var(--sel); opacity:0; transition:opacity .42s ease; }
@@ -42,9 +37,9 @@ body[data-pill="4"] { --pc:var(--o); --sel:var(--o); }
 .ic.on { background:#FFF1E2; box-shadow:inset 0 0 0 2px var(--o); }
 .cap1 { flex:none; margin-top:8px; font-size:14px; line-height:20px; color:#6d645a; }
 
-.dg { flex:none; margin-top:10px; }
-.dg svg { display:block; max-height:236px; width:100%; height:auto; margin:0 auto; }
-.leg { display:flex; gap:16px; justify-content:center; margin-top:2px; font-size:12px; line-height:16px; color:#6d645a; flex:none; }
+.dg { position:relative; flex:none; margin-top:10px; }
+.dg svg { display:block; max-height:262px; width:100%; height:auto; margin:0 auto; }
+.leg { position:absolute; left:0; bottom:4px; display:flex; flex-direction:column; align-items:flex-start; gap:3px; font-size:12px; line-height:16px; color:#6d645a; }
 .leg i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
 
 .foot { margin-top:auto; flex:none; padding-bottom:2px; }
@@ -62,17 +57,14 @@ body[data-pill="4"] { --pc:var(--o); --sel:var(--o); }
   .pick { display:flex; height:36px; background:#111; }
   .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
   .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
-  .ctl { padding:8px 8px; gap:6px; background:#f2f2f2; } .ctl button { padding:0 11px; }
   .slot { display:none; } .slot.show { display:block; }
   .slot > h2 { display:none; }
-  .slot .phone { height:calc(100dvh - 36px - 50px); }
+  .slot .phone { height:calc(100dvh - 36px); }
 }
 </style>
 </head>
-<body data-pill="1">
-<div class="pick" id="pick"><button class="on" data-v="A">Colour</button><button data-v="B">Monotone</button></div>
-<div class="ctl" id="ctl"><span>Pill</span>
-  <button data-p="1" class="on">1 · Black outline, gradient</button><button data-p="2">2 · Orange outline, gradient</button><button data-p="3">3 · Black outline, solid</button><button data-p="4">4 · Orange outline, solid</button></div>
+<body>
+<div class="pick" id="pick"><button class="on" data-v="A">Lower pillows</button><button data-v="B">Gradient pillows</button></div>
 <div class="stage" id="stage"></div>
 
 <script src="assets/js/build-data.js?v=2"></script>
@@ -106,14 +98,11 @@ var n2 = function (v) { return (+v).toFixed(2); };
 
 /* colours: tables are orange, chests are teal, in both versions. Everything else is warm (colour) or neutral grey (monotone). */
 var TABLE = ["#F29A4B", "#D57114", "#A8560A"], CHEST = ["#5DB0BE", "#2F7C8A", "#1E5963"];
-var PAL = {
-  colour: { floor: "#CFC6BA", plank: "#BFB5A8", wall: ["#FFFFFF", "#EEE9E2", "#D2CABF"], bed: ["#EDE4D6", "#D9CCB9", "#C4B49D"], linen: ["#F8F4EC", "#EFE8DD", "#DFD5C6"], pillow: ["#FFFFFF", "#E7DFD3", "#D2C8B8"], runner: "#B79F78", glass: "#CFE0E8", glassA: "#B4C9D3", glassB: "#A3BAC6", shadow: "rgba(40,25,10,.30)" },
-  mono:   { floor: "#CBC8C3", plank: "#BCB9B4", wall: ["#FFFFFF", "#EDECEA", "#D2D0CD"], bed: ["#EDECEA", "#D8D6D3", "#C3C1BE"], linen: ["#F7F6F4", "#EFEDEA", "#DDDBD8"], pillow: ["#FFFFFF", "#E6E4E1", "#D0CECB"], runner: "#B3B0AC", glass: "#DCE1E4", glassA: "#C2C9CE", glassB: "#B1B9BE", shadow: "rgba(30,30,30,.28)" }
-};
+var PAL = { floor: "#CFC6BA", plank: "#BFB5A8", wall: ["#FFFFFF", "#EEE9E2", "#D2CABF"], bed: ["#EDE4D6", "#D9CCB9", "#C4B49D"], linen: ["#F8F4EC", "#EFE8DD", "#DFD5C6"], pillow: ["#FFFFFF", "#E7DFD3", "#D2C8B8"], runner: "#CDC1AD", glass: "#CFE0E8", shadow: "rgba(40,25,10,.30)" };
 
 /* ---------- the cutaway, true isometric (30 degree axes, right angles) ---------- */
 function drawIso(k, o) {
-  var G = geo(k), H = 3.9, C30 = .8660254, L = o.crop, id = uid(), s = "", T = .25, ic = o.icon, Pl = PAL[o.mono ? "mono" : "colour"];
+  var G = geo(k), H = 3.9, C30 = .8660254, L = o.crop, id = uid(), s = "", T = .25, ic = o.icon, Pl = PAL;
   var MG = ic ? .3 : 1.1, ox = (WFT + T) * C30 + .2 + MG, oy = H + T + .2 + MG;
   var P = function (x, y, z) { return [((x - y) * C30 + ox) * U + PADD, ((x + y) * .5 - z + oy) * U + PADD]; };
   var poly = function (pts, fill, sw) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width="' + (sw || .8) + '" stroke-linejoin="round"/>'; };
@@ -122,14 +111,20 @@ function drawIso(k, o) {
   var xy = function (z, x1, x2, y1, y2, fill, sw) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill, sw); };
   /* sw makes the edges of a piece softer: a thick stroke in the piece's own colour rounds every corner */
   var box = function (x, y, z, l, w, h, c, sw) { return xy(z + h, x, x + l, y, y + w, c[0], sw) + xz(y + w, x, x + l, z, z + h, c[1], sw) + yz(x + l, y, y + w, z, z + h, c[2], sw); };
-  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter></defs>';
+  var pw = o.pil === "grad" ? { h: .05, c: ["url(#" + id + "p)", Pl.pillow[1], Pl.pillow[2]] } : { h: .14, c: Pl.pillow };      /* lower pillows, or almost flat ones shaded with a gradient */
+  var ZB = ic ? -1.2 : -2.3;                                                                          /* how far the van's lower wall runs down before it fades out */
+  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter>' +
+    '<filter id="' + id + 'k" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="' + (ic ? .8 : 2.6) + '"/></filter>' +
+    '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2B2B"/><stop offset=".22" stop-color="#2B2B2B" stop-opacity=".92"/><stop offset="1" stop-color="#2B2B2B" stop-opacity="0"/></linearGradient>' +
+    '<linearGradient id="' + id + 'e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1C1C"/><stop offset=".22" stop-color="#1C1C1C" stop-opacity=".92"/><stop offset="1" stop-color="#1C1C1C" stop-opacity="0"/></linearGradient>' +
+    '<radialGradient id="' + id + 'p" cx=".42" cy=".38" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F3EEE5"/><stop offset="1" stop-color="#DCD3C5"/></radialGradient></defs>';
   s += xy(0, 0, L, 0, WFT, Pl.floor);
   if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(L, yy, 0); s += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
   s += box(-T, -T, 0, L + T, T, H, Pl.wall) + box(-T, 0, 0, T, WFT, H, Pl.wall);                    /* road-side wall, front wall (with thickness) */
-  /* windows with a little depth: the glass sits back from the wall, so the top and the near side are in shade, and a sill sticks out below */
-  s += xz(0, 2.2, 5.8, 1.8, 3.5, Pl.glass) + xz(0, 2.2, 5.8, 3.28, 3.5, Pl.glassB) + xz(0, 2.2, 2.42, 1.8, 3.28, Pl.glassA);
-  s += yz(0, 2.0, 5.6, 1.8, 3.5, Pl.glass) + yz(0, 2.0, 5.6, 3.28, 3.5, Pl.glassB) + yz(0, 5.38, 5.6, 1.8, 3.28, Pl.glassA);
-  if (!ic) s += box(2.05, 0, 1.62, 3.9, .3, .14, Pl.wall) + box(0, 1.85, 1.62, .3, 3.9, .14, Pl.wall);
+  /* one window, in the road-side wall: an outline, the glass, and two flat streaks of reflection */
+  var wp = function (pts) { return pts.map(function (p) { var q = P(p[0], 0, p[1]); return n2(q[0]) + "," + n2(q[1]); }).join(" "); };
+  s += '<polygon points="' + wp([[2.2, 1.8], [5.8, 1.8], [5.8, 3.5], [2.2, 3.5]]) + '" fill="' + Pl.glass + '" stroke="#5E6A72" stroke-width="' + (ic ? .9 : 1.5) + '" stroke-linejoin="round"/>';
+  if (!ic) s += '<polygon points="' + wp([[2.75, 1.8], [3.55, 1.8], [4.55, 3.5], [3.75, 3.5]]) + '" fill="#fff" fill-opacity=".62"/><polygon points="' + wp([[3.85, 1.8], [4.2, 1.8], [5.2, 3.5], [4.85, 3.5]]) + '" fill="#fff" fill-opacity=".4"/>';
   var B = G.bed, ph = B.w / 2 - .28;
   s += xy(0, B.x - .1, B.x + B.l + .45, B.y + .1, B.y + B.w + .4, Pl.shadow).replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
   var piece = function (it) { return box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, it.t === "t" ? TABLE : CHEST, 1.6); };
@@ -137,25 +132,26 @@ function drawIso(k, o) {
   s += box(B.x, B.y, 0, B.l, B.w, 1.2, Pl.bed);
   if (G.ew) {
     s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .2, Pl.linen, 1.8) + xy(1.4, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, Pl.runner);
-    s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, .28, Pl.pillow, 3.4) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, .28, Pl.pillow, 3.4);
+    s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, pw.h, pw.c, 3.4) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, pw.h, pw.c, 3.4);
   } else {
     s += box(B.x + .95, B.y + .1, 1.2, B.l - 1.05, B.w - .2, .2, Pl.linen, 1.8) + xy(1.4, B.x + B.l * .46, B.x + B.l * .46 + .95, B.y + .1, B.y + B.w - .1, Pl.runner);
-    s += box(B.x + .14, B.y + .22, 1.2, .76, ph - .04, .28, Pl.pillow, 3.4) + box(B.x + .14, B.y + B.w - .22 - ph + .04, 1.2, .76, ph - .04, .28, Pl.pillow, 3.4);     /* low, plump pillows */
+    s += [B.y + .22, B.y + B.w - .22 - ph + .04].map(function (py) { return xy(1.4, B.x + .1, B.x + .98, py + .06, py + ph + .08, "rgba(70,50,25,.30)").replace("<polygon", '<polygon filter="url(#' + id + 'b)"'); }).join("") + box(B.x + .14, B.y + .22, 1.2, .76, ph - .04, pw.h, pw.c, 3.4) + box(B.x + .14, B.y + B.w - .22 - ph + .04, 1.2, .76, ph - .04, pw.h, pw.c, 3.4);
     if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
   }
   G.items.forEach(function (it) { if (it.y >= B.y) s += piece(it); });
-  s += xz(WFT, 0, L, -.6, 0, "#2B2B2B") + yz(L, 0, WFT, -.6, 0, "#1C1C1C");                        /* the dark lower wall: door side, and the cut end */
+  /* the dark lower wall: door side, and the cut end. It runs on below the floor and fades out, blurred, to say the van carries on down. */
+  s += '<g filter="url(#' + id + 'k)">' + xz(WFT, 0, L, ZB, 0, "url(#" + id + "f)", 0) + yz(L, 0, WFT, ZB, 0, "url(#" + id + "e)", 0) + '</g>';
   if (!ic) {
-    var tag = function (txt, x, y, z, rot) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="#a89d90">' + txt + '</text>'; };
-    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
+    var tag = function (txt, x, y, z, rot, col) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="' + (col || "#a89d90") + '">' + txt + '</text>'; };
+    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT, -.68, 30, "#fff");
   }
-  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T + .6 + .4 + 2 * MG) * U + PADD * 2;
+  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
   return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
 }
 
 /* ---------- the screen ---------- */
 function Pane(v, ph) {
-  var S = { g: null, k: null }, out = ph.querySelector(".pane"), mono = v === "B";
+  var S = { g: null, k: null }, out = ph.querySelector(".pane"), pil = v === "B" ? "grad" : "low";
   var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
   S.g = cheapest(BEDS).group;
   function render() {
@@ -164,10 +160,9 @@ function Pane(v, ph) {
     var cur = inG.filter(function (b) { return b.key === S.k; })[0], gg = geo(S.k), hasT = gg.items.some(function (i) { return i.t === "t"; }), hasC = gg.items.some(function (i) { return i.t === "c"; });
     out.innerHTML =
       '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
-      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 8.4, icon: true, mono: mono }) + '</button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 8.4, icon: true, pil: pil }) + '</button>'; }).join("") + '</div>' +
       '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
-      '<div class="dg">' + drawIso(S.k, { crop: 10.2, mono: mono }) + '</div>' +
-      '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div>' +
+      '<div class="dg">' + drawIso(S.k, { crop: 10.2, pil: pil }) + '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div></div>' +
       '<div class="foot"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div>' +
       '<button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>';
     out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
@@ -179,8 +174,8 @@ function Pane(v, ph) {
 
 var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
 var NOTES = {
-  A: ["Colour", "Warm tones. Side tables are orange, storage chests are teal. Plumper, lower pillows; a recessed window with a sill; the next button sits on the back chevron’s row."],
-  B: ["Monotone", "The whole cutaway in neutral greys. Only the side tables (orange) and the storage chests (teal) carry colour, so the eye goes straight to what you are choosing."]
+  A: ["Lower pillows", "Pillows at half the height they were, still plump at the edges."],
+  B: ["Gradient pillows", "Pillows almost flat, with a soft light-to-shade gradient on top so they still read as pillows."]
 };
 var html = "";
 ["A", "B"].forEach(function (v, i) {
@@ -199,9 +194,6 @@ document.querySelectorAll("#pick button").forEach(function (b) {
     document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
   });
 });
-function setPill(p) { document.body.dataset.pill = p; document.querySelectorAll("#ctl button").forEach(function (b) { b.classList.toggle("on", b.dataset.p === String(p)); }); }
-document.querySelectorAll("#ctl button").forEach(function (b) { b.addEventListener("click", function () { setPill(b.dataset.p); }); });
-setPill((Q.match(/[?&]pill=([1-4])/) || [])[1] || 1);
 if (/[?&]guides/.test(Q)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
 </script>
 </body>
