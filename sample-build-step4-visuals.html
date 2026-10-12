@@ -36,6 +36,7 @@
 .dg .cap { display:flex; justify-content:space-between; height:15px; font-family:var(--aviano); font-weight:700; font-size:9px; line-height:15px; letter-spacing:.1em; text-transform:uppercase; color:#a89d90; }
 .dg svg { display:block; width:100%; height:auto; -webkit-mask-image:linear-gradient(90deg,#000 80%,transparent); mask-image:linear-gradient(90deg,#000 80%,transparent); }
 
+.dg.iso svg { -webkit-mask-image:none; mask-image:none; max-height:216px; margin:0 auto; }
 .foot { margin-top:auto; flex:none; display:flex; align-items:center; justify-content:space-between; }
 .foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
 .foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
@@ -126,38 +127,47 @@ function drawA(k, o) {
   return '<svg viewBox="0 0 ' + vbw + ' ' + (WFT * U + PADD * 2) + '" role="img" aria-label="' + BEDLINE[k] + '"><g transform="translate(' + PADD + ' ' + PADD + ') scale(' + U + ')">' + s + '</g></svg>';
 }
 
-/* ---------- B: a cutaway, the corner of the van drawn in 3D ---------- */
+/* ---------- B: a cutaway, the corner of the van in true isometric (30 degree axes, right angles, no lean) ----------
+   The van's length runs down-right, its width down-left. The front wall is at the back left, the road-side wall at the back right,
+   and the door side is the open, low edge nearest us. */
 function drawB(k, o) {
-  var G = geo(k), H = 4.2, KY = .5, KZ = .16, SY = .5, SZ = .85, crop = o.crop, id = uid(), s = "";
-  var P = function (x, y, z) { return [((x + KY * (WFT - y) + KZ * z) * U + PADD), ((SY * y - SZ * z + SZ * H) * U + PADD)]; };
-  var poly = function (pts, fill, extra) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width="1" stroke-linejoin="round" ' + (extra || "") + '/>'; };
+  var G = geo(k), H = 3.9, C30 = .8660254, crop = o.crop, id = uid(), s = "", T = .25, ic = o.icon;
+  var MG = o.icon ? .3 : 1.1, ox = (WFT + T) * C30 + .2 + MG, oy = H + T + .2 + MG;
+  var P = function (x, y, z) { return [((x - y) * C30 + ox) * U + PADD, ((x + y) * .5 - z + oy) * U + PADD]; };
+  var poly = function (pts, fill, extra) { return '<polygon points="' + pts.map(function (p) { return n2(p[0]) + "," + n2(p[1]); }).join(" ") + '" fill="' + fill + '" stroke="' + fill + '" stroke-width=".8" stroke-linejoin="round" ' + (extra || "") + '/>'; };
   var xz = function (y, x1, x2, z1, z2, fill) { return poly([P(x1, y, z1), P(x2, y, z1), P(x2, y, z2), P(x1, y, z2)], fill); };
   var yz = function (x, y1, y2, z1, z2, fill) { return poly([P(x, y1, z1), P(x, y2, z1), P(x, y2, z2), P(x, y1, z2)], fill); };
   var xy = function (z, x1, x2, y1, y2, fill) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill); };
   var box = function (x, y, z, l, w, h, c) { return xy(z + h, x, x + l, y, y + w, c[0]) + xz(y + w, x, x + l, z, z + h, c[1]) + yz(x + l, y, y + w, z, z + h, c[2]); };
-  var L = crop, WH = ["#F1E9DF", "#E5DCD0", "#D8CEC1"], CT = ["#F29A4B", "#D57114", "#B05A0C"], CB = ["#EDE4D6", "#D9CCB9", "#C8B8A2"], CW = ["#FFFFFF", "#EFE8DD", "#E2D8CA"];
-  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="2.2"/></filter></defs>';
-  s += xy(0, 0, L, 0, WFT, "#CDC4B8");                                    /* floor */
-  s += xz(0, 0, L, 0, H, "#F6F3EE") + yz(0, 0, WFT, 0, H, "#E4DED5");   /* road-side wall and front wall, inside faces */
-  s += xz(0, 2.2, 5.8, 1.9, 3.7, "#CFE0E8") + yz(0, 2.0, 5.5, 1.9, 3.7, "#C3D6DF");   /* windows */
-  s += xz(0, 2.2, 5.8, 3.45, 3.7, "#fff");
+  var L = crop, CT = ["#F29A4B", "#D57114", "#A8560A"], CB = ["#EDE4D6", "#D9CCB9", "#C4B49D"], CW = ["#FFFFFF", "#EFE8DD", "#DFD5C6"], WLL = ["#FFFFFF", "#EEE9E2", "#D2CABF"];
+  s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter></defs>';
+  s += xy(0, 0, L, 0, WFT, "#CFC6BA");                                                              /* floor */
+  if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(L, yy, 0); s += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="#BFB5A8" stroke-width=".7"/>'; }
+  s += box(-T, -T, 0, L + T, T, H, WLL);                                                            /* road-side wall (its inner face is the y = 0 plane) */
+  s += box(-T, 0, 0, T, WFT, H, WLL);                                                               /* front wall */
+  s += xz(0, 2.2, 5.8, 1.8, 3.5, "#CFE0E8") + xz(0, 2.2, 5.8, 3.25, 3.5, "#FFFFFF");               /* window in the road-side wall */
+  s += yz(0, 2.0, 5.6, 1.8, 3.5, "#BFD3DD") + yz(0, 2.0, 5.6, 3.25, 3.5, "#F4F8FA");               /* window in the front wall */
   var B = G.bed;
-  s += xy(0, B.x - .15, B.x + B.l + .5, B.y + .1, B.y + B.w + .35, "rgba(40,25,10,.32)").replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
+  s += xy(0, B.x - .1, B.x + B.l + .45, B.y + .1, B.y + B.w + .4, "rgba(40,25,10,.30)").replace("<polygon", '<polygon filter="url(#' + id + 'b)"');
   G.items.forEach(function (it) { if (it.y < B.y) s += box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, CT); });
   s += box(B.x, B.y, 0, B.l, B.w, 1.2, CB);
   if (G.ew) {
-    s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .22, CW) + xy(1.42, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, "#CDB89A");
+    s += box(B.x + .06, B.y + 1.1, 1.2, B.l - .12, B.w - 1.16, .22, CW) + xy(1.42, B.x + .06, B.x + B.l - .06, B.y + B.w * .5, B.y + B.w * .5 + .85, "#B79F78");
     s += box(B.x + .22, B.y + .14, 1.2, B.l / 2 - .32, .85, .45, CW) + box(B.x + B.l / 2 + .1, B.y + .14, 1.2, B.l / 2 - .32, .85, .45, CW);
   } else {
     var ph = B.w / 2 - .28;
     s += box(B.x + .95, B.y + .1, 1.2, B.l - 1.05, B.w - .2, .22, CW) + xy(1.42, B.x + B.l * .46, B.x + B.l * .46 + .95, B.y + .1, B.y + B.w - .1, "#B79F78");
     s += box(B.x + .12, B.y + .2, 1.2, .8, ph, .45, CW) + box(B.x + .12, B.y + B.w - .2 - ph, 1.2, .8, ph, .45, CW);
-    if (G.up) { var ax = B.x + B.l * .78, ay = B.y + B.w * .34, p = function (x, y) { var q = P(x, y, 1.44); return n2(q[0]) + " " + n2(q[1]); }; s += '<path d="M' + p(ax, B.y + B.w * .66) + 'L' + p(ax, ay) + 'M' + p(ax - .7, ay + .7) + 'L' + p(ax, ay) + 'L' + p(ax + .7, ay + .7) + '" fill="none" stroke="' + O + '" stroke-width="' + (o.icon ? 2 : 2.4) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
+    if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
   }
   G.items.forEach(function (it) { if (it.y >= B.y) s += box(it.x, it.y, 0, it.l, it.w, it.t === "t" ? 1.9 : 1.35, CT); });
-  s += xz(WFT, 0, L, -.6, 0, "#2B2B2B");                                  /* the dark lower wall on the door side */
-  var vbw = (L + KY * WFT + KZ * H) * U + PADD * 2, vbh = (SY * WFT + SZ * H + .6 * SZ) * U + PADD * 2;
-  return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
+  s += xz(WFT, 0, L, -.6, 0, "#2B2B2B") + yz(L, 0, WFT, -.6, 0, "#1C1C1C");                        /* the dark lower wall: door side, and the cut end */
+  if (!ic) {
+    var tag = function (txt, x, y, z, rot) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="#a89d90">' + txt + '</text>'; };
+    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
+  }
+  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T + .6 + .4 + 2 * MG) * U + PADD * 2;
+  return '<svg class="iso" viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
 }
 
 /* ---------- C: line art, the table and chest in the shared gradient ---------- */
@@ -202,9 +212,9 @@ function Pane(v, ph) {
     var cur = inG.filter(function (b) { return b.key === S.k; })[0];
     out.innerHTML =
       '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
-      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + DRAW[v](b.key, { crop: v === "B" ? 8.2 : 8.6, icon: true }) + '</button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + DRAW[v](b.key, { crop: v === "B" ? 8.4 : 8.6, icon: true }) + '</button>'; }).join("") + '</div>' +
       '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
-      '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + DRAW[v](S.k, { crop: 12.4 }) + '<div class="cap"><span></span><span>Door side</span></div></div>' +
+      (v === "B" ? '<div class="dg iso">' + DRAW[v](S.k, { crop: 10.2 }) + '</div>' : '<div class="dg"><div class="cap"><span>Front</span><span>Road side</span></div>' + DRAW[v](S.k, { crop: 12.4 }) + '<div class="cap"><span></span><span>Door side</span></div></div>') +
       '<div class="foot"><div><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div><button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>';
     out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
     out.querySelectorAll(".ic").forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
@@ -216,7 +226,7 @@ function Pane(v, ph) {
 var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
 var NOTES = {
   A: ["A · Soft plan", "Top-down, warm and finished: a plank floor, a window, soft shadows, a duvet with a throw, and the table or chest as a solid orange piece of furniture."],
-  B: ["B · Cutaway", "The corner of the van drawn in 3D, like the site’s own renders but simpler: walls, a window, the bed, and the table or chest standing beside it."],
+  B: ["B · Cutaway", "The corner of the van in true isometric (30\u00B0 axes, right angles, no lean). The front wall is at the back left, the road-side wall at the back right, and the door side is open towards you. Walls have thickness, each has a window, and the table or chest stands beside the bed."],
   C: ["C · Line art", "Fine dark lines on white, so it feels like the other icons. The only colour is the shared gradient, on the table and chest, so the eye goes straight to what you are choosing."]
 };
 var html = "";
