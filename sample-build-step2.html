@@ -54,7 +54,7 @@ var SIZES = [
    caps of the first and last bars flush to the margins (x = 3.5 .. 323.5). */
 var x = function (ft) { return 3.5 + (ft - 17.75) / 6.25 * 320; };
 /* THE DISCS are spread evenly from margin to margin (equal gaps) and climb in equal steps, Compact lowest.
-   Their true lengths are carried by the leader lines down to the ruler. */
+   Their true lengths are on the ruler below, in the same left-to-right order. */
 var D = 88, GAP = (327 - 3 * D) / 2;
 var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i], d: D, s: [50, 56, 60][i], bar: x(z.mid) }; });
 var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 448, RB = 64, ry = 26, tick = "";
@@ -67,10 +67,8 @@ var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 448, RB = 64, ry = 26, tic
   tick += '<line x1="' + px + '" x2="' + px + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/>' + lab;
 });
 var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
-/* leader lines: from under each label to the middle of that size's bar on the ruler */
-var conn = P.map(function (p) { return '<line x1="' + p.cx + '" x2="' + p.bar + '" y1="' + (p.t + p.d + 8 + 18 + 17 + 5) + '" y2="' + (H - RB + ry - 8) + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
 document.getElementById("wrap").innerHTML =
-  '<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 ' + H + '" aria-hidden="true">' + conn + '<g transform="translate(0 ' + (H - RB) + ')">' + tick + bars + '</g></svg>' +
+  '<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + tick + bars + '</g></svg>' +
   SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + '<img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
 
 var rd = document.querySelector(".road");
