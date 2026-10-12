@@ -64,7 +64,7 @@ body { --pc:#111; --sel:var(--o); }
 </style>
 </head>
 <body>
-<div class="pick" id="pick"><button class="on" data-v="A">Lower pillows</button><button data-v="B">Gradient pillows</button></div>
+<div class="pick" id="pick"><button class="on" data-v="A">Fade</button><button data-v="B">Progressive</button><button data-v="C">Heavy</button></div>
 <div class="stage" id="stage"></div>
 
 <script src="assets/js/build-data.js?v=2"></script>
@@ -111,12 +111,14 @@ function drawIso(k, o) {
   var xy = function (z, x1, x2, y1, y2, fill, sw) { return poly([P(x1, y1, z), P(x2, y1, z), P(x2, y2, z), P(x1, y2, z)], fill, sw); };
   /* sw makes the edges of a piece softer: a thick stroke in the piece's own colour rounds every corner */
   var box = function (x, y, z, l, w, h, c, sw) { return xy(z + h, x, x + l, y, y + w, c[0], sw) + xz(y + w, x, x + l, z, z + h, c[1], sw) + yz(x + l, y, y + w, z, z + h, c[2], sw); };
-  var pw = o.pil === "grad" ? { h: .05, c: ["url(#" + id + "p)", Pl.pillow[1], Pl.pillow[2]] } : { h: .14, c: Pl.pillow };      /* lower pillows, or almost flat ones shaded with a gradient */
+  var pw = { h: .06, c: ["url(#" + id + "p)", Pl.pillow[1], Pl.pillow[2]] };      /* almost flat pillows, shaded with a diagonal gradient: light at the top, dark at the bottom */
   var ZB = -.6;
   s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter>' +
-    '<radialGradient id="' + id + 'p" cx=".42" cy=".38" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F3EEE5"/><stop offset="1" stop-color="#DCD3C5"/></radialGradient></defs>';
-  s += xy(0, 0, L, 0, WFT, Pl.floor);
-  if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(L, yy, 0); s += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
+    '<linearGradient id="' + id + 'p" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".4" stop-color="#F2EDE4"/><stop offset="1" stop-color="#C9BFAF"/></linearGradient></defs>';
+  /* The floor runs on past the end of the walls (to Lf) and is blurred out there: the van carries on. The dark lower wall on the door side goes with it. */
+  var Lf = L + (ic ? 1.8 : 3.4), fl = xy(0, 0, Lf, 0, WFT, Pl.floor);
+  if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(Lf, yy, 0); fl += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
+  fl += xz(WFT, 0, Lf, ZB, 0, "#2B2B2B");
   s += box(-T, -T, 0, L + T, T, H, Pl.wall) + box(-T, 0, 0, T, WFT, H, Pl.wall);                    /* road-side wall, front wall (with thickness) */
   /* one window, in the road-side wall: an outline, the glass, and two flat streaks of reflection */
   var wp = function (pts) { return pts.map(function (p) { var q = P(p[0], 0, p[1]); return n2(q[0]) + "," + n2(q[1]); }).join(" "); };
@@ -136,18 +138,16 @@ function drawIso(k, o) {
     if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
   }
   G.items.forEach(function (it) { if (it.y >= B.y) s += piece(it); });
-  s += xz(WFT, 0, L, ZB, 0, "#2B2B2B") + yz(L, 0, WFT, ZB, 0, "#1C1C1C");                          /* the dark lower wall: door side, and the cut end */
-  /* The unlabelled side, the rear, is where the van carries on: the whole scene is blurred and faded out towards it. A sharp copy fades out
-     while a blurred copy fades in, then fades away, so the rear end dissolves instead of being cut off. */
-  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
-  var A0 = P(L - (ic ? 2.4 : 3.8), WFT / 2, 0), A1 = P(L + .15, WFT / 2, 0), gv = 'gradientUnits="userSpaceOnUse" x1="' + n2(A0[0]) + '" y1="' + n2(A0[1]) + '" x2="' + n2(A1[0]) + '" y2="' + n2(A1[1]) + '"', mr = 'x="0" y="0" width="' + n2(vbw) + '" height="' + n2(vbh) + '"';
-  var scene = s;
-  s = '<defs><g id="' + id + 'sc">' + scene + '</g>' +
-    '<filter id="' + id + 'k" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="' + (ic ? 1.1 : 3.2) + '"/></filter>' +
-    '<linearGradient id="' + id + 'gs" ' + gv + '><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="#fff"/><stop offset=".62" stop-color="#000"/></linearGradient>' +
-    '<linearGradient id="' + id + 'gb" ' + gv + '><stop offset="0" stop-color="#000"/><stop offset=".2" stop-color="#000"/><stop offset=".55" stop-color="#fff"/><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>' +
-    '<mask id="' + id + 'ms" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gs)"/></mask><mask id="' + id + 'mb" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gb)"/></mask></defs>' +
-    '<g mask="url(#' + id + 'ms)"><use href="#' + id + 'sc"/></g><g mask="url(#' + id + 'mb)"><use href="#' + id + 'sc" filter="url(#' + id + 'k)"/></g>';
+  var vbw = ((Lf + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((Lf + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
+  /* how the floor blurs out, one of three:  fade = fades to nothing, no blur   prog = sharp, then blurring, then gone   heavy = sharp, then a short stretch of strong blur, then gone */
+  var BL = { fade: { sharp: [[0, 1], [.12, 1], [1, 0]], blur: null, sd: 0 }, prog: { sharp: [[0, 1], [.1, 1], [.65, 0]], blur: [[0, 0], [.12, 0], [.5, 1], [.75, 1], [1, 0]], sd: 3.4 }, heavy: { sharp: [[0, 1], [.2, 1], [.3, 0]], blur: [[0, 0], [.2, 0], [.32, 1], [.62, 1], [1, 0]], sd: 7 } }[o.blur || "prog"];
+  var xs = L - 1.5, S0 = P(xs, WFT / 2, 0), S1 = P(Lf, WFT / 2, 0), vx = S1[0] - S0[0], vy = S1[1] - S0[1], dd = vx * .5 + vy * .866;          /* the fade runs across the van, with its contours parallel to the width, not tilted */
+  var gv = 'gradientUnits="userSpaceOnUse" x1="' + n2(S0[0]) + '" y1="' + n2(S0[1]) + '" x2="' + n2(S0[0] + dd * .5) + '" y2="' + n2(S0[1] + dd * .866) + '"', mr = 'x="-50" y="-50" width="' + n2(vbw + 100) + '" height="' + n2(vbh + 100) + '"';
+  var gstops = function (a) { return a.map(function (q) { var v = Math.round(q[1] * 255); return '<stop offset="' + q[0] + '" stop-color="rgb(' + v + ',' + v + ',' + v + ')"/>'; }).join(""); };
+  var flr = '<defs><g id="' + id + 'fl">' + fl + '</g><linearGradient id="' + id + 'gs" ' + gv + '>' + gstops(BL.sharp) + '</linearGradient><mask id="' + id + 'ms" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gs)"/></mask>' +
+    (BL.blur ? '<linearGradient id="' + id + 'gb" ' + gv + '>' + gstops(BL.blur) + '</linearGradient><mask id="' + id + 'mb" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gb)"/></mask><filter id="' + id + 'k" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="' + (ic ? BL.sd * .35 : BL.sd) + '"/></filter>' : '') + '</defs>' +
+    '<g mask="url(#' + id + 'ms)"><use href="#' + id + 'fl"/></g>' + (BL.blur ? '<g mask="url(#' + id + 'mb)"><use href="#' + id + 'fl" filter="url(#' + id + 'k)"/></g>' : '');
+  s = flr + s;
   if (!ic) {
     var tag = function (txt, x, y, z, rot, col) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="' + (col || "#a89d90") + '">' + txt + '</text>'; };
     s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
@@ -157,7 +157,7 @@ function drawIso(k, o) {
 
 /* ---------- the screen ---------- */
 function Pane(v, ph) {
-  var S = { g: null, k: null }, out = ph.querySelector(".pane"), pil = v === "B" ? "grad" : "low";
+  var S = { g: null, k: null }, out = ph.querySelector(".pane"), blur = { A: "fade", B: "prog", C: "heavy" }[v];
   var cheapest = function (list) { return list.slice().sort(function (a, b) { return a.price - b.price; })[0]; };
   S.g = cheapest(BEDS).group;
   function render() {
@@ -166,9 +166,9 @@ function Pane(v, ph) {
     var cur = inG.filter(function (b) { return b.key === S.k; })[0], gg = geo(S.k), hasT = gg.items.some(function (i) { return i.t === "t"; }), hasC = gg.items.some(function (i) { return i.t === "c"; });
     out.innerHTML =
       '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
-      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 8.4, icon: true, pil: pil }) + '</button>'; }).join("") + '</div>' +
+      '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 7.6, icon: true, blur: blur }) + '</button>'; }).join("") + '</div>' +
       '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
-      '<div class="dg">' + drawIso(S.k, { crop: 10.2, pil: pil }) + '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div></div>' +
+      '<div class="dg">' + drawIso(S.k, { crop: 9.2, blur: blur }) + '<div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div></div>' +
       '<div class="foot"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div>' +
       '<button class="go" type="button" aria-label="Choose this bed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>';
     out.querySelectorAll(".seg button").forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
@@ -180,11 +180,12 @@ function Pane(v, ph) {
 
 var VAN = '<svg class="van" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 3H28A6 6 0 0 1 34 9V15A2 2 0 0 1 32 17H4A2 2 0 0 1 2 15V5A2 2 0 0 1 4 3Z" fill="currentColor"/><rect x="8" y="6.5" width="9" height="5" rx="1.5" style="fill:var(--vcut,#fff)"/><circle cx="19" cy="18" r="3.6" stroke="currentColor" stroke-width="2" style="fill:var(--vcut,#fff)"/><path d="M34 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
 var NOTES = {
-  A: ["Lower pillows", "Pillows at half the height they were, still plump at the edges."],
-  B: ["Gradient pillows", "Pillows almost flat, with a soft light-to-shade gradient on top so they still read as pillows."]
+  A: ["Floor: fade", "The floor runs on past the walls and simply fades out. No blur."],
+  B: ["Floor: progressive blur", "The floor runs on, gets gradually blurrier with distance, and dissolves."],
+  C: ["Floor: heavy blur", "The floor stays sharp, then a short stretch of strong blur, then it dissolves."]
 };
 var html = "";
-["A", "B"].forEach(function (v, i) {
+["A", "B", "C"].forEach(function (v, i) {
   html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
     '<main class="phone ' + v + '"><header class="bar"><a class="logo" href="home.html" aria-label="Wonderland RV, home"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"></a></header>' +
     '<div class="prog" aria-label="Step 4 of 6"><div class="road"><div class="done"></div>' + VAN + '</div><div class="prow"><span class="l">Bed</span></div></div>' +
@@ -193,7 +194,7 @@ var html = "";
 });
 document.getElementById("stage").innerHTML = html;
 document.querySelectorAll(".road").forEach(function (rd, i) { if (i === 0) WLProgress.enter(rd, 3); else WLProgress.set(rd, 3); });
-["A", "B"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
+["A", "B", "C"].forEach(function (v) { Pane(v, document.querySelector(".phone." + v)); });
 document.querySelectorAll("#pick button").forEach(function (b) {
   b.addEventListener("click", function () {
     document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
