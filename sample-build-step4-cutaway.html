@@ -42,7 +42,7 @@ body { --pc:#111; --sel:var(--o); }
 .leg { position:absolute; left:0; bottom:4px; display:flex; flex-direction:column; align-items:flex-start; gap:3px; font-size:12px; line-height:16px; color:#6d645a; }
 .leg i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
 
-.foot { margin-top:auto; flex:none; padding-bottom:2px; }
+.foot { margin-top:auto; flex:none; padding-bottom:2px; text-align:right; }
 .foot .pr { line-height:24px; } .foot .pf { font-size:14px; color:#666; margin-right:5px; } .foot .pv { font-weight:700; font-size:22px; letter-spacing:-.005em; }
 .foot .fl { display:block; font-size:12px; line-height:17px; color:#8b8176; }
 /* the next button: a gradient circle with a chevron, on the same row and the same height as the back chevron, mirrored to the right margin */
@@ -112,11 +112,8 @@ function drawIso(k, o) {
   /* sw makes the edges of a piece softer: a thick stroke in the piece's own colour rounds every corner */
   var box = function (x, y, z, l, w, h, c, sw) { return xy(z + h, x, x + l, y, y + w, c[0], sw) + xz(y + w, x, x + l, z, z + h, c[1], sw) + yz(x + l, y, y + w, z, z + h, c[2], sw); };
   var pw = o.pil === "grad" ? { h: .05, c: ["url(#" + id + "p)", Pl.pillow[1], Pl.pillow[2]] } : { h: .14, c: Pl.pillow };      /* lower pillows, or almost flat ones shaded with a gradient */
-  var ZB = ic ? -1.2 : -2.3;                                                                          /* how far the van's lower wall runs down before it fades out */
+  var ZB = -.6;
   s += '<defs><filter id="' + id + 'b" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="' + (ic ? 1 : 2.2) + '"/></filter>' +
-    '<filter id="' + id + 'k" x="-10%" y="-10%" width="120%" height="130%"><feGaussianBlur stdDeviation="' + (ic ? .8 : 2.6) + '"/></filter>' +
-    '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2B2B"/><stop offset=".22" stop-color="#2B2B2B" stop-opacity=".92"/><stop offset="1" stop-color="#2B2B2B" stop-opacity="0"/></linearGradient>' +
-    '<linearGradient id="' + id + 'e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1C1C"/><stop offset=".22" stop-color="#1C1C1C" stop-opacity=".92"/><stop offset="1" stop-color="#1C1C1C" stop-opacity="0"/></linearGradient>' +
     '<radialGradient id="' + id + 'p" cx=".42" cy=".38" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F3EEE5"/><stop offset="1" stop-color="#DCD3C5"/></radialGradient></defs>';
   s += xy(0, 0, L, 0, WFT, Pl.floor);
   if (!ic) for (var yy = .75; yy < WFT; yy += .75) { var a1 = P(0, yy, 0), a2 = P(L, yy, 0); s += '<line x1="' + n2(a1[0]) + '" y1="' + n2(a1[1]) + '" x2="' + n2(a2[0]) + '" y2="' + n2(a2[1]) + '" stroke="' + Pl.plank + '" stroke-width=".7"/>'; }
@@ -139,13 +136,22 @@ function drawIso(k, o) {
     if (G.up) { var ax = B.x + B.l * .72, ay = B.y + B.w * .5, q0 = P(ax, ay, 1.6), q1 = P(ax, ay, 3.4); s += '<path d="M' + n2(q0[0]) + ' ' + n2(q0[1]) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'M' + n2(q1[0] - 5) + ' ' + n2(q1[1] + 6) + 'L' + n2(q1[0]) + ' ' + n2(q1[1]) + 'L' + n2(q1[0] + 5) + ' ' + n2(q1[1] + 6) + '" fill="none" stroke="' + O + '" stroke-width="' + (ic ? 2 : 2.6) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
   }
   G.items.forEach(function (it) { if (it.y >= B.y) s += piece(it); });
-  /* the dark lower wall: door side, and the cut end. It runs on below the floor and fades out, blurred, to say the van carries on down. */
-  s += '<g filter="url(#' + id + 'k)">' + xz(WFT, 0, L, ZB, 0, "url(#" + id + "f)", 0) + yz(L, 0, WFT, ZB, 0, "url(#" + id + "e)", 0) + '</g>';
+  s += xz(WFT, 0, L, ZB, 0, "#2B2B2B") + yz(L, 0, WFT, ZB, 0, "#1C1C1C");                          /* the dark lower wall: door side, and the cut end */
+  /* The unlabelled side, the rear, is where the van carries on: the whole scene is blurred and faded out towards it. A sharp copy fades out
+     while a blurred copy fades in, then fades away, so the rear end dissolves instead of being cut off. */
+  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
+  var A0 = P(L - (ic ? 2.4 : 3.8), WFT / 2, 0), A1 = P(L + .15, WFT / 2, 0), gv = 'gradientUnits="userSpaceOnUse" x1="' + n2(A0[0]) + '" y1="' + n2(A0[1]) + '" x2="' + n2(A1[0]) + '" y2="' + n2(A1[1]) + '"', mr = 'x="0" y="0" width="' + n2(vbw) + '" height="' + n2(vbh) + '"';
+  var scene = s;
+  s = '<defs><g id="' + id + 'sc">' + scene + '</g>' +
+    '<filter id="' + id + 'k" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="' + (ic ? 1.1 : 3.2) + '"/></filter>' +
+    '<linearGradient id="' + id + 'gs" ' + gv + '><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="#fff"/><stop offset=".62" stop-color="#000"/></linearGradient>' +
+    '<linearGradient id="' + id + 'gb" ' + gv + '><stop offset="0" stop-color="#000"/><stop offset=".2" stop-color="#000"/><stop offset=".55" stop-color="#fff"/><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>' +
+    '<mask id="' + id + 'ms" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gs)"/></mask><mask id="' + id + 'mb" maskUnits="userSpaceOnUse" ' + mr + '><rect ' + mr + ' fill="url(#' + id + 'gb)"/></mask></defs>' +
+    '<g mask="url(#' + id + 'ms)"><use href="#' + id + 'sc"/></g><g mask="url(#' + id + 'mb)"><use href="#' + id + 'sc" filter="url(#' + id + 'k)"/></g>';
   if (!ic) {
     var tag = function (txt, x, y, z, rot, col) { var q = P(x, y, z); return '<text x="' + n2(q[0]) + '" y="' + n2(q[1]) + '" transform="rotate(' + rot + ' ' + n2(q[0]) + ' ' + n2(q[1]) + ')" text-anchor="middle" dominant-baseline="central" font-family="Aviano Sans, Trebuchet MS, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.3" fill="' + (col || "#a89d90") + '">' + txt + '</text>'; };
-    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT, -.68, 30, "#fff");
+    s += tag("ROAD SIDE", L * .5, -T - 1.1, H, 30) + tag("FRONT", -T - 1.2, WFT * .5, H, -30) + tag("DOOR SIDE", L * .5, WFT + 1.1, -.6, 30);
   }
-  var vbw = ((L + WFT + T) * C30 + .4 + 2 * MG) * U + PADD * 2, vbh = ((L + WFT) * .5 + H + T - ZB + .4 + 2 * MG) * U + PADD * 2;
   return '<svg viewBox="0 0 ' + n2(vbw) + ' ' + n2(vbh) + '" role="img" aria-label="' + BEDLINE[k] + '">' + s + '</svg>';
 }
 
