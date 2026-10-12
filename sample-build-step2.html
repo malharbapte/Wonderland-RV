@@ -10,8 +10,8 @@
    fall on a 17′–24′ ruler; range bars underneath. Original size icons from the live configurator.
    All px, no rem (HANDOFF §3). Add ?guides to see the page margins. */
 /* number line */
-.v9 .wrap { position:relative; width:327px; height:440px; }
-.v9 .p { position:absolute; display:flex; flex-direction:column; align-items:center; width:110px; text-align:center; cursor:pointer; }
+.v9 .wrap { position:relative; width:327px; height:448px; }
+.v9 .p { position:absolute; display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; } /* width = the disc; labels may run wider and stay centred under it */
 .disc { border-radius:50%; display:grid; place-items:center; }
 .ico { display:block; height:auto; filter:brightness(0) invert(1); transition:filter .42s ease; }
 .cta { --bg:var(--o); --fg:#fff; background:var(--bg); color:var(--fg); box-shadow:inset 0 0 0 2px var(--o); transition:background .42s ease, color .42s ease; }
@@ -21,7 +21,7 @@
 .p:active .ico, .p.on .ico { filter:brightness(0) invert(1); }
 .p:hover .nm, .p:focus-visible .nm { color:var(--o); }
 .p:focus-visible { outline:none; }
-.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; font-size:14px; line-height:18px; margin-top:8px; transition:color .42s ease; }
+.nm { display:block; white-space:nowrap; font-family:var(--aviano); font-weight:900; text-transform:uppercase; font-size:14px; line-height:18px; margin-top:8px; transition:color .42s ease; }
 .ln { display:block; font-size:12px; line-height:17px; color:#444; white-space:nowrap; }
 .v9 .tk { font-family:var(--gordita); font-size:11px; fill:#888; text-anchor:middle; }
 
@@ -50,20 +50,28 @@ var SIZES = [
   { k: "mid",      nm: "Mid-size", ln: "20\u203206\u2033 \u2013 22\u2032", mid: 21.25,  w: 85, src: "assets/img/build/size-mid.png" },
   { k: "spacious", nm: "Spacious", ln: "22\u203206\u2033 \u2013 24\u2032", mid: 23.25,  w: 94, src: "assets/img/build/size-spacious.png" }
 ];
-/* ruler: 17′09″ (17.75 ft) to 24′ maps to x = 22 .. 305, so the scale starts where Compact starts */
-var x = function (ft) { return 22 + (ft - 17.75) / 6.25 * 283; };
-/* ascending: Compact lowest, Mid-size in the middle, Spacious highest */
-var P = [{ cx: x(SIZES[0].mid), t: 232, d: 88, s: 50 }, { cx: x(SIZES[1].mid), t: 118, d: 88, s: 56 }, { cx: x(SIZES[2].mid), t: 4, d: 88, s: 60 }];
-var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 440, RB = 56, ry = 26, tick = "";
-/* ticks: the first is 17\u203209\u2033 itself; whole feet follow (18\u2032 is left out, it sits 11px from the first tick) */
-[[17.75, "17\u203209\u2033"], [19, "19\u2032"], [20, "20\u2032"], [21, "21\u2032"], [22, "22\u2032"], [23, "23\u2032"], [24, "24\u2032"]].forEach(function (t) {
-  tick += '<line x1="' + x(t[0]) + '" x2="' + x(t[0]) + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/><text class="tk" x="' + x(t[0]) + '" y="' + (ry + 22) + '">' + t[1] + '</text>';
+/* THE RULER is true to scale: 17\u203209\u2033 (17.75 ft) to 24\u2032 runs from margin to margin, with the round
+   caps of the first and last bars flush to the margins (x = 3.5 .. 323.5). */
+var x = function (ft) { return 3.5 + (ft - 17.75) / 6.25 * 320; };
+/* THE DISCS are spread evenly from margin to margin (equal gaps) and climb in equal steps, Compact lowest.
+   Their true lengths are carried by the leader lines down to the ruler. */
+var D = 88, GAP = (327 - 3 * D) / 2;
+var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i], d: D, s: [50, 56, 60][i], bar: x(z.mid) }; });
+var segs = [[17.75, 20], [20.5, 22], [22.5, 24]], H = 448, RB = 64, ry = 26, tick = "";
+/* ticks: the first is 17\u203209\u2033 itself, set on two lines at the margin to save width; whole feet follow */
+[[17.75, null], [19, "19\u2032"], [20, "20\u2032"], [21, "21\u2032"], [22, "22\u2032"], [23, "23\u2032"], [24, "24\u2032"]].forEach(function (t) {
+  var px = x(t[0]), lab;
+  if (t[1] === null) lab = '<text class="tk" style="text-anchor:start" x="0" y="' + (ry + 22) + '">17\u2032</text><text class="tk" style="text-anchor:start" x="0" y="' + (ry + 34) + '">09\u2033</text>';
+  else if (t[0] === 24) lab = '<text class="tk" style="text-anchor:end" x="327" y="' + (ry + 22) + '">' + t[1] + '</text>';
+  else lab = '<text class="tk" x="' + px + '" y="' + (ry + 22) + '">' + t[1] + '</text>';
+  tick += '<line x1="' + px + '" x2="' + px + '" y1="' + (ry - 5) + '" y2="' + (ry + 5) + '" stroke="#ccc" stroke-width="1.5"/>' + lab;
 });
 var bars = segs.map(function (s) { return '<line x1="' + x(s[0]) + '" x2="' + x(s[1]) + '" y1="' + ry + '" y2="' + ry + '" stroke="#D57114" stroke-width="7" stroke-linecap="round"/>'; }).join("");
-var conn = P.map(function (p) { return '<line x1="' + p.cx + '" x2="' + p.cx + '" y1="' + (p.t + p.d + 44) + '" y2="' + (H - RB + ry - 8) + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
+/* leader lines: from under each label to the middle of that size's bar on the ruler */
+var conn = P.map(function (p) { return '<line x1="' + p.cx + '" x2="' + p.bar + '" y1="' + (p.t + p.d + 8 + 18 + 17 + 5) + '" y2="' + (H - RB + ry - 8) + '" stroke="#d4d4d4" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>'; }).join("");
 document.getElementById("wrap").innerHTML =
   '<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 327 ' + H + '" aria-hidden="true">' + conn + '<g transform="translate(0 ' + (H - RB) + ')">' + tick + bars + '</g></svg>' +
-  SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - 55) + 'px;top:' + p.t + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
+  SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px">' + '<img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("");
 
 var rd = document.querySelector(".road");
 rd.querySelector(".van").style.left = "calc((100% - 40px) * 0.2)";
