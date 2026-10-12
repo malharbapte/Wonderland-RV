@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample — Build step 3 (model), three options</title>
+<link rel="stylesheet" href="assets/css/build-shell.css?v=1">
+<style>
+/* Throwaway sample: Step 3 (model), three treatments. Shared shell (margins, header, road, chevron).
+   Models, copy and "priced from" figures are from the live configurator for Couple's + Compact
+   (GST inclusive). Photos are the site's own cut-outs, cropped to the van. All px, no rem.
+   Add ?guides for margins; add ?unavailable to preview a model that isn't offered for the chosen size. */
+.stage { display:flex; flex-wrap:wrap; justify-content:center; gap:40px 32px; padding:24px 16px 48px; }
+.slot > h2 { font-family:var(--aviano); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+.slot > h2 small { display:block; font-family:var(--gordita); font-weight:400; font-size:12px; letter-spacing:0; text-transform:none; color:#555; margin-top:2px; max-width:375px; }
+.slot .phone { margin:0; }
+
+/* the disc with the van popping out of it */
+.disc { position:relative; flex:none; border-radius:50%; }
+.cta { --bg:var(--o); background:var(--bg); box-shadow:inset 0 0 0 2px var(--o); transition:background .42s ease; }
+.opt:hover .cta, .opt:focus-visible .cta { --bg:#fff; }
+.opt:active .cta, .opt.on .cta { --bg:var(--o); }
+.opt:focus-visible { outline:none; }
+.mv { position:absolute; left:50%; top:50%; height:auto; max-width:none; pointer-events:none;
+       transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny) + 3px)); filter:drop-shadow(0 6px 6px rgba(0,0,0,.22)); }
+.nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; transition:color .42s ease; }
+.pr { display:block; color:#222; }
+.tr { display:block; color:#666; }
+.opt:hover .nm, .opt:focus-visible .nm { color:var(--o); }
+.opt { cursor:pointer; text-align:center; }
+
+/* a model that isn't offered for this size: quiet, not tappable, and says why */
+.opt.off { cursor:default; pointer-events:none; }
+.opt.off .cta { --bg:#e3e0dc; box-shadow:none; }
+.opt.off .mv { filter:grayscale(1) opacity(.45); }
+.opt.off .nm { color:#aaa; }
+.opt.off .pr, .opt.off .tr { color:#999; }
+
+/* A: carousel, one model at a time in a big disc */
+.A .car { position:relative; width:327px; }
+.A .rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; }
+.A .rail::-webkit-scrollbar { display:none; }
+.A .slide { flex:none; width:327px; scroll-snap-align:center; scroll-snap-stop:always; display:flex; flex-direction:column; align-items:center; }
+.A .opt { display:flex; flex-direction:column; align-items:center; width:100%; }
+.A .disc { width:188px; height:188px; margin:26px 0 0; }
+.A .mv { width:288px; }
+.A .nm { font-size:28px; line-height:32px; margin-top:30px; }
+.A .pr { font-size:15px; line-height:22px; margin-top:4px; }
+.A .tr { font-size:13px; line-height:19px; margin-top:6px; max-width:270px; }
+.A .nav { position:absolute; bottom:-20px; width:44px; height:48px; display:grid; place-items:center; color:var(--ink); }
+.A .nav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.A .nav:hover { color:var(--o); }
+.A .nav.p { left:-8px; } .A .nav.n { right:-8px; }
+.A .dots { display:flex; gap:8px; justify-content:center; margin-top:22px; }
+.A .dots i { width:8px; height:8px; border-radius:4px; background:var(--line); transition:all .35s ease; }
+.A .dots i.on { width:26px; background:var(--o); }
+
+/* B: all four at once as a 2 x 2 */
+.B .grid { width:327px; display:grid; grid-template-columns:1fr 1fr; gap:18px 14px; }
+.B .opt { display:flex; flex-direction:column; align-items:center; }
+.B .disc { width:120px; height:120px; }
+.B .mv { width:140px; }
+.B .nm { font-size:16px; line-height:20px; margin-top:10px; }
+.B .pr { font-size:13px; line-height:18px; margin-top:2px; }
+.B .tr { font-size:12px; line-height:17px; margin-top:4px; max-width:150px; }
+
+/* C: type-first list, the discs at the right edge */
+.C .list { width:327px; }
+.C .opt { display:flex; flex-direction:row-reverse; align-items:center; gap:16px; width:100%; text-align:left; padding:10px 0; border-top:1px solid #eee; }
+.C .tx { flex:1; min-width:0; }
+.C .opt:first-child { border-top:0; }
+.C .disc { width:84px; height:84px; margin-right:16px; } /* the van breaks out of the disc, so the disc sits in from the margin and the van ends on it */
+.C .mv { width:106px; }
+.C .nm { font-size:26px; line-height:30px; }
+.C .pr { font-size:14px; line-height:20px; margin-top:1px; }
+.C .tr { font-size:12px; line-height:17px; margin-top:2px; max-width:212px; }
+
+.pick { display:none; }
+@media (max-width:900px) {
+  .stage { display:block; padding:0; }
+  .pick { display:flex; height:36px; background:#111; }
+  .pick button { flex:1; color:#fff; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-align:center; opacity:.55; }
+  .pick button.on { opacity:1; box-shadow:inset 0 -3px var(--orange); }
+  .slot { display:none; } .slot.show { display:block; }
+  .slot > h2 { display:none; }
+  .slot .phone { height:calc(100dvh - 36px); }
+}
+</style>
+</head>
+<body>
+<div class="pick" id="pick"><button class="on" data-v="A">A · Carousel</button><button data-v="B">B · Grid</button><button data-v="C">C · List</button></div>
+<div class="stage" id="stage"></div>
+
+<script>
+/* Live configurator data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
+   ink = where the photo's visual weight sits relative to its box, as % of width and height (measured
+   from the cut-out), used to centre it optically in the disc. */
+var MODELS = [
+  { k: "xtr",    nm: "XTR",    price: 195701.21, tr: "Remote desert tracks and rugged mountain trails.",       ink: [-2.6, -7.0] },
+  { k: "solara", nm: "Solara", price: 162279.87, tr: "Composite-built, with every creature comfort.",           ink: [-4.8, -4.6] },
+  { k: "hornet", nm: "Hornet", price: 151175.87, tr: "Rocky trails and deep bush tracks.",                      ink: [-2.9, -7.1] },
+  { k: "amaroo", nm: "Amaroo", price: 127288.44, tr: "Well-maintained dirt roads and light off-road tracks.",   ink: [-4.6, -5.6] }
+];
+var UNAVAILABLE = /[?&]unavailable/.test(location.search) ? "solara" : null;
+var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+
+function van(m, w) {
+  /* optical nudge: the weight sits left/up of the box centre, so shift right/down by that share of the displayed size */
+  var h = w * ({ xtr: 343, solara: 386, hornet: 343, amaroo: 327 }[m.k]) / 900;
+  return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px">';
+}
+function opt(m, w) {
+  var off = m.k === UNAVAILABLE;
+  return '<button class="opt' + (off ? ' off' : '') + '" data-k="' + m.k + '"' + (off ? ' aria-disabled="true" tabindex="-1"' : '') + '><span class="disc cta">' + van(m, w) + '</span>' +
+    '<span class="tx"><span class="nm">' + m.nm + '</span><span class="pr">' + (off ? 'Not offered in this size' : 'From ' + fmt(m.price)) + '</span><span class="tr">' + m.tr + '</span></span></button>';
+}
+var VIEW = {
+  A: function () { return '<div class="car"><div class="rail">' + MODELS.map(function (m) { return '<div class="slide">' + opt(m, 288) + '</div>'; }).join("") + '</div>' +
+    '<button class="nav p" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="nav n" type="button" aria-label="Next model"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
+    '<div class="dots">' + MODELS.map(function (_, i) { return '<i' + (i === 0 ? ' class="on"' : '') + '></i>'; }).join("") + '</div></div>'; },
+  B: function () { return '<div class="grid">' + MODELS.map(function (m) { return opt(m, 140); }).join("") + '</div>'; },
+  C: function () { return '<div class="list">' + MODELS.map(function (m) { return opt(m, 106); }).join("") + '</div>'; }
+};
+var NOTES = {
+  A: ["A · Carousel", "One model at a time in a big disc with the van breaking out of it. Swipe or use the chevrons."],
+  B: ["B · Grid", "All four at once, two by two."],
+  C: ["C · List", "Names set big with the price and terrain beside a small disc, hairlines between rows (the Step 2 #10 feel)."]
+};
+var VAN_CHROME = '<svg class="vanr" viewBox="0 0 40 22" aria-hidden="true"><path d="M2 3h26a6 6 0 0 1 6 6v8H2z" fill="#D57114"/><rect x="8" y="6.5" width="9" height="5" rx="1" fill="#fff"/><circle cx="19" cy="18" r="3.6" fill="#fff" stroke="#D57114" stroke-width="2"/><path d="M34 14h5" stroke="#D57114" stroke-width="2" stroke-linecap="round"/></svg>';
+var html = "";
+["A", "B", "C"].forEach(function (v, i) {
+  html += '<div class="slot' + (i === 0 ? ' show' : '') + '" data-v="' + v + '"><h2>' + NOTES[v][0] + '<small>' + NOTES[v][1] + '</small></h2>' +
+    '<main class="phone ' + v + '"><header class="bar"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><span class="x"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2l14 14M16 2L2 16" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg></span></header>' +
+    '<div class="prog" aria-label="Step 3 of 6"><div class="road"><div class="done"></div>' + VAN_CHROME.replace('class="vanr"', 'class="van"') + '</div><div class="prow"><span class="l">Model</span><span class="r">3 / 6</span></div></div>' +
+    '<div class="body"><h1><span style="white-space:nowrap">Where will you</span> <span style="white-space:nowrap">take it?</span></h1><div class="content">' + VIEW[v]() + '</div></div>' +
+    '<a class="back" href="sample-build-step2.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a></main></div>';
+});
+document.getElementById("stage").innerHTML = html;
+
+/* progress at step 3 of 6: 2/5 of the way along the road */
+document.querySelectorAll(".road").forEach(function (r) {
+  r.querySelector(".van").style.left = "calc((100% - 40px) * 0.4)";
+  r.querySelector(".done").style.width = "calc((100% - 40px) * 0.4 + 24px)";
+});
+
+/* carousel */
+(function () {
+  var ph = document.querySelector(".phone.A"), r = ph.querySelector(".rail"), ds = ph.querySelectorAll(".dots i");
+  function upd() { var i = Math.round(r.scrollLeft / 327); ds.forEach(function (d, j) { d.classList.toggle("on", j === i); }); }
+  r.addEventListener("scroll", upd); setInterval(upd, 250);
+  ph.querySelector(".nav.p").addEventListener("click", function () { r.scrollBy({ left: -327, behavior: "smooth" }); });
+  ph.querySelector(".nav.n").addEventListener("click", function () { r.scrollBy({ left: 327, behavior: "smooth" }); });
+})();
+
+document.querySelectorAll(".opt").forEach(function (b) {
+  b.addEventListener("click", function () { b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+});
+document.querySelectorAll("#pick button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#pick button").forEach(function (q) { q.classList.toggle("on", q === b); });
+    document.querySelectorAll(".slot").forEach(function (s) { s.classList.toggle("show", s.dataset.v === b.dataset.v); });
+  });
+});
+if (/[?&]guides/.test(location.search)) document.querySelectorAll(".phone").forEach(function (p) { p.classList.add("guides"); });
+</script>
+</body>
+</html>
