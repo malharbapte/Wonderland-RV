@@ -6,28 +6,15 @@
 <title>Sample — Build step 3 (model)</title>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=2">
 <style>
-/* Throwaway sample: Step 3 (model), the chosen "hero and dock" layout, with the requested changes:
-   gradient options (switch with the swatches), bold larger price, and the website's range labels in place
-   of the descriptions. Shared shell for margins and chrome. Data from the live configurator (Couple's +
-   Compact, GST inclusive). All px, no rem. ?guides shows margins, ?unavailable previews Solara as not offered,
-   ?g=1..7 opens a gradient. */
+/* Throwaway sample: Step 3 (model), hero and dock, Dusk gradient. The hero shows the model in focus; the
+   dock below holds the OTHER models. Tapping a dock circle pops it up out of the dock into the hero spot while
+   the previous hero drops into the slot it left. Tap the hero to choose. Shared shell for margins and chrome.
+   Data from the live configurator (Couple's + Compact, GST inclusive). All px, no rem.
+   ?guides shows margins   ?unavailable previews Solara as not offered
+   ?dockprice adds a small price under each dock circle   ?hint adds a "Tap to choose" line under the hero. */
 
-/* gradient switcher: outside the phone on desktop, a strip above it on a phone */
-.gr { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; padding:20px 16px 0; }
-.gr .sw { width:40px; height:40px; border-radius:50%; box-shadow:0 0 0 2px #d9d9d9 inset; cursor:pointer; position:relative; }
-.gr .sw.on { box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--o); }
-.gr .nm2 { flex-basis:100%; text-align:center; font-family:var(--aviano); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
-.gr .val { flex-basis:100%; text-align:center; font-family:var(--gordita); font-size:11px; color:#555; word-break:break-all; max-width:560px; margin:0 auto; }
-@media (max-width:900px) {
-  .gr { background:#111; color:#fff; padding:8px 12px 6px; gap:8px; flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; }
-  .gr .sw { flex:none; width:30px; height:30px; box-shadow:0 0 0 2px #444 inset; }
-  .gr .sw.on { box-shadow:0 0 0 2px #111, 0 0 0 4px #fff; }
-  .gr .nm2, .gr .val { display:none; }
-  .phone { height:calc(100dvh - 46px); }
-}
-
-/* the disc: white underneath, the gradient on a layer that fades on hover; the van breaks out of it */
-:root { --grad: radial-gradient(circle at 30% 24%, #F4A860 0%, #DC7B1E 42%, #BC590B 100%); }
+/* the disc: white underneath, the Dusk gradient on a layer that fades on hover; the van breaks out of it */
+:root { --grad: linear-gradient(180deg, #FFC47F 0%, #E37921 52%, #B04C07 100%); }
 .disc { position:relative; flex:none; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px var(--o); }
 .disc::before { content:""; position:absolute; inset:0; border-radius:50%; background:var(--grad); transition:opacity .42s ease; }
 .hov:hover .disc::before, .hov:focus-visible .disc::before { opacity:0; }
@@ -37,6 +24,7 @@
       transform:translate(calc(-50% + var(--nx)), calc(-50% + var(--ny) + 3px)); filter:drop-shadow(0 6px 6px rgba(0,0,0,.22)); }
 .hov { cursor:pointer; text-align:center; }
 
+.content { position:relative; }
 .hero { display:flex; flex-direction:column; align-items:center; }
 .hero .disc { display:block; width:184px; height:184px; margin:0 auto; }
 .nm { display:block; font-family:var(--aviano); font-weight:900; text-transform:uppercase; transition:color .42s ease; }
@@ -49,24 +37,26 @@
 .pr.na { font-size:14px; color:#999; }
 /* the website's range label */
 .tag { display:block; margin-top:6px; font-family:var(--aviano); font-weight:700; font-size:12px; line-height:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--o); }
+.cue { display:none; margin-top:8px; font-size:12px; line-height:17px; color:#888; }
+.hint .cue { display:block; }
 
-.dock { display:flex; gap:14px; justify-content:center; margin-top:26px; }
-.mini { display:flex; flex-direction:column; align-items:center; width:64px; cursor:pointer; }
-.mini .disc { width:60px; height:60px; transition:box-shadow .3s ease; }
-.mini.sel .disc { box-shadow:inset 0 0 0 2px var(--o), 0 0 0 3px #fff, 0 0 0 5px var(--o); }
-.mini .nm { font-size:10px; line-height:14px; margin-top:9px; }
-.mini.sel .nm { color:var(--o); }
+/* the dock holds the other three models */
+.dock { display:flex; gap:26px; justify-content:center; margin-top:26px; }
+.mini { display:flex; flex-direction:column; align-items:center; width:78px; cursor:pointer; }
+.mini .disc { width:66px; height:66px; }
+.mini .nm { font-size:10px; line-height:14px; margin-top:10px; }
+.mini .mp { display:none; font-family:var(--gordita); font-weight:700; font-size:11px; line-height:15px; color:#444; }
+.dockprice .mini .mp { display:block; }
+.mini.off .disc { background:#ebe8e4; box-shadow:none; } .mini.off .disc::before { opacity:0; }
+.mini.off .mv { filter:grayscale(1) opacity(.45); } .mini.off .nm { color:#aaa; } .mini.off { cursor:default; }
+.hero.off .disc { background:#ebe8e4; box-shadow:none; } .hero.off .disc::before { opacity:0; } .hero.off .mv { filter:grayscale(1) opacity(.45); }
 
-/* a model that isn't offered for this size */
-.mini.off .disc, .hero.off .disc { background:#ebe8e4; box-shadow:none; }
-.mini.off .disc::before, .hero.off .disc::before { opacity:0; }
-.mini.off .mv, .hero.off .mv { filter:grayscale(1) opacity(.45); }
-.hero.off { pointer-events:none; } .hero.off .nm, .hero.off .tag { color:#aaa; }
+/* the flying copies used for the pop; they sit above everything and never take taps */
+.fly { position:absolute; z-index:6; pointer-events:none; }
+.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 </style>
 </head>
 <body>
-
-<div class="gr" id="gr"></div>
 
 <main class="phone" id="phone">
   <header class="bar">
@@ -79,16 +69,21 @@
   </div>
   <div class="body">
     <h1><span style="white-space:nowrap">Where will you</span> <span style="white-space:nowrap">take it?</span></h1>
-    <div class="content"><div class="hero" id="hero"></div><div class="dock" id="dock"></div></div>
+    <div class="content" id="content">
+      <div class="hero" id="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center">
+        <span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="pr" id="hPr"></span><span class="tag" id="hTag"></span><span class="cue">Tap to choose</span></button></div>
+      <div class="dock" id="dock"></div>
+    </div>
   </div>
   <a class="back" href="sample-build-step2.html" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+  <div class="sr" id="live" aria-live="polite"></div>
 </main>
 
 <script>
 /* Live data for Couple's + Compact (price_inc_gst, lowest across bed options), read 2026-10-12.
-   tag = the range label from the website: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the
-   site as written; Solara is "Composite off-road" there and XTR "Extreme off-road". ink = where the photo's visual
-   weight sits in its box (% of width/height), for optical centring. */
+   tag = the range label: Amaroo "Classic off-road" and Hornet "Rugged off-road" are on the website as written;
+   Solara ("Composite off-road") and XTR ("Extreme off-road") are mapped by inference. ink = where the photo's visual
+   weight sits in its box (% of width / height) for optical centring. */
 var MODELS = [
   { k: "xtr",    nm: "XTR",    price: 195701.21, tag: "Complete Offroad – Flagship",     ink: [-2.6, -7.0], H: 343 },
   { k: "solara", nm: "Solara", price: 162279.87, tag: "Luxury Offroad – Full Composite", ink: [-4.8, -4.6], H: 386 },
@@ -96,61 +91,123 @@ var MODELS = [
   { k: "amaroo", nm: "Amaroo", price: 127288.44, tag: "Classic Offroad",                      ink: [-4.6, -5.6], H: 327 }
 ];
 var BY = {}; MODELS.forEach(function (m) { BY[m.k] = m; });
-var UNAVAILABLE = /[?&]unavailable/.test(location.search) ? "solara" : null;
+var Q = location.search;
+var UNAVAILABLE = /[?&]unavailable/.test(Q) ? "solara" : null;
 var off = function (m) { return m.k === UNAVAILABLE; };
 var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+var HERO_W = 266, MINI_W = 80, DUR_UP = 600, DUR_DOWN = 460;
+
 function mv(m, w) {
   var h = w * m.H / 900;
   return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px">';
 }
+/* the van's transform for a given width, as a literal (used while animating the van's size) */
+function vanTf(m, w) { var h = w * m.H / 900; return "translate(calc(-50% + " + (-m.ink[0] / 100 * w).toFixed(2) + "px), calc(-50% + " + ((-m.ink[1] / 100 * h) + 3).toFixed(2) + "px))"; }
 
-/* gradient options */
-var GRADS = [
-  { n: "Glow",           css: "radial-gradient(circle at 30% 24%, #F4A860 0%, #DC7B1E 42%, #BC590B 100%)",  note: "Radial, lit from the top left. The first version." },
-  { n: "Diagonal",       css: "linear-gradient(150deg, #F7B26A 0%, #D57114 55%, #A4500A 100%)",             note: "A clean diagonal sweep, light to deep." },
-  { n: "Dome",           css: "radial-gradient(circle at 50% 0%, #F8C896 0%, #E38A2C 46%, #BF5F0D 100%)",   note: "Lit from straight above, like a dome." },
-  { n: "Dusk",           css: "linear-gradient(180deg, #FFC47F 0%, #E37921 52%, #B04C07 100%)",             note: "Vertical, warm sky down to deep orange." },
-  { n: "Sheen",          css: "conic-gradient(from 200deg at 50% 50%, #D57114, #F2A25A, #D57114 38%, #B85A0C 62%, #E58A33 82%, #D57114)", note: "A brushed-metal sheen that sweeps round the disc." },
-  { n: "Vignette",       css: "radial-gradient(circle at 50% 56%, #F6AE66 0%, #D57114 58%, #98450A 100%)",  note: "Light centre, dark edges, so the van pops." },
-  { n: "Sand to orange", css: "linear-gradient(135deg, #F3D5B8 0%, #E49A55 52%, #C9620C 100%)",             note: "The same sand-to-orange as the Step 2 scale." }
-];
-var gi = Math.max(0, Math.min(6, (parseInt((location.search.match(/[?&]g=(\d)/) || [])[1], 10) || 1) - 1));
-function setGrad(i) {
-  gi = i; document.documentElement.style.setProperty("--grad", GRADS[i].css);
-  document.querySelectorAll(".sw").forEach(function (s, j) { s.classList.toggle("on", j === i); });
-  var n = document.getElementById("gname"), v = document.getElementById("gval");
-  if (n) n.textContent = (i + 1) + " · " + GRADS[i].n + " — " + GRADS[i].note;
-  if (v) v.textContent = GRADS[i].css;
-}
-var gr = document.getElementById("gr");
-GRADS.forEach(function (g, i) {
-  var b = document.createElement("button"); b.className = "sw"; b.type = "button"; b.title = (i + 1) + " " + g.n; b.setAttribute("aria-label", "Gradient " + (i + 1) + ": " + g.n);
-  b.style.background = g.css; b.addEventListener("click", function () { setGrad(i); }); gr.appendChild(b);
-});
-gr.insertAdjacentHTML("beforeend", '<div class="nm2" id="gname"></div><div class="val" id="gval"></div>');
+var content = document.getElementById("content"), hero = document.getElementById("hero"), dock = document.getElementById("dock");
+var heroDisc = document.getElementById("heroDisc"), hNm = document.getElementById("hNm"), hPr = document.getElementById("hPr"), hTag = document.getElementById("hTag");
+var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+var heroK = MODELS.filter(function (m) { return !off(m); })[0].k, busy = false;
+if (/[?&]dockprice/.test(Q)) content.classList.add("dockprice");
+if (/[?&]hint/.test(Q)) content.classList.add("hint");
 
-/* hero and dock */
-var first = MODELS.filter(function (m) { return !off(m); })[0];
-document.getElementById("dock").innerHTML = MODELS.map(function (m) {
-  return '<button class="mini' + (off(m) ? ' off' : '') + (m === first ? ' sel' : '') + '" type="button" data-k="' + m.k + '"' + (off(m) ? ' aria-disabled="true" tabindex="-1"' : '') + '><span class="disc hov">' + mv(m, 72) + '</span><span class="nm">' + m.nm + '</span></button>';
-}).join("");
-function showModel(k) {
-  var m = BY[k], hero = document.getElementById("hero");
-  document.querySelectorAll(".mini").forEach(function (b) { b.classList.toggle("sel", b.dataset.k === k); });
-  hero.classList.toggle("off", off(m));
-  hero.innerHTML = '<button class="hov" type="button" data-choose="' + m.k + '" style="display:flex;flex-direction:column;align-items:center"><span class="disc">' + mv(m, 266) + '</span><span class="nm">' + m.nm + '</span>' +
-    (off(m) ? '<span class="pr na">Not offered in this size</span>' : '<span class="pr"><span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span></span>') +
-    '<span class="tag">' + m.tag + '</span></button>';
-  hero.querySelector("[data-choose]").addEventListener("click", function () { var b = this; b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+function setHeroText(m) {
+  hNm.textContent = m.nm; hTag.textContent = m.tag;
+  hPr.className = "pr" + (off(m) ? " na" : "");
+  hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>';
 }
-document.querySelectorAll(".mini").forEach(function (b) { b.addEventListener("click", function () { if (!b.classList.contains("off")) showModel(b.dataset.k); }); });
-showModel(first.k);
-setGrad(gi);
+function setHero(k) { var m = BY[k]; heroK = k; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); document.getElementById("heroBtn").dataset.choose = k; }
+function miniHTML(m) {
+  return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '"' + (off(m) ? ' aria-disabled="true"' : '') + ' aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '">' +
+    '<span class="disc hov">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>';
+}
+function renderDock() { dock.innerHTML = MODELS.filter(function (m) { return m.k !== heroK; }).map(miniHTML).join(""); wireDock(); }
+function wireDock() {
+  dock.querySelectorAll(".mini").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.classList.contains("off")) { if (b.animate && !reduce) b.animate([{ transform: "translateX(0)" }, { transform: "translateX(-5px)" }, { transform: "translateX(5px)" }, { transform: "translateX(-3px)" }, { transform: "translateX(0)" }], { duration: 300 }); return; }
+      promote(b);
+    });
+  });
+}
+
+/* position of an element inside .content, so the flying copies can be placed over it */
+function rectIn(el) { var r = el.getBoundingClientRect(), c = content.getBoundingClientRect(); return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height }; }
+function flier(m, r, vw) { var d = document.createElement("span"); d.className = "disc fly"; d.style.cssText = "left:" + r.x + "px;top:" + r.y + "px;width:" + r.w + "px;height:" + r.h + "px"; d.innerHTML = mv(m, vw); content.appendChild(d); return d; }
+function box(r, s, lift) { var w = r.w * s, h = r.h * s; return { left: (r.x + (r.w - w) / 2) + "px", top: (r.y + (r.h - h) / 2 - (lift || 0)) + "px", width: w + "px", height: h + "px" }; }
+
+/* the pop: the chosen circle leaves the dock, overshoots on the way up, settles into the hero spot */
+function promote(btn) {
+  if (busy || btn.dataset.k === heroK) return;
+  var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK];
+  var slotDisc = btn.querySelector(".disc"), A = rectIn(slotDisc), B = rectIn(heroDisc);
+  busy = true;
+
+  /* the new state goes in underneath straight away; the real discs stay hidden until the copies land */
+  var texts = [hNm, hPr, hTag];
+  btn.dataset.k = oldK;
+  btn.classList.toggle("off", off(om));
+  btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
+  slotDisc.innerHTML = mv(om, MINI_W); btn.querySelector(".nm").textContent = om.nm; btn.querySelector(".mp").textContent = fmt(om.price);
+  setHero(newK);
+  heroDisc.style.visibility = "hidden"; slotDisc.style.visibility = "hidden";
+
+  var done = function () {
+    if (!busy) return; busy = false;
+    content.querySelectorAll(".fly").forEach(function (f) { f.remove(); });
+    heroDisc.style.visibility = ""; slotDisc.style.visibility = "";
+    document.getElementById("live").textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected.";
+  };
+  if (reduce || !heroDisc.animate) { done(); return; }
+
+  /* up: from the dock slot to the hero spot, with an overshoot, a settle and a lift in shadow */
+  var up = flier(nm, A, MINI_W), upImg = up.querySelector(".mv");
+  var s1 = box(B, 1.1, 16), s2 = box(B, 0.97, 0), s3 = box(B, 1, 0);
+  var fromBox = { left: A.x + "px", top: A.y + "px", width: A.w + "px", height: A.h + "px" };
+  up.animate([
+    Object.assign({ offset: 0, filter: "drop-shadow(0 0 0 rgba(0,0,0,0))", easing: "cubic-bezier(.2,.8,.2,1)" }, fromBox),
+    Object.assign({ offset: .55, filter: "drop-shadow(0 18px 16px rgba(0,0,0,.22))", easing: "ease-in-out" }, s1),
+    Object.assign({ offset: .8, filter: "drop-shadow(0 6px 8px rgba(0,0,0,.12))", easing: "ease-out" }, s2),
+    Object.assign({ offset: 1, filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" }, s3)
+  ], { duration: DUR_UP, fill: "forwards" });
+  upImg.animate([
+    { offset: 0, width: MINI_W + "px", transform: vanTf(nm, MINI_W) },
+    { offset: .55, width: HERO_W * 1.1 + "px", transform: vanTf(nm, HERO_W * 1.1) },
+    { offset: .8, width: HERO_W * .97 + "px", transform: vanTf(nm, HERO_W * .97) },
+    { offset: 1, width: HERO_W + "px", transform: vanTf(nm, HERO_W) }
+  ], { duration: DUR_UP, fill: "forwards" });
+
+  /* down: the old hero shrinks into the slot the new one left, with a little rebound */
+  var dn = flier(om, B, HERO_W), dnImg = dn.querySelector(".mv");
+  var a1 = box(A, 1.08, 0), a3 = box(A, 1, 0);
+  dn.animate([
+    Object.assign({ offset: 0, easing: "cubic-bezier(.5,0,.2,1)" }, { left: B.x + "px", top: B.y + "px", width: B.w + "px", height: B.h + "px" }),
+    Object.assign({ offset: .72, easing: "ease-out" }, a1),
+    Object.assign({ offset: 1 }, a3)
+  ], { duration: DUR_DOWN, fill: "forwards" });
+  dnImg.animate([
+    { offset: 0, width: HERO_W + "px", transform: vanTf(om, HERO_W) },
+    { offset: .72, width: MINI_W * 1.08 + "px", transform: vanTf(om, MINI_W * 1.08) },
+    { offset: 1, width: MINI_W + "px", transform: vanTf(om, MINI_W) }
+  ], { duration: DUR_DOWN, fill: "forwards" });
+
+  /* the words: the old ones step aside, the new ones pop in one after another */
+  texts.forEach(function (t, i) {
+    t.animate([{ opacity: 0, transform: "translateY(12px) scale(.94)" }, { opacity: 1, transform: "translateY(-2px) scale(1.04)", offset: .6 }, { opacity: 1, transform: "none" }],
+      { duration: 380, delay: 200 + i * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" });
+  });
+
+  /* finish on the animation, with a timer as a safety net so the state can never get stuck */
+  setTimeout(done, DUR_UP + 40);
+}
+
+document.getElementById("heroBtn").addEventListener("click", function () { var b = this; b.classList.add("on"); setTimeout(function () { b.classList.remove("on"); }, 700); });
+setHero(heroK); renderDock();
 
 var rd = document.querySelector(".road");
 rd.querySelector(".van").style.left = "calc((100% - 40px) * 0.4)";
 rd.querySelector(".done").style.width = "calc((100% - 40px) * 0.4 + 24px)";
-if (/[?&]guides/.test(location.search)) document.getElementById("phone").classList.add("guides");
+if (/[?&]guides/.test(Q)) document.getElementById("phone").classList.add("guides");
 </script>
 </body>
 </html>
