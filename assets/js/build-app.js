@@ -330,10 +330,89 @@ function drawIso(k, o) {
   function bedPrefetch(c) { var D = plansFor(c); return D.plans.slice(0, 3).map(planImg); }
   var img = function (p, lazy) { return '<img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (lazy ? ' loading="lazy"' : '') + '>'; };
 
+  /* ============================== Step 5, the chosen design: card swipe or side by side, with a filter sheet; price by the Next button ============================== */
+  function s5app(root, c) {
+    var D = plansFor(c), S = { sel: 0, mode: "swipe", f: { len: null, lay: null, door: null, bun: null } };
+    root.classList.add("has-go");
+    root.innerHTML = '<div class="pane"><div class="ctl5"></div><div class="body5"></div></div><div class="pf5"></div>';
+    var ctl = $(".ctl5", root), body = $(".body5", root), pf = $(".pf5", root), sheet = null;
+    var match = function (p, f) { return (f.len == null || p.len === f.len) && (f.lay == null || p.lname === f.lay) && (f.door == null || p.door === f.door) && (f.bun == null || p.bunks === f.bun); };
+    var L = function () { return D.plans.filter(function (p) { return match(p, S.f); }); };
+    var nActive = function () { return ["len", "lay", "door", "bun"].filter(function (k) { return S.f[k] != null; }).length; };
+    var deltaTxt = function (p) { var d = Math.round(p.price - D.base); return d ? "+" + fmt(d) + " on the base plan" : "The base plan"; };
+
+    function footer() {
+      var l = L(), p = l[S.sel];
+      if (!p) { pf.innerHTML = ""; App.setGo(null); return; }
+      pf.innerHTML = '<span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl">' + deltaTxt(p) + '</span>';
+    }
+    function drawCtl() {
+      var n = nActive();
+      ctl.innerHTML = '<div class="vt" role="group" aria-label="View"><button type="button" data-m="swipe" class="' + (S.mode === "swipe" ? "on" : "") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="6" width="14" height="12" rx="3"/></svg>Swipe</button><button type="button" data-m="grid" class="' + (S.mode === "grid" ? "on" : "") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="7" height="6" rx="2"/><rect x="13" y="5" width="7" height="6" rx="2"/><rect x="4" y="13" width="7" height="6" rx="2"/><rect x="13" y="13" width="7" height="6" rx="2"/></svg>Side by side</button></div>' +
+        '<button type="button" class="fb' + (n ? " on" : "") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg>Filter' + (n ? '<i>' + n + '</i>' : '') + '</button>';
+      $$(".vt button", ctl).forEach(function (b) { b.addEventListener("click", function () { if (S.mode !== b.dataset.m) { S.mode = b.dataset.m; drawCtl(); drawBody(); } }); });
+      $(".fb", ctl).addEventListener("click", openSheet);
+    }
+    function drawBody() {
+      var l = L(); if (S.sel >= l.length) S.sel = 0;
+      if (!l.length) { body.innerHTML = '<div class="empty">No plans match those filters.<br><button type="button" class="lnk" id="clr5">Clear filters</button></div>'; $("#clr5", body).addEventListener("click", function () { S.f = { len: null, lay: null, door: null, bun: null }; S.sel = 0; drawCtl(); drawBody(); }); footer(); App.setGo(null); return; }
+      if (S.mode === "swipe") drawSwipe(l); else drawGrid(l);
+      footer();
+      App.setGo(function () { var p = L()[S.sel]; if (p) { WLProgress.choose("plan", p.code); App.next(300); } });
+    }
+    function drawSwipe(l) {
+      body.innerHTML = '<div class="rail3">' + l.map(function (p, i) { return '<div class="sl3"><span class="shot card">' + img(p, i > 1) + '</span><span class="info5"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span></div>'; }).join("") + '</div>' +
+        '<div class="thumbs3">' + l.map(function (p, i) { return '<button class="t2" type="button" data-i="' + i + '" aria-label="Plan ' + (i + 1) + ' of ' + l.length + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async" loading="lazy"></button>'; }).join("") + '</div>';
+      var rail = $(".rail3", body), strip = $(".thumbs3", body), ths = $$(".t2", body), pw = rail.clientWidth || 327;
+      var paint = function (smooth) { ths.forEach(function (b, i) { b.classList.toggle("on", i === S.sel); }); var on = ths[S.sel]; if (on) { var want = on.offsetLeft - (pw - on.offsetWidth) / 2; if (strip.scrollTo) strip.scrollTo({ left: Math.max(0, want), behavior: smooth ? "smooth" : "auto" }); else strip.scrollLeft = Math.max(0, want); } };
+      rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(l.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(true); footer(); } });
+      ths.forEach(function (b, i) { b.addEventListener("click", function () { rail.scrollTo ? rail.scrollTo({ left: i * pw, behavior: "smooth" }) : (rail.scrollLeft = i * pw); }); });
+      rail.scrollLeft = S.sel * pw; paint(false); wireImgs(body);
+    }
+    function drawGrid(l) {
+      body.innerHTML = '<div class="grid5">' + l.map(function (p, i) { var d = Math.round(p.price - D.base); return '<button class="tile5' + (i === S.sel ? " on" : "") + '" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + ', ' + fmt(p.price) + '"><span class="shot sm">' + img(p, i > 5) + '</span><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.ls + '</span><span class="tp"><b>' + fmt(p.price) + '</b>' + (d ? '<em>+' + fmt(d) + '</em>' : '<em>Base</em>') + '</span></button>'; }).join("") + '</div>';
+      var tiles = $$(".tile5", body);
+      tiles.forEach(function (b, i) { b.addEventListener("click", function () { S.sel = i; tiles.forEach(function (x, j) { x.classList.toggle("on", j === i); }); footer(); }); });
+      var on = tiles[S.sel]; if (on && S.sel > 3) $(".grid5", body).scrollTop = Math.max(0, on.offsetTop - 8);
+      wireImgs(body);
+    }
+
+    /* the filter sheet: Length, Layout, Door (and Bunks for families). One choice per group, or Any. The button says how many plans it will show. */
+    function openSheet() {
+      if (sheet) return;
+      var tmp = {}; for (var k in S.f) tmp[k] = S.f[k];
+      var uniq = function (get, sortf) { var seen = [], out = []; D.plans.forEach(function (p) { var v = get(p); if (v != null && v !== "" && seen.indexOf(v) < 0) { seen.push(v); out.push({ v: v, p: p }); } }); return sortf ? out.sort(sortf) : out; };
+      var G = [
+        { k: "len", title: "Length", opts: uniq(function (p) { return p.len; }, function (a, b) { return a.v - b.v; }).map(function (o) { return { v: o.v, l: o.p.lenTxt }; }) },
+        { k: "lay", title: "Layout", opts: uniq(function (p) { return p.lname; }).map(function (o) { return { v: o.v, l: o.v }; }) },
+        { k: "door", title: "Door", opts: uniq(function (p) { return p.door; }).map(function (o) { return { v: o.v, l: o.v }; }) },
+        { k: "bun", title: "Bunks", opts: uniq(function (p) { return p.bunks || null; }, function (a, b) { return a.v - b.v; }).map(function (o) { return { v: o.v, l: o.v + (o.v > 1 ? " bunks" : " bunk") }; }) }
+      ].filter(function (g) { return g.opts.length > 1 && (g.k !== "lay" || g.opts.length <= 8); });
+      sheet = document.createElement("div"); sheet.className = "fsheet";
+      var count = function () { return D.plans.filter(function (p) { return match(p, tmp); }).length; };
+      function draw() {
+        var n = count();
+        sheet.innerHTML = '<div class="fpanel" role="dialog" aria-label="Filter the floorplans"><div class="fh"><b>Filter</b><button type="button" class="fx" aria-label="Close"><svg viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>' +
+          G.map(function (g) { return '<div class="fg"><div class="ft5">' + g.title + '</div><div class="fchips">' + [{ v: null, l: "Any" }].concat(g.opts).map(function (o) { return '<button type="button" class="chip' + ((tmp[g.k] == null && o.v == null) || tmp[g.k] === o.v ? " on" : "") + '" data-g="' + g.k + '" data-v="' + (o.v == null ? "" : o.v) + '">' + o.l + '</button>'; }).join("") + '</div></div>'; }).join("") +
+          '<div class="fbtns"><button type="button" class="fclear">Clear</button><button type="button" class="fshow"' + (n ? "" : " disabled") + '>' + (n ? "Show " + n + " plan" + (n > 1 ? "s" : "") : "No plans") + '</button></div></div>';
+        $$(".chip", sheet).forEach(function (b) { b.addEventListener("click", function () { var g = G.filter(function (x) { return x.k === b.dataset.g; })[0], raw = b.dataset.v; tmp[b.dataset.g] = raw === "" ? null : (typeof g.opts[0].v === "number" ? +raw : raw); draw(); }); });
+        $(".fclear", sheet).addEventListener("click", function () { tmp = { len: null, lay: null, door: null, bun: null }; draw(); });
+        $(".fshow", sheet).addEventListener("click", function () { S.f = tmp; S.sel = 0; close(); drawCtl(); drawBody(); });
+        $(".fx", sheet).addEventListener("click", close);
+      }
+      function close() { sheet.classList.remove("in"); var s = sheet; sheet = null; setTimeout(function () { s.remove(); }, 320); }
+      sheet.addEventListener("click", function (e) { if (e.target === sheet) close(); });
+      draw(); phone.appendChild(sheet); void sheet.offsetWidth; sheet.classList.add("in");
+    }
+    drawCtl(); drawBody();
+    return function () { if (sheet) sheet.remove(); };
+  }
+
   var variantOverride = null;
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
+    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "app";
+    if (variant === "app") return s5app(root, c);
     var V = VARIANTS[variant] ? VARIANTS[variant].v : v5card;
     root.classList.toggle("has-go", variant !== "list" && variant !== "grid");
     root.innerHTML = '<div class="pane"></div>'; var pane = $(".pane", root);
@@ -429,7 +508,7 @@ function drawIso(k, o) {
   /* 7 price first: the price is the headline above the picture; length and layout follow it; thumbnails */
   var v5pricefirst = swipe(function (p, i) { return '<span class="pf1"><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span>' + pic(p, i) + '<span class="line"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>'; }, "thumbs");
   var VARIANTS = {
-    card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
+    app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
     sheet: { n: "Sheet + button", v: v5sheet }, pricefirst: { n: "Price first", v: v5pricefirst },
     hero: { n: "Hero + rows", v: v5hero }, grid: { n: "Grid", v: v5grid }, list: { n: "List", v: v5list }
   };
@@ -470,7 +549,7 @@ function drawIso(k, o) {
     if (/[?&]compare/.test(Q)) {                         /* ?compare: a bar of floorplan layouts to switch between on one page */
       document.body.classList.add("cmp");
       var bar = document.createElement("div"); bar.className = "cmpbar"; bar.id = "cmpbar";
-      var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
+      var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "app";
       bar.innerHTML = '<b>Floorplan</b>' + App.variants().map(function (v) { return '<button type="button" data-k="' + v.k + '"' + (v.k === cv ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("");
       document.body.insertBefore(bar, document.body.firstChild);
       bar.addEventListener("click", function (e) {

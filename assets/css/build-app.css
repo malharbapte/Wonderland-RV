@@ -12,7 +12,7 @@
 .go { position: absolute; right: var(--m); bottom: calc(var(--mb) - 15px + env(safe-area-inset-bottom)); width: 60px; height: 60px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px var(--o); display: grid; place-items: center; z-index: 5;
   opacity: 0; transform: scale(.7); pointer-events: none; transition: opacity .35s ease, transform .45s cubic-bezier(.2,.9,.3,1.2); }
 .go.show { opacity: 1; transform: none; pointer-events: auto; }
-.go::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--grad); transition: opacity .42s ease; }
+.go::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--o); transition: opacity .42s ease; }
 .go svg { position: relative; width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: stroke .42s ease; }
 .go:hover::before, .go:focus-visible::before { opacity: 0; } .go:hover svg, .go:focus-visible svg { stroke: var(--o); } .go:focus-visible { outline: none; }
 .go:active::before, .go.on::before { opacity: 1; } .go:active svg, .go.on svg { stroke: #fff; }
@@ -243,3 +243,45 @@ body.cmp .phone { margin-top: 58px; }
 .s5 .cta:hover, .s5 .cta:focus-visible { background: #fff; color: var(--o); box-shadow: inset 0 0 0 2px var(--o); outline: none; } .s5 .cta.on { background: var(--o); color: #fff; }
 .s5 .pf1 { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; } .s5 .pf1 .pr { text-align: left; } .s5 .pf1 .pv { font-size: 46px; line-height: 50px; letter-spacing: -.02em; } .s5 .pf1 .fl { font-size: 13px; line-height: 18px; font-weight: 700; color: var(--o); padding-bottom: 8px; text-align: right; }
 .s5 .line { display: block; padding-top: 14px; } .s5 .line .ln { font-size: 22px; line-height: 28px; } .s5 .line .ft { font-size: 14px; line-height: 20px; margin-top: 2px; color: #5d554c; }
+
+/* ===== step 5, the chosen design: controls, card swipe, side by side, filter sheet, price by the Next button ===== */
+.s5.app5 .pane, .s5 .pane { }
+.s5 .ctl5 { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex: none; margin-bottom: 16px; }
+.s5 .vt { display: flex; padding: 3px; border-radius: 20px; box-shadow: inset 0 0 0 1px #D9CFC3; }
+.s5 .vt button { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 17px; font-size: 12.5px; white-space: nowrap; color: var(--ink); transition: background .3s ease, color .3s ease; }
+.s5 .vt button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.s5 .vt button.on { background: var(--o); color: #fff; font-weight: 700; }
+.s5 .vt button:not(.on):hover { color: var(--o); }
+.s5 .fb { display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 20px; box-shadow: inset 0 0 0 1px #D9CFC3; font-size: 13px; flex: none; transition: box-shadow .3s ease, color .3s ease; }
+.s5 .fb svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.s5 .fb:hover, .s5 .fb.on { box-shadow: inset 0 0 0 1.5px var(--o); color: var(--o); }
+.s5 .fb i { font-style: normal; min-width: 18px; height: 18px; border-radius: 9px; background: var(--o); color: #fff; font-size: 11px; line-height: 18px; text-align: center; font-weight: 700; }
+.s5 .body5 { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.s5 .info5 { display: block; padding-top: 16px; } .s5 .info5 .ln { font-size: 30px; line-height: 36px; } .s5 .info5 .ft { font-size: 15px; line-height: 21px; margin-top: 4px; color: #5d554c; }
+.s5 .grid5 { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 12px; align-content: start; margin: 0 -8px; padding: 6px 8px 40px; -webkit-mask-image: linear-gradient(#000 calc(100% - 44px), transparent); mask-image: linear-gradient(#000 calc(100% - 44px), transparent); }
+.s5 .grid5::-webkit-scrollbar { display: none; }
+.s5 .tile5 { display: block; text-align: left; cursor: pointer; }
+.s5 .tile5 .shot { aspect-ratio: 840 / 440; border-radius: 14px; } .s5 .tile5 .shot img { width: 112%; left: -6%; top: -8%; }
+.s5 .tile5 .ln { font-size: 17px; line-height: 22px; margin-top: 8px; transition: color .3s ease; } .s5 .tile5 .ft { font-size: 12px; line-height: 16px; margin-top: 1px; }
+.s5 .tile5 .tp { display: block; margin-top: 4px; } .s5 .tile5 .tp b { font-size: 15px; line-height: 20px; font-weight: 700; } .s5 .tile5 .tp em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--o); margin-left: 6px; }
+.s5 .tile5:hover .shot::after { box-shadow: inset 0 0 0 2px var(--o); } .s5 .tile5.on .shot::after { box-shadow: inset 0 0 0 3px var(--o); } .s5 .tile5.on .ln { color: var(--o); } .s5 .tile5:focus-visible { outline: none; }
+/* price: beside the Next circle, centred on it, so it is read right where the decision is made */
+.s5 .pf5 { position: absolute; right: calc(var(--m) + 74px); bottom: calc(var(--mb) - 15px + env(safe-area-inset-bottom)); height: 60px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right; z-index: 4; pointer-events: none; }
+.s5 .pf5 .pfrom { font-family: var(--aviano); font-weight: 700; font-size: 10px; line-height: 12px; letter-spacing: .12em; text-transform: uppercase; color: #8b8176; }
+.s5 .pf5 .pv { font-weight: 700; font-size: 30px; line-height: 34px; letter-spacing: -.015em; }
+.s5 .pf5 .fl { font-size: 12px; line-height: 16px; font-weight: 700; color: var(--o); }
+.s5 .lnk { margin-top: 10px; color: var(--o); font-weight: 700; text-decoration: underline; }
+/* the filter sheet */
+.fsheet { position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-end; background: rgba(0,0,0,0); transition: background .3s ease; }
+.fsheet.in { background: rgba(0,0,0,.38); }
+.fpanel { width: 100%; max-height: 82%; overflow-y: auto; background: #fff; border-radius: 26px 26px 0 0; padding: 18px var(--m) calc(22px + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform .38s cubic-bezier(.2,.8,.2,1); box-shadow: 0 -10px 40px rgba(0,0,0,.18); }
+.fsheet.in .fpanel { transform: none; }
+.fh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; } .fh b { font-family: var(--aviano); font-weight: 900; font-size: 20px; text-transform: uppercase; }
+.fx { width: 40px; height: 40px; margin-right: -10px; display: grid; place-items: center; } .fx svg { width: 16px; height: 16px; fill: none; stroke: #000; stroke-width: 2; stroke-linecap: round; }
+.fg { margin-top: 16px; } .ft5 { font-family: var(--aviano); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #8b8176; margin-bottom: 8px; }
+.fchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.fchips .chip { flex: none; height: 36px; padding: 0 14px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1px #D9CFC3; display: flex; align-items: center; font-size: 13px; transition: box-shadow .3s ease, color .3s ease, background .3s ease; }
+.fchips .chip:hover { box-shadow: inset 0 0 0 1.5px var(--o); color: var(--o); } .fchips .chip.on { background: #FFF1E2; box-shadow: inset 0 0 0 1.5px var(--o); color: var(--o); font-weight: 700; }
+.fbtns { display: flex; align-items: center; gap: 14px; margin-top: 22px; } .fclear { height: 50px; padding: 0 8px; font-weight: 700; color: #6d645a; text-decoration: underline; }
+.fshow { flex: 1; height: 50px; text-align: center; border-radius: 25px; background: var(--o); color: #fff; font-weight: 700; font-size: 15px; transition: background .3s ease, color .3s ease, box-shadow .3s ease; }
+.fshow:hover { background: #fff; color: var(--o); box-shadow: inset 0 0 0 2px var(--o); } .fshow[disabled] { opacity: .4; pointer-events: none; }
