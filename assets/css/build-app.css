@@ -566,3 +566,9 @@ html.tab-land h1 { font-size: 34px; line-height: 38px; } html.tab-land .body { p
 .cprice .cp { display: flex; flex-direction: column; } .cprice .pfrom { font-family: var(--aviano); font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #8b8176; line-height: 12px; }
 .cprice .pv { font-weight: 700; font-size: 30px; line-height: 34px; letter-spacing: -.015em; } .cprice .fshow { flex: 0 0 auto; width: 150px; }
 html.tab .s6 .psub .pv { font-size: 40px; line-height: 44px; }
+
+/* step 6 pinned price: "From" above the figure, the figure in orange, and the "Price as of" note stuck to the right margin with its last line level with the figure's baseline */
+.s6 .psub { margin-top: 16px; padding-bottom: 14px; align-items: flex-end; align-items: last baseline; }
+.s6 .psub .l { flex-direction: column; align-items: flex-start; gap: 2px; }
+.s6 .psub .pv { color: var(--o); }
+.s6 .psub .pd { margin-left: auto; text-align: right; }
