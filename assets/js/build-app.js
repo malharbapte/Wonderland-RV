@@ -44,7 +44,8 @@
   var urlFor = function (n) { return location.pathname + Q + "#" + STEPS[n].id; };
 
   var App = {
-    setGo: function (fn) { goFn = fn || null; goBtn.classList.toggle("show", !!fn); goBtn.classList.remove("on"); goBtn.tabIndex = fn ? 0 : -1; },
+    setGo: function (fn, icon) { goFn = fn || null; goBtn.classList.toggle("show", !!fn); goBtn.classList.remove("on"); goBtn.tabIndex = fn ? 0 : -1; $("path", goBtn).setAttribute("d", icon === "tick" ? "M5 12.5l4.5 4.5L19 7.5" : "M9 5l7 7-7 7"); goBtn.setAttribute("aria-label", icon === "tick" ? "Send" : "Next"); },
+    backHook: null,                                   /* a step can take over Back for its own inner screens: return true when it handled it */
     /* move to the next step after a beat (so the tap's pressed state is seen); `gate` is a promise to wait for first (images) */
     next: function (delay, gate) {
       if (busy || cur >= STEPS.length - 1) return;
@@ -56,9 +57,10 @@
   function show(n, o) {
     o = o || {};
     if (busy && cur >= 0) return;
+    document.body.dataset.step = STEPS[n].id;
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
-    App.setGo(null);
+    App.setGo(null); App.backHook = null;
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -411,7 +413,7 @@ function drawIso(k, o) {
   var variantOverride = null;
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "app";
+    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
     if (variant === "app") return s5app(root, c);
     var V = VARIANTS[variant] ? VARIANTS[variant].v : v5card;
     root.classList.toggle("has-go", variant !== "list" && variant !== "grid");
@@ -526,12 +528,213 @@ function drawIso(k, o) {
   };
 
   /* ============================== Step 6: details (the contact form comes here) ============================== */
-  function s6(root, c) {
-    var C = WLProgress.choices(), T = { couples: "Couple’s", family: "Family" }, Z = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, M = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
-    var bed = C.bed && WL_BED_INFO[C.bed] ? WL_BED_INFO[C.bed].live.split(" bed")[0].replace(/ \(.*\)/, "") + " · " + WL_BED_INFO[C.bed].short : null;
-    var bits = [T[C.type], Z[C.size], M[C.model], bed, C.plan ? C.plan.replace(/-/g, "‑") : null].filter(Boolean);
-    root.innerHTML = '<div class="stub"><p>The contact form will go here. This step is next on the rebuild.</p><div class="sum">' + bits.join(" · ") + '</div></div>';
+  var variant6Override = null;
+  var STATES = ["New South Wales / ACT", "Northern Territory", "Queensland", "South Australia", "Victoria", "Western Australia", "Tasmania", "New Zealand"];
+  var TYPE_N = { couples: "Couple’s", family: "Family" }, SIZE_N = { compact: "Compact", mid: "Mid-size", spacious: "Spacious" }, MODEL_N = { xtr: "XTR", solara: "Solara", hornet: "Hornet", amaroo: "Amaroo" };
+  /* what the customer has built, for the recap and the price */
+  function recap() {
+    var cx = ctx(), C = WLProgress.choices(), D = plansFor(cx), plan = D.plans.filter(function (p) { return p.code === C.plan; })[0] || D.plans[0];
+    return { cx: cx, plan: plan, bed: BEDLINE[D.bed] || "", model: MODEL_N[cx.model], type: TYPE_N[cx.type], size: SIZE_N[cx.size] };
   }
+  var tick = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  function recapHTML(R) {
+    var p = R.plan; if (!p) return "";
+    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span></span></div>';
+  }
+  function priceNear(R) { return R.plan ? '<div class="pf6"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="fl">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : ""; }
+  /* the form fields, shared by all three layouts */
+  var FIELDS = {
+    first: { l: "First name", req: 1, ac: "given-name", type: "text" }, last: { l: "Last name", req: 1, ac: "family-name", type: "text" },
+    phone: { l: "Phone", req: 1, ac: "tel", type: "tel", inputmode: "tel" }, email: { l: "Email", req: 1, ac: "email", type: "email", inputmode: "email" },
+    tow: { l: "Tow vehicle", ac: "off", type: "text", ph: "e.g. Toyota LandCruiser 300" },
+    state: { l: "State", req: 1, type: "select" }, date: { l: "Preferred delivery date", req: 1, type: "date" }
+  };
+  function fieldHTML(k, val) {
+    var f = FIELDS[k], v = val || "", id = "f_" + k;
+    var inp = f.type === "select" ? '<select id="' + id + '" name="' + k + '"><option value="">Choose a state</option>' + STATES.map(function (s) { return '<option' + (s === v ? " selected" : "") + '>' + s + '</option>'; }).join("") + '</select>'
+      : '<input id="' + id + '" name="' + k + '" type="' + f.type + '"' + (f.inputmode ? ' inputmode="' + f.inputmode + '"' : "") + (f.ac ? ' autocomplete="' + f.ac + '"' : "") + (f.ph ? ' placeholder="' + f.ph + '"' : "") + ' value="' + v + '"' + (f.type === "date" ? ' min="' + new Date().toISOString().slice(0, 10) + '"' : "") + '>';
+    return '<label class="fld" data-k="' + k + '"><span class="fl6">' + f.l + (f.req ? "" : ' <i>optional</i>') + '</span>' + inp + '<span class="er"></span></label>';
+  }
+  var VALID = {
+    first: function (v) { return v.trim() ? "" : "Please enter your first name"; }, last: function (v) { return v.trim() ? "" : "Please enter your last name"; },
+    phone: function (v) { return v.replace(/[^\d]/g, "").length >= 8 ? "" : "Please enter a phone number we can call"; },
+    email: function (v) { return /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v.trim()) ? "" : "Please enter a valid email address"; },
+    tow: function () { return ""; }, state: function (v) { return v ? "" : "Please choose your state"; }, date: function (v) { return v ? "" : "Please choose a date"; }
+  };
+  function checkField(root, k, quiet) {
+    var el = $('.fld[data-k="' + k + '"]', root), inp = $("input,select", el), msg = VALID[k](inp.value);
+    if (!quiet || !msg) { el.classList.toggle("bad", !!msg); $(".er", el).textContent = msg; }
+    return !msg;
+  }
+  function wireFields(root, keys, onChange) {
+    keys.forEach(function (k) { var inp = $("#f_" + k, root); if (!inp) return; inp.addEventListener("blur", function () { if (inp.value) checkField(root, k); }); inp.addEventListener("input", function () { if ($('.fld[data-k="' + k + '"]', root).classList.contains("bad")) checkField(root, k, true); if (onChange) onChange(); }); });
+  }
+  var LEAD = { custom: null };
+  function valuesOf(root) { var o = {}; Object.keys(FIELDS).forEach(function (k) { var i = $("#f_" + k, root); if (i) { o[k] = i.value; LEAD[k] = i.value; } else if (LEAD[k] != null) o[k] = LEAD[k]; }); return o; }
+  /* send: for now nothing leaves the page; the details are kept for this visit so the real form can be wired in later */
+  function finish(root, R, vals) {
+    try { sessionStorage.setItem("wl-lead", JSON.stringify({ details: vals, custom: LEAD.custom, plan: R.plan && R.plan.code, at: new Date().toISOString() })); } catch (e) {}
+    App.setGo(null); App.backHook = null;
+    var name = (vals.first || "").trim();
+    root.className = "step s6 done6";
+    root.innerHTML = '<div class="thanks"><svg class="tk" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" class="c1"/><path d="M29 50l13 13 26-28" class="c2"/></svg>' +
+      '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2><p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
+      '<button type="button" class="again">Start a new build</button></div>';
+    wireImgs(root);
+    $(".again", root).addEventListener("click", function () { try { sessionStorage.removeItem("wl-choice"); sessionStorage.removeItem("wl-step"); } catch (e) {} LEAD = { custom: null }; show(0, { dir: -1, push: "replace" }); });
+    root.animate && !reduce && $(".thanks", root).animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }], { duration: 500, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }
+  function submitAll(root, R, keys) {
+    var ok = true, first = null; keys.forEach(function (k) { if (!checkField(root, k)) { ok = false; if (!first) first = k; } });
+    if (!ok) { var el = $('.fld[data-k="' + first + '"]', root); el.scrollIntoView && el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" }); var i = $("input,select", el); i && i.focus({ preventScroll: true }); return false; }
+    finish(root, R, valuesOf(root)); return true;
+  }
+  var CUSTOM = [{ k: "quote", t: "No, just email me a quote", d: "A personalised quote, straight to your inbox." }, { k: "customise", t: "Yes, let’s keep customising", d: "Best on a PC or tablet. We’ll be in touch to continue." }];
+  function customHTML() { return '<div class="cust" role="radiogroup" aria-label="Would you like to further customise your caravan?">' + CUSTOM.map(function (o) { return '<button type="button" role="radio" class="co' + (LEAD.custom === o.k ? " on" : "") + '" data-c="' + o.k + '" aria-checked="' + (LEAD.custom === o.k) + '"><span class="dot"></span><span><b>' + o.t + '</b><em>' + o.d + '</em></span></button>'; }).join("") + '</div>'; }
+
+  function s6(root, c) {
+    var v = variant6Override || (Q.match(/[?&]s6=(\w+)/) || [])[1] || "scroll";
+    return ({ scroll: s6scroll, steps: s6steps, one: s6one, review: s6review, chat: s6chat }[v] || s6scroll)(root, c);
+  }
+  /* A: one scrolling form. The recap on top, the choice, then the details; the price beside the send button. */
+  function s6scroll(root) {
+    var R = recap(), keys = ["first", "last", "phone", "email", "tow", "state", "date"];
+    root.classList.add("form6");
+    root.innerHTML = '<div class="pane6"><div class="scr">' + recapHTML(R) +
+      '<div class="sec">Further customise your caravan?</div>' + customHTML() +
+      '<div class="sec">Your details</div><p class="sub6">Complete your details to receive a personalised quote.</p>' +
+      '<div class="row2c">' + fieldHTML("first", LEAD.first) + fieldHTML("last", LEAD.last) + '</div>' + fieldHTML("phone", LEAD.phone) + fieldHTML("email", LEAD.email) + fieldHTML("tow", LEAD.tow) + fieldHTML("state", LEAD.state) + fieldHTML("date", LEAD.date) +
+      '<p class="fine">By sending, you agree we may contact you about this quote.</p></div></div>' + priceNear(R);
+    $$(".co", root).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; $$(".co", root).forEach(function (x) { x.classList.toggle("on", x === b); x.setAttribute("aria-checked", x === b); }); $(".cust", root).classList.remove("bad"); }); });
+    wireFields(root, keys); wireImgs(root);
+    App.setGo(function () { if (!LEAD.custom) { var cu = $(".cust", root); cu.classList.add("bad"); cu.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" }); goBtn.classList.remove("on"); return; } if (!submitAll(root, R, keys)) goBtn.classList.remove("on"); }, "tick");
+  }
+  /* B: two quick screens. First the choice, then the details; Back goes from the second to the first. */
+  function s6steps(root) {
+    var R = recap(), keys = ["first", "last", "phone", "email", "tow", "state", "date"], at = 1;
+    root.classList.add("form6");
+    root.innerHTML = '<div class="pane6"><div class="dots6"><i class="on"></i><i></i></div><div class="sub" id="sub"></div></div><div id="pfw"></div>';
+    var sub = $("#sub", root), pfw = $("#pfw", root);
+    function draw(n, dir) {
+      at = n; var html;
+      if (n === 1) html = '<h3 class="q">How would you like your quote?</h3>' + customHTML() + '<p class="fine">Prices shown are a guide and may change.</p>';
+      else html = '<h3 class="q">Where should we send it?</h3><div class="scr2">' + recapHTML(R) + '<div class="row2c">' + fieldHTML("first", LEAD.first) + fieldHTML("last", LEAD.last) + '</div>' + fieldHTML("phone", LEAD.phone) + fieldHTML("email", LEAD.email) + fieldHTML("tow", LEAD.tow) + fieldHTML("state", LEAD.state) + fieldHTML("date", LEAD.date) + '</div>';
+      var el = document.createElement("div"); el.className = "subin"; el.innerHTML = html; var old = sub.firstChild; sub.appendChild(el);
+      $$(".dots6 i", root).forEach(function (d, i) { d.classList.toggle("on", i === n - 1); });
+      if (old) { anim(old, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateX(" + (-30 * dir) + "px)" }], { duration: 220, fill: "forwards" }); setTimeout(function () { old.remove(); }, reduce ? 0 : 230); anim(el, [{ opacity: 0, transform: "translateX(" + (30 * dir) + "px)" }, { opacity: 1, transform: "none" }], { duration: 360, delay: 90, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }); }
+      if (n === 1) { App.setGo(null); pfw.innerHTML = ""; App.backHook = null; $$(".co", el).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; $$(".co", el).forEach(function (x) { x.classList.toggle("on", x === b); }); setTimeout(function () { draw(2, 1); }, 280); }); }); }
+      else { pfw.innerHTML = priceNear(R); wireFields(el, keys); wireImgs(el); App.backHook = function () { draw(1, -1); return true; }; App.setGo(function () { if (!submitAll(root, R, keys)) goBtn.classList.remove("on"); }, "tick"); }
+    }
+    draw(LEAD.custom ? 2 : 1, 1);
+  }
+  /* C: one question at a time, big and simple, like a conversation. Next moves on; Back steps back through the questions. */
+  function s6one(root) {
+    var R = recap(), Qs = [
+      { id: "custom", q: "Would you like to keep customising your caravan?", type: "choice" },
+      { id: "name", q: "What’s your name?", keys: ["first", "last"] }, { id: "phone", q: "What’s the best number to reach you on?", keys: ["phone"] }, { id: "email", q: "And your email address?", keys: ["email"] },
+      { id: "tow", q: "What will you tow it with?", keys: ["tow"], skip: 1 }, { id: "state", q: "Which state are you in?", keys: ["state"] }, { id: "date", q: "When would you like it delivered?", keys: ["date"] }
+    ], i = 0;
+    root.classList.add("form6", "one6");
+    root.innerHTML = '<div class="pane6"><div class="bars6"></div><div class="sub" id="sub"></div></div><div id="pfw"></div>';
+    var sub = $("#sub", root), pfw = $("#pfw", root), bars = $(".bars6", root);
+    function draw(n, dir) {
+      i = n; var Qn = Qs[n], el = document.createElement("div"); el.className = "subin q1";
+      bars.innerHTML = Qs.map(function (_, j) { return '<i class="' + (j < n ? "d" : j === n ? "on" : "") + '"></i>'; }).join("");
+      el.innerHTML = '<h3 class="q">' + Qn.q + '</h3>' + (Qn.type === "choice" ? customHTML() : '<div class="fq">' + Qn.keys.map(function (k) { return fieldHTML(k, LEAD[k]); }).join("") + '</div>' + (Qn.skip ? '<button type="button" class="skip">Skip this</button>' : ''));
+      var old = sub.firstChild; sub.appendChild(el);
+      if (old) { anim(old, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateX(" + (-30 * dir) + "px)" }], { duration: 220, fill: "forwards" }); setTimeout(function () { old.remove(); }, reduce ? 0 : 230); anim(el, [{ opacity: 0, transform: "translateX(" + (30 * dir) + "px)" }, { opacity: 1, transform: "none" }], { duration: 360, delay: 90, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }); }
+      App.backHook = n ? function () { draw(n - 1, -1); return true; } : null;
+      var advance = function () { if (n < Qs.length - 1) draw(n + 1, 1); else { var ks = ["first", "last", "phone", "email", "tow", "state", "date"]; ks.forEach(function (k) { if (!$("#f_" + k, root)) return; }); valuesOf(root); finish(root, R, collect()); } };
+      if (Qn.type === "choice") { pfw.innerHTML = ""; App.setGo(null); $$(".co", el).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; $$(".co", el).forEach(function (x) { x.classList.toggle("on", x === b); }); setTimeout(advance, 280); }); }); }
+      else {
+        pfw.innerHTML = priceNear(R); wireFields(el, Qn.keys);
+        var go = function () { var ok = true; Qn.keys.forEach(function (k) { var inp = $("#f_" + k, el); if (inp) LEAD[k] = inp.value; if (!(Qn.skip && !inp.value) && !checkField(el, k)) ok = false; }); if (!ok) { goBtn.classList.remove("on"); return; } advance(); };
+        App.setGo(go, n === Qs.length - 1 ? "tick" : null);
+        var sk = $(".skip", el); if (sk) sk.addEventListener("click", function () { LEAD.tow = ""; advance(); });
+        var first = $("input,select", el); if (first && !reduce) setTimeout(function () { try { first.focus({ preventScroll: true }); } catch (e) {} }, 420);
+        $$("input", el).forEach(function (inp) { inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); goBtn.click(); } }); });
+      }
+    }
+    function collect() { var o = {}; Object.keys(FIELDS).forEach(function (k) { o[k] = LEAD[k] || ""; }); return o; }
+    draw(0, 1);
+  }
+  /* D: review first. A proper look at what has been built, with a Change link on every line, then the details. */
+  function s6review(root) {
+    var R = recap(), keys = ["first", "last", "phone", "email", "tow", "state", "date"], p = R.plan;
+    root.classList.add("form6");
+    root.innerHTML = '<div class="pane6"><div class="dots6"><i class="on"></i><i></i></div><div class="sub" id="sub"></div></div><div id="pfw"></div>';
+    var sub = $("#sub", root), pfw = $("#pfw", root);
+    var rows = [["Layout", R.type, 0], ["Size", R.size, 1], ["Model", R.model, 2], ["Bed", R.bed, 3], ["Floorplan", p ? p.lenTxt + " · " + p.lay : "", 4]];
+    function draw(n, dir) {
+      var html;
+      if (n === 1) html = '<h3 class="q">Your caravan</h3>' + (p ? '<span class="shot rv"><img data-ld src="' + planImg(p) + '" alt=""></span>' : '') + '<div class="spec6">' + rows.map(function (r) { return '<div class="sr6"><span class="k">' + r[0] + '</span><span class="v">' + r[1] + '</span><button type="button" class="chg" data-go="' + r[2] + '">Change</button></div>'; }).join("") + '</div>';
+      else html = '<h3 class="q">Where should we send your quote?</h3><div class="scr2"><div class="sec first">Further customise?</div>' + customHTML() + '<div class="sec">Your details</div><div class="row2c">' + fieldHTML("first", LEAD.first) + fieldHTML("last", LEAD.last) + '</div>' + fieldHTML("phone", LEAD.phone) + fieldHTML("email", LEAD.email) + fieldHTML("tow", LEAD.tow) + fieldHTML("state", LEAD.state) + fieldHTML("date", LEAD.date) + '</div>';
+      var el = document.createElement("div"); el.className = "subin"; el.innerHTML = html; var old = sub.firstChild; sub.appendChild(el);
+      $$(".dots6 i", root).forEach(function (d, i) { d.classList.toggle("on", i === n - 1); });
+      if (old) { anim(old, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateX(" + (-30 * dir) + "px)" }], { duration: 220, fill: "forwards" }); setTimeout(function () { old.remove(); }, reduce ? 0 : 230); anim(el, [{ opacity: 0, transform: "translateX(" + (30 * dir) + "px)" }, { opacity: 1, transform: "none" }], { duration: 360, delay: 90, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }); }
+      pfw.innerHTML = priceNear(R); wireImgs(el);
+      if (n === 1) { App.backHook = null; $$(".chg", el).forEach(function (b) { b.addEventListener("click", function () { if (!busy) show(+b.dataset.go, { dir: -1, push: "replace" }); }); }); App.setGo(function () { draw(2, 1); }); }
+      else {
+        $$(".co", el).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; $$(".co", el).forEach(function (x) { x.classList.toggle("on", x === b); x.setAttribute("aria-checked", x === b); }); $(".cust", el).classList.remove("bad"); }); });
+        wireFields(el, keys); App.backHook = function () { draw(1, -1); return true; };
+        App.setGo(function () { if (!LEAD.custom) { var cu = $(".cust", el); cu.classList.add("bad"); cu.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" }); goBtn.classList.remove("on"); return; } if (!submitAll(root, R, keys)) goBtn.classList.remove("on"); }, "tick");
+      }
+    }
+    draw(1, 1);
+  }
+  /* E: chat. The app asks in bubbles, the customer answers by typing or tapping a reply; the circle sends. */
+  function s6chat(root) {
+    var R = recap(), thread, reply, pfw, i = 0, marks = [], busyQ = false;
+    root.classList.add("form6", "chat6");
+    root.innerHTML = '<div class="pane6"><div class="thread"></div><div class="reply"></div></div><div id="pfw"></div>';
+    thread = $(".thread", root); reply = $(".reply", root); pfw = $("#pfw", root); pfw.innerHTML = priceNear(R);
+    var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
+    var Qs = [
+      { k: "custom", q: "Hi! Here’s the caravan you’ve built. Would you like to keep customising it, or shall I just email you a quote?", type: "choice" },
+      { k: "first", q: "Great. What’s your first name?", ph: "First name" },
+      { k: "last", q: function () { return "Nice to meet you, " + esc(LEAD.first) + ". And your last name?"; }, ph: "Last name" },
+      { k: "phone", q: "What’s the best number to reach you on?", ph: "Phone", type: "tel" },
+      { k: "email", q: "And your email address?", ph: "Email", type: "email" },
+      { k: "tow", q: "What will you tow it with? You can skip this one.", ph: "Tow vehicle", skip: 1 },
+      { k: "state", q: "Which state are you in?", type: "chips" },
+      { k: "date", q: "Last one: when would you like it delivered?", type: "date" }
+    ];
+    var node = function (cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; thread.appendChild(d); thread.scrollTo ? thread.scrollTo({ top: thread.scrollHeight, behavior: reduce ? "auto" : "smooth" }) : (thread.scrollTop = thread.scrollHeight); if (!reduce && d.animate) d.animate([{ opacity: 0, transform: "translateY(10px) scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1.2)" }); return d; };
+    function bot(h) { return node("bub bot", h); } function me(h) { return node("bub me", h); }
+    function ask(n, instant) {
+      i = n; marks[n] = thread.children.length; App.setGo(null); reply.innerHTML = ""; busyQ = true;
+      var Qn = Qs[n], q = typeof Qn.q === "function" ? Qn.q() : Qn.q;
+      var show1 = function () {
+        var typing = $(".typing", thread); if (typing) typing.remove();
+        bot(q); busyQ = false; drawReply(Qn, n);
+      };
+      if (instant || reduce) show1(); else { node("bub bot typing", "<i></i><i></i><i></i>"); setTimeout(show1, 520); }
+    }
+    function answer(label, nextFn) { me(esc(label)); setTimeout(nextFn, 260); }
+    function drawReply(Qn, n) {
+      App.backHook = n > 0 ? function () { undo(); return true; } : null;
+      if (Qn.type === "choice") { reply.innerHTML = '<div class="rchips">' + CUSTOM.map(function (o) { return '<button type="button" class="rc1" data-c="' + o.k + '">' + o.t + '</button>'; }).join("") + '</div>'; $$(".rc1", reply).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; reply.innerHTML = ""; answer(b.textContent, function () { ask(n + 1); }); }); }); return; }
+      if (Qn.type === "chips") { reply.innerHTML = '<div class="rchips wrap">' + STATES.map(function (s) { return '<button type="button" class="rc1" data-s="' + s + '">' + s + '</button>'; }).join("") + '</div>'; $$(".rc1", reply).forEach(function (b) { b.addEventListener("click", function () { LEAD.state = b.dataset.s; reply.innerHTML = ""; answer(b.dataset.s, function () { ask(n + 1); }); }); }); return; }
+      var type = Qn.type === "date" ? "date" : (Qn.type || "text"), last = n === Qs.length - 1;
+      reply.innerHTML = '<div class="box"><input id="cin" type="' + type + '"' + (Qn.ph ? ' placeholder="' + Qn.ph + '"' : "") + (type === "date" ? ' min="' + new Date().toISOString().slice(0, 10) + '"' : "") + ' autocomplete="off" value="' + esc(LEAD[Qn.k] || "") + '"></div>' + (Qn.skip ? '<button type="button" class="skip">Skip</button>' : "");
+      var inp = $("#cin", reply);
+      var send = function () {
+        var v = inp.value; if (!(Qn.skip && !v)) { var msg = VALID[Qn.k](v); if (msg) { bot("Hmm, " + msg.charAt(0).toLowerCase() + msg.slice(1) + "."); goBtn.classList.remove("on"); return; } }
+        LEAD[Qn.k] = v; App.setGo(null); reply.innerHTML = "";
+        var shown = Qn.type === "date" && v ? new Date(v + "T00:00").toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" }) : (v || "Skip");
+        answer(shown, function () { if (last) { bot("Perfect. Sending your quote now."); setTimeout(function () { finish(root, R, collect()); }, 700); } else ask(n + 1); });
+      };
+      App.setGo(send, last ? "tick" : null);
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); goBtn.click(); } });
+      var sk = $(".skip", reply); if (sk) sk.addEventListener("click", function () { inp.value = ""; send(); });
+      if (!reduce) setTimeout(function () { try { inp.focus({ preventScroll: true }); } catch (e) {} }, 350);
+    }
+    function undo() { if (busyQ || i < 1) return; var n = i - 1; while (thread.children.length > marks[n]) thread.removeChild(thread.lastChild); ask(n, true); }
+    function collect() { var o = {}; Object.keys(FIELDS).forEach(function (k) { o[k] = LEAD[k] || ""; }); return o; }
+    thread.innerHTML = '<div class="bub bot att">' + recapHTML(R) + '</div>'; wireImgs(thread); ask(0, true);
+  }
+  App.variants6 = function () { return [{ k: "scroll", n: "1 · One form" }, { k: "steps", n: "2 · Two screens" }, { k: "one", n: "3 · One question at a time" }, { k: "review", n: "4 · Review, then details" }, { k: "chat", n: "5 · Chat" }]; };
+  App.setVariant6 = function (k) { variant6Override = k; LEAD = { custom: null }; if (cur === 5 && curRoot) { curRoot.className = "step s6"; curRoot.innerHTML = ""; App.setGo(null); App.backHook = null; STEPS[5].mount(curRoot, ctx()); } };
 
   /* ============================== start ============================== */
   STEPS = [
@@ -549,17 +752,19 @@ function drawIso(k, o) {
     if (/[?&]compare/.test(Q)) {                         /* ?compare: a bar of floorplan layouts to switch between on one page */
       document.body.classList.add("cmp");
       var bar = document.createElement("div"); bar.className = "cmpbar"; bar.id = "cmpbar";
-      var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "app";
-      bar.innerHTML = '<b>Floorplan</b>' + App.variants().map(function (v) { return '<button type="button" data-k="' + v.k + '"' + (v.k === cv ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("");
+      var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
+      var cv6 = (Q.match(/[?&]s6=(\w+)/) || [])[1] || "scroll";
+      bar.innerHTML = '<div class="cg g5"><b>Floorplan</b>' + App.variants().map(function (v) { return '<button type="button" data-k="' + v.k + '"' + (v.k === cv ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("") + '</div><div class="cg g6"><b>Details</b>' + App.variants6().map(function (v) { return '<button type="button" data-k6="' + v.k + '"' + (v.k === cv6 ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("") + '</div>';
       document.body.insertBefore(bar, document.body.firstChild);
       bar.addEventListener("click", function (e) {
         var b = e.target.closest("button"); if (!b) return;
-        $$("button", bar).forEach(function (x) { x.classList.toggle("on", x === b); });
+        if (b.dataset.k6) { $$("button[data-k6]", bar).forEach(function (x) { x.classList.toggle("on", x === b); }); if (cur !== 5) { variant6Override = b.dataset.k6; show(5, { dir: 1 }); } else App.setVariant6(b.dataset.k6); return; }
+        $$("button[data-k]", bar).forEach(function (x) { x.classList.toggle("on", x === b); });
         if (cur !== 4) { variantOverride = b.dataset.k; show(4, { dir: 1 }); } else App.setVariant(b.dataset.k);
       });
     }
     goBtn.addEventListener("click", function () { if (goFn) { goBtn.classList.add("on"); goFn(); } });
-    backBtn.addEventListener("click", function (e) { if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
+    backBtn.addEventListener("click", function (e) { if (App.backHook && App.backHook()) { e.preventDefault(); return; } if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
     window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s !== cur) show(s, { push: false }); });
     var start = indexOf(((Q.match(/[?&]step=(\w+)/) || [])[1]) || (location.hash || "").slice(1)); if (start < 0) start = 0;
     show(start, { push: true });
