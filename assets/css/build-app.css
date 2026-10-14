@@ -544,3 +544,9 @@ html.tab .s5 .card, html.tab .s5 .tile5 { align-self: start; }
 /* iPad landscape has less height, so the chrome gets a little tighter and the steps get the room */
 html.tab-land { --clear: 110px; --head: 68px; }
 html.tab-land h1 { font-size: 34px; line-height: 38px; } html.tab-land .body { padding-top: 14px; } html.tab-land .prog { margin-top: 12px; } html.tab-land .step { padding-top: 18px; }
+
+/* step 6 only: the chat bubbles (and the quick replies, which are the customer's bubbles) are properly curved, with one small corner where the tail would be */
+.s6 .bub { border-radius: 22px; }
+.s6 .bub.bot { border-bottom-left-radius: 6px; } .s6 .bub.me { border-bottom-right-radius: 6px; } .s6 .bub.att { border-radius: 0; }
+.s6 .bub.typing { border-radius: 22px; border-bottom-left-radius: 6px; }
+.s6 .rc1 { border-radius: 22px; border-bottom-right-radius: 6px; }
