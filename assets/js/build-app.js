@@ -74,7 +74,7 @@
     document.body.dataset.step = STEPS[n].id;
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
-    App.setGo(null); App.backHook = null; App.popQ = null;
+    App.setGo(null); App.backHook = null; App.popQ = null; phone.classList.remove("d5mode");
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -431,10 +431,34 @@ function drawIso(k, o) {
     return function () { if (sheet) sheet.remove(); };
   }
 
+  /* ============================== Step 5 as designed (Step 5 layout.svg): the chosen plan large in an outlined card, its length and layout, the price right-aligned,
+     and a strip of the other plans beneath, each with its bunk count when it has bunks. Tap a plan in the strip to look at it; the Next arrow takes it on. ============================== */
+  function s5design(root, c) {
+    var D = plansFor(c), P = D.plans, saved = WLProgress.choices().plan, sel = Math.max(0, P.findIndex ? P.findIndex(function (p) { return p.code === saved; }) : 0);
+    phone.classList.add("d5mode");
+    root.classList.add("d5", "has-go");
+    if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
+    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="ft"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
+      '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + ', ' + fmt(p.price) + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div>';
+    var hero = $(".d5hero img", root), ln = $(".ln", root), ft = $(".ft", root), pv = $(".pv", root), fl = $(".fl", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), price = $(".d5price", root);
+    function show1(i, first) {
+      sel = i; var p = P[i], d = Math.round(p.price - D.base);
+      ths.forEach(function (b, j) { b.classList.toggle("on", j === i); });
+      var apply = function () { hero.classList.remove("ld"); hero.src = planImg(p); if (hero.complete && hero.naturalWidth) hero.classList.add("ld"); ln.textContent = p.lenTxt; ft.innerHTML = p.lay.replace(/, /, ",<br>"); pv.textContent = fmt(p.price); fl.textContent = d ? "+" + fmt(d) + " on the base plan" : "The base plan"; };
+      if (first || reduce || !txt.animate) apply(); else { [txt, price].forEach(function (e) { e.animate([{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: 300 }); }); setTimeout(apply, 140); }
+      var on = ths[i]; if (on && strip.scrollTo) strip.scrollTo({ left: Math.max(0, on.offsetLeft - 12), behavior: first || reduce ? "auto" : "smooth" });
+      App.setGo(function () { WLProgress.choose("plan", p.code); App.next(300); });
+    }
+    ths.forEach(function (b, i) { b.addEventListener("click", function () { if (i !== sel) show1(i, false); }); });
+    wireImgs(root); show1(sel, true);
+    if (P.length < 2) strip.style.display = "none";
+  }
+
   var variantOverride = null;
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
+    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "design";
+    if (variant === "design") return s5design(root, c);
     if (variant === "app") return s5app(root, c);
     var V = VARIANTS[variant] ? VARIANTS[variant].v : v5card;
     root.classList.toggle("has-go", true);
@@ -544,7 +568,7 @@ function drawIso(k, o) {
   /* 7 price first: the price is the headline above the picture; length and layout follow it; thumbnails */
   var v5pricefirst = swipe(function (p, i) { return '<span class="pf1"><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span>' + pic(p, i) + '<span class="line"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>'; }, "thumbs");
   var VARIANTS = {
-    app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
+    design: { n: "Supplied design", v: v5card }, app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
     sheet: { n: "Sheet + button", v: v5sheet }, pricefirst: { n: "Price first", v: v5pricefirst },
     hero: { n: "Hero + rows", v: v5hero }, grid: { n: "Grid", v: v5grid }, list: { n: "List", v: v5list }
   };
@@ -602,7 +626,7 @@ function drawIso(k, o) {
   /* 7 price first: the price is the headline above the picture; length and layout follow it; thumbnails */
   var v5pricefirst = swipe(function (p, i) { return '<span class="pf1"><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span>' + pic(p, i) + '<span class="line"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>'; }, "thumbs");
   var VARIANTS = {
-    app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
+    design: { n: "Supplied design", v: v5card }, app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
     sheet: { n: "Sheet + button", v: v5sheet }, pricefirst: { n: "Price first", v: v5pricefirst },
     hero: { n: "Hero + rows", v: v5hero }, grid: { n: "Grid", v: v5grid }, list: { n: "List", v: v5list }
   };
@@ -877,7 +901,7 @@ function drawIso(k, o) {
     { id: "size",    label: "Size",      title: nowrap("How much room") + " " + nowrap("do you need?"), mount: s2 },
     { id: "model",   label: "Model",     title: nowrap("Where will you") + " " + nowrap("take it?"), mount: s3 },
     { id: "bed",     label: "Bed",       title: "Your bed", mount: s4 },
-    { id: "plan",    label: "Floorplan", title: "Your floorplan", mount: s5 },
+    { id: "plan",    label: "Floorplan", title: "Your Floorplan", mount: s5 },
     { id: "details", label: "Details",   title: "Details", mount: s6 }
   ];
   function indexOf(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }

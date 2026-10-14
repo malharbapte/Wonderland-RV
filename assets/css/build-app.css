@@ -615,3 +615,42 @@ html.tab .s6 .psub .pv { font-size: 72px; line-height: 76px; }
 .fpanel { overflow-x: hidden; }
 .fchips { min-width: 0; }
 .fchips .chip { height: auto; min-height: 38px; max-width: 100%; padding: 8px 14px; white-space: normal; text-align: left; line-height: 20px; overflow-wrap: anywhere; box-sizing: border-box; }
+
+
+/* =====================================================================================================================
+   STEP 5 AS DESIGNED (Step 5 layout.svg). Thin dark outlines on the containers, large corners, a soft shadow under the header and above the bottom row.
+   ===================================================================================================================== */
+@font-face { font-family: "Aviano Sans"; src: url("../fonts/AvianoSans-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
+.phone.d5mode h1 { text-transform: none; font-size: 28px; line-height: 33px; }
+.phone.d5mode .bar { position: relative; z-index: 6; border-bottom: 0; box-shadow: 0 5px 10px -4px rgba(35,31,32,.28); }
+.phone.d5mode::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 92px; background: #fff; box-shadow: 0 -5px 10px -4px rgba(35,31,32,.28); z-index: 4; pointer-events: none; }
+.phone.d5mode .back, .phone.d5mode .go { z-index: 7; }
+.s5.d5 { justify-content: flex-start; align-items: stretch; padding-top: 10px; padding-bottom: 104px; }
+.s5.d5 .d5pane { flex: 1; min-height: 0; display: flex; flex-direction: column; width: 100%; }
+.s5 .d5hero { flex: none; aspect-ratio: 281.45 / 143.76; border: .5px solid #231F20; border-radius: 14px; background: #fff; padding: 10px 12px; box-sizing: border-box; }
+.s5 .d5hero img, .s5 .d5t img { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s ease; } .s5 .d5hero img.ld, .s5 .d5t img.ld { opacity: 1; }
+.s5 .d5txt { flex: none; padding-top: 14px; } .s5 .d5txt .ln { display: block; font-family: var(--gordita); font-weight: 700; font-size: 20px; line-height: 26px; color: #000; } .s5 .d5txt .ft { display: block; font-size: 14px; line-height: 17px; margin-top: 3px; color: #231F20; }
+.s5 .d5price { flex: none; text-align: right; padding-top: 12px; }
+.s5 .d5price .pfrom { display: block; font-family: var(--aviano); font-weight: 400; font-size: 14px; line-height: 18px; color: #808285; letter-spacing: .02em; text-transform: uppercase; }
+.s5 .d5price .pv { display: block; font-family: var(--aviano); font-weight: 900; font-size: 49px; line-height: 54px; letter-spacing: -.015em; color: var(--o); }
+.s5 .d5price .fl { display: block; font-family: var(--gordita); font-weight: 500; font-size: 14px; line-height: 20px; color: var(--o); margin-top: 2px; }
+.s5 .d5th { flex: none; display: flex; gap: 10px; margin: 18px calc(var(--m) * -1) 0 0; padding: 4px var(--m) 4px 4px; margin-left: -4px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+.s5 .d5th::-webkit-scrollbar { display: none; }
+.s5 .d5t { position: relative; flex: 0 0 calc((100% - 28px) * .371); aspect-ratio: 104.55 / 66.37; border: .5px solid #231F20; border-radius: 14px; background: #fff; padding: 7px 9px; box-sizing: border-box; scroll-snap-align: start; transition: box-shadow .25s ease, border-color .25s ease; }
+.s5 .d5t:hover { border-color: var(--o); }
+.s5 .d5t.on { border-color: var(--o); box-shadow: inset 0 0 0 var(--stroke) var(--o), 0 0 0 .5px var(--o); }
+.s5 .d5t i { position: absolute; right: 4px; bottom: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--o); color: #fff; font-style: normal; font-family: var(--gordita); font-weight: 500; font-size: 13px; line-height: 20px; text-align: center; }
+html.tab .s5.d5 .d5pane { max-width: 680px; margin: 0 auto; }
+html.tab-land .s5.d5 .d5pane { max-width: none; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 48px; grid-template-rows: auto auto auto 1fr; align-content: start; }
+html.tab-land .s5 .d5hero { grid-column: 1; grid-row: 1 / 4; align-self: start; } html.tab-land .s5 .d5txt { grid-column: 2; grid-row: 1; padding-top: 0; } html.tab-land .s5 .d5price { grid-column: 2; grid-row: 2; } html.tab-land .s5 .d5th { grid-column: 1 / 3; grid-row: 4; align-self: end; }
+html.tab .s5 .d5txt .ln { font-size: 26px; line-height: 32px; } html.tab .s5 .d5txt .ft { font-size: 17px; line-height: 22px; } html.tab .s5 .d5price .pv { font-size: 64px; line-height: 70px; } html.tab .s5 .d5price .fl { font-size: 16px; }
+/* Step 4 icon buttons: on a screen narrower than the four buttons need, they shrink instead of leaving the screen */
+.s4 .ic { flex: 0 1 74px; min-width: 0; } .s4 .ic svg { max-width: 100%; }
+/* iPad landscape for the Step 5 design: the card on the left, text and price on the right, the strip of plans beneath, never overlapping */
+html.tab-land .s5.d5 .d5pane { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 48px; align-content: start; }
+html.tab-land .s5 .d5hero { grid-column: 1; grid-row: 1 / span 2; align-self: start; aspect-ratio: auto; height: clamp(190px, calc(100dvh - 430px), 360px); }
+html.tab-land .s5 .d5txt { grid-column: 2; grid-row: 1; } html.tab-land .s5 .d5price { grid-column: 2; grid-row: 2; align-self: end; }
+html.tab-land .s5 .d5th { grid-column: 1 / 3; grid-row: 3; align-self: start; margin-top: 22px; }
+html.tab .s5 .d5t { flex: 0 0 190px; }
+html.tab-land .s5 .d5t { flex: 0 0 170px; }
