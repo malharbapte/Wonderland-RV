@@ -332,7 +332,7 @@ function drawIso(k, o) {
 
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
+    var variant = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "bleed";
     var V = { list: v5list, hero: v5hero, bleed: v5bleed, grid: v5grid }[variant] || v5list;
     root.classList.toggle("has-go", variant === "hero" || variant === "bleed");
     root.innerHTML = '<div class="pane"></div>'; var pane = $(".pane", root);
@@ -372,14 +372,18 @@ function drawIso(k, o) {
   };
   /* bleed: a full-width carousel; each slide is the picture and its facts, and swipes as one */
   var v5bleed = {
-    html: function (L) { return '<div class="rail2">' + L.map(function (p, i) { return '<div class="sl2"><span class="shot wide">' + img(p, i > 1) + '</span><span class="row2"><span>' + rowTxt(p) + '</span><span class="pr"><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></span></div>'; }).join("") + '</div><div class="dots2"></div>'; },
+    html: function (L) {
+      return '<div class="rail2">' + L.map(function (p, i) { return '<div class="sl2"><span class="shot wide">' + img(p, i > 1) + '</span><span class="row2"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></span></div>'; }).join("") + '</div>' +
+        '<div class="thumbs2">' + L.map(function (p, i) { return '<button class="t2" type="button" data-i="' + i + '" aria-label="Plan ' + (i + 1) + ' of ' + L.length + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async" loading="lazy"></button>'; }).join("") + '</div>';
+    },
     wire: function (pane, L, S, H) {
-      var rail = $(".rail2", pane), dots = $(".dots2", pane), pw = phone.clientWidth || 375;
-      rail.style.width = pw + "px"; rail.style.marginLeft = (-(pw - 327) / 2) + "px";
-      $$(".sl2", pane).forEach(function (s, i) { s.style.width = pw + "px"; $(".fl", s).textContent = H.delta(L[i], "The base plan"); });
-      var paint = function () { dots.innerHTML = L.length > 9 ? '<span class="cnt">' + (S.sel + 1) + ' of ' + L.length + '</span>' : L.map(function (_, i) { return '<i' + (i === S.sel ? ' class="on"' : '') + '></i>'; }).join(""); };
-      rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(L.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(); } });
-      rail.scrollLeft = S.sel * pw; paint();
+      var rail = $(".rail2", pane), strip = $(".thumbs2", pane), pw = phone.clientWidth || 375, ths = $$(".t2", pane);
+      rail.style.width = pw + "px"; rail.style.marginLeft = (-(pw - 327) / 2) + "px"; strip.style.width = pw + "px"; strip.style.marginLeft = (-(pw - 327) / 2) + "px";
+      $$(".sl2", pane).forEach(function (s, i) { s.style.width = pw + "px"; var f = $(".fl", s); f.textContent = H.delta(L[i], "The base plan"); if (f.textContent.charAt(0) === "+") f.textContent += " on the base plan"; });
+      var paint = function (smooth) { ths.forEach(function (b, i) { b.classList.toggle("on", i === S.sel); }); var on = ths[S.sel]; if (on) { var want = on.offsetLeft - (pw - on.offsetWidth) / 2; if (strip.scrollTo) strip.scrollTo({ left: Math.max(0, want), behavior: smooth ? "smooth" : "auto" }); else strip.scrollLeft = Math.max(0, want); } };
+      rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(L.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(true); } });
+      ths.forEach(function (b, i) { b.addEventListener("click", function () { rail.scrollTo ? rail.scrollTo({ left: i * pw, behavior: "smooth" }) : (rail.scrollLeft = i * pw); }); });
+      rail.scrollLeft = S.sel * pw; paint(false);
       App.setGo(function () { H.choose(L[S.sel], null); });
     }
   };
