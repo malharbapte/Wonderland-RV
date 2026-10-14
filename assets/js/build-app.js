@@ -330,10 +330,11 @@ function drawIso(k, o) {
   function bedPrefetch(c) { var D = plansFor(c); return D.plans.slice(0, 3).map(planImg); }
   var img = function (p, lazy) { return '<img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (lazy ? ' loading="lazy"' : '') + '>'; };
 
+  var variantOverride = null;
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
-    var V = { list: v5list, hero: v5hero, bleed: v5bleed, grid: v5grid, card: v5card, overlay: v5overlay, spec: v5spec, pricebar: v5pricebar, center: v5center }[variant] || v5card;
+    var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
+    var V = VARIANTS[variant] ? VARIANTS[variant].v : v5card;
     root.classList.toggle("has-go", variant !== "list" && variant !== "grid");
     root.innerHTML = '<div class="pane"></div>'; var pane = $(".pane", root);
     var list = function () { return D.plans.filter(function (p) { return !S.bun || p.bunks === S.bun; }); };
@@ -388,7 +389,8 @@ function drawIso(k, o) {
     }
   };
   /* ---- five layouts of the swipe, all inside the page margins. Each slide is one plan; the Next circle confirms the one on screen. ---- */
-  function swipe(slide, nav) {
+  function swipe(slide, nav, opts) {
+    opts = opts || {};
     return {
       html: function (L) {
         return '<div class="rail3">' + L.map(function (p, i) { return '<div class="sl3">' + slide(p, i) + '</div>'; }).join("") + '</div>' +
@@ -404,7 +406,8 @@ function drawIso(k, o) {
         rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(L.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(true); } });
         ths.forEach(function (b, i) { b.addEventListener("click", function () { rail.scrollTo ? rail.scrollTo({ left: i * pw, behavior: "smooth" }) : (rail.scrollLeft = i * pw); }); });
         rail.scrollLeft = S.sel * pw; paint(false);
-        App.setGo(function () { H.choose(L[S.sel], null); });
+        if (!opts.noGo) App.setGo(function () { H.choose(L[S.sel], null); });
+        if (opts.after) opts.after(pane, L, S, H);
       }
     };
   }
@@ -420,6 +423,22 @@ function drawIso(k, o) {
   var v5pricebar = swipe(function (p, i) { return pic(p, i) + '<span class="row3"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span><span class="pr"><span class="pill"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span></span>'; }, "dots");
   /* 5 centred: everything on one axis under the picture, the price largest of all; dots */
   var v5center = swipe(function (p, i) { return pic(p, i) + '<span class="ctr"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></span>'; }, "dots");
+
+  /* 6 sheet: the picture, and a white sheet that overlaps its foot with the facts, the price and an explicit "Choose this plan" button; dots */
+  var v5sheet = swipe(function (p, i) { return pic(p, i) + '<span class="sheetp"><span class="row3 tight"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>' + priceBlock(p) + '</span><button class="cta" type="button" data-i="' + i + '">Choose this plan</button></span>'; }, "dots", { noGo: true, after: function (pane, L, S, H) { $$(".cta", pane).forEach(function (b) { b.addEventListener("click", function () { H.choose(L[+b.dataset.i], b); }); }); } });
+  /* 7 price first: the price is the headline above the picture; length and layout follow it; thumbnails */
+  var v5pricefirst = swipe(function (p, i) { return '<span class="pf1"><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span>' + pic(p, i) + '<span class="line"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>'; }, "thumbs");
+  var VARIANTS = {
+    card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
+    sheet: { n: "Sheet + button", v: v5sheet }, pricefirst: { n: "Price first", v: v5pricefirst },
+    hero: { n: "Hero + rows", v: v5hero }, grid: { n: "Grid", v: v5grid }, list: { n: "List", v: v5list }
+  };
+  App.variants = function () { return Object.keys(VARIANTS).map(function (k) { return { k: k, n: VARIANTS[k].n }; }); };
+  App.setVariant = function (k) {
+    variantOverride = k;
+    try { history.replaceState(history.state, "", location.pathname + Q.replace(/([?&])s5=\w+&?/, "$1").replace(/[?&]$/, "") + (Q.indexOf("?") < 0 ? "?" : "&") + "s5=" + k + location.hash); } catch (e) {}
+    if (cur === 4 && curRoot) { curRoot.innerHTML = ""; STEPS[4].mount(curRoot, ctx()); }
+  };
 
   /* grid: two columns of smaller pictures, so more plans are on screen at once; tap to choose */
   var v5grid = {
@@ -448,6 +467,18 @@ function drawIso(k, o) {
   function init() {
     phone = $("#phone"); stage = $("#stage"); h1 = $("#h1"); plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
     if (/[?&]guides/.test(Q)) phone.classList.add("guides");
+    if (/[?&]compare/.test(Q)) {                         /* ?compare: a bar of floorplan layouts to switch between on one page */
+      document.body.classList.add("cmp");
+      var bar = document.createElement("div"); bar.className = "cmpbar"; bar.id = "cmpbar";
+      var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
+      bar.innerHTML = '<b>Floorplan</b>' + App.variants().map(function (v) { return '<button type="button" data-k="' + v.k + '"' + (v.k === cv ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("");
+      document.body.insertBefore(bar, document.body.firstChild);
+      bar.addEventListener("click", function (e) {
+        var b = e.target.closest("button"); if (!b) return;
+        $$("button", bar).forEach(function (x) { x.classList.toggle("on", x === b); });
+        if (cur !== 4) { variantOverride = b.dataset.k; show(4, { dir: 1 }); } else App.setVariant(b.dataset.k);
+      });
+    }
     goBtn.addEventListener("click", function () { if (goFn) { goBtn.classList.add("on"); goFn(); } });
     backBtn.addEventListener("click", function (e) { if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
     window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s !== cur) show(s, { push: false }); });
