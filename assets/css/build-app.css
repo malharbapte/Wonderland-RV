@@ -387,7 +387,7 @@ body.cmp .phone { margin-top: 58px; }
 /* pictures: the render's white background melts into a soft tint, so no frame is needed */
 .s5 .shot, .s6 .shot.rv, .s5 .shot.card, .s5 .shot.sm, .s5 .shot.big, .s5 .shot.ov, .s5 .tile5 .shot { background: var(--f1); border-radius: var(--r); }
 .s5 .shot.wide { border-radius: 0; }
-.s5 .shot img, .s6 .shot.rv img, .s5 .t2 img, .s5 .r1 .th img, .s6 .rc .th img { mix-blend-mode: multiply; }
+.s5 .shot img, .s6 .shot.rv img, .s5 .t2 img, .s5 .r1 .th img, .s6 .rc .th img { mix-blend-mode: normal; }
 .s5 .shot::after { box-shadow: none; border-radius: var(--r); }
 .s5 .card:hover .shot::after, .s5 .card:focus-visible .shot::after, .s5 .tile:hover .shot::after, .s5 .tile5:hover .shot::after, .s5 .tile5.on .shot::after, .s5 .card.on .shot::after, .s5 .tile.on .shot::after { box-shadow: inset 0 0 0 var(--stroke) var(--o); }
 .s6 .shot.rv { box-shadow: none; }
@@ -424,3 +424,13 @@ body.cmp .phone { margin-top: 58px; }
 .s6 .thread > :first-child { margin-top: auto; }
 .s6 .thread { -webkit-mask-image: linear-gradient(transparent, #000 22px); mask-image: linear-gradient(transparent, #000 22px); scroll-behavior: auto; }
 .s6 .reply { padding-top: 10px; }
+
+/* a chosen chip is solid orange */
+.s5 .chip.on, .fchips .chip.on { background: var(--o); color: #fff; box-shadow: none; font-weight: 700; }
+.s5 .chip.on:hover, .fchips .chip.on:hover { background: var(--o); color: #fff; box-shadow: none; }
+/* separation: content never runs under the bottom row (back chevron, price, Next circle); it ends at the clear line and fades out there */
+.s5, .s5.has-go { padding-bottom: var(--clear); }
+.s6.form6 { padding-bottom: var(--clear); } .s6.form6::after { display: none; }
+.s6 .scr, .s6 .scr2 { padding-bottom: 28px; -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent); mask-image: linear-gradient(#000 calc(100% - 28px), transparent); }
+.s6 .subin { padding-bottom: 28px; }
+.s5 .rows { padding-bottom: 28px; -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent); mask-image: linear-gradient(#000 calc(100% - 28px), transparent); }

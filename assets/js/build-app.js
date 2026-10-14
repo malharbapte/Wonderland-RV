@@ -328,7 +328,7 @@ function drawIso(k, o) {
     P.forEach(function (p) { if (p.bunks && buns.indexOf(p.bunks) < 0) buns.push(p.bunks); }); buns.sort(function (a, b) { return a - b; });
     return { bed: bed, plans: P, base: base, buns: buns };
   }
-  var planImg = function (p) { return "assets/img/build/plans/" + p.code + ".jpg"; };
+  var planImg = function (p) { return "assets/img/build/plans/" + p.code + ".webp"; };   /* the site's 3D renders with the white background cut away, so they sit on any colour */
   function bedPrefetch(c) { var D = plansFor(c); return D.plans.slice(0, 3).map(planImg); }
   var img = function (p, lazy) { return '<img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (lazy ? ' loading="lazy"' : '') + '>'; };
 
