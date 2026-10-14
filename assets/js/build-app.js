@@ -108,18 +108,18 @@
       { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", mid: 21.25,  w: 85, ink: [-6.3, -1.1], src: "assets/img/build/size-mid.png" },
       { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", mid: 23.25,  w: 94, ink: [-4.6, -3.1], src: "assets/img/build/size-spacious.png" }
     ];
-    var D = 88, GAP = (327 - 3 * D) / 2, H = 448, RB = 64;
+    var W = root.clientWidth || 327, D = 88, GAP = (W - 3 * D) / 2, H = 448, RB = 64;
     var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i], d: D, s: [50, 56, 60][i] }; });
-    var xb = function (ft) { return (ft - 17.75) / 6.25 * 327; };
+    var xb = function (ft) { return (ft - 17.75) / 6.25 * W; };
     var SPANS = [[17.75, 20], [20.5, 22], [22.5, 24]];
-    var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="327" y2="0"><stop offset="0" stop-color="#FFC47F"/><stop offset=".52" stop-color="#E37921"/><stop offset="1" stop-color="#B04C07"/></linearGradient></defs>';
+    var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0"><stop offset="0" stop-color="#FFC47F"/><stop offset=".52" stop-color="#E37921"/><stop offset="1" stop-color="#B04C07"/></linearGradient></defs>';
     SIZES.forEach(function (z, i) {
       var w = xb(SPANS[i][1]) - xb(SPANS[i][0]);
       scale += '<rect class="seg seg-' + z.k + '" x="' + xb(SPANS[i][0]) + '" y="14" width="' + w + '" height="12" rx="6" fill="url(#gB)"/><text class="sl sl-' + z.k + '" x="' + (xb(SPANS[i][0]) + w / 2) + '" y="46">' + z.ln + '</text>';
     });
     var nudge = function (z, s) { var k = s / z.w; return 'translate(' + (-z.ink[0] * k).toFixed(2) + 'px,' + (-z.ink[1] * k).toFixed(2) + 'px)'; };
     root.innerHTML = '<div class="v9"><div class="wrap">' +
-      '<svg class="rule" viewBox="0 0 327 ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
+      '<svg class="rule" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
       SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px;transform:' + nudge(z, p.s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div></div>';
     $$(".p", root).forEach(function (b) { b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); App.next(380); }); });
   }
@@ -593,7 +593,7 @@ function drawIso(k, o) {
   function customHTML() { return '<div class="cust" role="radiogroup" aria-label="Would you like to further customise your caravan?">' + CUSTOM.map(function (o) { return '<button type="button" role="radio" class="co' + (LEAD.custom === o.k ? " on" : "") + '" data-c="' + o.k + '" aria-checked="' + (LEAD.custom === o.k) + '"><span class="dot"></span><span><b>' + o.t + '</b><em>' + o.d + '</em></span></button>'; }).join("") + '</div>'; }
 
   function s6(root, c) {
-    var v = variant6Override || (Q.match(/[?&]s6=(\w+)/) || [])[1] || "scroll";
+    var v = variant6Override || (Q.match(/[?&]s6=(\w+)/) || [])[1] || "chat";
     return ({ scroll: s6scroll, steps: s6steps, one: s6one, review: s6review, chat: s6chat }[v] || s6scroll)(root, c);
   }
   /* A: one scrolling form. The recap on top, the choice, then the details; the price beside the send button. */
@@ -699,7 +699,7 @@ function drawIso(k, o) {
       { k: "state", q: "Which state are you in?", type: "chips" },
       { k: "date", q: "Last one: when would you like it delivered?", type: "date" }
     ];
-    var node = function (cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; thread.appendChild(d); thread.scrollTo ? thread.scrollTo({ top: thread.scrollHeight, behavior: reduce ? "auto" : "smooth" }) : (thread.scrollTop = thread.scrollHeight); if (!reduce && d.animate) d.animate([{ opacity: 0, transform: "translateY(10px) scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1.2)" }); return d; };
+    var node = function (cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; thread.appendChild(d); thread.scrollTop = thread.scrollHeight; setTimeout(function () { thread.scrollTop = thread.scrollHeight; }, 330); if (!reduce && d.animate) d.animate([{ opacity: 0, transform: "translateY(10px) scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1.2)" }); return d; };
     function bot(h) { return node("bub bot", h); } function me(h) { return node("bub me", h); }
     function ask(n, instant) {
       i = n; marks[n] = thread.children.length; App.setGo(null); reply.innerHTML = ""; busyQ = true;
@@ -753,7 +753,7 @@ function drawIso(k, o) {
       document.body.classList.add("cmp");
       var bar = document.createElement("div"); bar.className = "cmpbar"; bar.id = "cmpbar";
       var cv = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
-      var cv6 = (Q.match(/[?&]s6=(\w+)/) || [])[1] || "scroll";
+      var cv6 = (Q.match(/[?&]s6=(\w+)/) || [])[1] || "chat";
       bar.innerHTML = '<div class="cg g5"><b>Floorplan</b>' + App.variants().map(function (v) { return '<button type="button" data-k="' + v.k + '"' + (v.k === cv ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("") + '</div><div class="cg g6"><b>Details</b>' + App.variants6().map(function (v) { return '<button type="button" data-k6="' + v.k + '"' + (v.k === cv6 ? ' class="on"' : '') + '>' + v.n + '</button>'; }).join("") + '</div>';
       document.body.insertBefore(bar, document.body.firstChild);
       bar.addEventListener("click", function (e) {
