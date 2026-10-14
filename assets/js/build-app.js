@@ -31,13 +31,14 @@
   applyGate();
 
   /* what has been chosen so far (with the preview flags in the address able to override) */
+  var edited = false;                                      /* once the customer changes something in Step 6, the saved choices win over any preview flags in the address */
   function ctx() {
-    var c = WLProgress.choices();
+    var c = WLProgress.choices(), q = !edited;
     return {
-      type: (Q.match(/[?&](couples|family)\b/) || [])[1] || c.type || "couples",
-      size: (Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || c.size || "compact",
-      model: (Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || c.model || "xtr",
-      bed: (Q.match(/[?&]bed=([\w-]+)/) || [])[1] || c.bed, plan: c.plan
+      type: (q && Q.match(/[?&](couples|family)\b/) || [])[1] || c.type || "couples",
+      size: (q && Q.match(/[?&](compact|mid|spacious)\b/) || [])[1] || c.size || "compact",
+      model: (q && Q.match(/[?&]m=(xtr|solara|hornet|amaroo)/) || [])[1] || c.model || "xtr",
+      bed: (q && Q.match(/[?&]bed=([\w-]+)/) || [])[1] || c.bed, plan: c.plan
     };
   }
   /* fetch pictures ahead of time. Resolves when they are all in, or after `ms`, whichever is first, so a slow network never freezes the app. */
@@ -73,7 +74,7 @@
     document.body.dataset.step = STEPS[n].id;
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
-    App.setGo(null); App.backHook = null;
+    App.setGo(null); App.backHook = null; App.popQ = null;
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -558,9 +559,9 @@ function drawIso(k, o) {
     return { cx: cx, plan: plan, bed: BEDLINE[D.bed] || "", model: MODEL_N[cx.model], type: TYPE_N[cx.type], size: SIZE_N[cx.size] };
   }
   var tick = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  function recapHTML(R) {
+  function recapHTML(R, editable) {
     var p = R.plan; if (!p) return "";
-    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span></span></div>';
+    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise</button>' : '') + '</span></div>';
   }
   function priceNear(R) { return R.plan ? '<div class="pf6"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="fl">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : ""; }
   /* the form fields, shared by all three layouts */
@@ -704,11 +705,51 @@ function drawIso(k, o) {
     draw(1, 1);
   }
   /* E: chat. The app asks in bubbles, the customer answers by typing or tapping a reply; the circle sends. */
+  /* Customise: every choice made on the way here can be changed from one sheet, with the price following along. Changing an earlier choice quietly
+     re-checks the later ones (a model not offered in that size, a bed or floorplan that no longer exists) and keeps the nearest valid answer. */
+  function openCustomise(onChange) {
+    var c0 = ctx(), D0 = plansFor(c0), st = { type: c0.type, size: c0.size, model: c0.model, bed: D0.bed, plan: WLProgress.choices().plan || (D0.plans[0] && D0.plans[0].code) };
+    var sheet = document.createElement("div"); sheet.className = "fsheet cust";
+    var SZ = [["compact", "Compact"], ["mid", "Mid-size"], ["spacious", "Spacious"]], TY = [["couples", "Couple’s"], ["family", "Family"]];
+    function reval() {
+      var tab = MPRICES[st.type + "|" + st.size] || {};
+      if (tab[st.model] === undefined) { var f = MODELS.filter(function (m) { return tab[m.k] !== undefined; })[0]; if (f) st.model = f.k; }
+      var beds = wlBeds(st.type, st.size, st.model).filter(function (b) { return b.price !== null; });
+      if (!beds.some(function (b) { return b.key === st.bed; })) st.bed = (beds.slice().sort(function (a, b) { return a.price - b.price; })[0] || {}).key;
+      var D = plansFor({ type: st.type, size: st.size, model: st.model, bed: st.bed }); st.bed = D.bed;
+      if (!D.plans.some(function (p) { return p.code === st.plan; })) st.plan = D.plans[0] && D.plans[0].code;
+      return { D: D, beds: beds, tab: tab };
+    }
+    function chip(g, v, label, on, off) { return '<button type="button" class="chip' + (on ? " on" : "") + '" data-g="' + g + '" data-v="' + v + '"' + (off ? " disabled" : "") + '>' + label + '</button>'; }
+    function draw() {
+      var X = reval(), D = X.D, pl = D.plans.filter(function (p) { return p.code === st.plan; })[0];
+      sheet.innerHTML = '<div class="fpanel" role="dialog" aria-label="Customise your caravan"><div class="fh"><b>Customise</b><button type="button" class="fx" aria-label="Close without saving"><svg viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>' +
+        '<div class="fg"><div class="ft5">Who’s coming along</div><div class="fchips">' + TY.map(function (o) { return chip("type", o[0], o[1], st.type === o[0]); }).join("") + '</div></div>' +
+        '<div class="fg"><div class="ft5">Size</div><div class="fchips">' + SZ.map(function (o) { return chip("size", o[0], o[1], st.size === o[0]); }).join("") + '</div></div>' +
+        '<div class="fg"><div class="ft5">Model</div><div class="fchips">' + MODELS.map(function (m) { var p = X.tab[m.k]; return chip("model", m.k, m.nm + (p !== undefined ? ' · ' + fmt(p) : ''), st.model === m.k, p === undefined); }).join("") + '</div>' + (MODELS.some(function (m) { return X.tab[m.k] === undefined; }) ? '<div class="cnote">Greyed models are not offered in this size.</div>' : '') + '</div>' +
+        '<div class="fg"><div class="ft5">Bed</div><div class="fchips">' + X.beds.map(function (b) { return chip("bed", b.key, b.group + ' · ' + b.short, st.bed === b.key); }).join("") + '</div></div>' +
+        '<div class="fg"><div class="ft5">Floorplan</div><div class="fchips">' + D.plans.map(function (p) { return chip("plan", p.code, p.lenTxt + ' · ' + p.ls, st.plan === p.code); }).join("") + '</div></div>' +
+        '<div class="cprice"><span class="cp"><span class="pfrom">From</span><span class="pv">' + (pl ? fmt(pl.price) : "") + '</span></span><button type="button" class="fshow">Done</button></div></div>';
+      $$(".chip", sheet).forEach(function (b) { b.addEventListener("click", function () { st[b.dataset.g] = b.dataset.v; draw(); }); });
+      $(".fx", sheet).addEventListener("click", close);
+      $(".fshow", sheet).addEventListener("click", function () {
+        WLProgress.choose("type", st.type); WLProgress.choose("size", st.size); WLProgress.choose("model", st.model); WLProgress.choose("bed", st.bed); WLProgress.choose("plan", st.plan);
+        edited = true; close(); onChange();
+      });
+    }
+    function close() { sheet.classList.remove("in"); var s = sheet; setTimeout(function () { s.remove(); }, 320); }
+    sheet.addEventListener("click", function (e) { if (e.target === sheet) close(); });
+    draw(); phone.appendChild(sheet); void sheet.offsetWidth; sheet.classList.add("in");
+  }
   function s6chat(root) {
-    var R = recap(), thread, reply, pfw, i = 0, marks = [], busyQ = false;
+    var R = recap(), thread, reply, psub, i = 0, marks = [], busyQ = false, qDepth = 0;
     root.classList.add("form6", "chat6");
-    root.innerHTML = '<div class="pane6"><div class="thread"></div><div class="reply"></div></div><div id="pfw"></div>';
-    thread = $(".thread", root); reply = $(".reply", root); pfw = $("#pfw", root); pfw.innerHTML = priceNear(R);
+    root.innerHTML = '<div class="pane6"><div class="psub"></div><div class="thread"></div><div class="reply"></div></div>';
+    thread = $(".thread", root); reply = $(".reply", root); psub = $(".psub", root);
+    /* the price is the subheading under the page heading, pinned: it stays put while the chat scrolls and follows any change made in Customise */
+    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span>' : ""; }
+    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
+    drawPrice();
     var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
     var Qs = [
       { k: "custom", q: "Hi! Here’s the caravan you’ve built. Would you like to keep customising it, or shall I just email you a quote?", type: "choice" },
@@ -723,6 +764,7 @@ function drawIso(k, o) {
     var node = function (cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; thread.appendChild(d); thread.scrollTop = thread.scrollHeight; setTimeout(function () { thread.scrollTop = thread.scrollHeight; }, 330); if (!reduce && d.animate) d.animate([{ opacity: 0, transform: "translateY(10px) scale(.97)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1.2)" }); return d; };
     function bot(h) { return node("bub bot", h); } function me(h) { return node("bub me", h); }
     function ask(n, instant) {
+      if (!instant) { try { history.pushState({ s: 5, q: n }, "", location.href); qDepth++; } catch (e) {} }     /* each new question is a history step, so the device Back gesture undoes a reply too */
       i = n; marks[n] = thread.children.length; App.setGo(null); reply.innerHTML = ""; busyQ = true;
       var Qn = Qs[n], q = typeof Qn.q === "function" ? Qn.q() : Qn.q;
       var show1 = function () {
@@ -733,7 +775,7 @@ function drawIso(k, o) {
     }
     function answer(label, nextFn) { me(esc(label)); setTimeout(nextFn, 260); }
     function drawReply(Qn, n) {
-      App.backHook = n > 0 ? function () { undo(); return true; } : null;
+      App.backHook = n > 0 ? function () { if (busyQ) return true; if (qDepth > 0) { history.back(); return true; } undo(); return true; } : null;
       if (Qn.type === "choice") { reply.innerHTML = '<div class="rchips">' + CUSTOM.map(function (o) { return '<button type="button" class="rc1" data-c="' + o.k + '">' + o.t + '</button>'; }).join("") + '</div>'; $$(".rc1", reply).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; reply.innerHTML = ""; answer(b.textContent, function () { ask(n + 1); }); }); }); return; }
       if (Qn.type === "chips") { reply.innerHTML = '<div class="rchips wrap">' + STATES.map(function (s) { return '<button type="button" class="rc1" data-s="' + s + '">' + s + '</button>'; }).join("") + '</div>'; $$(".rc1", reply).forEach(function (b) { b.addEventListener("click", function () { LEAD.state = b.dataset.s; reply.innerHTML = ""; answer(b.dataset.s, function () { ask(n + 1); }); }); }); return; }
       var type = Qn.type === "date" ? "date" : (Qn.type || "text"), last = n === Qs.length - 1;
@@ -750,9 +792,11 @@ function drawIso(k, o) {
       var sk = $(".skip", reply); if (sk) sk.addEventListener("click", function () { inp.value = ""; send(); });
       if (!reduce) setTimeout(function () { try { inp.focus({ preventScroll: true }); } catch (e) {} }, 350);
     }
-    function undo() { if (busyQ || i < 1) return; var n = i - 1; while (thread.children.length > marks[n]) thread.removeChild(thread.lastChild); ask(n, true); }
+    function undoTo(n) { if (n >= i) return; qDepth = Math.max(0, n); while (thread.children.length > marks[n]) thread.removeChild(thread.lastChild); ask(n, true); }
+    function undo() { if (busyQ || i < 1) return; undoTo(i - 1); }
+    App.popQ = function (q) { undoTo(q); };
     function collect() { var o = {}; Object.keys(FIELDS).forEach(function (k) { o[k] = LEAD[k] || ""; }); return o; }
-    thread.innerHTML = '<div class="bub bot att">' + recapHTML(R) + '</div>'; wireImgs(thread); ask(0, true);
+    thread.innerHTML = '<div class="bub bot att"></div>'; drawCard(); ask(0, true);
   }
   App.variants6 = function () { return [{ k: "scroll", n: "1 · One form" }, { k: "steps", n: "2 · Two screens" }, { k: "one", n: "3 · One question at a time" }, { k: "review", n: "4 · Review, then details" }, { k: "chat", n: "5 · Chat" }]; };
   App.setVariant6 = function (k) { variant6Override = k; LEAD = { custom: null }; if (cur === 5 && curRoot) { curRoot.className = "step s6"; curRoot.innerHTML = ""; App.setGo(null); App.backHook = null; STEPS[5].mount(curRoot, ctx()); } };
@@ -788,7 +832,7 @@ function drawIso(k, o) {
     window.addEventListener("resize", relayout); window.addEventListener("orientationchange", function () { setTimeout(relayout, 250); });
     goBtn.addEventListener("click", function () { if (goFn) { goBtn.classList.add("on"); goFn(); } });
     backBtn.addEventListener("click", function (e) { if (App.backHook && App.backHook()) { e.preventDefault(); return; } if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
-    window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s !== cur) show(s, { push: false }); });
+    window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s === cur && App.popQ) { App.popQ((e.state && e.state.q) || 0); return; } if (s !== cur) show(s, { push: false }); });
     var start = indexOf(((Q.match(/[?&]step=(\w+)/) || [])[1]) || (location.hash || "").slice(1)); if (start < 0) start = 0;
     show(start, { push: true });
     /* warm the cache for the steps ahead while the first one is being looked at */
