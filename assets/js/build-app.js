@@ -437,7 +437,7 @@ function drawIso(k, o) {
     var variant = variantOverride || (Q.match(/[?&]s5=(\w+)/) || [])[1] || "list";
     if (variant === "app") return s5app(root, c);
     var V = VARIANTS[variant] ? VARIANTS[variant].v : v5card;
-    root.classList.toggle("has-go", variant !== "list" && variant !== "grid");
+    root.classList.toggle("has-go", true);
     root.innerHTML = '<div class="pane"></div>'; var pane = $(".pane", root);
     var list = function () { return D.plans.filter(function (p) { return !S.bun || p.bunks === S.bun; }); };
     var chips = function () { return D.buns.length > 1 ? '<div class="chips">' + [0].concat(D.buns).map(function (n) { return '<button type="button" class="chip' + ((S.bun || 0) === n ? " on" : "") + '" data-n="' + n + '">' + (n ? n + (n > 1 ? " bunks" : " bunk") : "Any bunks") + '</button>'; }).join("") + '</div>' : ""; };
@@ -460,8 +460,20 @@ function drawIso(k, o) {
   /* list: big cards, one under another, tap to choose */
   var v5list = {
     html: function (L) { return '<div class="list">' + L.map(function (p, i) { return '<button class="card" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + ', ' + fmt(p.price) + '"><span class="shot">' + img(p, i > 1) + '</span><span class="row"><span>' + rowTxt(p) + '</span><span class="pr"><span class="pv">' + fmt(p.price) + '</span><span class="fl" data-d="' + i + '"></span></span></span></button>'; }).join("") + '</div>'; },
-    wire: function (pane, L, S, H) { $$(".card", pane).forEach(function (b) { var p = L[+b.dataset.i]; $(".fl", b).textContent = H.delta(p, "The base plan"); b.addEventListener("click", function () { H.choose(p, b); }); }); }
+    wire: function (pane, L, S, H) { pickWire($$(".card", pane), L, S, H, "The base plan"); }
   };
+  /* tap a plan to select it (it gets the orange outline); the Next arrow then appears and takes you on with it */
+  function pickWire(els, L, S, H, baseTxt) {
+    var saved = WLProgress.choices().plan; S.selCode = S.selCode || (saved && L.some(function (p) { return p.code === saved; }) ? saved : null);
+    if (S.selCode && !L.some(function (p) { return p.code === S.selCode; })) S.selCode = null;
+    var go = function (p) { App.setGo(function () { H.choose(p, null); }); };
+    els.forEach(function (b) {
+      var p = L[+b.dataset.i], fl = $(".fl", b); if (fl) fl.textContent = H.delta(p, baseTxt);
+      b.classList.toggle("on", p.code === S.selCode);
+      b.addEventListener("click", function () { S.selCode = p.code; els.forEach(function (x) { x.classList.toggle("on", x === b); }); go(p); });
+    });
+    var cur = L.filter(function (p) { return p.code === S.selCode; })[0]; if (cur) go(cur);
+  }
   /* hero: the chosen plan large at the top, the others as compact rows beneath; the Next circle confirms */
   var v5hero = {
     html: function (L, S) { return '<div class="hh"><span class="shot big">' + img(L[S.sel]) + '</span></div><div class="rows">' + L.map(function (p, i) { return '<button class="r1' + (i === S.sel ? " on" : "") + '" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + ', ' + fmt(p.price) + '"><span class="th"><img data-ld src="' + planImg(p) + '" alt="" decoding="async" loading="lazy"></span><span class="tx"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span><span class="pr"><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></button>'; }).join("") + '</div>'; },
@@ -491,6 +503,64 @@ function drawIso(k, o) {
       App.setGo(function () { H.choose(L[S.sel], null); });
     }
   };
+  /* ---- five layouts of the swipe, all inside the page margins. Each slide is one plan; the Next circle confirms the one on screen. ---- */
+  function swipe(slide, nav, opts) {
+    opts = opts || {};
+    return {
+      html: function (L) {
+        return '<div class="rail3">' + L.map(function (p, i) { return '<div class="sl3">' + slide(p, i) + '</div>'; }).join("") + '</div>' +
+          (nav === "thumbs" ? '<div class="thumbs3">' + L.map(function (p, i) { return '<button class="t2" type="button" data-i="' + i + '" aria-label="Plan ' + (i + 1) + ' of ' + L.length + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async" loading="lazy"></button>'; }).join("") + '</div>' : '<div class="dots2"></div>');
+      },
+      wire: function (pane, L, S, H) {
+        var rail = $(".rail3", pane), pw = rail.clientWidth || 327, nv = nav === "thumbs" ? $(".thumbs3", pane) : $(".dots2", pane), ths = $$(".t2", pane);
+        $$(".sl3", pane).forEach(function (s, i) { var f = $(".fl", s); if (f) { f.textContent = H.delta(L[i], "The base plan"); if (f.textContent.charAt(0) === "+") f.textContent += " on the base plan"; } });
+        var paint = function (smooth) {
+          if (nav === "thumbs") { ths.forEach(function (b, i) { b.classList.toggle("on", i === S.sel); }); var on = ths[S.sel]; if (on) { var want = on.offsetLeft - (pw - on.offsetWidth) / 2; if (nv.scrollTo) nv.scrollTo({ left: Math.max(0, want), behavior: smooth ? "smooth" : "auto" }); else nv.scrollLeft = Math.max(0, want); } }
+          else nv.innerHTML = L.length > 9 ? '<span class="cnt">' + (S.sel + 1) + ' of ' + L.length + '</span>' : L.map(function (_, i) { return '<i' + (i === S.sel ? ' class="on"' : '') + '></i>'; }).join("");
+        };
+        rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(L.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(true); } });
+        ths.forEach(function (b, i) { b.addEventListener("click", function () { rail.scrollTo ? rail.scrollTo({ left: i * pw, behavior: "smooth" }) : (rail.scrollLeft = i * pw); }); });
+        rail.scrollLeft = S.sel * pw; paint(false);
+        if (!opts.noGo) App.setGo(function () { H.choose(L[S.sel], null); });
+        if (opts.after) opts.after(pane, L, S, H);
+      }
+    };
+  }
+  var pic = function (p, i, extra) { return '<span class="shot card' + (extra || "") + '">' + img(p, i > 1) + (extra === " ov" ? '<span class="lenchip">' + p.lenTxt + '</span><span class="pricechip"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span>' : "") + '</span>'; };
+  var priceBlock = function (p) { return '<span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span>'; };
+  /* 1 card: the picture in a rounded card, length and layout left, price right, thumbnails beneath */
+  var v5card = swipe(function (p, i) { return pic(p, i) + '<span class="row3"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>' + priceBlock(p) + '</span>'; }, "thumbs");
+  /* 2 overlay: the length and the price sit on the picture, in chips; the layout is the only line below; dots */
+  var v5overlay = swipe(function (p, i) { return pic(p, i, " ov") + '<span class="under"><span class="ft">' + p.lay + '</span><span class="fl"></span></span>'; }, "dots");
+  /* 3 spec: the picture, then a small panel of labelled facts with the price beside them; thumbnails */
+  var v5spec = swipe(function (p, i) { return pic(p, i) + '<span class="spec"><span class="facts"><span class="f"><i>Length</i><b>' + p.lenTxt + '</b></span><span class="f"><i>Layout</i><b>' + p.lname + '</b></span>' + (p.door ? '<span class="f"><i>Door</i><b>' + p.door + '</b></span>' : '') + '</span>' + priceBlock(p) + '</span>'; }, "thumbs");
+  /* 4 price bar: the price in a solid orange pill, the first thing the eye lands on; dots */
+  var v5pricebar = swipe(function (p, i) { return pic(p, i) + '<span class="row3"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span><span class="pr"><span class="pill"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span></span>'; }, "dots");
+  /* 5 centred: everything on one axis under the picture, the price largest of all; dots */
+  var v5center = swipe(function (p, i) { return pic(p, i) + '<span class="ctr"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></span>'; }, "dots");
+
+  /* 6 sheet: the picture, and a white sheet that overlaps its foot with the facts, the price and an explicit "Choose this plan" button; dots */
+  var v5sheet = swipe(function (p, i) { return pic(p, i) + '<span class="sheetp"><span class="row3 tight"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>' + priceBlock(p) + '</span><button class="cta" type="button" data-i="' + i + '">Choose this plan</button></span>'; }, "dots", { noGo: true, after: function (pane, L, S, H) { $$(".cta", pane).forEach(function (b) { b.addEventListener("click", function () { H.choose(L[+b.dataset.i], b); }); }); } });
+  /* 7 price first: the price is the headline above the picture; length and layout follow it; thumbnails */
+  var v5pricefirst = swipe(function (p, i) { return '<span class="pf1"><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span>' + pic(p, i) + '<span class="line"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>'; }, "thumbs");
+  var VARIANTS = {
+    app: { n: "Card + filter", v: v5card }, card: { n: "Card", v: v5card }, overlay: { n: "Overlay", v: v5overlay }, spec: { n: "Spec panel", v: v5spec }, pricebar: { n: "Price bar", v: v5pricebar }, center: { n: "Centred", v: v5center },
+    sheet: { n: "Sheet + button", v: v5sheet }, pricefirst: { n: "Price first", v: v5pricefirst },
+    hero: { n: "Hero + rows", v: v5hero }, grid: { n: "Grid", v: v5grid }, list: { n: "List", v: v5list }
+  };
+  App.variants = function () { return Object.keys(VARIANTS).map(function (k) { return { k: k, n: VARIANTS[k].n }; }); };
+  App.setVariant = function (k) {
+    variantOverride = k;
+    try { history.replaceState(history.state, "", location.pathname + Q.replace(/([?&])s5=\w+&?/, "$1").replace(/[?&]$/, "") + (Q.indexOf("?") < 0 ? "?" : "&") + "s5=" + k + location.hash); } catch (e) {}
+    if (cur === 4 && curRoot) { curRoot.innerHTML = ""; STEPS[4].mount(curRoot, ctx()); }
+  };
+
+  /* grid: two columns of smaller pictures, so more plans are on screen at once; tap to choose */
+  var v5grid = {
+    html: function (L) { return '<div class="grid">' + L.map(function (p, i) { return '<button class="tile" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + ', ' + fmt(p.price) + '"><span class="shot sm">' + img(p, i > 5) + '</span><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.ls + '</span><span class="pr"><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></button>'; }).join("") + '</div>'; },
+    wire: function (pane, L, S, H) { pickWire($$(".tile", pane), L, S, H, "Base"); }
+  };
+
   /* ---- five layouts of the swipe, all inside the page margins. Each slide is one plan; the Next circle confirms the one on screen. ---- */
   function swipe(slide, nav, opts) {
     opts = opts || {};
@@ -726,7 +796,7 @@ function drawIso(k, o) {
       sheet.innerHTML = '<div class="fpanel" role="dialog" aria-label="Customise your caravan"><div class="fh"><b>Customise</b><button type="button" class="fx" aria-label="Close without saving"><svg viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>' +
         '<div class="fg"><div class="ft5">Who’s coming along</div><div class="fchips">' + TY.map(function (o) { return chip("type", o[0], o[1], st.type === o[0]); }).join("") + '</div></div>' +
         '<div class="fg"><div class="ft5">Size</div><div class="fchips">' + SZ.map(function (o) { return chip("size", o[0], o[1], st.size === o[0]); }).join("") + '</div></div>' +
-        '<div class="fg"><div class="ft5">Model</div><div class="fchips">' + MODELS.map(function (m) { var p = X.tab[m.k]; return chip("model", m.k, m.nm + (p !== undefined ? ' · ' + fmt(p) : ''), st.model === m.k, p === undefined); }).join("") + '</div>' + (MODELS.some(function (m) { return X.tab[m.k] === undefined; }) ? '<div class="cnote">Greyed models are not offered in this size.</div>' : '') + '</div>' +
+        '<div class="fg"><div class="ft5">Model</div><div class="fchips">' + MODELS.map(function (m) { var p = X.tab[m.k]; return chip("model", m.k, m.nm + (p !== undefined ? ' · <span class="px">' + fmt(p) + '</span>' : ''), st.model === m.k, p === undefined); }).join("") + '</div>' + (MODELS.some(function (m) { return X.tab[m.k] === undefined; }) ? '<div class="cnote">Greyed models are not offered in this size.</div>' : '') + '</div>' +
         '<div class="fg"><div class="ft5">Bed</div><div class="fchips">' + X.beds.map(function (b) { return chip("bed", b.key, b.group + ' · ' + b.short, st.bed === b.key); }).join("") + '</div></div>' +
         '<div class="fg"><div class="ft5">Floorplan</div><div class="fchips">' + D.plans.map(function (p) { return chip("plan", p.code, p.lenTxt + ' · ' + p.ls, st.plan === p.code); }).join("") + '</div></div>' +
         '<div class="cprice"><span class="cp"><span class="pfrom">From</span><span class="pv">' + (pl ? fmt(pl.price) : "") + '</span></span><button type="button" class="fshow">Done</button></div></div>';

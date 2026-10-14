@@ -572,3 +572,28 @@ html.tab .s6 .psub .pv { font-size: 40px; line-height: 44px; }
 .s6 .psub .l { flex-direction: column; align-items: flex-start; gap: 2px; }
 .s6 .psub .pv { color: var(--o); }
 .s6 .psub .pd { margin-left: auto; text-align: right; }
+
+
+/* =====================================================================================================================
+   TYPE FOR NUMBERS. Every price is Aviano Sans Black (a little smaller, as Aviano runs wide). In Step 5 the van's length takes the face the price used to have.
+   ===================================================================================================================== */
+.pv, .s5 .tile5 .tp b, .s3 .mini .mp, .px { font-family: var(--aviano); font-weight: 900; letter-spacing: -.01em; }
+.px { font-size: 12px; }
+.s3 .pr .pv { font-size: 17px; } .s3 .mini .mp { font-size: 10px; line-height: 14px; }
+.s4 .foot .pv { font-size: 27px; line-height: 36px; } .s4 .foot .pr { line-height: 36px; } .s4 .foot .pf { font-size: 14px; }
+.s5 .pr .pv { font-size: 19px; line-height: 28px; } .s5 .tile5 .tp b { font-size: 13px; line-height: 20px; }
+.s5 .pf5 .pv { font-size: 26px; line-height: 32px; }
+.s5 .row3 .pr .pv, .s5 .spec .pr .pv { font-size: 30px; line-height: 36px; } .s5 .ctr .pr .pv, .s5 .pf1 .pv { font-size: 40px; line-height: 46px; } .s5 .row2 .pr .pv { font-size: 30px; line-height: 38px; }
+.s5 .pricechip .pv, .s5 .pill .pv, .s5 .row3 .pill .pv { font-size: 24px; line-height: 30px; } .s5 .r1 .pr .pv, .s5 .tile .pr .pv { font-size: 14px; line-height: 20px; }
+.s5 .sheetp .row3 .pr .pv { font-size: 26px; line-height: 32px; }
+.s6 .psub .pv { font-size: 29px; line-height: 36px; } .s6 .pf6 .pv { font-size: 26px; line-height: 32px; } .cprice .pv { font-size: 26px; line-height: 32px; }
+.s5 .ln { font-family: var(--gordita); font-weight: 700; letter-spacing: -.01em; font-size: 25px; line-height: 31px; }
+html.tab .s3 .pr .pv { font-size: calc(17px * var(--K, 1)); }
+html.tab .s4 .foot .pv { font-size: 36px; line-height: 44px; }
+html.tab .s5 .card .pr .pv { font-size: 23px; line-height: 30px; } html.tab .s5 .card .ln, html.tab .s5 .tile5 .ln { font-size: 28px; line-height: 34px; }
+html.tab .s5 .pf5 .pv, html.tab .s6 .pf6 .pv { font-size: 32px; line-height: 38px; } html.tab .s6 .psub .pv { font-size: 36px; line-height: 42px; }
+
+/* step 6 quick replies: an orange outline, twice the weight of the standard stroke; they fill orange when pressed */
+.s6 .rc1 { background: #fff; box-shadow: inset 0 0 0 calc(var(--stroke) * 2) var(--o); color: var(--ink); font-weight: 700; }
+.s6 .rc1:hover { background: var(--o); color: #fff; box-shadow: inset 0 0 0 calc(var(--stroke) * 2) var(--o); }
+.s6 .rc1:active { background: var(--o); color: #fff; box-shadow: none; }
