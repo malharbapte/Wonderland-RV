@@ -314,11 +314,11 @@ function drawIso(k, o) {
     var ALL = [], RAW = WL_PLANS[c.type + "|" + c.size] || {};
     Object.keys(RAW).forEach(function (code) {
       var r = RAW[code], price = r.p[c.model]; if (price == null) return;
-      var ft = +code.slice(0, 2), inch = +code.slice(2, 4), m = /^(\d{2})(\d{2})(K1|K|Q1|Q2|Q|EW|KL)(.*)$/.exec(code), s = m ? m[4] : "", lay = "", ls = "", mm;
-      if ((mm = /^-(M|R)-(L|C|SC|XLE)$/.exec(s))) { lay = LAY[mm[2]] + (mm[1] === "M" ? ", door beside the bed" : ", door at the rear"); ls = LAYS[mm[2]] + (mm[1] === "M" ? " · door by bed" : " · door at rear"); }
-      else if (/^-RCL?$/.test(s)) { lay = LAY.RC + ", door at the rear"; ls = LAYS.RC + " · door at rear"; }
-      else { lay = nice(r.desc || ""); ls = lay; }
-      ALL.push({ code: code, bed: r.bed, bunks: r.bunks || 0, price: price, len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″", lay: lay, ls: ls });
+      var ft = +code.slice(0, 2), inch = +code.slice(2, 4), m = /^(\d{2})(\d{2})(K1|K|Q1|Q2|Q|EW|KL)(.*)$/.exec(code), s = m ? m[4] : "", lay = "", ls = "", lname = "", door = "", mm;
+      if ((mm = /^-(M|R)-(L|C|SC|XLE)$/.exec(s))) { lname = LAY[mm[2]]; door = mm[1] === "M" ? "Beside the bed" : "At the rear"; lay = LAY[mm[2]] + (mm[1] === "M" ? ", door beside the bed" : ", door at the rear"); ls = LAYS[mm[2]] + (mm[1] === "M" ? " · door by bed" : " · door at rear"); }
+      else if (/^-RCL?$/.test(s)) { lname = LAY.RC; door = "At the rear"; lay = LAY.RC + ", door at the rear"; ls = LAYS.RC + " · door at rear"; }
+      else { lay = nice(r.desc || ""); ls = lay; lname = lay; }
+      ALL.push({ code: code, bed: r.bed, bunks: r.bunks || 0, price: price, len: ft + inch / 12, lenTxt: ft + "′" + (inch < 10 ? "0" : "") + inch + "″", lay: lay, ls: ls, lname: lname, door: door });
     });
     ALL.sort(function (a, b) { return a.len - b.len || a.price - b.price; });
     var bed = c.bed; if (!ALL.some(function (p) { return p.bed === bed; })) bed = (ALL.slice().sort(function (a, b) { return a.price - b.price; })[0] || {}).bed;
@@ -332,9 +332,9 @@ function drawIso(k, o) {
 
   function s5(root, c) {
     var D = plansFor(c), S = { bun: null, sel: 0 };
-    var variant = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "bleed";
-    var V = { list: v5list, hero: v5hero, bleed: v5bleed, grid: v5grid }[variant] || v5list;
-    root.classList.toggle("has-go", variant === "hero" || variant === "bleed");
+    var variant = (Q.match(/[?&]s5=(\w+)/) || [])[1] || "card";
+    var V = { list: v5list, hero: v5hero, bleed: v5bleed, grid: v5grid, card: v5card, overlay: v5overlay, spec: v5spec, pricebar: v5pricebar, center: v5center }[variant] || v5card;
+    root.classList.toggle("has-go", variant !== "list" && variant !== "grid");
     root.innerHTML = '<div class="pane"></div>'; var pane = $(".pane", root);
     var list = function () { return D.plans.filter(function (p) { return !S.bun || p.bunks === S.bun; }); };
     var chips = function () { return D.buns.length > 1 ? '<div class="chips">' + [0].concat(D.buns).map(function (n) { return '<button type="button" class="chip' + ((S.bun || 0) === n ? " on" : "") + '" data-n="' + n + '">' + (n ? n + (n > 1 ? " bunks" : " bunk") : "Any bunks") + '</button>'; }).join("") + '</div>' : ""; };
@@ -387,6 +387,40 @@ function drawIso(k, o) {
       App.setGo(function () { H.choose(L[S.sel], null); });
     }
   };
+  /* ---- five layouts of the swipe, all inside the page margins. Each slide is one plan; the Next circle confirms the one on screen. ---- */
+  function swipe(slide, nav) {
+    return {
+      html: function (L) {
+        return '<div class="rail3">' + L.map(function (p, i) { return '<div class="sl3">' + slide(p, i) + '</div>'; }).join("") + '</div>' +
+          (nav === "thumbs" ? '<div class="thumbs3">' + L.map(function (p, i) { return '<button class="t2" type="button" data-i="' + i + '" aria-label="Plan ' + (i + 1) + ' of ' + L.length + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async" loading="lazy"></button>'; }).join("") + '</div>' : '<div class="dots2"></div>');
+      },
+      wire: function (pane, L, S, H) {
+        var rail = $(".rail3", pane), pw = rail.clientWidth || 327, nv = nav === "thumbs" ? $(".thumbs3", pane) : $(".dots2", pane), ths = $$(".t2", pane);
+        $$(".sl3", pane).forEach(function (s, i) { var f = $(".fl", s); if (f) { f.textContent = H.delta(L[i], "The base plan"); if (f.textContent.charAt(0) === "+") f.textContent += " on the base plan"; } });
+        var paint = function (smooth) {
+          if (nav === "thumbs") { ths.forEach(function (b, i) { b.classList.toggle("on", i === S.sel); }); var on = ths[S.sel]; if (on) { var want = on.offsetLeft - (pw - on.offsetWidth) / 2; if (nv.scrollTo) nv.scrollTo({ left: Math.max(0, want), behavior: smooth ? "smooth" : "auto" }); else nv.scrollLeft = Math.max(0, want); } }
+          else nv.innerHTML = L.length > 9 ? '<span class="cnt">' + (S.sel + 1) + ' of ' + L.length + '</span>' : L.map(function (_, i) { return '<i' + (i === S.sel ? ' class="on"' : '') + '></i>'; }).join("");
+        };
+        rail.addEventListener("scroll", function () { var i = Math.max(0, Math.min(L.length - 1, Math.round(rail.scrollLeft / pw))); if (i !== S.sel) { S.sel = i; paint(true); } });
+        ths.forEach(function (b, i) { b.addEventListener("click", function () { rail.scrollTo ? rail.scrollTo({ left: i * pw, behavior: "smooth" }) : (rail.scrollLeft = i * pw); }); });
+        rail.scrollLeft = S.sel * pw; paint(false);
+        App.setGo(function () { H.choose(L[S.sel], null); });
+      }
+    };
+  }
+  var pic = function (p, i, extra) { return '<span class="shot card' + (extra || "") + '">' + img(p, i > 1) + (extra === " ov" ? '<span class="lenchip">' + p.lenTxt + '</span><span class="pricechip"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span>' : "") + '</span>'; };
+  var priceBlock = function (p) { return '<span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span>'; };
+  /* 1 card: the picture in a rounded card, length and layout left, price right, thumbnails beneath */
+  var v5card = swipe(function (p, i) { return pic(p, i) + '<span class="row3"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span>' + priceBlock(p) + '</span>'; }, "thumbs");
+  /* 2 overlay: the length and the price sit on the picture, in chips; the layout is the only line below; dots */
+  var v5overlay = swipe(function (p, i) { return pic(p, i, " ov") + '<span class="under"><span class="ft">' + p.lay + '</span><span class="fl"></span></span>'; }, "dots");
+  /* 3 spec: the picture, then a small panel of labelled facts with the price beside them; thumbnails */
+  var v5spec = swipe(function (p, i) { return pic(p, i) + '<span class="spec"><span class="facts"><span class="f"><i>Length</i><b>' + p.lenTxt + '</b></span><span class="f"><i>Layout</i><b>' + p.lname + '</b></span>' + (p.door ? '<span class="f"><i>Door</i><b>' + p.door + '</b></span>' : '') + '</span>' + priceBlock(p) + '</span>'; }, "thumbs");
+  /* 4 price bar: the price in a solid orange pill, the first thing the eye lands on; dots */
+  var v5pricebar = swipe(function (p, i) { return pic(p, i) + '<span class="row3"><span class="who"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span></span><span class="pr"><span class="pill"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span></span><span class="fl"></span></span></span>'; }, "dots");
+  /* 5 centred: everything on one axis under the picture, the price largest of all; dots */
+  var v5center = swipe(function (p, i) { return pic(p, i) + '<span class="ctr"><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.lay + '</span><span class="pr"><span class="pfrom">From</span><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></span>'; }, "dots");
+
   /* grid: two columns of smaller pictures, so more plans are on screen at once; tap to choose */
   var v5grid = {
     html: function (L) { return '<div class="grid">' + L.map(function (p, i) { return '<button class="tile" type="button" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + ', ' + fmt(p.price) + '"><span class="shot sm">' + img(p, i > 5) + '</span><span class="ln">' + p.lenTxt + '</span><span class="ft">' + p.ls + '</span><span class="pr"><span class="pv">' + fmt(p.price) + '</span><span class="fl"></span></span></button>'; }).join("") + '</div>'; },
