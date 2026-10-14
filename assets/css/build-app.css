@@ -654,3 +654,6 @@ html.tab-land .s5 .d5txt { grid-column: 2; grid-row: 1; } html.tab-land .s5 .d5p
 html.tab-land .s5 .d5th { grid-column: 1 / 3; grid-row: 3; align-self: start; margin-top: 22px; }
 html.tab .s5 .d5t { flex: 0 0 190px; }
 html.tab-land .s5 .d5t { flex: 0 0 170px; }
+
+/* Step 5: no shadow above the bottom row (the header keeps its soft shadow) */
+.phone.d5mode::after { display: none; }
