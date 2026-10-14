@@ -16,6 +16,19 @@
   var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
   var nowrap = function (s) { return '<span style="white-space:nowrap">' + s + '</span>'; };
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* THE GATE. The iPad layout switches on only for a touch device at least 744px wide AND 600px tall (an iPad, either way up). A phone, a phone turned
+     sideways (too short) and a desktop browser (a mouse, not touch) all stay on the layout they have always had. ?device=tablet forces it on, ?device=phone forces it off. */
+  var TABQ = window.matchMedia ? matchMedia("(hover: none) and (pointer: coarse) and (min-width: 744px) and (min-height: 600px)") : null;
+  var FORCE = (Q.match(/[?&]device=(tablet|phone)/) || [])[1];
+  var isTab = function () { return FORCE ? FORCE === "tablet" : !!(TABQ && TABQ.matches); };
+  var isLand = function () { return window.innerWidth > window.innerHeight; };
+  var gateKey = "";
+  function applyGate() {
+    var on = isTab(), land = on && isLand(), el = document.documentElement;
+    el.classList.toggle("tab", on); el.classList.toggle("tab-land", land);
+    var k = (on ? "t" : "p") + (land ? "l" : "p"), changed = gateKey !== "" && k !== gateKey; gateKey = k; return changed;
+  }
+  applyGate();
 
   /* what has been chosen so far (with the preview flags in the address able to override) */
   function ctx() {
@@ -108,8 +121,10 @@
       { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", mid: 21.25,  w: 85, ink: [-6.3, -1.1], src: "assets/img/build/size-mid.png" },
       { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", mid: 23.25,  w: 94, ink: [-4.6, -3.1], src: "assets/img/build/size-spacious.png" }
     ];
-    var W = root.clientWidth || 327, D = 88, GAP = (W - 3 * D) / 2, H = 448, RB = 64;
-    var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i], d: D, s: [50, 56, 60][i] }; });
+    var tabk = 1, TW = 0;
+    if (isTab()) { var cs = getComputedStyle(root), availH = root.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom); tabk = Math.max(1, Math.min(1.45, availH / 448)); TW = Math.min(root.clientWidth, Math.round(560 * tabk)); }
+    var W = TW || root.clientWidth || 327, D = 88 * tabk, GAP = (W - 3 * D) / 2, H = Math.round(448 * tabk), RB = 64 * tabk;
+    var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i] * tabk, d: D, s: [50, 56, 60][i] * tabk }; });
     var xb = function (ft) { return (ft - 17.75) / 6.25 * W; };
     var SPANS = [[17.75, 20], [20.5, 22], [22.5, 24]];
     var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0"><stop offset="0" stop-color="#FFC47F"/><stop offset=".52" stop-color="#E37921"/><stop offset="1" stop-color="#B04C07"/></linearGradient></defs>';
@@ -117,8 +132,9 @@
       var w = xb(SPANS[i][1]) - xb(SPANS[i][0]);
       scale += '<rect class="seg seg-' + z.k + '" x="' + xb(SPANS[i][0]) + '" y="14" width="' + w + '" height="12" rx="6" fill="url(#gB)"/><text class="sl sl-' + z.k + '" x="' + (xb(SPANS[i][0]) + w / 2) + '" y="46">' + z.ln + '</text>';
     });
+    root.style.setProperty("--K", tabk);
     var nudge = function (z, s) { var k = s / z.w; return 'translate(' + (-z.ink[0] * k).toFixed(2) + 'px,' + (-z.ink[1] * k).toFixed(2) + 'px)'; };
-    root.innerHTML = '<div class="v9"><div class="wrap">' +
+    root.innerHTML = '<div class="v9"' + (TW ? ' style="width:' + W + 'px"' : '') + '><div class="wrap"' + (tabk !== 1 ? ' style="height:' + H + 'px"' : '') + '>' +
       '<svg class="rule" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
       SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px;transform:' + nudge(z, p.s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div></div>';
     $$(".p", root).forEach(function (b) { b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); App.next(380); }); });
@@ -143,14 +159,17 @@
     var c = ctx(), TAB = MPRICES[c.type + "|" + c.size], BY = {};
     var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
-    var HERO_DISC = 184, HERO_W = 266, MINI_DISC = 66, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
+    var K = 1;
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 470)); }
+    content.style.setProperty("--K", K);
+    var HERO_DISC = 184 * K, HERO_W = 266 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : ms.filter(function (m) { return !off(m); })[0].k), busy3 = false;
     function mv(m, w) { var h = w * m.H / 900; return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">'; }
     content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="pr" id="hPr"></span><span class="tag" id="hTag"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
     var hero = $(".hero", content), dock = $("#dock", content), heroDisc = $("#heroDisc", content), hNm = $("#hNm", content), hPr = $("#hPr", content), hTag = $("#hTag", content), heroBtn = $("#heroBtn", content);
     function setHeroText(m) { hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
-    function setHero(k) { var m = BY[k]; heroK = k; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); }
-    function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '"><span class="disc hov">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>'; }
+    function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); }
+    function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '"><span class="disc hov" style="width:' + MINI_DISC + 'px;height:' + MINI_DISC + 'px">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>'; }
     function renderDock() {
       dock.innerHTML = ms.filter(function (m) { return m.k !== heroK; }).map(miniHTML).join("");
       $$(".mini", dock).forEach(function (b) { b.addEventListener("click", function () {
@@ -765,6 +784,8 @@ function drawIso(k, o) {
         if (cur !== 4) { variantOverride = b.dataset.k; show(4, { dir: 1 }); } else App.setVariant(b.dataset.k);
       });
     }
+    var relayout = function () { if (applyGate() && cur >= 0 && cur < 5 && curRoot) { curRoot.innerHTML = ""; if (curUnmount) curUnmount(); curUnmount = STEPS[cur].mount(curRoot, ctx()) || null; } };
+    window.addEventListener("resize", relayout); window.addEventListener("orientationchange", function () { setTimeout(relayout, 250); });
     goBtn.addEventListener("click", function () { if (goFn) { goBtn.classList.add("on"); goFn(); } });
     backBtn.addEventListener("click", function (e) { if (App.backHook && App.backHook()) { e.preventDefault(); return; } if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
     window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s !== cur) show(s, { push: false }); });

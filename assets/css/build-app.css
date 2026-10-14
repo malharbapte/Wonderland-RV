@@ -469,3 +469,78 @@ body.cmp .phone { margin-top: 58px; }
 .s5 .ctl5 { margin: 0 calc(var(--m) * -1); padding: 0 var(--m) 14px; }
 .s5 .list, .s5 .grid, .s5 .grid5 { padding-top: 14px; }
 .s6 .rc .th { box-shadow: none; padding: 0; background: transparent; }
+
+
+/* =====================================================================================================================
+   IPAD (html.tab). Every rule below is scoped to html.tab, which build-app.js adds only for a touch device at least 744px wide and 600px tall
+   (or ?device=tablet). Without that class none of this applies, so the phone and the desktop layouts are exactly as they were.
+   ===================================================================================================================== */
+html.tab { --m: 48px; --head: 76px; --mb: 48px; --clear: 124px; --side: max(var(--m), calc((100% - 1080px) / 2)); }
+html.tab body { background: #fff; font-size: 17px; line-height: 26px; }
+html.tab .phone { width: 100%; height: 100vh; height: 100dvh; margin: 0; box-shadow: none; }
+html.tab .bar { padding: 0 var(--side); } html.tab .bar img { height: 48px; }
+html.tab .prog { margin: 18px var(--side) 0; }
+html.tab .body { padding: 26px var(--side) 0; }
+html.tab h1 { font-size: 40px; line-height: 44px; }
+html.tab .road { height: 66px; --vw: 54px; --ms: 1.3; }
+html.tab .road::before, html.tab .road .done { height: 22px; border-radius: 11px; }
+html.tab .road .van { bottom: 16px; } html.tab .road .mk { bottom: 22px; }
+html.tab .prow { font-size: 13px; margin-top: 10px; }
+html.tab .back { left: calc(var(--side) - 14px); bottom: calc(var(--mb) - 11px); width: 60px; height: 60px; } html.tab .back svg { width: 28px; height: 28px; }
+html.tab .go { right: var(--side); bottom: calc(var(--mb) - 18px); width: 72px; height: 72px; } html.tab .go svg { width: 28px; height: 28px; }
+html.tab .step { padding-top: 28px; }
+
+/* iPad: steps 1 to 3 */
+html.tab .s1 .wrap { gap: 30px; --c: clamp(300px, calc(100dvh - 440px), 470px); }
+html.tab .s1 .circle { width: var(--c); height: var(--c); gap: 8px; }
+html.tab .s1 .half.L { border-radius: 100% 0 0 100% / 50% 0 0 50%; } html.tab .s1 .half.R { border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+html.tab .s1 .half svg { width: calc(var(--c) * .36); }
+html.tab .s1 .captions { width: calc(var(--c) + 80px); gap: 8px; }
+html.tab .s1 .cap b { font-size: 22px; line-height: 28px; margin-bottom: 8px; } html.tab .s1 .cap small { font-size: 17px; line-height: 25px; }
+html.tab .s2 .nm { font-size: calc(14px * var(--K, 1) + 2px); line-height: calc(18px * var(--K, 1)); margin-top: 10px; } html.tab .s2 .ln { font-size: calc(12px * var(--K, 1) + 2px); line-height: calc(17px * var(--K, 1)); } html.tab .s2 .sl { font-size: 14px; }
+html.tab .s2 .v9 { margin: 0 auto; }
+html.tab .s3 .hero .nm { font-size: calc(26px * var(--K, 1)); line-height: calc(30px * var(--K, 1)); margin-top: calc(24px * var(--K, 1)); }
+html.tab .s3 .pr .pf { font-size: calc(14px * var(--K, 1)); } html.tab .s3 .pr .pv { font-size: calc(19px * var(--K, 1)); } html.tab .s3 .pr { line-height: calc(26px * var(--K, 1)); }
+html.tab .s3 .tag { font-size: calc(12px * var(--K, 1)); line-height: calc(18px * var(--K, 1)); }
+html.tab .s3 .dock { gap: calc(26px * var(--K, 1)); margin-top: calc(26px * var(--K, 1)); }
+html.tab .s3 .mini { width: calc(78px * var(--K, 1)); } html.tab .s3 .mini .nm { font-size: calc(10px * var(--K, 1)); line-height: calc(14px * var(--K, 1)); margin-top: calc(10px * var(--K, 1)); }
+
+/* iPad: step 4 (bed). Portrait: one column, bigger. Landscape: the controls on the left, a large drawing on the right. */
+html.tab .s4 .pane { max-width: 780px; margin: 0 auto; }
+html.tab .s4 .seg button { height: 54px; font-size: 16px; } html.tab .s4 .seg { border-radius: 34px; }
+html.tab .s4 .ics { gap: 12px; margin-top: 18px; } html.tab .s4 .ic { width: 104px; height: 78px; } html.tab .s4 .ic svg { width: 84px; height: 68px; }
+html.tab .s4 .cap1 { font-size: 18px; line-height: 26px; margin-top: 12px; }
+html.tab .s4 .dg { margin-top: 18px; } html.tab .s4 .dg svg { max-height: min(540px, 48vh); }
+html.tab .s4 .leg { font-size: 15px; line-height: 20px; gap: 6px; } html.tab .s4 .leg i { width: 12px; height: 12px; }
+html.tab .s4 .foot .pv { font-size: 42px; line-height: 46px; } html.tab .s4 .foot .pf { font-size: 18px; } html.tab .s4 .foot .pr { line-height: 46px; } html.tab .s4 .foot .fl { font-size: 15px; line-height: 20px; }
+html.tab-land .s4 .pane { max-width: none; display: grid; grid-template-columns: minmax(340px, 430px) 1fr; grid-template-rows: auto auto auto 1fr auto; column-gap: 64px; }
+html.tab-land .s4 .seg { grid-column: 1; grid-row: 1; } html.tab-land .s4 .ics { grid-column: 1; grid-row: 2; } html.tab-land .s4 .cap1 { grid-column: 1; grid-row: 3; }
+html.tab-land .s4 .dg { grid-column: 2; grid-row: 1 / 5; margin: 0; min-height: 0; display: flex; align-items: center; justify-content: center; }
+html.tab-land .s4 .dg svg { max-height: 100%; height: 100%; width: 100%; }
+html.tab-land .s4 .foot { grid-column: 1 / 3; grid-row: 5; margin-top: 0; }
+
+/* iPad: step 5 (floorplan). The cards become a grid: two across in portrait, three in landscape. The filter sheet becomes a centred panel. */
+html.tab .s5 { padding-top: 24px; }
+html.tab .s5 .list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 28px; align-content: start; margin: 0 -14px; padding: 14px 14px 44px; }
+html.tab-land .s5 .list { grid-template-columns: repeat(3, 1fr); }
+html.tab .s5 .card { margin-bottom: 0; }
+html.tab .s5 .card .ln, html.tab .s5 .tile5 .ln { font-size: 26px; line-height: 32px; } html.tab .s5 .card .ft { font-size: 15px; line-height: 22px; } html.tab .s5 .card .pr .pv { font-size: 26px; line-height: 32px; } html.tab .s5 .card .pr .fl { font-size: 14px; }
+html.tab .s5 .chip { height: 44px; padding: 0 20px; font-size: 16px; } html.tab .s5 .chips { gap: 10px; }
+html.tab .s5 .grid5 { grid-template-columns: repeat(3, 1fr); gap: 28px 24px; } html.tab-land .s5 .grid5 { grid-template-columns: repeat(4, 1fr); }
+html.tab .fsheet { align-items: center; justify-content: center; }
+html.tab .fpanel { width: min(580px, 90%); max-height: 86%; border-radius: 10px; transform: translateY(26px) scale(.98); opacity: 0; transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .3s ease; padding: 26px 30px 28px; }
+html.tab .fsheet.in .fpanel { transform: none; opacity: 1; }
+
+/* iPad: step 6 (details). A centred, wider chat column. */
+html.tab .s6.form6 { align-items: center; }
+html.tab .s6 .pane6 { max-width: 660px; }
+html.tab .s6 .bub { font-size: 18px; line-height: 26px; padding: 14px 20px; max-width: 78%; }
+html.tab .s6 .reply .box input { height: 62px; font-size: 18px; } html.tab .s6 .rc1 { font-size: 16px; padding: 13px 20px; }
+html.tab .s6 .rc .tx b { font-size: 17px; line-height: 24px; } html.tab .s6 .rc .tx span { font-size: 14px; line-height: 20px; } html.tab .s6 .rc .th { width: 150px; }
+html.tab .s6 .pf6 .pv, html.tab .s5 .pf5 .pv { font-size: 38px; line-height: 42px; }
+html.tab .s6 .fld input, html.tab .s6 .fld select { height: 58px; font-size: 18px; } html.tab .s6 .co b { font-size: 17px; } html.tab .s6 .co em { font-size: 14px; }
+html.tab .s6 .thanks { max-width: 600px; }
+html.tab .s5 .card, html.tab .s5 .tile5 { align-self: start; }
+/* iPad landscape has less height, so the chrome gets a little tighter and the steps get the room */
+html.tab-land { --clear: 110px; --head: 68px; }
+html.tab-land h1 { font-size: 34px; line-height: 38px; } html.tab-land .body { padding-top: 14px; } html.tab-land .prog { margin-top: 12px; } html.tab-land .step { padding-top: 18px; }
