@@ -631,7 +631,7 @@ function drawIso(k, o) {
   var tick = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   function recapHTML(R, editable) {
     var p = R.plan; if (!p) return "";
-    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>Customise</button>' : '') + '</span></div>';
+    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' : '') + '</span></div>';
   }
   function priceNear(R) { return R.plan ? '<div class="pf6"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="fl">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : ""; }
   /* the form fields, shared by all three layouts */

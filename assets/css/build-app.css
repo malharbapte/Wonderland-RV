@@ -610,3 +610,8 @@ html.tab .s5 .pf5 .pv, html.tab .s6 .pf6 .pv { font-size: 32px; line-height: 38p
 .s6 .psub .pv { font-size: 58px; line-height: 62px; letter-spacing: -.02em; }
 html.tab .s6 .psub .pv { font-size: 72px; line-height: 76px; }
 .s6 .bub.att .asof { text-align: right; }
+
+/* Customise / Filter: an option that is too long for one line wraps onto two (or more) lines inside its chip; nothing may leave the sheet */
+.fpanel { overflow-x: hidden; }
+.fchips { min-width: 0; }
+.fchips .chip { height: auto; min-height: 38px; max-width: 100%; padding: 8px 14px; white-space: normal; text-align: left; line-height: 20px; overflow-wrap: anywhere; box-sizing: border-box; }
