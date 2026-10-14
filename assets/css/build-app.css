@@ -657,3 +657,7 @@ html.tab-land .s5 .d5t { flex: 0 0 170px; }
 
 /* Step 5: no shadow above the bottom row (the header keeps its soft shadow) */
 .phone.d5mode::after { display: none; }
+
+/* the soft shadow under the header, on every step (it replaces the hairline), 15% lighter than the first version */
+.bar { position: relative; z-index: 6; border-bottom: 0; box-shadow: 0 5px 10px -4px rgba(35,31,32,.238); }
+.phone.d5mode .bar { box-shadow: 0 5px 10px -4px rgba(35,31,32,.238); }
