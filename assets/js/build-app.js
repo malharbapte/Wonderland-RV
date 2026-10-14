@@ -407,6 +407,7 @@ function drawIso(k, o) {
       draw(); phone.appendChild(sheet); void sheet.offsetWidth; sheet.classList.add("in");
     }
     drawCtl(); drawBody();
+    body.addEventListener("scroll", function (e) { var s = e.target; if (s && s.scrollTop != null) ctl.classList.toggle("lift", s.scrollTop > 4); }, true);
     return function () { if (sheet) sheet.remove(); };
   }
 
@@ -430,6 +431,7 @@ function drawIso(k, o) {
       $$(".chip", pane).forEach(function (b) { b.addEventListener("click", function () { S.bun = +b.dataset.n || null; S.sel = 0; render(); }); });
       if (L.length) V.wire(pane, L, S, { choose: choose, delta: delta, render: render });
       wireImgs(pane);
+      var sc = $(".list, .grid, .rows", pane), ch = $(".chips", pane); if (sc && ch) sc.addEventListener("scroll", function () { ch.classList.toggle("lift", sc.scrollTop > 4); });
     }
     render();
   }
