@@ -631,7 +631,7 @@ function drawIso(k, o) {
   var tick = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   function recapHTML(R, editable) {
     var p = R.plan; if (!p) return "";
-    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise</button>' : '') + '</span></div>';
+    return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>Customise</button>' : '') + '</span></div>';
   }
   function priceNear(R) { return R.plan ? '<div class="pf6"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="fl">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : ""; }
   /* the form fields, shared by all three layouts */
@@ -817,8 +817,8 @@ function drawIso(k, o) {
     root.innerHTML = '<div class="pane6"><div class="psub"></div><div class="thread"></div><div class="reply"></div></div>';
     thread = $(".thread", root); reply = $(".reply", root); psub = $(".psub", root);
     /* the price is the subheading under the page heading, pinned: it stays put while the chat scrolls and follows any change made in Customise */
-    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span>' : ""; }
-    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
+    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span>' : ""; }
+    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = '<div class="asof">Price as of ' + new Date().toLocaleDateString("en-AU") + '</div>' + recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
     drawPrice();
     var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
     var Qs = [

@@ -597,3 +597,11 @@ html.tab .s5 .pf5 .pv, html.tab .s6 .pf6 .pv { font-size: 32px; line-height: 38p
 .s6 .rc1 { background: #fff; box-shadow: inset 0 0 0 calc(var(--stroke) * 2) var(--o); color: var(--ink); font-weight: 700; }
 .s6 .rc1:hover { background: var(--o); color: #fff; box-shadow: inset 0 0 0 calc(var(--stroke) * 2) var(--o); }
 .s6 .rc1:active { background: var(--o); color: #fff; box-shadow: none; }
+
+
+/* step 6: "Price as of" sits directly above the summary card with an even gap; Customise has a chevron in front and no underline */
+.s6 .bub.att .asof { font-size: 13px; line-height: 18px; color: #6d645a; margin: 0 0 8px; text-align: left; }
+.s6 .rcedit { display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
+.s6 .rcedit svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.s6 .psub { padding-bottom: 6px; }
+.s6 .bub.att, .s6 .bub.bot.att { background: none; box-shadow: none; border-radius: 0; }
