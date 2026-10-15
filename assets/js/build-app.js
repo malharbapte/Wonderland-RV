@@ -314,7 +314,7 @@ function drawIso(k, o) {
         '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 7.6, icon: true, blur: ISO.blur, wall: ISO.wall }) + '</button>'; }).join("") + '</div>' +
         '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
         '<div class="dg">' + drawIso(S.k, { crop: 8.4, blur: ISO.blur, wall: ISO.wall }) + '</div>' +
-        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div><div class="pb"><span class="pr"><span class="pf">Caravan price from</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' for this bed' : 'Base bed included') + '</span></div></div>';
+        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div><div class="pb"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' for this bed' : 'Base bed included') + '</span></div></div>';
       $$(".seg button", out).forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
       $$(".ic", out).forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
     }

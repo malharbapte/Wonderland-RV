@@ -823,3 +823,20 @@ html:not(.tab) .s4 .foot .pr { line-height: 40px; }
 html.tab .s4 .ic.on::after, html.tab .s5 .d5t.on::after { width: 22px; height: 22px; top: 6px; right: 6px; }
 @media (min-width: 901px) { .phone h1, .phone.d5mode h1 { font-size: calc((375px - 48px) / 14.4); } }
 @media (max-height: 620px) { html:not(.tab) .s4 .seg button { height: 36px; } html:not(.tab) .s4 .ic { height: 44px; } html:not(.tab) .s4 .ic svg { height: 36px; } html:not(.tab) .s4 .ics { margin-top: 8px; } html:not(.tab) .s4 .foot .pv { font-size: 26px; line-height: 30px; } html:not(.tab) .s4 .foot .pr { line-height: 30px; } html:not(.tab) .s4 .cap1 { margin-top: 4px; } }
+
+/* review round 3: smaller header mark and title, subtle gradient on the header and the Next circle, no tick on the bed thumbnails, more air between FROM and the price on Step 5 */
+.phone .bar img { height: 28.5px; }
+.phone .bar .ttl { font-size: clamp(12px, 4.2vw, 16.5px); }
+@media (min-width: 901px) { .phone .bar .ttl { font-size: 16px; } }
+html.tab .bar img, html.tab .phone .bar img { height: 33px; } html.tab .bar .ttl, html.tab .phone .bar .ttl { font-size: 18px; line-height: 22px; }
+.phone .bar, .phone.d5mode .bar { background: linear-gradient(90deg, #F29A45, #C8630F); }
+.go::before { background: var(--gc); }
+.s4 .ic.on::after { display: none; }
+.s5 .d5price .pfrom { margin-bottom: 6px; }
+@media (max-height: 760px) { .s5 .d5price .pfrom { margin-bottom: 4px; } }
+@media (max-height: 640px) { .s5 .d5price .pfrom { margin-bottom: 2px; } }
+html.tab .s5 .d5price .pfrom { margin-bottom: 8px; }
+.s5 .d5price .pfrom { margin-bottom: 10px; } .s5 .d5price .fl { margin-top: 4px; }
+@media (max-height: 760px) { .s5 .d5price .pfrom { margin-bottom: 6px; } .s5 .d5price .fl { margin-top: 2px; } }
+@media (max-height: 640px) { .s5 .d5price .pfrom { margin-bottom: 2px; } .s5 .d5price .fl { margin-top: 0; } }
+html.tab .s5 .d5price .pfrom { margin-bottom: 12px; } html.tab .s5 .d5price .fl { margin-top: 6px; }
