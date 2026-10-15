@@ -10,7 +10,7 @@ try { var vs = sessionStorage.getItem("wl-van"); } catch (e) {}
 if (/[?&]van=(on|1|yes)/.test(location.search) || vs === "on") document.documentElement.classList.add("van-on");</script>
 <link rel="stylesheet" href="assets/css/build-shell.css?v=15">
 <link rel="stylesheet" href="assets/css/build-app.css?v=81">
-<link rel="stylesheet" href="assets/css/build-app-strip.css?v=9">
+<link rel="stylesheet" href="assets/css/build-app-strip.css?v=11">
 </head>
 <body>
 <!-- the whole journey is this one page: the header, the road, the back chevron and the Next circle stay where they are, and only the step changes -->
@@ -59,6 +59,9 @@ if (/[?&]van=(on|1|yes)/.test(location.search) || vs === "on") document.document
   var tick = function () { requestAnimationFrame(fit); };
   new MutationObserver(function () { tick(); setTimeout(fit, 700); }).observe(phone, { childList: true, subtree: true });
   window.addEventListener("resize", tick);
+  phone.addEventListener("load", tick, true);                                   /* pictures arriving */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(tick);
+  if (window.ResizeObserver) new ResizeObserver(tick).observe(document.getElementById("stage"));
   window.addEventListener("load", function () { setTimeout(fit, 100); setTimeout(fit, 800); });
 })();
 </script>
