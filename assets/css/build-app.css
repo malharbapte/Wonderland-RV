@@ -849,3 +849,4 @@ html.tab .s5 .d5price .pfrom { margin-bottom: 12px; } html.tab .s5 .d5price .fl 
 html.tab, html.tab body { overflow: hidden; overscroll-behavior: none; }
 html.tab body { position: fixed; inset: 0; width: 100%; height: 100%; }
 .s6 .thread, .s6 .reply, .fpanel, .s5 .list, .s5 .d5th, .s5 .chips { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.s4 .ic.on::after, .s5 .d5t.on::after { display: none; }
