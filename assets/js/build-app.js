@@ -921,7 +921,7 @@ function drawIso(k, o) {
       else { phone.style.height = ""; phone.style.top = ""; }
       if (open) { var th = $(".thread", phone); if (th) { th.scrollTop = th.scrollHeight; setTimeout(function () { th.scrollTop = th.scrollHeight; }, 120); } }
     };
-    if (vv) {
+    if (vv && isTab()) {                                  /* tablets only: phones let the browser keep the typing box in view */
       var kbSync = function () { var open = window.innerHeight - vv.height > 120; App.applyKb(vv.height, vv.offsetTop, open); if (open) window.scrollTo(0, 0); };
       vv.addEventListener("resize", kbSync); vv.addEventListener("scroll", kbSync);
     }
