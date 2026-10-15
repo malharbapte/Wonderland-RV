@@ -33,3 +33,6 @@ html.kb .phone .stage::before { display: none; }
 
 /* the strip and the two-line heading take a little more of a short screen than the old top bar did: the smallest phones get a smaller Step 1 circle. */
 html:not(.tab) .s1 .wrap { --c: clamp(70px, min(calc(100vw - 48px), calc(100dvh - 490px)), 400px); }
+
+/* the van is a sample toggle: hidden unless the page address has ?van=on (the space it needs stays reserved, so nothing moves) */
+html:not(.van-on) .phone .road .van { display: none; }
