@@ -125,7 +125,8 @@
     var tabk = 1, TW = 0;
     if (isTab()) { var cs = getComputedStyle(root), availH = root.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom); tabk = Math.max(1, Math.min(1.45, availH / 448)); TW = Math.min(root.clientWidth, Math.round(560 * tabk)); }
     var W = TW || root.clientWidth || 327, D = 88 * tabk, GAP = (W - 3 * D) / 2, H = Math.round(448 * tabk), RB = 64 * tabk;
-    var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: [232, 118, 4][i] * tabk, d: D, s: [50, 56, 60][i] * tabk }; });
+    var flat = isTab() && isLand(), tFlat = Math.max(0, Math.round(((H - RB) - (D + 8 + 18 + 17)) / 2));   /* iPad landscape: the three sizes sit in one straight line */
+    var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: flat ? tFlat : [232, 118, 4][i] * tabk, d: D, s: [50, 56, 60][i] * tabk }; });
     var xb = function (ft) { return (ft - 17.75) / 6.25 * W; };
     var SPANS = [[17.75, 20], [20.5, 22], [22.5, 24]];
     var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0"><stop offset="0" stop-color="#FFC47F"/><stop offset=".52" stop-color="#E37921"/><stop offset="1" stop-color="#B04C07"/></linearGradient></defs>';
@@ -441,7 +442,7 @@ function drawIso(k, o) {
     phone.classList.add("d5mode");
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
-    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ft"></span><span class="ln"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
+    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="ft"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
       '<div class="d5band"><div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + ', ' + fmt(p.price) + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
     var hero = $(".d5hero img", root), ln = $(".ln", root), ft = $(".ft", root), pv = $(".pv", root), fl = $(".fl", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), price = $(".d5price", root), band = $(".d5band", root);
     function show1(i, first) {
