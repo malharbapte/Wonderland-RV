@@ -7,6 +7,7 @@
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
 <link rel="stylesheet" href="assets/css/build-shell.css?v=15">
 <link rel="stylesheet" href="assets/css/build-app.css?v=81">
+<link rel="stylesheet" href="assets/css/build-app-strip.css?v=13">
 </head>
 <body>
 <!-- the whole journey is this one page: the header, the road, the back chevron and the Next circle stay where they are, and only the step changes -->
@@ -35,6 +36,23 @@
 
 <script src="assets/js/build-data.js?v=2"></script>
 <script src="assets/js/build-progress.js?v=11"></script>
-<script src="assets/js/build-app.js?v=54"></script>
+<script src="assets/js/build-app-strip.js?v=3"></script>
+<script>
+/* Step 5: the cream band reaches down to the strip. Measure the gap and hand it to the CSS (--bx). */
+(function () {
+  var phone = document.getElementById("phone"), road = phone.querySelector(".road");
+  function fit() {
+    var b = phone.querySelector(".d5band"); if (!b) return;
+    b.style.setProperty("--bx", Math.max(0, Math.round(road.getBoundingClientRect().top - b.getBoundingClientRect().bottom)) + "px");
+  }
+  var tick = function () { requestAnimationFrame(fit); };
+  new MutationObserver(function () { tick(); setTimeout(fit, 700); }).observe(phone, { childList: true, subtree: true });
+  window.addEventListener("resize", tick);
+  phone.addEventListener("load", tick, true);                                   /* pictures arriving */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(tick);
+  if (window.ResizeObserver) new ResizeObserver(tick).observe(document.getElementById("stage"));
+  window.addEventListener("load", function () { setTimeout(fit, 100); setTimeout(fit, 800); });
+})();
+</script>
 </body>
 </html>
