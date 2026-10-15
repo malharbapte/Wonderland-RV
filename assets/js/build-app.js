@@ -438,9 +438,9 @@ function drawIso(k, o) {
     phone.classList.add("d5mode");
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
-    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="ft"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
-      '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + ', ' + fmt(p.price) + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div>';
-    var hero = $(".d5hero img", root), ln = $(".ln", root), ft = $(".ft", root), pv = $(".pv", root), fl = $(".fl", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), price = $(".d5price", root);
+    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ft"></span><span class="ln"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
+      '<div class="d5band"><div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + ', ' + fmt(p.price) + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
+    var hero = $(".d5hero img", root), ln = $(".ln", root), ft = $(".ft", root), pv = $(".pv", root), fl = $(".fl", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), price = $(".d5price", root), band = $(".d5band", root);
     function show1(i, first) {
       sel = i; var p = P[i], d = Math.round(p.price - D.base);
       ths.forEach(function (b, j) { b.classList.toggle("on", j === i); });
@@ -451,7 +451,7 @@ function drawIso(k, o) {
     }
     ths.forEach(function (b, i) { b.addEventListener("click", function () { if (i !== sel) show1(i, false); }); });
     wireImgs(root); show1(sel, true);
-    if (P.length < 2) strip.style.display = "none";
+    if (P.length < 2) band.style.display = "none";
   }
 
   var variantOverride = null;

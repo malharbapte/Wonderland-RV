@@ -661,3 +661,36 @@ html.tab-land .s5 .d5t { flex: 0 0 170px; }
 /* the soft shadow under the header, on every step (it replaces the hairline), 15% lighter than the first version */
 .bar { position: relative; z-index: 6; border-bottom: 0; box-shadow: 0 5px 10px -4px rgba(35,31,32,.238); }
 .phone.d5mode .bar { box-shadow: 0 5px 10px -4px rgba(35,31,32,.238); }
+
+
+/* =====================================================================================================================
+   STEP 5, SECOND VERSION OF THE SUPPLIED DESIGN: layout text left with the length on the right, the price block left-aligned, the plan strip
+   on a warm band, thinner white thumbnails, and an orange soft shadow under the header (on every step).
+   ===================================================================================================================== */
+.bar, .phone.d5mode .bar { box-shadow: none; }
+.bar::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; background: linear-gradient(rgba(213,113,19,.4), rgba(213,113,19,0)); pointer-events: none; }
+.s5.d5 { padding-bottom: 96px; }
+.s5 .d5txt { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 20px; }
+.s5 .d5txt .ft { margin: 0; font-size: 14px; line-height: 18px; color: #231F20; max-width: 62%; }
+.s5 .d5txt .ln { flex: none; font-size: 23.44px; line-height: 28px; text-align: right; }
+.s5 .d5price { text-align: left; padding-top: 18px; }
+.s5 .d5price .pv { margin-top: 2px; } .s5 .d5price .fl { margin-top: 4px; }
+.s5 .d5band { position: relative; flex: none; margin-top: 18px; padding: 16px 0 18px; }
+.s5 .d5band::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; background: rgba(255,232,194,.49); }
+.s5 .d5band .d5th { position: relative; margin-top: 0; }
+.s5 .d5t { border-width: .25px; }
+@media (max-height: 760px) { .s5 .d5hero { aspect-ratio: auto; height: clamp(120px, 23vh, 168px); } .s5 .d5price .pv { font-size: 40px; line-height: 44px; } .s5 .d5txt { padding-top: 14px; } .s5 .d5price { padding-top: 12px; } .s5 .d5band { margin-top: 12px; padding: 12px 0 14px; } }
+html.tab-land .s5 .d5band { grid-column: 1 / 3; grid-row: 3; margin-top: 22px; } html.tab-land .s5 .d5th { grid-column: auto; grid-row: auto; margin-top: 0; }
+html.tab-land .s5 .d5txt { grid-column: 2; grid-row: 1; padding-top: 0; }
+@media (max-height: 640px) {
+  .s5 .d5hero { height: 84px; }
+  .s5 .d5txt { padding-top: 8px; }
+  .s5 .d5price { padding-top: 6px; display: grid; grid-template-columns: auto 1fr; align-items: end; column-gap: 12px; }
+  .s5 .d5price .pfrom { grid-column: 1 / 3; }
+  .s5 .d5price .pv { font-size: 32px; line-height: 34px; margin-top: 0; }
+  .s5 .d5price .fl { margin: 0 0 4px; text-align: right; }
+  .s5 .d5band { margin-top: 8px; padding: 8px 0 8px; }
+  .s5 .d5t { flex-basis: calc((100% - 28px) * .3); }
+}
+html.tab-land .s5 .d5band { margin-top: 10px; padding: 12px 0 12px; }
+html.tab-land .s5 .d5t { flex: 0 0 140px; }
