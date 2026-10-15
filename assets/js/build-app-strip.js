@@ -664,7 +664,7 @@ function drawIso(k, o) {
     var p = R.plan; if (!p) return "";
     return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' : '') + '</span></div>';
   }
-  /* the pinned summary card on the chat screen: the words on the left, the customer's van on the right, changing every 2 seconds (model, bed, floorplan) */
+  /* the pinned summary card on the chat screen: the words on the left, the customer's van on the right, changing every 2 seconds (the van, then its floorplan) */
   function cardHTML(R) {
     var p = R.plan; if (!p) return "";
     var cm = p.lay.indexOf(", "), main = cm < 0 ? p.lay : p.lay.slice(0, cm);
@@ -672,7 +672,7 @@ function drawIso(k, o) {
   }
   function cycleImgs(host, R) {
     var im = $(".pic img", host); if (!im || !R.plan) return null;
-    var L = ["assets/img/build/model-" + (R.cx.model) + ".webp", "assets/img/build/bed-" + R.bedKey + ".webp", planImg(R.plan)], k = 0;
+    var L = ["assets/img/build/model-" + (R.cx.model) + ".webp", planImg(R.plan)], k = 0;
     L.forEach(function (u) { var x = new Image(); x.src = u; }); im.src = L[0];
     if (reduce) return null;
     return setInterval(function () {
@@ -680,12 +680,14 @@ function drawIso(k, o) {
       im.classList.add("dim"); setTimeout(function () { k = (k + 1) % L.length; im.src = L[k]; im.classList.remove("dim"); }, 950);
     }, 2000);
   }
-  /* confetti: plain canvas, brand colours, about 2.5 seconds, nothing to load */
+  /* confetti: plain canvas, brand colours, two corner cannons, about 2.5 seconds, nothing to load */
   function confetti() {
     if (reduce) return;
     var cv = document.createElement("canvas"), cx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight, P = [], COL = ["#FFC47F", "#E37921", "#B04C07", "#FFE8C2", "#D57114", "#ffffff"];
     cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80"; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); document.body.appendChild(cv);
-    for (var n = 0; n < 120; n++) P.push({ x: W / 2 + (Math.random() - .5) * W * .6, y: -10 - Math.random() * 60, vx: (Math.random() - .5) * 4, vy: 1 + Math.random() * 3, w: 6 + Math.random() * 6, h: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .35, c: COL[Math.random() * COL.length | 0], life: 0, max: 130 + Math.random() * 60 });
+    /* two cannons, one in each bottom corner, firing up and across */
+    var bit = function (x, y, vx, vy) { return { x: x, y: y, vx: vx, vy: vy, w: 6 + Math.random() * 6, h: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .35, c: COL[Math.random() * COL.length | 0], life: 0, max: 130 + Math.random() * 60 }; };
+    for (var n = 0; n < 70; n++) { P.push(bit(0, H, 4 + Math.random() * 7, -(9 + Math.random() * 9))); P.push(bit(W, H, -(4 + Math.random() * 7), -(9 + Math.random() * 9))); }
     (function tick() {
       cx.clearRect(0, 0, W, H);
       P = P.filter(function (p) { return p.life < p.max && p.y < H + 30; });

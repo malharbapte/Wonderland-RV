@@ -134,3 +134,20 @@ html.tab:not(.tab-land) .s5 .d5hero { aspect-ratio: 1.7; }
 html .phone .s6.done6 { padding-bottom: var(--clear); }
 @media (max-height: 760px) { .s6 .thanks .rc { display: none; } }
 @media (max-height: 640px) { .s6 .thanks h2 { font-size: 22px; line-height: 28px; } .s6 .thanks p { font-size: 13px; line-height: 18px; } .s6 .thanks .again { margin-top: 0; } }
+
+/* ================= "tap me" cues (all stop for people who ask their phone for reduced motion) ================= */
+@media (prefers-reduced-motion: no-preference) {
+  /* Step 1: the two halves breathe, one after the other, until one is chosen */
+  .s1 .half:not(.on) { animation: cueBreathe 3.6s ease-in-out infinite; }
+  .s1 .half.R:not(.on) { animation-delay: 1.8s; }
+  .s1 .half:hover, .s1 .half:focus-visible { animation-play-state: paused; }
+  @keyframes cueBreathe { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(213,113,20,0)); } 50% { transform: scale(1.035); filter: drop-shadow(0 6px 10px rgba(213,113,20,.28)); } }
+  /* Step 2: the three icons float, out of step, until one is chosen */
+  .s2 .p:not(.on) .disc { animation: cueFloat 3.4s ease-in-out infinite; }
+  .s2 .p:nth-child(2):not(.on) .disc { animation-delay: .5s; } .s2 .p:nth-child(3):not(.on) .disc { animation-delay: 1s; }
+  .s2 .p:hover .disc, .s2 .p:focus-visible .disc { animation-play-state: paused; }
+  @keyframes cueFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  /* Steps 1 to 3: once a choice exists, the Next arrow nudges forward */
+  body[data-step="layout"] .go.show:not(.dim) svg, body[data-step="size"] .go.show:not(.dim) svg, body[data-step="model"] .go.show:not(.dim) svg { animation: cueNudge 2.6s ease-in-out infinite; }
+  @keyframes cueNudge { 0%, 55%, 100% { transform: translateX(0); } 70% { transform: translateX(5px); } 85% { transform: translateX(0); } }
+}
