@@ -778,3 +778,6 @@ html.tab-land .phone h1, html.tab-land .phone.d5mode h1 { font-size: 34px; line-
 .s6 .psub { margin-top: 0; }
 html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); height: clamp(140px, calc(100dvh - 531px), 420px); }
 @media (min-height: 641px) and (max-height: 760px) { .s5 .d5hero { min-height: 74px; } }
+
+/* Step 5 on phones, at any height: the plan card gives up height before the cream band can reach the back and Next controls */
+@media (min-height: 761px) { html:not(.tab) .s5.d5 { padding-bottom: 112px; } html:not(.tab) .s5 .d5hero { flex: 0 1 auto; min-height: 74px; } }
