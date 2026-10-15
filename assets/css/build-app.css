@@ -740,3 +740,19 @@ html.tab .phone .bar img, html.tab .bar img { height: 44px; } html.tab .bar .ttl
 @media (max-height: 640px) { .s5 .d5band { margin-top: 10px; } }
 .phone .bar .ttl { font-size: clamp(16px, 5.6vw, 22px); line-height: 1.2; }
 html.tab .bar .ttl { font-size: 24px; line-height: 28px; }
+
+/* Step 3 on touch screens: a tap must not leave the hover look behind (it also stops iOS from using the first tap just to "hover") */
+@media (hover: none) { .s3 .hov:hover .disc::before { opacity: 1; } .s3 .hov:hover .nm { color: inherit; } }
+
+/* Step 5 on iPad landscape: the price block clears the cream band by the same ~30px as on the phone, and the band clears the back and Next controls; the plan card gives up the height to make room */
+html.tab-land .s5 .d5band { margin-top: 30px; }
+html.tab-land .s5 .d5hero { aspect-ratio: auto; height: clamp(230px, calc(100vh - 499px), 420px); height: clamp(230px, calc(100dvh - 499px), 420px); }
+html.tab-land .s5 .d5hero { flex: none; min-height: 0; max-height: none; height: clamp(140px, calc(100vh - 515px), 420px); height: clamp(140px, calc(100dvh - 515px), 420px); }
+html.tab-land .s5.d5 { padding-bottom: var(--clear); }
+
+/* Step 6, Customise: the page behind is softly blurred and locked; only the pop-up scrolls */
+.fsheet.cust { transition: background .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease; overscroll-behavior: none; touch-action: none; }
+.fsheet.cust.in { -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+.fsheet.cust .fpanel { overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+.phone.sheet-open .thread, .phone.sheet-open .pane6 { overflow: hidden; }
+html:has(.phone.sheet-open), html:has(.phone.sheet-open) body { overflow: hidden; overscroll-behavior: none; }

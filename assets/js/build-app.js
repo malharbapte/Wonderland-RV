@@ -192,12 +192,15 @@
       var done = function () { if (!busy3) return; busy3 = false; $$(".fly", content).forEach(function (f) { f.remove(); }); heroDisc.style.visibility = ""; slotDisc.style.visibility = ""; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; };
       if (reduce || !heroDisc.animate) { done(); return; }
       var up = flier(nm, B);
-      up.animate([
-        { offset: 0,   transform: tf(B, A, 1, 0),    filter: "drop-shadow(0 0 0 rgba(0,0,0,0))",        easing: "cubic-bezier(.2,.8,.2,1)" },
-        { offset: .55, transform: tf(B, B, 1.1, 16), filter: "drop-shadow(0 18px 16px rgba(0,0,0,.22))", easing: "ease-in-out" },
-        { offset: .8,  transform: tf(B, B, 0.97, 0), filter: "drop-shadow(0 6px 8px rgba(0,0,0,.12))",   easing: "ease-out" },
-        { offset: 1,   transform: tf(B, B, 1, 0),    filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" }
-      ], { duration: MS, fill: "forwards" });
+      /* touch tablets: the flier moves on transform alone (an animated drop-shadow filter is the usual thing to stall on iPad Safari) */
+      var sh = !isTab(), ks = [
+        { offset: 0,   transform: tf(B, A, 1, 0),    easing: "cubic-bezier(.2,.8,.2,1)" },
+        { offset: .55, transform: tf(B, B, 1.1, 16), easing: "ease-in-out" },
+        { offset: .8,  transform: tf(B, B, 0.97, 0), easing: "ease-out" },
+        { offset: 1,   transform: tf(B, B, 1, 0) }
+      ];
+      if (sh) { var fs = ["drop-shadow(0 0 0 rgba(0,0,0,0))", "drop-shadow(0 18px 16px rgba(0,0,0,.22))", "drop-shadow(0 6px 8px rgba(0,0,0,.12))", "drop-shadow(0 0 0 rgba(0,0,0,0))"]; ks.forEach(function (k, i) { k.filter = fs[i]; }); }
+      up.animate(ks, { duration: MS, fill: "forwards" });
       var dn = flier(om, B);
       dn.animate([{ offset: 0, transform: tf(B, B, 1, 0), easing: "cubic-bezier(.5,0,.2,1)" }, { offset: .72, transform: tf(B, A, 1.08, 0), easing: "ease-out" }, { offset: 1, transform: tf(B, A, 1, 0) }], { duration: Math.round(MS * .77), fill: "forwards" });
       texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(12px) scale(.94)" }, { opacity: 1, transform: "translateY(-2px) scale(1.04)", offset: .6 }, { opacity: 1, transform: "none" }], { duration: 380 * MS / 600, delay: (200 + i * 70) * MS / 600, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" }); });
@@ -817,6 +820,7 @@ function drawIso(k, o) {
     function chip(g, v, label, on, off) { return '<button type="button" class="chip' + (on ? " on" : "") + '" data-g="' + g + '" data-v="' + v + '"' + (off ? " disabled" : "") + '>' + label + '</button>'; }
     function draw() {
       var X = reval(), D = X.D, pl = D.plans.filter(function (p) { return p.code === st.plan; })[0];
+      var oldP = $(".fpanel", sheet), keepY = oldP ? oldP.scrollTop : 0;
       sheet.innerHTML = '<div class="fpanel" role="dialog" aria-label="Customise your caravan"><div class="fh"><b>Customise</b><button type="button" class="fx" aria-label="Close without saving"><svg viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>' +
         '<div class="fg"><div class="ft5">Who’s coming along</div><div class="fchips">' + TY.map(function (o) { return chip("type", o[0], o[1], st.type === o[0]); }).join("") + '</div></div>' +
         '<div class="fg"><div class="ft5">Size</div><div class="fchips">' + SZ.map(function (o) { return chip("size", o[0], o[1], st.size === o[0]); }).join("") + '</div></div>' +
@@ -825,15 +829,19 @@ function drawIso(k, o) {
         '<div class="fg"><div class="ft5">Floorplan</div><div class="fchips">' + D.plans.map(function (p) { return chip("plan", p.code, p.lenTxt + ' · ' + p.ls, st.plan === p.code); }).join("") + '</div></div>' +
         '<div class="cprice"><span class="cp"><span class="pfrom">From</span><span class="pv">' + (pl ? fmt(pl.price) : "") + '</span></span><button type="button" class="fshow">Done</button></div></div>';
       $$(".chip", sheet).forEach(function (b) { b.addEventListener("click", function () { st[b.dataset.g] = b.dataset.v; draw(); }); });
+      $(".fpanel", sheet).scrollTop = keepY;
       $(".fx", sheet).addEventListener("click", close);
       $(".fshow", sheet).addEventListener("click", function () {
         WLProgress.choose("type", st.type); WLProgress.choose("size", st.size); WLProgress.choose("model", st.model); WLProgress.choose("bed", st.bed); WLProgress.choose("plan", st.plan);
         edited = true; close(); onChange();
       });
     }
-    function close() { sheet.classList.remove("in"); var s = sheet; setTimeout(function () { s.remove(); }, 320); }
+    function close() { sheet.classList.remove("in"); phone.classList.remove("sheet-open"); var s = sheet; setTimeout(function () { s.remove(); }, 320); }
     sheet.addEventListener("click", function (e) { if (e.target === sheet) close(); });
-    draw(); phone.appendChild(sheet); void sheet.offsetWidth; sheet.classList.add("in");
+    /* the page behind is locked: only the pop-up scrolls (a touch or wheel anywhere else, or on a pop-up that has nothing to scroll, is stopped) */
+    function guard(e) { var p = $(".fpanel", sheet); if (!p || !p.contains(e.target) || p.scrollHeight <= p.clientHeight + 1) e.preventDefault(); }
+    sheet.addEventListener("touchmove", guard, { passive: false }); sheet.addEventListener("wheel", guard, { passive: false });
+    draw(); phone.appendChild(sheet); phone.classList.add("sheet-open"); void sheet.offsetWidth; sheet.classList.add("in");
   }
   function s6chat(root) {
     var R = recap(), thread, reply, psub, i = 0, marks = [], busyQ = false, qDepth = 0;
