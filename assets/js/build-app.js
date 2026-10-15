@@ -906,12 +906,12 @@ function drawIso(k, o) {
 
   /* ============================== start ============================== */
   STEPS = [
-    { id: "layout",  label: "Layout",    title: "Who&rsquo;s " + nowrap("coming along?"), mount: s1 },
-    { id: "size",    label: "Size",      title: nowrap("How much room") + " " + nowrap("do you need?"), mount: s2 },
-    { id: "model",   label: "Model",     title: nowrap("Where will you") + " " + nowrap("take it?"), mount: s3 },
-    { id: "bed",     label: "Bed",       title: "Your bed", mount: s4 },
-    { id: "plan",    label: "Floorplan", title: "Your Floorplan", mount: s5 },
-    { id: "details", label: "Details",   title: "Details", mount: s6 }
+    { id: "layout",  label: "Layout",    title: "Who&rsquo;s coming along?", mount: s1 },
+    { id: "size",    label: "Size",      title: "Choose your size", mount: s2 },
+    { id: "model",   label: "Model",     title: "Choose your model", mount: s3 },
+    { id: "bed",     label: "Bed",       title: "Choose your bed setup", mount: s4 },
+    { id: "plan",    label: "Floorplan", title: "Choose your floorplan", mount: s5 },
+    { id: "details", label: "Details",   title: "Get your quote", mount: s6 }
   ];
   function indexOf(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
   function init() {

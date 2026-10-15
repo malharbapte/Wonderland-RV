@@ -775,3 +775,16 @@ html.tab .s4 { padding-bottom: 128px; }
 html.tab:not(.tab-land) .s4 .dg { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
 html.tab:not(.tab-land) .s4 .dg svg { flex: 0 1 auto; min-height: 0; }
 @media (min-height: 641px) and (max-height: 760px) { .s5 .d5hero { min-height: 74px; } }
+
+/* headings: one style on every step (mixed case, one line, one size) and one gap above and below */
+.phone h1, .phone.d5mode h1 { text-transform: none; white-space: nowrap; font-size: min(28px, calc((100vw - 48px) / 14.4)); line-height: 1.2; letter-spacing: 0; }
+html.tab .phone h1, html.tab .phone.d5mode h1 { font-size: 40px; line-height: 46px; }
+html.tab-land .phone h1, html.tab-land .phone.d5mode h1 { font-size: 34px; line-height: 40px; }
+/* the gap above the heading (label to heading) and below it (heading to the first thing on the step) are the same on every step */
+:root { --gh: 20px; } html.tab { --gh: 26px; } html.tab-land { --gh: 18px; }
+.phone .body.body { padding-top: var(--gh); }
+.phone .step.step { padding-top: var(--gh); }
+.s6 .psub { margin-top: 0; }
+html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); height: clamp(140px, calc(100dvh - 531px), 420px); }
+@media (max-height: 640px) { .s5 .d5hero { height: 48px; } }
+@media (min-height: 641px) and (max-height: 700px) { .s5 .d5hero { min-height: 64px; } }
