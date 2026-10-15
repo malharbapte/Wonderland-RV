@@ -41,3 +41,6 @@ html:not(.van-on) .phone .road .van { display: none; }
 .vtog { flex: none; height: 26px; padding: 0 11px; border-radius: 13px; background: rgba(255,255,255,.22); box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); color: #fff; font-family: var(--gordita); font-size: 12px; line-height: 26px; letter-spacing: .02em; white-space: nowrap; }
 .vtog:active { background: rgba(255,255,255,.4); }
 html.tab .vtog { height: 32px; padding: 0 14px; border-radius: 16px; font-size: 14px; line-height: 32px; }
+
+/* Step 3: the model price is Aviano Sans Black, like every other price */
+.s3 .pr .pv { font-family: var(--aviano); font-weight: 900; letter-spacing: -.01em; }
