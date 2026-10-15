@@ -75,6 +75,7 @@
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
     App.setGo(null); App.backHook = null; App.popQ = null; phone.classList.remove("d5mode");
+    if (first) { h1.innerHTML = def.title; plabel.textContent = def.label; }   /* the heading is in place before the step measures its room */
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -124,6 +125,7 @@
     ];
     var tabk = 1, TW = 0;
     if (isTab()) { var cs = getComputedStyle(root), availH = root.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom); tabk = Math.max(1, Math.min(1.45, availH / 448)); TW = Math.min(root.clientWidth, Math.round(560 * tabk)); }
+    else { var cs2 = getComputedStyle(root), availH2 = root.clientHeight - parseFloat(cs2.paddingTop) - parseFloat(cs2.paddingBottom); tabk = Math.max(.6, Math.min(1.25, availH2 / 448, (root.clientWidth || 327) / 300)); }   /* phones: the layout scales to the screen, tighter on short ones, larger on long and wide ones */
     var W = TW || root.clientWidth || 327, D = 88 * tabk, GAP = (W - 3 * D) / 2, H = Math.round(448 * tabk), RB = 64 * tabk;
     var flat = isTab() && isLand(), tFlat = Math.max(0, Math.round(((H - RB) - (D + 8 + 18 + 17)) / 2));   /* iPad landscape: the three sizes sit in one straight line */
     var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: flat ? tFlat : [232, 118, 4][i] * tabk, d: D, s: [50, 56, 60][i] * tabk }; });
@@ -163,6 +165,7 @@
     var off = function (m) { return m.na; };
     var K = 1;
     if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 470)); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.62, Math.min(1.3, av3p / 470, (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
     var HERO_DISC = 184 * K, HERO_W = 266 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : ms.filter(function (m) { return !off(m); })[0].k), busy3 = false;

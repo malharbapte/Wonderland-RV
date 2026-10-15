@@ -784,3 +784,19 @@ html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); he
 
 /* header gradient runs the same way as the progress line: light on the left, dark on the right */
 .phone .bar { background: linear-gradient(90deg, #FFC47F, #E37921 52%, #B04C07); }
+
+/* ===== all phones: Steps 1 to 3 scale to the screen (tighter on short phones, larger on long and wide ones); every step keeps ~20px clear of the back and Next controls ===== */
+.s1 .wrap { --c: clamp(120px, min(calc(100vw - 48px), calc(100dvh - 490px)), 400px); }
+.s1 .circle { width: var(--c); height: var(--c); }
+.s1 .half.L { border-radius: 100% 0 0 100% / 50% 0 0 50%; } .s1 .half.R { border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.s1 .half svg { width: calc(var(--c) * .35); }
+.s1 .captions { width: var(--c); }
+.s2 .nm { font-size: calc(14px * var(--K, 1)); line-height: calc(18px * var(--K, 1)); margin-top: calc(8px * var(--K, 1)); } .s2 .ln { font-size: calc(12px * var(--K, 1)); line-height: calc(17px * var(--K, 1)); }
+.s3 .hero .nm { font-size: calc(26px * var(--K, 1)); line-height: calc(30px * var(--K, 1)); margin-top: calc(24px * var(--K, 1)); }
+.s3 .pr .pf { font-size: calc(14px * var(--K, 1)); } .s3 .pr .pv { font-size: calc(17px * var(--K, 1)); } .s3 .pr { line-height: calc(26px * var(--K, 1)); }
+.s3 .tag { font-size: calc(12px * var(--K, 1)); line-height: calc(18px * var(--K, 1)); }
+.s3 .dock { gap: calc(26px * var(--K, 1)); margin-top: calc(26px * var(--K, 1)); }
+.s3 .mini { width: calc(78px * var(--K, 1)); } .s3 .mini .nm { font-size: calc(10px * var(--K, 1)); line-height: calc(14px * var(--K, 1)); margin-top: calc(10px * var(--K, 1)); }
+.s3 .mini .mp { font-size: calc(10px * var(--K, 1)); line-height: calc(14px * var(--K, 1)); }
+html:not(.tab) .s4 { padding-bottom: 104px; }
+html:not(.tab) { --clear: 104px; }
