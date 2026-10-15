@@ -1,0 +1,35 @@
+/* Build your Caravan, "strip" sample: loads AFTER build-app.css and changes only two things.
+   1. The progress bar leaves the top and becomes a flat edge-to-edge strip just above the Back / Next controls (the small van rides on it).
+   2. The heading is two lines with a thin full-width divider under it.
+   Everything else (assets, fonts, gaps, steps) is the live app, untouched.
+   --sb  strip bottom, measured from the screen bottom (20px clear of the Next circle)
+   --E   extra room the content leaves for the strip and the van, on top of --clear */
+:root { --sb: 105px; --E: 40px; --sh: 10px; }
+html.tab { --sb: 126px; --E: 48px; --sh: 12px; }
+html.tab-land { --E: 62px; }
+
+/* 1. the strip */
+html .phone .prog.prog { position: absolute; left: 0; right: 0; bottom: var(--sb); margin: 0; z-index: 4; pointer-events: none; }
+html .phone .road { height: var(--sh); --vw: 30px; }
+html.tab .phone .road { --vw: 36px; }
+html .phone .road::before { height: var(--sh); border-radius: 0; background: #F1E8DE; }
+html .phone .road .done { height: var(--sh); border-radius: 0 calc(var(--sh) / 2) calc(var(--sh) / 2) 0; }
+html .phone .road .van { bottom: calc(var(--sh) - 3px); }
+html .phone .road .mk, html .phone .prow { display: none; }
+html .phone .body.body { padding-bottom: var(--E); }
+html.kb .phone .body.body { padding-bottom: 0; }
+
+/* Step 5: the cream band runs down to the strip (the sample page measures the gap) */
+.s5 .d5band::before { bottom: calc(-1 * var(--bx, 0px)); }
+
+/* 2. heading: two lines, then the divider */
+html .phone h1, html .phone.d5mode h1 { font-size: min(28px, calc((100vw - 48px) / 10.5)); line-height: 1.15; margin-bottom: var(--gh); }
+@media (min-width: 901px) { html .phone h1, html .phone.d5mode h1 { font-size: 28px; } }
+html.tab .phone h1 br { display: none; }                                  /* iPad is wide enough for one line */
+html.tab .phone h1, html.tab .phone.d5mode h1 { font-size: 40px; line-height: 46px; }
+html.tab-land .phone h1, html.tab-land .phone.d5mode h1 { font-size: 34px; line-height: 40px; }
+.phone .stage::before { content: ""; position: absolute; left: calc(-1 * var(--side, var(--m))); right: calc(-1 * var(--side, var(--m))); top: 0; height: 1px; background: #DDD3C8; z-index: 6; pointer-events: none; }
+html.kb .phone .stage::before { display: none; }
+
+/* the strip and the two-line heading take a little more of a short screen than the old top bar did: the smallest phones get a smaller Step 1 circle. */
+html:not(.tab) .s1 .wrap { --c: clamp(70px, min(calc(100vw - 48px), calc(100dvh - 490px)), 400px); }
