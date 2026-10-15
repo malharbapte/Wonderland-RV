@@ -1,3 +1,4 @@
+@font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
 /* Build your Caravan, "strip" sample: loads AFTER build-app.css and changes only two things.
    1. The progress bar leaves the top and becomes a flat edge-to-edge strip just above the Back / Next controls (the small van rides on it).
    2. The heading is two lines with a thin full-width divider under it.
@@ -151,3 +152,35 @@ html .phone .s6.done6 { padding-bottom: var(--clear); }
   body[data-step="layout"] .go.show:not(.dim) svg, body[data-step="size"] .go.show:not(.dim) svg, body[data-step="model"] .go.show:not(.dim) svg { animation: cueNudge 2.6s ease-in-out infinite; }
   @keyframes cueNudge { 0%, 55%, 100% { transform: translateX(0); } 70% { transform: translateX(5px); } 85% { transform: translateX(0); } }
 }
+
+/* ================= feedback round 2 ================= */
+/* Step 1: a bigger, clearer breathe */
+@media (prefers-reduced-motion: no-preference) {
+  .s1 .half:not(.on) { animation-name: cueBreathe2; }
+  @keyframes cueBreathe2 { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(213,113,20,0)); } 50% { transform: scale(1.085); filter: drop-shadow(0 10px 16px rgba(213,113,20,.38)); } }
+  /* Step 6: the chat answers hop, one after the other */
+  .s6 .reply .rc1 { animation: cueHop 3.2s ease-in-out infinite; }
+  .s6 .reply .rc1:nth-child(2) { animation-delay: .5s; } .s6 .reply .rc1:nth-child(3) { animation-delay: 1s; } .s6 .reply .rc1:nth-child(4) { animation-delay: 1.5s; }
+  .s6 .reply .rc1:nth-child(5) { animation-delay: 2s; } .s6 .reply .rc1:nth-child(6) { animation-delay: 2.5s; } .s6 .reply .rc1:nth-child(7) { animation-delay: 3s; } .s6 .reply .rc1:nth-child(8) { animation-delay: 3.5s; }
+  .s6 .reply .rc1:hover, .s6 .reply .rc1:active { animation-play-state: paused; }
+  @keyframes cueHop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-4px); } 90% { transform: translateY(0); } }
+}
+
+/* Step 4: the key is 50% larger */
+.s4 .leg { font-size: 18px; line-height: 24px; gap: 5px; }
+.s4 .leg i { width: 15px; height: 15px; border-radius: 4px; margin-right: 9px; vertical-align: -1px; }
+html.tab .s4 .leg { font-size: 22px; line-height: 30px; gap: 9px; } html.tab .s4 .leg i { width: 18px; height: 18px; margin-right: 10px; }
+
+/* Step 5: the layout words are Gordita Medium; the bunk key is a small numbered circle */
+.phone .s5 .d5txt .lt, .phone .s5 .d5txt .ft { font-weight: 500; }
+.phone .s5 .d5cap { display: flex; align-items: center; color: #6d645a; font-weight: 500; }
+.phone .s5 .d5cap i { flex: none; width: 20px; height: 20px; margin-right: 8px; border-radius: 50%; background: var(--o); color: #fff; font-style: normal; font-family: var(--gordita); font-weight: 500; font-size: 13px; line-height: 20px; text-align: center; }
+html.tab .phone .s5 .d5cap i { width: 24px; height: 24px; font-size: 15px; line-height: 24px; }
+
+/* Step 6: no container; the van details sit on the page with a soft shadow beneath them (not under the heading) */
+body[data-step="details"] .stage::before { display: none; }
+.s6 .psub { position: relative; padding-bottom: 16px; }
+.s6 .rc6 { background: none; box-shadow: none; padding: 0; }
+.s6 .rc6 .pic { background: none; box-shadow: none; }
+.s6 .psub::after { content: ""; position: absolute; left: calc(-1 * var(--side, var(--m))); right: calc(-1 * var(--side, var(--m))); bottom: -12px; height: 12px; background: linear-gradient(180deg, rgba(60,35,10,.16) 0%, rgba(60,35,10,.06) 45%, rgba(60,35,10,0) 100%); pointer-events: none; z-index: 6; }
+html.kb .s6 .psub::after { display: none; }

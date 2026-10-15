@@ -161,11 +161,12 @@
     var c = ctx(), TAB = MPRICES[c.type + "|" + c.size], BY = {};
     var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
+    var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || 1.2));   /* how much bigger the chosen caravan's circle is than the original: 1.2 = 20% (?hero=1.35 to preview other sizes) */
     var K = 1;
-    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 505)); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.5, Math.min(1.3, av3p / 535, (content.clientWidth || 327) / 295)); }
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / (265 + 200 * HS))); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.5, Math.min(1.3, av3p / (295 + 200 * HS), (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
-    var HERO_DISC = 221 * K, HERO_W = 319 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
+    var HERO_DISC = 184 * HS * K, HERO_W = 266 * HS * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : (!off(BY.amaroo) ? "amaroo" : ms.filter(function (m) { return !off(m); })[0].k)), busy3 = false;   /* Amaroo is shown first unless the customer already chose another */
     function mv(m, w) { var h = w * m.H / 900; return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">'; }
     content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="tag" id="hTag"></span><span class="pr" id="hPr"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
@@ -446,7 +447,7 @@ function drawIso(k, o) {
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
     root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="lt"></span><span class="ft"></span></div>' +
-      '<div class="d5band">' + (P.some(function (p) { return p.bunks; }) ? '<div class="d5cap">The number on each plan is its bunk count</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
+      '<div class="d5band">' + (P.some(function (p) { return p.bunks; }) ? '<div class="d5cap"><i>4</i>Bunk count</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
     var hero = $(".d5hero img", root), ln = $(".ln", root), lt = $(".lt", root), ft = $(".ft", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), band = $(".d5band", root);
     function show1(i, first) {
       sel = i; var p = P[i];
@@ -678,7 +679,7 @@ function drawIso(k, o) {
     return setInterval(function () {
       if (!im.isConnected) return;
       im.classList.add("dim"); setTimeout(function () { k = (k + 1) % L.length; im.src = L[k]; im.classList.remove("dim"); }, 950);
-    }, 2000);
+    }, 4000);
   }
   /* confetti: plain canvas, brand colours, two corner cannons, about 2.5 seconds, nothing to load */
   function confetti() {

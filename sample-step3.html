@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your Caravan — Step 3 samples</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=15">
+<style>
+/* Throwaway sample for Step 3: (1) how big the chosen caravan's circle could be, shown on the real step; (2) three subtle animations.
+   The page's other elements re-space themselves to the circle's size. All px, no rem. */
+body { background: #f4f1ec; padding: 24px 16px 80px; }
+h1 { font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 28px; max-width: 1100px; margin: 0 auto 6px; }
+.lead { max-width: 1100px; margin: 0 auto 24px; color: #6d645a; font-size: 14px; line-height: 21px; }
+h2 { font-family: var(--aviano); font-weight: 900; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; max-width: 1100px; margin: 34px auto 4px; color: var(--o); }
+.note { max-width: 1100px; margin: 0 auto 12px; color: #6d645a; font-size: 13px; line-height: 19px; }
+.row { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.card { background: #fff; border-radius: 18px; padding: 14px 14px 18px; display: flex; flex-direction: column; align-items: center; }
+.card .tag { align-self: flex-start; font-family: var(--aviano); font-weight: 900; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; }
+.card .tag i { font-style: normal; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: var(--o); color: #fff; margin-right: 8px; }
+.card .tag span { color: #6d645a; font-family: var(--gordita); font-weight: 400; letter-spacing: 0; text-transform: none; margin-left: 4px; }
+.shot { width: 100%; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px #eadfd2; background: #fff; position: relative; }
+.shot iframe { border: 0; width: 390px; height: 780px; transform-origin: 0 0; background: #fff; display: block; }
+
+/* the animation mock: a chosen caravan large, three others small */
+.mock { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 8px 0 4px; }
+.hero { position: relative; width: 150px; height: 150px; border-radius: 50%; background: var(--grad); }
+.hero img { position: absolute; left: -20%; top: 22%; width: 140%; display: block; }
+.nm { margin-top: 12px; font-family: var(--aviano); font-weight: 900; font-size: 20px; line-height: 24px; text-transform: uppercase; }
+.tg { font-family: var(--aviano); font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--o); margin-top: 4px; }
+.pr { font-family: var(--aviano); font-weight: 900; font-size: 26px; line-height: 32px; margin-top: 8px; }
+.pr small { font-family: var(--gordita); font-weight: 400; font-size: 12px; color: #666; margin-right: 4px; }
+.mini { display: flex; gap: 22px; margin-top: 18px; }
+.mini div { display: flex; flex-direction: column; align-items: center; font-family: var(--aviano); font-weight: 900; font-size: 10px; text-transform: uppercase; gap: 6px; }
+.mini .d { position: relative; width: 56px; height: 56px; border-radius: 50%; background: var(--grad); }
+.mini .d img { position: absolute; left: -22%; top: 22%; width: 144%; }
+.mini div:nth-child(2) { --d: .6s; } .mini div:nth-child(3) { --d: 1.2s; }
+
+/* A: drift - the chosen caravan rolls a few pixels left and right, as if idling */
+.a .hero img { animation: drift 5s ease-in-out infinite; }
+@keyframes drift { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+/* B: the three others breathe in turn, so they read as tappable */
+.b .mini .d { animation: mb 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes mb { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+/* C: a faint ring spreads from each of the three others */
+.c .mini .d::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--o); opacity: 0; animation: mr 3.2s ease-out infinite; animation-delay: var(--d, 0s); }
+@keyframes mr { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(1.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+</head>
+<body>
+<h1>Step 3: bigger chosen caravan, and a subtle animation</h1>
+<p class="lead">The sizes below are the real Step 3 at phone width, so you see how everything else re-spaces around the bigger circle. Nothing here is in the configurator beyond the current +20%. With "Reduce motion" on, no animation plays.</p>
+
+<h2>Size of the chosen caravan's circle</h2>
+<p class="note">Pick one. The other elements shrink a little as the circle grows, to keep the page inside the screen and the gaps even.</p>
+<div class="row" id="sizes"></div>
+
+<h2>Subtle animation</h2>
+<p class="note">Pick one (or say none). A reads as "alive", B and C read as "tap one of these to swap".</p>
+<div class="row">
+  <div class="card"><div class="tag"><i>A</i>Drift<span>the chosen caravan rolls gently side to side</span></div><div class="mock a"><div class="hero"><img src="assets/img/build/model-amaroo.webp" alt=""></div><div class="nm">Amaroo</div><div class="tg">Classic Offroad</div><div class="pr"><small>From</small>$127,288</div><div class="mini"><div><span class="d"><img src="assets/img/build/model-xtr.webp" alt=""></span>XTR</div><div><span class="d"><img src="assets/img/build/model-solara.webp" alt=""></span>Solara</div><div><span class="d"><img src="assets/img/build/model-hornet.webp" alt=""></span>Hornet</div></div></div></div>
+  <div class="card"><div class="tag"><i>B</i>Breathe<span>the three others swell in turn</span></div><div class="mock b"><div class="hero"><img src="assets/img/build/model-amaroo.webp" alt=""></div><div class="nm">Amaroo</div><div class="tg">Classic Offroad</div><div class="pr"><small>From</small>$127,288</div><div class="mini"><div><span class="d"><img src="assets/img/build/model-xtr.webp" alt=""></span>XTR</div><div><span class="d"><img src="assets/img/build/model-solara.webp" alt=""></span>Solara</div><div><span class="d"><img src="assets/img/build/model-hornet.webp" alt=""></span>Hornet</div></div></div></div>
+  <div class="card"><div class="tag"><i>C</i>Ring<span>a faint ring spreads from the three others</span></div><div class="mock c"><div class="hero"><img src="assets/img/build/model-amaroo.webp" alt=""></div><div class="nm">Amaroo</div><div class="tg">Classic Offroad</div><div class="pr"><small>From</small>$127,288</div><div class="mini"><div><span class="d"><img src="assets/img/build/model-xtr.webp" alt=""></span>XTR</div><div><span class="d"><img src="assets/img/build/model-solara.webp" alt=""></span>Solara</div><div><span class="d"><img src="assets/img/build/model-hornet.webp" alt=""></span>Hornet</div></div></div></div>
+</div>
+
+<script>
+/* the real Step 3 at three sizes of the chosen caravan's circle (1.2 = what it is now) */
+var OPTS = [[1.2, "Current", "+20%"], [1.4, "Larger", "+40%"], [1.6, "Largest", "+60%"]], row = document.getElementById("sizes");
+OPTS.forEach(function (o, i) {
+  var card = document.createElement("div"); card.className = "card";
+  card.innerHTML = '<div class="tag"><i>' + "ABC"[i] + '</i>' + o[1] + '<span>chosen circle ' + o[2] + '</span></div><div class="shot"><iframe title="' + o[1] + '" loading="lazy"></iframe></div>';
+  row.appendChild(card);
+  var f = card.querySelector("iframe"), box = card.querySelector(".shot");
+  f.src = "sample-build-app-strip.html?couples&compact&m=amaroo&hero=" + o[0] + "#model";
+  function fit() { var sc = Math.min(1, box.clientWidth / 390); f.style.transform = "scale(" + sc + ")"; box.style.height = (780 * sc) + "px"; }
+  fit(); addEventListener("resize", fit);
+});
+</script>
+</body>
+</html>
