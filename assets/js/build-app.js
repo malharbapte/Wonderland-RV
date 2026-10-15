@@ -921,9 +921,16 @@ function drawIso(k, o) {
       else { phone.style.height = ""; phone.style.top = ""; }
       if (open) { var th = $(".thread", phone); if (th) { th.scrollTop = th.scrollHeight; setTimeout(function () { th.scrollTop = th.scrollHeight; }, 120); } }
     };
-    if (vv && isTab()) {                                  /* tablets only: phones let the browser keep the typing box in view */
-      var kbSync = function () { var open = window.innerHeight - vv.height > 120; App.applyKb(vv.height, vv.offsetTop, open); if (open) window.scrollTo(0, 0); };
-      vv.addEventListener("resize", kbSync); vv.addEventListener("scroll", kbSync);
+    if (vv) {
+      var kbRaf = 0, kbSync = function () {
+        kbRaf = 0;
+        var open = window.innerHeight - vv.height > 120;                       /* the visible part of the screen is much shorter than the page: a keyboard is up */
+        App.applyKb(vv.height, vv.pageTop != null ? vv.pageTop : vv.offsetTop + window.scrollY, open);
+      };
+      var kbQueue = function () { if (!kbRaf) kbRaf = requestAnimationFrame(kbSync); };
+      vv.addEventListener("resize", kbQueue); vv.addEventListener("scroll", kbQueue);
+      document.addEventListener("focusin", function (e) { if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) { setTimeout(kbQueue, 250); setTimeout(kbQueue, 600); } });
+      document.addEventListener("focusout", function () { setTimeout(kbQueue, 250); });
     }
     if (/[?&]compare/.test(Q)) {                         /* ?compare: a bar of floorplan layouts to switch between on one page */
       document.body.classList.add("cmp");
