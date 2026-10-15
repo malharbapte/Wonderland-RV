@@ -161,10 +161,10 @@
     var c = ctx(), TAB = MPRICES[c.type + "|" + c.size], BY = {};
     var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
-    var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || 1.2));   /* how much bigger the chosen caravan's circle is than the original: 1.2 = 20% (?hero=1.35 to preview other sizes) */
+    var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || 1.6));   /* how much bigger the chosen caravan's circle is than the original: 1.6 = 60% bigger (?hero=1.35 to preview other sizes) */
     var K = 1;
-    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / (265 + 200 * HS))); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.5, Math.min(1.3, av3p / (295 + 200 * HS), (content.clientWidth || 327) / 295)); }
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(.75, Math.min(1.5, av3 / (265 + 200 * HS))); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.42, Math.min(1.3, av3p / (295 + 200 * HS), (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
     var HERO_DISC = 184 * HS * K, HERO_W = 266 * HS * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : (!off(BY.amaroo) ? "amaroo" : ms.filter(function (m) { return !off(m); })[0].k)), busy3 = false;   /* Amaroo is shown first unless the customer already chose another */
@@ -184,30 +184,29 @@
     function rectIn(el) { var r = el.getBoundingClientRect(), cr = content.getBoundingClientRect(); return { x: r.left - cr.left, y: r.top - cr.top, w: r.width, h: r.height }; }
     function flier(m, B) { var d = document.createElement("span"); d.className = "disc fly"; d.style.cssText = "left:" + B.x + "px;top:" + B.y + "px;width:" + B.w + "px;height:" + B.h + "px;transform-origin:0 0;will-change:transform"; d.innerHTML = mv(m, HERO_W); content.appendChild(d); return d; }
     function tf(B, T, k, lift) { var s = (T.w / B.w) * k, w = B.w * s, h = B.h * s; return "translate(" + ((T.x + T.w / 2) - B.x - w / 2).toFixed(2) + "px," + ((T.y + T.h / 2) - B.y - h / 2 - (lift || 0)).toFixed(2) + "px) scale(" + s.toFixed(4) + ")"; }
+    /* the chosen van drives in from outside the circle, moving forward (to the right) and stopping at the centre */
+    function drive(delay) {
+      var im = $(".mv", heroDisc); if (!im || reduce || !im.animate) return;
+      var d = -(HERO_W / 2 + HERO_DISC / 2);
+      try {
+        im.animate([{ translate: d.toFixed(1) + "px 0" }, { translate: "0 0" }], { duration: 1150, delay: delay || 0, easing: "cubic-bezier(.22,.7,.2,1)", fill: "backwards" });
+        im.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: delay || 0, easing: "ease-out", fill: "backwards" });
+      } catch (e) {}
+    }
+    /* a new van is chosen: the old one takes the small slot, and the new one drives into the circle the same way */
     function promote(btn) {
       if (busy3 || btn.dataset.k === heroK) return;
-      var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), A = rectIn(slotDisc), B = rectIn(heroDisc);
+      var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hPr];
       busy3 = true;
-      var texts = [hNm, hTag, hPr];
       btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
       slotDisc.innerHTML = mv(om, MINI_W); $(".nm", btn).textContent = om.nm; $(".mp", btn).textContent = fmt(om.price);
-      setHero(newK); heroDisc.style.visibility = "hidden"; slotDisc.style.visibility = "hidden";
-      var done = function () { if (!busy3) return; busy3 = false; $$(".fly", content).forEach(function (f) { f.remove(); }); heroDisc.style.visibility = ""; slotDisc.style.visibility = ""; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; };
-      if (reduce || !heroDisc.animate) { done(); return; }
-      var up = flier(nm, B);
-      /* touch tablets: the flier moves on transform alone (an animated drop-shadow filter is the usual thing to stall on iPad Safari) */
-      var sh = !isTab(), ks = [
-        { offset: 0,   transform: tf(B, A, 1, 0),    easing: "cubic-bezier(.2,.8,.2,1)" },
-        { offset: .55, transform: tf(B, B, 1.1, 16), easing: "ease-in-out" },
-        { offset: .8,  transform: tf(B, B, 0.97, 0), easing: "ease-out" },
-        { offset: 1,   transform: tf(B, B, 1, 0) }
-      ];
-      if (sh) { var fs = ["drop-shadow(0 0 0 rgba(0,0,0,0))", "drop-shadow(0 18px 16px rgba(0,0,0,.22))", "drop-shadow(0 6px 8px rgba(0,0,0,.12))", "drop-shadow(0 0 0 rgba(0,0,0,0))"]; ks.forEach(function (k, i) { k.filter = fs[i]; }); }
-      up.animate(ks, { duration: MS, fill: "forwards" });
-      var dn = flier(om, B);
-      dn.animate([{ offset: 0, transform: tf(B, B, 1, 0), easing: "cubic-bezier(.5,0,.2,1)" }, { offset: .72, transform: tf(B, A, 1.08, 0), easing: "ease-out" }, { offset: 1, transform: tf(B, A, 1, 0) }], { duration: Math.round(MS * .77), fill: "forwards" });
-      texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(12px) scale(.94)" }, { opacity: 1, transform: "translateY(-2px) scale(1.04)", offset: .6 }, { opacity: 1, transform: "none" }], { duration: 380 * MS / 600, delay: (200 + i * 70) * MS / 600, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" }); });
-      setTimeout(done, MS + 60);
+      setHero(newK);
+      if (!reduce && heroDisc.animate) {
+        slotDisc.animate([{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "none" }], { duration: 420, easing: "cubic-bezier(.2,.9,.3,1.2)" });
+        drive(0);
+        texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: 420 + i * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1)" }); });
+      }
+      setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; }, reduce ? 0 : 1200);
     }
     var pick3 = function (d) {
       if (hero.classList.contains("off")) return;
@@ -216,7 +215,7 @@
     };
     heroBtn.addEventListener("click", function () { pick3(380); });
     App.setGo(function () { pick3(160); }, null, false);
-    setHero(heroK); renderDock();
+    setHero(heroK); renderDock(); drive(380);   /* on arrival the chosen van drives in once, as the step settles */
   }
   function CHOICE_MODEL(c) { return WLProgress.choices().model || null; }
 

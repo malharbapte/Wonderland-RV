@@ -184,3 +184,6 @@ body[data-step="details"] .stage::before { display: none; }
 .s6 .rc6 .pic { background: none; box-shadow: none; }
 .s6 .psub::after { content: ""; position: absolute; left: calc(-1 * var(--side, var(--m))); right: calc(-1 * var(--side, var(--m))); bottom: -12px; height: 12px; background: linear-gradient(180deg, rgba(60,35,10,.16) 0%, rgba(60,35,10,.06) 45%, rgba(60,35,10,0) 100%); pointer-events: none; z-index: 6; }
 html.kb .s6 .psub::after { display: none; }
+
+/* Step 1: hovering either half (or its caption) stops both halves breathing */
+.s1 .wrap:has(.half:hover, .half:focus-visible, .cap:hover) .half:not(.on) { animation: none; }
