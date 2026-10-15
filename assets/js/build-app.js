@@ -118,29 +118,18 @@
 
   /* ============================== Step 2: how much room ============================== */
   function s2(root) {
+    /* three equally weighted options in one row, each with its name and one measurement under it */
     var SIZES = [
-      { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", mid: 18.875, w: 76, ink: [-5.5, -3.4], src: "assets/img/build/size-compact.png" },
-      { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", mid: 21.25,  w: 85, ink: [-6.3, -1.1], src: "assets/img/build/size-mid.png" },
-      { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", mid: 23.25,  w: 94, ink: [-4.6, -3.1], src: "assets/img/build/size-spacious.png" }
+      { k: "compact",  nm: "Compact",  ln: "17′09″ – 20′", w: 76, ink: [-5.5, -3.4], src: "assets/img/build/size-compact.png" },
+      { k: "mid",      nm: "Mid-size", ln: "20′06″ – 22′", w: 85, ink: [-6.3, -1.1], src: "assets/img/build/size-mid.png" },
+      { k: "spacious", nm: "Spacious", ln: "22′06″ – 24′", w: 94, ink: [-4.6, -3.1], src: "assets/img/build/size-spacious.png" }
     ];
-    var tabk = 1, TW = 0;
-    if (isTab()) { var cs = getComputedStyle(root), availH = root.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom); tabk = Math.max(1, Math.min(1.45, availH / 448)); TW = Math.min(root.clientWidth, Math.round(560 * tabk)); }
-    else { var cs2 = getComputedStyle(root), availH2 = root.clientHeight - parseFloat(cs2.paddingTop) - parseFloat(cs2.paddingBottom); tabk = Math.max(.6, Math.min(1.25, availH2 / 448, (root.clientWidth || 327) / 300)); }   /* phones: the layout scales to the screen, tighter on short ones, larger on long and wide ones */
-    var W = TW || root.clientWidth || 327, D = 88 * tabk, GAP = (W - 3 * D) / 2, H = Math.round(448 * tabk), RB = 64 * tabk;
-    var flat = isTab() && isLand(), tFlat = Math.max(0, Math.round(((H - RB) - (D + 8 + 18 + 17)) / 2));   /* iPad landscape: the three sizes sit in one straight line */
-    var P = SIZES.map(function (z, i) { return { cx: D / 2 + i * (D + GAP), t: flat ? tFlat : [232, 118, 4][i] * tabk, d: D, s: [50, 56, 60][i] * tabk }; });
-    var xb = function (ft) { return (ft - 17.75) / 6.25 * W; };
-    var SPANS = [[17.75, 20], [20.5, 22], [22.5, 24]];
-    var scale = '<defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0"><stop offset="0" stop-color="#FFC47F"/><stop offset=".52" stop-color="#E37921"/><stop offset="1" stop-color="#B04C07"/></linearGradient></defs>';
-    SIZES.forEach(function (z, i) {
-      var w = xb(SPANS[i][1]) - xb(SPANS[i][0]);
-      scale += '<rect class="seg seg-' + z.k + '" x="' + xb(SPANS[i][0]) + '" y="14" width="' + w + '" height="12" rx="6" fill="url(#gB)"/><text class="sl sl-' + z.k + '" x="' + (xb(SPANS[i][0]) + w / 2) + '" y="46">' + z.ln + '</text>';
-    });
-    root.style.setProperty("--K", tabk);
+    var tab = isTab(), W = Math.min(root.clientWidth || 327, tab ? 620 : 480), gx = Math.round(W * .035);
+    var D = Math.round(Math.min((W - 2 * gx) / 3, tab ? 176 : 150)), ik = D / 88, tk = Math.max(.85, Math.min(1.35, D / 100));
+    root.style.setProperty("--K", tk);
     var nudge = function (z, s) { var k = s / z.w; return 'translate(' + (-z.ink[0] * k).toFixed(2) + 'px,' + (-z.ink[1] * k).toFixed(2) + 'px)'; };
-    root.innerHTML = '<div class="v9"' + (TW ? ' style="width:' + W + 'px"' : '') + '><div class="wrap"' + (tabk !== 1 ? ' style="height:' + H + 'px"' : '') + '>' +
-      '<svg class="rule" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><g transform="translate(0 ' + (H - RB) + ')">' + scale + '</g></svg>' +
-      SIZES.map(function (z, i) { var p = P[i]; return '<button class="p" data-k="' + z.k + '" style="left:' + (p.cx - p.d / 2) + 'px;top:' + p.t + 'px;width:' + p.d + 'px"><span class="disc cta" style="width:' + p.d + 'px;height:' + p.d + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + p.s + 'px;transform:' + nudge(z, p.s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div></div>';
+    root.innerHTML = '<div class="v9" style="width:' + W + 'px"><div class="wrap">' +
+      SIZES.map(function (z, i) { var s = [50, 56, 60][i] * ik; return '<button class="p" data-k="' + z.k + '" style="width:' + D + 'px"><span class="disc cta" style="width:' + D + 'px;height:' + D + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + s.toFixed(1) + 'px;transform:' + nudge(z, s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div></div>';
     $$(".p", root).forEach(function (b) { b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); App.next(380); }); });
   }
 

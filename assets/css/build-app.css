@@ -800,3 +800,17 @@ html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); he
 .s3 .mini .mp { font-size: calc(10px * var(--K, 1)); line-height: calc(14px * var(--K, 1)); }
 html:not(.tab) .s4 { padding-bottom: 104px; }
 html:not(.tab) { --clear: 104px; }
+
+/* ===== design review round =====
+   1. Header: one solid brand orange with a crisp bottom edge; no glow.
+   2. Gradient: narrower on the big selection circles only.
+   3. Type: Aviano for short headings, the header title, option names and prices; supporting text in Gordita.
+   4. Step 2: three equal circles in one row, one measurement under each. */
+.phone .bar, .phone.d5mode .bar { background: #D57114; box-shadow: none; }
+.bar::after { display: none; }
+:root { --gc: linear-gradient(180deg, #F29A45 0%, #DD7C28 52%, #C8630F 100%); }
+.s1 .half::before, .s2 .cta::before, .s3 .disc::before { background: var(--gc); }
+.phone .prow, .phone .pfrom.pfrom.pfrom, .s3 .tag, .s3 .mini .nm, .s4 .seg button, .ft5, .s6 .sec, .s6 .fl6, .s6 .sr6 .k, .s6 .sum, .s5 .dots2 .cnt { font-family: var(--gordita); }
+.s2 .v9 .wrap { position: static; height: auto; display: flex; justify-content: space-between; align-items: flex-start; }
+.s2 .v9 .p { position: static; }
+.s2 .nm { margin-top: calc(12px * var(--K, 1)); } .s2 .ln { margin-top: 2px; }
