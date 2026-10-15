@@ -841,8 +841,8 @@ function drawIso(k, o) {
     root.innerHTML = '<div class="pane6"><div class="psub"></div><div class="thread"></div><div class="reply"></div></div>';
     thread = $(".thread", root); reply = $(".reply", root); psub = $(".psub", root);
     /* the price is the subheading under the page heading, pinned: it stays put while the chat scrolls and follows any change made in Customise */
-    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span>' : ""; }
-    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = '<div class="asof">Price as of ' + new Date().toLocaleDateString("en-AU") + '</div>' + recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
+    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span>' : ""; }
+    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
     drawPrice();
     var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
     var Qs = [
