@@ -857,3 +857,6 @@ html.kb .s6 .psub .pv { font-size: 34px; line-height: 38px; }
 html.kb .s6 .psub { padding-bottom: 6px; }
 html.kb .s6 .psub .pd { font-size: 12px; line-height: 16px; margin-top: 2px; }
 .phone { position: relative; }
+
+/* Step 3: the model price is Aviano Sans Black, like every other price */
+.s3 .pr .pv { font-family: var(--aviano); font-weight: 900; letter-spacing: -.01em; }
