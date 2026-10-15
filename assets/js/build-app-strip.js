@@ -156,12 +156,12 @@
     var off = function (m) { return m.na; };
     var K = 1;
     if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 470)); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.56, Math.min(1.3, av3p / 470, (content.clientWidth || 327) / 295)); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.56, Math.min(1.3, av3p / 495, (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
     var HERO_DISC = 184 * K, HERO_W = 266 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : ms.filter(function (m) { return !off(m); })[0].k), busy3 = false;
     function mv(m, w) { var h = w * m.H / 900; return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">'; }
-    content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="pr" id="hPr"></span><span class="tag" id="hTag"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
+    content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="tag" id="hTag"></span><span class="pr" id="hPr"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
     var hero = $(".hero", content), dock = $("#dock", content), heroDisc = $("#heroDisc", content), hNm = $("#hNm", content), hPr = $("#hPr", content), hTag = $("#hTag", content), heroBtn = $("#heroBtn", content);
     function setHeroText(m) { hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
     function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); }
@@ -180,7 +180,7 @@
       if (busy3 || btn.dataset.k === heroK) return;
       var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), A = rectIn(slotDisc), B = rectIn(heroDisc);
       busy3 = true;
-      var texts = [hNm, hPr, hTag];
+      var texts = [hNm, hTag, hPr];
       btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
       slotDisc.innerHTML = mv(om, MINI_W); $(".nm", btn).textContent = om.nm; $(".mp", btn).textContent = fmt(om.price);
       setHero(newK); heroDisc.style.visibility = "hidden"; slotDisc.style.visibility = "hidden";
