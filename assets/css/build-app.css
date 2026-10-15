@@ -781,3 +781,6 @@ html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); he
 
 /* Step 5 on phones, at any height: the plan card gives up height before the cream band can reach the back and Next controls */
 @media (min-height: 761px) { html:not(.tab) .s5.d5 { padding-bottom: 112px; } html:not(.tab) .s5 .d5hero { flex: 0 1 auto; min-height: 74px; } }
+
+/* header gradient runs the same way as the progress line: light on the left, dark on the right */
+.phone .bar { background: linear-gradient(90deg, #FFC47F, #E37921 52%, #B04C07); }
