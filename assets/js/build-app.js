@@ -911,6 +911,20 @@ function drawIso(k, o) {
   function init() {
     phone = $("#phone"); stage = $("#stage"); h1 = $("#h1"); plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
     if (/[?&]guides/.test(Q)) phone.classList.add("guides");
+    /* the on-screen keyboard: the app follows the visible part of the screen, so the chat box sits just above the keyboard */
+    var vv = window.visualViewport;
+    window.WLApp = App;
+    App.applyKb = function (h, top, open) {
+      var root = document.documentElement;
+      root.classList.toggle("kb", !!open);
+      if (open) { phone.style.height = h + "px"; phone.style.top = top + "px"; }
+      else { phone.style.height = ""; phone.style.top = ""; }
+      if (open) { var th = $(".thread", phone); if (th) { th.scrollTop = th.scrollHeight; setTimeout(function () { th.scrollTop = th.scrollHeight; }, 120); } }
+    };
+    if (vv) {
+      var kbSync = function () { var open = window.innerHeight - vv.height > 120; App.applyKb(vv.height, vv.offsetTop, open); if (open) window.scrollTo(0, 0); };
+      vv.addEventListener("resize", kbSync); vv.addEventListener("scroll", kbSync);
+    }
     if (/[?&]compare/.test(Q)) {                         /* ?compare: a bar of floorplan layouts to switch between on one page */
       document.body.classList.add("cmp");
       var bar = document.createElement("div"); bar.className = "cmpbar"; bar.id = "cmpbar";
