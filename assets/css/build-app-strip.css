@@ -56,15 +56,5 @@ html:not(.tab) .s5 .d5pane .d5band { margin-top: auto; }
 @media (max-height: 760px) { html:not(.tab) .s5 .d5pane .d5price { padding-bottom: 18px; } }
 @media (max-height: 640px) { html:not(.tab) .s5 .d5pane .d5price { padding-bottom: 10px; } }
 
-/* one price size: every headline price (Step 3 model, Step 4 bed, Step 6 quote) is the Step 5 price size.
-   --pz / --pl follow Step 5: 49px, 40px on screens under 760px tall, 32px under 640px, 64px on iPad. (Small prices under the Step 3 model circles stay small.) */
-:root { --pz: 49px; --pl: 46px; }
-@media (max-height: 760px) { :root { --pz: 40px; --pl: 42px; } }
-@media (max-height: 640px) { :root { --pz: 32px; --pl: 34px; } }
-html.tab { --pz: 64px; --pl: 70px; }
-html .phone .s3 .pr .pv, html .phone .s4 .foot .pv, html .phone .s6 .psub .pv, html .phone .s6 .pf6 .pv { font-size: var(--pz); line-height: var(--pl); letter-spacing: -.015em; }
-html .phone .s3 .pr, html .phone .s4 .foot .pr { line-height: var(--pl); }
-html.kb .phone .s6 .psub .pv { font-size: 34px; line-height: 38px; }          /* keyboard open: the price shrinks, as before */
-
 /* Step 5 band: the thumbnails stay clear of the van */
 @media (max-height: 760px) { html:not(.tab) .s5 .d5band { padding-bottom: 16px; } }
