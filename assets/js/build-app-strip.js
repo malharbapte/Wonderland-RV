@@ -58,7 +58,9 @@
   var urlFor = function (n) { return location.pathname + Q + "#" + STEPS[n].id; };
 
   var App = {
-    setGo: function (fn, icon) { goFn = fn || null; goBtn.classList.toggle("show", !!fn); goBtn.classList.remove("on"); goBtn.tabIndex = fn ? 0 : -1; $("path", goBtn).setAttribute("d", icon === "tick" ? "M5 12.5l4.5 4.5L19 7.5" : "M9 5l7 7-7 7"); goBtn.setAttribute("aria-label", icon === "tick" ? "Send" : "Next"); },
+    setGo: function (fn, icon, dim) { goFn = fn || null; App.hintFn = null; goBtn.classList.toggle("show", !!fn); goBtn.classList.toggle("dim", !!fn && !!dim); goBtn.classList.remove("on"); goBtn.tabIndex = fn ? 0 : -1; $("path", goBtn).setAttribute("d", icon === "tick" ? "M5 12.5l4.5 4.5L19 7.5" : "M9 5l7 7-7 7"); goBtn.setAttribute("aria-label", icon === "tick" ? "Send" : "Next"); },
+    dimGo: function (d) { goBtn.classList.toggle("dim", !!d); },
+    hintFn: null,
     backHook: null,                                   /* a step can take over Back for its own inner screens: return true when it handled it */
     /* move to the next step after a beat (so the tap's pressed state is seen); `gate` is a promise to wait for first (images) */
     next: function (delay, gate) {
@@ -113,9 +115,12 @@
     $$("[data-t]", root).forEach(function (el) {
       el.addEventListener("click", function () {
         $('.half[data-t="' + el.dataset.t + '"]', root).classList.add("on");
-        WLProgress.choose("type", el.dataset.t); App.next(380);
+        WLProgress.choose("type", el.dataset.t); App.dimGo(false); App.next(380);
       });
     });
+    /* the Next arrow is there from the start: faded until a choice is made (or already made, coming back) */
+    App.setGo(function () { App.next(120); }, null, !WLProgress.choices().type);
+    App.hintFn = function () { $$(".half", root).forEach(function (h) { if (h.animate && !reduce) h.animate([{ transform: "scale(1)" }, { transform: "scale(1.05)" }, { transform: "scale(1)" }], { duration: 520, easing: "ease-in-out" }); }); };
   }
 
   /* ============================== Step 2: how much room ============================== */
@@ -132,7 +137,9 @@
     var nudge = function (z, s) { var k = s / z.w; return 'translate(' + (-z.ink[0] * k).toFixed(2) + 'px,' + (-z.ink[1] * k).toFixed(2) + 'px)'; };
     root.innerHTML = '<div class="v9" style="width:' + W + 'px"><div class="wrap">' +
       SIZES.map(function (z, i) { var s = [50, 56, 60][i] * ik; return '<button class="p" data-k="' + z.k + '" style="width:' + D + 'px"><span class="disc cta" style="width:' + D + 'px;height:' + D + 'px"><img class="ico" src="' + z.src + '" alt="" style="width:' + s.toFixed(1) + 'px;transform:' + nudge(z, s) + '"></span><span class="nm">' + z.nm + '</span><span class="ln">' + z.ln + '</span></button>'; }).join("") + '</div></div>';
-    $$(".p", root).forEach(function (b) { b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); App.next(380); }); });
+    $$(".p", root).forEach(function (b) { b.addEventListener("click", function () { b.classList.add("on"); WLProgress.choose("size", b.dataset.k); App.dimGo(false); App.next(380); }); });
+    App.setGo(function () { App.next(120); }, null, !WLProgress.choices().size);
+    App.hintFn = function () { $$(".p .disc", root).forEach(function (d) { if (d.animate && !reduce) d.animate([{ transform: "scale(1)" }, { transform: "scale(1.07)" }, { transform: "scale(1)" }], { duration: 520, easing: "ease-in-out" }); }); };
   }
 
   /* ============================== Step 3: where will you take it ============================== */
@@ -155,16 +162,16 @@
     var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
     var K = 1;
-    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 470)); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.56, Math.min(1.3, av3p / 495, (content.clientWidth || 327) / 295)); }
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(1, Math.min(1.5, av3 / 505)); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.5, Math.min(1.3, av3p / 535, (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
-    var HERO_DISC = 184 * K, HERO_W = 266 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
-    var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : ms.filter(function (m) { return !off(m); })[0].k), busy3 = false;
+    var HERO_DISC = 221 * K, HERO_W = 319 * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
+    var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : (!off(BY.amaroo) ? "amaroo" : ms.filter(function (m) { return !off(m); })[0].k)), busy3 = false;   /* Amaroo is shown first unless the customer already chose another */
     function mv(m, w) { var h = w * m.H / 900; return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">'; }
     content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="tag" id="hTag"></span><span class="pr" id="hPr"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
     var hero = $(".hero", content), dock = $("#dock", content), heroDisc = $("#heroDisc", content), hNm = $("#hNm", content), hPr = $("#hPr", content), hTag = $("#hTag", content), heroBtn = $("#heroBtn", content);
     function setHeroText(m) { hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
-    function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); }
+    function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); App.dimGo(off(m)); }
     function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '"><span class="disc hov" style="width:' + MINI_DISC + 'px;height:' + MINI_DISC + 'px">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>'; }
     function renderDock() {
       dock.innerHTML = ms.filter(function (m) { return m.k !== heroK; }).map(miniHTML).join("");
@@ -201,11 +208,13 @@
       texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(12px) scale(.94)" }, { opacity: 1, transform: "translateY(-2px) scale(1.04)", offset: .6 }, { opacity: 1, transform: "none" }], { duration: 380 * MS / 600, delay: (200 + i * 70) * MS / 600, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" }); });
       setTimeout(done, MS + 60);
     }
-    heroBtn.addEventListener("click", function () {
+    var pick3 = function (d) {
       if (hero.classList.contains("off")) return;
       heroBtn.classList.add("on"); WLProgress.choose("model", heroK);
-      App.next(380, fetchImgs(bedPrefetch(ctx()), 1200));
-    });
+      App.next(d, fetchImgs(bedPrefetch(ctx()), 1200));
+    };
+    heroBtn.addEventListener("click", function () { pick3(380); });
+    App.setGo(function () { pick3(160); }, null, false);
     setHero(heroK); renderDock();
   }
   function CHOICE_MODEL(c) { return WLProgress.choices().model || null; }
@@ -313,8 +322,8 @@ function drawIso(k, o) {
         '<div class="seg" role="group" aria-label="Bed size">' + GROUPS.map(function (g) { return '<button type="button" class="' + (g === S.g ? "on" : "") + '" data-g="' + g + '"><span>' + g + '</span></button>'; }).join("") + '</div>' +
         '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 7.6, icon: true, blur: ISO.blur, wall: ISO.wall }) + '</button>'; }).join("") + '</div>' +
         '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
-        '<div class="dg">' + drawIso(S.k, { crop: 8.4, blur: ISO.blur, wall: ISO.wall }) + '</div>' +
-        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div><div class="pb"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' for this bed' : 'Base bed included') + '</span></div></div>';
+        '<div class="dg">' + drawIso(S.k, { crop: 7.2, blur: ISO.blur, wall: ISO.wall }) + '</div>' +
+        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div></div>';
       $$(".seg button", out).forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
       $$(".ic", out).forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
     }
@@ -436,14 +445,14 @@ function drawIso(k, o) {
     phone.classList.add("d5mode");
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
-    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ft"></span><span class="ln"></span></div><div class="d5price"><span class="pfrom">from</span><span class="pv"></span><span class="fl"></span></div>' +
-      '<div class="d5band"><div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + ', ' + fmt(p.price) + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
-    var hero = $(".d5hero img", root), ln = $(".ln", root), ft = $(".ft", root), pv = $(".pv", root), fl = $(".fl", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), price = $(".d5price", root), band = $(".d5band", root);
+    root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="lt"></span><span class="ft"></span></div>' +
+      '<div class="d5band">' + (P.some(function (p) { return p.bunks; }) ? '<div class="d5cap">The number on each plan is its bunk count</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
+    var hero = $(".d5hero img", root), ln = $(".ln", root), lt = $(".lt", root), ft = $(".ft", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), band = $(".d5band", root);
     function show1(i, first) {
-      sel = i; var p = P[i], d = Math.round(p.price - D.base);
+      sel = i; var p = P[i];
       ths.forEach(function (b, j) { b.classList.toggle("on", j === i); });
-      var apply = function () { hero.classList.remove("ld"); hero.src = planImg(p); if (hero.complete && hero.naturalWidth) hero.classList.add("ld"); ln.textContent = p.lenTxt; ft.innerHTML = p.lay.replace(/, /, ",<br>"); pv.textContent = fmt(p.price); fl.textContent = d ? "+" + fmt(d) + " on the base plan" : "The base plan"; };
-      if (first || reduce || !txt.animate) apply(); else { [txt, price].forEach(function (e) { e.animate([{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: 300 }); }); setTimeout(apply, 140); }
+      var apply = function () { hero.classList.remove("ld"); hero.src = planImg(p); if (hero.complete && hero.naturalWidth) hero.classList.add("ld"); var cm = p.lay.indexOf(", "); ln.textContent = p.lenTxt; lt.textContent = cm < 0 ? p.lay : p.lay.slice(0, cm); ft.textContent = cm < 0 ? "" : p.lay.slice(cm + 2).replace(/^./, function (ch) { return ch.toUpperCase(); }); };
+      if (first || reduce || !txt.animate) apply(); else { txt.animate([{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: 300 }); setTimeout(apply, 140); }
       var on = ths[i]; if (on && strip.scrollTo) strip.scrollTo({ left: Math.max(0, on.offsetLeft - 12), behavior: first || reduce ? "auto" : "smooth" });
       App.setGo(function () { WLProgress.choose("plan", p.code); App.next(300); });
     }
@@ -648,12 +657,41 @@ function drawIso(k, o) {
   /* what the customer has built, for the recap and the price */
   function recap() {
     var cx = ctx(), C = WLProgress.choices(), D = plansFor(cx), plan = D.plans.filter(function (p) { return p.code === C.plan; })[0] || D.plans[0];
-    return { cx: cx, plan: plan, bed: BEDLINE[D.bed] || "", model: MODEL_N[cx.model], type: TYPE_N[cx.type], size: SIZE_N[cx.size] };
+    return { cx: cx, plan: plan, bedKey: D.bed, bed: BEDLINE[D.bed] || "", model: MODEL_N[cx.model], type: TYPE_N[cx.type], size: SIZE_N[cx.size] };
   }
   var tick = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   function recapHTML(R, editable) {
     var p = R.plan; if (!p) return "";
     return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' : '') + '</span></div>';
+  }
+  /* the pinned summary card on the chat screen: the words on the left, the customer's van on the right, changing every 2 seconds (model, bed, floorplan) */
+  function cardHTML(R) {
+    var p = R.plan; if (!p) return "";
+    var cm = p.lay.indexOf(", "), main = cm < 0 ? p.lay : p.lay.slice(0, cm);
+    return '<div class="rc6"><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span><button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></span><span class="pic"><img alt=""></span></div>';
+  }
+  function cycleImgs(host, R) {
+    var im = $(".pic img", host); if (!im || !R.plan) return null;
+    var L = ["assets/img/build/model-" + (R.cx.model) + ".webp", "assets/img/build/bed-" + R.bedKey + ".webp", planImg(R.plan)], k = 0;
+    L.forEach(function (u) { var x = new Image(); x.src = u; }); im.src = L[0];
+    if (reduce) return null;
+    return setInterval(function () {
+      if (!im.isConnected) return;
+      im.classList.add("dim"); setTimeout(function () { k = (k + 1) % L.length; im.src = L[k]; im.classList.remove("dim"); }, 950);
+    }, 2000);
+  }
+  /* confetti: plain canvas, brand colours, about 2.5 seconds, nothing to load */
+  function confetti() {
+    if (reduce) return;
+    var cv = document.createElement("canvas"), cx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight, P = [], COL = ["#FFC47F", "#E37921", "#B04C07", "#FFE8C2", "#D57114", "#ffffff"];
+    cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80"; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); document.body.appendChild(cv);
+    for (var n = 0; n < 120; n++) P.push({ x: W / 2 + (Math.random() - .5) * W * .6, y: -10 - Math.random() * 60, vx: (Math.random() - .5) * 4, vy: 1 + Math.random() * 3, w: 6 + Math.random() * 6, h: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .35, c: COL[Math.random() * COL.length | 0], life: 0, max: 130 + Math.random() * 60 });
+    (function tick() {
+      cx.clearRect(0, 0, W, H);
+      P = P.filter(function (p) { return p.life < p.max && p.y < H + 30; });
+      P.forEach(function (p) { p.life++; p.vy += .22; p.vx *= .992; p.x += p.vx; p.y += p.vy; p.r += p.vr; cx.save(); cx.globalAlpha = Math.max(0, Math.min(1, (p.max - p.life) / 40)); cx.translate(p.x, p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 1.6)) + 1); cx.restore(); });
+      if (P.length) requestAnimationFrame(tick); else cv.remove();
+    })();
   }
   function priceNear(R) { return R.plan ? '<div class="pf6"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="fl">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : ""; }
   /* the form fields, shared by all three layouts */
@@ -691,10 +729,11 @@ function drawIso(k, o) {
     App.setGo(null); App.backHook = null;
     var name = (vals.first || "").trim();
     root.className = "step s6 done6";
-    root.innerHTML = '<div class="thanks"><svg class="tk" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" class="c1"/><path d="M29 50l13 13 26-28" class="c2"/></svg>' +
-      '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2><p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
+    root.innerHTML = '<div class="thanks">' +
+      '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2>' + (R.plan ? '<div class="rvp"><span class="pf">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : "") + '<p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
       '<button type="button" class="again">Start a new build</button></div>';
     wireImgs(root);
+    confetti(); setTimeout(function () { var rv = $(".rvp", root); if (rv) rv.classList.add("on"); }, reduce ? 0 : 500);
     $(".again", root).addEventListener("click", function () { try { sessionStorage.removeItem("wl-choice"); sessionStorage.removeItem("wl-step"); } catch (e) {} LEAD = { custom: null }; show(0, { dir: -1, push: "replace" }); });
     root.animate && !reduce && $(".thanks", root).animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }], { duration: 500, easing: "cubic-bezier(.2,.8,.2,1)" });
   }
@@ -844,8 +883,9 @@ function drawIso(k, o) {
     root.innerHTML = '<div class="pane6"><div class="psub"></div><div class="thread"></div><div class="reply"></div></div>';
     thread = $(".thread", root); reply = $(".reply", root); psub = $(".psub", root);
     /* the price is the subheading under the page heading, pinned: it stays put while the chat scrolls and follows any change made in Customise */
-    function drawPrice() { psub.innerHTML = R.plan ? '<span class="l"><span class="pfrom">From</span><span class="pv">' + fmt(R.plan.price) + '</span></span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span>' : ""; }
-    function drawCard() { var att = $(".att", thread); if (!att) return; att.innerHTML = recapHTML(R, true); wireImgs(att); var b = $(".rcedit", att); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawCard(); drawPrice(); }); }); }
+var cyc = null;
+    function drawPrice() { if (cyc) clearInterval(cyc); psub.innerHTML = cardHTML(R); cyc = cycleImgs(psub, R); var b = $(".rcedit", psub); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawPrice(); }); }); }
+    function drawCard() {}
     drawPrice();
     var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
     var Qs = [
@@ -893,7 +933,7 @@ function drawIso(k, o) {
     function undo() { if (busyQ || i < 1) return; undoTo(i - 1); }
     App.popQ = function (q) { undoTo(q); };
     function collect() { var o = {}; Object.keys(FIELDS).forEach(function (k) { o[k] = LEAD[k] || ""; }); return o; }
-    thread.innerHTML = '<div class="bub bot att"></div>'; drawCard(); ask(0, true);
+    thread.innerHTML = ""; ask(0, true);
   }
   App.variants6 = function () { return [{ k: "scroll", n: "1 · One form" }, { k: "steps", n: "2 · Two screens" }, { k: "one", n: "3 · One question at a time" }, { k: "review", n: "4 · Review, then details" }, { k: "chat", n: "5 · Chat" }]; };
   App.setVariant6 = function (k) { variant6Override = k; LEAD = { custom: null }; if (cur === 5 && curRoot) { curRoot.className = "step s6"; curRoot.innerHTML = ""; App.setGo(null); App.backHook = null; STEPS[5].mount(curRoot, ctx()); } };
@@ -948,7 +988,7 @@ function drawIso(k, o) {
     }
     var relayout = function () { if (applyGate() && cur >= 0 && cur < 5 && curRoot) { curRoot.innerHTML = ""; if (curUnmount) curUnmount(); curUnmount = STEPS[cur].mount(curRoot, ctx()) || null; } };
     window.addEventListener("resize", relayout); window.addEventListener("orientationchange", function () { setTimeout(relayout, 250); });
-    goBtn.addEventListener("click", function () { if (goFn) { goBtn.classList.add("on"); goFn(); } });
+    goBtn.addEventListener("click", function () { if (!goFn) return; if (goBtn.classList.contains("dim")) { if (App.hintFn) App.hintFn(); if (!reduce && goBtn.animate) goBtn.animate([{ transform: "translateX(0)" }, { transform: "translateX(-5px)" }, { transform: "translateX(5px)" }, { transform: "translateX(-3px)" }, { transform: "translateX(0)" }], { duration: 300 }); return; } goBtn.classList.add("on"); goFn(); });
     backBtn.addEventListener("click", function (e) { if (App.backHook && App.backHook()) { e.preventDefault(); return; } if (cur > 0) { e.preventDefault(); if (!busy) show(cur - 1, { dir: -1, push: "replace" }); } });
     window.addEventListener("popstate", function (e) { var s = e.state && e.state.s; if (s == null) s = Math.max(0, indexOf((location.hash || "").slice(1))); if (s === cur && App.popQ) { App.popQ((e.state && e.state.q) || 0); return; } if (s !== cur) show(s, { push: false }); });
     var start = indexOf(((Q.match(/[?&]step=(\w+)/) || [])[1]) || (location.hash || "").slice(1)); if (start < 0) start = 0;

@@ -62,3 +62,75 @@ html:not(.tab) .s5 .d5pane .d5band { margin-top: auto; }
 /* Step 3: the order is name, then the one-line description, then the price; the price is twice its old size */
 html .phone .s3 .pr { margin-top: calc(10px * var(--K, 1)); line-height: calc(40px * var(--K, 1)); }
 html .phone .s3 .pr .pv { font-size: calc(34px * var(--K, 1)); letter-spacing: -.015em; }
+
+/* ================= feedback round: Steps 1 to 6 ================= */
+/* Next arrow on Steps 1 to 3: faded until a choice exists */
+.go.show.dim { opacity: .38; }
+
+/* Step 1: a little more separation between the two halves (captions follow, so they stay under their half) */
+.s1 .circle, html.tab .s1 .circle { gap: 12px; }
+.s1 .captions, html.tab .s1 .captions { gap: 12px; }
+
+/* Step 4: no price, so the bed drawing gets the room */
+html .phone .s4 .dg svg { max-height: min(430px, 56vh); }
+html.tab .phone .s4 .dg svg { max-height: min(640px, 56vh); }
+html.tab-land .phone .s4 .dg svg { max-height: 100%; }
+
+/* Step 5: length large on the left, then the layout, then the detail; a caption sits on the slider */
+.phone .s5 .d5txt { display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-top: 18px; }
+.phone .s5 .d5txt .ln { flex: none; text-align: left; font-family: var(--aviano); font-weight: 900; font-size: 36px; line-height: 40px; letter-spacing: -.01em; color: #000; }
+.phone .s5 .d5txt .lt { display: block; margin-top: 6px; font-family: var(--gordita); font-weight: 700; font-size: 17px; line-height: 23px; color: #231F20; }
+.phone .s5 .d5txt .ft { display: block; max-width: none; margin-top: 2px; font-size: 14px; line-height: 20px; color: #6d645a; }
+.phone .s5 .d5txt .ft:empty { display: none; }
+.phone .s5 .d5cap { position: relative; margin: 0 0 6px; font-family: var(--gordita); font-size: 12px; line-height: 16px; letter-spacing: .01em; color: #6d645a; }
+html.tab .phone .s5 .d5txt .ln { font-size: 52px; line-height: 58px; } html.tab .phone .s5 .d5txt .lt { font-size: 22px; line-height: 30px; } html.tab .phone .s5 .d5txt .ft { font-size: 17px; line-height: 24px; }
+html.tab .phone .s5 .d5cap { font-size: 14px; line-height: 20px; margin-bottom: 8px; }
+@media (max-height: 760px) { .phone .s5 .d5txt .ln { font-size: 30px; line-height: 34px; } .phone .s5 .d5txt { padding-top: 12px; } .phone .s5 .d5txt .lt { font-size: 15px; line-height: 20px; margin-top: 4px; } }
+@media (max-height: 640px) { .phone .s5 .d5txt .ln { font-size: 26px; line-height: 30px; } .phone .s5 .d5txt { padding-top: 8px; } .phone .s5 .d5txt .ft { font-size: 13px; line-height: 17px; } .phone .s5 .d5cap { font-size: 11px; line-height: 14px; margin-bottom: 4px; } }
+@media (min-height: 761px) { html:not(.tab) .s5 .d5hero { aspect-ratio: 1.6; } }
+
+/* Step 6: the summary card is pinned where the price was; the van beside it changes every 2 seconds with a slow blink */
+.s6 .psub { display: block; padding-bottom: 12px; }
+.s6 .rc6 { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; border-radius: 18px; background: #FAF6F0; box-shadow: inset 0 0 0 1px #EFE6DA; text-align: left; }
+.s6 .rc6 .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.s6 .rc6 .tx b { font-size: 14px; line-height: 20px; }
+.s6 .rc6 .tx span { font-size: 12px; line-height: 17px; color: #6d645a; }
+.s6 .rc6 .rcedit { margin-top: 6px; }
+.s6 .rc6 .pic { flex: none; width: 118px; aspect-ratio: 1.55; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px #EFE6DA; display: grid; place-items: center; overflow: hidden; }
+.s6 .rc6 .pic img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 5px; transition: opacity .9s ease-in-out; }
+.s6 .rc6 .pic img.dim { opacity: 0; }
+html.tab .s6 .rc6 .pic { width: 190px; } html.tab .s6 .rc6 .tx b { font-size: 17px; line-height: 24px; } html.tab .s6 .rc6 .tx span { font-size: 14px; line-height: 20px; }
+html.kb .s6 .psub { display: none; }
+/* after the form: confetti, then the price */
+.s6 .thanks .rvp { display: flex; flex-direction: column; align-items: center; gap: 2px; opacity: 0; transform: translateY(10px); transition: opacity .7s ease, transform .7s ease; }
+.s6 .thanks .rvp.on { opacity: 1; transform: none; }
+.s6 .thanks .rvp .pf { font-family: var(--gordita); font-weight: 400; font-size: 14px; line-height: 18px; letter-spacing: .02em; text-transform: uppercase; color: #808285; }
+.s6 .thanks .rvp .pv { font-family: var(--aviano); font-weight: 900; font-size: 49px; line-height: 54px; letter-spacing: -.015em; color: var(--o); }
+.s6 .thanks .rvp .pd { font-size: 13px; line-height: 18px; color: #6d645a; }
+html.tab .s6 .thanks .rvp .pv { font-size: 64px; line-height: 70px; }
+@media (max-height: 760px) { .s6 .thanks .rvp .pv { font-size: 40px; line-height: 44px; } }
+@media (max-height: 640px) { .s6 .thanks .rvp .pv { font-size: 32px; line-height: 36px; } .s6 .thanks { gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .s6 .rc6 .pic img { transition: none; } .s6 .thanks .rvp { transition: none; opacity: 1; transform: none; } }
+
+.s5 .d5t { flex-basis: calc((100% - 28px) * .43); }
+html.tab .s5 .d5t, html.tab-land .s5 .d5t { flex-basis: 190px; }
+/* Step 6: the chat starts right under the card, and each answer follows below it */
+.s6 .thread { justify-content: flex-start; }
+.go.show.dim { opacity: .5; }
+.s6 .thread > :first-child { margin-top: 0; }
+
+/* iPad: with no price block, the band sits at the bottom of Step 5 and the picture is taller */
+html.tab:not(.tab-land) .s5 .d5pane .d5band { margin-top: auto; }
+html.tab:not(.tab-land) .s5 .d5hero { aspect-ratio: 1.7; }
+/* the smallest screens: the Step 6 card shrinks to its heading and the van, so the chat keeps its room */
+@media (max-height: 640px), (max-width: 340px) {
+  .s6 .rc6 { padding: 8px 10px 8px 14px; gap: 10px; }
+  .s6 .rc6 .tx span:not(.pic) { display: none; }
+  .s6 .rc6 .pic { width: 84px; }
+  .s6 .rc6 .rcedit { margin-top: 2px; }
+}
+
+/* the thank-you screen keeps clear of the strip like every other step; on shorter screens the repeat of the summary card steps aside */
+html .phone .s6.done6 { padding-bottom: var(--clear); }
+@media (max-height: 760px) { .s6 .thanks .rc { display: none; } }
+@media (max-height: 640px) { .s6 .thanks h2 { font-size: 22px; line-height: 28px; } .s6 .thanks p { font-size: 13px; line-height: 18px; } .s6 .thanks .again { margin-top: 0; } }
