@@ -28,7 +28,7 @@ html .phone h1, html .phone.d5mode h1 { font-size: min(28px, calc((100vw - 48px)
 html.tab .phone h1 br { display: none; }                                  /* iPad is wide enough for one line */
 html.tab .phone h1, html.tab .phone.d5mode h1 { font-size: 40px; line-height: 46px; }
 html.tab-land .phone h1, html.tab-land .phone.d5mode h1 { font-size: 34px; line-height: 40px; }
-.phone .stage::before { content: ""; position: absolute; left: calc(-1 * var(--side, var(--m))); right: calc(-1 * var(--side, var(--m))); top: 0; height: 1px; background: #DDD3C8; z-index: 6; pointer-events: none; }
+.phone .stage::before { content: ""; position: absolute; left: calc(-1 * var(--side, var(--m))); right: calc(-1 * var(--side, var(--m))); top: 0; height: 12px; background: linear-gradient(180deg, rgba(60,35,10,.16) 0%, rgba(60,35,10,.06) 45%, rgba(60,35,10,0) 100%); z-index: 6; pointer-events: none; }
 html.kb .phone .stage::before { display: none; }
 
 /* the strip and the two-line heading take a little more of a short screen than the old top bar did: the smallest phones get a smaller Step 1 circle. */
