@@ -814,3 +814,12 @@ html:not(.tab) { --clear: 104px; }
 .s2 .v9 .wrap { position: static; height: auto; display: flex; justify-content: space-between; align-items: flex-start; }
 .s2 .v9 .p { position: static; }
 .s2 .nm { margin-top: calc(12px * var(--K, 1)); } .s2 .ln { margin-top: 2px; }
+
+/* review round 2: clearer bed price, "BED · 4 OF 6" label, heading wraps only if it ever cannot fit, and a check on the selected thumbnail */
+.phone h1.wrap { white-space: normal; }
+html:not(.tab) .s4 .foot .pf { display: block; margin: 0 0 2px; font-size: 11px; line-height: 14px; letter-spacing: .1em; text-transform: uppercase; color: #6d645a; font-family: var(--gordita); font-weight: 700; }
+html:not(.tab) .s4 .foot .pr { line-height: 40px; }
+.s4 .ic.on::after, .s5 .d5t.on::after { content: ""; position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--o) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.5l2.6 2.6L13 6.6' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; pointer-events: none; z-index: 2; }
+html.tab .s4 .ic.on::after, html.tab .s5 .d5t.on::after { width: 22px; height: 22px; top: 6px; right: 6px; }
+@media (min-width: 901px) { .phone h1, .phone.d5mode h1 { font-size: calc((375px - 48px) / 14.4); } }
+@media (max-height: 620px) { html:not(.tab) .s4 .seg button { height: 36px; } html:not(.tab) .s4 .ic { height: 44px; } html:not(.tab) .s4 .ic svg { height: 36px; } html:not(.tab) .s4 .ics { margin-top: 8px; } html:not(.tab) .s4 .foot .pv { font-size: 26px; line-height: 30px; } html:not(.tab) .s4 .foot .pr { line-height: 30px; } html:not(.tab) .s4 .cap1 { margin-top: 4px; } }

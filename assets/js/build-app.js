@@ -68,6 +68,8 @@
     }
   };
 
+  function fitH1() { h1.classList.remove("wrap"); if (h1.scrollWidth > h1.clientWidth + 1) h1.classList.add("wrap"); }
+  window.addEventListener("resize", function () { if (h1) fitH1(); });
   function show(n, o) {
     o = o || {};
     if (busy && cur >= 0) return;
@@ -75,7 +77,7 @@
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
     App.setGo(null); App.backHook = null; App.popQ = null; phone.classList.remove("d5mode");
-    if (first) { h1.innerHTML = def.title; plabel.textContent = def.label; }   /* the heading is in place before the step measures its room */
+    if (first) { h1.innerHTML = def.title; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); }   /* the heading is in place before the step measures its room */
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -83,7 +85,7 @@
     $(".prog").setAttribute("aria-label", "Step " + (n + 1) + " of " + STEPS.length);
     backBtn.setAttribute("aria-label", n ? "Back" : "Back to the Wonderland home page");
 
-    var setTexts = function () { h1.innerHTML = def.title; plabel.textContent = def.label; };
+    var setTexts = function () { h1.innerHTML = def.title; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); };
     if (first) {
       setTexts();
       road.classList.add("no-anim"); WLProgress.set(road, n); void road.offsetWidth; road.classList.remove("no-anim");
@@ -312,7 +314,7 @@ function drawIso(k, o) {
         '<div class="ics">' + inG.map(function (b) { return '<button type="button" class="ic' + (b.key === S.k ? " on" : "") + '" data-k="' + b.key + '" aria-label="' + BEDLINE[b.key] + '">' + drawIso(b.key, { crop: 7.6, icon: true, blur: ISO.blur, wall: ISO.wall }) + '</button>'; }).join("") + '</div>' +
         '<div class="cap1">' + BEDLINE[S.k] + '</div>' +
         '<div class="dg">' + drawIso(S.k, { crop: 8.4, blur: ISO.blur, wall: ISO.wall }) + '</div>' +
-        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div><div class="pb"><span class="pr"><span class="pf">From</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' on the base bed' : 'The base bed') + '</span></div></div>';
+        '<div class="foot"><div class="leg">' + (hasT ? '<span><i style="background:' + TABLE[1] + '"></i>Side table</span>' : '') + (hasC ? '<span><i style="background:' + CHEST[1] + '"></i>Storage chest</span>' : '') + '</div><div class="pb"><span class="pr"><span class="pf">Caravan price from</span><span class="pv">' + fmt(cur.price) + '</span></span><span class="fl">' + (cur.delta ? '+' + fmt(cur.delta) + ' for this bed' : 'Base bed included') + '</span></div></div>';
       $$(".seg button", out).forEach(function (b) { b.addEventListener("click", function () { if (S.g !== b.dataset.g) { S.g = b.dataset.g; S.k = null; render(); } }); });
       $$(".ic", out).forEach(function (b) { b.addEventListener("click", function () { S.k = b.dataset.k; render(); }); });
     }
