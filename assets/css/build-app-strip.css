@@ -315,3 +315,9 @@ html.tab-land .phone .s3 .pr { margin-top: calc(12px * var(--K, 1)); }
 html.tab .phone .s5 .d5cap { font-size: 18.7px; line-height: 27px; } html.tab .phone .s5 .d5cap i { width: 22px; height: 22px; font-size: 14px; line-height: 22px; }
 @media (max-height: 640px) { .phone .s5 .d5cap { font-size: 13px; line-height: 17px; gap: 1px; margin-bottom: 4px; } .phone .s5 .d5cap i { width: 16px; height: 16px; font-size: 11px; line-height: 16px; } }
 .phone .s5 .d5txt .lt { margin-top: 0; }
+
+/* Step 5: the length and layout words belong to the picture: tight under it, with the air before the slider instead */
+.phone .s5 .d5txt { padding-top: 4px; padding-bottom: 16px; }
+html.tab .phone .s5 .d5txt { padding-top: 8px; padding-bottom: 22px; }
+@media (max-height: 760px) { .phone .s5 .d5txt { padding-top: 2px; padding-bottom: 12px; } }
+@media (max-height: 640px) { .phone .s5 .d5txt { padding-top: 0; padding-bottom: 8px; } }
