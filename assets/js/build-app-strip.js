@@ -52,7 +52,7 @@
   function wireImgs(root) { $$("img[data-ld]", root).forEach(function (i) { var on = function () { i.classList.add("ld"); }; if (i.complete && i.naturalWidth) on(); else i.addEventListener("load", on); }); }
 
   /* ============================== the shell: show a step, slide between steps ============================== */
-  var phone, stage, h1, plabel, road, backBtn, goBtn, cur = -1, curRoot = null, curUnmount = null, busy = false, goFn = null;
+  var phone, stage, h1, cueEl, plabel, road, backBtn, goBtn, cur = -1, curRoot = null, curUnmount = null, busy = false, goFn = null;
   var STEPS;
   var anim = function (el, kf, o) { if (reduce || !el.animate) return Promise.resolve(); try { return el.animate(kf, o).finished.catch(function () {}); } catch (e) { return Promise.resolve(); } };
   var urlFor = function (n) { return location.pathname + Q + "#" + STEPS[n].id; };
@@ -79,7 +79,7 @@
     var def = STEPS[n], dir = o.dir || (n >= cur ? 1 : -1), first = cur < 0, old = curRoot, oldUnmount = curUnmount;
     busy = true;
     App.setGo(null); App.backHook = null; App.popQ = null; phone.classList.remove("d5mode");
-    if (first) { h1.innerHTML = def.title; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); }   /* the heading is in place before the step measures its room */
+    if (first) { h1.innerHTML = def.title; cueEl.textContent = def.cue || ""; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); }   /* the heading is in place before the step measures its room */
     var root = document.createElement("div"); root.className = "step s" + (n + 1); root.dataset.step = def.id;
     stage.appendChild(root);
     curUnmount = def.mount(root, ctx()) || null; curRoot = root; cur = n;
@@ -87,7 +87,7 @@
     $(".prog").setAttribute("aria-label", "Step " + (n + 1) + " of " + STEPS.length);
     backBtn.setAttribute("aria-label", n ? "Back" : "Back to the Wonderland home page");
 
-    var setTexts = function () { h1.innerHTML = def.title; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); };
+    var setTexts = function () { h1.innerHTML = def.title; cueEl.textContent = def.cue || ""; plabel.textContent = def.label + " · " + (n + 1) + " of " + STEPS.length; fitH1(); };
     if (first) {
       setTexts();
       road.classList.add("no-anim"); WLProgress.set(road, n); void road.offsetWidth; road.classList.remove("no-anim");
@@ -99,6 +99,7 @@
     anim(h1, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateX(" + (-x / 2) + "px)" }], { duration: 200, easing: "ease-in" });
     setTimeout(function () { setTexts(); anim(h1, [{ opacity: 0, transform: "translateX(" + (x / 2) + "px)" }, { opacity: 1, transform: "none" }], { duration: 360, easing: E }); }, reduce ? 0 : 190);
     anim(plabel, [{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: 500 });
+    anim(cueEl, [{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: 560 });
     var outP = old ? anim(old, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateX(" + (-x) + "px)" }], { duration: 300, easing: "ease-in", fill: "forwards" }) : Promise.resolve();
     anim(root, [{ opacity: 0, transform: "translateX(" + x + "px)" }, { opacity: 1, transform: "none" }], { duration: 440, delay: 140, easing: E, fill: "backwards" });
     outP.then(function () { if (old) { if (oldUnmount) oldUnmount(); old.remove(); } });
@@ -446,7 +447,7 @@ function drawIso(k, o) {
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
     root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="lt"></span><span class="ft"></span></div>' +
-      '<div class="d5band">' + (P.some(function (p) { return p.bunks; }) ? '<div class="d5cap"><i>4</i>Bunk count</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
+      '<div class="d5band">' + ((P.length > 2 || P.some(function (p) { return p.bunks; })) ? '<div class="d5cap">' + (P.length > 2 ? '<span class="sw">Swipe to see more layouts.</span>' : '') + (P.some(function (p) { return p.bunks; }) ? '<span class="bk"><i>4</i>Bunk count</span>' : '') + '</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
     var hero = $(".d5hero img", root), ln = $(".ln", root), lt = $(".lt", root), ft = $(".ft", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), band = $(".d5band", root);
     function show1(i, first) {
       sel = i; var p = P[i];
@@ -458,7 +459,7 @@ function drawIso(k, o) {
     }
     ths.forEach(function (b, i) { b.addEventListener("click", function () { if (i !== sel) show1(i, false); }); });
     wireImgs(root); show1(sel, true);
-    if (P.length < 2) band.style.display = "none";
+    if (P.length < 2) band.innerHTML = '<div class="d5one">This floorplan matches your selections.</div>';
   }
 
   var variantOverride = null;
@@ -730,7 +731,7 @@ function drawIso(k, o) {
     try { sessionStorage.setItem("wl-lead", JSON.stringify({ details: vals, custom: LEAD.custom, plan: R.plan && R.plan.code, at: new Date().toISOString() })); } catch (e) {}
     App.setGo(null); App.backHook = null;
     var name = (vals.first || "").trim();
-    root.className = "step s6 done6";
+    root.className = "step s6 done6"; if (cueEl) cueEl.textContent = "";
     root.innerHTML = '<div class="thanks">' +
       '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2>' + (R.plan ? '<div class="rvp"><span class="pf">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : "") + '<p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
       '<button type="button" class="again">Start a new build</button></div>';
@@ -942,16 +943,18 @@ var cyc = null;
 
   /* ============================== start ============================== */
   STEPS = [
-    { id: "layout",  label: "Layout",    title: "Who&rsquo;s coming <br>along?", mount: s1 },
-    { id: "size",    label: "Size",      title: "Choose your <br>size", mount: s2 },
-    { id: "model",   label: "Model",     title: "Choose your <br>model", mount: s3 },
-    { id: "bed",     label: "Bed",       title: "Choose your <br>bed setup", mount: s4 },
-    { id: "plan",    label: "Floorplan", title: "Choose your <br>floorplan", mount: s5 },
-    { id: "details", label: "Details",   title: "Get your <br>quote", mount: s6 }
+    { id: "layout",  label: "Layout",    title: "Who&rsquo;s coming <br>along?", cue: "Tap an option to get started.", mount: s1 },
+    { id: "size",    label: "Size",      title: "Choose your <br>size", cue: "Tap the size that suits you.", mount: s2 },
+    { id: "model",   label: "Model",     title: "Choose your <br>model", cue: "Tap a model below to preview it.", mount: s3 },
+    { id: "bed",     label: "Bed",       title: "Choose your <br>bed setup", cue: "Choose a bed size, then tap a setup to preview it.", mount: s4 },
+    { id: "plan",    label: "Floorplan", title: "Choose your <br>floorplan", cue: "Tap a layout below to preview it.", mount: s5 },
+    { id: "details", label: "Details",   title: "Get your <br>quote", cue: "Answer a few quick questions to receive your quote.", mount: s6 }
   ];
   function indexOf(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
   function init() {
-    phone = $("#phone"); stage = $("#stage"); h1 = $("#h1"); plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
+    phone = $("#phone"); stage = $("#stage"); h1 = $("#h1");
+    cueEl = document.createElement("p"); cueEl.className = "cue"; cueEl.id = "cue"; h1.parentNode.insertBefore(cueEl, h1.nextSibling);      /* the one-line "what to do" under the heading */ plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
+    var nc = document.createElement("span"); nc.className = "nextcue"; nc.textContent = "Happy with your choice? Tap Next."; goBtn.parentNode.insertBefore(nc, goBtn.nextSibling);   /* shown beside the Next arrow on the model, bed and floorplan steps */
     if (/[?&]guides/.test(Q)) phone.classList.add("guides");
     /* the on-screen keyboard: the app follows the visible part of the screen, so the chat box sits just above the keyboard */
     var vv = window.visualViewport;

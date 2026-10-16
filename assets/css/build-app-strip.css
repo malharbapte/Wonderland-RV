@@ -187,3 +187,29 @@ html.kb .s6 .psub::after { display: none; }
 
 /* Step 1: hovering either half (or its caption) stops both halves breathing */
 .s1 .wrap:has(.half:hover, .half:focus-visible, .cap:hover) .half:not(.on) { animation: none; }
+
+/* ================= text cues ================= */
+/* the one-line "what to do" under each heading: the heading block grows by this line, the gap to the shadow stays */
+html .phone h1, html .phone.d5mode h1 { margin-bottom: 0; }
+html .phone h1:has(+ .cue:empty) { margin-bottom: var(--gh); }
+.cue { flex: none; margin: 6px 0 var(--gh); font-family: var(--gordita); font-weight: 500; font-size: 14px; line-height: 20px; color: #6d645a; }
+.cue:empty { display: none; }
+html.tab .cue { font-size: 18px; line-height: 26px; margin-top: 8px; }
+html.kb .cue { display: none; }
+/* Step 5: swipe cue on the left, bunk key on the right, both sitting on the slider */
+.phone .s5 .d5cap { justify-content: space-between; }
+.phone .s5 .d5cap .bk { display: flex; align-items: center; margin-left: auto; }
+.phone .s5 .d5one { font-family: var(--gordita); font-weight: 500; font-size: 14px; line-height: 20px; color: #6d645a; }
+html.tab .phone .s5 .d5one { font-size: 17px; line-height: 24px; }
+/* beside the Next arrow, on the model, bed and floorplan steps */
+.nextcue { display: none; position: absolute; z-index: 5; right: calc(var(--m) + 60px + 14px); bottom: calc(var(--mb) - 15px + env(safe-area-inset-bottom)); height: 60px; width: 150px; align-items: center; justify-content: flex-end; text-align: right; font-family: var(--gordita); font-weight: 500; font-size: 13px; line-height: 18px; color: #6d645a; pointer-events: none; }
+html.tab .nextcue { right: calc(var(--side) + 72px + 16px); bottom: calc(var(--mb) - 18px); height: 72px; width: 200px; font-size: 16px; line-height: 22px; }
+body[data-step="model"] .go.show:not(.dim) ~ .nextcue, body[data-step="bed"] .go.show:not(.dim) ~ .nextcue, body[data-step="plan"] .go.show:not(.dim) ~ .nextcue { display: flex; animation: cueFade .6s ease .5s backwards; }
+html.kb .nextcue { display: none !important; }
+@keyframes cueFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* room for the cue line: Step 1's circle and Step 5's picture give up a little height */
+html:not(.tab) .s1 .wrap { --c: clamp(60px, min(calc(100vw - 48px), calc(100dvh - 526px)), 400px); }
+html.tab .s1 .wrap { --c: clamp(260px, calc(100dvh - 476px), 470px); }
+html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 550px), 420px); height: clamp(140px, calc(100dvh - 550px), 420px); }
+@media (max-height: 600px) { html:not(.tab) .s5 .d5hero { height: 40px; } }
