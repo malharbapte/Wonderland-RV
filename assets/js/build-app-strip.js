@@ -194,17 +194,18 @@
     function flier(m, B) { var d = document.createElement("span"); d.className = "disc fly"; d.style.cssText = "left:" + B.x + "px;top:" + B.y + "px;width:" + B.w + "px;height:" + B.h + "px;transform-origin:0 0;will-change:transform"; d.innerHTML = mv(m, HERO_W); content.appendChild(d); return d; }
     function tf(B, T, k, lift) { var s = (T.w / B.w) * k, w = B.w * s, h = B.h * s; return "translate(" + ((T.x + T.w / 2) - B.x - w / 2).toFixed(2) + "px," + ((T.y + T.h / 2) - B.y - h / 2 - (lift || 0)).toFixed(2) + "px) scale(" + s.toFixed(4) + ")"; }
     /* the chosen van drives in from outside the circle, moving forward (to the right) and stopping at the centre */
-    function drive(delay) {
+    function drive(delay, dir) {
       var im = $(".mv", heroDisc); if (!im || reduce || !im.animate) return;
-      var d = -(HERO_W / 2 + HERO_DISC / 2);
+      var d = -(dir || 1) * (HERO_W / 2 + HERO_DISC / 2);
       try {
         im.animate([{ translate: d.toFixed(1) + "px 0" }, { translate: "0 0" }], { duration: 1150, delay: delay || 0, easing: "cubic-bezier(.22,.7,.2,1)", fill: "backwards" });
         im.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: delay || 0, easing: "ease-out", fill: "backwards" });
       } catch (e) {}
     }
     /* a new van is chosen: the current van drives off to the right, out of the frame; the old one takes the small slot; the new van drives in from the left */
-    function promote(btn) {
+    function promote(btn, dir) {
       if (busy3 || btn.dataset.k === heroK) return;
+      dir = dir || 1;                                                   /* 1: the van leaves to the right and the next arrives from the left; -1: the other way round */
       var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hFeat, hPr];
       busy3 = true;
       var leaving = $(".mv", heroDisc);
@@ -216,10 +217,10 @@
         if (leaving && leaving.animate) {                                    /* the old picture stays on stage and drives away */
           heroDisc.appendChild(leaving); leaving.style.zIndex = "2";
           var far = Math.max(window.innerWidth || 400, 400) / 2 + HERO_W / 2 + 20;
-          try { leaving.animate([{ translate: "0 0" }, { translate: far.toFixed(1) + "px 0" }], { duration: EXIT, easing: "cubic-bezier(.55,.06,.85,.45)", fill: "forwards" }).finished.then(function () { leaving.remove(); }, function () { leaving.remove(); }); } catch (e) { leaving.remove(); }
+          try { leaving.animate([{ translate: "0 0" }, { translate: (dir * far).toFixed(1) + "px 0" }], { duration: EXIT, easing: "cubic-bezier(.55,.06,.85,.45)", fill: "forwards" }).finished.then(function () { leaving.remove(); }, function () { leaving.remove(); }); } catch (e) { leaving.remove(); }
         }
         slotDisc.animate([{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: EXIT * .6, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" });
-        drive(IN);
+        drive(IN, dir);
         texts.forEach(function (t, k) { t.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: IN + 200 + k * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1)" }); });
       }
       setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; }, reduce ? 0 : EXIT + IN + 700);
@@ -229,7 +230,25 @@
       heroBtn.classList.add("on"); WLProgress.choose("model", heroK);
       App.next(d, fetchImgs(bedPrefetch(ctx()), 1200));
     };
-    heroBtn.addEventListener("click", function () { pick3(380); });
+    var swipedAt = 0;
+    heroBtn.addEventListener("click", function () { if (Date.now() - swipedAt < 400) return; pick3(380); });
+    /* swiping the chosen van (or the words under it) changes the van, just like tapping one of the small ones: swipe left for the next, right for the one before */
+    function cycle(step) {
+      var order = ms.map(function (m) { return m.k; }).filter(function (k) { return !off(BY[k]); }), at = order.indexOf(heroK);
+      if (order.length < 2 || at < 0 || busy3) return;
+      var k = order[(at + step + order.length) % order.length], b = $('.mini[data-k="' + k + '"]', dock);
+      if (b) promote(b, step > 0 ? -1 : 1);
+    }
+    (function () {
+      var sx = 0, sy = 0, t0 = 0, on = false;
+      hero.addEventListener("pointerdown", function (e) { if (e.pointerType === "mouse" && e.button !== 0) return; on = true; sx = e.clientX; sy = e.clientY; t0 = Date.now(); });
+      hero.addEventListener("pointercancel", function () { on = false; });
+      hero.addEventListener("pointerup", function (e) {
+        if (!on) return; on = false;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0 < 900) { swipedAt = Date.now(); cycle(dx < 0 ? 1 : -1); }
+      });
+    })();
     App.setGo(function () { pick3(160); }, null, false);
     setHero(heroK); renderDock(); drive(380);   /* on arrival the chosen van drives in once, as the step settles */
   }
