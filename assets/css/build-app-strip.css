@@ -213,3 +213,18 @@ html:not(.tab) .s1 .wrap { --c: clamp(60px, min(calc(100vw - 48px), calc(100dvh 
 html.tab .s1 .wrap { --c: clamp(260px, calc(100dvh - 476px), 470px); }
 html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 550px), 420px); height: clamp(140px, calc(100dvh - 550px), 420px); }
 @media (max-height: 600px) { html:not(.tab) .s5 .d5hero { height: 40px; } }
+
+/* cue text: Gordita Regular (it was Medium) and 30% larger */
+.cue { font-weight: 400; font-size: 18.2px; line-height: 26px; }
+html.tab .cue { font-size: 23.4px; line-height: 34px; }
+.nextcue { font-weight: 400; font-size: 16.9px; line-height: 22px; width: min(190px, calc(100vw - 48px - 74px - 60px)); }
+html.tab .nextcue { font-size: 20.8px; line-height: 28px; width: 260px; }
+.phone .s5 .d5cap { font-weight: 400; font-size: 15.6px; line-height: 21px; flex-wrap: wrap; gap: 2px 12px; margin-bottom: 8px; }
+.phone .s5 .d5cap i { width: 26px; height: 26px; margin-right: 9px; font-weight: 400; font-size: 17px; line-height: 26px; }
+html.tab .phone .s5 .d5cap { font-size: 18.2px; line-height: 26px; } html.tab .phone .s5 .d5cap i { width: 31px; height: 31px; font-size: 19.5px; line-height: 31px; }
+.phone .s5 .d5one { font-weight: 400; font-size: 18.2px; line-height: 26px; }
+html.tab .phone .s5 .d5one { font-size: 22px; line-height: 31px; }
+@media (max-height: 640px) { .phone .s5 .d5cap { font-size: 14px; line-height: 19px; margin-bottom: 4px; } .phone .s5 .d5cap i { width: 22px; height: 22px; font-size: 14px; line-height: 22px; } }
+html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 566px), 420px); height: clamp(140px, calc(100dvh - 566px), 420px); }
+/* the very smallest phones: the swipe line gives way (the strip of plans still scrolls) */
+@media (max-height: 600px) { html:not(.tab) .phone .s5 .d5cap .sw { display: none; } html:not(.tab) .phone .s5 .d5cap:not(:has(.bk)) { display: none; } }
