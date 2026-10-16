@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your Caravan — Step 3 standard features samples</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/build-shell.css?v=15">
+<style>
+/* Throwaway sample: four standard features on Step 3 (solar, battery, inverter, fresh water), taken from each model's page on wonderlandrv.com.au,
+   shown four ways. Pick a letter. Tap a model to see the figures change. All px, no rem. */
+body { background: #f4f1ec; padding: 24px 16px 80px; }
+h1 { font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 28px; max-width: 1180px; margin: 0 auto 6px; }
+.lead { max-width: 1180px; margin: 0 auto 18px; color: #6d645a; font-size: 14px; line-height: 21px; }
+.pick { max-width: 1180px; margin: 0 auto 18px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 13px; color: #6d645a; }
+.pick button { height: 36px; padding: 0 16px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1.5px #d9cfc3; font-family: var(--aviano); font-weight: 900; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+.pick button.on { background: var(--o); color: #fff; box-shadow: none; }
+.grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; }
+.opt { background: #fff; border-radius: 18px; padding: 14px 14px 18px; }
+.opt .tag { font-family: var(--aviano); font-weight: 900; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; }
+.opt .tag i { font-style: normal; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: var(--o); color: #fff; margin-right: 8px; }
+.opt .why { color: #6d645a; font-size: 12px; line-height: 17px; margin: 0 0 12px; }
+.scr { background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px #eadfd2; padding: 14px 16px 16px; display: flex; flex-direction: column; align-items: center; min-height: 600px; }
+.hero { position: relative; width: 150px; height: 150px; border-radius: 50%; background: var(--grad); margin-top: 6px; }
+.hero img { position: absolute; left: -20%; top: 22%; width: 140%; display: block; }
+.nm { margin-top: 14px; font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 26px; text-transform: uppercase; }
+.tg { font-family: var(--aviano); font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--o); margin-top: 4px; }
+.pr { font-family: var(--aviano); font-weight: 900; font-size: 30px; line-height: 36px; margin-top: 6px; }
+.pr small { font-family: var(--gordita); font-weight: 400; font-size: 13px; color: #666; margin-right: 5px; }
+.feat { width: 100%; margin-top: 14px; }
+.mini { display: flex; gap: 22px; margin-top: auto; padding-top: 16px; }
+.mini div { display: flex; flex-direction: column; align-items: center; font-family: var(--aviano); font-weight: 900; font-size: 10px; text-transform: uppercase; gap: 6px; }
+.mini .d { position: relative; width: 52px; height: 52px; border-radius: 50%; background: var(--grad); }
+.mini .d img { position: absolute; left: -22%; top: 22%; width: 144%; }
+svg.ic { width: 22px; height: 22px; fill: none; stroke: var(--o); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.v { font-family: var(--aviano); font-weight: 900; letter-spacing: -.01em; }
+.l { font-family: var(--gordita); font-weight: 400; color: #6d645a; }
+
+/* A: four tiles in a row */
+.fa { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.fa .t { background: #FAF6F0; border-radius: 14px; padding: 10px 4px 9px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; }
+.fa .v { font-size: 15px; line-height: 20px; } .fa .l { font-size: 10.5px; line-height: 13px; } .fa .s { font-size: 9.5px; line-height: 12px; color: #8b8176; min-height: 12px; }
+/* B: two by two */
+.fb { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fb .t { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; box-shadow: inset 0 0 0 1px #EFE6DA; }
+.fb .ico { width: 36px; height: 36px; border-radius: 50%; background: #FFF1E2; display: grid; place-items: center; flex: none; }
+.fb .v { font-size: 16px; line-height: 20px; display: block; } .fb .l { font-size: 11.5px; line-height: 15px; display: block; }
+/* C: a spec list */
+.fc { border-top: 1px solid #EFE6DA; }
+.fc .r { display: flex; align-items: center; gap: 10px; padding: 9px 2px; border-bottom: 1px solid #EFE6DA; }
+.fc .l { font-size: 14px; line-height: 20px; flex: 1; color: #231F20; } .fc .v { font-size: 15px; line-height: 20px; text-align: right; }
+.fc .v small { display: block; font-family: var(--gordita); font-weight: 400; font-size: 11px; line-height: 14px; color: #8b8176; letter-spacing: 0; }
+/* D: one line that opens */
+.fd .hd { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 14px; background: #FAF6F0; text-align: left; }
+.fd .hd b { font-family: var(--aviano); font-weight: 900; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; }
+.fd .hd span { display: block; font-size: 12.5px; line-height: 17px; color: #6d645a; margin-top: 2px; }
+.fd .hd svg { width: 22px; height: 22px; fill: none; stroke: var(--o); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.fd.open .hd svg { transform: rotate(180deg); }
+.fd .bd { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1); }
+.fd.open .bd { grid-template-rows: 1fr; } .fd .bd > div { overflow: hidden; min-height: 0; }
+.fd .bd .fc { margin-top: 8px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<h1>Step 3: four standard features</h1>
+<p class="lead">Solar, battery, inverter and fresh water: the four standard figures that differ most from model to model, taken from each model's page on the Wonderland site. Tap a model to see the figures change, then pick a layout.</p>
+<div class="pick" id="pick"><span>Model:</span></div>
+<div class="grid" id="grid"></div>
+<p class="lead" style="margin-top:22px">Other standard details on the site that could swap in or be added later: suspension load rating (4.5T on the XTR, Solara and Hornet), brakes (disc on the XTR, drum on the others), hydronic heating and hot water (XTR and Solara), and construction. Figures are as published on wonderlandrv.com.au and should be checked with the team before going live.</p>
+
+<script>
+var M = {
+  amaroo: { nm: "Amaroo", tag: "Classic Offroad", price: "$127,288", f: { solar: ["600W", ""], batt: ["300Ah", "lithium"], inv: ["2000W", ""], water: ["200L", ""] } },
+  hornet: { nm: "Hornet", tag: "Rugged Offroad", price: "$151,176", f: { solar: ["800W", ""], batt: ["400Ah", "lithium"], inv: ["2600W", ""], water: ["200L", "+ 90L drinking"] } },
+  solara: { nm: "Solara", tag: "Luxury Offroad – Full Composite", price: "$162,280", f: { solar: ["1000W", ""], batt: ["400Ah", "lithium"], inv: ["3000VA", ""], water: ["200L", "+ 90L drinking"] } },
+  xtr:    { nm: "XTR", tag: "Complete Offroad – Flagship", price: "$195,701", f: { solar: ["1000W", ""], batt: ["11kWh", "lithium"], inv: ["5000VA", ""], water: ["200L", "+ 90L drinking"] } }
+};
+var LAB = { solar: "Solar", batt: "Battery", inv: "Inverter", water: "Fresh water" };
+var IC = {
+  solar: '<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
+  batt: '<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2.2"/><path d="M21.5 10.5v3M7 10.5v3M10.5 10.5v3M14 10.5v3"/></svg>',
+  inv: '<svg class="ic" viewBox="0 0 24 24"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg>',
+  water: '<svg class="ic" viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg>'
+};
+var KEYS = ["solar", "batt", "inv", "water"], cur = "amaroo", OTHERS = ["xtr", "solara", "hornet"];
+var CH = '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+function feat(L, m) {
+  var f = m.f, h = "";
+  if (L === "A") return '<div class="feat fa">' + KEYS.map(function (k) { return '<div class="t">' + IC[k] + '<span class="v">' + f[k][0] + '</span><span class="l">' + LAB[k] + '</span><span class="s">' + (f[k][1] || "") + '</span></div>'; }).join("") + '</div>';
+  if (L === "B") return '<div class="feat fb">' + KEYS.map(function (k) { return '<div class="t"><span class="ico">' + IC[k] + '</span><span><span class="v">' + f[k][0] + '</span><span class="l">' + LAB[k] + (f[k][1] ? " " + f[k][1] : "") + '</span></span></div>'; }).join("") + '</div>';
+  var list = '<div class="fc">' + KEYS.map(function (k) { return '<div class="r">' + IC[k] + '<span class="l">' + LAB[k] + '</span><span class="v">' + f[k][0] + (f[k][1] ? '<small>' + f[k][1] + '</small>' : "") + '</span></div>'; }).join("") + '</div>';
+  if (L === "C") return '<div class="feat">' + list + '</div>';
+  return '<div class="feat fd" data-d><button class="hd" type="button"><span style="margin:0"><b>Standard features</b><span>' + f.solar[0] + ' solar · ' + f.batt[0] + ' battery · ' + f.inv[0] + ' inverter · ' + f.water[0] + ' water</span></span>' + CH + '</button><div class="bd"><div>' + list + '</div></div></div>';
+}
+var INFO = { A: ["Four tiles in a row", "Quickest to scan, takes the least height. Figures are small."], B: ["Two by two", "Bigger figures with icons, a little taller."], C: ["Spec list", "Reads like a spec sheet, the most room for notes like \"+ 90L drinking\"."], D: ["Tuck-away", "One summary line that opens into the list. Costs almost no height until tapped."] };
+function draw() {
+  var m = M[cur], g = document.getElementById("grid"); g.innerHTML = "";
+  "ABCD".split("").forEach(function (L) {
+    var o = document.createElement("div"); o.className = "opt";
+    o.innerHTML = '<div class="tag"><i>' + L + '</i>' + INFO[L][0] + '</div><p class="why">' + INFO[L][1] + '</p><div class="scr"><div class="hero"><img src="assets/img/build/model-' + cur + '.webp" alt=""></div><div class="nm">' + m.nm + '</div><div class="tg">' + m.tag + '</div><div class="pr"><small>From</small>' + m.price + '</div>' + feat(L, m) +
+      '<div class="mini">' + OTHERS.map(function (k) { return '<div><span class="d"><img src="assets/img/build/model-' + k + '.webp" alt=""></span>' + M[k].nm + '</div>'; }).join("") + '</div></div>';
+    g.appendChild(o);
+    var d = o.querySelector("[data-d]"); if (d) d.querySelector(".hd").addEventListener("click", function () { d.classList.toggle("open"); });
+  });
+}
+var pk = document.getElementById("pick");
+Object.keys(M).forEach(function (k) { var b = document.createElement("button"); b.type = "button"; b.textContent = M[k].nm; b.className = k === cur ? "on" : ""; b.addEventListener("click", function () { cur = k; OTHERS = Object.keys(M).filter(function (x) { return x !== k; }); Array.prototype.forEach.call(pk.querySelectorAll("button"), function (x) { x.classList.toggle("on", x === b); }); draw(); }); pk.appendChild(b); });
+draw();
+</script>
+</body>
+</html>

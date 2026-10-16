@@ -194,20 +194,27 @@
         im.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: delay || 0, easing: "ease-out", fill: "backwards" });
       } catch (e) {}
     }
-    /* a new van is chosen: the old one takes the small slot, and the new one drives into the circle the same way */
+    /* a new van is chosen: the current van drives off to the right, out of the frame; the old one takes the small slot; the new van drives in from the left */
     function promote(btn) {
       if (busy3 || btn.dataset.k === heroK) return;
       var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hPr];
       busy3 = true;
+      var leaving = $(".mv", heroDisc);
       btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
       slotDisc.innerHTML = mv(om, MINI_W); $(".nm", btn).textContent = om.nm; $(".mp", btn).textContent = fmt(om.price);
       setHero(newK);
+      var EXIT = 780, IN = 420;
       if (!reduce && heroDisc.animate) {
-        slotDisc.animate([{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "none" }], { duration: 420, easing: "cubic-bezier(.2,.9,.3,1.2)" });
-        drive(0);
-        texts.forEach(function (t, i) { t.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: 420 + i * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1)" }); });
+        if (leaving && leaving.animate) {                                    /* the old picture stays on stage and drives away */
+          heroDisc.appendChild(leaving); leaving.style.zIndex = "2";
+          var far = Math.max(window.innerWidth || 400, 400) / 2 + HERO_W / 2 + 20;
+          try { leaving.animate([{ translate: "0 0" }, { translate: far.toFixed(1) + "px 0" }], { duration: EXIT, easing: "cubic-bezier(.55,.06,.85,.45)", fill: "forwards" }).finished.then(function () { leaving.remove(); }, function () { leaving.remove(); }); } catch (e) { leaving.remove(); }
+        }
+        slotDisc.animate([{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: EXIT * .6, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1.2)" });
+        drive(IN);
+        texts.forEach(function (t, k) { t.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: IN + 200 + k * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1)" }); });
       }
-      setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; }, reduce ? 0 : 1200);
+      setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; }, reduce ? 0 : EXIT + IN + 700);
     }
     var pick3 = function (d) {
       if (hero.classList.contains("off")) return;
@@ -447,7 +454,7 @@ function drawIso(k, o) {
     root.classList.add("d5", "has-go");
     if (!P.length) { root.innerHTML = '<div class="pane"><div class="empty">No plans are available for that combination.</div></div>'; return; }
     root.innerHTML = '<div class="pane d5pane"><div class="d5hero"><img data-ld alt="" decoding="async"></div><div class="d5txt"><span class="ln"></span><span class="lt"></span><span class="ft"></span></div>' +
-      '<div class="d5band">' + ((P.length > 2 || P.some(function (p) { return p.bunks; })) ? '<div class="d5cap">' + (P.length > 2 ? '<span class="sw">Swipe to see more layouts.</span>' : '') + (P.some(function (p) { return p.bunks; }) ? '<span class="bk"><i>4</i>Bunk count</span>' : '') + '</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
+      '<div class="d5band">' + ((P.length > 2 || P.some(function (p) { return p.bunks; })) ? '<div class="d5cap">' + (P.some(function (p) { return p.bunks; }) ? '<span class="bk"><i>4</i>Bunk count</span>' : '') + (P.length > 2 ? '<span class="sw">Swipe to see more layouts.</span>' : '') + '</div>' : '') + '<div class="d5th">' + P.map(function (p, i) { return '<button type="button" class="d5t" data-i="' + i + '" aria-label="' + p.lenTxt + ', ' + p.lay + (p.bunks ? ', ' + p.bunks + ' bunks' : '') + '"><img data-ld src="' + planImg(p) + '" alt="" decoding="async"' + (i > 2 ? ' loading="lazy"' : '') + '>' + (p.bunks ? '<i>' + p.bunks + '</i>' : '') + '</button>'; }).join("") + '</div></div></div>';
     var hero = $(".d5hero img", root), ln = $(".ln", root), lt = $(".lt", root), ft = $(".ft", root), ths = $$(".d5t", root), strip = $(".d5th", root), txt = $(".d5txt", root), band = $(".d5band", root);
     function show1(i, first) {
       sel = i; var p = P[i];
@@ -666,10 +673,11 @@ function drawIso(k, o) {
     return '<div class="rc"><span class="th"><img data-ld src="' + planImg(p) + '" alt=""></span><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span>' + (editable ? '<button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' : '') + '</span></div>';
   }
   /* the pinned summary card on the chat screen: the words on the left, the customer's van on the right, changing every 2 seconds (the van, then its floorplan) */
+  var specOpen = true;      /* the specs card starts open and tucks away when the chat begins */
   function cardHTML(R) {
     var p = R.plan; if (!p) return "";
     var cm = p.lay.indexOf(", "), main = cm < 0 ? p.lay : p.lay.slice(0, cm);
-    return '<div class="rc6"><span class="tx"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span><button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></span><span class="pic"><img alt=""></span></div>';
+    return '<div class="rc6' + (specOpen ? ' open' : '') + '"><button type="button" class="rchd" aria-expanded="' + (specOpen ? "true" : "false") + '"><b>' + R.model + ' · ' + R.size + ' · ' + R.type + '</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="rcbody"><div class="rcin"><span class="tx"><span>' + R.bed + '</span><span>' + p.lenTxt + ' · ' + p.lay + '</span><button type="button" class="rcedit">Customise<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></span><span class="pic"><img alt=""></span></div></div></div>';
   }
   function cycleImgs(host, R) {
     var im = $(".pic img", host); if (!im || !R.plan) return null;
@@ -881,13 +889,15 @@ function drawIso(k, o) {
     draw(); phone.appendChild(sheet); phone.classList.add("sheet-open"); void sheet.offsetWidth; sheet.classList.add("in");
   }
   function s6chat(root) {
-    var R = recap(), thread, reply, psub, i = 0, marks = [], busyQ = false, qDepth = 0;
+    specOpen = true;
+    var R = recap(), spoke = false, thread, reply, psub, i = 0, marks = [], busyQ = false, qDepth = 0;
     root.classList.add("form6", "chat6");
     root.innerHTML = '<div class="pane6"><div class="psub"></div><div class="thread"></div><div class="reply"></div></div>';
     thread = $(".thread", root); reply = $(".reply", root); psub = $(".psub", root);
     /* the price is the subheading under the page heading, pinned: it stays put while the chat scrolls and follows any change made in Customise */
 var cyc = null;
-    function drawPrice() { if (cyc) clearInterval(cyc); psub.innerHTML = cardHTML(R); cyc = cycleImgs(psub, R); var b = $(".rcedit", psub); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawPrice(); }); }); }
+    function toggleSpecs(open) { var c = $(".rc6", psub); if (!c) return; specOpen = open == null ? !c.classList.contains("open") : open; c.classList.toggle("open", specOpen); $(".rchd", c).setAttribute("aria-expanded", specOpen ? "true" : "false"); }
+    function drawPrice() { if (cyc) clearInterval(cyc); psub.innerHTML = cardHTML(R); cyc = cycleImgs(psub, R); var hd = $(".rchd", psub); if (hd) hd.addEventListener("click", function () { toggleSpecs(); }); var b = $(".rcedit", psub); if (b) b.addEventListener("click", function () { openCustomise(function () { R = recap(); drawPrice(); }); }); }
     function drawCard() {}
     drawPrice();
     var esc = function (s) { return String(s).replace(/[<>&]/g, ""); };
@@ -913,7 +923,7 @@ var cyc = null;
       };
       if (instant || reduce) show1(); else { node("bub bot typing", "<i></i><i></i><i></i>"); setTimeout(show1, 520); }
     }
-    function answer(label, nextFn) { me(esc(label)); setTimeout(nextFn, 260); }
+    function answer(label, nextFn) { if (specOpen && !spoke) toggleSpecs(false); spoke = true; me(esc(label)); setTimeout(nextFn, 260); }
     function drawReply(Qn, n) {
       App.backHook = n > 0 ? function () { if (busyQ) return true; if (qDepth > 0) { history.back(); return true; } undo(); return true; } : null;
       if (Qn.type === "choice") { reply.innerHTML = '<div class="rchips">' + CUSTOM.map(function (o) { return '<button type="button" class="rc1" data-c="' + o.k + '">' + o.t + '</button>'; }).join("") + '</div>'; $$(".rc1", reply).forEach(function (b) { b.addEventListener("click", function () { LEAD.custom = b.dataset.c; reply.innerHTML = ""; answer(b.textContent, function () { ask(n + 1); }); }); }); return; }

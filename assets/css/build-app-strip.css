@@ -228,3 +228,36 @@ html.tab .phone .s5 .d5one { font-size: 22px; line-height: 31px; }
 html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 566px), 420px); height: clamp(140px, calc(100dvh - 566px), 420px); }
 /* the very smallest phones: the swipe line gives way (the strip of plans still scrolls) */
 @media (max-height: 600px) { html:not(.tab) .phone .s5 .d5cap .sw { display: none; } html:not(.tab) .phone .s5 .d5cap:not(:has(.bk)) { display: none; } }
+
+/* ================= feedback round 3 ================= */
+/* the line under the heading: 20% smaller */
+.cue { font-size: 14.56px; line-height: 21px; }
+html.tab .cue { font-size: 18.7px; line-height: 28px; }
+
+/* Step 5: the bunk key and the swipe line, one under the other; a smaller circle keeps the rows legible */
+.phone .s5 .d5cap { flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: 3px; margin-bottom: 8px; }
+.phone .s5 .d5cap .bk { margin-left: 0; }
+.phone .s5 .d5cap i { width: 20px; height: 20px; margin-right: 8px; font-size: 13px; line-height: 20px; }
+html.tab .phone .s5 .d5cap i { width: 24px; height: 24px; font-size: 15px; line-height: 24px; }
+@media (max-height: 640px) { .phone .s5 .d5cap { gap: 1px; margin-bottom: 4px; } .phone .s5 .d5cap i { width: 18px; height: 18px; font-size: 12px; line-height: 18px; } }
+
+/* Step 6: the specs fold away like an accordion once the chat begins; the heading row stays as the handle */
+.s6 .rc6 { display: block; }
+.s6 .rc6 .rchd { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 0; text-align: left; color: inherit; }
+.s6 .rc6 .rchd b { font-size: 15px; line-height: 22px; }
+.s6 .rc6 .rchd svg { flex: none; width: 22px; height: 22px; fill: none; stroke: var(--o); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.s6 .rc6.open .rchd svg { transform: rotate(180deg); }
+.s6 .rc6 .rcbody { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1), visibility 0s .5s; visibility: hidden; }
+.s6 .rc6.open .rcbody { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+.s6 .rc6 .rcin { min-height: 0; overflow: hidden; display: flex; align-items: center; gap: 12px; opacity: 0; padding-top: 0; transition: opacity .35s ease, padding-top .5s cubic-bezier(.2,.8,.2,1); }
+.s6 .rc6.open .rcin { opacity: 1; padding-top: 6px; transition: opacity .5s ease .1s, padding-top .5s cubic-bezier(.2,.8,.2,1); }
+.s6 .rc6 .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+html.tab .s6 .rc6 .rchd b { font-size: 19px; line-height: 26px; }
+@media (prefers-reduced-motion: reduce) { .s6 .rc6 .rcbody, .s6 .rc6 .rcin, .s6 .rc6 .rchd svg { transition: none; } }
+@media (max-height: 640px), (max-width: 340px) { .s6 .rc6 .tx span { display: none; } }
+/* less air between the heading block and the specs (this step has no shadow under the heading) */
+body[data-step="details"] .cue { margin-bottom: 6px; }
+html:not(.tab) .phone .step.s6.s6 { padding-top: 4px; }
+html.tab .phone .step.s6.s6 { padding-top: 8px; }
+/* the chat answers: only "Yes, let's keep customising" hops */
+.s6 .reply .rc1:not([data-c="customise"]) { animation: none !important; }
