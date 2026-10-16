@@ -992,7 +992,7 @@ var cyc = null;
     var pgq = (Q.match(/[?&]pgap=(\d+)/) || [])[1]; if (pgq) document.documentElement.style.setProperty("--pgap", pgq + "px");   /* preview: the gap above the Step 3 price */
     phone = $("#phone"); stage = $("#stage"); h1 = $("#h1");
     cueEl = document.createElement("p"); cueEl.className = "cue"; cueEl.id = "cue"; h1.parentNode.insertBefore(cueEl, h1.nextSibling);      /* the one-line "what to do" under the heading */ plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
-    var nc = document.createElement("span"); nc.className = "nextcue"; nc.textContent = "Happy with your choice? Tap Next."; goBtn.parentNode.insertBefore(nc, goBtn.nextSibling);   /* shown beside the Next arrow on the model, bed and floorplan steps */
+    var nc = document.createElement("span"); nc.className = "nextcue"; nc.innerHTML = "Happy with your choice?<br>Tap Next."; goBtn.parentNode.insertBefore(nc, goBtn.nextSibling);   /* shown beside the Next arrow on the model, bed and floorplan steps */
     if (/[?&]guides/.test(Q)) phone.classList.add("guides");
     /* the on-screen keyboard: the app follows the visible part of the screen, so the chat box sits just above the keyboard */
     var vv = window.visualViewport;
