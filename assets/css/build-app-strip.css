@@ -301,5 +301,7 @@ html.tab-land .phone .step.s3.s3 { padding-bottom: calc(var(--sb) + var(--sh) + 
 .s3 .ft3 .sb:empty { display: none; }
 html.tab .s3 .ft3 .v { font-size: min(calc(24px * var(--K, 1)), 21cqw); } html.tab .s3 .ft3 .l { font-size: min(calc(17px * var(--K, 1)), 15cqw); } html.tab .s3 .ft3 .sb { font-size: min(calc(15px * var(--K, 1)), 13cqw); }
 
-/* Step 3: the gap above the price (--pgap, 12px unless a preview sets it) */
-html .phone .s3 .pr { margin-top: calc(var(--pgap, 12px) * var(--K, 1)); }
+/* Step 3: the gap above the price (--pgap, 20px unless a preview sets it) */
+html .phone .s3 .pr { margin-top: calc(var(--pgap, 20px) * var(--K, 1)); }
+@media (max-height: 600px) { html:not(.tab) .phone .s3 .pr { margin-top: calc(10px * var(--K, 1)); } }
+html.tab-land .phone .s3 .pr { margin-top: calc(12px * var(--K, 1)); }
