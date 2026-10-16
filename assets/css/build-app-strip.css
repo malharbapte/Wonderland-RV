@@ -261,3 +261,15 @@ html:not(.tab) .phone .step.s6.s6 { padding-top: 4px; }
 html.tab .phone .step.s6.s6 { padding-top: 8px; }
 /* the chat answers: only "Yes, let's keep customising" hops */
 .s6 .reply .rc1:not([data-c="customise"]) { animation: none !important; }
+
+/* ================= Step 3: standard features (solar, battery, inverter, fresh water), then the price last ================= */
+.s3 .feat { display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(8px * var(--K, 1)); width: 100%; margin-top: calc(14px * var(--K, 1)); }
+.s3 .feat:empty { display: none; }
+.s3 .ft3 { background: #FAF6F0; border-radius: calc(14px * var(--K, 1)); padding: calc(9px * var(--K, 1)) 2px calc(8px * var(--K, 1)); display: flex; flex-direction: column; align-items: center; text-align: center; gap: calc(2px * var(--K, 1)); }
+.s3 .ft3 svg { width: calc(22px * var(--K, 1)); height: calc(22px * var(--K, 1)); fill: none; stroke: var(--o); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.s3 .ft3 .v { font-family: var(--aviano); font-weight: 900; font-size: calc(15px * var(--K, 1)); line-height: calc(20px * var(--K, 1)); letter-spacing: -.01em; color: #000; }
+.s3 .ft3 .l { font-family: var(--gordita); font-weight: 400; font-size: calc(10.5px * var(--K, 1)); line-height: calc(13px * var(--K, 1)); color: #6d645a; }
+.s3 .ft3 .sb { font-family: var(--gordita); font-weight: 400; font-size: calc(9.5px * var(--K, 1)); line-height: calc(12px * var(--K, 1)); color: #8b8176; min-height: calc(12px * var(--K, 1)); }
+html.tab .s3 .ft3 .v { font-size: calc(17px * var(--K, 1)); } html.tab .s3 .ft3 .l { font-size: calc(12px * var(--K, 1)); } html.tab .s3 .ft3 .sb { font-size: calc(11px * var(--K, 1)); }
+html .phone .s3 .pr { margin-top: calc(12px * var(--K, 1)); }
+.s3 .hero { width: 100%; } .s3 .hero .hov { width: 100%; }

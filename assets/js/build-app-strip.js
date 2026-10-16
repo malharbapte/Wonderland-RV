@@ -162,17 +162,25 @@
     var c = ctx(), TAB = MPRICES[c.type + "|" + c.size], BY = {};
     var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
-    var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || 1.6));   /* how much bigger the chosen caravan's circle is than the original: 1.6 = 60% bigger (?hero=1.35 to preview other sizes) */
+    var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || (window.innerHeight <= 600 ? 1.1 : (isTab() && window.innerWidth > window.innerHeight ? 1.2 : 1.6))));   /* shorter screens get a slightly smaller circle so everything still fits */   /* how much bigger the chosen caravan's circle is than the original: 1.6 = 60% bigger (?hero=1.35 to preview other sizes) */
     var K = 1;
-    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(.75, Math.min(1.5, av3 / (265 + 200 * HS))); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.42, Math.min(1.3, av3p / (295 + 200 * HS), (content.clientWidth || 327) / 295)); }
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(.75, Math.min(1.5, av3 / (345 + 200 * HS))); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.42, Math.min(1.3, av3p / (375 + 200 * HS), (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
     var HERO_DISC = 184 * HS * K, HERO_W = 266 * HS * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : (!off(BY.amaroo) ? "amaroo" : ms.filter(function (m) { return !off(m); })[0].k)), busy3 = false;   /* Amaroo is shown first unless the customer already chose another */
     function mv(m, w) { var h = w * m.H / 900; return '<img class="mv" src="assets/img/build/model-' + m.k + '.webp" alt="" style="width:' + w + 'px;--nx:' + (-m.ink[0] / 100 * w).toFixed(1) + 'px;--ny:' + (-m.ink[1] / 100 * h).toFixed(1) + 'px;--gy:' + (3 * w / 266).toFixed(2) + 'px;--sh:' + (6 * w / 266).toFixed(2) + 'px">'; }
-    content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="tag" id="hTag"></span><span class="pr" id="hPr"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
-    var hero = $(".hero", content), dock = $("#dock", content), heroDisc = $("#heroDisc", content), hNm = $("#hNm", content), hPr = $("#hPr", content), hTag = $("#hTag", content), heroBtn = $("#heroBtn", content);
-    function setHeroText(m) { hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
+    content.innerHTML = '<div class="hero"><button class="hov" id="heroBtn" type="button" style="display:flex;flex-direction:column;align-items:center"><span class="disc" id="heroDisc"></span><span class="nm" id="hNm"></span><span class="tag" id="hTag"></span><span class="feat" id="hFeat"></span><span class="pr" id="hPr"></span></button></div><div class="dock" id="dock"></div><div class="sr" id="live" aria-live="polite"></div>';
+    var hero = $(".hero", content), dock = $("#dock", content), heroDisc = $("#heroDisc", content), hNm = $("#hNm", content), hPr = $("#hPr", content), hTag = $("#hTag", content), hFeat = $("#hFeat", content), heroBtn = $("#heroBtn", content);
+    /* the standard features from each model's page on the website: solar, battery, inverter, fresh water */
+    var FE = { amaroo: ["600W", "300Ah", "lithium", "2000W", "200L", ""], hornet: ["800W", "400Ah", "lithium", "2600W", "200L", "+ 90L drinking"], solara: ["1000W", "400Ah", "lithium", "3000VA", "200L", "+ 90L drinking"], xtr: ["1000W", "11kWh", "lithium", "5000VA", "200L", "+ 90L drinking"] };
+    var FI = { solar: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>', batt: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="16" height="10" rx="2.2"/><path d="M21.5 10.5v3M7 10.5v3M10.5 10.5v3M14 10.5v3"/></svg>', inv: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg>', water: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg>' };
+    function featHTML(k) {
+      var f = FE[k]; if (!f) return "";
+      var t = function (ic, v, l, sub) { return '<span class="ft3">' + FI[ic] + '<span class="v">' + v + '</span><span class="l">' + l + '</span><span class="sb">' + (sub || "") + '</span></span>'; };
+      return t("solar", f[0], "Solar") + t("batt", f[1], "Battery", f[2]) + t("inv", f[3], "Inverter") + t("water", f[4], "Fresh water", f[5]);
+    }
+    function setHeroText(m) { hFeat.innerHTML = off(m) ? "" : featHTML(m.k); hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
     function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); App.dimGo(off(m)); }
     function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '"><span class="disc hov" style="width:' + MINI_DISC + 'px;height:' + MINI_DISC + 'px">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>'; }
     function renderDock() {
@@ -197,7 +205,7 @@
     /* a new van is chosen: the current van drives off to the right, out of the frame; the old one takes the small slot; the new van drives in from the left */
     function promote(btn) {
       if (busy3 || btn.dataset.k === heroK) return;
-      var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hPr];
+      var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hFeat, hPr];
       busy3 = true;
       var leaving = $(".mv", heroDisc);
       btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
