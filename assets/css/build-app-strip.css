@@ -322,5 +322,5 @@ html.tab .phone .s5 .d5txt { padding-top: 8px; padding-bottom: 22px; }
 @media (max-height: 760px) { .phone .s5 .d5txt { padding-top: 2px; padding-bottom: 12px; } }
 @media (max-height: 640px) { .phone .s5 .d5txt { padding-top: 0; padding-bottom: 8px; } }
 
-/* Step 5: the plan picture sits 5px higher inside its frame */
-.s5 .d5hero img { transform: translateY(-5px); }
+/* Step 5: the plan picture sits 10px higher inside its frame */
+.s5 .d5hero img { transform: translateY(-10px); }
