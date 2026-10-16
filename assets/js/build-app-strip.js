@@ -14,6 +14,9 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var fmt = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
+  /* the only prices shown are the "Starting from" prices on the Wonderland Range pages (wonderlandrv.com.au/range), exactly as published */
+  var RANGE = { xtr: 195701.21, solara: 162279.87, hornet: 151175.87, amaroo: 127288.44 };
+  var fmtc = function (n) { return "$" + Number(n).toLocaleString("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
   var nowrap = function (s) { return '<span style="white-space:nowrap">' + s + '</span>'; };
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* THE GATE. The iPad layout switches on only for a touch device at least 744px wide AND 600px tall (an iPad, either way up). A phone, a phone turned
@@ -160,7 +163,7 @@
   };
   function s3(content) {
     var c = ctx(), TAB = MPRICES[c.type + "|" + c.size], BY = {};
-    var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = TAB[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
+    var ms = MODELS.map(function (m) { var o = {}; for (var i in m) o[i] = m[i]; o.price = RANGE[m.k]; o.na = TAB[m.k] === undefined; BY[m.k] = o; return o; });
     var off = function (m) { return m.na; };
     var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || (window.innerHeight <= 600 ? 1.1 : (isTab() && window.innerWidth > window.innerHeight ? 1.2 : 1.6))));   /* shorter screens get a slightly smaller circle so everything still fits */   /* how much bigger the chosen caravan's circle is than the original: 1.6 = 60% bigger (?hero=1.35 to preview other sizes) */
     var K = 1;
@@ -180,9 +183,9 @@
       var t = function (ic, v, l, sub) { return '<span class="ft3">' + FI[ic] + '<span class="v">' + v + '</span><span class="l">' + l + '</span><span class="sb">' + (sub || "") + '</span></span>'; };
       return t("solar", f[0], "Solar") + t("batt", f[1], "Lithium") + t("inv", f[3], "Inverter") + t("water", f[4], "Fresh water", f[5]);
     }
-    function setHeroText(m) { hFeat.innerHTML = off(m) ? "" : featHTML(m.k); hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
+    function setHeroText(m) { hFeat.innerHTML = off(m) ? "" : featHTML(m.k); hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">Starting from</span><span class="pv">' + fmtc(m.price) + '</span>'; }
     function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); App.dimGo(off(m)); }
-    function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', ' + fmt(m.price)) + '"><span class="disc hov" style="width:' + MINI_DISC + 'px;height:' + MINI_DISC + 'px">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmt(m.price)) + '</span></button>'; }
+    function miniHTML(m) { return '<button class="mini' + (off(m) ? ' off' : '') + '" type="button" data-k="' + m.k + '" aria-label="' + m.nm + (off(m) ? ', not offered in this size' : ', starting from ' + fmtc(m.price)) + '"><span class="disc hov" style="width:' + MINI_DISC + 'px;height:' + MINI_DISC + 'px">' + mv(m, MINI_W) + '</span><span class="nm">' + m.nm + '</span><span class="mp">' + (off(m) ? '' : fmtc(m.price)) + '</span></button>'; }
     function renderDock() {
       dock.innerHTML = ms.filter(function (m) { return m.k !== heroK; }).map(miniHTML).join("");
       $$(".mini", dock).forEach(function (b) { b.addEventListener("click", function () {
@@ -209,8 +212,8 @@
       var newK = btn.dataset.k, oldK = heroK, nm = BY[newK], om = BY[oldK], slotDisc = $(".disc", btn), texts = [hNm, hTag, hFeat, hPr];
       busy3 = true;
       var leaving = $(".mv", heroDisc);
-      btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmt(om.price));
-      slotDisc.innerHTML = mv(om, MINI_W); $(".nm", btn).textContent = om.nm; $(".mp", btn).textContent = fmt(om.price);
+      btn.dataset.k = oldK; btn.classList.toggle("off", off(om)); btn.setAttribute("aria-label", om.nm + ", " + fmtc(om.price));
+      slotDisc.innerHTML = mv(om, MINI_W); $(".nm", btn).textContent = om.nm; $(".mp", btn).textContent = fmtc(om.price);
       setHero(newK);
       var EXIT = 780, IN = 420;
       if (!reduce && heroDisc.animate) {
@@ -223,7 +226,7 @@
         drive(IN, dir);
         texts.forEach(function (t, k) { t.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, delay: IN + 200 + k * 70, fill: "backwards", easing: "cubic-bezier(.2,.9,.3,1)" }); });
       }
-      setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", from " + fmt(nm.price)) + ". Selected."; }, reduce ? 0 : EXIT + IN + 700);
+      setTimeout(function () { busy3 = false; $("#live", content).textContent = nm.nm + ", " + nm.tag + (off(nm) ? "" : ", starting from " + fmtc(nm.price)) + ". Selected."; }, reduce ? 0 : EXIT + IN + 700);
     }
     var pick3 = function (d) {
       if (hero.classList.contains("off")) return;
@@ -768,7 +771,7 @@ function drawIso(k, o) {
     var name = (vals.first || "").trim();
     root.className = "step s6 done6"; if (cueEl) cueEl.textContent = "";
     root.innerHTML = '<div class="thanks">' +
-      '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2>' + (R.plan ? '<div class="rvp"><span class="pf">From</span><span class="pv">' + fmt(R.plan.price) + '</span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : "") + '<p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
+      '<h2>Thank you' + (name ? ', ' + name.replace(/[<>&]/g, "") : "") + '.</h2>' + (R.plan ? '<div class="rvp"><span class="pf">Starting from</span><span class="pv">' + fmtc(RANGE[R.cx.model] || R.plan.price) + '</span><span class="pd">Price as of ' + new Date().toLocaleDateString("en-AU") + '</span></div>' : "") + '<p>' + (LEAD.custom === "customise" ? 'Your quote is on its way, and we’ll be in touch to keep customising your caravan with you.' : 'Your personalised quote is on its way to ' + (vals.email || "your inbox").replace(/[<>&]/g, "") + '.') + '</p>' + recapHTML(R) +
       '<button type="button" class="again">Start a new build</button></div>';
     wireImgs(root);
     confetti(); setTimeout(function () { var rv = $(".rvp", root); if (rv) rv.classList.add("on"); }, reduce ? 0 : 500);
@@ -896,10 +899,10 @@ function drawIso(k, o) {
       sheet.innerHTML = '<div class="fpanel" role="dialog" aria-label="Customise your caravan"><div class="fh"><b>Customise</b><button type="button" class="fx" aria-label="Close without saving"><svg viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>' +
         '<div class="fg"><div class="ft5">Who’s coming along</div><div class="fchips">' + TY.map(function (o) { return chip("type", o[0], o[1], st.type === o[0]); }).join("") + '</div></div>' +
         '<div class="fg"><div class="ft5">Size</div><div class="fchips">' + SZ.map(function (o) { return chip("size", o[0], o[1], st.size === o[0]); }).join("") + '</div></div>' +
-        '<div class="fg"><div class="ft5">Model</div><div class="fchips">' + MODELS.map(function (m) { var p = X.tab[m.k]; return chip("model", m.k, m.nm + (p !== undefined ? ' · <span class="px">' + fmt(p) + '</span>' : ''), st.model === m.k, p === undefined); }).join("") + '</div>' + (MODELS.some(function (m) { return X.tab[m.k] === undefined; }) ? '<div class="cnote">Greyed models are not offered in this size.</div>' : '') + '</div>' +
+        '<div class="fg"><div class="ft5">Model</div><div class="fchips">' + MODELS.map(function (m) { var p = X.tab[m.k]; return chip("model", m.k, m.nm + (p !== undefined ? ' · <span class="px">' + fmtc(RANGE[m.k]) + '</span>' : ''), st.model === m.k, p === undefined); }).join("") + '</div>' + (MODELS.some(function (m) { return X.tab[m.k] === undefined; }) ? '<div class="cnote">Greyed models are not offered in this size.</div>' : '') + '</div>' +
         '<div class="fg"><div class="ft5">Bed</div><div class="fchips">' + X.beds.map(function (b) { return chip("bed", b.key, b.group + ' · ' + b.short, st.bed === b.key); }).join("") + '</div></div>' +
         '<div class="fg"><div class="ft5">Floorplan</div><div class="fchips">' + D.plans.map(function (p) { return chip("plan", p.code, p.lenTxt + ' · ' + p.ls, st.plan === p.code); }).join("") + '</div></div>' +
-        '<div class="cprice"><span class="cp"><span class="pfrom">From</span><span class="pv">' + (pl ? fmt(pl.price) : "") + '</span></span><button type="button" class="fshow">Done</button></div></div>';
+        '<div class="cprice"><span class="cp"><span class="pfrom">Starting from</span><span class="pv">' + fmtc(RANGE[st.model] || (pl ? pl.price : 0)) + '</span></span><button type="button" class="fshow">Done</button></div></div>';
       $$(".chip", sheet).forEach(function (b) { b.addEventListener("click", function () { st[b.dataset.g] = b.dataset.v; draw(); }); });
       $(".fpanel", sheet).scrollTop = keepY;
       $(".fx", sheet).addEventListener("click", close);
