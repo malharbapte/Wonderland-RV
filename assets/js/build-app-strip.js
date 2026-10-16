@@ -178,7 +178,7 @@
     function featHTML(k) {
       var f = FE[k]; if (!f) return "";
       var t = function (ic, v, l, sub) { return '<span class="ft3">' + FI[ic] + '<span class="v">' + v + '</span><span class="l">' + l + '</span><span class="sb">' + (sub || "") + '</span></span>'; };
-      return t("solar", f[0], "Solar") + t("batt", f[1], "Battery", f[2]) + t("inv", f[3], "Inverter") + t("water", f[4], "Fresh water", f[5]);
+      return t("solar", f[0], "Solar") + t("batt", f[1], "Lithium") + t("inv", f[3], "Inverter") + t("water", f[4], "Fresh water", f[5]);
     }
     function setHeroText(m) { hFeat.innerHTML = off(m) ? "" : featHTML(m.k); hNm.textContent = m.nm; hTag.textContent = m.tag; hPr.className = "pr" + (off(m) ? " na" : ""); hPr.innerHTML = off(m) ? "Not offered in this size" : '<span class="pf">From</span><span class="pv">' + fmt(m.price) + '</span>'; }
     function setHero(k) { var m = BY[k]; heroK = k; heroDisc.style.width = heroDisc.style.height = HERO_DISC + "px"; heroDisc.innerHTML = mv(m, HERO_W); setHeroText(m); hero.classList.toggle("off", off(m)); App.dimGo(off(m)); }

@@ -278,3 +278,15 @@ html .phone .s3 .pr { margin-top: calc(12px * var(--K, 1)); }
 .s3 .hero { touch-action: pan-y; }
 .nextcue { font-size: 11.8px; line-height: 16px; }
 html.tab .nextcue { font-size: 14.6px; line-height: 20px; }
+
+/* Step 3: tighter top and bottom so the middle can breathe; larger figures inside the feature tiles */
+html:not(.tab) .phone .step.s3.s3 { padding-top: 12px; padding-bottom: calc(var(--sb) + var(--sh) + 18px - var(--E)); }
+html.tab .phone .step.s3.s3 { padding-top: 14px; padding-bottom: calc(var(--sb) + var(--sh) + 22px - var(--E)); }
+.s3 .feat { gap: calc(6px * var(--K, 1)); }
+.s3 .ft3 { padding: calc(11px * var(--K, 1)) 1px calc(10px * var(--K, 1)); gap: calc(3px * var(--K, 1)); }
+.s3 .ft3 svg { width: calc(26px * var(--K, 1)); height: calc(26px * var(--K, 1)); }
+.s3 .ft3 .v { font-size: calc(17.5px * var(--K, 1)); line-height: calc(22px * var(--K, 1)); white-space: nowrap; }
+.s3 .ft3 .l { font-size: calc(12.5px * var(--K, 1)); line-height: calc(15px * var(--K, 1)); white-space: nowrap; }
+.s3 .ft3 .sb { font-size: calc(11px * var(--K, 1)); line-height: calc(13px * var(--K, 1)); min-height: calc(13px * var(--K, 1)); }
+html.tab .s3 .ft3 .v { font-size: calc(20px * var(--K, 1)); } html.tab .s3 .ft3 .l { font-size: calc(14px * var(--K, 1)); } html.tab .s3 .ft3 .sb { font-size: calc(12.5px * var(--K, 1)); }
+html.tab-land .phone .step.s3.s3 { padding-bottom: calc(var(--sb) + var(--sh) + 34px - var(--E)); }
