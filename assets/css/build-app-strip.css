@@ -290,3 +290,13 @@ html.tab .phone .step.s3.s3 { padding-top: 14px; padding-bottom: calc(var(--sb) 
 .s3 .ft3 .sb { font-size: calc(11px * var(--K, 1)); line-height: calc(13px * var(--K, 1)); min-height: calc(13px * var(--K, 1)); }
 html.tab .s3 .ft3 .v { font-size: calc(20px * var(--K, 1)); } html.tab .s3 .ft3 .l { font-size: calc(14px * var(--K, 1)); } html.tab .s3 .ft3 .sb { font-size: calc(12.5px * var(--K, 1)); }
 html.tab-land .phone .step.s3.s3 { padding-bottom: calc(var(--sb) + var(--sh) + 34px - var(--E)); }
+
+/* Step 3 tiles: contents centred in the container, 20% larger again (a figure never outgrows its tile) */
+.s3 .feat { align-items: stretch; }
+.s3 .ft3 { justify-content: center; container-type: inline-size; padding-top: calc(9px * var(--K, 1)); padding-bottom: calc(9px * var(--K, 1)); }
+.s3 .ft3 svg { width: calc(31px * var(--K, 1)); height: calc(31px * var(--K, 1)); }
+.s3 .ft3 .v { font-size: min(calc(21px * var(--K, 1)), 21cqw); line-height: calc(26px * var(--K, 1)); }
+.s3 .ft3 .l { font-size: min(calc(15px * var(--K, 1)), 15cqw); line-height: calc(18px * var(--K, 1)); }
+.s3 .ft3 .sb { font-size: min(calc(13.2px * var(--K, 1)), 13cqw); line-height: calc(16px * var(--K, 1)); min-height: 0; }
+.s3 .ft3 .sb:empty { display: none; }
+html.tab .s3 .ft3 .v { font-size: min(calc(24px * var(--K, 1)), 21cqw); } html.tab .s3 .ft3 .l { font-size: min(calc(17px * var(--K, 1)), 15cqw); } html.tab .s3 .ft3 .sb { font-size: min(calc(15px * var(--K, 1)), 13cqw); }
