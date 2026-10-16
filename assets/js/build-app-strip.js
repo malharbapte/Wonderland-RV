@@ -164,8 +164,8 @@
     var off = function (m) { return m.na; };
     var HS = Math.max(1, Math.min(1.8, parseFloat((Q.match(/[?&]hero=([\d.]+)/) || [])[1]) || (window.innerHeight <= 600 ? 1.1 : (isTab() && window.innerWidth > window.innerHeight ? 1.2 : 1.6))));   /* shorter screens get a slightly smaller circle so everything still fits */   /* how much bigger the chosen caravan's circle is than the original: 1.6 = 60% bigger (?hero=1.35 to preview other sizes) */
     var K = 1;
-    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(.75, Math.min(1.5, av3 / (345 + 200 * HS))); }
-    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.42, Math.min(1.3, av3p / (375 + 200 * HS), (content.clientWidth || 327) / 295)); }
+    if (isTab()) { var cs3 = getComputedStyle(content), av3 = content.clientHeight - parseFloat(cs3.paddingTop) - parseFloat(cs3.paddingBottom); K = Math.max(.75, Math.min(1.5, av3 / (345 + 200 * HS + ((parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pgap")) || 12) - 12)))); }
+    else { var cs3p = getComputedStyle(content), av3p = content.clientHeight - parseFloat(cs3p.paddingTop) - parseFloat(cs3p.paddingBottom); K = Math.max(.42, Math.min(1.3, av3p / (375 + 200 * HS + ((parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pgap")) || 12) - 12)), (content.clientWidth || 327) / 295)); }
     content.style.setProperty("--K", K);
     var HERO_DISC = 184 * HS * K, HERO_W = 266 * HS * K, MINI_DISC = 66 * K, MINI_W = +(MINI_DISC * HERO_W / HERO_DISC).toFixed(1), MS = 850;
     var heroK = (CHOICE_MODEL(c) && !off(BY[CHOICE_MODEL(c)]) ? CHOICE_MODEL(c) : (!off(BY.amaroo) ? "amaroo" : ms.filter(function (m) { return !off(m); })[0].k)), busy3 = false;   /* Amaroo is shown first unless the customer already chose another */
@@ -989,6 +989,7 @@ var cyc = null;
   ];
   function indexOf(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
   function init() {
+    var pgq = (Q.match(/[?&]pgap=(\d+)/) || [])[1]; if (pgq) document.documentElement.style.setProperty("--pgap", pgq + "px");   /* preview: the gap above the Step 3 price */
     phone = $("#phone"); stage = $("#stage"); h1 = $("#h1");
     cueEl = document.createElement("p"); cueEl.className = "cue"; cueEl.id = "cue"; h1.parentNode.insertBefore(cueEl, h1.nextSibling);      /* the one-line "what to do" under the heading */ plabel = $("#plabel"); road = $(".road"); backBtn = $("#back"); goBtn = $("#go");
     var nc = document.createElement("span"); nc.className = "nextcue"; nc.textContent = "Happy with your choice? Tap Next."; goBtn.parentNode.insertBefore(nc, goBtn.nextSibling);   /* shown beside the Next arrow on the model, bed and floorplan steps */

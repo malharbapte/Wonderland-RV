@@ -300,3 +300,6 @@ html.tab-land .phone .step.s3.s3 { padding-bottom: calc(var(--sb) + var(--sh) + 
 .s3 .ft3 .sb { font-size: min(calc(13.2px * var(--K, 1)), 13cqw); line-height: calc(16px * var(--K, 1)); min-height: 0; }
 .s3 .ft3 .sb:empty { display: none; }
 html.tab .s3 .ft3 .v { font-size: min(calc(24px * var(--K, 1)), 21cqw); } html.tab .s3 .ft3 .l { font-size: min(calc(17px * var(--K, 1)), 15cqw); } html.tab .s3 .ft3 .sb { font-size: min(calc(15px * var(--K, 1)), 13cqw); }
+
+/* Step 3: the gap above the price (--pgap, 12px unless a preview sets it) */
+html .phone .s3 .pr { margin-top: calc(var(--pgap, 12px) * var(--K, 1)); }
