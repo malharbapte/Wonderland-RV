@@ -145,10 +145,10 @@
 
   /* ============================== Step 3: where will you take it ============================== */
   var MODELS = [
-    { k: "xtr",    nm: "XTR",    tag: "Complete Offroad – Flagship",     ink: [-2.6, -7.0], H: 343 },
-    { k: "solara", nm: "Solara", tag: "Luxury Offroad – Full Composite", ink: [-4.8, -4.6], H: 386 },
-    { k: "hornet", nm: "Hornet", tag: "Rugged Offroad",                       ink: [-2.9, -7.1], H: 343 },
-    { k: "amaroo", nm: "Amaroo", tag: "Classic Offroad",                      ink: [-4.6, -5.6], H: 327 }
+    { k: "xtr",    nm: "XTR",    tag: "Extreme off-road",     ink: [-2.6, -7.0], H: 343 },
+    { k: "solara", nm: "Solara", tag: "Composite off-road", ink: [-4.8, -4.6], H: 386 },
+    { k: "hornet", nm: "Hornet", tag: "Rugged off-road",                       ink: [-2.9, -7.1], H: 343 },
+    { k: "amaroo", nm: "Amaroo", tag: "Classic off-road",                      ink: [-4.6, -5.6], H: 327 }
   ];
   var MPRICES = {
     "couples|compact":  { amaroo: 127288.44, hornet: 151175.87, solara: 162279.87, xtr: 195701.21 },
