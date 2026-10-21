@@ -121,10 +121,35 @@ body.lock { overflow: hidden; }
 .rv-price .eyebrow { font-family: var(--aviano); font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; line-height: 14px; }
 .rv-price h2 { margin-top: 8px; font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 26px; letter-spacing: .02em; text-transform: uppercase; }
 .rv-price .kind { margin-top: 6px; font-size: 12px; line-height: 16px; font-weight: 500; opacity: .85; }
-.rv-amt { text-align: right; }
-.rv-amt .big { font-family: var(--aviano); font-weight: 900; font-size: 58px; line-height: 60px; letter-spacing: .005em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rv-amt { text-align: right; position: relative; }
+.rv-amt .big { position: relative; font-family: var(--aviano); font-weight: 900; font-size: 58px; line-height: 60px; letter-spacing: .005em; white-space: nowrap; display: inline-block; cursor: default; }
+.rv-amt .big .fig { display: inline-block; color: #fff; }
 .rv-amt .big small { font-size: 22px; letter-spacing: .02em; margin-left: 2px; }
 .rv-amt .big em { font-style: normal; font-size: 16px; letter-spacing: .1em; color: var(--orange-hi); margin-left: 8px; }
+
+/* the reveal: the padlock unlocks, then the price is uncovered left to right and a light sweeps across it.
+   Hovering the price sends the light across again. */
+.rv-lock { position: absolute; right: 0; top: 50%; width: 36px; height: 44px; margin-top: -22px; pointer-events: none; opacity: 0; }
+.rv-lock svg { width: 100%; height: 100%; overflow: visible; }
+.rv-lock .sh { transform-box: fill-box; transform-origin: 18% 100%; }
+.fig, .rv-amt small { background: linear-gradient(100deg, rgba(255,196,127,0) 40%, rgba(255,205,150,.95) 50%, rgba(255,196,127,0) 60%) 120% 0 / 260% 100% no-repeat, #fff; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.rv-amt small { display: inline-block; }
+
+.dlg.play .rv-lock { animation: lockIn .9s cubic-bezier(.3,.8,.3,1) both; }
+.dlg.play .rv-lock .sh { animation: shackle .55s .32s cubic-bezier(.3,1.4,.5,1) both; }
+.dlg.play .rv-amt .big { animation: wipe .75s 1.05s cubic-bezier(.65,0,.25,1) both; }
+.dlg.play .fig, .dlg.play .rv-amt small { animation: sweep 1s 1.7s ease-in-out both; }
+.dlg.play .rv-amt .eyebrow { animation: rise .5s .95s ease-out both; }
+.dlg.play .rv-plan img { animation: planIn .7s .1s cubic-bezier(.2,.8,.2,1) both; }
+.big:hover .fig, .big:hover small { animation: sweep .9s ease-in-out both; }
+@keyframes lockIn { 0% { opacity: 0; transform: translateY(8px) scale(.8); } 25% { opacity: 1; transform: none; } 70% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(-10px) scale(.9); } }
+@keyframes shackle { 0% { transform: none; } 55% { transform: translateY(-5px) rotate(-26deg); } 100% { transform: translateY(-5px) rotate(-18deg); } }
+@keyframes wipe { 0% { clip-path: inset(-6px 100% -6px -6px); opacity: 1; } 100% { clip-path: inset(-6px -6px -6px -6px); opacity: 1; } }
+@keyframes sweep { 0% { background-position: 120% 0; } 100% { background-position: -20% 0; } }
+@keyframes rise { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: none; } }
+@keyframes planIn { 0% { opacity: 0; transform: translateY(14px) scale(.97); } 100% { opacity: 1; transform: none; } }
+.rv-opts input:checked + .dot { animation: pop .32s cubic-bezier(.3,1.6,.5,1); }
+@keyframes pop { 0% { transform: scale(.7); } 100% { transform: scale(1); } }
 .rv-price .asat { grid-column: 1 / -1; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.18); display: flex; justify-content: space-between; gap: 16px; font-size: 10.5px; line-height: 14px; font-weight: 500; }
 .rv-price .asat a { color: var(--orange-hi); font-weight: 700; text-decoration: none; }
 .rv-price .asat a:hover { text-decoration: underline; }
@@ -172,7 +197,7 @@ body.lock { overflow: hidden; }
   .rv-act .captcha { grid-column: 1 / -1; grid-row: 2; justify-self: start; }
   .rv-act .nx { grid-column: 2; grid-row: 1; justify-self: end; }
 }
-@media (prefers-reduced-motion: reduce) { .ov, .dlg { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ov, .dlg { transition: none; } .dlg.play *, .big:hover * { animation: none !important; } .rv-lock { display: none; } }
 
 /* ?guides draws the frame the numbers came from */
 body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px; }
@@ -268,7 +293,8 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
       </div>
       <div class="rv-amt">
         <div class="eyebrow">Base price</div>
-        <div class="big" aria-live="polite">$<span id="amt">150,216</span><small>.21</small><em>AUD</em></div>
+        <div class="big"><span class="fig">$150,216</span><small>.21</small><em>AUD</em></div>
+        <div class="rv-lock" aria-hidden="true"><svg viewBox="0 0 36 44" fill="none" stroke="#E37921" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g class="sh"><path d="M9 20v-6a9 9 0 0 1 18 0v6"/></g><rect x="4" y="20" width="28" height="21" rx="3.5"/><path d="M18 27v7"/></svg></div>
       </div>
       <div class="asat"><span>Price as at 18/03/2026</span><a href="#">Read Disclaimer</a></div>
     </div>
@@ -277,8 +303,8 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
       <p class="lede">You can continue building your dream van and look through the upgrades we offer, from the chassis and electrical system to plumbing and a lot more!</p>
       <h3>Would you like to further customise your caravan?</h3>
       <fieldset class="rv-opts" aria-label="Customise your caravan">
+        <label><input type="radio" name="cust" value="yes" checked><span class="dot"></span>Yes! Let’s continue to customise!</label>
         <label><input type="radio" name="cust" value="no"><span class="dot"></span>No, just email a quote</label>
-        <label><input type="radio" name="cust" value="yes"><span class="dot"></span>Yes! Let’s continue to customise!</label>
       </fieldset>
       <div class="rv-msg" id="rvmsg" role="alert"></div>
       <div class="rv-act">
@@ -327,26 +353,17 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
   });
 
   /* ===== price reveal overlay ===== */
-  var ov = document.getElementById("ov"), dlg = document.getElementById("dlg"), amt = document.getElementById("amt"),
-      rvform = document.getElementById("rvform"), opener = null, FINAL = 150216;
-  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function money(n) { return Math.round(n).toLocaleString("en-AU"); }
-  function countUp() {
-    if (reduce) { amt.textContent = money(FINAL); return; }
-    var t0 = performance.now(), D = 1000;
-    clearTimeout(countUp.t); countUp.t = setTimeout(function () { amt.textContent = money(FINAL); }, D + 150);   /* rAF is paused in background tabs */
-    (function tick(t) {
-      var k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3);
-      amt.textContent = money(FINAL * e);
-      if (k < 1 && !document.hidden) requestAnimationFrame(tick);
-    })(t0);
-  }
+  var ov = document.getElementById("ov"), dlg = document.getElementById("dlg"),
+      rvform = document.getElementById("rvform"), opener = null;
   function openReveal() {
     opener = document.activeElement;
     dlg.classList.remove("sent"); rvform.classList.remove("err"); document.getElementById("rvmsg").textContent = "";
     document.getElementById("rvdone").classList.remove("show");
     ov.classList.add("open"); ov.setAttribute("aria-hidden", "false"); document.body.classList.add("lock");
-    dlg.scrollTop = 0; countUp(); setTimeout(function () { dlg.focus({ preventScroll: true }); }, 30);
+    dlg.scrollTop = 0;
+    rvform.querySelector("input[value=yes]").checked = true;                       /* Yes is the default */
+    dlg.classList.remove("play"); void dlg.offsetWidth; dlg.classList.add("play");  /* replay the unlock + reveal */
+    setTimeout(function () { dlg.focus({ preventScroll: true }); }, 30);
   }
   function closeReveal() {
     ov.classList.remove("open"); ov.setAttribute("aria-hidden", "true"); document.body.classList.remove("lock");
