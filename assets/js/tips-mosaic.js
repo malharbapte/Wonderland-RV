@@ -26,6 +26,14 @@
       move that keeps rule 1 and leaves the orange no more bunched than it
       was. It pauses under the pointer or keyboard focus, off screen, in a
       hidden tab, while a photo is enlarged, and entirely for reduced motion.
+
+   FIXED ORANGE + STRICT FIT (21 Oct 2026, Piyush). The section can carry
+     data-orange="3 11 13"   tiles that are always orange (1-based), the same
+                             three on every Wonderlander page
+     data-strict             a photo only goes in a tile whose shape it was
+                             cropped for (aspect within 12%), so every photo
+                             sits properly; trades only happen between tiles of
+                             the same shape and never move the fixed orange.
    ========================================================================== */
 (function () {
   "use strict";
@@ -41,6 +49,11 @@
   var names = (section.getAttribute("data-photos") || "").trim().split(/\s+/).filter(Boolean);
 
   var SLOTS = 14, EVERY = 3000, COOLDOWN = 8, ORANGE = "orange";
+  var FIXED = (section.getAttribute("data-orange") || "").trim().split(/\s+/)
+    .filter(Boolean).map(function (n) { return (+n) - 1; })
+    .filter(function (k) { return k >= 0 && k < SLOTS; });
+  var STRICT = section.hasAttribute("data-strict");
+  function fixed(k) { return FIXED.indexOf(k) >= 0; }
 
   section.classList.add("is-mosaic");
 
@@ -86,7 +99,9 @@
   }
 
   function fits(p, k) {
-    if (!isPhoto(p)) return true;
+    if (!isPhoto(p)) return !STRICT || fixed(k) || !FIXED.length;
+    if (fixed(k)) return false;
+    if (STRICT) return Math.abs(p.r / shapes[k].r - 1) < 0.12;
     var s = shapes[k].kind;
     if (s === "wide") return p.o !== "portrait";
     if (s === "tall") return p.o !== "landscape";
@@ -137,6 +152,11 @@
   }
 
   function place() {
+    if (FIXED.length) {
+      var mask = tiles.map(function (t, k) { return fixed(k); });
+      var a = assign(mask);
+      if (a) return a;
+    }
     for (var k = Math.max(0, SLOTS - pool.length); k <= SLOTS; k++) {
       var best = [], bestScore = Infinity, pick = [];
       (function each(start, left) {
@@ -207,9 +227,40 @@
   var resting = [], lastSlot = -1, hovering = false, onScreen = true;
   band.addEventListener("mouseenter", function () { hovering = true; });
   band.addEventListener("mouseleave", function () { hovering = false; });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; }).observe(band);
+  /* ENTRANCE (21 Oct 2026, Piyush): when the wall scrolls into view, two or
+     three tiles change one after another so the movement is seen on arrival,
+     then the 3s shuffle carries on. It replays every time the wall comes back
+     into view (after it has dropped below 15% visible), never closer than 5s
+     apart; nothing for reduced motion. Was once per visit, which Piyush read
+     as "not working" when he scrolled back to the section. */
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bursting = false, lastBurst = 0, seenOff = true;
+  function burst() {
+    if (reduced || bursting || !pool.length || Date.now() - lastBurst < 5000) return;
+    bursting = true; lastBurst = Date.now();
+    [350, 1150, 1950].forEach(function (ms, n) {
+      setTimeout(function () {
+        if (!document.hidden && !document.querySelector(".lb.is-on")) tick(true);
+        if (n === 2) bursting = false;
+      }, ms);
+    });
   }
+  /* Visibility is measured on scroll (throttled) rather than with an
+     IntersectionObserver alone: the observer can stay silent in embedded and
+     background views, and this check behaves the same everywhere. */
+  var vTimer = 0;
+  function checkVisible() {
+    vTimer = 0;
+    var r = band.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+    var seen = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+    var part = seen / Math.max(1, Math.min(r.height, vh));
+    onScreen = seen > 0;
+    if (part < 0.15) { seenOff = true; return; }
+    if (part >= 0.3 && seenOff) { seenOff = false; burst(); }
+  }
+  function queueCheck() { if (!vTimer) vTimer = setTimeout(checkVisible, 120); }
+  window.addEventListener("scroll", queueCheck, { passive: true });
+  window.addEventListener("resize", queueCheck);
   /* Keyboard focus pauses it, so a tile never changes under someone tabbing
      through. Plain focus does not: closing an enlarged photo hands focus back
      to its tile, and a mouse user would otherwise leave the wall frozen until
@@ -221,8 +272,8 @@
            !!document.querySelector(".lb.is-on");
   }
 
-  function tick() {
-    if (paused()) return;
+  function tick(force) {
+    if (!force && (paused() || bursting)) return;
     var inPlay = shown.filter(isPhoto).length;
 
     /* 1. a fresh photo, if the pool is bigger than the tiles showing it */
@@ -250,6 +301,7 @@
     var before = clump(shown), moves = [];
     for (var a = 0; a < SLOTS; a++) for (var b = a + 1; b < SLOTS; b++) {
       if (shown[a] === shown[b] || a === lastSlot || b === lastSlot) continue;
+      if (fixed(a) || fixed(b)) continue;
       if (!fits(shown[b], a) || !fits(shown[a], b)) continue;
       var trial = shown.slice(); trial[a] = shown[b]; trial[b] = shown[a];
       if (worse(clump(trial), before)) continue;
@@ -297,6 +349,7 @@
     shown = place();
     shown.forEach(function (x, k) { paint(tiles[k].querySelector(".tc-face.on"), x); label(k); });
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tick, EVERY);
+    checkVisible();
     window.addEventListener("resize", measure);
   });
 })();

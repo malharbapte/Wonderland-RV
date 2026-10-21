@@ -219,23 +219,13 @@
   .wl-intro-kicker { margin-top: 10px; }
   .wl-intro-body { margin-top: 14px; }
 
-  /* Six full-width cards ran the section to 1364px, with every bio sitting
-     open because touch has no hover — a wall of text with the photography
-     buried under it. The cards pair up vertically and slide sideways instead,
-     which brings the section to about 400px, and the bios close behind a
-     chevron so the photos carry the rail. */
+  /* Phone layout (Piyush, 21 Oct 2026): a stacked list, one full-width card
+     per row, scrolling down with the rest of the page. Replaces the two-row
+     sideways rail. Bios stay closed behind the chevron so the photos lead. */
   .wl-cards { width: 100%; margin-left: 0; margin-top: 32px; }
   .wl-cards-inner {
-    display: block; width: auto; max-width: none; padding: 0;
-    overflow-x: auto; scrollbar-width: none;
-  }
-  .wl-cards-inner::-webkit-scrollbar { display: none; }
-  .wl-rail {
-    display: grid;
-    grid-auto-flow: column;              /* fills DOWN first, so cards pair up */
-    grid-template-rows: repeat(2, auto);
-    grid-auto-columns: 62vw;
-    gap: 12px;
+    width: auto; max-width: none;
+    display: grid; grid-template-columns: 1fr; gap: 12px;
     padding: 0 24px;
   }
 
@@ -277,7 +267,11 @@
   .wl-card-bio { margin-top: 6px; font-size: 12px; line-height: 16px; }
 }
 
-@media (max-width: 560px) {
-  /* a touch wider per card on the smallest screens, so the name still fits */
-  .wl-rail { grid-auto-columns: 68vw; }
+/* Five Wonderlanders (21 Oct 2026): a two-card last row sits centred instead of
+   leaving an empty third slot. Six half-columns, each card spans two, so card
+   widths are exactly the same as the three-column grid. Desktop only. */
+@media (min-width: 901px) {
+  .wl-cards-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .wl-cards-inner > .wl-card { grid-column: span 2; }
+  .wl-cards-inner > .wl-card:nth-child(3n+1):nth-last-child(2) { grid-column: 2 / span 2; }
 }

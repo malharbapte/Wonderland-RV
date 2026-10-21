@@ -28,7 +28,15 @@ function mountVideo(frame, url, title, opts) {
   const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
 
-  if (yt) {
+  if (yt && opts && opts.player) {
+    /* Click-to-play (the visitor pressed play on a thumbnail): a normal player
+       with its own controls and sound, playing once, not the muted ambient loop. */
+    node = document.createElement("iframe");
+    node.src = "https://www.youtube-nocookie.com/embed/" + yt[1] +
+      "?autoplay=1&playsinline=1&rel=0&modestbranding=1&cc_lang_pref=en&iv_load_policy=3";
+    node.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    node.allowFullscreen = true;
+  } else if (yt) {
     node = document.createElement("iframe");
     node.id = "yt-" + (++ytSeq);
     node.src = "https://www.youtube-nocookie.com/embed/" + yt[1] +
@@ -53,7 +61,7 @@ function mountVideo(frame, url, title, opts) {
   frame.classList.remove("ph");
   frame.removeAttribute("data-ph");
   frame.appendChild(node);
-  return (node.id && opts) ? buildControls(frame, node.id, opts) : node;
+  return (node.id && opts && !opts.player) ? buildControls(frame, node.id, opts) : node;
 }
 
 /* ------------------------------------------- sound + caption controls -----

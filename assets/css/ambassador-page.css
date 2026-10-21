@@ -100,6 +100,12 @@
   border-radius: 0.13rem;
   background: #D9D9D9;
 }
+/* Branded thumbnail + click-to-play (21 Oct 2026). The play mark is part of
+   the thumbnail artwork, so the button is the whole frame, invisible until it
+   takes keyboard focus. */
+.amb-video .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.amb-play { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.amb-play:focus-visible { outline: 3px solid var(--orange-deep); outline-offset: -3px; }
 .amb-video.video-frame iframe,
 .amb-video.video-frame video { height: 100%; min-height: 0; }
 
@@ -278,9 +284,15 @@
     max-width: 8.6rem;
     visibility: hidden;
     opacity: 0;
-    transition: opacity .3s ease;
+    transform: translateX(calc(var(--dir, 1) * 0.9rem));
+    transition: opacity .5s ease, transform .9s cubic-bezier(.45, .05, .15, 1), visibility 0s linear .9s;
   }
-  .amb-tips.is-mosaic .amb-tip.is-on { visibility: visible; opacity: 1; }
+  .amb-tips.is-mosaic .amb-tip.is-leaving { transform: translateX(calc(var(--dir, 1) * -0.9rem)); }
+  .amb-tips.is-mosaic .amb-tip.is-on {
+    visibility: visible; opacity: 1; transform: none;
+    transition: opacity .6s ease .15s, transform .9s cubic-bezier(.45, .05, .15, 1), visibility 0s;
+  }
+  .amb-tips.is-mosaic .amb-tips-panel { overflow: hidden; }
   .amb-tips.is-mosaic .amb-tip-q,
   .amb-tips.is-mosaic .amb-tip-a { text-wrap: pretty; }
 
@@ -296,9 +308,10 @@
     position: absolute; inset: 0;
     background: center / cover no-repeat;
     opacity: 0;
-    transition: opacity .9s ease, transform .35s ease;
+    transform: scale(1.05);
+    transition: opacity 1.2s ease, transform 1.6s cubic-bezier(.22,.61,.36,1);
   }
-  .tc-face.on { opacity: 1; }
+  .tc-face.on { opacity: 1; transform: scale(1); }
   .tc-face.is-orange { background-color: var(--orange); background-image: none; }
   .tc-tile[role="button"] { cursor: pointer; }
   .tc-tile[role="button"]:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
@@ -479,6 +492,38 @@
 /* Halved from 0.56rem: at the old gap the CTA read as a separate section
    rather than the close of this one. */
 .amb-cta-row { display: flex; justify-content: center; margin-top: 0.28rem; }
+
+/* Browse links under the van layout (option C, Piyush 21 Oct 2026): two
+   picture cards that close the section. The first shows the model the link
+   goes to (range photo), the second the layout (3D cutaway). The "Your dream
+   van awaits" button that sat under them was removed on Piyush's call the same
+   day (it repeated the Build Your Caravan link), so the pair now spans the
+   layout image's own 13.72rem and lines up under the room tabs. */
+.amb-layout { padding-bottom: 1.2rem; }
+.amb-browse {
+  display: flex; justify-content: space-between; gap: 0.34rem;
+  width: 13.72rem; max-width: 100%; margin: 0.62rem auto 0;
+}
+.amb-link-card {
+  display: flex; align-items: stretch; flex: 1 1 0; min-width: 0; height: 1.68rem;
+  border: 1px solid #e3e3e3; background: #fff; color: #1D1D1B; text-decoration: none; overflow: hidden;
+  transition: border-color .25s ease;
+}
+.alc-img { width: 2.64rem; height: 100%; object-fit: cover; flex: none; display: block; transition: transform .35s ease; }
+.alc-img.is-plan { object-fit: contain; background: #fff; padding: 0.1rem 0.12rem; box-sizing: border-box; }
+.alc-tx {
+  flex: 1; display: flex; align-items: center; padding: 0 0.25rem 0 0.33rem;
+  font-family: var(--aviano); font-size: 0.22rem; line-height: 1.35; letter-spacing: .06em; text-transform: uppercase;
+}
+.alc-ar { width: 0.89rem; flex: none; display: flex; align-items: center; justify-content: center; background: var(--orange); color: #fff; transition: background .25s ease, color .25s ease; }
+.alc-ar svg { width: 0.3rem; height: 0.3rem; }
+.amb-link-card:focus-visible { border-color: var(--orange); outline: none; }
+.amb-link-card:focus-visible .alc-ar { background: #fff; color: var(--orange); }
+@media (hover: hover) {
+  .amb-link-card:hover { border-color: var(--orange); }
+  .amb-link-card:hover .alc-ar { background: #fff; color: var(--orange); }
+  .amb-link-card:hover .alc-img:not(.is-plan) { transform: scale(1.05); }
+}
 .btn-dream {
   width: 6.06rem; height: 0.88rem;
   background: var(--orange);
@@ -627,6 +672,24 @@
    way the Wonderlander cards already are.
    ========================================================================== */
 @media (max-width: 900px) {
+  .amb-tip.is-on { animation: ambTipIn .9s cubic-bezier(.45, .05, .15, 1); }
+  @keyframes ambTipIn { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 28px)); } to { opacity: 1; transform: none; } }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) { .amb-tip.is-on { animation: none; } }
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  .amb-tips.is-mosaic .amb-tip, .amb-tips.is-mosaic .amb-tip.is-on { transform: none; transition: opacity .3s ease; }
+}
+@media (max-width: 900px) {
+  /* Phone hero (Piyush, 21 Oct 2026): the photo on top, the title and line
+     underneath it on white, instead of laid over the photo. Desktop unchanged. */
+  .amb-hero, .wl-hero { height: auto; min-height: 0; }
+  .amb-hero .media, .wl-hero .media { position: relative; inset: auto; height: 62vw; min-height: 240px; }
+  .amb-hero .media::before, .wl-hero .media::before { display: none; }
+  .amb-hero .hero-copy, .wl-hero .hero-copy { height: auto; color: var(--e-global-color-primary, #1D1D1B); padding: 22px 24px 0; }
+  .amb-hero h1, .wl-hero h1 { color: inherit; line-height: 1.05; margin-bottom: 10px; }
+  .amb-hero .hero-sub, .wl-hero .hero-sub { color: var(--orange); line-height: 1.35; }
+}
+@media (max-width: 900px) {
   /* ---------------------------------------------------------------- intro
      The film moves between the hook and the rest of the story. The section is
      one column here, and the media wrapper goes display:contents so the film,
@@ -756,6 +819,13 @@
   .amb-spec p { padding: 0 0 16px; font-size: 14px; line-height: 21px; }
 
   .amb-cta-row { margin-top: 30px; }
+  .amb-layout { padding-bottom: 48px; }
+  .amb-browse { width: 100%; margin-top: 24px; gap: 12px; flex-direction: column; align-items: stretch; }
+  .amb-link-card { flex: none; width: 100%; height: 84px; }
+  .alc-img { width: 124px; }
+  .alc-tx { font-size: 13px; padding: 0 16px; }
+  .alc-ar { width: 46px; }
+  .alc-ar svg { width: 18px; height: 18px; }
   .btn-dream { width: 100%; max-width: 320px; height: 52px; line-height: 52px; font-size: 13px; }
 
   /* ------------------------------------------------------------ quote band

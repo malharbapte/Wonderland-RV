@@ -35,12 +35,16 @@
       [].slice.call(c.querySelectorAll("a, button")).forEach(function (el) {
         el.setAttribute("tabindex", "-1");
       });
-      if (where === "before") strip.insertBefore(c, strip.firstChild);
+      /* Each "before" clone goes in ahead of the first REAL card, not the
+         strip's first child, so the set keeps its order. Prepending at
+         firstChild reversed it, which put the last clone (the first card)
+         right next to the real first card: the same Wonderlander twice. */
+      if (where === "before") strip.insertBefore(c, real[0]);
       else strip.appendChild(c);
     });
   }
   cloneSet("after");
-  cloneSet("before");          // prepended in reverse, which is still one full set
+  cloneSet("before");
 
   var n = real.length;
   function setWidth() {

@@ -22,9 +22,27 @@
   var frame = document.querySelector(".amb-video");
   if (!frame) return;
   var url = frame.getAttribute("data-video") || "";
-  if (!url) return;                       /* placeholder stays, as designed */
-  mountVideo(frame, url, frame.getAttribute("data-title") || "Wonderland RV",
-             { captions: true });
+  if (!url) {
+    /* No film chosen yet but a placeholder thumbnail is in: its play button
+       opens the family's YouTube channel (data-channel) in a new tab. */
+    var chan = frame.getAttribute("data-channel") || "";
+    var pb = frame.querySelector(".amb-play");
+    if (chan && pb) pb.addEventListener("click", function () { window.open(chan, "_blank", "noopener"); });
+    return;                               /* placeholder stays, as designed */
+  }
+  var title = frame.getAttribute("data-title") || "Wonderland RV";
+  /* With a branded thumbnail (.video-poster) the frame shows it and waits for
+     a press: nothing from YouTube loads until then, which keeps the page fast. */
+  var thumb = frame.querySelector(".video-poster");
+  var play = frame.querySelector(".amb-play");
+  if (thumb && play) {
+    play.addEventListener("click", function () {
+      play.remove(); thumb.remove();
+      mountVideo(frame, url, title, { player: true });
+    }, { once: true });
+    return;
+  }
+  mountVideo(frame, url, title, { captions: true });
 })();
 
 /* ------------------------------------------------------------ travel tips --
@@ -33,16 +51,24 @@
 (function () {
   var tips = [].slice.call(document.querySelectorAll(".amb-tip"));
   if (tips.length < 2) return;
-  var at = 0;
-  function show(next) {
-    tips[at].classList.remove("is-on");
+  /* Soft slide, same easing as the reviews slider (21 Oct 2026): the tip
+     leaving glides out one way while the next glides in from the side of
+     the arrow pressed. --dir on the panel carries the direction to the CSS. */
+  var at = 0, panel = tips[0].parentNode;
+  function show(next, dir) {
+    var out = tips[at];
     at = (next + tips.length) % tips.length;
+    panel.style.setProperty("--dir", dir);
+    out.classList.remove("is-on");
+    out.classList.add("is-leaving");
+    setTimeout(function () { out.classList.remove("is-leaving"); }, 900);
+    tips[at].classList.remove("is-leaving");
     tips[at].classList.add("is-on");
   }
   var prev = document.querySelector(".amb-tip-prev");
   var nxt = document.querySelector(".amb-tip-next");
-  if (prev) prev.addEventListener("click", function () { show(at - 1); });
-  if (nxt) nxt.addEventListener("click", function () { show(at + 1); });
+  if (prev) prev.addEventListener("click", function () { show(at - 1, -1); });
+  if (nxt) nxt.addEventListener("click", function () { show(at + 1, 1); });
 })();
 
 /* The "meet more" endless rail used to live here. It now lives in
@@ -54,24 +80,35 @@
    thing markup cannot express is the split, since the paragraphs after the
    lede have to sit in their own box to be ordered past the film.
 
-   Phone only, and built once. Putting the paragraphs back would be needed to
-   render the desktop column, so this is not undone on resize — rotating a
-   phone stays inside the breakpoint, and crossing it is a desktop window
-   being dragged narrow, which reloads soon enough. Same call as the card
-   rail in wonderlanders.js. */
+   Phone only. It is now undone when the screen crosses back above 900px
+   (21 Oct 2026): an iPad loaded in portrait (768) and turned to landscape
+   (1024) crosses the breakpoint, and the split left the desktop column with
+   the film dropped under the lede. Split below 900, put back above it. */
 (function () {
-  if (!window.matchMedia("(max-width: 900px)").matches) return;
-
+  var mq = window.matchMedia("(max-width: 900px)");
   var copy = document.querySelector(".amb-intro-copy");
-  if (!copy || document.querySelector(".amb-intro-rest")) return;
+  if (!copy) return;
 
-  var after = [].slice.call(copy.children).slice(1);   // everything past the lede
-  if (!after.length) return;
-
-  var rest = document.createElement("div");
-  rest.className = "amb-intro-rest";
-  after.forEach(function (el) { rest.appendChild(el); });
-  copy.parentNode.insertBefore(rest, copy.nextSibling);
+  function split() {
+    if (document.querySelector(".amb-intro-rest")) return;
+    var after = [].slice.call(copy.children).slice(1);   // everything past the lede
+    if (!after.length) return;
+    var rest = document.createElement("div");
+    rest.className = "amb-intro-rest";
+    after.forEach(function (el) { rest.appendChild(el); });
+    copy.parentNode.insertBefore(rest, copy.nextSibling);
+  }
+  function join() {
+    var rest = document.querySelector(".amb-intro-rest");
+    if (!rest) return;
+    while (rest.firstChild) copy.appendChild(rest.firstChild);
+    rest.remove();
+  }
+  function apply() { if (mq.matches) split(); else join(); }
+  apply();
+  if (mq.addEventListener) mq.addEventListener("change", apply);
+  else if (mq.addListener) mq.addListener(apply);
+  window.addEventListener("resize", apply);   // belt and braces: some views resize without a change event
 })();
 
 /* ---------------------------------------- phone: van layout as a dropdown --
