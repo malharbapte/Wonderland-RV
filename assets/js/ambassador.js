@@ -146,7 +146,10 @@
    animates the height and fade of the answer. Instant for reduced motion. */
 (function () {
   var list = document.querySelector(".amb-faq-list");
-  if (!list) return;
+  // the Wonderlander pages load both ambassador.js and wonderlanders.js, which
+  // both carry this block: bind once, or every click opens and shuts again
+  if (!list || list.dataset.accordion) return;
+  list.dataset.accordion = "1";
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var EASE = "cubic-bezier(.33,0,.15,1)", D = 520;
 
