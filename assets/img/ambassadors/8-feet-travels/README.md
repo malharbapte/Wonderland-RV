@@ -1,4 +1,4 @@
-# Lost Tribe Adventures — page assets
+# 8 Feet Travels — page assets
 
 Drop files here with these exact names and they appear on the page on their
 own; until then each slot keeps its labelled placeholder box.
@@ -18,7 +18,7 @@ about 1000px on the short edge is plenty. Slot shapes differ, so put the
 subject near the centre.
 
 The hero and the card photo are one file and live a level up, at
-`assets/img/ambassadors/lost-tribe-adventures.jpg`.
+`assets/img/ambassadors/8-feet-travels.jpg`.
 
 Copy still needed for this page: the three intro paragraphs, the four travel
 tip questions and answers, the three van-layout features, the review quote and
