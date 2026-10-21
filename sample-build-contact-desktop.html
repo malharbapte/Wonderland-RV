@@ -25,7 +25,8 @@
 body { font-family: var(--gordita); color: var(--ink); background: #fff; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
-.modal { width: 100%; max-width: 1145px; margin: 0 auto; background: #fff; }
+.modal { width: 1145px; margin: 0 auto; background: #fff; }
+html { overflow-x: hidden; }
 .pad { padding: 25px 41px 0 58px; }
 
 /* top row: the plan and the selection card */
@@ -114,7 +115,7 @@ body.lock { overflow: hidden; }
 .dlg .x svg { width: 14px; height: 14px; }
 
 .rv-plan { background: #fff; padding: 26px 34px 12px; text-align: center; }
-.rv-plan img { display: block; margin: 0 auto; max-width: 100%; max-height: 270px; width: auto; height: auto; }
+.rv-plan img { display: block; margin: 0 auto; max-width: 100%; max-height: clamp(140px, 30dvh, 270px); width: auto; height: auto; }
 
 .rv-price { background: #000; color: #fff; padding: 22px 34px 20px; display: grid; grid-template-columns: 1fr auto; column-gap: 28px; align-items: end; }
 .rv-price .eyebrow { font-family: var(--aviano); font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; line-height: 14px; }
@@ -154,11 +155,11 @@ body.lock { overflow: hidden; }
 .rv-done p { margin-top: 8px; font-size: 14px; line-height: 21px; font-weight: 500; }
 .dlg.sent .rv-form { display: none; }
 
-.sample-tools { position: fixed; left: 12px; bottom: 12px; z-index: 5; display: flex; gap: 6px; font: 500 11px/1 var(--gordita); }
+.sample-tools { position: fixed; left: 50%; top: 3px; transform: translateX(-50%); z-index: 5; display: flex; gap: 6px; font: 500 11px/1 var(--gordita); }
 .sample-tools button { padding: 7px 10px; background: #fff; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.25); color: #444; }
 .sample-tools button:hover { color: var(--orange); }
 
-@media (max-width: 860px) {
+@media (max-width: 600px) {
   .ov { padding: 12px; align-items: flex-end; }
   .dlg { max-height: calc(100dvh - 24px); }
   .rv-plan { padding: 44px 16px 8px; }
@@ -172,21 +173,6 @@ body.lock { overflow: hidden; }
   .rv-act .nx { grid-column: 2; grid-row: 1; justify-self: end; }
 }
 @media (prefers-reduced-motion: reduce) { .ov, .dlg { transition: none; } }
-
-/* small screens: stack */
-@media (max-width: 860px) {
-  .pad { padding: 16px; }
-  .top { grid-template-columns: 1fr; }
-  .plan { height: auto; min-height: 200px; }
-  .sel { height: auto; }
-  .quote { grid-template-columns: 1fr; padding: 28px 20px; row-gap: 28px; }
-  #details { grid-template-columns: 1fr 1fr; }
-  .foot { margin: 20px 0 0; padding: 20px 16px; grid-template-columns: 1fr 1fr; row-gap: 16px; }
-  .foot .fine { grid-column: 1 / -1; grid-row: 2; padding: 0; }
-  .captcha { grid-column: 1 / -1; grid-row: 3; width: 100%; max-width: 218px; }
-  .foot .nx { grid-column: 2; grid-row: 1; }
-}
-@media (max-width: 520px) { #details { grid-template-columns: 1fr; } .f, .date { grid-column: 1; } }
 
 /* ?guides draws the frame the numbers came from */
 body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px; }
@@ -315,6 +301,11 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
 (function () {
   var q = new URLSearchParams(location.search);
   if (q.has("guides")) document.body.classList.add("guides");
+
+  /* the page is a desktop screenshot: keep its proportions and scale it down on narrower windows (never reflow) */
+  var modal = document.querySelector(".modal");
+  function fit() { var k = Math.min(1, document.documentElement.clientWidth / 1145); modal.style.zoom = k < 1 ? k : ""; }
+  fit(); window.addEventListener("resize", fit);
 
   var txt = document.getElementById("date"), pick = document.getElementById("pick");
   function fmt(iso) { var p = iso.split("-"); return +p[2] + "/" + +p[1] + "/" + p[0]; }
