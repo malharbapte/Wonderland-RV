@@ -24,6 +24,11 @@
   if (!strip) return;
   var real = [].slice.call(strip.children);
   if (real.length < 2) return;
+  /* Phones and tablets (Piyush, 21 Oct 2026): a plain finger-scroll row of
+     the real cards. No drift, no endless loop and no clones there: the wrap
+     jump fights momentum swiping and read as the strip "acting weird". The
+     drifting endless rail is for desktops with a real mouse only. */
+  if (!window.matchMedia("(min-width: 1025px) and (hover: hover)").matches) return;
 
   function cloneSet(where) {
     real.forEach(function (card) {

@@ -61,7 +61,10 @@
     tiles.forEach(function (tile) {
       var img = tile.querySelector("img");
       if (!img || !img.naturalWidth) return;
-      shots.push({ src: img.currentSrc || img.src, alt: img.alt, tile: tile });
+      // a lazy-load plugin may have left a placeholder in src: prefer the real file
+      var real = img.getAttribute("data-lazy-src") || img.getAttribute("data-src");
+      var src = (img.currentSrc && img.currentSrc.indexOf("data:") !== 0) ? img.currentSrc : (real || img.src);
+      shots.push({ src: src, alt: img.alt, tile: tile });
       tile.setAttribute("role", "button");
       tile.setAttribute("tabindex", "0");
     });
