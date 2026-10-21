@@ -39,7 +39,10 @@
       '<span class="lb-count" aria-live="polite"></span>' +
       '<button class="lb-next" type="button" aria-label="Next photograph">' + icon("M9 5l7 7-7 7") + '</button>' +
     '</div>';
-  document.body.appendChild(lb);
+  /* Inside the page wrapper when there is one (the WordPress build scopes all
+     of this page's CSS and tokens under #wlamb; at the end of <body> the
+     viewer had no styles and its three buttons showed under the last band). */
+  (document.getElementById("wlamb") || document.body).appendChild(lb);
 
   var lbImg   = lb.querySelector(".lb-img");
   var lbCount = lb.querySelector(".lb-count");

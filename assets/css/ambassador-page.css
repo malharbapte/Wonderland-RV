@@ -350,7 +350,7 @@
 }
 
 /* ---------------------------------------------------------- the lightbox */
-.lb { position: fixed; inset: 0; z-index: 200; display: none; }
+.lb { position: fixed; inset: 0; z-index: 100000; display: none; }   /* above the site's fixed header (z 250/1200) */
 .lb.is-on { display: block; }
 .lb-back {
   position: absolute; inset: 0;
@@ -407,6 +407,12 @@
   min-width: 54px; text-align: center;
 }
 @media (min-width: 901px) {
+  /* the bar spans the full height here so "top: 50%" centres the arrows on
+     the screen beside the photo (against the 54px bar they landed in the
+     bottom corners); the bar lets clicks through, only its controls catch them */
+  .lb-bar { top: 0; bottom: 0; pointer-events: none; }
+  .lb-bar > * { pointer-events: auto; }
+  .lb-count { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); }
   .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); }
   .lb-prev { left: 22px; }
   .lb-next { right: 22px; }
@@ -645,6 +651,11 @@
   transition: transform .25s ease;
 }
 .amb-faq details[open] summary svg { transform: rotate(180deg); }
+/* Soft accordion (ambassador.js): while an answer folds away the row already
+   reads as closed, so the chevron and the colour turn back with it. */
+.amb-faq summary svg { transition: transform .45s cubic-bezier(.33,0,.15,1); }
+.amb-faq details.is-closing summary svg { transform: none; }
+.amb-faq details.is-closing summary { color: inherit; }
 
 .amb-faq-body {
   padding: 0 0 0.34rem;
@@ -862,3 +873,11 @@
   .amb-faq summary svg { width: 14px; height: 14px; }
   .amb-faq-body { font-size: 14px; line-height: 22px; padding-bottom: 18px; }
 }
+
+/* While the rail drifts, cards slide under a still pointer; their hover lift
+   and bio would flick on and off card after card. Hover effects wait until
+   the rail has settled (wl-strip.js sets .is-moving while it moves). */
+.amb-more-strip.is-moving .wl-card:hover .wl-card-media,
+.amb-more-strip.is-moving .wl-card:hover .wl-card-media > img { transform: none; }
+.amb-more-strip.is-moving .wl-card:hover .wl-card-title { color: #FFF2DC; }
+.amb-more-strip.is-moving .wl-card:hover .wl-card-bio-wrap { grid-template-rows: 0fr; }

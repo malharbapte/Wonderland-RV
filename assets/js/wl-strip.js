@@ -46,10 +46,20 @@
   cloneSet("after");
   cloneSet("before");
 
+  /* All cards sit in one inner track so the slow drift can move it with a
+     transform (sub-pixel, composited, perfectly smooth) instead of stepping
+     scrollLeft, which the browser rounds to whole pixels and judders at slow
+     speed. The track inherits the rail's gap, so the layout is unchanged. */
+  var track = document.createElement("div");
+  track.className = "amb-more-track";
+  track.style.cssText = "display:flex;gap:inherit;flex:0 0 auto;will-change:transform;backface-visibility:hidden";
+  while (strip.firstChild) track.appendChild(strip.firstChild);
+  strip.appendChild(track);
+
   var n = real.length;
   function setWidth() {
     // measured, not assumed, so the gap and any resize come along for free
-    return strip.children[n].offsetLeft - strip.children[0].offsetLeft;
+    return track.children[n].offsetLeft - track.children[0].offsetLeft;
   }
 
   var w = 0, ready = false;
@@ -74,8 +84,10 @@
     }
   });
 
+  var tx = 0;   // drift offset applied as a transform (see below)
   window.addEventListener("resize", function () {
     ready = false;
+    tx = 0; track.style.transform = "";
     rest();
   });
 
@@ -83,4 +95,64 @@
   if (document.readyState === "complete") rest();
   else window.addEventListener("load", rest);
   rest();
+
+  /* ---- constant drift (Piyush, 21 Oct 2026): the rail moves slowly and
+     continuously, eases to a stop while the pointer is over it (or a card has
+     keyboard focus) and eases back up when it leaves. Movement is a transform
+     on the track; a touch, drag or wheel folds that offset back into the
+     native scroll position and hands control to the visitor for 6s. Still off
+     screen, in a hidden tab and for reduced motion. */
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var hover = false, focused = false, heldUntil = 0, last = 0;
+  var v = window.innerWidth <= 900 ? 16 : 24;   // start at cruising speed, no ramp from zero
+  function setTx() { track.style.transform = tx ? "translate3d(" + (-tx).toFixed(2) + "px,0,0)" : ""; }
+  function normalise() {
+    if (strip.scrollLeft >= w * 2) { wrapping = true; strip.scrollLeft -= w; wrapping = false; }
+    else if (strip.scrollLeft <= 0) { wrapping = true; strip.scrollLeft += w; wrapping = false; }
+  }
+  function fold() {              // hand the drift offset back to the native scroller
+    if (!tx) return;
+    wrapping = true; strip.scrollLeft += tx; wrapping = false;
+    tx = 0; setTx(); normalise();
+  }
+  strip.addEventListener("mouseenter", function () { hover = true; });
+  strip.addEventListener("mouseleave", function () { hover = false; });
+  strip.addEventListener("focusin", function () { focused = true; fold(); });
+  strip.addEventListener("focusout", function () { focused = false; });
+  ["pointerdown", "touchstart", "wheel"].forEach(function (ev) {
+    strip.addEventListener(ev, function () { fold(); v = 0; heldUntil = Date.now() + 6000; }, { passive: true });
+  });
+  function onScreen() {
+    var r = strip.getBoundingClientRect();
+    return r.bottom > 0 && r.top < (window.innerHeight || document.documentElement.clientHeight);
+  }
+  function speed() { return window.innerWidth <= 900 ? 16 : 24; }   // px per second
+  function frame(ts) {
+    var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0; last = ts;
+    if (ready && w && !document.hidden) {   // runs from page load, so it is already drifting when the visitor reaches it
+      var held = hover || focused || Date.now() < heldUntil;
+      var target = held ? 0 : speed();
+      // settle fast when the pointer arrives (the card under it must not slide
+      // away), pick up slowly and softly when it leaves
+      var k = target < v ? 7 : 0.9;
+      v += (target - v) * Math.min(1, dt * k);
+      if (v < 0.3 && held) v = 0;
+      var moving = v > 0.3;
+      if (moving !== strip.classList.contains("is-moving")) strip.classList.toggle("is-moving", moving);
+      if (v) {
+        var cw = strip.clientWidth;
+        if (cw < w * 0.98) {
+          // keep the visible window inside the three sets while the track slides
+          if (!tx && strip.scrollLeft > w * 2 - cw) { wrapping = true; strip.scrollLeft -= w; wrapping = false; }
+          tx += v * dt;
+          if (tx >= w) tx -= w;                             // identical card, one set back
+          setTx();
+        } else {                                            // very wide screen, few cards: plain scroll
+          wrapping = true; strip.scrollLeft += v * dt; wrapping = false; normalise();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
