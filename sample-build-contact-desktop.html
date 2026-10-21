@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Your Caravan: Your Details (desktop)</title>
+<meta name="robots" content="noindex">
+<style>
+/* Recreation of the live Build your Caravan step "We've got your customised quote ready" (desktop).
+   Standalone: only this step, only the fonts and the one render it needs. */
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Aviano Sans"; src: url("assets/fonts/AvianoSans-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Gordita"; src: url("assets/fonts/Gordita-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+
+:root {
+  --orange: #D57114; --orange-hi: #E37921;
+  --ink: #111; --sand: #F6F2ED; --sand-line: #E9E1D7; --foot: #FAF7F3;
+  --field: #A9A39B; --label: #55514C;
+  --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
+  --gordita: "Gordita", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--gordita); color: var(--ink); background: #fff; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+.modal { width: 100%; max-width: 1145px; margin: 0 auto; background: #fff; }
+.pad { padding: 25px 41px 0 58px; }
+
+/* top row: the plan and the selection card */
+.top { display: grid; grid-template-columns: 1fr 286px; gap: 17px; align-items: start; }
+.plan { height: 326px; border: 1px solid #E4E4E4; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); display: flex; align-items: center; justify-content: center; padding: 14px; background: #fff; }
+.plan img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+
+.sel { background: #000; color: #fff; border-radius: 8px; padding: 20px 20px 16px; height: 326px; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.sel .eyebrow { font-family: var(--aviano); font-weight: 700; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; line-height: 14px; }
+.sel h2 { margin-top: 8px; font-family: var(--aviano); font-weight: 900; font-size: 25px; line-height: 29px; letter-spacing: .02em; text-transform: uppercase; }
+.sel .eyebrow.price { margin-top: 14px; }
+.sel .lock { margin-top: 9px; display: flex; gap: 8px; align-items: center; font-weight: 500; font-size: 13.5px; line-height: 17px; }
+.sel .lock svg { flex: none; width: 24px; height: 30px; }
+.sel .kind { margin-top: 14px; font-size: 10.5px; line-height: 14px; font-weight: 500; }
+.sel dl { margin-top: 10px; font-size: 10px; line-height: 13.5px; }
+.sel dt { font-weight: 700; margin-top: 8px; }
+.sel dt:first-child { margin-top: 0; }
+.sel dd { font-weight: 400; }
+.sel .asat { margin-top: auto; padding-top: 8px; font-size: 8.5px; line-height: 12px; font-weight: 500; }
+.sel .asat i { font-style: normal; opacity: .6; margin: 0 6px; }
+.sel .asat a { color: var(--orange-hi); text-decoration: none; font-weight: 700; }
+.sel .asat a:hover { text-decoration: underline; }
+
+/* quote card */
+.quote { margin-top: 30px; background: var(--sand); border: 1px solid var(--sand-line); border-radius: 8px; padding: 46px 42px 28px; display: grid; grid-template-columns: 387px 1fr; min-height: 364px; }
+.quote h1 { font-family: var(--gordita); font-weight: 700; font-size: 29px; line-height: 38px; letter-spacing: -.005em; color: #222; max-width: 320px; }
+.quote .lede { margin-top: 24px; max-width: 320px; font-size: 13.6px; line-height: 21px; font-weight: 500; }
+.quote .lede + .lede { margin-top: 24px; }
+.quote .lede b { font-weight: 700; }
+
+#details { display: grid; grid-template-columns: 219px 219px; column-gap: 13px; align-content: start; padding-top: 0; }
+.f { position: relative; height: 74px; }
+.f > span.l { position: absolute; left: 11px; top: 0; font-size: 14px; line-height: 20px; color: var(--label); pointer-events: none; transition: opacity .15s; }
+.f > span.l small { font-size: 10px; margin-left: 4px; }
+.f input, .f select { position: absolute; left: 0; right: 0; top: 0; height: 28px; width: 100%; background: transparent; border: 0; border-bottom: 2px solid var(--field); border-radius: 0; font: 500 14px/20px var(--gordita); color: var(--ink); padding: 0 11px; outline: none; appearance: none; -webkit-appearance: none; transition: border-color .15s; }
+.f input:focus, .f select:focus { border-bottom-color: var(--orange); }
+.f input:not(:placeholder-shown) + span.l { opacity: 0; }
+.f.sel-f select { cursor: pointer; padding-right: 30px; }
+.f.sel-f select:invalid { color: transparent; }
+.f.sel-f svg { position: absolute; right: 9px; top: 11px; width: 11px; height: 8px; pointer-events: none; }
+.f.sel-f select:valid + span.l { opacity: 0; }
+.f.err input, .f.err select { border-bottom-color: #B3261E; }
+
+.date { grid-column: 1 / 2; height: auto; margin-top: 0; }
+.date .dl { font-size: 14px; line-height: 20px; color: var(--label); padding-left: 11px; margin-top: 2px; }
+.date .box { position: relative; margin-top: 11px; height: 38px; }
+.date input.txt { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid var(--field); border-radius: 2px; padding: 0 40px 0 11px; font: 500 14px/20px var(--gordita); color: #333; background: transparent; outline: none; }
+.date input.txt:focus { border: 2px solid #111; }
+.date button { position: absolute; right: 8px; top: 8px; width: 22px; height: 22px; }
+.date button svg { width: 22px; height: 22px; display: block; }
+.date input.pick { position: absolute; right: 8px; top: 26px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* footer strip */
+.foot { margin: 27px 22px 0; background: var(--foot); padding: 36px 36px 36px; display: grid; grid-template-columns: 127px 1fr 218px 82px; column-gap: 0; align-items: center; }
+.foot .fine { padding: 0 0 0 124px; font-size: 7.6px; line-height: 13px; color: #555; max-width: 520px; }
+.foot .fine { grid-column: 2; }
+.captcha { grid-column: 3; height: 56px; width: 218px; border: 1px solid #D3D3D3; border-radius: 3px; background: #F9F9F9; display: flex; align-items: center; padding-left: 12px; font-size: 8px; color: #444; position: relative; box-shadow: 0 0 4px rgba(0,0,0,.08); }
+.captcha .cb { width: 20px; height: 20px; border: 2px solid #C1C1C1; border-radius: 2px; background: #fff; margin-right: 13px; flex: none; }
+.captcha .tag { position: absolute; right: 9px; top: 7px; text-align: center; font-size: 5.5px; line-height: 7px; color: #666; }
+.captcha .tag svg { display: block; width: 28px; height: 28px; margin: 0 auto 2px; }
+.foot .nx { grid-column: 4; justify-self: end; }
+
+.btn { font-family: var(--aviano); font-weight: 700; font-size: 13px; line-height: 14px; letter-spacing: .1em; text-transform: uppercase; height: 34px; padding: 0 17px; display: inline-flex; align-items: center; justify-content: center; border-radius: 0; text-decoration: none; transition: background-color .18s, color .18s; }
+/* house CTA: solid orange with a 2px orange outline; hover = white with orange content; press flips back */
+.btn.solid { background: var(--orange); color: #fff; box-shadow: inset 0 0 0 2px var(--orange); }
+.btn.solid:hover, .btn.solid:focus-visible { background: #fff; color: var(--orange); }
+.btn.solid:active { background: var(--orange); color: #fff; }
+.btn.ghost { background: #fff; color: var(--orange); box-shadow: inset 0 0 0 2px var(--orange); }
+.btn.ghost:hover, .btn.ghost:focus-visible { background: var(--orange); color: #fff; }
+.btn.ghost:active { background: #fff; color: var(--orange); }
+.btn:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+
+.foot .pv { grid-column: 1; }
+
+/* ===== Step 2: the price reveal, as an overlay over the (blurred) details page ===== */
+body.lock { overflow: hidden; }
+.ov { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(24,18,12,.38); -webkit-backdrop-filter: blur(10px) saturate(1.05); backdrop-filter: blur(10px) saturate(1.05);
+  opacity: 0; visibility: hidden; transition: opacity .28s ease, visibility 0s linear .28s; }
+.ov.open { opacity: 1; visibility: visible; transition: opacity .28s ease; }
+.dlg { position: relative; width: 100%; max-width: 760px; max-height: calc(100dvh - 48px); overflow: auto; background: #fff; border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.35); transform: translateY(18px) scale(.985); transition: transform .38s cubic-bezier(.2,.8,.2,1); outline: none; }
+.ov.open .dlg { transform: none; }
+.dlg .x { position: absolute; right: 14px; top: 14px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; transition: background-color .18s; }
+.dlg .x:hover, .dlg .x:focus-visible { background: #fff; box-shadow: inset 0 0 0 1.5px var(--orange); }
+.dlg .x svg { width: 14px; height: 14px; }
+
+.rv-plan { background: #fff; padding: 26px 34px 12px; text-align: center; }
+.rv-plan img { display: block; margin: 0 auto; max-width: 100%; max-height: 270px; width: auto; height: auto; }
+
+.rv-price { background: #000; color: #fff; padding: 22px 34px 20px; display: grid; grid-template-columns: 1fr auto; column-gap: 28px; align-items: end; }
+.rv-price .eyebrow { font-family: var(--aviano); font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; line-height: 14px; }
+.rv-price h2 { margin-top: 8px; font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 26px; letter-spacing: .02em; text-transform: uppercase; }
+.rv-price .kind { margin-top: 6px; font-size: 12px; line-height: 16px; font-weight: 500; opacity: .85; }
+.rv-amt { text-align: right; }
+.rv-amt .big { font-family: var(--aviano); font-weight: 900; font-size: 58px; line-height: 60px; letter-spacing: .005em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rv-amt .big small { font-size: 22px; letter-spacing: .02em; margin-left: 2px; }
+.rv-amt .big em { font-style: normal; font-size: 16px; letter-spacing: .1em; color: var(--orange-hi); margin-left: 8px; }
+.rv-price .asat { grid-column: 1 / -1; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.18); display: flex; justify-content: space-between; gap: 16px; font-size: 10.5px; line-height: 14px; font-weight: 500; }
+.rv-price .asat a { color: var(--orange-hi); font-weight: 700; text-decoration: none; }
+.rv-price .asat a:hover { text-decoration: underline; }
+.rv-price .asat span { opacity: .8; }
+
+.rv-form { background: var(--sand); padding: 28px 34px 0; }
+.rv-form .lede { font-size: 13.6px; line-height: 21px; font-weight: 500; max-width: 560px; }
+.rv-form h3 { margin-top: 18px; font-family: var(--gordita); font-weight: 700; font-size: 22px; line-height: 28px; color: #222; letter-spacing: -.005em; }
+.rv-opts { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 14px; border: 0; }
+.rv-opts label { position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px 0 14px; background: #fff; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: box-shadow .15s; }
+.rv-opts input { position: absolute; opacity: 0; pointer-events: none; }
+.rv-opts .dot { flex: none; width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #8d867d; transition: box-shadow .15s, background-color .15s; }
+.rv-opts label:hover { box-shadow: inset 0 0 0 1.5px var(--orange); }
+.rv-opts input:focus-visible + .dot { outline: 2px solid #111; outline-offset: 2px; }
+.rv-opts input:checked + .dot { box-shadow: inset 0 0 0 1.5px var(--orange), inset 0 0 0 5px #fff; background: var(--orange); }
+.rv-opts label:has(input:checked) { box-shadow: inset 0 0 0 1.5px var(--orange); }
+.rv-form.err .rv-opts label { box-shadow: inset 0 0 0 1.5px #B3261E; }
+.rv-msg { margin-top: 10px; min-height: 18px; font-size: 12px; line-height: 18px; color: #B3261E; font-weight: 500; }
+
+.rv-act { margin: 0 -34px; padding: 18px 34px 22px; background: var(--foot); display: grid; grid-template-columns: auto 1fr auto; column-gap: 18px; align-items: center; }
+.rv-act .captcha { grid-column: 2; justify-self: center; }
+.rv-act .pv { grid-column: 1; }
+.rv-act .nx { grid-column: 3; }
+.rv-fine { grid-column: 1 / -1; margin-top: 12px; font-size: 7.8px; line-height: 12px; color: #666; }
+.rv-done { display: none; padding: 34px 34px 38px; background: var(--sand); text-align: center; }
+.rv-done.show { display: block; }
+.rv-done h3 { font-family: var(--gordita); font-weight: 700; font-size: 22px; line-height: 28px; }
+.rv-done p { margin-top: 8px; font-size: 14px; line-height: 21px; font-weight: 500; }
+.dlg.sent .rv-form { display: none; }
+
+.sample-tools { position: fixed; left: 12px; bottom: 12px; z-index: 5; display: flex; gap: 6px; font: 500 11px/1 var(--gordita); }
+.sample-tools button { padding: 7px 10px; background: #fff; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.25); color: #444; }
+.sample-tools button:hover { color: var(--orange); }
+
+@media (max-width: 860px) {
+  .ov { padding: 12px; align-items: flex-end; }
+  .dlg { max-height: calc(100dvh - 24px); }
+  .rv-plan { padding: 44px 16px 8px; }
+  .rv-price { grid-template-columns: 1fr; row-gap: 14px; padding: 18px 20px; }
+  .rv-amt { text-align: left; }
+  .rv-amt .big { font-size: 44px; line-height: 46px; }
+  .rv-form { padding: 22px 20px 0; }
+  .rv-form h3 { font-size: 19px; line-height: 25px; }
+  .rv-act { margin: 0 -20px; padding: 16px 20px 20px; grid-template-columns: 1fr 1fr; row-gap: 14px; }
+  .rv-act .captcha { grid-column: 1 / -1; grid-row: 2; justify-self: start; }
+  .rv-act .nx { grid-column: 2; grid-row: 1; justify-self: end; }
+}
+@media (prefers-reduced-motion: reduce) { .ov, .dlg { transition: none; } }
+
+/* small screens: stack */
+@media (max-width: 860px) {
+  .pad { padding: 16px; }
+  .top { grid-template-columns: 1fr; }
+  .plan { height: auto; min-height: 200px; }
+  .sel { height: auto; }
+  .quote { grid-template-columns: 1fr; padding: 28px 20px; row-gap: 28px; }
+  #details { grid-template-columns: 1fr 1fr; }
+  .foot { margin: 20px 0 0; padding: 20px 16px; grid-template-columns: 1fr 1fr; row-gap: 16px; }
+  .foot .fine { grid-column: 1 / -1; grid-row: 2; padding: 0; }
+  .captcha { grid-column: 1 / -1; grid-row: 3; width: 100%; max-width: 218px; }
+  .foot .nx { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 520px) { #details { grid-template-columns: 1fr; } .f, .date { grid-column: 1; } }
+
+/* ?guides draws the frame the numbers came from */
+body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px; }
+</style>
+</head>
+<body>
+<div class="modal">
+  <div class="pad">
+    <div class="top">
+      <div class="plan"><img src="assets/img/build/plans/2107EW-F6.3.webp" alt="Isometric floorplan of the Amaroo 2107EW-F6.3" width="760" height="355"></div>
+
+      <aside class="sel" aria-label="Your selection">
+        <div class="eyebrow">Your selection</div>
+        <h2>Amaroo<br>2107EW-F6.3</h2>
+        <div class="eyebrow price">Base price</div>
+        <div class="lock">
+          <svg viewBox="0 0 24 30" fill="none" stroke="#E37921" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="12.5" width="19" height="15" rx="2.5"/><path d="M6.5 12.5V8.5a5.5 5.5 0 0 1 11 0v4"/><path d="M12 18v4" stroke-linecap="round"/></svg>
+          <span>Enter your details below<br>to see your price.</span>
+        </div>
+        <div class="kind">Mid-Size Family Caravan</div>
+        <dl>
+          <dt>Bed</dt><dd>Queen (6'6") bed with storage chest roadside &amp; bedside table doorside</dd>
+          <dt>Bunks</dt><dd>2 bunks on roadside and ensuite on doorside</dd>
+        </dl>
+        <div class="asat">Price as at 18/03/2026<i>|</i><a href="#">Read Disclaimer</a></div>
+      </aside>
+    </div>
+
+    <section class="quote" aria-labelledby="qh">
+      <div>
+        <h1 id="qh">We’ve got your customised quote ready</h1>
+        <p class="lede">Enter your details and we’ll show you the price and email you a copy of your quote.</p>
+        <p class="lede">Click <b>NEXT</b> to see your quote.</p>
+      </div>
+
+      <form id="details" novalidate>
+        <div class="f"><input id="name" name="name" placeholder=" " autocomplete="given-name" required aria-label="Full Name"><span class="l">Full Name*</span></div>
+        <div class="f"><input id="last" name="last" placeholder=" " autocomplete="family-name" required aria-label="Last Name"><span class="l">Last Name*</span></div>
+
+        <div class="f"><input id="phone" name="phone" type="tel" placeholder=" " autocomplete="tel" required aria-label="Phone"><span class="l">Phone*</span></div>
+        <div class="f"><input id="email" name="email" type="email" placeholder=" " autocomplete="email" required aria-label="Email"><span class="l">Email*</span></div>
+
+        <div class="f"><input id="tow" name="tow" placeholder=" " aria-label="Tow Vehicle"><span class="l">Tow Vehicle <small>eg. Toyota Land Cruiser</small></span></div>
+        <div class="f sel-f">
+          <select id="state" name="state" required aria-label="State">
+            <option value="" selected disabled hidden></option>
+            <option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option><option>SA</option><option>TAS</option><option>VIC</option><option>WA</option>
+          </select>
+          <span class="l">State*</span>
+          <svg viewBox="0 0 11 8" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5l4 4 4-4"/></svg>
+        </div>
+
+        <div class="f date">
+          <div class="dl" id="dl">Preferred Delivery Date*</div>
+          <div class="box">
+            <input class="txt" id="date" name="date" value="26/4/2027" inputmode="numeric" aria-labelledby="dl" required>
+            <button type="button" id="cal" aria-label="Open calendar">
+              <svg viewBox="0 0 22 22" fill="none" stroke="#333" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="16" height="14" rx="2"/><path d="M3 9h16M7.5 2.5v4M14.5 2.5v4M7 12h2M11 12h2M7 15h2M11 15h2"/></svg>
+            </button>
+            <input class="pick" id="pick" type="date" tabindex="-1" aria-hidden="true" value="2027-04-26">
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="foot">
+    <a class="btn ghost pv" href="#">Previous</a>
+    <p class="fine">By completing this form, you agree to receive marketing communications from Wonderland RV. Your details may be shared with the respective dealer in your state. You may opt-out at any time.</p>
+    <!-- visual placeholder only: the real reCAPTCHA widget goes here -->
+    <div class="captcha" aria-hidden="true">
+      <span class="cb"></span><span style="font-size:9px">I’m not a robot</span>
+      <span class="tag"><svg viewBox="0 0 28 28" fill="none" stroke="#4A90E2" stroke-width="3.2" stroke-linecap="round"><path d="M6 14a8 8 0 0 1 13.5-5.8M22 14a8 8 0 0 1-13.5 5.8"/><path d="M19.5 3.5v5h-5" stroke="#1C3AA9"/><path d="M8.5 24.5v-5h5" stroke="#ABABAB"/></svg>reCAPTCHA<br>Privacy - Terms</span>
+    </div>
+    <button class="btn solid nx" type="submit" form="details" id="next">Next</button>
+  </div>
+</div>
+
+<!-- Step 2: price reveal overlay -->
+<div class="ov" id="ov" aria-hidden="true">
+  <div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="rvh" tabindex="-1">
+    <button class="x" type="button" id="rvx" aria-label="Close and go back to your details">
+      <svg viewBox="0 0 14 14" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>
+    </button>
+
+    <div class="rv-plan"><img src="assets/img/build/plans/2107EW-F6.3.webp" alt="Isometric floorplan of the Amaroo 2107EW-F6.3" width="760" height="355"></div>
+
+    <div class="rv-price">
+      <div>
+        <div class="eyebrow">Your selection</div>
+        <h2 id="rvh">Amaroo 2107EW-F6.3</h2>
+        <div class="kind">Mid-Size Family Caravan · Queen bed · 2 bunks</div>
+      </div>
+      <div class="rv-amt">
+        <div class="eyebrow">Base price</div>
+        <div class="big" aria-live="polite">$<span id="amt">150,216</span><small>.21</small><em>AUD</em></div>
+      </div>
+      <div class="asat"><span>Price as at 18/03/2026</span><a href="#">Read Disclaimer</a></div>
+    </div>
+
+    <form class="rv-form" id="rvform" novalidate>
+      <p class="lede">You can continue building your dream van and look through the upgrades we offer, from the chassis and electrical system to plumbing and a lot more!</p>
+      <h3>Would you like to further customise your caravan?</h3>
+      <fieldset class="rv-opts" aria-label="Customise your caravan">
+        <label><input type="radio" name="cust" value="no"><span class="dot"></span>No, just email a quote</label>
+        <label><input type="radio" name="cust" value="yes"><span class="dot"></span>Yes! Let’s continue to customise!</label>
+      </fieldset>
+      <div class="rv-msg" id="rvmsg" role="alert"></div>
+      <div class="rv-act">
+        <button class="btn ghost pv" type="button" id="rvprev">Previous</button>
+        <div class="captcha" aria-hidden="true">
+          <span class="cb"></span><span style="font-size:9px">I’m not a robot</span>
+          <span class="tag"><svg viewBox="0 0 28 28" fill="none" stroke="#4A90E2" stroke-width="3.2" stroke-linecap="round"><path d="M6 14a8 8 0 0 1 13.5-5.8M22 14a8 8 0 0 1-13.5 5.8"/><path d="M19.5 3.5v5h-5" stroke="#1C3AA9"/><path d="M8.5 24.5v-5h5" stroke="#ABABAB"/></svg>reCAPTCHA<br>Privacy - Terms</span>
+        </div>
+        <button class="btn solid nx" type="submit">Submit</button>
+        <p class="rv-fine">By completing this form, you agree to receive marketing communications from Wonderland RV. Your details may be shared with the respective dealer in your state. You may opt-out at any time.</p>
+      </div>
+    </form>
+    <div class="rv-done" id="rvdone" role="status"><h3 id="rvdt"></h3><p id="rvdp"></p></div>
+  </div>
+</div>
+
+<div class="sample-tools" id="tools"><button type="button" id="tfill">Sample: fill details</button><button type="button" id="tshow">Sample: show price</button></div>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  if (q.has("guides")) document.body.classList.add("guides");
+
+  var txt = document.getElementById("date"), pick = document.getElementById("pick");
+  function fmt(iso) { var p = iso.split("-"); return +p[2] + "/" + +p[1] + "/" + p[0]; }
+  document.getElementById("cal").addEventListener("click", function () {
+    try { pick.showPicker(); } catch (e) { txt.focus(); }
+  });
+  pick.addEventListener("change", function () { if (pick.value) txt.value = fmt(pick.value); });
+
+  /* Next: flag empty required fields (no validation message styling beyond the underline) */
+  document.getElementById("details").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = 0;
+    this.querySelectorAll("[required]").forEach(function (el) {
+      var f = el.closest(".f"), miss = !el.value.trim() || (el.type === "email" && !/^\S+@\S+\.\S+$/.test(el.value));
+      if (f && !f.classList.contains("date")) f.classList.toggle("err", miss);
+      if (miss) bad++;
+    });
+    if (!bad) openReveal();
+  });
+
+  /* ===== price reveal overlay ===== */
+  var ov = document.getElementById("ov"), dlg = document.getElementById("dlg"), amt = document.getElementById("amt"),
+      rvform = document.getElementById("rvform"), opener = null, FINAL = 150216;
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function money(n) { return Math.round(n).toLocaleString("en-AU"); }
+  function countUp() {
+    if (reduce) { amt.textContent = money(FINAL); return; }
+    var t0 = performance.now(), D = 1000;
+    clearTimeout(countUp.t); countUp.t = setTimeout(function () { amt.textContent = money(FINAL); }, D + 150);   /* rAF is paused in background tabs */
+    (function tick(t) {
+      var k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3);
+      amt.textContent = money(FINAL * e);
+      if (k < 1 && !document.hidden) requestAnimationFrame(tick);
+    })(t0);
+  }
+  function openReveal() {
+    opener = document.activeElement;
+    dlg.classList.remove("sent"); rvform.classList.remove("err"); document.getElementById("rvmsg").textContent = "";
+    document.getElementById("rvdone").classList.remove("show");
+    ov.classList.add("open"); ov.setAttribute("aria-hidden", "false"); document.body.classList.add("lock");
+    dlg.scrollTop = 0; countUp(); setTimeout(function () { dlg.focus({ preventScroll: true }); }, 30);
+  }
+  function closeReveal() {
+    ov.classList.remove("open"); ov.setAttribute("aria-hidden", "true"); document.body.classList.remove("lock");
+    if (opener && opener.focus) opener.focus();
+  }
+  document.getElementById("rvx").addEventListener("click", closeReveal);
+  document.getElementById("rvprev").addEventListener("click", closeReveal);
+  ov.addEventListener("mousedown", function (e) { if (e.target === ov) closeReveal(); });
+  document.addEventListener("keydown", function (e) {
+    if (!ov.classList.contains("open")) return;
+    if (e.key === "Escape") { closeReveal(); return; }
+    if (e.key === "Tab") {                                   /* keep focus inside the dialog */
+      var f = dlg.querySelectorAll("button, a[href], input"), a = [].filter.call(f, function (n) { return n.offsetParent !== null && !n.disabled && n.type !== "hidden"; });
+      if (!a.length) return;
+      var first = a[0], last = a[a.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === dlg)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  rvform.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var c = rvform.querySelector("input[name=cust]:checked");
+    if (!c) { rvform.classList.add("err"); document.getElementById("rvmsg").textContent = "Please choose one to continue."; return; }
+    var em = document.getElementById("email").value.trim(), t = document.getElementById("rvdt"), p = document.getElementById("rvdp");
+    if (c.value === "no") { t.textContent = "Your quote is on its way"; p.textContent = "We’ve emailed a copy to " + (em || "your inbox") + "."; }
+    else { t.textContent = "Let’s keep building"; p.textContent = "Taking you to the upgrades: chassis, electrical, plumbing and more."; }
+    dlg.classList.add("sent"); document.getElementById("rvdone").classList.add("show"); dlg.scrollTop = 0;
+  });
+  rvform.addEventListener("change", function () { rvform.classList.remove("err"); document.getElementById("rvmsg").textContent = ""; });
+
+  /* sample-only helpers */
+  function fill() {
+    var v = { name: "Sam", last: "Taylor", phone: "0412 345 678", email: "sam@example.com", tow: "Toyota Land Cruiser", state: "QLD" };
+    Object.keys(v).forEach(function (k) { var el = document.getElementById(k); el.value = v[k]; });
+    document.querySelectorAll(".f.err").forEach(function (f) { f.classList.remove("err"); });
+  }
+  document.getElementById("tfill").addEventListener("click", fill);
+  document.getElementById("tshow").addEventListener("click", function () { fill(); openReveal(); });
+  if (q.has("clean")) document.getElementById("tools").style.display = "none";
+  if (q.has("reveal")) { fill(); openReveal(); }
+})();
+</script>
+</body>
+</html>
