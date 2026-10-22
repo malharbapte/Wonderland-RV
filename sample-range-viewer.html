@@ -3,28 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Range viewer — 3/4 angles</title>
+<title>Range viewer — arrangement</title>
 <link rel="stylesheet" href="assets/css/styles.css?v=206">
 <style>
 /* ===========================================================================
-   RANGE VIEWER — Lotus's arrangement, Wonderland's language.
+   RANGE VIEWER — this round is about arrangement and information flow.
 
-   This round: light stage, 3/4 angles, Glide timing, icons, and the detail
-   hierarchy rebuilt.
+   THE PROBLEM. Everything below the van was one undifferentiated centred
+   column, so a reader had no way to tell which question each line answered.
+   Adding tare, ATM, sleeps and length to that column would have made it
+   worse, not better: eight numbers in one block is a wall.
 
-   THE HIERARCHY PROBLEM, and what changed. Before, the four spec values were
-   set in Aviano 900 at 0.30 while the price sat inside a letterspaced caps
-   line at 0.175 -- so the page said, in order of loudness: name, then specs,
-   then price, then tagline. That is backwards for someone deciding between
-   four vans. Now it reads name > price > tagline > features, and the feature
-   strip is demoted to a supporting band under a hairline rather than
-   competing with the name.
+   THE FLOW IT NOW FOLLOWS. Four steps, each a visibly different kind of
+   block, in the order a buyer actually asks them:
 
-   The vans are the site's own 2026 "External White Transparent BG" #2 frame,
-   the one angle that is identical across all four models, trimmed to its
-   content and dropped onto one shared canvas so no van jumps size.
+     1 IDENTIFY   name, tagline            is this the one I mean?
+     2 POSITION   price                    is it in my league?
+     3 QUALIFY    tare, ATM, sleeps, size  can my car tow it, does it fit us?
+     4 CAPABILITY solar, water, susp, …    is it enough van?
+     5 ACT        explore, brochure
 
-   Switches at the top are sample chrome. Nothing here touches home.html.
+   Qualify is set text-only and tight. Capability is icon-led and open. They
+   read as two different bands at a glance, which is the whole point -- one
+   is a hard filter, the other is a comparison.
+
+   Two arrangements are switchable at the top, because the right answer to
+   "where does all this sit" is not obvious:
+     STAGE  keeps Lotus's centred hero and stacks the bands under it.
+     SPLIT  puts the van left and the data right as label/value rows, which
+            scans faster but costs the big wordmark.
+
+   PLACEHOLDERS. Tare, ATM, sleeps and length are not published anywhere on
+   wonderlandrv.com.au, and they are layout-specific rather than per model.
+   Every one of those values below is a stand-in, marked in orange with a
+   dashed rule. Do not read them as real.
    =========================================================================== */
 
 body { background: #fff; margin: 0; }
@@ -43,23 +55,17 @@ body { background: #fff; margin: 0; }
 .seg button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
 
 /* =========================================================================
-   THE SECTION
+   SECTION SHELL
    ========================================================================= */
 .rv {
   --ink:  #1b1b1b;
   --dim:  #7d7369;
   --rule: #e4e2de;
-  --step: .78s cubic-bezier(.33,0,.18,1);         /* Glide */
-
+  --step: .78s cubic-bezier(.33,0,.18,1);
   width: 100vw; margin-left: calc(50% - 50vw);
   background: linear-gradient(180deg, #ffffff 0%, #f7f4ee 62%, #f2eee6 100%);
   color: var(--ink);
-  padding: 0.72rem 0 0.70rem;
-  overflow: hidden;              /* crops the neighbours at the page edges */
-}
-.rv.is-dark {
-  --ink: #fff; --dim: #9a948c; --rule: #2e2e2e;
-  background: radial-gradient(70% 60% at 50% 42%, #1a1a1a 0%, #0d0d0d 72%);
+  padding: 0.72rem 0 0.56rem;
 }
 .rv.is-snap { --step: .46s cubic-bezier(.22,.9,.24,1); }
 
@@ -68,27 +74,101 @@ body { background: #fff; margin: 0; }
   letter-spacing: .04em; text-transform: uppercase; }
 
 /* ---- stage ------------------------------------------------------------- */
-.rv-stage { position: relative; height: 4.90rem; margin-top: 0.30rem; }
+.rv-wrap { margin-top: 0.30rem; }
+.rv-stage { position: relative; height: 4.60rem; overflow: hidden; }
 .rv-van { position: absolute; top: 0; left: 50%; width: 8.60rem; height: 100%;
   margin-left: -4.30rem; display: grid; place-items: center;
-  transition: transform var(--step), opacity var(--step), filter var(--step);
+  transition: transform var(--step), opacity var(--step);
   will-change: transform, opacity; }
 .rv-van img { width: 100%; height: 100%; object-fit: contain; }
 .rv-van .phx { position: absolute; inset: 10% 0; }
-
-.rv-van[data-d="0"]  { transform: none;                        opacity: 1;   filter: none; z-index: 3; }
+.rv-van[data-d="0"]  { transform: none;                        opacity: 1;   z-index: 3; }
 .rv-van[data-d="-1"] { transform: translateX(-108%) scale(.58); opacity: .52; z-index: 2; }
 .rv-van[data-d="1"]  { transform: translateX( 108%) scale(.58); opacity: .52; z-index: 2; }
 .rv-van[data-d="2"]  { transform: translateX( 170%) scale(.42); opacity: 0;   z-index: 1; }
-.rv.is-dark .rv-van[data-d="-1"],
-.rv.is-dark .rv-van[data-d="1"] { opacity: .42; filter: brightness(.62); }
-
 .rv-van[data-d="-1"], .rv-van[data-d="1"] { cursor: pointer; }
 .rv-van[data-d="-1"]:hover, .rv-van[data-d="1"]:hover { opacity: .80; }
 
-/* ---- 1. the name, between the chevrons --------------------------------- */
-.rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
-  align-items: center; margin-top: 0.04rem; }
+/* ---- badges: pinned to the stage, not to a van, so they do not travel -- */
+.rv-badges { position: absolute; left: 0; top: 0.14rem; z-index: 4;
+  display: grid; }
+.rv-badge-set { grid-area: 1 / 1; display: flex; flex-direction: column;
+  align-items: flex-start; gap: 0.10rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rv-badge-set.on { opacity: 1; visibility: visible; transition-delay: .20s, 0s; }
+.badge { display: inline-flex; align-items: center; gap: 0.09rem;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
+  letter-spacing: .10em; text-transform: uppercase;
+  height: 0.40rem; padding: 0 0.20rem; white-space: nowrap; }
+.badge svg { width: 0.21rem; height: 0.21rem; }
+.badge--award { background: var(--orange-deep); color: #fff; }
+.badge--build { background: #fff; color: var(--ink);
+  box-shadow: inset 0 0 0 0.0075rem #cfc7ba; }
+
+/* =========================================================================
+   THE PANEL — one per model, all stacked in one cell, one shown.
+   ========================================================================= */
+.rv-panels { position: relative; }
+.rv-panel { grid-area: 1 / 1;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rv-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
+
+/* 1 IDENTIFY + 2 POSITION ------------------------------------------------ */
+.p-name { margin: 0; font-family: var(--aviano); font-weight: 900;
+  line-height: 1; text-transform: uppercase; white-space: nowrap; }
+.p-tag { margin: 0.07rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.21rem; line-height: 0.28rem; color: var(--dim); }
+.p-price { margin: 0.10rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.36rem; line-height: 0.40rem; }
+.p-price span { font-family: var(--gordita); font-weight: 500; font-size: 0.155rem;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+  margin-right: 0.12rem; vertical-align: 0.07rem; }
+
+/* 3 QUALIFY — text only, tight, no icons. Deliberately quieter than 4. --- */
+.p-qual { display: grid; grid-template-columns: repeat(4, 1fr); }
+.q-cell { text-align: center; padding: 0 0.16rem; }
+.q-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.135rem;
+  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
+.q-v { margin: 0.07rem 0 0; font-family: var(--gordita); font-weight: 700;
+  font-size: 0.22rem; line-height: 0.28rem; }
+
+/* 4 CAPABILITY — icon-led and open ---------------------------------------- */
+.p-spec { display: grid; grid-template-columns: repeat(4, 1fr); }
+.s-cell { text-align: center; padding: 0 0.20rem;
+  border-left: 0.0075rem solid var(--rule); }
+.s-cell:first-child { border-left: 0; }
+.s-ico { display: block; width: 0.34rem; height: 0.34rem; margin: 0 auto 0.09rem;
+  color: var(--orange-deep); }
+.s-ico svg { width: 100%; height: 100%; display: block; }
+.no-icons .s-ico { display: none; }
+.s-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.14rem;
+  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
+.s-v { margin: 0.09rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.25rem; line-height: 0.29rem; }
+.s-n { margin: 0.06rem 0 0; font-family: var(--gordita); font-size: 0.145rem;
+  line-height: 0.20rem; color: var(--dim); }
+
+/* a value we do not have yet. Loud on purpose. */
+.tbd { color: var(--orange); border-bottom: 0.015rem dashed var(--orange);
+  padding-bottom: 0.02rem; }
+
+/* 5 ACT ------------------------------------------------------------------- */
+.p-act { display: flex; align-items: center; gap: 0.30rem; }
+.cta { display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.165rem;
+  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  color: var(--orange); padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
+  box-shadow: inset 0 0 0 0.015rem var(--orange);
+  transition: background .35s ease, color .35s ease; }
+.cta:hover { background: var(--orange); color: #fff; }
+.cta--quiet { box-shadow: none; color: var(--ink); padding: 0;
+  border-bottom: 0.0075rem solid var(--rule); height: auto; line-height: 1.2;
+  padding-bottom: 0.05rem; }
+.cta--quiet:hover { background: none; color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ---- chrome shared by both arrangements -------------------------------- */
 .rv-arrow { width: 0.70rem; height: 0.70rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: var(--ink);
   display: grid; place-items: center; padding: 0;
@@ -96,69 +176,14 @@ body { background: #fff; margin: 0; }
 .rv-arrow svg { width: 0.30rem; height: 0.30rem; }
 .rv-arrow:hover { border-color: var(--orange); color: var(--orange); }
 
-.rv-names { position: relative; height: 0.90rem; }
-.rv-name { position: absolute; inset: 0; display: grid; place-items: center;
-  margin: 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.82rem; line-height: 1; text-transform: uppercase; white-space: nowrap;
-  opacity: 0; transform: translateY(0.12rem); visibility: hidden;
-  transition: opacity var(--step), transform var(--step), visibility 0s linear .78s; }
-.rv-name.on { opacity: 1; transform: none; visibility: visible;
-  transition-delay: .04s, .04s, 0s; }
-
-/* ---- 2. tagline, then 3. price. Two lines, deliberately unequal. ------- */
-.rv-subs { position: relative; height: 0.78rem; margin-top: 0.04rem; }
-.rv-sub { position: absolute; inset: 0; text-align: center;
-  opacity: 0; visibility: hidden;
-  transition: opacity var(--step), visibility 0s linear .78s; }
-.rv-sub.on { opacity: 1; visibility: visible; transition-delay: .10s, 0s; }
-.rv-tag { margin: 0; font-family: var(--gordita); font-style: italic;
-  font-size: 0.21rem; line-height: 0.28rem; color: var(--dim); }
-.rv-price { margin: 0.08rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.36rem; line-height: 0.40rem; }
-.rv-price span { font-family: var(--gordita); font-weight: 500; font-size: 0.155rem;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
-  margin-right: 0.12rem; vertical-align: 0.07rem; }
-
-/* ---- 4. the four standard features, demoted under a hairline ----------- */
-.rv-spec { position: relative; height: 1.50rem; width: 13.60rem;
-  margin: 0.34rem auto 0; padding-top: 0.30rem;
-  border-top: 0.0075rem solid var(--rule); }
-.rv-set { position: absolute; left: 0; right: 0; top: 0.30rem; bottom: 0;
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  opacity: 0; visibility: hidden;
-  transition: opacity var(--step), visibility 0s linear .78s; }
-.rv-set.on { opacity: 1; visibility: visible; transition-delay: .16s, 0s; }
-.rv-cell { text-align: center; padding: 0 0.20rem;
-  border-left: 0.0075rem solid var(--rule); }
-.rv-cell:first-child { border-left: 0; }
-.rv-ico { display: block; width: 0.34rem; height: 0.34rem; margin: 0 auto 0.09rem;
-  color: var(--orange-deep); }
-.rv-ico svg { width: 100%; height: 100%; display: block; }
-.no-icons .rv-ico { display: none; }
-.rv-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.14rem;
-  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
-.rv-v { margin: 0.09rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.25rem; line-height: 0.29rem; }
-.rv-n { margin: 0.06rem 0 0; font-family: var(--gordita); font-size: 0.145rem;
-  line-height: 0.20rem; color: var(--dim); }
-
-/* ---- 5. dots and the way out ------------------------------------------ */
-.rv-foot { display: flex; align-items: center; justify-content: center;
-  gap: 0.46rem; margin-top: 0.36rem; }
 .rv-dots { display: flex; gap: 0.16rem; }
 .rv-dot { width: 0.13rem; height: 0.13rem; border-radius: 50%; border: 0; padding: 0;
   background: #d9d3c8; cursor: pointer;
   transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
-.rv.is-dark .rv-dot { background: #4a4a4a; }
 .rv-dot.on { background: var(--orange); transform: scale(1.5); }
 
-.rv-cta { display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--gordita); font-weight: 700; font-size: 0.165rem;
-  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-  color: var(--orange); padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
-  box-shadow: inset 0 0 0 0.015rem var(--orange);
-  transition: background .35s ease, color .35s ease; }
-.rv-cta:hover { background: var(--orange); color: #fff; }
+.rv-note { margin: 0.34rem 0 0; text-align: center;
+  font-family: var(--gordita); font-size: 0.15rem; line-height: 0.22rem; color: var(--dim); }
 
 .phx { display: grid; place-items: center;
   background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
@@ -166,6 +191,67 @@ body { background: #fff; margin: 0; }
 .phx::after { content: attr(data-ph); white-space: pre-line; text-align: center;
   font-family: var(--gordita); font-size: 0.17rem; letter-spacing: .14em; color: #6f6455; }
 
+/* =========================================================================
+   ARRANGEMENT 1 — STAGE. Lotus's centred hero, bands stacked under it.
+   ========================================================================= */
+.lay-stage .rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
+  align-items: center; margin-top: 0.02rem; }
+.lay-stage .rv-panels { display: grid; text-align: center; }
+.lay-stage .p-name  { font-size: 0.82rem; }
+.lay-stage .p-qual  { width: 11.80rem; margin: 0.30rem auto 0; padding-top: 0.24rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-stage .p-spec  { width: 13.60rem; margin: 0.28rem auto 0; padding-top: 0.26rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-stage .p-act   { justify-content: center; margin-top: 0.34rem; }
+.lay-stage .rv-foot { display: flex; justify-content: center; margin-top: 0.30rem; }
+.lay-stage .rv-panels { grid-template-areas: "a"; }
+.lay-stage .rv-panel { grid-area: a; }
+
+/* the arrows live beside the wordmark here */
+.lay-split .rv-mark { display: none; }
+.lay-stage .rv-splitarrows { display: none; }
+
+/* =========================================================================
+   ARRANGEMENT 2 — SPLIT. Van left, data right as label/value rows.
+   ========================================================================= */
+.lay-split .rv-wrap { display: grid; grid-template-columns: 9.40rem 6.20rem;
+  column-gap: 0.64rem; align-items: center; }
+.lay-split .rv-stage { height: 5.20rem; }
+.lay-split .rv-van { width: 8.40rem; margin-left: -4.20rem; }
+.lay-split .rv-van[data-d="-1"] { transform: translateX(-86%) scale(.52); opacity: .42; }
+.lay-split .rv-van[data-d="1"]  { transform: translateX( 86%) scale(.52); opacity: .42; }
+
+.lay-split .rv-panels { display: grid; grid-template-areas: "a"; text-align: left; }
+.lay-split .rv-panel { grid-area: a; }
+.lay-split .p-name { font-size: 0.56rem; }
+.lay-split .p-price { font-size: 0.32rem; }
+
+/* qualify becomes four rows -- a list reads faster than a centred strip */
+.lay-split .p-qual { display: block; margin-top: 0.26rem; padding-top: 0.20rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-split .q-cell { display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.20rem; text-align: left; padding: 0.07rem 0;
+  border-bottom: 0.0075rem solid var(--rule); }
+.lay-split .q-cell:last-child { border-bottom: 0; }
+.lay-split .q-v { margin: 0; font-size: 0.20rem; }
+
+/* capability becomes a 2 x 2 so it fits the narrower column */
+.lay-split .p-spec { grid-template-columns: repeat(2, 1fr); row-gap: 0.22rem;
+  margin-top: 0.24rem; padding-top: 0.22rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-split .s-cell { text-align: left; padding: 0; }
+.lay-split .s-cell:nth-child(even) { padding-left: 0.24rem;
+  border-left: 0.0075rem solid var(--rule); }
+.lay-split .s-cell:nth-child(odd) { border-left: 0; }
+.lay-split .s-ico { margin: 0 0 0.07rem; }
+.lay-split .s-v { font-size: 0.22rem; }
+.lay-split .p-act { margin-top: 0.30rem; }
+
+.lay-split .rv-splitarrows { display: flex; align-items: center;
+  justify-content: center; gap: 0.30rem; margin-top: 0.26rem; }
+.lay-split .rv-foot { display: none; }
+
+/* ---- the page under the sample ----------------------------------------- */
 .after { padding: 0.70rem 0 0.90rem; }
 .after h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
 .after h3 { margin: 0.34rem 0 0; font-family: var(--gordita); font-weight: 700;
@@ -174,6 +260,7 @@ body { background: #fff; margin: 0; }
 .after li { font-family: var(--gordita); font-size: 0.175rem; line-height: 0.30rem;
   color: #4a4a4a; margin-top: 0.07rem; }
 .after b { font-weight: 700; color: #1b1b1b; }
+.after .tbd { font-weight: 700; }
 </style>
 </head>
 <body>
@@ -181,9 +268,9 @@ body { background: #fff; margin: 0; }
 <div class="bar">
   <div class="container">
     <b>Range viewer</b>
-    <span class="seg"><span>Stage</span>
-      <button data-set="theme" data-val="light" class="on">Light</button>
-      <button data-set="theme" data-val="dark">Dark</button></span>
+    <span class="seg"><span>Arrangement</span>
+      <button data-set="lay" data-val="stage" class="on">Stage</button>
+      <button data-set="lay" data-val="split">Split</button></span>
     <span class="seg"><span>Icons</span>
       <button data-set="icons" data-val="on" class="on">On</button>
       <button data-set="icons" data-val="off">Off</button></span>
@@ -196,83 +283,105 @@ body { background: #fff; margin: 0; }
   </div>
 </div>
 
-<section class="rv" id="rv">
+<section class="rv lay-stage" id="rv">
   <div class="container"><h2 class="rv-head">Our Range</h2></div>
 
-  <div class="rv-stage" id="stage"></div>
+  <div class="container rv-wrap">
+    <div class="rv-stage" id="stage">
+      <div class="rv-badges" id="badges"></div>
+    </div>
+
+    <div class="rv-side">
+      <div class="rv-mark">
+        <button class="rv-arrow" data-go="-1" type="button" aria-label="Previous model">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
+        </button>
+        <div></div>
+        <button class="rv-arrow" data-go="1" type="button" aria-label="Next model">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
+        </button>
+      </div>
+
+      <div class="rv-panels" id="panels"></div>
+
+      <div class="rv-splitarrows">
+        <button class="rv-arrow" data-go="-1" type="button" aria-label="Previous model">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
+        </button>
+        <div class="rv-dots" data-dots></div>
+        <button class="rv-arrow" data-go="1" type="button" aria-label="Next model">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
-    <div class="rv-mark">
-      <button class="rv-arrow" id="prev" type="button" aria-label="Previous model">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
-      </button>
-      <div class="rv-names" id="names"></div>
-      <button class="rv-arrow" id="next" type="button" aria-label="Next model">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
-      </button>
-    </div>
-
-    <div class="rv-subs" id="subs"></div>
-    <div class="rv-spec" id="specs"></div>
-
-    <div class="rv-foot">
-      <div class="rv-dots" id="dots"></div>
-      <a class="rv-cta" id="cta" href="#">Explore</a>
-    </div>
+    <div class="rv-foot"><div class="rv-dots" data-dots></div></div>
+    <p class="rv-note">Figures shown are for the standard build. Every model can be
+      specified further &mdash; options change weights, capacities and price.</p>
   </div>
 </section>
 
 <section class="after">
   <div class="container">
-    <h2>What else could sit in here</h2>
+    <h2>Where this stands</h2>
 
-    <h3>Worth adding &mdash; needs a number from you</h3>
+    <h3>Placeholders &mdash; four numbers per model and I can finish this</h3>
     <ul>
-      <li><b>Tare and ATM.</b> The first question a buyer actually has is <i>can my car tow it</i>, and nothing else on the page answers it. Your model pages publish suspension load capacity (3.0T / 3.7T / 4.5T) but not tare or ATM, so I can&rsquo;t fill it truthfully. If you give me the four pairs this is the single most useful cell on the strip.</li>
-      <li><b>Sleeps.</b> &ldquo;Sleeps 2&ndash;6&rdquo; sorts couples from families in one glance and is the other half of how people self-select.</li>
-      <li><b>Length range and layout count.</b> Lotus gives this line prominence (&ldquo;sizes ranging from 18&rsquo;9&rdquo; to 24&rsquo;6&rdquo;&rdquo;). Your homepage says 17&rsquo;05&rdquo;&ndash;24&rsquo; and 30+ layouts across the whole range; per model it isn&rsquo;t published, and the Amaroo page implies 17&rsquo;09&rdquo; rather than 17&rsquo;05&rdquo;, so those two need reconciling before either goes on screen.</li>
+      <li><span class="tbd">Orange, dashed</span> means a stand-in, not a fact. <b>Tare, ATM, sleeps and length are not published anywhere on wonderlandrv.com.au</b> &mdash; I looked through all four model pages and both layout pages. The only load figure on the site is suspension capacity (3.0T / 3.7T / 4.5T), which is not ATM.</li>
+      <li>They are also <b>layout-specific, not model-specific</b>. An Amaroo 17&rsquo;09&rdquo; and an Amaroo 24&rsquo; do not share a tare. So each needs to be a <i>from</i> figure or a range &mdash; tell me which and I will set the label accordingly ("TARE FROM" reads honestly, "TARE" does not).</li>
+      <li>The <b>brochure link</b> points nowhere yet. Your site has the thumbnails; I need the four PDF URLs.</li>
     </ul>
 
-    <h3>Can be built from what already exists</h3>
+    <h3>Done this round</h3>
     <ul>
-      <li><b>An award ribbon.</b> Solara won the 2026 Judge&rsquo;s Choice Queen of Hearts &mdash; already on your homepage. A small ribbon on its stage is free credibility, and it only appears on the one model, which is the point.</li>
-      <li><b>Construction, as the fourth cell.</b> Solara is <i>frameless composite sandwich panel</i>; the other three are <i>composite wrap-around with SPR aluminium side frames</i>. That is a real, sourced difference and it is the reason Solara costs what it does.</li>
-      <li><b>Brochure download.</b> You have a per-model brochure thumbnail and PDF already. A second, quieter link beside Explore converts people who aren&rsquo;t ready to enquire.</li>
-      <li><b>More angles, cheaply.</b> The series I took the 3/4 from has <b>7&ndash;8 frames per model</b>. Not enough for a true 360 (that wants 24&ndash;36, evenly spaced &mdash; these include front-on and rear-on, so a spin would stutter), but plenty for a small angle-picker: front 3/4, side, rear 3/4, front, rear. Cheapest version of the 360 idea by a mile.</li>
+      <li>Tare and ATM added, with sleeps and length beside them as the rest of the same question.</li>
+      <li><b>Solara carries both badges</b> &mdash; the 2026 Judge&rsquo;s Choice Queen of Hearts award, and a full-composite-body mark. They sit on the stage, not on the van, so they do not slide around during a step.</li>
+      <li>The disclaimer sits under everything, stated plainly rather than apologetically.</li>
+      <li>Light only. The dark switch is gone.</li>
     </ul>
 
-    <h3>I&rsquo;d leave out</h3>
+    <h3>The arrangement question</h3>
     <ul>
-      <li><b>A fifth and sixth feature.</b> Four cells across 13.6rem is already tight at 1440. Anything more and the strip stops being scannable, which is the only thing it is for.</li>
-      <li><b>Layout thumbnails here.</b> They need room to be legible and they belong on the model page, not in a stage that has to stay one screen tall.</li>
+      <li><b>Stage</b> keeps the big wordmark and the symmetry. It is the more striking of the two and the closer to Lotus.</li>
+      <li><b>Split</b> turns the qualifying figures into label/value rows, which is how people actually read a spec: eye down the left, values aligned on the right. It scans faster and it costs the wordmark.</li>
+      <li>My read: Stage for the homepage, because the homepage&rsquo;s job is to make someone want a van, not to let them audit one. Split is the better <i>model page</i> pattern.</li>
     </ul>
   </div>
 </section>
 
 <script>
-/* Every number is quoted from wonderlandrv.com.au/range/<model>/.
-   Solara's fourth cell is Battery, per your call -- it has no gas heater, so
-   where the other three say Brakes it would otherwise have said Heating. */
+/* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
+   Everything inside q[] is a PLACEHOLDER -- see the notes under the sample. */
 var MODELS = [
   { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
+    q: [["Tare","2,560 kg"],["ATM","3,500 kg"],["Sleeps","2–6"],["Length","17′09″–24′"]],
+    badges: [],
     spec: [["solar","Solar","600W","Redarc Alpha 50"],
            ["water","Water","200L","fresh"],
            ["susp","Suspension","Coil","Cruisemaster ATX / XT"],
            ["brake","Brakes","12″","drum"]] },
 
   { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
+    q: [["Tare","2,890 kg"],["ATM","4,500 kg"],["Sleeps","2–6"],["Length","18′06″–24′"]],
+    badges: [],
     spec: [["solar","Solar","800W","Redarc Alpha 75"],
            ["water","Water","290L","200L + 90L drinking"],
            ["susp","Suspension","Airbag","Cruisemaster XT L3"],
            ["brake","Brakes","12″","drum"]] },
 
   { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
+    q: [["Tare","2,950 kg"],["ATM","4,500 kg"],["Sleeps","2–6"],["Length","19′06″–22′"]],
+    badges: ["award","build"],
     spec: [["solar","Solar","1000W","Victron Nexus"],
            ["water","Water","290L","200L + 90L drinking"],
            ["susp","Suspension","Airbag","Cruisemaster XT L3"],
            ["batt","Battery","400Ah","lithium"]] },
 
   { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
+    q: [["Tare","3,280 kg"],["ATM","4,500 kg"],["Sleeps","2–6"],["Length","19′06″–24′"]],
+    badges: [],
     spec: [["solar","Solar","1000W","Victron 24V"],
            ["water","Water","290L","200L + 90L drinking"],
            ["susp","Suspension","Airbag","Cruisemaster ATX L5 BCS"],
@@ -287,18 +396,26 @@ var ICON = {
   brake: S + '<circle cx="12" cy="12" r="7.8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4.2v2.4M12 17.4v2.4M4.2 12h2.4M17.4 12h2.4"/></svg>',
   batt:  S + '<rect x="2.6" y="7" width="15.4" height="10" rx="1.6"/><path d="M18 10.4h3v3.2h-3"/><path d="m11.6 9.4-2.3 3.4h3l-1.2 2.6"/></svg>'
 };
+var BADGE = {
+  award: '<span class="badge badge--award">' + S +
+    '<path d="M12 3.2 14.3 8l5.3.8-3.8 3.7.9 5.3L12 15.3 7.3 17.8l.9-5.3L4.4 8.8 9.7 8z"/></svg>' +
+    '2026 Judge&rsquo;s Choice &middot; Queen of Hearts</span>',
+  build: '<span class="badge badge--build">' + S +
+    '<path d="M3.6 7.4 12 3.4l8.4 4v9.2L12 20.6l-8.4-4z"/><path d="M3.6 7.4 12 11.4l8.4-4M12 11.4v9.2"/></svg>' +
+    'Full composite body</span>'
+};
 
 var N = MODELS.length, at = 0, angle = "34";
 var rv = document.getElementById("rv");
 var stage = document.getElementById("stage");
-var names = document.getElementById("names");
-var subs = document.getElementById("subs");
-var specs = document.getElementById("specs");
-var dots = document.getElementById("dots");
-var cta = document.getElementById("cta");
+var badges = document.getElementById("badges");
+var panels = document.getElementById("panels");
+var allDots = [].slice.call(document.querySelectorAll("[data-dots]"));
 
 function buildStage() {
-  stage.innerHTML = MODELS.map(function (m, k) {
+  var old = stage.querySelectorAll(".rv-van");
+  [].slice.call(old).forEach(function (x) { x.remove(); });
+  var html = MODELS.map(function (m, k) {
     var src = "assets/img/home/range/" + m.id + (angle === "34" ? "-34" : "-cut") + ".webp";
     return '<div class="rv-van" data-k="' + k + '">' +
       '<div class="phx" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
@@ -307,65 +424,73 @@ function buildStage() {
       ' onerror="this.remove();">' +
     '</div>';
   }).join("");
+  stage.insertAdjacentHTML("afterbegin", html);
   paint();
 }
 
-names.innerHTML = MODELS.map(function (m) {
-  return '<p class="rv-name">' + m.name + '</p>';
+badges.innerHTML = MODELS.map(function (m) {
+  return '<div class="rv-badge-set">' +
+    m.badges.map(function (b) { return BADGE[b]; }).join("") + '</div>';
 }).join("");
 
-subs.innerHTML = MODELS.map(function (m) {
-  return '<div class="rv-sub"><p class="rv-tag">' + m.tag + '</p>' +
-         '<p class="rv-price"><span>From</span>' + m.price + '</p></div>';
+panels.innerHTML = MODELS.map(function (m) {
+  var qual = m.q.map(function (c) {
+    return '<div class="q-cell"><p class="q-k">' + c[0] + '</p>' +
+           '<p class="q-v"><span class="tbd">' + c[1] + '</span></p></div>';
+  }).join("");
+  var spec = m.spec.map(function (c) {
+    return '<div class="s-cell"><i class="s-ico">' + ICON[c[0]] + '</i>' +
+           '<p class="s-k">' + c[1] + '</p>' +
+           '<p class="s-v">' + c[2] + '</p>' +
+           '<p class="s-n">' + c[3] + '</p></div>';
+  }).join("");
+  return '<div class="rv-panel">' +
+    '<h3 class="p-name">' + m.name + '</h3>' +
+    '<p class="p-tag">' + m.tag + '</p>' +
+    '<p class="p-price"><span>From</span>' + m.price + '</p>' +
+    '<div class="p-qual">' + qual + '</div>' +
+    '<div class="p-spec">' + spec + '</div>' +
+    '<div class="p-act"><a class="cta" href="#">Explore ' + m.name + '</a>' +
+      '<a class="cta cta--quiet" href="#">Download brochure</a></div>' +
+  '</div>';
 }).join("");
 
-specs.innerHTML = MODELS.map(function (m) {
-  return '<div class="rv-set">' + m.spec.map(function (c) {
-    return '<div class="rv-cell">' +
-      '<i class="rv-ico">' + ICON[c[0]] + '</i>' +
-      '<p class="rv-k">' + c[1] + '</p>' +
-      '<p class="rv-v">' + c[2] + '</p>' +
-      '<p class="rv-n">' + c[3] + '</p></div>';
-  }).join("") + '</div>';
-}).join("");
-
-dots.innerHTML = MODELS.map(function (m, k) {
-  return '<button class="rv-dot" type="button" data-k="' + k + '" aria-label="' + m.name + '"></button>';
-}).join("");
+allDots.forEach(function (d) {
+  d.innerHTML = MODELS.map(function (m, k) {
+    return '<button class="rv-dot" type="button" data-k="' + k + '" aria-label="' + m.name + '"></button>';
+  }).join("");
+});
 
 function paint() {
   var vans = stage.querySelectorAll(".rv-van");
-  var nm = names.querySelectorAll(".rv-name");
-  var sb = subs.querySelectorAll(".rv-sub");
-  var sp = specs.querySelectorAll(".rv-set");
-  var dt = dots.querySelectorAll(".rv-dot");
+  var bs = badges.querySelectorAll(".rv-badge-set");
+  var ps = panels.querySelectorAll(".rv-panel");
   for (var k = 0; k < N; k++) {
     var d = (k - at + N) % N;
     if (d > N / 2) { d -= N; }
     vans[k].dataset.d = d;
-    nm[k].classList.toggle("on", k === at);
-    sb[k].classList.toggle("on", k === at);
-    sp[k].classList.toggle("on", k === at);
-    dt[k].classList.toggle("on", k === at);
+    bs[k].classList.toggle("on", k === at);
+    ps[k].classList.toggle("on", k === at);
   }
-  cta.textContent = "Explore " + MODELS[at].name;
+  allDots.forEach(function (row) {
+    [].slice.call(row.children).forEach(function (b, k) {
+      b.classList.toggle("on", k === at);
+    });
+  });
 }
 
 function go(i) { at = (i + N) % N; paint(); }
 
-document.getElementById("prev").addEventListener("click", function () { go(at - 1); });
-document.getElementById("next").addEventListener("click", function () { go(at + 1); });
-
-dots.addEventListener("click", function (e) {
-  var b = e.target.closest(".rv-dot");
-  if (b) { go(+b.dataset.k); }
-});
-
-stage.addEventListener("click", function (e) {
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("[data-go]");
+  if (a) { go(at + (+a.dataset.go)); return; }
+  var dot = e.target.closest(".rv-dot");
+  if (dot) { go(+dot.dataset.k); return; }
   var v = e.target.closest(".rv-van");
-  if (!v) return;
-  var d = +v.dataset.d;
-  if (d === -1 || d === 1) { go(at + d); }
+  if (v) {
+    var d = +v.dataset.d;
+    if (d === -1 || d === 1) { go(at + d); }
+  }
 });
 
 addEventListener("keydown", function (e) {
@@ -390,7 +515,10 @@ document.querySelector(".bar").addEventListener("click", function (e) {
   var g = b.dataset.set, v = b.dataset.val;
   [].slice.call(document.querySelectorAll('button[data-set="' + g + '"]'))
     .forEach(function (x) { x.classList.toggle("on", x === b); });
-  if (g === "theme")  { rv.classList.toggle("is-dark", v === "dark"); }
+  if (g === "lay") {
+    rv.classList.toggle("lay-stage", v === "stage");
+    rv.classList.toggle("lay-split", v === "split");
+  }
   if (g === "motion") { rv.classList.toggle("is-snap", v === "snap"); }
   if (g === "icons")  { document.body.classList.toggle("no-icons", v === "off"); }
   if (g === "angle")  { angle = v; buildStage(); }
