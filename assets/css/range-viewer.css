@@ -25,21 +25,35 @@
 .rvx {
   --rule:  #e4e2de;
   --dim:   #6b6158;
-  --plate: 9.60rem;              /* the span the name and price sit across */
+  --plate: var(--col);           /* the van's slot: the content column wide  */
   --step:  .78s cubic-bezier(.33,0,.18,1);
+
+  /* ONE LADDER OF GAPS, taken off the sections either side of this one:
+       1.20  the section's own padding      (.solara, .dream, .lux)
+       0.72  a major break inside it        (.range-list after its lede)
+       0.40  the standard gap               (.solara-lede after its title)
+       0.06  a tight pair                   (.coty-sub under its heading)
+     Nothing here uses a value that is not one of those four. */
+  --gap-major: 0.72rem;
+  --gap:       0.40rem;
+  --gap-tight: 0.06rem;
+
   padding-top: var(--section-gap);
   padding-bottom: var(--section-gap);
   touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
-.rvx.is-snap { --step: .46s cubic-bezier(.22,.9,.24,1); }
 
 .rvx-title { margin: 0; font-family: var(--aviano); font-weight: 900;
   font-size: var(--t-heading); line-height: 1; color: #010101; }
-.rvx-lede { margin: 0.18rem 0 0; max-width: 7.60rem; font-family: var(--gordita);
+.rvx-lede { margin: var(--gap) 0 0; max-width: 7.60rem; font-family: var(--gordita);
   font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
 
 /* ---- stage: cut-outs on the page, nothing behind them ----------------- */
-.rvx-stage { position: relative; height: 4.10rem; margin-top: 0.34rem;
+/* 6.40 tall puts the viewed van at 10.27rem across -- inside the 16.24
+   content column, as asked -- while the neighbours at 59% land with their
+   outer edges at 12.56rem from centre, past the 11.88rem half-window, so it
+   is the window that cuts them rather than a container */
+.rvx-stage { position: relative; height: 6.40rem; margin-top: var(--gap-major);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -52,13 +66,11 @@
 .rvx-van img { position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: contain; }
 
-/* the drawing's 49.3% for a neighbour, pulled in from its 77.8% so the three
-   cut-outs sit together rather than stranded -- a cut-out has its own
-   transparent margin where the drawing's photo plate had none */
-.rvx-van[data-d="0"]  { transform: none;                          opacity: 1;   z-index: 3; }
-.rvx-van[data-d="-1"] { transform: translateX(-64%) scale(.493);  opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 64%) scale(.493);  opacity: .55; z-index: 2; }
-.rvx-van[data-d="2"]  { transform: translateX( 120%) scale(.42);  opacity: 0;   z-index: 1; }
+/* a neighbour at 58%, far enough out that the window clips it */
+.rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
+.rvx-van[data-d="-1"] { transform: translateX(-59%) scale(.58);  opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 59%) scale(.58);  opacity: .55; z-index: 2; }
+.rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.46);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
 
@@ -81,51 +93,56 @@
    THE PANEL
    ========================================================================= */
 .rvx-panels { position: relative; display: grid; grid-template-areas: "a";
-  margin-top: 0.30rem; }
+  margin-top: var(--gap); }
 .rvx-panel { grid-area: a;
   opacity: 0; visibility: hidden;
   transition: opacity var(--step), visibility 0s linear .78s; }
 .rvx-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
 
-.rvx-head { width: var(--plate); margin: 0 auto;
-  display: grid; grid-template-columns: 1fr auto; column-gap: 0.40rem;
+/* name and price are one tier at one size, on the page margins; tagline and
+   From are the other tier, also at one size */
+.rvx-head { display: grid; grid-template-columns: 1fr auto; column-gap: var(--gap);
   align-items: end; }
 .rvx-name { margin: 0; font-family: var(--aviano); font-weight: 900;
   font-size: 0.46rem; line-height: 1; text-transform: uppercase;
   white-space: nowrap; color: #010101; }
-.rvx-tag { margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
-  font-size: 0.21rem; line-height: 0.28rem; color: var(--dim); }
+.rvx-tag { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
+  font-style: italic; font-size: 0.20rem; line-height: 0.28rem; color: var(--dim); }
 .rvx-money { text-align: right; }
-.rvx-from { margin: 0; font-family: var(--gordita); font-size: 0.16rem;
-  line-height: 0.22rem; letter-spacing: .14em; text-transform: uppercase;
+.rvx-from { margin: 0; font-family: var(--gordita); font-size: 0.20rem;
+  line-height: 0.28rem; letter-spacing: .14em; text-transform: uppercase;
   color: var(--dim); }
-.rvx-price { margin: 0.06rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: var(--t-sub); line-height: 1; color: var(--orange); }
+.rvx-price { margin: var(--gap-tight) 0 0; font-family: var(--aviano);
+  font-weight: 900; font-size: 0.46rem; line-height: 1; color: var(--orange); }
 
 /* ---- the four features ------------------------------------------------- */
 .rvx-spec { display: grid; grid-template-columns: repeat(4, 1fr);
-  margin-top: 0.38rem; }
-.rvx-cell { position: relative; padding-left: 0.24rem; }
+  margin-top: var(--gap-major); }
+.rvx-cell { position: relative; padding: 0 0.20rem; text-align: center; }
 .rvx-cell + .rvx-cell::before { content: ""; position: absolute;
   left: 0; top: 0.02rem; width: 0.0075rem; height: 1.26rem;
   background: var(--rule); }
 
-.rvx-cellhead { display: flex; align-items: center; gap: 0.14rem; }
+/* the icon stays beside its title, as drawn; the pair is what gets centred */
+.rvx-cellhead { display: flex; align-items: center; justify-content: center;
+  gap: 0.14rem; }
 .rvx-ico { display: block; flex: none; width: 0.44rem; height: 0.44rem;
   color: #010101; }
 .rvx-ico svg { width: 100%; height: 100%; display: block; }
 .rvx-k { margin: 0; font-family: var(--aviano); font-weight: 900;
   font-size: 0.21rem; line-height: 1; color: #010101; }
-.rvx-v { margin: 0.14rem 0 0; font-family: var(--aviano); font-weight: 900;
+.rvx-v { margin: var(--gap) 0 0; font-family: var(--aviano); font-weight: 900;
   font-size: var(--t-body); line-height: 1; color: var(--orange); }
-.rvx-n { margin: 0.08rem 0 0; font-family: var(--gordita);
+.rvx-n { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
 /* ---- two buttons, centred on the page, at .btn-solid's own metrics ----- */
-.rvx-act { display: flex; justify-content: center; gap: 0.26rem;
-  margin-top: 0.40rem; }
+.rvx-act { display: flex; justify-content: center; gap: var(--gap);
+  margin-top: var(--gap-major); }
+/* .btn-solid's own metrics and nothing else -- the min-width that used to be
+   here is what made these read as outsized next to every other button */
 .rvx-cta { display: inline-flex; align-items: center; justify-content: center;
-  min-width: 3.30rem; padding: 0.24rem 0.34rem;
+  padding: 0.24rem 0.34rem;
   font-family: var(--aviano); font-weight: 900; font-size: var(--t-cta);
   line-height: 1; text-decoration: none;
   transition: background .42s ease, color .42s ease; }
@@ -138,7 +155,7 @@
 
 /* ---- chrome the drawing does not show --------------------------------- */
 .rvx-nav { display: flex; align-items: center; justify-content: center;
-  gap: 0.26rem; margin-top: 0.34rem; }
+  gap: var(--gap); margin-top: var(--gap); }
 .rvx-arrow { width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: #010101;
   display: grid; place-items: center; padding: 0;
@@ -151,7 +168,7 @@
   transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
 .rvx-dot.on { background: var(--orange-deep); transform: scale(1.5); }
 
-.rvx-note { margin: 0.30rem 0 0; text-align: center; font-family: var(--gordita);
+.rvx-note { margin: var(--gap) 0 0; text-align: center; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
 }  /* end @media (min-width: 901px) */

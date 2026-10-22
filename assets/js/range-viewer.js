@@ -198,19 +198,6 @@
     swallowClick = true;
   });
 
-  /* the sample page's switches; absent on the real homepage */
-  var bar = document.querySelector("[data-rvx-bar]");
-  if (bar) {
-    bar.addEventListener("click", function (e) {
-      var b = e.target.closest("button[data-set]");
-      if (!b) return;
-      var g = b.dataset.set, v = b.dataset.val;
-      [].slice.call(bar.querySelectorAll('button[data-set="' + g + '"]'))
-        .forEach(function (x) { x.classList.toggle("on", x === b); });
-      if (g === "motion") { sec.classList.toggle("is-snap", v === "snap"); }
-    });
-  }
-
   buildStage();
   buildPanels();
 })();
