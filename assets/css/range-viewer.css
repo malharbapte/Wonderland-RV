@@ -55,11 +55,17 @@
   font-size: 0.30rem; line-height: 0.40rem; color: #fff; }
 
 /* ---- stage: cut-outs on the page, nothing behind them ----------------- */
-/* 5.40 rather than 6.40. The section has to fit one screen: at 1920 wide a
-   rem is 80.8px, and everything here adds to 12.19rem = 985px, which clears
-   a 1080 window with its header. At 6.40 it came to 1180 and you had to
-   scroll to see the whole of it. The viewed van is still 8.66rem across. */
-.rvx-stage { position: relative; height: 5.40rem; margin-top: var(--gap);
+/* THE HEIGHT RULE. Because a rem is the window's width / 23.76, this whole
+   section's height in pixels is always (its height in rem / 23.76) x window
+   width. Keep the total at 11.87rem and that works out at 0.4996 of the
+   width -- so on any window 16:9 or taller the section fits on screen with
+   room for the browser's own chrome, at every width, without a media query.
+
+   The measured total was 12.85rem = 1038px at 1920, which a real 1080 window
+   does not have room for once its chrome is counted. 5.10 here, and the two
+   gaps at the foot tightened, brings it to 11.87. The viewed van is 8.18rem
+   across; every pixel beyond that comes straight off this rule. */
+.rvx-stage { position: relative; height: 5.10rem; margin-top: var(--gap);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -75,12 +81,12 @@
 /* a neighbour at 58%, far enough out that the window clips it */
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
 /* a neighbour 35% smaller at .377, and out at 65% so the window still clips
-   it: with the stage at 5.40 its half-width is 1.63rem, and 65% of the 16.24
-   slot is 10.56, putting the outer edge at 12.19 against an 11.88 half-window.
+   it: with the stage at 5.10 its half-width is 1.54rem, and 66% of the 16.24
+   slot is 10.72, putting the outer edge at 12.26 against an 11.88 half-window.
    This number has to move every time the stage height does, or the overflow
    quietly stops happening. */
-.rvx-van[data-d="-1"] { transform: translateX(-65%) scale(.377); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 65%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="-1"] { transform: translateX(-66%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 66%) scale(.377); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
@@ -166,7 +172,7 @@
 
 /* ---- chrome the drawing does not show --------------------------------- */
 .rvx-nav { display: flex; align-items: center; justify-content: center;
-  margin-top: var(--gap); }
+  margin-top: var(--gap-tight); }
 
 /* The arrows hang in the page margins, level with the model name on the left
    and the price on the right. --page-margin is 3.76, so half of it is 1.88
@@ -187,7 +193,7 @@
   transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
 .rvx-dot.on { background: var(--orange-deep); transform: scale(1.5); }
 
-.rvx-note { margin: var(--gap) 0 0; text-align: center; font-family: var(--gordita);
+.rvx-note { margin: var(--gap-tight) 0 0; text-align: center; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
 }  /* end @media (min-width: 901px) */

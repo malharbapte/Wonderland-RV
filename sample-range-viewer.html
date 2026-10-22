@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=213">
-<link rel="stylesheet" href="assets/css/homepage.css?v=213">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=213">
+<link rel="stylesheet" href="assets/css/styles.css?v=214">
+<link rel="stylesheet" href="assets/css/homepage.css?v=214">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=214">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -67,7 +67,8 @@ body { background: #fff; margin: 0; }
     <ul>
       <li><b>The line moved onto the band</b>, under &ldquo;Our range&rdquo;, and lost its second half. The band and the viewer now read as one section rather than as a photo followed by a carousel. Scoped to <code>.band--range</code> so <code>.band--why</code>, which uses the same classes, does not move.</li>
       <li><b>Spelling:</b> set as <i>customisations</i>, which is how it reads everywhere else on the site. Say the word if you want the z.</li>
-      <li><b>It fits one screen now.</b> At 1920 wide a rem is 80.8px and the section adds to 12.19rem = <b>985px</b>, which clears a 1080 window with its header. It was 1180px, which is why you had to scroll. The stage came down from 6.40 to 5.40, so the viewed van is 8.66rem across rather than 10.27.</li>
+      <li><b>It fits one screen now, by a rule rather than by a guess.</b> A rem here is the window&rsquo;s width divided by 23.76, so this section&rsquo;s height in pixels is always its height in rem / 23.76 &times; the window width. Held at <b>11.87rem</b> that is 0.4996 of the width &mdash; so on any window 16:9 or taller it fits on screen with room for the browser&rsquo;s chrome, at every width, with no media query.</li>
+      <li>I measured it rather than trusting the arithmetic, and the first attempt came out at 12.85rem = 1038px at 1920, which a real 1080 window does not have room for. The stage is 5.10 and the two gaps at the foot are tightened; the viewed van is <b>8.18rem</b> across. Every pixel bigger than that comes straight off the rule &mdash; say so and I will trade it back.</li>
       <li><b>The top padding is the standard 0.40, not the section&rsquo;s 1.20.</b> The band above is the top of this section; 1.20 between them made them two things.</li>
       <li>The side vans moved out again, 62% to 65%. That number has to change every time the stage height does, or their outer edges fall inside the window and the overflow quietly stops happening.</li>
     </ul>
@@ -86,6 +87,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=213"></script>
+<script src="assets/js/range-viewer.js?v=214"></script>
 </body>
 </html>
