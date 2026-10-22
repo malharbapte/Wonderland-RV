@@ -19,13 +19,13 @@
 
      1 IDENTIFY   name, tagline            is this the one I mean?
      2 POSITION   price                    is it in my league?
-     3 QUALIFY    tare, ATM               can my car tow it?
-     4 CAPABILITY solar, water, susp, …    is it enough van?
-     5 ACT        explore, brochure
+     3 CAPABILITY solar, water, susp, …    is it enough van?
+     4 ACT        explore, brochure
 
-   Qualify is set text-only and tight. Capability is icon-led and open. They
-   read as two different bands at a glance, which is the whole point -- one
-   is a hard filter, the other is a comparison.
+   Tare and ATM were in here and came out again: both move with the options
+   on a given build, so a single figure per model would have been wrong for
+   most of the vans it described. A number that cannot be trusted is worse
+   than no number, because it is the one a buyer would act on.
 
    Two arrangements are switchable at the top, because the right answer to
    "where does all this sit" is not obvious:
@@ -33,10 +33,8 @@
      SPLIT  puts the van left and the data right as label/value rows, which
             scans faster but costs the big wordmark.
 
-   PLACEHOLDERS. Tare, ATM, sleeps and length are not published anywhere on
-   wonderlandrv.com.au, and they are layout-specific rather than per model.
-   Every one of those values below is a stand-in, marked in orange with a
-   dashed rule. Do not read them as real.
+   Everything on screen is quoted from wonderlandrv.com.au. Nothing here is
+   invented; where a figure could not be sourced it is not shown.
    =========================================================================== */
 
 body { background: #fff; margin: 0; }
@@ -126,15 +124,7 @@ body { background: #fff; margin: 0; }
   letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
   margin-right: 0.12rem; vertical-align: 0.07rem; }
 
-/* 3 QUALIFY — text only, tight, no icons. Deliberately quieter than 4. --- */
-.p-qual { display: grid; grid-template-columns: repeat(2, 1fr); }
-.q-cell { text-align: center; padding: 0 0.16rem; }
-.q-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.135rem;
-  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
-.q-v { margin: 0.07rem 0 0; font-family: var(--gordita); font-weight: 700;
-  font-size: 0.22rem; line-height: 0.28rem; }
-
-/* 4 CAPABILITY — icon-led and open ---------------------------------------- */
+/* 3 CAPABILITY — icon-led and open ---------------------------------------- */
 .p-spec { display: grid; grid-template-columns: repeat(4, 1fr); }
 .s-cell { text-align: center; padding: 0 0.20rem;
   border-left: 0.0075rem solid var(--rule); }
@@ -150,11 +140,7 @@ body { background: #fff; margin: 0; }
 .s-n { margin: 0.06rem 0 0; font-family: var(--gordita); font-size: 0.145rem;
   line-height: 0.20rem; color: var(--dim); }
 
-/* a value we do not have yet. Loud on purpose. */
-.tbd { color: var(--orange); border-bottom: 0.015rem dashed var(--orange);
-  padding-bottom: 0.02rem; }
-
-/* 5 ACT ------------------------------------------------------------------- */
+/* 4 ACT ------------------------------------------------------------------- */
 .p-act { display: flex; align-items: center; gap: 0.30rem; }
 .cta { display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--gordita); font-weight: 700; font-size: 0.165rem;
@@ -203,13 +189,7 @@ body { background: #fff; margin: 0; }
 .lay-stage .rv-badges { left: calc(50vw - 8.12rem); }
 .lay-stage .rv-panels { display: grid; text-align: center; }
 .lay-stage .p-name  { font-size: 0.82rem; }
-/* a pair, not a short row of four -- narrow, centred, one rule between them,
-   so it reads as one question with two halves instead of a second feature
-   strip competing with the real one below it. */
-.lay-stage .p-qual  { width: 5.80rem; margin: 0.30rem auto 0; padding-top: 0.24rem;
-  border-top: 0.0075rem solid var(--rule); }
-.lay-stage .q-cell + .q-cell { border-left: 0.0075rem solid var(--rule); }
-.lay-stage .p-spec  { width: 13.60rem; margin: 0.28rem auto 0; padding-top: 0.26rem;
+.lay-stage .p-spec  { width: 13.60rem; margin: 0.40rem auto 0; padding-top: 0.30rem;
   border-top: 0.0075rem solid var(--rule); }
 .lay-stage .p-act   { justify-content: center; margin-top: 0.34rem; }
 .lay-stage .rv-foot { display: flex; justify-content: center; margin-top: 0.30rem; }
@@ -235,18 +215,9 @@ body { background: #fff; margin: 0; }
 .lay-split .p-name { font-size: 0.56rem; }
 .lay-split .p-price { font-size: 0.32rem; }
 
-/* qualify becomes four rows -- a list reads faster than a centred strip */
-.lay-split .p-qual { display: block; margin-top: 0.26rem; padding-top: 0.20rem;
-  border-top: 0.0075rem solid var(--rule); }
-.lay-split .q-cell { display: flex; align-items: baseline; justify-content: space-between;
-  gap: 0.20rem; text-align: left; padding: 0.07rem 0;
-  border-bottom: 0.0075rem solid var(--rule); }
-.lay-split .q-cell:last-child { border-bottom: 0.0075rem solid var(--rule); }
-.lay-split .q-v { margin: 0; font-size: 0.20rem; }
-
 /* capability becomes a 2 x 2 so it fits the narrower column */
 .lay-split .p-spec { grid-template-columns: repeat(2, 1fr); row-gap: 0.22rem;
-  margin-top: 0.24rem; padding-top: 0.22rem;
+  margin-top: 0.30rem; padding-top: 0.26rem;
   border-top: 0.0075rem solid var(--rule); }
 .lay-split .s-cell { text-align: left; padding: 0; }
 .lay-split .s-cell:nth-child(even) { padding-left: 0.24rem;
@@ -269,7 +240,6 @@ body { background: #fff; margin: 0; }
 .after li { font-family: var(--gordita); font-size: 0.175rem; line-height: 0.30rem;
   color: #4a4a4a; margin-top: 0.07rem; }
 .after b { font-weight: 700; color: #1b1b1b; }
-.after .tbd { font-weight: 700; }
 </style>
 </head>
 <body>
@@ -328,7 +298,7 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <div class="rv-foot"><div class="rv-dots" data-dots></div></div>
     <p class="rv-note">Figures shown are for the standard build. Every model can be
-      specified further &mdash; options change weights, capacities and price.</p>
+      specified further &mdash; options change capacities and price.</p>
   </div>
 </section>
 
@@ -336,17 +306,16 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <h2>Where this stands</h2>
 
-    <h3>Placeholders &mdash; two numbers per model and I can finish this</h3>
+    <h3>Everything shown is sourced</h3>
     <ul>
-      <li><span class="tbd">Orange, dashed</span> means a stand-in, not a fact. <b>Neither tare nor ATM is published anywhere on wonderlandrv.com.au</b> &mdash; I looked through all four model pages and both layout pages. The only load figure on the site is suspension capacity (3.0T / 3.7T / 4.5T), which is not ATM.</li>
-      <li>They are also <b>layout-specific, not model-specific</b>. An Amaroo 17&rsquo;09&rdquo; and an Amaroo 24&rsquo; do not share a tare. So each needs to be a <i>from</i> figure or a range &mdash; tell me which and I will set the label accordingly ("TARE FROM" reads honestly, "TARE" does not).</li>
-      <li>The <b>brochure link</b> points nowhere yet. Your site has the thumbnails; I need the four PDF URLs.</li>
+      <li>Price and all four features are quoted from wonderlandrv.com.au/range/&lt;model&gt;/. Nothing on screen is invented.</li>
+      <li><b>Tare and ATM are out.</b> Both move with the options on a given build, and they are layout-specific rather than per model &mdash; an Amaroo 17&rsquo;09&rdquo; and an Amaroo 24&rsquo; do not share a tare. A figure a buyer would act on and then find wrong is worse than no figure.</li>
+      <li>The <b>brochure link</b> is the one thing still pointing nowhere. Your site has the four thumbnails; I need the four PDF URLs.</li>
     </ul>
 
-    <h3>Done this round</h3>
+    <h3>In this round</h3>
     <ul>
-      <li>Tare and ATM added as a pair. Sleeps and length are out.</li>
-      <li><b>Solara carries both badges</b> &mdash; the 2026 Judge&rsquo;s Choice Queen of Hearts award, and a full-composite-body mark. They sit on the stage, not on the van, so they do not slide around during a step.</li>
+      <li><b>Solara carries both badges</b> &mdash; the 2026 Judge&rsquo;s Choice Queen of Hearts award, and a full-composite-body mark. They sit on the stage rather than on the van, so they do not slide around during a step.</li>
       <li>The disclaimer sits under everything, stated plainly rather than apologetically.</li>
       <li>Light only. The dark switch is gone.</li>
     </ul>
@@ -354,7 +323,7 @@ body { background: #fff; margin: 0; }
     <h3>The arrangement question</h3>
     <ul>
       <li><b>Stage</b> keeps the big wordmark and the symmetry. It is the more striking of the two and the closer to Lotus.</li>
-      <li><b>Split</b> turns the qualifying figures into label/value rows, which is how people actually read a spec: eye down the left, values aligned on the right. It scans faster and it costs the wordmark.</li>
+      <li><b>Split</b> puts the van left and the writing right, which scans faster and costs the wordmark.</li>
       <li>My read: Stage for the homepage, because the homepage&rsquo;s job is to make someone want a van, not to let them audit one. Split is the better <i>model page</i> pattern.</li>
     </ul>
   </div>
@@ -365,7 +334,6 @@ body { background: #fff; margin: 0; }
    Everything inside q[] is a PLACEHOLDER -- see the notes under the sample. */
 var MODELS = [
   { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
-    q: [["Tare","2,560 kg"],["ATM","3,500 kg"]],
     badges: [],
     spec: [["solar","Solar","600W","Redarc Alpha 50"],
            ["water","Water","200L","fresh"],
@@ -373,7 +341,6 @@ var MODELS = [
            ["brake","Brakes","12″","drum"]] },
 
   { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
-    q: [["Tare","2,890 kg"],["ATM","4,500 kg"]],
     badges: [],
     spec: [["solar","Solar","800W","Redarc Alpha 75"],
            ["water","Water","290L","200L + 90L drinking"],
@@ -381,7 +348,6 @@ var MODELS = [
            ["brake","Brakes","12″","drum"]] },
 
   { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
-    q: [["Tare","2,950 kg"],["ATM","4,500 kg"]],
     badges: ["award","build"],
     spec: [["solar","Solar","1000W","Victron Nexus"],
            ["water","Water","290L","200L + 90L drinking"],
@@ -389,7 +355,6 @@ var MODELS = [
            ["batt","Battery","400Ah","lithium"]] },
 
   { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
-    q: [["Tare","3,280 kg"],["ATM","4,500 kg"]],
     badges: [],
     spec: [["solar","Solar","1000W","Victron 24V"],
            ["water","Water","290L","200L + 90L drinking"],
@@ -443,10 +408,6 @@ badges.innerHTML = MODELS.map(function (m) {
 }).join("");
 
 panels.innerHTML = MODELS.map(function (m) {
-  var qual = m.q.map(function (c) {
-    return '<div class="q-cell"><p class="q-k">' + c[0] + '</p>' +
-           '<p class="q-v"><span class="tbd">' + c[1] + '</span></p></div>';
-  }).join("");
   var spec = m.spec.map(function (c) {
     return '<div class="s-cell"><i class="s-ico">' + ICON[c[0]] + '</i>' +
            '<p class="s-k">' + c[1] + '</p>' +
@@ -457,7 +418,6 @@ panels.innerHTML = MODELS.map(function (m) {
     '<h3 class="p-name">' + m.name + '</h3>' +
     '<p class="p-tag">' + m.tag + '</p>' +
     '<p class="p-price"><span>From</span>' + m.price + '</p>' +
-    '<div class="p-qual">' + qual + '</div>' +
     '<div class="p-spec">' + spec + '</div>' +
     '<div class="p-act"><a class="cta" href="#">Explore ' + m.name + '</a>' +
       '<a class="cta cta--quiet" href="#">Download brochure</a></div>' +
