@@ -80,13 +80,20 @@
 
 /* a neighbour at 58%, far enough out that the window clips it */
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
-/* a neighbour 35% smaller at .377, and out at 65% so the window still clips
-   it: with the stage at 5.10 its half-width is 1.54rem, and 66% of the 16.24
-   slot is 10.72, putting the outer edge at 12.26 against an 11.88 half-window.
-   This number has to move every time the stage height does, or the overflow
-   quietly stops happening. */
-.rvx-van[data-d="-1"] { transform: translateX(-66%) scale(.377); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 66%) scale(.377); opacity: .55; z-index: 2; }
+/* A neighbour sits tucked against the content column: its INNER edge is flush
+   with where the column starts, so it reads as placed just outside the text
+   block rather than floating in the margin or pinned to the screen. Nothing
+   is cut by the window.
+
+     half-width = stage height x 1.604 (the cut-out's ratio) x .377 / 2
+                = 5.10 x 0.3024 = 1.54rem
+     offset     = half the content column + that = 8.12 + 1.54 = 9.66rem
+                = 59.5% of the 16.24 slot
+
+   Both follow the stage height, so if that changes this has to move with it
+   or the vans drift off the column edge without anything erroring. */
+.rvx-van[data-d="-1"] { transform: translateX(-59.5%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 59.5%) scale(.377); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
