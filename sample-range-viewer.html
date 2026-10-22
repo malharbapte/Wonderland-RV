@@ -196,6 +196,11 @@ body { background: #fff; margin: 0; }
    ========================================================================= */
 .lay-stage .rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
   align-items: center; margin-top: 0.02rem; }
+/* the stage runs the full page width so the neighbours are cropped by the
+   window, not sliced off at the content column. The badges come back inside
+   the column so they do not sit out on the bleed. */
+.lay-stage .rv-stage { width: 100vw; margin-left: calc(50% - 50vw); }
+.lay-stage .rv-badges { left: calc(50vw - 8.12rem); }
 .lay-stage .rv-panels { display: grid; text-align: center; }
 .lay-stage .p-name  { font-size: 0.82rem; }
 .lay-stage .p-qual  { width: 11.80rem; margin: 0.30rem auto 0; padding-top: 0.24rem;
