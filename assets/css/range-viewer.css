@@ -43,10 +43,12 @@
   touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
 
-.rvx-title { margin: 0; font-family: var(--aviano); font-weight: 900;
-  font-size: var(--t-heading); line-height: 1; color: #010101; }
-.rvx-lede { margin: var(--gap) 0 0; max-width: 7.60rem; font-family: var(--gordita);
-  font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
+/* No heading. The full-bleed "Our range" band directly above already names
+   this section, so a second Range under it was saying it twice. The lede
+   opens the section instead, and runs on one line -- the max-width that used
+   to break it was sized for a column that no longer applies. */
+.rvx-lede { margin: 0; font-family: var(--gordita);
+  font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; white-space: nowrap; }
 
 /* ---- stage: cut-outs on the page, nothing behind them ----------------- */
 /* 6.40 tall puts the viewed van at 10.27rem across -- inside the 16.24
@@ -68,9 +70,14 @@
 
 /* a neighbour at 58%, far enough out that the window clips it */
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
-.rvx-van[data-d="-1"] { transform: translateX(-59%) scale(.58);  opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 59%) scale(.58);  opacity: .55; z-index: 2; }
-.rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.46);  opacity: 0;   z-index: 1; }
+/* .58 x 0.65 = .377, a neighbour 35% smaller. Pushed from 59% out to 62% so
+   the window still clips it: at .377 its half-width is 1.94rem, and 62% of
+   the 16.24 slot is 10.07, which puts its outer edge at 12.01 against an
+   11.88rem half-window. Left at 59% it would have stopped short and the
+   overflow would have quietly disappeared. */
+.rvx-van[data-d="-1"] { transform: translateX(-62%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 62%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
 
@@ -92,8 +99,8 @@
 /* =========================================================================
    THE PANEL
    ========================================================================= */
-.rvx-panels { position: relative; display: grid; grid-template-areas: "a";
-  margin-top: var(--gap); }
+.rvx-panels { position: relative; margin-top: var(--gap); }
+.rvx-panelset { display: grid; grid-template-areas: "a"; }
 .rvx-panel { grid-area: a;
   opacity: 0; visibility: hidden;
   transition: opacity var(--step), visibility 0s linear .78s; }
@@ -126,7 +133,7 @@
 /* the icon stays beside its title, as drawn; the pair is what gets centred */
 .rvx-cellhead { display: flex; align-items: center; justify-content: center;
   gap: 0.14rem; }
-.rvx-ico { display: block; flex: none; width: 0.44rem; height: 0.44rem;
+.rvx-ico { display: block; flex: none; width: 0.53rem; height: 0.53rem;
   color: #010101; }
 .rvx-ico svg { width: 100%; height: 100%; display: block; }
 .rvx-k { margin: 0; font-family: var(--aviano); font-weight: 900;
@@ -155,11 +162,19 @@
 
 /* ---- chrome the drawing does not show --------------------------------- */
 .rvx-nav { display: flex; align-items: center; justify-content: center;
-  gap: var(--gap); margin-top: var(--gap); }
-.rvx-arrow { width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
+  margin-top: var(--gap); }
+
+/* The arrows hang in the page margins, level with the model name on the left
+   and the price on the right. --page-margin is 3.76, so half of it is 1.88
+   and the arrow's own half-width is 0.28: that lands each one on the centre
+   line of its margin, clear of the content column on either side. */
+.rvx-arrow { position: absolute; top: -0.05rem;
+  width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: #010101;
   display: grid; place-items: center; padding: 0;
   transition: border-color .3s ease, color .3s ease; }
+.rvx-arrow--prev { left:  calc(-1 * (var(--page-margin) / 2) - 0.28rem); }
+.rvx-arrow--next { right: calc(-1 * (var(--page-margin) / 2) - 0.28rem); }
 .rvx-arrow svg { width: 0.24rem; height: 0.24rem; }
 .rvx-arrow:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
 .rvx-dots { display: flex; gap: 0.14rem; }

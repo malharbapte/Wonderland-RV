@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=211">
-<link rel="stylesheet" href="assets/css/homepage.css?v=211">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=211">
+<link rel="stylesheet" href="assets/css/styles.css?v=212">
+<link rel="stylesheet" href="assets/css/homepage.css?v=212">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=212">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -25,7 +25,6 @@ body { background: #fff; margin: 0; }
 <!-- ============================================ RANGE VIEWER (desktop) -->
 <section class="rvx">
   <div class="container">
-    <h2 class="rvx-title">Range</h2>
     <p class="rvx-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
   </div>
 
@@ -34,13 +33,13 @@ body { background: #fff; margin: 0; }
   </div>
 
   <div class="container">
-    <div class="rvx-panels" data-rvx-panels></div>
-
-    <div class="rvx-nav">
-      <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
-      <div class="rvx-dots" data-rvx-dots></div>
-      <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
     </div>
+
+    <div class="rvx-nav"><div class="rvx-dots" data-rvx-dots></div></div>
 
     <p class="rvx-note">Figures shown are for the standard build. Every model can be
       specified further &mdash; options change capacities and price.</p>
@@ -53,11 +52,10 @@ body { background: #fff; margin: 0; }
 
     <h3>This round</h3>
     <ul>
-      <li><b>Name and price are one tier at one size</b> &mdash; both 0.46rem, on the page margins. Tagline and From are the other tier, both 0.20rem. Two sizes in that block instead of four.</li>
-      <li><b>The vans overflow.</b> The stage is 6.40rem tall, which puts the viewed van at 10.27rem across &mdash; inside the 16.24rem content column. The neighbours sit at 59%, so their outer edges land 12.56rem from centre against an 11.88rem half-window: it is the window that cuts them, not a container.</li>
-      <li><b>Features are centred</b>, with the icon still beside its title as you drew it &mdash; the pair is what gets centred, not the icon alone.</li>
-      <li><b>The buttons are <code>.btn-solid</code>&rsquo;s metrics exactly.</b> They were already the right font and padding; a <code>min-width</code> I had put on them is what made them read as outsized. It is gone.</li>
-      <li><b>Snap is gone.</b> Glide only, and the switch bar with it.</li>
+      <li><b>The heading is gone.</b> The full-bleed &ldquo;Our range&rdquo; band directly above already names this section, so a second <i>Range</i> under it was saying it twice. The lede opens the section now and runs on one line &mdash; the max-width that used to break it was sized for a column that no longer applies.</li>
+      <li><b>The arrows hang in the page margins</b>, level with the model name on the left and the price on the right. <code>--page-margin</code> is 3.76, half of it is 1.88, and the arrow&rsquo;s own half-width is 0.28 &mdash; so each lands on the centre line of its margin, clear of the content column. The dot row keeps the dots and nothing else.</li>
+      <li><b>Icons up 20%</b>, 0.44 to 0.53rem.</li>
+      <li><b>Side vans down 35%</b>, .58 to .377. One thing that came with it: at that size their outer edges fell <i>inside</i> the window and the overflow would have quietly stopped happening, so they are pushed from 59% out to 62% &mdash; half-width 1.94rem at an offset of 10.07 puts the edge at 12.01 against an 11.88rem half-window. Still clipped by the window, as you picked.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -74,6 +72,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=211"></script>
+<script src="assets/js/range-viewer.js?v=212"></script>
 </body>
 </html>

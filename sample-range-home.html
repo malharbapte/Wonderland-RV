@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="assets/css/type-compact.css?v=206">
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=206">
 <link rel="stylesheet" href="assets/css/homepage.css?v=206">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=211">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=212">
 </head>
 <body class="home">
 
@@ -193,7 +193,6 @@
 <!-- ============================================ RANGE VIEWER (desktop) -->
 <section class="rvx">
   <div class="container">
-    <h2 class="rvx-title">Range</h2>
     <p class="rvx-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
   </div>
 
@@ -202,13 +201,13 @@
   </div>
 
   <div class="container">
-    <div class="rvx-panels" data-rvx-panels></div>
-
-    <div class="rvx-nav">
-      <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
-      <div class="rvx-dots" data-rvx-dots></div>
-      <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
     </div>
+
+    <div class="rvx-nav"><div class="rvx-dots" data-rvx-dots></div></div>
 
     <p class="rvx-note">Figures shown are for the standard build. Every model can be
       specified further &mdash; options change capacities and price.</p>
@@ -910,7 +909,7 @@
 <script src="assets/js/footer.js?v=206"></script>
 <script src="assets/js/budget.js?v=206"></script>
 <script src="assets/js/faq.js?v=206"></script>
-<script src="assets/js/range-viewer.js?v=211"></script>
+<script src="assets/js/range-viewer.js?v=212"></script>
 <script src="assets/js/wl-strip.js?v=206"></script>
 <script src="assets/js/nav.js?v=206"></script>
 </body>

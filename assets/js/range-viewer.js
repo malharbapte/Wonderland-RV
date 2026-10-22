@@ -19,7 +19,7 @@
 
   var stage   = sec.querySelector("[data-rvx-stage]");
   var badges  = sec.querySelector("[data-rvx-badges]");
-  var panels  = sec.querySelector("[data-rvx-panels]");
+  var panels  = sec.querySelector("[data-rvx-panelset]");
   var dotRows = [].slice.call(sec.querySelectorAll("[data-rvx-dots]"));
   if (!stage || !panels) return;
 
