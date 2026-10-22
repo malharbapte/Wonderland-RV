@@ -6,7 +6,7 @@
    so the phone keeps the range carousel it already has.
 
    Ways to move it, unchanged from the working sample:
-     arrows, dots, a click on either neighbour, the arrow keys, and a swipe --
+     the arrows, a click on either neighbour, the arrow keys, and a swipe --
      mouse drag, touch drag, and a trackpad's deltaX. The wheel is only ever
      taken when its horizontal component is the larger one, so the page still
      scrolls past the section normally, and one flick steps exactly once.
@@ -20,8 +20,8 @@
   var stage   = sec.querySelector("[data-rvx-stage]");
   var badges  = sec.querySelector("[data-rvx-badges]");
   var panels  = sec.querySelector("[data-rvx-panelset]");
-  var dotRows = [].slice.call(sec.querySelectorAll("[data-rvx-dots]"));
-  if (!stage || !panels) return;
+  var acts    = sec.querySelector("[data-rvx-acts]");
+  if (!stage || !panels || !acts) return;
 
   /* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
      The drawing writes the brake cell as one line, "12”DRUM", with no note
@@ -116,37 +116,31 @@
           '<p class="rvx-price">' + m.price + '</p></div>' +
         '</div>' +
         '<div class="rvx-spec">' + cells + '</div>' +
-        '<div class="rvx-act">' +
-          '<a class="rvx-cta rvx-cta--fill" href="#">Explore ' + m.name + '</a>' +
-          '<a class="rvx-cta rvx-cta--line" href="#">Download brochure</a>' +
-        '</div>' +
+      '</div>';
+    }).join("");
+
+    acts.innerHTML = MODELS.map(function () {
+      return '<div class="rvx-act">' +
+        '<a class="rvx-cta rvx-cta--fill" href="#">Explore</a>' +
+        '<a class="rvx-cta rvx-cta--line" href="#">Brochure</a>' +
       '</div>';
     }).join("");
     paint();
   }
 
-  dotRows.forEach(function (row) {
-    row.innerHTML = MODELS.map(function (m, k) {
-      return '<button class="rvx-dot" type="button" data-k="' + k + '" aria-label="' + m.name + '"></button>';
-    }).join("");
-  });
-
   function paint() {
     var vans = stage.querySelectorAll(".rvx-van");
     var bs = badges ? badges.querySelectorAll(".rvx-badge-set") : [];
     var ps = panels.querySelectorAll(".rvx-panel");
+    var as = acts.querySelectorAll(".rvx-act");
     for (var k = 0; k < N; k++) {
       var d = (k - at + N) % N;
       if (d > N / 2) { d -= N; }
       if (vans[k]) { vans[k].dataset.d = d; }
       if (bs[k]) { bs[k].classList.toggle("on", k === at); }
       if (ps[k]) { ps[k].classList.toggle("on", k === at); }
+      if (as[k]) { as[k].classList.toggle("on", k === at); }
     }
-    dotRows.forEach(function (row) {
-      [].slice.call(row.children).forEach(function (b, k) {
-        b.classList.toggle("on", k === at);
-      });
-    });
   }
 
   function go(i) { at = (i + N) % N; paint(); }
@@ -155,8 +149,6 @@
     if (swallowClick) { swallowClick = false; return; }
     var a = e.target.closest("[data-go]");
     if (a) { go(at + (+a.dataset.go)); return; }
-    var dot = e.target.closest(".rvx-dot");
-    if (dot) { go(+dot.dataset.k); return; }
     var v = e.target.closest(".rvx-van");
     if (v) {
       var d = +v.dataset.d;

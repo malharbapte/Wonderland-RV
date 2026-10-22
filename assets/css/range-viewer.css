@@ -44,7 +44,7 @@
   --gap-tight: 0.06rem;
 
   padding-top: var(--gap);
-  padding-bottom: var(--section-gap);
+  padding-bottom: 0;   /* the band below ends the section */
   touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
 
@@ -82,18 +82,18 @@
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
 /* A neighbour sits tucked against the content column: its INNER edge is flush
    with where the column starts, so it reads as placed just outside the text
-   block rather than floating in the margin or pinned to the screen. Nothing
-   is cut by the window.
+   block rather than floating in the margin or pinned to the screen.
 
-     half-width = stage height x 1.604 (the cut-out's ratio) x .377 / 2
-                = 5.10 x 0.3024 = 1.54rem
-     offset     = half the content column + that = 8.12 + 1.54 = 9.66rem
-                = 59.5% of the 16.24 slot
+     half-width = stage height x 1.604 (the cut-out's ratio) x .471 / 2
+                = 5.10 x 0.3778 = 1.93rem
+     offset     = half the content column + that = 8.12 + 1.93 = 10.05rem
+                = 61.9% of the 16.24 slot
 
-   Both follow the stage height, so if that changes this has to move with it
-   or the vans drift off the column edge without anything erroring. */
-.rvx-van[data-d="-1"] { transform: translateX(-59.5%) scale(.377); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 59.5%) scale(.377); opacity: .55; z-index: 2; }
+   At 25% larger the outer edge now lands at 11.97 against an 11.88 half-
+   window, so about 0.09rem -- 7px at 1920 -- of the far end sits off screen.
+   Holding the inner edge on the column is the rule that was chosen, so that
+   is what gives; pulling it in to clear the window would push the van 7px
+   over the column instead. Both numbers follow the stage height. */
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
@@ -160,11 +160,23 @@
 .rvx-n { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
-/* ---- two buttons, centred on the page, at .btn-solid's own metrics ----- */
-.rvx-act { display: flex; justify-content: center; gap: var(--gap);
-  margin-top: var(--gap); }
-/* .btn-solid's own metrics and nothing else -- the min-width that used to be
-   here is what made these read as outsized next to every other button */
+/* ---- the band: full bleed under the features, carrying the buttons -------
+   #FFF2DC is the site's light panel -- the one behind the Legendary Service
+   slides and the ambassador tips. It is the only light yellow in the system.
+
+   The buttons had to come out of the per-model panel to sit in here, so they
+   are their own cross-faded stack: one row per model, the active one shown,
+   same timing as everything else. ------------------------------------------ */
+.rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: #FFF2DC;
+  margin-top: var(--gap); padding: var(--gap) 0; }
+.rvx-acts { display: grid; grid-template-areas: "a"; }
+.rvx-act { grid-area: a; display: flex; justify-content: center; gap: var(--gap);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rvx-act.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
+
+/* .btn-solid's own metrics. The labels are short on purpose: at this size a
+   long one is what made the pair read as oversized, not the size itself. */
 .rvx-cta { display: inline-flex; align-items: center; justify-content: center;
   padding: 0.24rem 0.34rem;
   font-family: var(--aviano); font-weight: 900; font-size: var(--t-cta);
@@ -178,13 +190,6 @@
 .rvx-cta--line:hover { background: var(--orange-deep); color: #fff; }
 
 /* ---- chrome the drawing does not show --------------------------------- */
-.rvx-nav { display: flex; align-items: center; justify-content: center;
-  margin-top: var(--gap-tight); }
-
-/* The arrows hang in the page margins, level with the model name on the left
-   and the price on the right. --page-margin is 3.76, so half of it is 1.88
-   and the arrow's own half-width is 0.28: that lands each one on the centre
-   line of its margin, clear of the content column on either side. */
 .rvx-arrow { position: absolute; top: -0.05rem;
   width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: #010101;
@@ -194,12 +199,6 @@
 .rvx-arrow--next { right: calc(-1 * (var(--page-margin) / 2) - 0.28rem); }
 .rvx-arrow svg { width: 0.24rem; height: 0.24rem; }
 .rvx-arrow:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
-.rvx-dots { display: flex; gap: 0.14rem; }
-.rvx-dot { width: 0.12rem; height: 0.12rem; border-radius: 50%; border: 0; padding: 0;
-  background: #d9d3c8; cursor: pointer;
-  transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
-.rvx-dot.on { background: var(--orange-deep); transform: scale(1.5); }
-
 .rvx-note { margin: var(--gap-tight) 0 0; text-align: center; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 

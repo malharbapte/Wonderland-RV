@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=216">
-<link rel="stylesheet" href="assets/css/homepage.css?v=216">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=216">
+<link rel="stylesheet" href="assets/css/styles.css?v=217">
+<link rel="stylesheet" href="assets/css/homepage.css?v=217">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=217">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -52,10 +52,14 @@ body { background: #fff; margin: 0; }
       <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
     </div>
 
-    <div class="rvx-nav"><div class="rvx-dots" data-rvx-dots></div></div>
+  </div>
 
-    <p class="rvx-note">Figures shown are for the standard build. Every model can be
-      specified further &mdash; options change capacities and price.</p>
+  <div class="rvx-band">
+    <div class="container">
+      <div class="rvx-acts" data-rvx-acts></div>
+      <p class="rvx-note">Figures shown are for the standard build. Every model can be
+        specified further &mdash; options change capacities and price.</p>
+    </div>
   </div>
 </section>
 
@@ -65,12 +69,13 @@ body { background: #fff; margin: 0; }
 
     <h3>This round</h3>
     <ul>
-      <li><b>The line moved onto the band</b>, under &ldquo;Our range&rdquo;, and lost its second half. The band and the viewer now read as one section rather than as a photo followed by a carousel. Scoped to <code>.band--range</code> so <code>.band--why</code>, which uses the same classes, does not move.</li>
-      <li><b>Spelling:</b> set as <i>customisations</i>, which is how it reads everywhere else on the site. Say the word if you want the z.</li>
-      <li><b>It fits one screen now, by a rule rather than by a guess.</b> A rem here is the window&rsquo;s width divided by 23.76, so this section&rsquo;s height in pixels is always its height in rem / 23.76 &times; the window width. Held at <b>11.87rem</b> that is 0.4996 of the width &mdash; so on any window 16:9 or taller it fits on screen with room for the browser&rsquo;s chrome, at every width, with no media query.</li>
-      <li>I measured it rather than trusting the arithmetic, and the first attempt came out at 12.85rem = 1038px at 1920, which a real 1080 window does not have room for. The stage is 5.10 and the two gaps at the foot are tightened; the viewed van is <b>8.18rem</b> across. Every pixel bigger than that comes straight off the rule &mdash; say so and I will trade it back.</li>
-      <li><b>The top padding is the standard 0.40, not the section&rsquo;s 1.20.</b> The band above is the top of this section; 1.20 between them made them two things.</li>
-      <li><b>The side vans are tucked against the content column</b> &mdash; inner edge flush with where the column starts, nothing cut by the window. Half-width is 5.10 &times; 0.3024 = 1.54rem, so the offset is 8.12 + 1.54 = <b>9.66rem</b>, which is 59.5% of the slot. Both numbers follow the stage height, so if that ever changes this has to move with it or they drift off the column edge silently.</li>
+      <li><b>Side vans 25% larger</b>, .377 to .471, inner edge still on the content column. One consequence to know about: at that size the outer edge lands at 11.97 against an 11.88rem half-window, so roughly <b>7px of the far end sits off screen</b>. Holding the inner edge on the column is the rule you picked, so that is what gives &mdash; pulling it in to clear the window would push the van 7px over the column instead.</li>
+      <li><b>A full-bleed band under the features</b>, carrying the buttons and the disclaimer. <code>#FFF2DC</code> &mdash; the site&rsquo;s light panel, the one behind the Legendary Service slides and the ambassador tips, and the only light yellow in the system. Tell me if you meant a different one.</li>
+      <li>The buttons had to come out of the per-model panel to sit in the band, so they are now their own cross-faded stack &mdash; one row per model, same timing as everything else.</li>
+      <li><b>The section carries no bottom padding now.</b> The band ends it, the way the orange stat band runs straight into the Our-range photo above.</li>
+      <li><b>Carousel circles removed.</b> The arrows in the margins, a click on either side van, the arrow keys and a swipe all still work.</li>
+      <li><b>Labels shortened to Explore and Brochure.</b> The buttons were already <code>.btn-solid</code>&rsquo;s exact spec &mdash; 0.30rem Aviano Black, 0.24/0.34 padding, 0.78rem tall, the same as Meet Solara. It was the label length making the pair read as oversized, not the size.</li>
+      <li>Height is now <b>10.89rem = 0.458 of the window width</b>, comfortably inside the half-width rule.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -87,6 +92,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=216"></script>
+<script src="assets/js/range-viewer.js?v=217"></script>
 </body>
 </html>
