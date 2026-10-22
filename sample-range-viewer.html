@@ -3,24 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Range viewer — two arrangements</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=207">
-<link rel="stylesheet" href="assets/css/homepage.css?v=207">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=207">
+<title>Range viewer — to the drawing</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=208">
+<link rel="stylesheet" href="assets/css/homepage.css?v=208">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=208">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
 .bar { position: sticky; top: 0; z-index: 50; background: #1b1b1b; color: #fff;
-  padding: 0.22rem 0; }
-.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.36rem; }
+  padding: 0.20rem 0; }
+.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.34rem; }
 .bar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; }
 .seg { display: inline-flex; align-items: center; gap: 0.09rem;
   font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
 .seg > span { letter-spacing: .14em; text-transform: uppercase; }
-.seg button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+.seg button { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
   background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
-  padding: 0.06rem 0.16rem; letter-spacing: .06em; }
+  padding: 0.06rem 0.14rem; letter-spacing: .06em; }
 .seg button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.icopv { display: block; width: 0.30rem; height: 0.30rem; }
+.icopv svg { width: 100%; height: 100%; display: block; }
 .after { padding: 0.70rem 0 0.90rem; background: #f7f4ee; }
 .after h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
 .after h3 { margin: 0.34rem 0 0; font-family: var(--gordita); font-weight: 700;
@@ -36,49 +39,36 @@ body { background: #fff; margin: 0; }
 <div class="bar" data-rvx-bar>
   <div class="container">
     <b>Range viewer</b>
-    <span class="seg"><span>Arrangement</span>
-      <button data-set="lay" data-val="stage" class="on">Stage</button>
-      <button data-set="lay" data-val="right">Details right</button></span>
+    <span class="seg"><span>Suspension icon</span><button data-set="susp" data-val="a" class="on"><i class="icopv" data-susp-preview="a"></i>Coil, folded</button><button data-set="susp" data-val="b"><i class="icopv" data-susp-preview="b"></i>Coil, wound</button><button data-set="susp" data-val="c"><i class="icopv" data-susp-preview="c"></i>Damper</button><button data-set="susp" data-val="d"><i class="icopv" data-susp-preview="d"></i>Airbag</button></span>
+    <span class="seg"><span>Plate</span>
+      <button data-set="plate" data-val="photo" class="on">Feature photo</button>
+      <button data-set="plate" data-val="cut">Cut-out</button></span>
     <span class="seg"><span>Step</span>
       <button data-set="motion" data-val="glide" class="on">Glide</button>
       <button data-set="motion" data-val="snap">Snap</button></span>
-    <span class="seg"><span>Angle</span>
-      <button data-set="angle" data-val="34" class="on">3/4</button>
-      <button data-set="angle" data-val="side">Side</button></span>
   </div>
 </div>
 
 <!-- ============================================ RANGE VIEWER (desktop) -->
-<section class="rvx lay-stage">
+<section class="rvx">
   <div class="container">
     <h2 class="rvx-title">Range</h2>
     <p class="rvx-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
   </div>
 
-  <div class="container rvx-wrap">
-    <div class="rvx-stage" data-rvx-stage>
-      <div class="rvx-badges" data-rvx-badges></div>
-    </div>
-
-    <div class="rvx-side">
-      <div class="rvx-mark">
-        <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
-        <div></div>
-        <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
-      </div>
-
-      <div class="rvx-panels" data-rvx-panels></div>
-
-      <div class="rvx-sidearrows">
-        <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
-        <div class="rvx-dots" data-rvx-dots></div>
-        <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
-      </div>
-    </div>
+  <div class="rvx-stage" data-rvx-stage>
+    <div class="rvx-badges" data-rvx-badges></div>
   </div>
 
   <div class="container">
-    <div class="rvx-foot"><div class="rvx-dots" data-rvx-dots></div></div>
+    <div class="rvx-panels" data-rvx-panels></div>
+
+    <div class="rvx-nav">
+      <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-dots" data-rvx-dots></div>
+      <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    </div>
+
     <p class="rvx-note">Figures shown are for the standard build. Every model can be
       specified further &mdash; options change capacities and price.</p>
   </div>
@@ -86,35 +76,39 @@ body { background: #fff; margin: 0; }
 
 <section class="after">
   <div class="container">
-    <h2>What changed</h2>
+    <h2>Built to the drawing</h2>
 
-    <h3>The homepage&rsquo;s language, not its own</h3>
+    <h3>How the artboard was mapped</h3>
     <ul>
-      <li>The section now states itself the way every other homepage section does: a left-aligned <b>Range</b> at <code>--t-heading</code> with the lede under it, on the site&rsquo;s own <code>--section-gap</code> rhythm. The centred small-caps &ldquo;OUR RANGE&rdquo; was a Lotus habit, not ours.</li>
-      <li>The call to action is <b><code>.btn-solid</code> itself</b> &mdash; the class the Solara block and the rest of the homepage already use &mdash; rather than a lookalike. Nothing here restyles a shared class, so there is no way for this section to change a button anywhere else.</li>
-      <li>Dot colour moved from <code>--orange</code> to <code>--orange-deep</code>, which is what the homepage uses for accents on a light ground.</li>
+      <li>Your artboard is 1920 wide; this site&rsquo;s is 2376, where 1rem is 100 artboard px. The heading sits at x&nbsp;=&nbsp;306.91, and 306.91&nbsp;&times;&nbsp;2376/1920&nbsp;=&nbsp;380 &mdash; the site&rsquo;s 3.76rem page margin. So the drawing maps onto our scale at <b>1 SVG px = 0.012375rem</b>, and every size and position below is your own measurement put through that. At a 1920-wide window this is the drawing at 1:1.</li>
+      <li>The plate is 941.42&nbsp;&times;&nbsp;481.56 and dead centre. The two neighbours are the same plate at <b>49.3%</b> on the same axis &mdash; and your left one starts at x&nbsp;=&nbsp;&minus;4.51, so they are meant to be cut by the window, which is what they do.</li>
+      <li>The buttons are centred on the <i>page</i>, not on the plate &mdash; their pair straddles x&nbsp;=&nbsp;960 exactly. The name and price are the opposite: both sit on the plate&rsquo;s edges, not the page margin.</li>
     </ul>
 
-    <h3>Hierarchy, as you set it</h3>
+    <h3>Four suspension icons</h3>
     <ul>
-      <li>Name, then price, then tagline &mdash; in that order down the page and in that order of size. Price used to sit below the tagline and that put the quietest thing in the loudest position.</li>
-      <li>Inside a detail: <b>icon, then title, then the figure and its note at one size</b>. That is a real inversion &mdash; the figure used to be the biggest thing in the cell. It now reads as a labelled group rather than as four competing numbers.</li>
+      <li>Switch between them at the top; the strip redraws in place so you are judging them at real size in the real cell, not as a swatch.</li>
+      <li><b>Coil, folded</b> is what has been in the sample. <b>Coil, wound</b> reads more like an actual spring. <b>Damper</b> is the shock body with its eyes. <b>Airbag</b> is a bellows &mdash; worth a look because three of the four models are airbag, not coil.</li>
     </ul>
 
-    <h3>Badges</h3>
+    <h3>Decisions I made, flag any you want back</h3>
     <ul>
-      <li>One shape, one size, <b>no icons on any of them</b>. A star on one chip and nothing on the next was itself an inconsistency, and at that size the glyph read as grit. Only the fill separates them now: filled is an award, outlined is a statement about the van.</li>
-      <li>XTR&rsquo;s <b>Flagship</b> is outlined, same as Solara&rsquo;s composite mark. Solara&rsquo;s Queen of Hearts keeps the fill, because it is the only one of the three that was given by someone else.</li>
+      <li><b>Feature photos are real.</b> The grey plates are filled with your own exterior shots from wonderlandrv.com.au, cropped to the drawing&rsquo;s 941:482 around the van. Switch to <b>Cut-out</b> at the top to see the transparent 3/4 renders in the same slots instead.</li>
+      <li><b>Badges are all one pill</b> &mdash; square left edge, round right end, orange, white type &mdash; exactly as your &ldquo;Full-composite&rdquo; chip is drawn. Solara carries two, XTR carries Flagship.</li>
+      <li><b>Icons are ink, not orange.</b> In your drawing everything is black except the values, the price and the buttons; making the icons orange too would have spread the accent over half the strip.</li>
+      <li><b>Brakes carry no note.</b> You wrote the cell as one line, &ldquo;12&rdquo;DRUM&rdquo;, with nothing under it, so the note line is simply absent on that cell rather than padded out.</li>
+      <li>The heading is <b>0.65rem</b> and the lede <b>0.35rem</b>, which is what your 65.25 and 34.59 come to. Both are larger than the homepage&rsquo;s standard section heading, so this section will read louder than its neighbours. Deliberate or not, it is your drawing &mdash; say the word and I will bring it to <code>--t-heading</code>.</li>
+      <li>Arrows and dots are not in the drawing. They are under the buttons on the same centre line, and every interaction from the last round is unchanged.</li>
+      <li>&ldquo;REDRAC&rdquo; in the drawing is set as <b>REDARC</b> here, which is the brand.</li>
     </ul>
 
     <h3>Still open</h3>
     <ul>
-      <li>The <b>brochure link</b> points nowhere. Four PDF URLs and it is done.</li>
-      <li>Phone is untouched and gated &mdash; the section is <code>display:none</code> below 900 and the existing range carousel still runs there.</li>
+      <li>The <b>brochure button</b> points nowhere. Four PDF URLs and it is done.</li>
     </ul>
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=207"></script>
+<script src="assets/js/range-viewer.js?v=208"></script>
 </body>
 </html>
