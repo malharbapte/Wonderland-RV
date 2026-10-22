@@ -1342,3 +1342,9 @@
   .rs-shots, .rs-panels { display: block; }
 }
 @media (max-width: 900px) { .rs { display: none; } }
+
+/* ===================================================== WELCOME SOLARA
+   Off the desktop page: after CARAVANS BUILT it now runs straight into
+   Our range. The markup and the phone rules are untouched, so the phone
+   still carries the section — it comes out there in the phone pass.   */
+@media (min-width: 901px) { .solara { display: none; } }
