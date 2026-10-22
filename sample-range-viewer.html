@@ -77,14 +77,14 @@ body { background: #fff; margin: 0; }
 .rv-van .phx { position: absolute; inset: 10% 0; }
 
 .rv-van[data-d="0"]  { transform: none;                        opacity: 1;   filter: none; z-index: 3; }
-.rv-van[data-d="-1"] { transform: translateX(-108%) scale(.58); opacity: .34; z-index: 2; }
-.rv-van[data-d="1"]  { transform: translateX( 108%) scale(.58); opacity: .34; z-index: 2; }
+.rv-van[data-d="-1"] { transform: translateX(-108%) scale(.58); opacity: .52; z-index: 2; }
+.rv-van[data-d="1"]  { transform: translateX( 108%) scale(.58); opacity: .52; z-index: 2; }
 .rv-van[data-d="2"]  { transform: translateX( 170%) scale(.42); opacity: 0;   z-index: 1; }
 .rv.is-dark .rv-van[data-d="-1"],
 .rv.is-dark .rv-van[data-d="1"] { opacity: .42; filter: brightness(.62); }
 
 .rv-van[data-d="-1"], .rv-van[data-d="1"] { cursor: pointer; }
-.rv-van[data-d="-1"]:hover, .rv-van[data-d="1"]:hover { opacity: .62; }
+.rv-van[data-d="-1"]:hover, .rv-van[data-d="1"]:hover { opacity: .80; }
 
 /* ---- 1. the name, between the chevrons --------------------------------- */
 .rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
@@ -120,7 +120,7 @@ body { background: #fff; margin: 0; }
   margin-right: 0.12rem; vertical-align: 0.07rem; }
 
 /* ---- 4. the four standard features, demoted under a hairline ----------- */
-.rv-spec { position: relative; height: 1.14rem; width: 13.60rem;
+.rv-spec { position: relative; height: 1.50rem; width: 13.60rem;
   margin: 0.34rem auto 0; padding-top: 0.30rem;
   border-top: 0.0075rem solid var(--rule); }
 .rv-set { position: absolute; left: 0; right: 0; top: 0.30rem; bottom: 0;
