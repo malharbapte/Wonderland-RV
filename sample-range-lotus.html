@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — Lotus-inspired, three compositions</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=206">
+<style>
+/* ===========================================================================
+   RANGE, in the Lotus idiom — three compositions of the same content.
+
+   What Lotus actually does, stripped to its bones:
+     big cut-out van · model wordmark · a FOUR-CELL spec strip · a paragraph
+     · an outlined EXPLORE. Stacked down the page, revealed on scroll.
+
+   What we are adding on top of that: a 360 exterior and popular layouts.
+   Those two are why the composition has to be worked out rather than copied
+   — Lotus has neither, so there is no borrowed answer for where they sit.
+
+   SAMPLE ONLY. Nothing here touches home.html or homepage.css.
+   =========================================================================== */
+
+body { background: #fff; }
+
+/* ---- sample chrome, not part of the design ---------------------------- */
+.lab { background: #1b1b1b; color: #fff; padding: 0.34rem 0 0.30rem; }
+.lab h1 { margin: 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.30rem; line-height: 1.1; letter-spacing: .02em; }
+.lab p { margin: 0.12rem 0 0; font-family: var(--gordita);
+  font-size: 0.17rem; line-height: 0.26rem; color: #b9b2a8; max-width: 10.5rem; }
+.lab .sw { margin-top: 0.20rem; font-family: var(--gordita); font-size: 0.16rem;
+  display: inline-flex; align-items: center; gap: 0.12rem; cursor: pointer; color: #e9e4db; }
+.lab .sw input { width: 0.20rem; height: 0.20rem; accent-color: var(--orange); }
+
+.tag-strip { background: var(--orange-deep); color: #fff; padding: 0.16rem 0;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.18rem;
+  letter-spacing: .14em; text-transform: uppercase; }
+
+/* ---- placeholder, local so it owes nothing to styles.css -------------- */
+.phx { position: relative; display: grid; place-items: center; overflow: hidden;
+  background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.015rem #b9ae9c; }
+.phx::after { content: attr(data-ph); white-space: pre-line; text-align: center;
+  font-family: var(--gordita); font-weight: 500; font-size: 0.15rem; line-height: 0.22rem;
+  letter-spacing: .10em; color: #6f6455; padding: 0 0.16rem; }
+.phx--dark { background: repeating-linear-gradient(45deg, #2a2a2a 0 0.10rem, #343434 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.015rem #4e4e4e; }
+.phx--dark::after { color: #9b948a; }
+
+/* ---- the reveal. Restrained on purpose: Lotus's is bigger and it is the
+       part you were unsure about, so this one only lifts 0.18rem. The switch
+       at the top of each variant turns it off so the two can be compared. - */
+.rv { opacity: 0; transform: translateY(0.18rem);
+  transition: opacity .66s cubic-bezier(.33,0,.2,1), transform .66s cubic-bezier(.33,0,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+.no-anim .rv { opacity: 1; transform: none; transition: none; }
+
+/* =========================================================================
+   SHARED PIECES — the spec strip and the 360 badge are identical in all
+   three, so only the composition around them is actually being compared.
+   ========================================================================= */
+.spec { display: grid; }
+.spec-cell { padding: 0.18rem 0.20rem 0.20rem; border-left: 0.0075rem solid #e4e2de; }
+.spec-cell:first-child { border-left: 0; padding-left: 0; }
+.spec-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.135rem;
+  letter-spacing: .16em; text-transform: uppercase; color: #9b9289; }
+.spec-v { margin: 0.07rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.26rem; line-height: 0.30rem; color: #1b1b1b; }
+.spec-n { margin: 0.05rem 0 0; font-family: var(--gordita); font-size: 0.145rem;
+  line-height: 0.21rem; color: #6b6158; }
+
+.spin { position: absolute; right: 0.22rem; bottom: 0.22rem; z-index: 2;
+  display: inline-flex; align-items: center; gap: 0.10rem;
+  background: rgba(255,255,255,.92); color: #1b1b1b; border: 0; cursor: pointer;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.15rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 0 0.22rem; height: 0.46rem; border-radius: 0.23rem;
+  box-shadow: 0 0.04rem 0.16rem rgba(0,0,0,.14);
+  transition: background .3s ease, color .3s ease; }
+.spin svg { width: 0.22rem; height: 0.22rem; }
+.spin:hover { background: var(--orange); color: #fff; }
+
+.explore { display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.17rem;
+  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  color: var(--orange); background: transparent; padding: 0 0.42rem;
+  height: 0.62rem; line-height: 0.62rem;
+  box-shadow: inset 0 0 0 0.015rem var(--orange);
+  transition: background .35s ease, color .35s ease; }
+.explore:hover { background: var(--orange); color: #fff; }
+
+/* =========================================================================
+   L1 — STACKED, LIGHT.  One model per row, full content width. The van gets
+   the left 9.20 and everything written gets the right 6.40. Layouts sit on
+   the bottom line of the text column, which is the only place they fit
+   without pushing the van out of its own row.
+   ========================================================================= */
+.l1 { padding: 0.70rem 0 0.90rem; }
+.l1-row { display: grid; grid-template-columns: 9.20rem 6.40rem; column-gap: 0.64rem;
+  align-items: center; padding: 0.56rem 0; border-top: 0.0075rem solid #e9e6e0; }
+.l1-row:first-of-type { border-top: 0; }
+
+.l1-stage { position: relative; aspect-ratio: 2.3; display: grid; place-items: center;
+  background: linear-gradient(180deg, #faf8f4 0%, #f1ede5 100%); }
+.l1-stage img { width: 100%; height: 100%; object-fit: contain; }
+.l1-stage .phx { position: absolute; inset: 0; }
+
+.l1-idx { font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
+  letter-spacing: .20em; color: var(--orange); }
+.l1-name { margin: 0.08rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.56rem; line-height: 1; text-transform: uppercase; }
+.l1-tag { margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.20rem; line-height: 0.28rem; color: #6b6158; }
+.l1-copy { margin: 0.20rem 0 0; font-family: var(--gordita); font-size: 0.185rem;
+  line-height: 0.29rem; color: #4a4a4a; }
+.l1-price { margin: 0.22rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.32rem; line-height: 1; }
+.l1-price small { display: block; font-family: var(--gordita); font-weight: 500;
+  font-size: 0.14rem; letter-spacing: .16em; text-transform: uppercase;
+  color: #9b9289; margin-bottom: 0.06rem; }
+
+.l1 .spec { grid-template-columns: repeat(4, 1fr); margin-top: 0.26rem;
+  border-top: 0.0075rem solid #e4e2de; }
+
+.l1-plans { margin-top: 0.26rem; padding-top: 0.22rem; border-top: 0.0075rem solid #e4e2de; }
+.l1-plans h4 { margin: 0; font-family: var(--gordita); font-weight: 700;
+  font-size: 0.135rem; letter-spacing: .16em; text-transform: uppercase; color: #9b9289; }
+.l1-plan-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.14rem;
+  margin-top: 0.14rem; }
+.l1-plan { aspect-ratio: 1.6; }
+.l1-plan-cap { display: block; margin-top: 0.07rem; font-family: var(--gordita);
+  font-size: 0.14rem; line-height: 0.20rem; color: #6b6158; }
+.l1 .explore { margin-top: 0.30rem; }
+
+/* =========================================================================
+   L2 — TWO-UP, LIGHT.  The nearest thing to the real Lotus grid, and the
+   only one of the three where all four vans and all four prices are on the
+   screen together. Density is bought by moving the layouts behind a link.
+   ========================================================================= */
+.l2 { padding: 0.70rem 0 0.90rem; background: #fcfbf8; }
+.l2-grid { display: grid; grid-template-columns: repeat(2, 7.92rem); column-gap: 0.40rem;
+  row-gap: 0.56rem; }
+.l2-card { background: #fff; box-shadow: 0 0.02rem 0.14rem rgba(0,0,0,.05); }
+.l2-stage { position: relative; aspect-ratio: 2.1; display: grid; place-items: center;
+  background: linear-gradient(180deg, #faf8f4 0%, #f1ede5 100%); }
+.l2-stage img { width: 100%; height: 100%; object-fit: contain; }
+.l2-stage .phx { position: absolute; inset: 0; }
+.l2-body { padding: 0.30rem 0.34rem 0.36rem; }
+.l2-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.20rem; }
+.l2-name { margin: 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.38rem; line-height: 1; text-transform: uppercase; }
+.l2-price { font-family: var(--aviano); font-weight: 900; font-size: 0.22rem; white-space: nowrap; }
+.l2-price small { font-family: var(--gordita); font-weight: 500; font-size: 0.13rem;
+  letter-spacing: .14em; text-transform: uppercase; color: #9b9289; margin-right: 0.08rem; }
+.l2-tag { margin: 0.07rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.175rem; line-height: 0.25rem; color: #6b6158; }
+.l2 .spec { grid-template-columns: repeat(4, 1fr); margin-top: 0.22rem;
+  border-top: 0.0075rem solid #e4e2de; }
+.l2 .spec-cell { padding: 0.16rem 0.10rem 0.16rem; }
+.l2 .spec-v { font-size: 0.21rem; line-height: 0.25rem; }
+.l2 .spec-n { display: none; }
+.l2-foot { display: flex; align-items: center; justify-content: space-between;
+  gap: 0.20rem; margin-top: 0.22rem; padding-top: 0.20rem;
+  border-top: 0.0075rem solid #e4e2de; }
+.l2-plans { font-family: var(--gordita); font-weight: 700; font-size: 0.155rem;
+  letter-spacing: .06em; color: #1b1b1b; text-decoration: none;
+  border-bottom: 0.0075rem solid var(--orange); padding-bottom: 0.04rem; }
+.l2-plans:hover { color: var(--orange); }
+.l2 .explore { height: 0.54rem; line-height: 0.54rem; padding: 0 0.30rem; font-size: 0.155rem; }
+
+/* =========================================================================
+   L3 — STACKED, DARK, TABBED.  Lotus's own contrast, and the only one where
+   360 and layouts cost no height: the lower half of each block is a tab set,
+   so SPECS / 360 / LAYOUTS share one box.
+
+   FLAGGED: the dark stage is a break from the house language. Every cut-out
+   on this site sits on white or cream. Keeping it is your call.
+   ========================================================================= */
+.l3 { background: #141414; color: #fff; padding: 0.70rem 0 0.90rem; }
+.l3-row { display: grid; grid-template-columns: 9.20rem 6.40rem; column-gap: 0.64rem;
+  align-items: start; padding: 0.60rem 0; border-top: 0.0075rem solid #2c2c2c; }
+.l3-row:first-of-type { border-top: 0; }
+
+.l3-stage { position: relative; aspect-ratio: 1.75; display: grid; place-items: center;
+  background: radial-gradient(60% 70% at 50% 58%, #2b2b2b 0%, #141414 78%); }
+.l3-stage img { width: 100%; height: 100%; object-fit: contain; }
+.l3-stage .phx { position: absolute; inset: 0; }
+.l3-word { position: absolute; left: 0.10rem; bottom: 0.14rem; margin: 0;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.92rem; line-height: 1;
+  text-transform: uppercase; color: transparent;
+  -webkit-text-stroke: 0.012rem rgba(255,255,255,.34); letter-spacing: .01em;
+  pointer-events: none; }
+
+.l3-idx { font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
+  letter-spacing: .20em; color: var(--orange); }
+.l3-name { margin: 0.08rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.44rem; line-height: 1; text-transform: uppercase; }
+.l3-tag { margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.19rem; color: #b5ada2; }
+.l3-copy { margin: 0.18rem 0 0; font-family: var(--gordita); font-size: 0.18rem;
+  line-height: 0.28rem; color: #c9c2b8; }
+
+.l3-tabs { display: flex; gap: 0.26rem; margin-top: 0.28rem;
+  border-bottom: 0.0075rem solid #2c2c2c; }
+.l3-tab { background: 0; border: 0; padding: 0 0 0.14rem; cursor: pointer;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
+  letter-spacing: .16em; text-transform: uppercase; color: #8b8379;
+  border-bottom: 0.02rem solid transparent; margin-bottom: -0.0075rem;
+  transition: color .3s ease, border-color .3s ease; }
+.l3-tab:hover { color: #fff; }
+.l3-tab.on { color: #fff; border-bottom-color: var(--orange); }
+.l3-pane { display: none; padding-top: 0.22rem; }
+.l3-pane.on { display: block; }
+
+.l3 .spec { grid-template-columns: repeat(2, 1fr); row-gap: 0.04rem; }
+.l3 .spec-cell { border-left: 0; border-top: 0.0075rem solid #2c2c2c; padding: 0.16rem 0 0.16rem; }
+.l3 .spec-cell:nth-child(2) { padding-left: 0.24rem; border-left: 0.0075rem solid #2c2c2c; }
+.l3 .spec-cell:nth-child(4) { padding-left: 0.24rem; border-left: 0.0075rem solid #2c2c2c; }
+.l3 .spec-cell:nth-child(1), .l3 .spec-cell:nth-child(2) { border-top: 0; }
+.l3 .spec-v { color: #fff; }
+.l3 .spec-k { color: #8b8379; }
+.l3 .spec-n { color: #9b948a; }
+
+.l3-360 { aspect-ratio: 2.2; }
+.l3-plan-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.14rem; }
+.l3-plan { aspect-ratio: 1.6; }
+.l3-plan-cap { display: block; margin-top: 0.07rem; font-family: var(--gordita);
+  font-size: 0.14rem; line-height: 0.20rem; color: #9b948a; }
+.l3 .explore { margin-top: 0.28rem; color: #fff; box-shadow: inset 0 0 0 0.015rem var(--orange); }
+.l3 .explore:hover { background: var(--orange); }
+
+/* ---- the note at the end ---------------------------------------------- */
+.note { background: #f4f1ea; padding: 0.60rem 0 0.70rem; }
+.note h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
+.note ul { margin: 0.18rem 0 0; padding-left: 0.28rem; }
+.note li { font-family: var(--gordita); font-size: 0.175rem; line-height: 0.30rem;
+  color: #4a4a4a; margin-top: 0.08rem; }
+.note b { font-weight: 700; color: #1b1b1b; }
+</style>
+</head>
+<body>
+
+<header class="lab">
+  <div class="container">
+    <h1>Range — the Lotus idiom, three compositions</h1>
+    <p>Same content in all three: model, tagline, four standard features, a 360 exterior and popular layouts. Only the arrangement differs. Every spec below is lifted from your own model pages — nothing is invented.</p>
+    <label class="sw"><input type="checkbox" id="anim" checked> scroll reveal on</label>
+  </div>
+</header>
+
+<div class="tag-strip"><div class="container">L1 — stacked, light, layouts on the text column</div></div>
+<section class="l1">
+  <div class="container" id="l1-rows"></div>
+</section>
+
+<div class="tag-strip"><div class="container">L2 — two up, light, all four on one screen</div></div>
+<section class="l2">
+  <div class="container"><div class="l2-grid" id="l2-cards"></div></div>
+</section>
+
+<div class="tag-strip"><div class="container">L3 — stacked, dark, specs / 360 / layouts tabbed</div></div>
+<section class="l3">
+  <div class="container" id="l3-rows"></div>
+</section>
+
+<section class="note">
+  <div class="container">
+    <h2>What this sample needs before it can ship</h2>
+    <ul>
+      <li><b>360 exterior.</b> Your site has none — every "360" on it is an image-size suffix. A spin needs a 24&ndash;36 frame turntable or drone-orbit sequence per model, shot as a matched set. Until those exist the badge is a placeholder.</li>
+      <li><b>Popular layouts.</b> The floorplan images on wonderlandrv.com.au load from a script, not the page, so they could not be read. Three per model, named, is what each placeholder is sized for.</li>
+      <li><b>Two of your four features barely differ.</b> Water is 200L&nbsp;+&nbsp;90L on three of four models and brakes are 12&Prime; drum on three of four &mdash; so two of the four cells say the same thing three times. Battery and inverter separate the models cleanly. Noted below each variant.</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+/* Content in one place so all three variants are provably the same data.
+   Specs are quoted from wonderlandrv.com.au/range/<model>/ as at today. */
+var MODELS = [
+  { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
+    copy: "Geared for off-road adventures, allowing you to venture off the beaten track without giving up the comforts of home.",
+    spec: [
+      { k: "Solar",      v: "600W",  n: "Redarc Alpha 50, 300Ah lithium" },
+      { k: "Water",      v: "200L",  n: "fresh water" },
+      { k: "Suspension", v: "Coil",  n: "Cruisemaster ATX / XT" },
+      { k: "Brakes",     v: "12″", n: "drum" }
+    ],
+    plans: ["17′09″ COUPLES", "19′6″ REAR CLUB", "22′ FAMILY BUNK"] },
+
+  { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
+    copy: "Designed for performance and liveability in Australia’s harshest terrain, with the power to stay out longer.",
+    spec: [
+      { k: "Solar",      v: "800W",   n: "Redarc Alpha 75, 400Ah lithium" },
+      { k: "Water",      v: "290L",   n: "200L fresh + 90L drinking" },
+      { k: "Suspension", v: "Airbag", n: "Cruisemaster XT Level 3" },
+      { k: "Brakes",     v: "12″", n: "drum" }
+    ],
+    plans: ["18′6″ COUPLES", "21′ CLUB LOUNGE", "24′ FAMILY BUNK"] },
+
+  { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
+    copy: "Wonderland’s first off-road composite caravan. Built tough, without compromising on creature comforts.",
+    spec: [
+      { k: "Solar",      v: "1000W",  n: "Victron Nexus, 400Ah lithium" },
+      { k: "Water",      v: "290L",   n: "200L fresh + 90L drinking" },
+      { k: "Suspension", v: "Airbag", n: "Cruisemaster XT Level 3" },
+      { k: "Heating",    v: "Hydronic", n: "diesel, gasless internally" }
+    ],
+    plans: ["19′6″ COUPLES", "21′ CLUB LOUNGE", "22′ FAMILY BUNK"] },
+
+  { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
+    copy: "The ultimate off-road caravan, fully loaded with every imaginable luxury and the power system to run it.",
+    spec: [
+      { k: "Solar",      v: "1000W",  n: "Victron 24V, 11kWh battery" },
+      { k: "Water",      v: "290L",   n: "200L fresh + 90L drinking" },
+      { k: "Suspension", v: "Airbag", n: "Cruisemaster ATX Level 5 BCS" },
+      { k: "Brakes",     v: "Disc",   n: "the only model with them" }
+    ],
+    plans: ["19′6″ COUPLES", "22′ CLUB LOUNGE", "24′ FAMILY BUNK"] }
+];
+
+var SPIN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4.2v4.4h-4.4"/></svg>';
+
+function img(m) {
+  return '<img src="assets/img/home/range/' + m.id + '-cut.webp" alt="' + m.name + '"' +
+         ' onload="this.parentElement.querySelector(\'.phx\').remove()" onerror="this.remove()">';
+}
+function spin() {
+  return '<button class="spin" type="button">' + SPIN_SVG + '360&deg;</button>';
+}
+function specCells(m) {
+  return m.spec.map(function (s) {
+    return '<div class="spec-cell"><p class="spec-k">' + s.k + '</p>' +
+           '<p class="spec-v">' + s.v + '</p>' +
+           '<p class="spec-n">' + s.n + '</p></div>';
+  }).join("");
+}
+function idx(i) {
+  return "0" + (i + 1) + " / 04";
+}
+
+/* ---- L1 --------------------------------------------------------------- */
+document.getElementById("l1-rows").innerHTML = MODELS.map(function (m, i) {
+  return '<div class="l1-row rv">' +
+    '<div class="l1-stage">' +
+      '<div class="phx" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
+      img(m) + spin() +
+    '</div>' +
+    '<div class="l1-text">' +
+      '<div class="l1-idx">' + idx(i) + '</div>' +
+      '<h3 class="l1-name">' + m.name + '</h3>' +
+      '<p class="l1-tag">' + m.tag + '</p>' +
+      '<p class="l1-copy">' + m.copy + '</p>' +
+      '<div class="l1-price"><small>From</small>' + m.price + '</div>' +
+      '<div class="spec">' + specCells(m) + '</div>' +
+      '<div class="l1-plans"><h4>Popular layouts</h4><div class="l1-plan-row">' +
+        m.plans.map(function (p) {
+          return '<div><div class="phx l1-plan" data-ph="FLOORPLAN"></div>' +
+                 '<span class="l1-plan-cap">' + p + '</span></div>';
+        }).join("") +
+      '</div></div>' +
+      '<a class="explore" href="#">Explore ' + m.name + '</a>' +
+    '</div>' +
+  '</div>';
+}).join("");
+
+/* ---- L2 --------------------------------------------------------------- */
+document.getElementById("l2-cards").innerHTML = MODELS.map(function (m) {
+  return '<article class="l2-card rv">' +
+    '<div class="l2-stage">' +
+      '<div class="phx" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
+      img(m) + spin() +
+    '</div>' +
+    '<div class="l2-body">' +
+      '<div class="l2-head"><h3 class="l2-name">' + m.name + '</h3>' +
+        '<div class="l2-price"><small>From</small>' + m.price + '</div></div>' +
+      '<p class="l2-tag">' + m.tag + '</p>' +
+      '<div class="spec">' + specCells(m) + '</div>' +
+      '<div class="l2-foot">' +
+        '<a class="l2-plans" href="#">3 popular layouts</a>' +
+        '<a class="explore" href="#">Explore</a>' +
+      '</div>' +
+    '</div>' +
+  '</article>';
+}).join("");
+
+/* ---- L3 --------------------------------------------------------------- */
+document.getElementById("l3-rows").innerHTML = MODELS.map(function (m, i) {
+  return '<div class="l3-row rv">' +
+    '<div class="l3-stage">' +
+      '<div class="phx phx--dark" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
+      img(m) + spin() +
+      '<p class="l3-word">' + m.name + '</p>' +
+    '</div>' +
+    '<div class="l3-text">' +
+      '<div class="l3-idx">' + idx(i) + '</div>' +
+      '<h3 class="l3-name">' + m.name + '</h3>' +
+      '<p class="l3-tag">' + m.tag + ' &middot; from ' + m.price + '</p>' +
+      '<p class="l3-copy">' + m.copy + '</p>' +
+      '<div class="l3-tabs">' +
+        '<button class="l3-tab on" type="button" data-p="0">Specs</button>' +
+        '<button class="l3-tab" type="button" data-p="1">360&deg;</button>' +
+        '<button class="l3-tab" type="button" data-p="2">Layouts</button>' +
+      '</div>' +
+      '<div class="l3-pane on"><div class="spec">' + specCells(m) + '</div></div>' +
+      '<div class="l3-pane"><div class="phx phx--dark l3-360" ' +
+        'data-ph="360° EXTERIOR\nDRAG TO SPIN — 36 FRAMES NEEDED"></div></div>' +
+      '<div class="l3-pane"><div class="l3-plan-row">' +
+        m.plans.map(function (p) {
+          return '<div><div class="phx phx--dark l3-plan" data-ph="FLOORPLAN"></div>' +
+                 '<span class="l3-plan-cap">' + p + '</span></div>';
+        }).join("") +
+      '</div></div>' +
+      '<a class="explore" href="#">Explore ' + m.name + '</a>' +
+    '</div>' +
+  '</div>';
+}).join("");
+
+/* tabs, delegated so it covers all four rows at once */
+document.addEventListener("click", function (e) {
+  var t = e.target.closest ? e.target.closest(".l3-tab") : null;
+  if (!t) return;
+  var text = t.closest(".l3-text");
+  var tabs = [].slice.call(text.querySelectorAll(".l3-tab"));
+  var panes = [].slice.call(text.querySelectorAll(".l3-pane"));
+  var n = +t.dataset.p;
+  tabs.forEach(function (x, k) { x.classList.toggle("on", k === n); });
+  panes.forEach(function (x, k) { x.classList.toggle("on", k === n); });
+});
+
+/* the 360 badge has nothing to show yet; say so rather than do nothing */
+document.addEventListener("click", function (e) {
+  var b = e.target.closest ? e.target.closest(".spin") : null;
+  if (!b) return;
+  alert("360 exterior: no spin sequence exists yet.\n\nNeeds 24-36 frames per model, shot as a matched set on a turntable or as a drone orbit.");
+});
+
+/* ---- the reveal ------------------------------------------------------- */
+var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (en) {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  });
+}, { threshold: 0.18 });
+[].slice.call(document.querySelectorAll(".rv")).forEach(function (el) { io.observe(el); });
+
+document.getElementById("anim").addEventListener("change", function () {
+  document.body.classList.toggle("no-anim", !this.checked);
+});
+</script>
+</body>
+</html>
