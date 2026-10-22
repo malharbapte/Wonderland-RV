@@ -58,15 +58,17 @@
 
   var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
 
-  /* Four readings of "suspension". The first is the one that has been in the
-     sample; the other three are the alternatives to pick between. */
-  var SUSP = {
-    a: S + '<path d="M7.6 3.4h8.8M7.6 20.6h8.8"/><path d="M7.6 6.6h8.8l-8.8 3.1h8.8l-8.8 3.1h8.8l-8.8 3.1h8.8"/></svg>',
-    b: S + '<path d="M7 3.5h10M7 20.5h10"/><path d="M8.2 6.4c2.6-1.3 5-1.3 7.6 0M8.2 9.8c2.6-1.3 5-1.3 7.6 0M8.2 13.2c2.6-1.3 5-1.3 7.6 0M8.2 16.6c2.6-1.3 5-1.3 7.6 0"/></svg>',
-    c: S + '<circle cx="12" cy="3.6" r="1.5"/><circle cx="12" cy="20.4" r="1.5"/><rect x="9" y="5.6" width="6" height="12.8" rx="1.4"/><path d="M9 11.2h6"/></svg>',
-    d: S + '<path d="M6.6 3.6h10.8M6.6 20.4h10.8"/><path d="M8 6.4h8c1.3 0 1.3 2.5 0 2.5H8c-1.3 0-1.3-2.5 0-2.5z"/><path d="M8 11h8c1.3 0 1.3 2.5 0 2.5H8c-1.3 0-1.3-2.5 0-2.5z"/><path d="M8 15.5h8c1.3 0 1.3 2.5 0 2.5H8c-1.3 0-1.3-2.5 0-2.5z"/></svg>'
-  };
-  var susp = "a";
+  /* Suspension, after your reference: a coil-over. Two eyes with their
+     bores, a rod showing above and below, and the spring drawn as ONE
+     continuous wire -- a diagonal across the front, a half turn at the edge,
+     the next diagonal back. Four separate bars would have read as a leaf
+     pack; this winds. */
+  var SUSP =
+    S + '<circle cx="12" cy="3.4" r="2.2"/><circle cx="12" cy="3.4" r="0.8"/>' +
+        '<circle cx="12" cy="20.6" r="2.2"/><circle cx="12" cy="20.6" r="0.8"/>' +
+        '<path d="M12 5.6v2M12 18.6v-2"/>' +
+        '<path d="M8.3 9.4 15.7 7.6a1.3 1.3 0 0 1 0 2.6L8.3 12a1.3 1.3 0 0 0 0 2.6' +
+        'l7.4-1.8a1.3 1.3 0 0 1 0 2.6L8.3 17.2"/></svg>';
 
   var ICON = {
     solar: S + '<path d="M3.2 14.6 5.6 7h12.8l2.4 7.6z"/><path d="M4.6 11h14.8M10.4 7l-.9 7.6M13.6 7l.9 7.6"/><path d="M12 14.6V21M8.4 21h7.2"/></svg>',
@@ -74,14 +76,14 @@
     brake: S + '<circle cx="12" cy="12" r="7.8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4.2v2.4M12 17.4v2.4M4.2 12h2.4M17.4 12h2.4"/></svg>',
     batt:  S + '<rect x="2.6" y="7" width="15.4" height="10" rx="1.6"/><path d="M18 10.4h3v3.2h-3"/><path d="m11.6 9.4-2.3 3.4h3l-1.2 2.6"/></svg>'
   };
-  function icon(key) { return key === "susp" ? SUSP[susp] : ICON[key]; }
+  function icon(key) { return key === "susp" ? SUSP : ICON[key]; }
 
-  var N = MODELS.length, at = 0, plate = "photo", swallowClick = false;
+  var N = MODELS.length, at = 0, swallowClick = false;
 
   function buildStage() {
     [].slice.call(stage.querySelectorAll(".rvx-van")).forEach(function (x) { x.remove(); });
     stage.insertAdjacentHTML("afterbegin", MODELS.map(function (m, k) {
-      var src = "assets/img/home/range/" + m.id + (plate === "photo" ? "-feature" : "-34") + ".webp";
+      var src = "assets/img/home/range/" + m.id + "-34.webp";
       return '<div class="rvx-van" data-k="' + k + '">' +
         '<img src="' + src + '" alt="' + m.name + '" onerror="this.remove();">' +
       '</div>';
@@ -206,12 +208,6 @@
       [].slice.call(bar.querySelectorAll('button[data-set="' + g + '"]'))
         .forEach(function (x) { x.classList.toggle("on", x === b); });
       if (g === "motion") { sec.classList.toggle("is-snap", v === "snap"); }
-      if (g === "plate")  { plate = v; sec.classList.toggle("is-cut", v === "cut"); buildStage(); }
-      if (g === "susp")   { susp = v; buildPanels(); }
-    });
-    /* the icons laid out side by side in the switch bar */
-    [].slice.call(bar.querySelectorAll("[data-susp-preview]")).forEach(function (el) {
-      el.innerHTML = SUSP[el.dataset.suspPreview];
     });
   }
 

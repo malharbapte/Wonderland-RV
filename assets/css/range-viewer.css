@@ -1,171 +1,155 @@
 /* ===========================================================================
-   RANGE VIEWER — built to "Range section.svg".
+   RANGE VIEWER — the arrangement from "Range section.svg", at the page's own
+   type scale.
 
-   THE SCALE. That artboard is 1920 wide; this site's is 2376 (1rem = 100
-   artboard px). The heading sits at x=306.91 and 306.91 x 2376/1920 = 380,
-   which is the site's 3.76rem page margin -- so the drawing maps onto our
-   scale at 1 SVG px = 0.012375rem, and every number below is the SVG's own
-   measurement put through that. At a 1920-wide window the result is the
-   drawing at 1:1.
+   THE ARRANGEMENT is the drawing's: centre van with a neighbour either side on
+   the same axis, badge pill top left, name and tagline left with From and the
+   price right, four feature cells with the icon beside its title and the value
+   under it, two buttons centred on the page, dividers between the cells.
 
-   WHAT THE DRAWING SETTLES
-     stage        centre plate 941.42 x 481.56 -> 11.65 x 5.96rem, dead centre;
-                  the two neighbours are the same plate at 49.3% on the same
-                  axis, bleeding off both page edges (the left one starts at
-                  x = -4.51, so it is meant to be cut by the window)
-     badge        a pill with a square left edge and a round right end, inside
-                  the plate, flush to its left, 0.21rem down
-     name row     name and tagline left on the plate's left edge; From and the
-                  price right on its right edge, price in orange
-     features     the content column in four, a hairline between each, and
-                  inside a cell: icon and title side by side, then the value,
-                  then its note
-     buttons      two of them, 4.71 x 1.04rem, centred on the page, not on the
-                  plate -- solid then outlined
+   THE SIZES ARE NOT the drawing's. Put through at 1:1 the heading came to
+   0.65rem against the site's 0.56, the values to 0.50 against a 0.28 body, and
+   the section shouted over everything around it. Every size here is a site
+   token or sits on the same ladder: --t-heading for the head, --t-sub for the
+   price, --t-body for a value, --t-caption for a note.
 
-   WHAT IT DOES NOT SHOW, and is kept from the working sample: the arrows and
-   the dots. They go under the buttons on the same centre line.
+   The vans are the transparent 3/4 cut-outs on the page itself. No plate, no
+   panel, no fill behind them -- same as every other cut-out on this site.
 
-   DESKTOP ONLY. Everything is inside @media (min-width: 901px) and the
-   section is display:none below 900 -- the phone keeps the range it has.
+   DESKTOP ONLY. All of it is inside @media (min-width: 901px) and the section
+   is display:none below 900, so the phone keeps the range it has.
    =========================================================================== */
 
 @media (min-width: 901px) {
 
 .rvx {
-  --rule:  #010101;                    /* the drawing's hairline, 1px at 1920 */
-  --hair:  0.012rem;
-  --plate: 11.65rem;                   /* the centre plate's width            */
+  --rule:  #e4e2de;
+  --dim:   #6b6158;
+  --plate: 9.60rem;              /* the span the name and price sit across */
   --step:  .78s cubic-bezier(.33,0,.18,1);
   padding-top: var(--section-gap);
   padding-bottom: var(--section-gap);
-  touch-action: pan-y;                 /* horizontal is ours, vertical theirs */
+  touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
 .rvx.is-snap { --step: .46s cubic-bezier(.22,.9,.24,1); }
 
 .rvx-title { margin: 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.6525rem; line-height: 1; color: #010101; }
-.rvx-lede { margin: 0.20rem 0 0; font-family: var(--gordita);
-  font-size: 0.3459rem; line-height: 0.44rem; color: #010101; }
+  font-size: var(--t-heading); line-height: 1; color: #010101; }
+.rvx-lede { margin: 0.18rem 0 0; max-width: 7.60rem; font-family: var(--gordita);
+  font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
 
-/* ---- stage ------------------------------------------------------------- */
-.rvx-stage { position: relative; height: 5.9593rem; margin-top: 0.34rem;
+/* ---- stage: cut-outs on the page, nothing behind them ----------------- */
+.rvx-stage { position: relative; height: 4.10rem; margin-top: 0.34rem;
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
-
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
   width: var(--plate); margin-left: calc(var(--plate) / -2);
-  background: #cccccc;                 /* the plate, until a photo lands on it */
-  display: grid; place-items: center; overflow: hidden;
+  display: grid; place-items: center;
   transition: transform var(--step), opacity var(--step);
   will-change: transform, opacity; }
-/* a feature photo fills the plate; a cut-out is fitted inside it instead */
-.rvx-van img { width: 100%; height: 100%; object-fit: cover; }
-.rvx.is-cut .rvx-van { background: #f4f1ea; }
-.rvx.is-cut .rvx-van img { object-fit: contain; }
+.rvx-van img { width: 100%; height: 100%; object-fit: contain; }
 
-/* 464.05 / 941.42 = 0.4929, and the neighbour's centre sits 9.06rem out,
-   which is 77.8% of the plate's own width */
-.rvx-van[data-d="0"]  { transform: none;                           opacity: 1; z-index: 3; }
-.rvx-van[data-d="-1"] { transform: translateX(-77.8%) scale(.4929); opacity: 1; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 77.8%) scale(.4929); opacity: 1; z-index: 2; }
-.rvx-van[data-d="2"]  { transform: translateX( 140%)  scale(.4929); opacity: 0; z-index: 1; }
+/* the drawing's 49.3% for a neighbour, pulled in from its 77.8% so the three
+   cut-outs sit together rather than stranded -- a cut-out has its own
+   transparent margin where the drawing's photo plate had none */
+.rvx-van[data-d="0"]  { transform: none;                          opacity: 1;   z-index: 3; }
+.rvx-van[data-d="-1"] { transform: translateX(-64%) scale(.493);  opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 64%) scale(.493);  opacity: .55; z-index: 2; }
+.rvx-van[data-d="2"]  { transform: translateX( 120%) scale(.42);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
+.rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
 
-/* ---- badge: square left edge, round right end, inside the plate -------- */
-.rvx-badges { position: absolute; top: 0.207rem; z-index: 4; display: grid;
-  left: calc(50vw - (var(--plate) / 2)); }
+/* ---- badge: square left edge, round right end, on the page margin ------ */
+.rvx-badges { position: absolute; top: 0.10rem; z-index: 4; display: grid;
+  left: calc(50vw - (var(--col) / 2)); }
 .rvx-badge-set { grid-area: 1 / 1; display: flex; flex-direction: column;
-  align-items: flex-start; gap: 0.10rem;
+  align-items: flex-start; gap: 0.09rem;
   opacity: 0; visibility: hidden;
   transition: opacity var(--step), visibility 0s linear .78s; }
 .rvx-badge-set.on { opacity: 1; visibility: visible; transition-delay: .20s, 0s; }
 .rvx-badge { display: inline-flex; align-items: center;
-  height: 0.407rem; padding: 0 0.254rem;
-  border-radius: 0 0.2035rem 0.2035rem 0;
+  height: 0.34rem; padding: 0 0.20rem;
+  border-radius: 0 0.17rem 0.17rem 0;
   background: var(--orange); color: #fff;
-  font-family: var(--aviano); font-weight: 900; font-size: 0.297rem;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.185rem;
   line-height: 1; white-space: nowrap; }
 
 /* =========================================================================
    THE PANEL
    ========================================================================= */
 .rvx-panels { position: relative; display: grid; grid-template-areas: "a";
-  margin-top: 0.28rem; }
+  margin-top: 0.30rem; }
 .rvx-panel { grid-area: a;
   opacity: 0; visibility: hidden;
   transition: opacity var(--step), visibility 0s linear .78s; }
 .rvx-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
 
-/* name and tagline left, From and price right, both on the plate's edges --
-   so the writing is inset to the photo above it, not to the page margin */
 .rvx-head { width: var(--plate); margin: 0 auto;
   display: grid; grid-template-columns: 1fr auto; column-gap: 0.40rem;
   align-items: end; }
 .rvx-name { margin: 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.6683rem; line-height: 1; text-transform: uppercase;
+  font-size: 0.46rem; line-height: 1; text-transform: uppercase;
   white-space: nowrap; color: #010101; }
-.rvx-tag { margin: 0.07rem 0 0; font-family: var(--gordita); font-style: italic;
-  font-size: 0.297rem; line-height: 0.36rem; color: #010101; }
+.rvx-tag { margin: 0.08rem 0 0; font-family: var(--gordita); font-style: italic;
+  font-size: 0.21rem; line-height: 0.28rem; color: var(--dim); }
 .rvx-money { text-align: right; }
-.rvx-from { margin: 0; font-family: var(--gordita); font-size: 0.297rem;
-  line-height: 0.36rem; color: #010101; }
-.rvx-price { margin: 0.07rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.6683rem; line-height: 1; color: var(--orange); }
+.rvx-from { margin: 0; font-family: var(--gordita); font-size: 0.16rem;
+  line-height: 0.22rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--dim); }
+.rvx-price { margin: 0.06rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: var(--t-sub); line-height: 1; color: var(--orange); }
 
 /* ---- the four features ------------------------------------------------- */
 .rvx-spec { display: grid; grid-template-columns: repeat(4, 1fr);
-  margin-top: 0.44rem; }
-.rvx-cell { position: relative; padding-left: 0.254rem; }
-/* the rule runs 1.95rem, starting just above the icon -- it is a divider
-   between cells, not a border on a box, so it is drawn rather than inherited */
+  margin-top: 0.38rem; }
+.rvx-cell { position: relative; padding-left: 0.24rem; }
 .rvx-cell + .rvx-cell::before { content: ""; position: absolute;
-  left: 0; top: 0.09rem; width: var(--hair); height: 1.945rem;
+  left: 0; top: 0.02rem; width: 0.0075rem; height: 1.26rem;
   background: var(--rule); }
 
-.rvx-cellhead { display: flex; align-items: center; gap: 0.201rem; }
-.rvx-ico { display: block; flex: none; width: 0.770rem; height: 0.770rem;
+.rvx-cellhead { display: flex; align-items: center; gap: 0.14rem; }
+.rvx-ico { display: block; flex: none; width: 0.44rem; height: 0.44rem;
   color: #010101; }
 .rvx-ico svg { width: 100%; height: 100%; display: block; }
 .rvx-k { margin: 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.297rem; line-height: 1; color: #010101; }
-.rvx-v { margin: 0.19rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.495rem; line-height: 1; color: var(--orange); }
-.rvx-n { margin: 0.13rem 0 0; font-family: var(--gordita);
-  font-size: 0.26rem; line-height: 0.32rem; color: #010101; }
+  font-size: 0.21rem; line-height: 1; color: #010101; }
+.rvx-v { margin: 0.14rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: var(--t-body); line-height: 1; color: var(--orange); }
+.rvx-n { margin: 0.08rem 0 0; font-family: var(--gordita);
+  font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
-/* ---- the two buttons, centred on the page ------------------------------ */
-.rvx-act { display: flex; justify-content: center; gap: 0.310rem;
-  margin-top: 0.50rem; }
+/* ---- two buttons, centred on the page, at .btn-solid's own metrics ----- */
+.rvx-act { display: flex; justify-content: center; gap: 0.26rem;
+  margin-top: 0.40rem; }
 .rvx-cta { display: inline-flex; align-items: center; justify-content: center;
-  width: 4.713rem; height: 1.036rem;
-  font-family: var(--aviano); font-weight: 900; font-size: 0.297rem;
-  line-height: 1; text-decoration: none; text-transform: uppercase;
+  min-width: 3.30rem; padding: 0.24rem 0.34rem;
+  font-family: var(--aviano); font-weight: 900; font-size: var(--t-cta);
+  line-height: 1; text-decoration: none;
   transition: background .42s ease, color .42s ease; }
-.rvx-cta--fill { background: var(--orange); color: #fff;
-  box-shadow: inset 0 0 0 0.0247rem var(--orange); }
-.rvx-cta--fill:hover { background: #fff; color: var(--orange); }
-.rvx-cta--line { background: #fff; color: var(--orange);
-  box-shadow: inset 0 0 0 0.0247rem var(--orange); }
-.rvx-cta--line:hover { background: var(--orange); color: #fff; }
+.rvx-cta--fill { background: var(--orange-deep); color: #fff;
+  box-shadow: inset 0 0 0 0.02rem var(--orange-deep); }
+.rvx-cta--fill:hover { background: #fff; color: var(--orange-deep); }
+.rvx-cta--line { background: #fff; color: var(--orange-deep);
+  box-shadow: inset 0 0 0 0.02rem var(--orange-deep); }
+.rvx-cta--line:hover { background: var(--orange-deep); color: #fff; }
 
-/* ---- chrome the drawing does not show, kept from the working sample ---- */
+/* ---- chrome the drawing does not show --------------------------------- */
 .rvx-nav { display: flex; align-items: center; justify-content: center;
-  gap: 0.30rem; margin-top: 0.40rem; }
-.rvx-arrow { width: 0.70rem; height: 0.70rem; border-radius: 50%; cursor: pointer;
+  gap: 0.26rem; margin-top: 0.34rem; }
+.rvx-arrow { width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: #010101;
   display: grid; place-items: center; padding: 0;
   transition: border-color .3s ease, color .3s ease; }
-.rvx-arrow svg { width: 0.30rem; height: 0.30rem; }
-.rvx-arrow:hover { border-color: var(--orange); color: var(--orange); }
-.rvx-dots { display: flex; gap: 0.16rem; }
-.rvx-dot { width: 0.13rem; height: 0.13rem; border-radius: 50%; border: 0; padding: 0;
+.rvx-arrow svg { width: 0.24rem; height: 0.24rem; }
+.rvx-arrow:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
+.rvx-dots { display: flex; gap: 0.14rem; }
+.rvx-dot { width: 0.12rem; height: 0.12rem; border-radius: 50%; border: 0; padding: 0;
   background: #d9d3c8; cursor: pointer;
   transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
-.rvx-dot.on { background: var(--orange); transform: scale(1.5); }
+.rvx-dot.on { background: var(--orange-deep); transform: scale(1.5); }
 
-.rvx-note { margin: 0.34rem 0 0; text-align: center; font-family: var(--gordita);
-  font-size: 0.20rem; line-height: 0.28rem; color: #6b6158; }
+.rvx-note { margin: 0.30rem 0 0; text-align: center; font-family: var(--gordita);
+  font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
 }  /* end @media (min-width: 901px) */
 

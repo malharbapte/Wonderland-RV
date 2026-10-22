@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=208">
-<link rel="stylesheet" href="assets/css/homepage.css?v=208">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=208">
+<link rel="stylesheet" href="assets/css/styles.css?v=209">
+<link rel="stylesheet" href="assets/css/homepage.css?v=209">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=209">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -39,11 +39,7 @@ body { background: #fff; margin: 0; }
 <div class="bar" data-rvx-bar>
   <div class="container">
     <b>Range viewer</b>
-    <span class="seg"><span>Suspension icon</span><button data-set="susp" data-val="a" class="on"><i class="icopv" data-susp-preview="a"></i>Coil, folded</button><button data-set="susp" data-val="b"><i class="icopv" data-susp-preview="b"></i>Coil, wound</button><button data-set="susp" data-val="c"><i class="icopv" data-susp-preview="c"></i>Damper</button><button data-set="susp" data-val="d"><i class="icopv" data-susp-preview="d"></i>Airbag</button></span>
-    <span class="seg"><span>Plate</span>
-      <button data-set="plate" data-val="photo" class="on">Feature photo</button>
-      <button data-set="plate" data-val="cut">Cut-out</button></span>
-    <span class="seg"><span>Step</span>
+            <span class="seg"><span>Step</span>
       <button data-set="motion" data-val="glide" class="on">Glide</button>
       <button data-set="motion" data-val="snap">Snap</button></span>
   </div>
@@ -78,26 +74,25 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <h2>Built to the drawing</h2>
 
-    <h3>How the artboard was mapped</h3>
+    <h3>How the artboard was read</h3>
     <ul>
       <li>Your artboard is 1920 wide; this site&rsquo;s is 2376, where 1rem is 100 artboard px. The heading sits at x&nbsp;=&nbsp;306.91, and 306.91&nbsp;&times;&nbsp;2376/1920&nbsp;=&nbsp;380 &mdash; the site&rsquo;s 3.76rem page margin. So the drawing maps onto our scale at <b>1 SVG px = 0.012375rem</b>, and every size and position below is your own measurement put through that. At a 1920-wide window this is the drawing at 1:1.</li>
       <li>The plate is 941.42&nbsp;&times;&nbsp;481.56 and dead centre. The two neighbours are the same plate at <b>49.3%</b> on the same axis &mdash; and your left one starts at x&nbsp;=&nbsp;&minus;4.51, so they are meant to be cut by the window, which is what they do.</li>
       <li>The buttons are centred on the <i>page</i>, not on the plate &mdash; their pair straddles x&nbsp;=&nbsp;960 exactly. The name and price are the opposite: both sit on the plate&rsquo;s edges, not the page margin.</li>
     </ul>
 
-    <h3>Four suspension icons</h3>
+    <h3>Suspension</h3>
     <ul>
-      <li>Switch between them at the top; the strip redraws in place so you are judging them at real size in the real cell, not as a swatch.</li>
-      <li><b>Coil, folded</b> is what has been in the sample. <b>Coil, wound</b> reads more like an actual spring. <b>Damper</b> is the shock body with its eyes. <b>Airbag</b> is a bellows &mdash; worth a look because three of the four models are airbag, not coil.</li>
+      <li>Redrawn to your reference: a coil-over. Two eyes with their bores, the rod showing above and below, and the spring as <b>one continuous wire</b> &mdash; diagonal across the front, half a turn at the edge, the next diagonal back. The four I offered before were all stacks of separate bars, which is why they read as a leaf pack rather than something wound.</li>
     </ul>
 
     <h3>Decisions I made, flag any you want back</h3>
     <ul>
-      <li><b>Feature photos are real.</b> The grey plates are filled with your own exterior shots from wonderlandrv.com.au, cropped to the drawing&rsquo;s 941:482 around the van. Switch to <b>Cut-out</b> at the top to see the transparent 3/4 renders in the same slots instead.</li>
+      <li><b>The cut-outs stayed.</b> Transparent 3/4 renders on the page itself &mdash; no plate, no panel, nothing behind them. The grey rectangles in your drawing are read as placement only. The feature photos I had put in are gone.</li>
       <li><b>Badges are all one pill</b> &mdash; square left edge, round right end, orange, white type &mdash; exactly as your &ldquo;Full-composite&rdquo; chip is drawn. Solara carries two, XTR carries Flagship.</li>
       <li><b>Icons are ink, not orange.</b> In your drawing everything is black except the values, the price and the buttons; making the icons orange too would have spread the accent over half the strip.</li>
       <li><b>Brakes carry no note.</b> You wrote the cell as one line, &ldquo;12&rdquo;DRUM&rdquo;, with nothing under it, so the note line is simply absent on that cell rather than padded out.</li>
-      <li>The heading is <b>0.65rem</b> and the lede <b>0.35rem</b>, which is what your 65.25 and 34.59 come to. Both are larger than the homepage&rsquo;s standard section heading, so this section will read louder than its neighbours. Deliberate or not, it is your drawing &mdash; say the word and I will bring it to <code>--t-heading</code>.</li>
+      <li><b>The arrangement is the drawing&rsquo;s; the sizes are not.</b> Put through at 1:1 the heading came to 0.65rem against the site&rsquo;s 0.56, a value to 0.50 against a 0.28 body, and the section shouted over everything around it. Every size now is a site token or on the same ladder &mdash; <code>--t-heading</code> for the head, <code>--t-sub</code> for the price, <code>--t-body</code> for a value, and the vans are smaller to match.</li>
       <li>Arrows and dots are not in the drawing. They are under the buttons on the same centre line, and every interaction from the last round is unchanged.</li>
       <li>&ldquo;REDRAC&rdquo; in the drawing is set as <b>REDARC</b> here, which is the brand.</li>
     </ul>
@@ -109,6 +104,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=208"></script>
+<script src="assets/js/range-viewer.js?v=209"></script>
 </body>
 </html>
