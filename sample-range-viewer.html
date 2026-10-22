@@ -107,6 +107,9 @@ body { background: #fff; margin: 0; }
 .badge--award { background: var(--orange-deep); color: #fff; }
 .badge--build { background: #fff; color: var(--ink);
   box-shadow: inset 0 0 0 0.0075rem #cfc7ba; }
+/* ink rather than orange: flagship is a position in the range, not an award,
+   and the two should not look like the same kind of claim */
+.badge--flag { background: var(--ink); color: #fff; }
 
 /* =========================================================================
    THE PANEL — one per model, all stacked in one cell, one shown.
@@ -359,7 +362,7 @@ var MODELS = [
            ["batt","Battery","400Ah","lithium"]] },
 
   { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
-    badges: [],
+    badges: ["flag"],
     spec: [["solar","Solar","1000W","Victron 24V"],
            ["water","Water","290L","200L + 90L drinking"],
            ["susp","Suspension","Airbag","Cruisemaster ATX L5 BCS"],
@@ -380,7 +383,10 @@ var BADGE = {
     '2026 Judge&rsquo;s Choice &middot; Queen of Hearts</span>',
   build: '<span class="badge badge--build">' + S +
     '<path d="M3.6 7.4 12 3.4l8.4 4v9.2L12 20.6l-8.4-4z"/><path d="M3.6 7.4 12 11.4l8.4-4M12 11.4v9.2"/></svg>' +
-    'Full composite body</span>'
+    'Full composite body</span>',
+  flag:  '<span class="badge badge--flag">' + S +
+    '<path d="M4 18.4 12 5.6l8 12.8z"/><path d="m8.2 11.6 3.8 2.6 3.8-2.6"/></svg>' +
+    'Flagship</span>'
 };
 
 var N = MODELS.length, at = 0, angle = "34", swallowClick = false;
