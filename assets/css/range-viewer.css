@@ -1,0 +1,184 @@
+/* ===========================================================================
+   RANGE VIEWER — the homepage's own language.
+
+   Set in the house conventions rather than in its own: the section heading is
+   --t-heading on the site's --section-gap rhythm, the lede matches the one the
+   old range section carried, and the call to action is .btn-solid itself, not
+   a lookalike. Nothing here restyles a shared class.
+
+   DESKTOP ONLY this round. Everything is inside @media (min-width: 901px) and
+   the section is display:none below 900, so the finished phone layout is
+   untouched -- see the gate at the foot of the file.
+
+   TWO ARRANGEMENTS, switched by a class on the section:
+     .lay-stage  the van centred, the name huge under it
+     .lay-right  the van left, every detail in a column on the right
+   =========================================================================== */
+
+@media (min-width: 901px) {
+
+.rvx {
+  --dim:  #7d7369;
+  --rule: #e4e2de;
+  --step: .78s cubic-bezier(.33,0,.18,1);
+  padding-top: var(--section-gap);
+  padding-bottom: var(--section-gap);
+  /* the horizontal axis is ours, the vertical stays the browser's */
+  touch-action: pan-y;
+}
+.rvx.is-snap { --step: .46s cubic-bezier(.22,.9,.24,1); }
+
+/* the section head, exactly as every other homepage section states itself */
+.rvx-title { margin: 0; font-family: var(--aviano); font-weight: 900;
+  font-size: var(--t-heading); line-height: 1; }
+.rvx-lede { margin: 0.18rem 0 0; max-width: 7.60rem;
+  font-family: var(--gordita); font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; }
+
+/* ---- stage ------------------------------------------------------------- */
+.rvx-wrap { margin-top: 0.44rem; }
+.rvx-stage { position: relative; height: 4.60rem; overflow: hidden;
+  user-select: none; -webkit-user-select: none; }
+.rvx-van { position: absolute; top: 0; left: 50%; width: 8.60rem; height: 100%;
+  margin-left: -4.30rem; display: grid; place-items: center;
+  transition: transform var(--step), opacity var(--step);
+  will-change: transform, opacity; }
+.rvx-van img { width: 100%; height: 100%; object-fit: contain; }
+.rvx-van[data-d="0"]  { transform: none;                        opacity: 1;   z-index: 3; }
+.rvx-van[data-d="-1"] { transform: translateX(-108%) scale(.58); opacity: .52; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 108%) scale(.58); opacity: .52; z-index: 2; }
+.rvx-van[data-d="2"]  { transform: translateX( 170%) scale(.42); opacity: 0;   z-index: 1; }
+.rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
+.rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .80; }
+
+/* ---- badges ------------------------------------------------------------
+   One shape, one type size, no icons. A star on one chip and nothing on the
+   next is itself an inconsistency, and at 0.40rem tall the glyph read as
+   grit rather than as a mark. Only the fill separates them: filled is an
+   award, outlined is a statement about the van. ------------------------- */
+.rvx-badges { position: absolute; top: 0.14rem; z-index: 4; display: grid; }
+.rvx-badge-set { grid-area: 1 / 1; display: flex; flex-direction: column;
+  align-items: flex-start; gap: 0.10rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rvx-badge-set.on { opacity: 1; visibility: visible; transition-delay: .20s, 0s; }
+.rvx-badge { display: inline-flex; align-items: center;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.15rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  height: 0.42rem; padding: 0 0.22rem; white-space: nowrap; }
+.rvx-badge--fill { background: var(--orange-deep); color: #fff; }
+.rvx-badge--line { background: #fff; color: var(--ink);
+  box-shadow: inset 0 0 0 0.0075rem #cfc7ba; }
+
+/* =========================================================================
+   THE PANEL
+   ========================================================================= */
+.rvx-panels { position: relative; display: grid; grid-template-areas: "a"; }
+.rvx-panel { grid-area: a;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rvx-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
+
+/* name > price > tagline, in that order and in that order of size */
+.rvx-name { margin: 0; font-family: var(--aviano); font-weight: 900;
+  line-height: 1; text-transform: uppercase; white-space: nowrap; }
+.rvx-price { font-family: var(--aviano); font-weight: 900; line-height: 1; }
+.rvx-price span { font-family: var(--gordita); font-weight: 500; font-size: 0.155rem;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+  margin-right: 0.12rem; vertical-align: 0.06rem; }
+.rvx-tag { font-family: var(--gordita); font-style: italic; color: var(--dim); }
+
+/* a detail cell: icon, then title, then the figure and its note at one size */
+.rvx-spec { display: grid; }
+.rvx-cell { border-left: 0.0075rem solid var(--rule); }
+.rvx-ico { display: block; width: 0.34rem; height: 0.34rem; color: var(--orange-deep); }
+.rvx-ico svg { width: 100%; height: 100%; display: block; }
+.rvx-k { margin: 0.10rem 0 0; font-family: var(--gordita); font-weight: 700;
+  font-size: 0.20rem; line-height: 0.24rem; letter-spacing: .10em;
+  text-transform: uppercase; }
+.rvx-v { margin: 0.08rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.165rem; line-height: 0.22rem; }
+.rvx-n { margin: 0.02rem 0 0; font-family: var(--gordita);
+  font-size: 0.165rem; line-height: 0.22rem; color: var(--dim); }
+
+/* ---- act: the house button, borrowed rather than imitated -------------- */
+.rvx-act { display: flex; align-items: center; gap: 0.34rem; }
+.rvx-quiet { font-family: var(--gordita); font-weight: 700; font-size: 0.18rem;
+  text-decoration: none; color: var(--ink);
+  border-bottom: 0.0075rem solid var(--rule); padding-bottom: 0.05rem;
+  transition: color .3s ease, border-color .3s ease; }
+.rvx-quiet:hover { color: var(--orange-deep); border-bottom-color: var(--orange-deep); }
+
+/* ---- shared chrome ----------------------------------------------------- */
+.rvx-arrow { width: 0.70rem; height: 0.70rem; border-radius: 50%; cursor: pointer;
+  background: transparent; border: 0.0075rem solid transparent; color: var(--ink);
+  display: grid; place-items: center; padding: 0;
+  transition: border-color .3s ease, color .3s ease; }
+.rvx-arrow svg { width: 0.30rem; height: 0.30rem; }
+.rvx-arrow:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
+
+.rvx-dots { display: flex; gap: 0.16rem; }
+.rvx-dot { width: 0.13rem; height: 0.13rem; border-radius: 50%; border: 0; padding: 0;
+  background: #d9d3c8; cursor: pointer;
+  transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
+.rvx-dot.on { background: var(--orange-deep); transform: scale(1.5); }
+
+.rvx-note { margin: 0.34rem 0 0; font-family: var(--gordita);
+  font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
+
+/* =========================================================================
+   ARRANGEMENT 1 — STAGE
+   ========================================================================= */
+.lay-stage .rvx-stage { width: 100vw; margin-left: calc(50% - 50vw); }
+.lay-stage .rvx-badges { left: calc(50vw - 8.12rem); }
+/* the chevrons sit level with the name rather than above it, so they read as
+   belonging to the model being shown */
+.lay-stage .rvx-side { position: relative; }
+.lay-stage .rvx-mark { position: absolute; left: 0; right: 0; top: 0; height: 0.82rem;
+  display: grid; grid-template-columns: 0.70rem 1fr 0.70rem; align-items: center; }
+.lay-stage .rvx-panels { text-align: center; }
+.lay-stage .rvx-name  { font-size: 0.82rem; }
+.lay-stage .rvx-price { margin: 0.12rem 0 0; font-size: 0.40rem; }
+.lay-stage .rvx-tag   { margin: 0.10rem 0 0; font-size: 0.22rem; line-height: 0.30rem; }
+.lay-stage .rvx-spec  { grid-template-columns: repeat(4, 1fr); width: 13.60rem;
+  margin: 0.44rem auto 0; padding-top: 0.32rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-stage .rvx-cell  { text-align: center; padding: 0 0.20rem; }
+.lay-stage .rvx-cell:first-child { border-left: 0; }
+.lay-stage .rvx-ico   { margin: 0 auto; }
+.lay-stage .rvx-act   { justify-content: center; margin-top: 0.42rem; }
+.lay-stage .rvx-foot  { display: flex; justify-content: center; margin-top: 0.34rem; }
+.lay-stage .rvx-note  { text-align: center; }
+.lay-stage .rvx-sidearrows { display: none; }
+
+/* =========================================================================
+   ARRANGEMENT 2 — RIGHT. Van left, every detail in the right column.
+   ========================================================================= */
+.lay-right .rvx-wrap { display: grid; grid-template-columns: 9.00rem 6.60rem;
+  column-gap: 0.64rem; align-items: center; }
+.lay-right .rvx-stage { height: 5.00rem; }
+.lay-right .rvx-van { width: 8.20rem; margin-left: -4.10rem; }
+.lay-right .rvx-van[data-d="-1"] { transform: translateX(-88%) scale(.52); opacity: .42; }
+.lay-right .rvx-van[data-d="1"]  { transform: translateX( 88%) scale(.52); opacity: .42; }
+.lay-right .rvx-badges { left: 0; }
+.lay-right .rvx-mark { display: none; }
+.lay-right .rvx-panels { text-align: left; }
+.lay-right .rvx-name  { font-size: 0.50rem; }
+.lay-right .rvx-price { margin: 0.12rem 0 0; font-size: 0.34rem; }
+.lay-right .rvx-tag   { margin: 0.09rem 0 0; font-size: 0.20rem; line-height: 0.28rem; }
+.lay-right .rvx-spec  { grid-template-columns: repeat(2, 1fr); row-gap: 0.28rem;
+  margin-top: 0.34rem; padding-top: 0.28rem;
+  border-top: 0.0075rem solid var(--rule); }
+.lay-right .rvx-cell  { padding: 0; border-left: 0; }
+.lay-right .rvx-cell:nth-child(even) { padding-left: 0.28rem;
+  border-left: 0.0075rem solid var(--rule); }
+.lay-right .rvx-act   { margin-top: 0.40rem; }
+.lay-right .rvx-sidearrows { display: flex; align-items: center; gap: 0.30rem;
+  margin-top: 0.36rem; }
+.lay-right .rvx-foot { display: none; }
+.lay-right .rvx-note { text-align: left; }
+
+}  /* end @media (min-width: 901px) */
+
+/* The phone keeps the range section it already has. This one is not built
+   for it yet and must never reach it. */
+@media (max-width: 900px) { .rvx { display: none; } }

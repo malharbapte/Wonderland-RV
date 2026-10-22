@@ -3,43 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Range viewer — arrangement</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=206">
+<title>Range viewer — two arrangements</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=207">
+<link rel="stylesheet" href="assets/css/homepage.css?v=207">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=207">
 <style>
-/* ===========================================================================
-   RANGE VIEWER — this round is about arrangement and information flow.
-
-   THE PROBLEM. Everything below the van was one undifferentiated centred
-   column, so a reader had no way to tell which question each line answered.
-   Adding more numbers to that column would have made it worse, not better:
-   an undifferentiated block of figures is a wall.
-
-   THE FLOW IT NOW FOLLOWS. Four steps, each a visibly different kind of
-   block, in the order a buyer actually asks them:
-
-     1 IDENTIFY   name, tagline            is this the one I mean?
-     2 POSITION   price                    is it in my league?
-     3 CAPABILITY solar, water, susp, …    is it enough van?
-     4 ACT        explore, brochure
-
-   Tare and ATM were in here and came out again: both move with the options
-   on a given build, so a single figure per model would have been wrong for
-   most of the vans it described. A number that cannot be trusted is worse
-   than no number, because it is the one a buyer would act on.
-
-   Two arrangements are switchable at the top, because the right answer to
-   "where does all this sit" is not obvious:
-     STAGE  keeps Lotus's centred hero and stacks the bands under it.
-     SPLIT  puts the van left and the data right as label/value rows, which
-            scans faster but costs the big wordmark.
-
-   Everything on screen is quoted from wonderlandrv.com.au. Nothing here is
-   invented; where a figure could not be sourced it is not shown.
-   =========================================================================== */
-
+/* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
-
-/* ---- sample chrome ----------------------------------------------------- */
 .bar { position: sticky; top: 0; z-index: 50; background: #1b1b1b; color: #fff;
   padding: 0.22rem 0; }
 .bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.36rem; }
@@ -51,195 +21,7 @@ body { background: #fff; margin: 0; }
   background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
   padding: 0.06rem 0.16rem; letter-spacing: .06em; }
 .seg button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
-
-/* =========================================================================
-   SECTION SHELL
-   ========================================================================= */
-.rv {
-  --ink:  #1b1b1b;
-  --dim:  #7d7369;
-  --rule: #e4e2de;
-  --step: .78s cubic-bezier(.33,0,.18,1);
-  width: 100vw; margin-left: calc(50% - 50vw);
-  background: linear-gradient(180deg, #ffffff 0%, #f7f4ee 62%, #f2eee6 100%);
-  color: var(--ink);
-  padding: 0.72rem 0 0.56rem;
-}
-.rv.is-snap { --step: .46s cubic-bezier(.22,.9,.24,1); }
-
-.rv-head { margin: 0; text-align: center;
-  font-family: var(--aviano); font-weight: 900; font-size: 0.40rem; line-height: 1;
-  letter-spacing: .04em; text-transform: uppercase; }
-
-/* ---- stage ------------------------------------------------------------- */
-.rv-wrap { margin-top: 0.30rem; }
-.rv-stage { position: relative; height: 4.60rem; overflow: hidden; }
-/* pan-y hands the browser vertical scrolling and keeps horizontal for us, so
-   a touch swipe steps the viewer while the page still scrolls normally. */
-.rv { touch-action: pan-y; }
-.rv-stage { user-select: none; -webkit-user-select: none; }
-.rv-van { position: absolute; top: 0; left: 50%; width: 8.60rem; height: 100%;
-  margin-left: -4.30rem; display: grid; place-items: center;
-  transition: transform var(--step), opacity var(--step);
-  will-change: transform, opacity; }
-.rv-van img { width: 100%; height: 100%; object-fit: contain; }
-.rv-van .phx { position: absolute; inset: 10% 0; }
-.rv-van[data-d="0"]  { transform: none;                        opacity: 1;   z-index: 3; }
-.rv-van[data-d="-1"] { transform: translateX(-108%) scale(.58); opacity: .52; z-index: 2; }
-.rv-van[data-d="1"]  { transform: translateX( 108%) scale(.58); opacity: .52; z-index: 2; }
-.rv-van[data-d="2"]  { transform: translateX( 170%) scale(.42); opacity: 0;   z-index: 1; }
-.rv-van[data-d="-1"], .rv-van[data-d="1"] { cursor: pointer; }
-.rv-van[data-d="-1"]:hover, .rv-van[data-d="1"]:hover { opacity: .80; }
-
-/* ---- badges: pinned to the stage, not to a van, so they do not travel -- */
-.rv-badges { position: absolute; left: 0; top: 0.14rem; z-index: 4;
-  display: grid; }
-.rv-badge-set { grid-area: 1 / 1; display: flex; flex-direction: column;
-  align-items: flex-start; gap: 0.10rem;
-  opacity: 0; visibility: hidden;
-  transition: opacity var(--step), visibility 0s linear .78s; }
-.rv-badge-set.on { opacity: 1; visibility: visible; transition-delay: .20s, 0s; }
-.badge { display: inline-flex; align-items: center; gap: 0.09rem;
-  font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
-  letter-spacing: .10em; text-transform: uppercase;
-  height: 0.40rem; padding: 0 0.20rem; white-space: nowrap; }
-.badge svg { width: 0.21rem; height: 0.21rem; }
-.badge--award { background: var(--orange-deep); color: #fff; }
-.badge--build { background: #fff; color: var(--ink);
-  box-shadow: inset 0 0 0 0.0075rem #cfc7ba; }
-/* ink rather than orange: flagship is a position in the range, not an award,
-   and the two should not look like the same kind of claim */
-.badge--flag { background: var(--ink); color: #fff; }
-
-/* =========================================================================
-   THE PANEL — one per model, all stacked in one cell, one shown.
-   ========================================================================= */
-.rv-panels { position: relative; }
-.rv-panel { grid-area: 1 / 1;
-  opacity: 0; visibility: hidden;
-  transition: opacity var(--step), visibility 0s linear .78s; }
-.rv-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
-
-/* 1 IDENTIFY + 2 POSITION ------------------------------------------------ */
-.p-name { margin: 0; font-family: var(--aviano); font-weight: 900;
-  line-height: 1; text-transform: uppercase; white-space: nowrap; }
-.p-tag { margin: 0.07rem 0 0; font-family: var(--gordita); font-style: italic;
-  font-size: 0.21rem; line-height: 0.28rem; color: var(--dim); }
-.p-price { margin: 0.10rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.36rem; line-height: 0.40rem; }
-.p-price span { font-family: var(--gordita); font-weight: 500; font-size: 0.155rem;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
-  margin-right: 0.12rem; vertical-align: 0.07rem; }
-
-/* 3 CAPABILITY — icon-led and open ---------------------------------------- */
-.p-spec { display: grid; grid-template-columns: repeat(4, 1fr); }
-.s-cell { text-align: center; padding: 0 0.20rem;
-  border-left: 0.0075rem solid var(--rule); }
-.s-cell:first-child { border-left: 0; }
-.s-ico { display: block; width: 0.34rem; height: 0.34rem; margin: 0 auto 0.09rem;
-  color: var(--orange-deep); }
-.s-ico svg { width: 100%; height: 100%; display: block; }
-.no-icons .s-ico { display: none; }
-.s-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.14rem;
-  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
-.s-v { margin: 0.09rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.25rem; line-height: 0.29rem; }
-.s-n { margin: 0.06rem 0 0; font-family: var(--gordita); font-size: 0.145rem;
-  line-height: 0.20rem; color: var(--dim); }
-
-/* 4 ACT ------------------------------------------------------------------- */
-.p-act { display: flex; align-items: center; gap: 0.30rem; }
-.cta { display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--gordita); font-weight: 700; font-size: 0.165rem;
-  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-  color: var(--orange); padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
-  box-shadow: inset 0 0 0 0.015rem var(--orange);
-  transition: background .35s ease, color .35s ease; }
-.cta:hover { background: var(--orange); color: #fff; }
-.cta--quiet { box-shadow: none; color: var(--ink); padding: 0;
-  border-bottom: 0.0075rem solid var(--rule); height: auto; line-height: 1.2;
-  padding-bottom: 0.05rem; }
-.cta--quiet:hover { background: none; color: var(--orange); border-bottom-color: var(--orange); }
-
-/* ---- chrome shared by both arrangements -------------------------------- */
-.rv-arrow { width: 0.70rem; height: 0.70rem; border-radius: 50%; cursor: pointer;
-  background: transparent; border: 0.0075rem solid transparent; color: var(--ink);
-  display: grid; place-items: center; padding: 0;
-  transition: border-color .3s ease, color .3s ease; }
-.rv-arrow svg { width: 0.30rem; height: 0.30rem; }
-.rv-arrow:hover { border-color: var(--orange); color: var(--orange); }
-
-.rv-dots { display: flex; gap: 0.16rem; }
-.rv-dot { width: 0.13rem; height: 0.13rem; border-radius: 50%; border: 0; padding: 0;
-  background: #d9d3c8; cursor: pointer;
-  transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
-.rv-dot.on { background: var(--orange); transform: scale(1.5); }
-
-.rv-note { margin: 0.34rem 0 0; text-align: center;
-  font-family: var(--gordita); font-size: 0.15rem; line-height: 0.22rem; color: var(--dim); }
-
-.phx { display: grid; place-items: center;
-  background: repeating-linear-gradient(45deg, #e6e1d8 0 0.10rem, #f4f1ea 0.10rem 0.20rem);
-  box-shadow: inset 0 0 0 0.015rem #b9ae9c; }
-.phx::after { content: attr(data-ph); white-space: pre-line; text-align: center;
-  font-family: var(--gordita); font-size: 0.17rem; letter-spacing: .14em; color: #6f6455; }
-
-/* =========================================================================
-   ARRANGEMENT 1 — STAGE. Lotus's centred hero, bands stacked under it.
-   ========================================================================= */
-.lay-stage .rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
-  align-items: center; margin-top: 0.02rem; }
-/* the stage runs the full page width so the neighbours are cropped by the
-   window, not sliced off at the content column. The badges come back inside
-   the column so they do not sit out on the bleed. */
-.lay-stage .rv-stage { width: 100vw; margin-left: calc(50% - 50vw); }
-.lay-stage .rv-badges { left: calc(50vw - 8.12rem); }
-.lay-stage .rv-panels { display: grid; text-align: center; }
-.lay-stage .p-name  { font-size: 0.82rem; }
-.lay-stage .p-spec  { width: 13.60rem; margin: 0.40rem auto 0; padding-top: 0.30rem;
-  border-top: 0.0075rem solid var(--rule); }
-.lay-stage .p-act   { justify-content: center; margin-top: 0.34rem; }
-.lay-stage .rv-foot { display: flex; justify-content: center; margin-top: 0.30rem; }
-.lay-stage .rv-panels { grid-template-areas: "a"; }
-.lay-stage .rv-panel { grid-area: a; }
-
-/* the arrows live beside the wordmark here */
-.lay-split .rv-mark { display: none; }
-.lay-stage .rv-splitarrows { display: none; }
-
-/* =========================================================================
-   ARRANGEMENT 2 — SPLIT. Van left, data right as label/value rows.
-   ========================================================================= */
-.lay-split .rv-wrap { display: grid; grid-template-columns: 9.40rem 6.20rem;
-  column-gap: 0.64rem; align-items: center; }
-.lay-split .rv-stage { height: 5.20rem; }
-.lay-split .rv-van { width: 8.40rem; margin-left: -4.20rem; }
-.lay-split .rv-van[data-d="-1"] { transform: translateX(-86%) scale(.52); opacity: .42; }
-.lay-split .rv-van[data-d="1"]  { transform: translateX( 86%) scale(.52); opacity: .42; }
-
-.lay-split .rv-panels { display: grid; grid-template-areas: "a"; text-align: left; }
-.lay-split .rv-panel { grid-area: a; }
-.lay-split .p-name { font-size: 0.56rem; }
-.lay-split .p-price { font-size: 0.32rem; }
-
-/* capability becomes a 2 x 2 so it fits the narrower column */
-.lay-split .p-spec { grid-template-columns: repeat(2, 1fr); row-gap: 0.22rem;
-  margin-top: 0.30rem; padding-top: 0.26rem;
-  border-top: 0.0075rem solid var(--rule); }
-.lay-split .s-cell { text-align: left; padding: 0; }
-.lay-split .s-cell:nth-child(even) { padding-left: 0.24rem;
-  border-left: 0.0075rem solid var(--rule); }
-.lay-split .s-cell:nth-child(odd) { border-left: 0; }
-.lay-split .s-ico { margin: 0 0 0.07rem; }
-.lay-split .s-v { font-size: 0.22rem; }
-.lay-split .p-act { margin-top: 0.30rem; }
-
-.lay-split .rv-splitarrows { display: flex; align-items: center;
-  justify-content: center; gap: 0.30rem; margin-top: 0.26rem; }
-.lay-split .rv-foot { display: none; }
-
-/* ---- the page under the sample ----------------------------------------- */
-.after { padding: 0.70rem 0 0.90rem; }
+.after { padding: 0.70rem 0 0.90rem; background: #f7f4ee; }
 .after h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
 .after h3 { margin: 0.34rem 0 0; font-family: var(--gordita); font-weight: 700;
   font-size: 0.17rem; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-deep); }
@@ -251,15 +33,12 @@ body { background: #fff; margin: 0; }
 </head>
 <body>
 
-<div class="bar">
+<div class="bar" data-rvx-bar>
   <div class="container">
     <b>Range viewer</b>
     <span class="seg"><span>Arrangement</span>
       <button data-set="lay" data-val="stage" class="on">Stage</button>
-      <button data-set="lay" data-val="split">Split</button></span>
-    <span class="seg"><span>Icons</span>
-      <button data-set="icons" data-val="on" class="on">On</button>
-      <button data-set="icons" data-val="off">Off</button></span>
+      <button data-set="lay" data-val="right">Details right</button></span>
     <span class="seg"><span>Step</span>
       <button data-set="motion" data-val="glide" class="on">Glide</button>
       <button data-set="motion" data-val="snap">Snap</button></span>
@@ -269,285 +48,73 @@ body { background: #fff; margin: 0; }
   </div>
 </div>
 
-<section class="rv lay-stage" id="rv">
-  <div class="container"><h2 class="rv-head">Our Range</h2></div>
+<!-- ============================================ RANGE VIEWER (desktop) -->
+<section class="rvx lay-stage">
+  <div class="container">
+    <h2 class="rvx-title">Range</h2>
+    <p class="rvx-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
+  </div>
 
-  <div class="container rv-wrap">
-    <div class="rv-stage" id="stage">
-      <div class="rv-badges" id="badges"></div>
+  <div class="container rvx-wrap">
+    <div class="rvx-stage" data-rvx-stage>
+      <div class="rvx-badges" data-rvx-badges></div>
     </div>
 
-    <div class="rv-side">
-      <div class="rv-mark">
-        <button class="rv-arrow" data-go="-1" type="button" aria-label="Previous model">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
-        </button>
+    <div class="rvx-side">
+      <div class="rvx-mark">
+        <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
         <div></div>
-        <button class="rv-arrow" data-go="1" type="button" aria-label="Next model">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
-        </button>
+        <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
       </div>
 
-      <div class="rv-panels" id="panels"></div>
+      <div class="rvx-panels" data-rvx-panels></div>
 
-      <div class="rv-splitarrows">
-        <button class="rv-arrow" data-go="-1" type="button" aria-label="Previous model">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
-        </button>
-        <div class="rv-dots" data-dots></div>
-        <button class="rv-arrow" data-go="1" type="button" aria-label="Next model">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
-        </button>
+      <div class="rvx-sidearrows">
+        <button class="rvx-arrow" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+        <div class="rvx-dots" data-rvx-dots></div>
+        <button class="rvx-arrow" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <div class="rv-foot"><div class="rv-dots" data-dots></div></div>
-    <p class="rv-note">Figures shown are for the standard build. Every model can be
+    <div class="rvx-foot"><div class="rvx-dots" data-rvx-dots></div></div>
+    <p class="rvx-note">Figures shown are for the standard build. Every model can be
       specified further &mdash; options change capacities and price.</p>
   </div>
 </section>
 
 <section class="after">
   <div class="container">
-    <h2>Where this stands</h2>
+    <h2>What changed</h2>
 
-    <h3>Everything shown is sourced</h3>
+    <h3>The homepage&rsquo;s language, not its own</h3>
     <ul>
-      <li>Price and all four features are quoted from wonderlandrv.com.au/range/&lt;model&gt;/. Nothing on screen is invented.</li>
-      <li><b>Tare and ATM are out.</b> Both move with the options on a given build, and they are layout-specific rather than per model &mdash; an Amaroo 17&rsquo;09&rdquo; and an Amaroo 24&rsquo; do not share a tare. A figure a buyer would act on and then find wrong is worse than no figure.</li>
-      <li>The <b>brochure link</b> is the one thing still pointing nowhere. Your site has the four thumbnails; I need the four PDF URLs.</li>
+      <li>The section now states itself the way every other homepage section does: a left-aligned <b>Range</b> at <code>--t-heading</code> with the lede under it, on the site&rsquo;s own <code>--section-gap</code> rhythm. The centred small-caps &ldquo;OUR RANGE&rdquo; was a Lotus habit, not ours.</li>
+      <li>The call to action is <b><code>.btn-solid</code> itself</b> &mdash; the class the Solara block and the rest of the homepage already use &mdash; rather than a lookalike. Nothing here restyles a shared class, so there is no way for this section to change a button anywhere else.</li>
+      <li>Dot colour moved from <code>--orange</code> to <code>--orange-deep</code>, which is what the homepage uses for accents on a light ground.</li>
     </ul>
 
-    <h3>In this round</h3>
+    <h3>Hierarchy, as you set it</h3>
     <ul>
-      <li><b>Solara carries both badges</b> &mdash; the 2026 Judge&rsquo;s Choice Queen of Hearts award, and a full-composite-body mark. They sit on the stage rather than on the van, so they do not slide around during a step.</li>
-      <li>The disclaimer sits under everything, stated plainly rather than apologetically.</li>
-      <li>Light only. The dark switch is gone.</li>
+      <li>Name, then price, then tagline &mdash; in that order down the page and in that order of size. Price used to sit below the tagline and that put the quietest thing in the loudest position.</li>
+      <li>Inside a detail: <b>icon, then title, then the figure and its note at one size</b>. That is a real inversion &mdash; the figure used to be the biggest thing in the cell. It now reads as a labelled group rather than as four competing numbers.</li>
     </ul>
 
-    <h3>The arrangement question</h3>
+    <h3>Badges</h3>
     <ul>
-      <li><b>Stage</b> keeps the big wordmark and the symmetry. It is the more striking of the two and the closer to Lotus.</li>
-      <li><b>Split</b> puts the van left and the writing right, which scans faster and costs the wordmark.</li>
-      <li>My read: Stage for the homepage, because the homepage&rsquo;s job is to make someone want a van, not to let them audit one. Split is the better <i>model page</i> pattern.</li>
+      <li>One shape, one size, <b>no icons on any of them</b>. A star on one chip and nothing on the next was itself an inconsistency, and at that size the glyph read as grit. Only the fill separates them now: filled is an award, outlined is a statement about the van.</li>
+      <li>XTR&rsquo;s <b>Flagship</b> is outlined, same as Solara&rsquo;s composite mark. Solara&rsquo;s Queen of Hearts keeps the fill, because it is the only one of the three that was given by someone else.</li>
+    </ul>
+
+    <h3>Still open</h3>
+    <ul>
+      <li>The <b>brochure link</b> points nowhere. Four PDF URLs and it is done.</li>
+      <li>Phone is untouched and gated &mdash; the section is <code>display:none</code> below 900 and the existing range carousel still runs there.</li>
     </ul>
   </div>
 </section>
 
-<script>
-/* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
-   Everything inside q[] is a PLACEHOLDER -- see the notes under the sample. */
-var MODELS = [
-  { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
-    badges: [],
-    spec: [["solar","Solar","600W","Redarc Alpha 50"],
-           ["water","Water","200L","fresh"],
-           ["susp","Suspension","Coil","Cruisemaster ATX / XT"],
-           ["brake","Brakes","12″","drum"]] },
-
-  { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
-    badges: [],
-    spec: [["solar","Solar","800W","Redarc Alpha 75"],
-           ["water","Water","290L","200L + 90L drinking"],
-           ["susp","Suspension","Airbag","Cruisemaster XT L3"],
-           ["brake","Brakes","12″","drum"]] },
-
-  { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
-    badges: ["award","build"],
-    spec: [["solar","Solar","1000W","Victron Nexus"],
-           ["water","Water","290L","200L + 90L drinking"],
-           ["susp","Suspension","Airbag","Cruisemaster XT L3"],
-           ["batt","Battery","400Ah","lithium"]] },
-
-  { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
-    badges: ["flag"],
-    spec: [["solar","Solar","1000W","Victron 24V"],
-           ["water","Water","290L","200L + 90L drinking"],
-           ["susp","Suspension","Airbag","Cruisemaster ATX L5 BCS"],
-           ["brake","Brakes","Disc","the only one"]] }
-];
-
-var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
-var ICON = {
-  solar: S + '<path d="M3.2 14.6 5.6 7h12.8l2.4 7.6z"/><path d="M4.6 11h14.8M10.4 7l-.9 7.6M13.6 7l.9 7.6"/><path d="M12 14.6V21M8.4 21h7.2"/></svg>',
-  water: S + '<path d="M12 3.2s5.8 6.1 5.8 9.9A5.8 5.8 0 0 1 6.2 13c0-3.8 5.8-9.8 5.8-9.8Z"/><path d="M9 13.4A3 3 0 0 0 12 16.4"/></svg>',
-  susp:  S + '<path d="M7.6 3.4h8.8M7.6 20.6h8.8"/><path d="M7.6 6.6h8.8l-8.8 3.1h8.8l-8.8 3.1h8.8l-8.8 3.1h8.8"/></svg>',
-  brake: S + '<circle cx="12" cy="12" r="7.8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4.2v2.4M12 17.4v2.4M4.2 12h2.4M17.4 12h2.4"/></svg>',
-  batt:  S + '<rect x="2.6" y="7" width="15.4" height="10" rx="1.6"/><path d="M18 10.4h3v3.2h-3"/><path d="m11.6 9.4-2.3 3.4h3l-1.2 2.6"/></svg>'
-};
-var BADGE = {
-  award: '<span class="badge badge--award">' + S +
-    '<path d="M12 3.2 14.3 8l5.3.8-3.8 3.7.9 5.3L12 15.3 7.3 17.8l.9-5.3L4.4 8.8 9.7 8z"/></svg>' +
-    '2026 Judge&rsquo;s Choice &middot; Queen of Hearts</span>',
-  build: '<span class="badge badge--build">' + S +
-    '<path d="M3.6 7.4 12 3.4l8.4 4v9.2L12 20.6l-8.4-4z"/><path d="M3.6 7.4 12 11.4l8.4-4M12 11.4v9.2"/></svg>' +
-    'Full composite body</span>',
-  flag:  '<span class="badge badge--flag">' + S +
-    '<path d="M4 18.4 12 5.6l8 12.8z"/><path d="m8.2 11.6 3.8 2.6 3.8-2.6"/></svg>' +
-    'Flagship</span>'
-};
-
-var N = MODELS.length, at = 0, angle = "34", swallowClick = false;
-var rv = document.getElementById("rv");
-var stage = document.getElementById("stage");
-var badges = document.getElementById("badges");
-var panels = document.getElementById("panels");
-var allDots = [].slice.call(document.querySelectorAll("[data-dots]"));
-
-function buildStage() {
-  var old = stage.querySelectorAll(".rv-van");
-  [].slice.call(old).forEach(function (x) { x.remove(); });
-  var html = MODELS.map(function (m, k) {
-    var src = "assets/img/home/range/" + m.id + (angle === "34" ? "-34" : "-cut") + ".webp";
-    return '<div class="rv-van" data-k="' + k + '">' +
-      '<div class="phx" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
-      '<img src="' + src + '" alt="' + m.name + '"' +
-      ' onload="var p=this.parentElement.querySelector(\'.phx\'); if(p) p.remove();"' +
-      ' onerror="this.remove();">' +
-    '</div>';
-  }).join("");
-  stage.insertAdjacentHTML("afterbegin", html);
-  paint();
-}
-
-badges.innerHTML = MODELS.map(function (m) {
-  return '<div class="rv-badge-set">' +
-    m.badges.map(function (b) { return BADGE[b]; }).join("") + '</div>';
-}).join("");
-
-panels.innerHTML = MODELS.map(function (m) {
-  var spec = m.spec.map(function (c) {
-    return '<div class="s-cell"><i class="s-ico">' + ICON[c[0]] + '</i>' +
-           '<p class="s-k">' + c[1] + '</p>' +
-           '<p class="s-v">' + c[2] + '</p>' +
-           '<p class="s-n">' + c[3] + '</p></div>';
-  }).join("");
-  return '<div class="rv-panel">' +
-    '<h3 class="p-name">' + m.name + '</h3>' +
-    '<p class="p-tag">' + m.tag + '</p>' +
-    '<p class="p-price"><span>From</span>' + m.price + '</p>' +
-    '<div class="p-spec">' + spec + '</div>' +
-    '<div class="p-act"><a class="cta" href="#">Explore ' + m.name + '</a>' +
-      '<a class="cta cta--quiet" href="#">Download brochure</a></div>' +
-  '</div>';
-}).join("");
-
-allDots.forEach(function (d) {
-  d.innerHTML = MODELS.map(function (m, k) {
-    return '<button class="rv-dot" type="button" data-k="' + k + '" aria-label="' + m.name + '"></button>';
-  }).join("");
-});
-
-function paint() {
-  var vans = stage.querySelectorAll(".rv-van");
-  var bs = badges.querySelectorAll(".rv-badge-set");
-  var ps = panels.querySelectorAll(".rv-panel");
-  for (var k = 0; k < N; k++) {
-    var d = (k - at + N) % N;
-    if (d > N / 2) { d -= N; }
-    vans[k].dataset.d = d;
-    bs[k].classList.toggle("on", k === at);
-    ps[k].classList.toggle("on", k === at);
-  }
-  allDots.forEach(function (row) {
-    [].slice.call(row.children).forEach(function (b, k) {
-      b.classList.toggle("on", k === at);
-    });
-  });
-}
-
-function go(i) { at = (i + N) % N; paint(); }
-
-document.addEventListener("click", function (e) {
-  if (swallowClick) { swallowClick = false; return; }
-  var a = e.target.closest("[data-go]");
-  if (a) { go(at + (+a.dataset.go)); return; }
-  var dot = e.target.closest(".rv-dot");
-  if (dot) { go(+dot.dataset.k); return; }
-  var v = e.target.closest(".rv-van");
-  if (v) {
-    var d = +v.dataset.d;
-    if (d === -1 || d === 1) { go(at + d); }
-  }
-});
-
-addEventListener("keydown", function (e) {
-  var r = rv.getBoundingClientRect();
-  if (r.bottom < 0 || r.top > innerHeight) return;
-  if (e.key === "ArrowLeft")  { e.preventDefault(); go(at - 1); }
-  if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); }
-});
-
-/* ---------------------------------------------------------------------
-   SWIPING. Three different gestures arrive as three different events:
-
-     mouse drag      pointerdown / pointerup
-     touch swipe     the same pointer events, but only if touch-action lets
-                     us have the horizontal axis (see .rv { touch-action })
-     trackpad swipe  wheel, with deltaX -- no pointer events at all
-
-   Vertical is never touched. A wheel event is only ours when the horizontal
-   component is the larger one, so scrolling the page past the section works
-   exactly as it did.
-
-   One step per gesture. A trackpad keeps firing for a long time after the
-   fingers lift, and that momentum tail is the same flick, not four more --
-   so after a step the rest of the gesture is absorbed, and only a gap of
-   QUIET with no events re-arms it.
-   --------------------------------------------------------------------- */
-var QUIET = 220;   /* a gap this long between wheel events ends a gesture */
-var NEED  = 60;    /* accumulated horizontal px before a step is accepted */
-var accum = 0, lastX = 0, armed = true;
-
-rv.addEventListener("wheel", function (e) {
-  if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   /* vertical: not ours */
-  e.preventDefault();
-  var now = performance.now();
-  if (now - lastX > QUIET) { accum = 0; armed = true; }
-  lastX = now;
-  if (!armed) return;
-  accum += e.deltaX;
-  if (Math.abs(accum) >= NEED) {
-    go(at + (accum > 0 ? 1 : -1));
-    accum = 0;
-    armed = false;
-  }
-}, { passive: false });
-
-/* drag, for a mouse and for touch */
-var fromX = null, fromY = null;
-rv.addEventListener("pointerdown", function (e) {
-  fromX = e.clientX; fromY = e.clientY;
-});
-addEventListener("pointerup", function (e) {
-  if (fromX === null) return;
-  var dx = e.clientX - fromX, dy = e.clientY - fromY;
-  fromX = null;
-  if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
-  go(at + (dx < 0 ? 1 : -1));
-  /* a drag that started on a neighbour van would otherwise also fire that
-     van's click and step a second time */
-  swallowClick = true;
-});
-
-document.querySelector(".bar").addEventListener("click", function (e) {
-  var b = e.target.closest("button[data-set]");
-  if (!b) return;
-  var g = b.dataset.set, v = b.dataset.val;
-  [].slice.call(document.querySelectorAll('button[data-set="' + g + '"]'))
-    .forEach(function (x) { x.classList.toggle("on", x === b); });
-  if (g === "lay") {
-    rv.classList.toggle("lay-stage", v === "stage");
-    rv.classList.toggle("lay-split", v === "split");
-  }
-  if (g === "motion") { rv.classList.toggle("is-snap", v === "snap"); }
-  if (g === "icons")  { document.body.classList.toggle("no-icons", v === "off"); }
-  if (g === "angle")  { angle = v; buildStage(); }
-});
-
-buildStage();
-</script>
+<script src="assets/js/range-viewer.js?v=207"></script>
 </body>
 </html>
