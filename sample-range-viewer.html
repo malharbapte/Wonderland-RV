@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range viewer — Lotus coverflow</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=206">
+<style>
+/* ===========================================================================
+   RANGE VIEWER — the Lotus homepage "OUR RANGE" stage, in Wonderland's type.
+
+   Their arrangement, kept: a heading, one van centred and large with the
+   previous and next cropped in at the page edges, the model wordmark huge
+   underneath between two chevrons, a line of supporting text, and a strip of
+   four standard features across the bottom.
+
+   What is NOT kept: the wheel. Nothing here intercepts scrolling -- the
+   viewer steps on the arrows, the dots, the arrow keys and a drag. That is
+   the whole of the "it gets stuck" problem, removed rather than tuned.
+
+   The bar at the top is sample chrome. Three switches on it answer the three
+   open questions: dark or light, which four features, and how hard the step
+   lands. None of it ships.
+   =========================================================================== */
+
+body { background: #fff; margin: 0; }
+
+/* ---- sample chrome ----------------------------------------------------- */
+.bar { position: sticky; top: 0; z-index: 50; background: #1b1b1b; color: #fff;
+  padding: 0.22rem 0; border-bottom: 0.0075rem solid #333; }
+.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.40rem; }
+.bar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem;
+  letter-spacing: .04em; }
+.seg { display: inline-flex; align-items: center; gap: 0.10rem;
+  font-family: var(--gordita); font-size: 0.15rem; color: #9b948a; }
+.seg span { letter-spacing: .14em; text-transform: uppercase; }
+.seg button { font-family: var(--gordita); font-size: 0.15rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.07rem 0.18rem; letter-spacing: .06em; }
+.seg button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+/* =========================================================================
+   THE SECTION
+   ========================================================================= */
+.rv {
+  --ink:   #fff;          /* headings and values            */
+  --dim:   #9a948c;       /* labels, the tagline            */
+  --rule:  #2e2e2e;       /* hairlines between spec cells   */
+  --bg1:   #0d0d0d;
+  --bg2:   #1a1a1a;
+  --step:  .46s cubic-bezier(.22,.9,.24,1);   /* "snap" — the Lotus feel  */
+
+  width: 100vw; margin-left: calc(50% - 50vw);
+  background: radial-gradient(70% 60% at 50% 42%, var(--bg2) 0%, var(--bg1) 72%);
+  color: var(--ink);
+  padding: 0.80rem 0 0.76rem;
+  overflow: hidden;      /* this is what crops the neighbours at the edges */
+}
+.rv.is-light {
+  --ink: #1b1b1b; --dim: #7d7369; --rule: #e4e2de;
+  --bg1: #ffffff; --bg2: #f7f4ee;
+}
+.rv.is-glide { --step: .78s cubic-bezier(.33,0,.18,1); }   /* softer landing */
+
+.rv-head { margin: 0; text-align: center;
+  font-family: var(--aviano); font-weight: 900; font-size: 0.42rem; line-height: 1;
+  letter-spacing: .03em; text-transform: uppercase; }
+
+/* ---- the stage. Every van sits in the same cell and is moved out of it,
+       so the box never changes height as they swap. -------------------- */
+.rv-stage { position: relative; height: 5.40rem; margin-top: 0.46rem; }
+.rv-van { position: absolute; top: 0; left: 50%; width: 10.60rem; height: 100%;
+  margin-left: -5.30rem;
+  display: grid; place-items: center;
+  transition: transform var(--step), opacity var(--step), filter var(--step);
+  will-change: transform, opacity; }
+.rv-van img { width: 100%; height: 100%; object-fit: contain; }
+.rv-van .phx { position: absolute; inset: 8% 0; }
+
+/* the three places a van can be. d is written on the element by the script. */
+.rv-van[data-d="0"]  { transform: none;                      opacity: 1;   filter: none;             z-index: 3; }
+.rv-van[data-d="-1"] { transform: translateX(-84%) scale(.60); opacity: .45; filter: brightness(.62); z-index: 2; }
+.rv-van[data-d="1"]  { transform: translateX( 84%) scale(.60); opacity: .45; filter: brightness(.62); z-index: 2; }
+.rv-van[data-d="2"]  { transform: translateX(150%) scale(.42); opacity: 0;  filter: brightness(.4);  z-index: 1; }
+.rv.is-light .rv-van[data-d="-1"],
+.rv.is-light .rv-van[data-d="1"] { filter: brightness(1) saturate(.25); opacity: .40; }
+
+/* a neighbour is a shortcut to that model, so it says so on hover */
+.rv-van[data-d="-1"], .rv-van[data-d="1"] { cursor: pointer; }
+.rv-van[data-d="-1"]:hover, .rv-van[data-d="1"]:hover { opacity: .72; filter: brightness(.85); }
+
+/* ---- wordmark row: chevrons sit on the page margins, the name between -- */
+.rv-mark { display: grid; grid-template-columns: 0.70rem 1fr 0.70rem;
+  align-items: center; margin-top: 0.10rem; }
+.rv-arrow { width: 0.70rem; height: 0.70rem; border-radius: 50%; cursor: pointer;
+  background: transparent; border: 0.0075rem solid transparent; color: var(--ink);
+  display: grid; place-items: center; padding: 0;
+  transition: border-color .3s ease, color .3s ease, background .3s ease; }
+.rv-arrow svg { width: 0.30rem; height: 0.30rem; }
+.rv-arrow:hover { border-color: var(--orange); color: var(--orange); }
+
+.rv-names { position: relative; height: 1.04rem; }
+.rv-name { position: absolute; inset: 0; display: grid; place-items: center;
+  margin: 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.96rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0; transform: translateY(0.14rem); visibility: hidden;
+  transition: opacity var(--step), transform var(--step),
+              visibility 0s linear .78s; }
+.rv-name.on { opacity: 1; transform: none; visibility: visible;
+  transition-delay: .04s, .04s, 0s; }
+
+/* ---- the line under the wordmark: tagline and price, where Lotus puts
+       its size range. We have no per-model size range worth printing. --- */
+.rv-subs { position: relative; height: 0.34rem; margin-top: 0.06rem; }
+.rv-sub { position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.175rem;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--dim);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rv-sub.on { opacity: 1; visibility: visible; transition-delay: .10s, 0s; }
+.rv-sub em { font-style: normal; color: var(--orange); margin-left: 0.14rem; }
+
+/* ---- the four standard features ---------------------------------------- */
+.rv-spec { position: relative; height: 1.02rem; margin-top: 0.40rem; }
+.rv-set { position: absolute; inset: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--step), visibility 0s linear .78s; }
+.rv-set.on { opacity: 1; visibility: visible; transition-delay: .14s, 0s; }
+.rv-cell { text-align: center; padding: 0 0.20rem;
+  border-left: 0.0075rem solid var(--rule); }
+.rv-cell:first-child { border-left: 0; }
+.rv-k { margin: 0; font-family: var(--gordita); font-weight: 700; font-size: 0.145rem;
+  letter-spacing: .20em; text-transform: uppercase; color: var(--dim); }
+.rv-v { margin: 0.14rem 0 0; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.30rem; line-height: 0.34rem; }
+.rv-n { margin: 0.08rem 0 0; font-family: var(--gordita); font-size: 0.15rem;
+  line-height: 0.21rem; color: var(--dim); }
+
+/* ---- dots and the one link out ----------------------------------------- */
+.rv-foot { display: flex; align-items: center; justify-content: center;
+  gap: 0.46rem; margin-top: 0.46rem; }
+.rv-dots { display: flex; gap: 0.16rem; }
+.rv-dot { width: 0.13rem; height: 0.13rem; border-radius: 50%; border: 0; padding: 0;
+  background: #4a4a4a; cursor: pointer;
+  transition: background .45s ease, transform .45s cubic-bezier(.3,0,.2,1); }
+.rv.is-light .rv-dot { background: #d9d3c8; }
+.rv-dot.on { background: var(--orange); transform: scale(1.5); }
+
+.rv-cta { display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.165rem;
+  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  color: var(--orange); padding: 0 0.40rem; height: 0.58rem; line-height: 0.58rem;
+  box-shadow: inset 0 0 0 0.015rem var(--orange);
+  transition: background .35s ease, color .35s ease; }
+.rv-cta:hover { background: var(--orange); color: #fff; }
+
+/* ---- placeholder for a cut-out that will not load ---------------------- */
+.phx { display: grid; place-items: center;
+  background: repeating-linear-gradient(45deg, #242424 0 0.10rem, #2e2e2e 0.10rem 0.20rem);
+  box-shadow: inset 0 0 0 0.015rem #444; }
+.phx::after { content: attr(data-ph); white-space: pre-line; text-align: center;
+  font-family: var(--gordita); font-weight: 500; font-size: 0.17rem; line-height: 0.24rem;
+  letter-spacing: .14em; color: #8d867c; }
+
+.after { padding: 0.70rem 0 0.90rem; }
+.after h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
+.after ul { margin: 0.18rem 0 0; padding-left: 0.28rem; }
+.after li { font-family: var(--gordita); font-size: 0.175rem; line-height: 0.30rem;
+  color: #4a4a4a; margin-top: 0.08rem; }
+.after b { font-weight: 700; color: #1b1b1b; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="container">
+    <b>Range viewer</b>
+    <span class="seg"><span>Stage</span>
+      <button data-set="theme" data-val="dark" class="on">Dark</button>
+      <button data-set="theme" data-val="light">Light</button></span>
+    <span class="seg"><span>Features</span>
+      <button data-set="spec" data-val="a" class="on">Yours</button>
+      <button data-set="spec" data-val="b">Differentiating</button></span>
+    <span class="seg"><span>Step</span>
+      <button data-set="motion" data-val="snap" class="on">Snap</button>
+      <button data-set="motion" data-val="glide">Glide</button></span>
+  </div>
+</div>
+
+<section class="rv" id="rv">
+  <div class="container">
+    <h2 class="rv-head">Our Range</h2>
+  </div>
+
+  <div class="rv-stage" id="stage"></div>
+
+  <div class="container">
+    <div class="rv-mark">
+      <button class="rv-arrow" id="prev" type="button" aria-label="Previous model">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg>
+      </button>
+      <div class="rv-names" id="names"></div>
+      <button class="rv-arrow" id="next" type="button" aria-label="Next model">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
+      </button>
+    </div>
+
+    <div class="rv-subs" id="subs"></div>
+    <div class="rv-spec" id="specs"></div>
+
+    <div class="rv-foot">
+      <div class="rv-dots" id="dots"></div>
+      <a class="rv-cta" id="cta" href="#">Explore</a>
+    </div>
+  </div>
+</section>
+
+<section class="after">
+  <div class="container">
+    <h2>Three things to settle</h2>
+    <ul>
+      <li><b>Dark or light.</b> Lotus's stage is black and it is a lot of why it looks the way it does &mdash; but every cut-out on this site currently sits on white or cream, so black is a break from the house language. The switch at the top shows both. Your call.</li>
+      <li><b>Which four features.</b> On your own four, <b>water reads 290L on three of four models and brakes read 12&Prime; drum on three of four</b> &mdash; half the strip says the same thing three times, which makes the models look more alike than they are. "Differentiating" swaps water and brakes for battery and inverter, which separate all four cleanly. Lotus uses solar / battery / water / inverter for exactly this reason.</li>
+      <li><b>How hard the step lands.</b> "Snap" is the Lotus timing you were unsure about; "Glide" is the same move 70% slower with a softer curve.</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+/* Every number below is quoted from wonderlandrv.com.au/range/<model>/. */
+var MODELS = [
+  { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
+    a: [["Solar","600W","Redarc Alpha 50"],["Water","200L","fresh"],
+        ["Suspension","Coil","Cruisemaster ATX / XT"],["Brakes","12″","drum"]],
+    b: [["Solar","600W","Redarc Alpha 50"],["Battery","300Ah","lithium"],
+        ["Inverter","2000W",""],["Suspension","Coil","Cruisemaster ATX / XT"]] },
+
+  { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
+    a: [["Solar","800W","Redarc Alpha 75"],["Water","290L","200L + 90L drinking"],
+        ["Suspension","Airbag","Cruisemaster XT L3"],["Brakes","12″","drum"]],
+    b: [["Solar","800W","Redarc Alpha 75"],["Battery","400Ah","lithium"],
+        ["Inverter","2600W",""],["Suspension","Airbag","Cruisemaster XT L3"]] },
+
+  { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
+    a: [["Solar","1000W","Victron Nexus"],["Water","290L","200L + 90L drinking"],
+        ["Suspension","Airbag","Cruisemaster XT L3"],["Heating","Hydronic","diesel, gasless"]],
+    b: [["Solar","1000W","Victron Nexus"],["Battery","400Ah","lithium"],
+        ["Inverter","3000VA",""],["Suspension","Airbag","Cruisemaster XT L3"]] },
+
+  { id: "xtr", name: "XTR", tag: "Extreme off-road", price: "$195,701",
+    a: [["Solar","1000W","Victron 24V"],["Water","290L","200L + 90L drinking"],
+        ["Suspension","Airbag","Cruisemaster ATX L5 BCS"],["Brakes","Disc","the only one"]],
+    b: [["Solar","1000W","Victron 24V"],["Battery","11kWh","24V system"],
+        ["Inverter","5000VA",""],["Suspension","Airbag","Cruisemaster ATX L5 BCS"]] }
+];
+
+var N = MODELS.length;
+var at = 0;
+var set = "a";
+
+var rv    = document.getElementById("rv");
+var stage = document.getElementById("stage");
+var names = document.getElementById("names");
+var subs  = document.getElementById("subs");
+var specs = document.getElementById("specs");
+var dots  = document.getElementById("dots");
+var cta   = document.getElementById("cta");
+
+/* ---- build ------------------------------------------------------------- */
+stage.innerHTML = MODELS.map(function (m, k) {
+  return '<div class="rv-van" data-k="' + k + '">' +
+    '<div class="phx" data-ph="' + m.name.toUpperCase() + '\nCUT-OUT"></div>' +
+    '<img src="assets/img/home/range/' + m.id + '-cut.webp" alt="' + m.name + '"' +
+    ' onload="var p=this.parentElement.querySelector(\'.phx\'); if(p) p.remove();"' +
+    ' onerror="this.remove();">' +
+  '</div>';
+}).join("");
+
+names.innerHTML = MODELS.map(function (m) {
+  return '<p class="rv-name">' + m.name + '</p>';
+}).join("");
+
+subs.innerHTML = MODELS.map(function (m) {
+  return '<div class="rv-sub">' + m.tag + ' <em>from ' + m.price + '</em></div>';
+}).join("");
+
+dots.innerHTML = MODELS.map(function (m, k) {
+  return '<button class="rv-dot" type="button" data-k="' + k + '" aria-label="' + m.name + '"></button>';
+}).join("");
+
+function specHTML(m) {
+  return '<div class="rv-set">' + m[set].map(function (c) {
+    return '<div class="rv-cell"><p class="rv-k">' + c[0] + '</p>' +
+           '<p class="rv-v">' + c[1] + '</p>' +
+           (c[2] ? '<p class="rv-n">' + c[2] + '</p>' : '') + '</div>';
+  }).join("") + '</div>';
+}
+function buildSpecs() {
+  specs.innerHTML = MODELS.map(specHTML).join("");
+  paint();
+}
+
+/* ---- paint ------------------------------------------------------------- */
+function paint() {
+  var vans  = stage.querySelectorAll(".rv-van");
+  var nm    = names.querySelectorAll(".rv-name");
+  var sb    = subs.querySelectorAll(".rv-sub");
+  var sp    = specs.querySelectorAll(".rv-set");
+  var dt    = dots.querySelectorAll(".rv-dot");
+
+  for (var k = 0; k < N; k++) {
+    var d = (k - at + N) % N;
+    if (d > N / 2) { d -= N; }              /* the far one goes off to the right */
+    vans[k].dataset.d = d;
+    nm[k].classList.toggle("on", k === at);
+    sb[k].classList.toggle("on", k === at);
+    if (sp[k]) { sp[k].classList.toggle("on", k === at); }
+    dt[k].classList.toggle("on", k === at);
+  }
+  cta.textContent = "Explore " + MODELS[at].name;
+}
+
+function go(i) {
+  at = (i + N) % N;
+  paint();
+}
+
+/* ---- the only ways to move it: no wheel, nothing intercepted ----------- */
+document.getElementById("prev").addEventListener("click", function () { go(at - 1); });
+document.getElementById("next").addEventListener("click", function () { go(at + 1); });
+
+dots.addEventListener("click", function (e) {
+  var b = e.target.closest(".rv-dot");
+  if (b) { go(+b.dataset.k); }
+});
+
+stage.addEventListener("click", function (e) {
+  var v = e.target.closest(".rv-van");
+  if (!v) return;
+  var d = +v.dataset.d;
+  if (d === -1 || d === 1) { go(at + d); }
+});
+
+addEventListener("keydown", function (e) {
+  var r = rv.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > innerHeight) return;
+  if (e.key === "ArrowLeft")  { e.preventDefault(); go(at - 1); }
+  if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); }
+});
+
+/* drag, because a stage this wide invites it. Pointer events only -- no
+   touch handlers, so the page keeps its own vertical scrolling. */
+var down = null;
+stage.addEventListener("pointerdown", function (e) { down = e.clientX; });
+addEventListener("pointerup", function (e) {
+  if (down === null) return;
+  var dx = e.clientX - down;
+  down = null;
+  if (Math.abs(dx) > 40) { go(at + (dx < 0 ? 1 : -1)); }
+});
+
+/* ---- sample chrome ----------------------------------------------------- */
+document.querySelector(".bar").addEventListener("click", function (e) {
+  var b = e.target.closest("button[data-set]");
+  if (!b) return;
+  var group = b.dataset.set, val = b.dataset.val;
+  [].slice.call(document.querySelectorAll('button[data-set="' + group + '"]'))
+    .forEach(function (x) { x.classList.toggle("on", x === b); });
+  if (group === "theme")  { rv.classList.toggle("is-light", val === "light"); }
+  if (group === "motion") { rv.classList.toggle("is-glide", val === "glide"); }
+  if (group === "spec")   { set = val; buildSpecs(); }
+});
+
+buildSpecs();
+</script>
+</body>
+</html>
