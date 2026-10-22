@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=214">
-<link rel="stylesheet" href="assets/css/homepage.css?v=214">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=214">
+<link rel="stylesheet" href="assets/css/styles.css?v=215">
+<link rel="stylesheet" href="assets/css/homepage.css?v=215">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=215">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -70,7 +70,7 @@ body { background: #fff; margin: 0; }
       <li><b>It fits one screen now, by a rule rather than by a guess.</b> A rem here is the window&rsquo;s width divided by 23.76, so this section&rsquo;s height in pixels is always its height in rem / 23.76 &times; the window width. Held at <b>11.87rem</b> that is 0.4996 of the width &mdash; so on any window 16:9 or taller it fits on screen with room for the browser&rsquo;s chrome, at every width, with no media query.</li>
       <li>I measured it rather than trusting the arithmetic, and the first attempt came out at 12.85rem = 1038px at 1920, which a real 1080 window does not have room for. The stage is 5.10 and the two gaps at the foot are tightened; the viewed van is <b>8.18rem</b> across. Every pixel bigger than that comes straight off the rule &mdash; say so and I will trade it back.</li>
       <li><b>The top padding is the standard 0.40, not the section&rsquo;s 1.20.</b> The band above is the top of this section; 1.20 between them made them two things.</li>
-      <li>The side vans moved out again, 62% to 65%. That number has to change every time the stage height does, or their outer edges fall inside the window and the overflow quietly stops happening.</li>
+      <li><b>The side vans are tucked against the content column</b> &mdash; inner edge flush with where the column starts, nothing cut by the window. Half-width is 5.10 &times; 0.3024 = 1.54rem, so the offset is 8.12 + 1.54 = <b>9.66rem</b>, which is 59.5% of the slot. Both numbers follow the stage height, so if that ever changes this has to move with it or they drift off the column edge silently.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -87,6 +87,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=214"></script>
+<script src="assets/js/range-viewer.js?v=215"></script>
 </body>
 </html>
