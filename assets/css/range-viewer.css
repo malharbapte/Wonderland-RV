@@ -44,10 +44,13 @@
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
   width: var(--plate); margin-left: calc(var(--plate) / -2);
-  display: grid; place-items: center;
   transition: transform var(--step), opacity var(--step);
   will-change: transform, opacity; }
-.rvx-van img { width: 100%; height: 100%; object-fit: contain; }
+/* inset rather than width/height 100% inside a centred grid: as a grid item
+   the percentage height resolved to auto, so the image came out 484 tall in
+   a 331 box and the van was clipped at the wheels */
+.rvx-van img { position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: contain; }
 
 /* the drawing's 49.3% for a neighbour, pulled in from its 77.8% so the three
    cut-outs sit together rather than stranded -- a cut-out has its own
