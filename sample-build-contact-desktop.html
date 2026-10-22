@@ -184,7 +184,7 @@ body.lock { overflow: hidden; }
 .s7 { position: fixed; inset: 0; z-index: 200; background: #fff; overflow-y: auto; overflow-x: hidden; opacity: 0; visibility: hidden; transform: translateY(24px);
   transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s linear .45s; }
 .s7.open { opacity: 1; visibility: visible; transform: none; transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1); }
-.s7w { width: 1280px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; background: #fff; }
+.s7w { width: 1280px; margin: 0 auto; min-height: calc(100vh / var(--k, 1)); display: flex; flex-direction: column; background: #fff; }
 .s7 .hero { position: relative; height: 172px; background: #000; flex: none; overflow: hidden; }
 .s7 .hero .ph { position: absolute; right: 0; top: 0; bottom: 0; width: 56.25%; background: url("assets/img/build/step7-hero.jpg") right center / cover no-repeat; }
 .s7 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0, #000 42%, rgba(0,0,0,.55) 52%, rgba(0,0,0,0) 66%); }
@@ -468,8 +468,11 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
 
   /* ===== step 7 ===== */
   var s7 = document.getElementById("s7"), s7w = document.getElementById("s7w");
-  function fit7() { var k = Math.min(1, document.documentElement.clientWidth / 1280); s7w.style.zoom = k < 1 ? k : ""; }
-  fit7(); window.addEventListener("resize", fit7);
+  function fit7() {                                             /* the 1280 design scales with the window, up and down, so it always fills the page */
+    var k = s7.clientWidth / 1280;
+    s7w.style.zoom = k; s7w.style.setProperty("--k", k);
+  }
+  fit7(); window.addEventListener("resize", fit7); if (window.ResizeObserver) new ResizeObserver(fit7).observe(s7);
   function openStep7() {
     s7.classList.remove("open"); void s7.offsetWidth; s7.scrollTop = 0; s7.classList.add("open");
     setTimeout(function () { s7.focus({ preventScroll: true }); }, 30);
