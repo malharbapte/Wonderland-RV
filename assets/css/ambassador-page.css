@@ -881,3 +881,11 @@
 .amb-more-strip.is-moving .wl-card:hover .wl-card-media > img { transform: none; }
 .amb-more-strip.is-moving .wl-card:hover .wl-card-title { color: #FFF2DC; }
 .amb-more-strip.is-moving .wl-card:hover .wl-card-bio-wrap { grid-template-rows: 0fr; }
+
+/* Phones and tablets: the strip is a plain finger-scroll row (wl-strip.js
+   skips the drifting endless rail there), so snapping can come back and a
+   swipe settles neatly on a card. */
+@media (max-width: 1024px), (hover: none) {
+  .amb-more-strip { scroll-snap-type: x mandatory; scroll-padding-inline: var(--page-margin); -webkit-overflow-scrolling: touch; }
+  .amb-more-strip .wl-card { scroll-snap-align: start; }
+}
