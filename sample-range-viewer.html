@@ -74,6 +74,10 @@ body { background: #fff; margin: 0; }
 /* ---- stage ------------------------------------------------------------- */
 .rv-wrap { margin-top: 0.30rem; }
 .rv-stage { position: relative; height: 4.60rem; overflow: hidden; }
+/* pan-y hands the browser vertical scrolling and keeps horizontal for us, so
+   a touch swipe steps the viewer while the page still scrolls normally. */
+.rv { touch-action: pan-y; }
+.rv-stage { user-select: none; -webkit-user-select: none; }
 .rv-van { position: absolute; top: 0; left: 50%; width: 8.60rem; height: 100%;
   margin-left: -4.30rem; display: grid; place-items: center;
   transition: transform var(--step), opacity var(--step);
@@ -379,7 +383,7 @@ var BADGE = {
     'Full composite body</span>'
 };
 
-var N = MODELS.length, at = 0, angle = "34";
+var N = MODELS.length, at = 0, angle = "34", swallowClick = false;
 var rv = document.getElementById("rv");
 var stage = document.getElementById("stage");
 var badges = document.getElementById("badges");
@@ -451,6 +455,7 @@ function paint() {
 function go(i) { at = (i + N) % N; paint(); }
 
 document.addEventListener("click", function (e) {
+  if (swallowClick) { swallowClick = false; return; }
   var a = e.target.closest("[data-go]");
   if (a) { go(at + (+a.dataset.go)); return; }
   var dot = e.target.closest(".rv-dot");
@@ -469,13 +474,56 @@ addEventListener("keydown", function (e) {
   if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); }
 });
 
-var down = null;
-stage.addEventListener("pointerdown", function (e) { down = e.clientX; });
+/* ---------------------------------------------------------------------
+   SWIPING. Three different gestures arrive as three different events:
+
+     mouse drag      pointerdown / pointerup
+     touch swipe     the same pointer events, but only if touch-action lets
+                     us have the horizontal axis (see .rv { touch-action })
+     trackpad swipe  wheel, with deltaX -- no pointer events at all
+
+   Vertical is never touched. A wheel event is only ours when the horizontal
+   component is the larger one, so scrolling the page past the section works
+   exactly as it did.
+
+   One step per gesture. A trackpad keeps firing for a long time after the
+   fingers lift, and that momentum tail is the same flick, not four more --
+   so after a step the rest of the gesture is absorbed, and only a gap of
+   QUIET with no events re-arms it.
+   --------------------------------------------------------------------- */
+var QUIET = 220;   /* a gap this long between wheel events ends a gesture */
+var NEED  = 60;    /* accumulated horizontal px before a step is accepted */
+var accum = 0, lastX = 0, armed = true;
+
+rv.addEventListener("wheel", function (e) {
+  if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   /* vertical: not ours */
+  e.preventDefault();
+  var now = performance.now();
+  if (now - lastX > QUIET) { accum = 0; armed = true; }
+  lastX = now;
+  if (!armed) return;
+  accum += e.deltaX;
+  if (Math.abs(accum) >= NEED) {
+    go(at + (accum > 0 ? 1 : -1));
+    accum = 0;
+    armed = false;
+  }
+}, { passive: false });
+
+/* drag, for a mouse and for touch */
+var fromX = null, fromY = null;
+rv.addEventListener("pointerdown", function (e) {
+  fromX = e.clientX; fromY = e.clientY;
+});
 addEventListener("pointerup", function (e) {
-  if (down === null) return;
-  var dx = e.clientX - down;
-  down = null;
-  if (Math.abs(dx) > 40) { go(at + (dx < 0 ? 1 : -1)); }
+  if (fromX === null) return;
+  var dx = e.clientX - fromX, dy = e.clientY - fromY;
+  fromX = null;
+  if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
+  go(at + (dx < 0 ? 1 : -1));
+  /* a drag that started on a neighbour van would otherwise also fire that
+     van's click and step a second time */
+  swallowClick = true;
 });
 
 document.querySelector(".bar").addEventListener("click", function (e) {
