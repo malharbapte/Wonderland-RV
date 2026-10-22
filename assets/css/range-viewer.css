@@ -78,7 +78,6 @@
 .rvx-van img { position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: contain; }
 
-/* a neighbour at 58%, far enough out that the window clips it */
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
 /* A neighbour sits tucked against the content column: its INNER edge is flush
    with where the column starts, so it reads as placed just outside the text
@@ -94,6 +93,8 @@
    Holding the inner edge on the column is the rule that was chosen, so that
    is what gives; pulling it in to clear the window would push the van 7px
    over the column instead. Both numbers follow the stage height. */
+.rvx-van[data-d="-1"] { transform: translateX(-61.9%) scale(.471); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 61.9%) scale(.471); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
