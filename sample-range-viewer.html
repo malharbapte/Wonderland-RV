@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=212">
-<link rel="stylesheet" href="assets/css/homepage.css?v=212">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=212">
+<link rel="stylesheet" href="assets/css/styles.css?v=213">
+<link rel="stylesheet" href="assets/css/homepage.css?v=213">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=213">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -22,10 +22,23 @@ body { background: #fff; margin: 0; }
 </head>
 <body>
 
+<!-- ======================================================= OUR RANGE -->
+<section class="band band--range">
+  <div class="media ph" data-ph="assets/img/home/range-band.jpg">
+    <img src="assets/img/home/range-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container band-copy">
+    <div>
+      <h2 class="band-title">Our range</h2>
+      <p class="band-sub">Four models and loads of customisations</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================ RANGE VIEWER (desktop) -->
 <section class="rvx">
   <div class="container">
-    <p class="rvx-lede">Four models and loads of customisations mean you can Wonderland RV your way.</p>
   </div>
 
   <div class="rvx-stage" data-rvx-stage>
@@ -52,10 +65,11 @@ body { background: #fff; margin: 0; }
 
     <h3>This round</h3>
     <ul>
-      <li><b>The heading is gone.</b> The full-bleed &ldquo;Our range&rdquo; band directly above already names this section, so a second <i>Range</i> under it was saying it twice. The lede opens the section now and runs on one line &mdash; the max-width that used to break it was sized for a column that no longer applies.</li>
-      <li><b>The arrows hang in the page margins</b>, level with the model name on the left and the price on the right. <code>--page-margin</code> is 3.76, half of it is 1.88, and the arrow&rsquo;s own half-width is 0.28 &mdash; so each lands on the centre line of its margin, clear of the content column. The dot row keeps the dots and nothing else.</li>
-      <li><b>Icons up 20%</b>, 0.44 to 0.53rem.</li>
-      <li><b>Side vans down 35%</b>, .58 to .377. One thing that came with it: at that size their outer edges fell <i>inside</i> the window and the overflow would have quietly stopped happening, so they are pushed from 59% out to 62% &mdash; half-width 1.94rem at an offset of 10.07 puts the edge at 12.01 against an 11.88rem half-window. Still clipped by the window, as you picked.</li>
+      <li><b>The line moved onto the band</b>, under &ldquo;Our range&rdquo;, and lost its second half. The band and the viewer now read as one section rather than as a photo followed by a carousel. Scoped to <code>.band--range</code> so <code>.band--why</code>, which uses the same classes, does not move.</li>
+      <li><b>Spelling:</b> set as <i>customisations</i>, which is how it reads everywhere else on the site. Say the word if you want the z.</li>
+      <li><b>It fits one screen now.</b> At 1920 wide a rem is 80.8px and the section adds to 12.19rem = <b>985px</b>, which clears a 1080 window with its header. It was 1180px, which is why you had to scroll. The stage came down from 6.40 to 5.40, so the viewed van is 8.66rem across rather than 10.27.</li>
+      <li><b>The top padding is the standard 0.40, not the section&rsquo;s 1.20.</b> The band above is the top of this section; 1.20 between them made them two things.</li>
+      <li>The side vans moved out again, 62% to 65%. That number has to change every time the stage height does, or their outer edges fall inside the window and the overflow quietly stops happening.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -72,6 +86,6 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=212"></script>
+<script src="assets/js/range-viewer.js?v=213"></script>
 </body>
 </html>

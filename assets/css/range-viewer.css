@@ -30,32 +30,36 @@
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:
        1.20  the section's own padding      (.solara, .dream, .lux)
-       0.72  a major break inside it        (.range-list after its lede)
        0.40  the standard gap               (.solara-lede after its title)
        0.06  a tight pair                   (.coty-sub under its heading)
-     Nothing here uses a value that is not one of those four. */
-  --gap-major: 0.72rem;
+     Nothing here uses a value that is not one of those three. The 0.72 tier
+     went with the heading: with one less break to make, repeating 0.40 reads
+     as rhythm where mixing 0.72 and 0.40 read as hesitation -- and it is
+     1.3rem of height this section cannot spare.
+
+     The top padding is the standard gap, not the section's 1.20: the band
+     directly above is the top of this section, and 1.20 between them made
+     them two things. */
   --gap:       0.40rem;
   --gap-tight: 0.06rem;
 
-  padding-top: var(--section-gap);
+  padding-top: var(--gap);
   padding-bottom: var(--section-gap);
   touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
 
-/* No heading. The full-bleed "Our range" band directly above already names
-   this section, so a second Range under it was saying it twice. The lede
-   opens the section instead, and runs on one line -- the max-width that used
-   to break it was sized for a column that no longer applies. */
-.rvx-lede { margin: 0; font-family: var(--gordita);
-  font-size: 0.24rem; line-height: 0.34rem; color: #4a4a4a; white-space: nowrap; }
+/* The line sits on the band above, under "Our range", so the band and the
+   viewer read as one section rather than as a photo followed by a carousel.
+   Scoped to .band--range: .band--why uses the same classes and must not move. */
+.band--range .band-sub { margin: 0.24rem 0 0; font-family: var(--gordita);
+  font-size: 0.30rem; line-height: 0.40rem; color: #fff; }
 
 /* ---- stage: cut-outs on the page, nothing behind them ----------------- */
-/* 6.40 tall puts the viewed van at 10.27rem across -- inside the 16.24
-   content column, as asked -- while the neighbours at 59% land with their
-   outer edges at 12.56rem from centre, past the 11.88rem half-window, so it
-   is the window that cuts them rather than a container */
-.rvx-stage { position: relative; height: 6.40rem; margin-top: var(--gap-major);
+/* 5.40 rather than 6.40. The section has to fit one screen: at 1920 wide a
+   rem is 80.8px, and everything here adds to 12.19rem = 985px, which clears
+   a 1080 window with its header. At 6.40 it came to 1180 and you had to
+   scroll to see the whole of it. The viewed van is still 8.66rem across. */
+.rvx-stage { position: relative; height: 5.40rem; margin-top: var(--gap);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -70,13 +74,13 @@
 
 /* a neighbour at 58%, far enough out that the window clips it */
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
-/* .58 x 0.65 = .377, a neighbour 35% smaller. Pushed from 59% out to 62% so
-   the window still clips it: at .377 its half-width is 1.94rem, and 62% of
-   the 16.24 slot is 10.07, which puts its outer edge at 12.01 against an
-   11.88rem half-window. Left at 59% it would have stopped short and the
-   overflow would have quietly disappeared. */
-.rvx-van[data-d="-1"] { transform: translateX(-62%) scale(.377); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 62%) scale(.377); opacity: .55; z-index: 2; }
+/* a neighbour 35% smaller at .377, and out at 65% so the window still clips
+   it: with the stage at 5.40 its half-width is 1.63rem, and 65% of the 16.24
+   slot is 10.56, putting the outer edge at 12.19 against an 11.88 half-window.
+   This number has to move every time the stage height does, or the overflow
+   quietly stops happening. */
+.rvx-van[data-d="-1"] { transform: translateX(-65%) scale(.377); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX( 65%) scale(.377); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
@@ -124,7 +128,7 @@
 
 /* ---- the four features ------------------------------------------------- */
 .rvx-spec { display: grid; grid-template-columns: repeat(4, 1fr);
-  margin-top: var(--gap-major); }
+  margin-top: var(--gap); }
 .rvx-cell { position: relative; padding: 0 0.20rem; text-align: center; }
 .rvx-cell + .rvx-cell::before { content: ""; position: absolute;
   left: 0; top: 0.02rem; width: 0.0075rem; height: 1.26rem;
@@ -145,7 +149,7 @@
 
 /* ---- two buttons, centred on the page, at .btn-solid's own metrics ----- */
 .rvx-act { display: flex; justify-content: center; gap: var(--gap);
-  margin-top: var(--gap-major); }
+  margin-top: var(--gap); }
 /* .btn-solid's own metrics and nothing else -- the min-width that used to be
    here is what made these read as outsized next to every other button */
 .rvx-cta { display: inline-flex; align-items: center; justify-content: center;
