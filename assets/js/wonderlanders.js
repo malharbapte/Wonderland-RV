@@ -27,10 +27,16 @@ document.addEventListener("click", function (e) {
    ambassadors.css, so no script is needed. */
 
 /* ------------------------------------------ FAQs: soft accordion --
-   Piyush, 21 Oct 2026: the dropdowns open and close softly, and opening one
+   Piyush, 21-22 Oct 2026: the dropdowns open and close softly, and opening one
    gently closes whichever was open. Still native <details>, so the answers
-   stay in the page for search engines and work without script; this only
-   animates the height and fade of the answer. Instant for reduced motion. */
+   stay in the page for search engines and work without script.
+
+   v2 (22 Oct, "a lot more smoother"): one frame loop drives every answer, so
+   the one closing and the one opening move in step on the same ease-in-out
+   curve (gentle start, soft landing, no rush-then-crawl). The row that was
+   clicked is held still on screen while an answer above it folds away, a
+   reversal mid-move carries on from the current height instead of jumping,
+   and the text fades in a beat behind the height. Instant for reduced motion. */
 (function () {
   var list = document.querySelector(".amb-faq-list");
   // the Wonderlander pages load both ambassador.js and wonderlanders.js, which
@@ -38,41 +44,88 @@ document.addEventListener("click", function (e) {
   if (!list || list.dataset.accordion) return;
   list.dataset.accordion = "1";
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var EASE = "cubic-bezier(.33,0,.15,1)", D = 520;
+  var D = 560;                                     // ms, open and close alike
+  function ease(t) { return (1 - Math.cos(Math.PI * t)) / 2; }   // ease-in-out sine
 
-  function bodyOf(d) { return d.querySelector(".amb-faq-body"); }
-  function animate(d, opening) {
-    var b = bodyOf(d);
-    if (!b || calm) { d.open = opening; return; }
-    if (d._anim) d._anim.cancel();
+  var items = [].slice.call(list.querySelectorAll("details")).map(function (d) {
+    return { d: d, b: d.querySelector(".amb-faq-body"), s: d.querySelector("summary"),
+             h: 0, from: 0, to: 0, t0: 0, on: false, opening: false };
+  });
+  var anchor = null, looping = false;
+
+  function kids(it) { return it.b ? [].slice.call(it.b.children) : []; }
+  function fade(it, opening) {
+    kids(it).forEach(function (k) {
+      if (k._fade) k._fade.cancel();
+      k._fade = opening
+        ? k.animate([{ opacity: 0, transform: "translateY(-0.06rem)" }, { opacity: 1, transform: "none" }],
+                    { duration: D * 0.8, delay: D * 0.18, easing: "cubic-bezier(.25,.1,.25,1)", fill: "backwards" })
+        : k.animate([{ opacity: 1 }, { opacity: 0 }],
+                    { duration: D * 0.45, easing: "ease-out", fill: "forwards" });
+    });
+  }
+  function settle(it) {
+    it.on = false;
+    clearTimeout(it.dog);
+    it.b.style.height = ""; it.b.style.overflow = "";
+    it.d.classList.remove("is-opening", "is-closing");
+    if (!it.opening) {
+      it.d.open = false;
+      kids(it).forEach(function (k) { if (k._fade) { k._fade.cancel(); k._fade = null; } });
+    }
+  }
+  function start(it, opening) {
+    var b = it.b;
+    var cur = it.on ? it.h : (it.d.open ? b.getBoundingClientRect().height : 0);
+    if (opening) it.d.open = true;
     b.style.overflow = "hidden";
-    var full = b.scrollHeight;
-    if (opening) d.open = true;
-    d.classList.toggle("is-closing", !opening);
-    var from = opening ? 0 : b.getBoundingClientRect().height;
-    var to = opening ? full : 0;
-    var a = b.animate([{ height: from + "px", opacity: opening ? 0 : 1 },
-                       { height: to + "px", opacity: opening ? 1 : 0 }],
-                      { duration: D, easing: EASE });
-    d._anim = a;
-    a.onfinish = function () {
-      d._anim = null; b.style.overflow = "";
-      if (!opening) { d.open = false; d.classList.remove("is-closing"); }
-    };
+    b.style.height = cur + "px";
+    it.from = cur; it.h = cur;
+    it.to = opening ? b.scrollHeight : 0;      // full answer height incl. padding
+    it.t0 = performance.now(); it.on = true; it.opening = opening;
+    it.d.classList.toggle("is-opening", opening);
+    it.d.classList.toggle("is-closing", !opening);
+    fade(it, opening);
+    // safety net: if the browser pauses frames, still land in the right state
+    clearTimeout(it.dog);
+    it.dog = setTimeout(function () { if (it.on) settle(it); }, D + 250);
+    if (!looping) { looping = true; requestAnimationFrame(tick); }
+  }
+  function tick(now) {
+    var top = anchor ? anchor.getBoundingClientRect().top : 0;
+    var busy = false;
+    items.forEach(function (it) {
+      if (!it.on) return;
+      var p = Math.min(1, Math.max(0, (now - it.t0) / D));
+      it.h = it.from + (it.to - it.from) * ease(p);
+      it.b.style.height = it.h.toFixed(2) + "px";
+      if (p >= 1) settle(it); else busy = true;
+    });
+    // keep the clicked row where the finger or pointer left it
+    if (anchor) {
+      var drift = anchor.getBoundingClientRect().top - top;
+      if (Math.abs(drift) > 0.1) window.scrollBy({ top: drift, behavior: "instant" });
+    }
+    if (busy) requestAnimationFrame(tick);
+    else { looping = false; anchor = null; }
   }
 
-  list.querySelectorAll("details").forEach(function (d) {
-    var s = d.querySelector("summary");
-    if (!s) return;
-    s.addEventListener("click", function (e) {
+  items.forEach(function (it) {
+    if (!it.s || !it.b) return;
+    it.s.addEventListener("click", function (e) {
       e.preventDefault();
-      var opening = !d.open || d.classList.contains("is-closing");
+      var opening = !it.d.open || it.d.classList.contains("is-closing");
+      if (calm) {
+        items.forEach(function (o) { if (o !== it && opening) o.d.open = false; });
+        it.d.open = opening; return;
+      }
+      anchor = it.s;
       if (opening) {
-        list.querySelectorAll("details[open]").forEach(function (o) {
-          if (o !== d && !o.classList.contains("is-closing")) animate(o, false);
+        items.forEach(function (o) {
+          if (o !== it && o.d.open && !o.d.classList.contains("is-closing")) start(o, false);
         });
       }
-      animate(d, opening);
+      start(it, opening);
     });
   });
 })();

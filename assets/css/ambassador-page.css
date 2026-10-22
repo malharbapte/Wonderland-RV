@@ -653,16 +653,25 @@
 .amb-faq details[open] summary svg { transform: rotate(180deg); }
 /* Soft accordion (ambassador.js): while an answer folds away the row already
    reads as closed, so the chevron and the colour turn back with it. */
-.amb-faq summary svg { transition: transform .45s cubic-bezier(.33,0,.15,1); }
+/* v2: the chevron turns on the same 560ms ease-in-out as the answer opens. */
+.amb-faq summary { transition: color .3s ease; }
+.amb-faq summary svg { transition: transform .56s cubic-bezier(.37,0,.63,1); }
 .amb-faq details.is-closing summary svg { transform: none; }
 .amb-faq details.is-closing summary { color: inherit; }
 
+/* No padding on the answer box itself: a box cannot be shorter than its
+   padding, so the bottom gap jumped open on the first frame and snapped shut
+   on the last. The gap is a spacer inside the box instead (flow-root keeps
+   the last paragraph's margin inside too), so the whole thing folds from
+   zero. */
 .amb-faq-body {
-  padding: 0 0 0.34rem;
+  padding: 0;
+  display: flow-root;
   font-family: var(--gordita);
   font-size: var(--t-body);
   line-height: var(--lh-body);
 }
+.amb-faq-body::after { content: ""; display: block; height: 0.34rem; }
 .amb-faq-body p { margin: 0 0 0.14rem; }
 .amb-faq-body ul { margin: 0 0 0.14rem; padding-left: 0.34rem; list-style: disc; }
 .amb-faq-body li { margin-bottom: 0.06rem; }
@@ -871,7 +880,8 @@
   .amb-faq { padding-bottom: 40px; }
   .amb-faq summary { font-size: 15px; line-height: 22px; padding: 16px 0; }
   .amb-faq summary svg { width: 14px; height: 14px; }
-  .amb-faq-body { font-size: 14px; line-height: 22px; padding-bottom: 18px; }
+  .amb-faq-body { font-size: 14px; line-height: 22px; }
+  .amb-faq-body::after { height: 18px; }
 }
 
 /* While the rail drifts, cards slide under a still pointer; their hover lift
