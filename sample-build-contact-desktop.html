@@ -180,6 +180,49 @@ body.lock { overflow: hidden; }
 .rv-done p { margin-top: 8px; font-size: 14px; line-height: 21px; font-weight: 500; }
 .dlg.sent .rv-form { display: none; }
 
+/* ===== Step 7: Build & Customise, Chassis (opens when you Submit with "Yes") ===== */
+.s7 { position: fixed; inset: 0; z-index: 200; background: #fff; overflow-y: auto; overflow-x: hidden; opacity: 0; visibility: hidden; transform: translateY(24px);
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s linear .45s; }
+.s7.open { opacity: 1; visibility: visible; transform: none; transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1); }
+.s7w { width: 1280px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; background: #fff; }
+.s7 .hero { position: relative; height: 172px; background: #000; flex: none; overflow: hidden; }
+.s7 .hero .ph { position: absolute; right: 0; top: 0; bottom: 0; width: 56.25%; background: url("assets/img/build/step7-hero.jpg") right center / cover no-repeat; }
+.s7 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0, #000 42%, rgba(0,0,0,.55) 52%, rgba(0,0,0,0) 66%); }
+.s7 .hero .in { position: absolute; z-index: 2; left: 241px; top: 31px; color: #fff; }
+.s7 .hero img { display: block; height: 30px; width: auto; filter: brightness(0) invert(1); }
+.s7 .hero h1 { margin-top: 25px; font-family: var(--aviano); font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: .08em; text-transform: uppercase; }
+.s7 .hero p { margin-top: 4px; font-size: 14px; line-height: 20px; font-weight: 500; }
+
+.s7 .tabs { width: 1057px; margin: 12px 0 0 112px; display: grid; grid-template-columns: repeat(5, 1fr); flex: none; }
+.s7 .tab { text-align: center; color: #BDBDBD; cursor: default; }
+.s7 .tab .t { display: flex; align-items: center; justify-content: center; gap: 8px; height: 30px; font-family: var(--aviano); font-weight: 700; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; border-bottom: 2px solid #D0D0D0; padding-bottom: 6px; }
+.s7 .tab .t svg { width: 16px; height: 16px; flex: none; }
+.s7 .tab .n { margin-top: 6px; font-family: var(--aviano); font-weight: 700; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; line-height: 12px; }
+.s7 .tab.on { color: var(--orange); }
+.s7 .tab.on .t { border-bottom-color: var(--orange); }
+
+.s7 .main { padding: 46px 0 40px 241px; flex: 1; }
+.s7 h2 { font-family: var(--aviano); font-weight: 700; font-size: 17px; line-height: 22px; letter-spacing: .08em; text-transform: uppercase; }
+.s7 .sub { margin-top: 18px; font-size: 16px; line-height: 22px; font-weight: 500; }
+.s7 .spec { margin: 18px 0 0 312px; width: 488px; border-collapse: collapse; font-size: 10px; line-height: 16px; color: #555; }
+.s7 .spec th, .s7 .spec td { text-align: left; vertical-align: top; padding: 2px 10px 2px 10px; }
+.s7 .spec td { padding-right: 4px; }
+.s7 .spec th { width: 184px; font-weight: 700; color: #333; }
+.s7 .spec tr:nth-child(odd) { background: #F6F5F3; }
+.s7 .spec td { font-weight: 500; }
+
+.s7 .bar { position: sticky; bottom: 0; flex: none; margin: 0 0 0 222px; width: 838px; background: #F6F4F1; height: 77px; display: grid; grid-template-columns: 116px 1fr 87px; align-items: center; column-gap: 0; padding: 0 12px 0 13px; }
+.s7 .bar .btn { height: 40px; }
+.s7 .bar .btn.nx2 { justify-self: end; }
+.s7 .bp { text-align: center; font-family: var(--aviano); font-weight: 700; text-transform: uppercase; color: #333; }
+.s7 .bp .l { font-size: 8.5px; letter-spacing: .1em; line-height: 12px; }
+.s7 .bp .a { margin-top: 2px; font-family: var(--gordita); font-weight: 500; font-size: 12px; line-height: 18px; letter-spacing: 0; color: #444; text-transform: none; }
+.s7 .bp .d { margin-top: 3px; font-size: 6.5px; letter-spacing: .08em; line-height: 9px; color: #555; }
+.s7 .bp a { display: block; font-size: 6.5px; letter-spacing: .08em; line-height: 9px; color: var(--orange); text-decoration: none; }
+.s7 .bp a:hover { text-decoration: underline; }
+.s7.open .hero h1, .s7.open .hero p, .s7.open .hero img { animation: rise .6s .15s ease-out both; }
+.s7.open .spec tr { animation: rise .45s ease-out both; }
+
 .sample-tools { position: fixed; left: 50%; top: 3px; transform: translateX(-50%); z-index: 5; display: flex; gap: 6px; font: 500 11px/1 var(--gordita); }
 .sample-tools button { padding: 7px 10px; background: #fff; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.25); color: #444; }
 .sample-tools button:hover { color: var(--orange); }
@@ -321,7 +364,25 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
   </div>
 </div>
 
-<div class="sample-tools" id="tools"><button type="button" id="tfill">Sample: fill details</button><button type="button" id="tshow">Sample: show price</button></div>
+<!-- Step 7: Build & Customise / Chassis -->
+<div class="s7" id="s7" role="dialog" aria-modal="true" aria-label="Build and customise: Chassis" tabindex="-1">
+  <div class="s7w" id="s7w">
+    <header class="hero"><div class="ph"></div><div class="in"><img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV"><h1>Build &amp; Customise</h1><p>Tailor every detail to suit your style of travel</p></div></header>
+    <nav class="tabs" aria-label="Customise steps"><div class="tab on" aria-current="step"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h13l5-5M6 17V9h4M3 17v3M9 20h2"/><circle cx="14" cy="19" r="1.6"/></svg>Chassis</div><div class="n">Step 7</div></div><div class="tab" aria-disabled="true"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 0 1-10 0zM12 16v5"/></svg>Electrical &amp; Appliances</div><div class="n">Step 8</div></div><div class="tab" aria-disabled="true"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h9a4 4 0 0 1 4 4v1M5 9V6M3 6h5M18 14v4M16 18h4"/></svg>Plumbing</div><div class="n">Step 9</div></div><div class="tab" aria-disabled="true"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v5H3zM6 18v2M18 18v2"/></svg>Interior</div><div class="n">Step 10</div></div><div class="tab" aria-disabled="true"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-5 9 5M5 9v10M19 9v10M9 19v-5h6v5"/></svg>Exterior</div><div class="n">Step 11</div></div></nav>
+    <main class="main">
+      <h2>Chassis</h2>
+      <p class="sub">Standard Chassis Inclusions</p>
+      <table class="spec"><tbody><tr style="animation-delay:350ms"><th scope="row">Frame:</th><td>SPR Aluminium Frame</td></tr><tr style="animation-delay:395ms"><th scope="row">A Frame, Chassis &amp; Riser:</th><td>6" x 1950mm A-Frame &amp; double 4+4" chassis &amp; wheelbox Riser (flat floor)</td></tr><tr style="animation-delay:440ms"><th scope="row">Axle:</th><td>Tandem</td></tr><tr style="animation-delay:485ms"><th scope="row">External Hatch:</th><td>Optional Upgrades Available</td></tr><tr style="animation-delay:530ms"><th scope="row">Stone Guard:</th><td>Optional Upgrades Available</td></tr><tr style="animation-delay:575ms"><th scope="row">Suspension:</th><td>4.5 Cruisemaster XT L3 manual</td></tr><tr style="animation-delay:620ms"><th scope="row">Brake &amp; Electronic Sway Control:</th><td>12" drum brakes</td></tr><tr style="animation-delay:665ms"><th scope="row">Chassis Finish:</th><td>Textured 2K PU black coating OR Hot Dip Galvanised</td></tr><tr style="animation-delay:710ms"><th scope="row">Hitch type:</th><td>DO35 by Cruisemaster recessed</td></tr><tr style="animation-delay:755ms"><th scope="row">Jockey Wheel:</th><td>AL-KO 8" wide large clamp</td></tr><tr style="animation-delay:800ms"><th scope="row">Stabilising Legs:</th><td>Drop down corner stabilisers</td></tr><tr style="animation-delay:845ms"><th scope="row">Wheels &amp; Tyres:</th><td>Dirty-Life Theory 16" 6x139 ET20 &amp; 285/75R16 Cooper AT3</td></tr></tbody></table>
+    </main>
+    <div class="bar">
+      <button class="btn ghost" type="button" id="s7prev">Previous</button>
+      <div class="bp"><div class="l">Base price:</div><div class="a">$ 150,216.21 AUD</div><div class="d">Price as of 18/03/2026</div><a href="#">Read disclaimer</a></div>
+      <button class="btn solid nx2" type="button" id="s7next">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="sample-tools" id="tools"><button type="button" id="tfill">Sample: fill details</button><button type="button" id="tshow">Sample: show price</button><button type="button" id="t7">Sample: show step 7</button></div>
 
 <script>
 (function () {
@@ -373,6 +434,7 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
   document.getElementById("rvprev").addEventListener("click", closeReveal);
   ov.addEventListener("mousedown", function (e) { if (e.target === ov) closeReveal(); });
   document.addEventListener("keydown", function (e) {
+    if (s7.classList.contains("open")) { if (e.key === "Escape") closeStep7(); return; }
     if (!ov.classList.contains("open")) return;
     if (e.key === "Escape") { closeReveal(); return; }
     if (e.key === "Tab") {                                   /* keep focus inside the dialog */
@@ -387,9 +449,9 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
     e.preventDefault();
     var c = rvform.querySelector("input[name=cust]:checked");
     if (!c) { rvform.classList.add("err"); document.getElementById("rvmsg").textContent = "Please choose one to continue."; return; }
+    if (c.value === "yes") { openStep7(); return; }                                  /* Yes: on to Step 7 */
     var em = document.getElementById("email").value.trim(), t = document.getElementById("rvdt"), p = document.getElementById("rvdp");
-    if (c.value === "no") { t.textContent = "Your quote is on its way"; p.textContent = "We’ve emailed a copy to " + (em || "your inbox") + "."; }
-    else { t.textContent = "Let’s keep building"; p.textContent = "Taking you to the upgrades: chassis, electrical, plumbing and more."; }
+    t.textContent = "Your quote is on its way"; p.textContent = "We’ve emailed a copy to " + (em || "your inbox") + ".";
     dlg.classList.add("sent"); document.getElementById("rvdone").classList.add("show"); dlg.scrollTop = 0;
   });
   rvform.addEventListener("change", function () { rvform.classList.remove("err"); document.getElementById("rvmsg").textContent = ""; });
@@ -402,6 +464,19 @@ body.guides .pad { outline: 1px dashed rgba(227,121,33,.7); outline-offset: -1px
   }
   document.getElementById("tfill").addEventListener("click", fill);
   document.getElementById("tshow").addEventListener("click", function () { fill(); openReveal(); });
+
+  /* ===== step 7 ===== */
+  var s7 = document.getElementById("s7"), s7w = document.getElementById("s7w");
+  function fit7() { var k = Math.min(1, document.documentElement.clientWidth / 1280); s7w.style.zoom = k < 1 ? k : ""; }
+  fit7(); window.addEventListener("resize", fit7);
+  function openStep7() {
+    s7.classList.remove("open"); void s7.offsetWidth; s7.scrollTop = 0; s7.classList.add("open");
+    setTimeout(function () { s7.focus({ preventScroll: true }); }, 30);
+  }
+  function closeStep7() { s7.classList.remove("open"); setTimeout(function () { dlg.focus({ preventScroll: true }); }, 30); }
+  document.getElementById("s7prev").addEventListener("click", closeStep7);
+  document.getElementById("t7").addEventListener("click", function () { fill(); document.body.classList.add("lock"); openStep7(); });
+  if (q.has("step7")) { fill(); document.body.classList.add("lock"); openStep7(); }
   if (q.has("clean")) document.getElementById("tools").style.display = "none";
   if (q.has("reveal")) { fill(); openReveal(); }
 })();
