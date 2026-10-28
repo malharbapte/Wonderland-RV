@@ -111,8 +111,6 @@
         '<div class="rvx-head">' +
           '<div><h3 class="rvx-name">' + m.name + '</h3>' +
           '<p class="rvx-tag">' + m.tag + '</p></div>' +
-          '<div class="rvx-money"><p class="rvx-from">From</p>' +
-          '<p class="rvx-price">' + m.price + '</p></div>' +
         '</div>' +
         '<div class="rvx-spec">' + cells + '</div>' +
       '</div>';
