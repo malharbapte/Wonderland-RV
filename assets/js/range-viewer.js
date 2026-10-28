@@ -20,8 +20,7 @@
   var stage   = sec.querySelector("[data-rvx-stage]");
   var badges  = sec.querySelector("[data-rvx-badges]");
   var panels  = sec.querySelector("[data-rvx-panelset]");
-  var acts    = sec.querySelector("[data-rvx-acts]");
-  if (!stage || !panels || !acts) return;
+  if (!stage || !panels) return;
 
   /* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
      The drawing writes the brake cell as one line, "12”DRUM", with no note
@@ -118,13 +117,6 @@
         '<div class="rvx-spec">' + cells + '</div>' +
       '</div>';
     }).join("");
-
-    acts.innerHTML = MODELS.map(function () {
-      return '<div class="rvx-act">' +
-        '<a class="rvx-cta rvx-cta--fill" href="#">Explore</a>' +
-        '<a class="rvx-cta rvx-cta--line" href="#">Brochure</a>' +
-      '</div>';
-    }).join("");
     paint();
   }
 
@@ -132,14 +124,12 @@
     var vans = stage.querySelectorAll(".rvx-van");
     var bs = badges ? badges.querySelectorAll(".rvx-badge-set") : [];
     var ps = panels.querySelectorAll(".rvx-panel");
-    var as = acts.querySelectorAll(".rvx-act");
     for (var k = 0; k < N; k++) {
       var d = (k - at + N) % N;
       if (d > N / 2) { d -= N; }
       if (vans[k]) { vans[k].dataset.d = d; }
       if (bs[k]) { bs[k].classList.toggle("on", k === at); }
       if (ps[k]) { ps[k].classList.toggle("on", k === at); }
-      if (as[k]) { as[k].classList.toggle("on", k === at); }
     }
   }
 

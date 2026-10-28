@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=220">
-<link rel="stylesheet" href="assets/css/homepage.css?v=220">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=220">
+<link rel="stylesheet" href="assets/css/styles.css?v=221">
+<link rel="stylesheet" href="assets/css/homepage.css?v=221">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=221">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -75,7 +75,10 @@ body { background: #fff; margin: 0; }
 
   <div class="rvx-band">
     <div class="container">
-      <div class="rvx-acts" data-rvx-acts></div>
+      <div class="rvx-act">
+        <a class="btn-solid" href="#">Explore the range</a>
+        <a class="btn-solid rvx-ghost" href="#">Download brochure</a>
+      </div>
       <p class="rvx-note">Figures shown are for the standard build. Every model can be
         specified further &mdash; options change capacities and price.</p>
     </div>
@@ -86,11 +89,11 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <h2>Built to the drawing</h2>
 
-    <h3>This round</h3>
+    <h3>The buttons</h3>
     <ul>
-      <li><b>Touching</b> is loaded, and the <b>viewed van is 20% bigger</b> &mdash; the stage went 5.10 to 6.12rem, so it is 9.82rem across rather than 8.18.</li>
-      <li><b>The neighbours did not grow with it.</b> Their scale is a fraction of the slot, so a 20% taller stage would have made them 20% bigger too. .471 / 1.2 = <b>.393</b> keeps them exactly the size they were. Any future change to the stage height has to be divided through there as well or they drift.</li>
-      <li>The gap switcher is still at the top and the numbers are recalculated for the new centre van: the offset for a gap of <i>g</i> is now <b>6.84 + g</b>, and 0 gives 42.1%.</li>
+      <li><b>They are <code>.btn-solid</code> itself now</b>, not a copy of its numbers. Same class every other in-page CTA uses, so they cannot drift out of alignment with the rest of the page &mdash; and the second one is that same button with its fill taken out rather than a separate thing.</li>
+      <li><b>That is what looked wrong.</b> The outlined one was filled white, and a white panel on a cream band reads as a hole cut into the band rather than as a button. It is transparent now, so the cream runs through it.</li>
+      <li>Labels back to <b>Explore the range</b> and <b>Download brochure</b>. Both are fixed text, so there is nothing per-model left in the band &mdash; the cross-fade stack that was there has gone and it is one row of two links.</li>
     </ul>
 
     <h3>One thing this costs</h3>
@@ -113,7 +116,7 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=220"></script>
+<script src="assets/js/range-viewer.js?v=221"></script>
 <script>
 document.querySelector("[data-gap-bar]").addEventListener("click", function (e) {
   var b = e.target.closest("button[data-nb]");
