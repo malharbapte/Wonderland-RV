@@ -1668,8 +1668,8 @@ input:-webkit-autofill:focus {
    it is not a budget, and describing it would make it look like one -- and
    :empty takes the dash with it rather than leaving it hanging. */
 .budget-why {
-  font-style: normal; font-family: var(--gordita);
-  font-size: 0.20rem; line-height: 0.26rem; color: #6b6158;
+  font-style: normal; font-family: var(--gordita); font-weight: 500;
+  font-size: 0.22rem; line-height: 0.28rem; color: #4a4a4a;
 }
 .budget-why::before { content: "\2014"; margin: 0 0.10rem 0 0.04rem; color: var(--grey); }
 .budget-why:empty { display: none; }
