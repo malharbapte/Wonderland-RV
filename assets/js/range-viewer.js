@@ -153,19 +153,35 @@
     if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); }
   });
 
-  var QUIET = 220, NEED = 60, accum = 0, lastX = 0, armed = true;
+  /* ONE STEP PER CROSSFADE, not one step per gesture.
+
+     What was wrong: after a step it disarmed, and only re-armed on a gap of
+     QUIET with no wheel events arriving. A swipe you never stop never
+     produces that gap -- the events keep coming closer together than 220ms --
+     so it re-armed only once you lifted off. One van per swipe, and a second
+     van needed a second swipe. That is the "doesn't swipe after one swipe".
+
+     The lock is now the animation itself: step, absorb everything until the
+     crossfade has finished, then accept the next NEED of travel. Keep swiping
+     and it keeps stepping, roughly a van per MOVE, and it still cannot skip
+     one, because nothing is accepted while a step is playing. */
+  var QUIET = 220;   /* a gap this long starts the travel count over    */
+  var NEED  = 60;    /* horizontal px of travel one step costs          */
+  var MOVE  = 820;   /* the crossfade (780ms) plus a little             */
+  var accum = 0, lastX = 0, until = 0;
+
   sec.addEventListener("wheel", function (e) {
-    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   /* vertical: not ours */
     e.preventDefault();
     var now = performance.now();
-    if (now - lastX > QUIET) { accum = 0; armed = true; }
+    if (now - lastX > QUIET) { accum = 0; }
     lastX = now;
-    if (!armed) return;
+    if (now < until) { accum = 0; return; }                 /* mid-step: absorb */
     accum += e.deltaX;
     if (Math.abs(accum) >= NEED) {
       go(at + (accum > 0 ? 1 : -1));
       accum = 0;
-      armed = false;
+      until = now + MOVE;
     }
   }, { passive: false });
 
