@@ -121,7 +121,12 @@
 /* =========================================================================
    THE PANEL
    ========================================================================= */
-.rvx-panels { position: relative; margin-top: var(--gap); }
+/* 0.32 is the standard 0.40 less a fifth. Worth knowing that this is not
+   where most of the gap lives: each cut-out carries 12-19% of empty canvas
+   below its van, left behind when the baked-in shadows came off, and that is
+   0.7 to 1.2rem of the space between the vans and this block -- uneven
+   between the four, so they do not even share a baseline. */
+.rvx-panels { position: relative; margin-top: 0.32rem; }
 .rvx-panelset { display: grid; grid-template-areas: "a"; }
 .rvx-panel { grid-area: a;
   opacity: 0; visibility: hidden;
