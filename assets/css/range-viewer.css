@@ -212,4 +212,11 @@
 
 }  /* end @media (min-width: 901px) */
 
-@media (max-width: 900px) { .rvx { display: none; } }
+/* The phone keeps the range section it already has, built by home.js out of
+   the .range markup. Neither the viewer nor the line added to the band may
+   reach it -- the line is styled inside the desktop query, so without this
+   it would still render there, unstyled, over the photo. */
+@media (max-width: 900px) {
+  .rvx,
+  .band--range .band-sub { display: none; }
+}
