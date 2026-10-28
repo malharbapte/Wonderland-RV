@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=221">
-<link rel="stylesheet" href="assets/css/homepage.css?v=221">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=221">
+<link rel="stylesheet" href="assets/css/styles.css?v=222">
+<link rel="stylesheet" href="assets/css/homepage.css?v=222">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=222">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -93,6 +93,7 @@ body { background: #fff; margin: 0; }
     <ul>
       <li><b>They are <code>.btn-solid</code> itself now</b>, not a copy of its numbers. Same class every other in-page CTA uses, so they cannot drift out of alignment with the rest of the page &mdash; and the second one is that same button with its fill taken out rather than a separate thing.</li>
       <li><b>That is what looked wrong.</b> The outlined one was filled white, and a white panel on a cream band reads as a hole cut into the band rather than as a button. It is transparent now, so the cream runs through it.</li>
+      <li><b>The sentence under them has room now</b> &mdash; it was on <code>--gap-tight</code> (0.06rem), which had it sitting on the buttons and reading as part of them. It is on the standard 0.40 gap, same as everything else in the section.</li>
       <li>Labels back to <b>Explore the range</b> and <b>Download brochure</b>. Both are fixed text, so there is nothing per-model left in the band &mdash; the cross-fade stack that was there has gone and it is one row of two links.</li>
     </ul>
 
@@ -116,7 +117,7 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=221"></script>
+<script src="assets/js/range-viewer.js?v=222"></script>
 <script>
 document.querySelector("[data-gap-bar]").addEventListener("click", function (e) {
   var b = e.target.closest("button[data-nb]");

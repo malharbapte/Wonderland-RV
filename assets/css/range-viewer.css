@@ -195,7 +195,9 @@
 .rvx-arrow--next { right: calc(-1 * (var(--page-margin) / 2) - 0.28rem); }
 .rvx-arrow svg { width: 0.24rem; height: 0.24rem; }
 .rvx-arrow:hover { border-color: var(--orange-deep); color: var(--orange-deep); }
-.rvx-note { margin: var(--gap-tight) 0 0; text-align: center; font-family: var(--gordita);
+/* the standard gap, not the tight one: at 0.06 the sentence sat on the
+   buttons and read as part of them rather than as a note under them */
+.rvx-note { margin: var(--gap) 0 0; text-align: center; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 
 }  /* end @media (min-width: 901px) */
