@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Budget — the bracket in words</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=226">
+<link rel="stylesheet" href="assets/css/homepage.css?v=226">
+<style>
+/* ===========================================================================
+   BUDGET, with each bracket said in words as well as numbers.
+
+   The constraint that decides this: a stop is a ZERO-WIDTH point and its
+   label is absolutely positioned under it. Four of them across the form's
+   measure already sit close; "willing to invest in the best spec" under one
+   of them is four times the width of the widest label there now. So where
+   the words go is the whole question, not a detail.
+
+   Three places they can go, below. Nothing here is live on any page.
+   =========================================================================== */
+body { background: #fff; margin: 0; }
+
+.lab { background: #1b1b1b; color: #fff; padding: 0.34rem 0 0.30rem; }
+.lab h1 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.30rem; }
+.lab p { margin: 0.12rem 0 0; font-family: var(--gordita); font-size: 0.17rem;
+  line-height: 0.26rem; color: #b9b2a8; max-width: 11rem; }
+
+.strip { background: var(--orange-deep); color: #fff; padding: 0.14rem 0;
+  font-family: var(--gordita); font-weight: 700; font-size: 0.17rem;
+  letter-spacing: .14em; text-transform: uppercase; }
+.why { font-family: var(--gordita); font-size: 0.175rem; line-height: 0.28rem;
+  color: #4a4a4a; margin: 0.20rem 0 0; max-width: 11rem; }
+.why b { color: #1b1b1b; }
+
+.demo { background: #FFFAF4; padding: 0.60rem 0 0.70rem; }
+.demo .budget { width: 11.4737rem; }
+.demo .budget-shell { height: auto; }
+
+/* ---- V1: in the head, beside the live value --------------------------- */
+.v1 .budget-head { flex-wrap: wrap; }
+.v1 .budget-why { font-style: normal; font-family: var(--gordita);
+  font-size: 0.20rem; line-height: 0.26rem; color: #6b6158; }
+.v1 .budget-why::before { content: "\2014"; margin: 0 0.10rem 0 0.04rem; color: var(--grey); }
+.v1 .budget-why:empty { display: none; }
+
+/* ---- V2: its own line under the track --------------------------------- */
+.v2 .budget-why { display: block; margin: 0.30rem 0 0;
+  font-family: var(--gordita); font-size: 0.22rem; line-height: 0.30rem;
+  color: var(--ink); min-height: 0.30rem; }
+.v2 .budget-why:empty::after { content: "\00a0"; }
+
+/* ---- V3: under every node ---------------------------------------------- */
+.v3 .budget-scale { height: 1.26rem; }
+.v3 .budget-stop span { white-space: normal; width: 2.10rem; text-align: center;
+  font-size: 0.185rem; line-height: 0.23rem; }
+.v3 .budget-stop:first-of-type span { left: -0.16rem; transform: none; text-align: left; }
+.v3 .budget-stop:last-of-type  span { left:  0.16rem; transform: translateX(-100%); text-align: right; }
+.v3 .budget-stop i { display: block; font-style: normal; margin-top: 0.05rem;
+  font-size: 0.15rem; line-height: 0.19rem; color: var(--grey); }
+.v3 .budget-stop:has(input:checked) i { color: #6b6158; }
+</style>
+</head>
+<body>
+
+<header class="lab">
+  <div class="container">
+    <h1>Budget &mdash; the bracket in words</h1>
+    <p>Same four stops, same behaviour, three places the words can live. A stop is a zero-width point with its label absolutely positioned under it, so where thirty-odd characters go is the whole question.</p>
+  </div>
+</header>
+
+<div class="strip"><div class="container">V1 &mdash; beside the live value, in the head</div></div>
+<section class="demo"><div class="container">
+  <div class="budget v1" data-v="1"></div>
+  <p class="why"><b>The words land where the eye already is.</b> The head is the only line that already changes as you move the handle, so the descriptor arrives with the amount rather than somewhere else on the field. Nothing moves, nothing wraps, and the longest one still fits on the line. <b>This is the one I would ship.</b></p>
+</div></section>
+
+<div class="strip"><div class="container">V2 &mdash; its own line under the track</div></div>
+<section class="demo"><div class="container">
+  <div class="budget v2" data-v="2"></div>
+  <p class="why">More room, and the words get to be a sentence rather than a tail. The cost is a <b>second thing that changes on the field</b> &mdash; the head updates and so does this &mdash; and a reserved empty line so the disclaimer does not jump when nothing is chosen.</p>
+</div></section>
+
+<div class="strip"><div class="container">V3 &mdash; under every node</div></div>
+<section class="demo"><div class="container">
+  <div class="budget v3" data-v="3"></div>
+  <p class="why">All four readable at once, which is the only version where you can <i>compare</i> them before choosing. The cost is real: the scale grows from 0.64 to 1.26rem, the labels need a fixed 2.10rem measure to stop them colliding, and at that width the longest one runs to three lines. <b>Busy, and the field stops looking like a slider.</b></p>
+</div></section>
+
+<section class="demo" style="background:#fff">
+  <div class="container">
+    <h2 style="margin:0;font-family:var(--aviano);font-weight:900;font-size:0.26rem">Two things in your line I had to decide</h2>
+    <p class="why"><b>The bottom bracket moves to $120k.</b> You wrote 120&ndash;140; it is $100&ndash;140k today. Changing it means the note under the field has to change too, from &ldquo;under $100,000&rdquo; to <b>&ldquo;under $120,000&rdquo;</b> &mdash; which is still true, since Amaroo starts at $127,288. Both are changed here.</p>
+    <p class="why"><b>The first bracket had no words.</b> Your line gives them to 140&ndash;180k (&ldquo;flexible&rdquo;) and 180k+ (&ldquo;willing to invest in the best spec&rdquo;) but not to 120&ndash;140k. I have written <b>&ldquo;working to a set budget&rdquo;</b> so the three read in one voice. Change it to whatever you would actually say &mdash; it is the one piece of copy here that is mine, not yours.</p>
+    <p class="why"><b>&ldquo;Not sure yet&rdquo; carries no words</b> on purpose. It is not a budget, so giving it a description would make it look like one.</p>
+  </div>
+</section>
+
+<script>
+var BANDS = [
+  { p: 0,       label: "$120–140k", value: "$120,000 – $140,000", why: "working to a set budget" },
+  { p: 0.33333, label: "$140–180k", value: "$140,000 – $180,000", why: "flexible" },
+  { p: 0.66667, label: "$180k +",      value: "$180,000 +",             why: "willing to invest in the best spec" },
+  { p: 1,       label: "Not sure yet",  value: "Not sure yet",           why: "", na: true }
+];
+
+function build(host) {
+  var v = host.dataset.v;
+  var stops = BANDS.map(function (b, i) {
+    return '<label class="budget-stop' + (b.na ? ' budget-stop--na' : '') + '" style="--p: ' + b.p + '">' +
+      '<input type="radio" name="budget-' + v + '" value="' + b.value + '" data-i="' + i + '"' +
+      (i === 0 ? ' checked' : '') + '>' +
+      '<span>' + b.label + (v === "3" && b.why ? '<i>' + b.why + '</i>' : '') + '</span>' +
+    '</label>';
+  }).join("");
+
+  host.innerHTML =
+    '<div class="budget-shell"><div class="budget-inner">' +
+      '<div class="budget-head"><b>Budget</b><i class="budget-value">&mdash;</i>' +
+        (v === "1" ? '<i class="budget-why"></i>' : '') +
+      '</div>' +
+      '<div class="budget-scale" role="radiogroup" aria-label="Budget">' +
+        '<div class="budget-track"><span class="budget-fill"></span></div>' + stops +
+      '</div>' +
+      (v === "2" ? '<span class="budget-why"></span>' : '') +
+      '<p class="budget-note">We don’t have caravans under $120,000.</p>' +
+    '</div></div>';
+
+  paint(host);
+  host.addEventListener("change", function () { paint(host); });
+}
+
+function paint(host) {
+  var on = host.querySelector("input:checked");
+  if (!on) return;
+  var b = BANDS[+on.dataset.i];
+
+  host.classList.toggle("is-na", !!b.na);
+  host.querySelector(".budget-value").innerHTML = b.label;
+
+  var why = host.querySelector(".budget-why");
+  if (why) { why.textContent = b.why; }
+
+  host.querySelector(".budget-fill").style.width =
+    "calc(0.16rem + (100% - 0.32rem) * " + b.p + ")";
+
+  [].slice.call(host.querySelectorAll(".budget-stop")).forEach(function (s, i) {
+    s.classList.toggle("is-past", !b.na && i < +on.dataset.i);
+  });
+}
+
+[].slice.call(document.querySelectorAll(".budget[data-v]")).forEach(build);
+</script>
+</body>
+</html>
