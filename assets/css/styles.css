@@ -1670,8 +1670,11 @@ input:-webkit-autofill:focus {
 .budget-why {
   font-style: normal; font-family: var(--gordita); font-weight: 500;
   font-size: 0.22rem; line-height: 0.28rem; color: #4a4a4a;
+  text-transform: uppercase;
+  /* the same tracking the BUDGET label beside it carries -- caps set solid
+     at this size close up and stop reading as words */
+  letter-spacing: .06em;
 }
-.budget-why::before { content: "\2014"; margin: 0 0.10rem 0 0.04rem; color: var(--grey); }
 .budget-why:empty { display: none; }
 
 }  /* end min-width: 901px */
