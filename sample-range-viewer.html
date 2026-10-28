@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=219">
-<link rel="stylesheet" href="assets/css/homepage.css?v=219">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=219">
+<link rel="stylesheet" href="assets/css/styles.css?v=220">
+<link rel="stylesheet" href="assets/css/homepage.css?v=220">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=220">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -38,7 +38,7 @@ body { background: #fff; margin: 0; }
 <body>
 
 <div class="gapbar" data-gap-bar>
-  <div class="container"><span>Gap between the vans</span><button data-nb="34.6%"><b>Overlapping</b><i>-0.30rem</i></button><button data-nb="37.1%"><b>Touching</b><i>0 gap</i></button><button data-nb="38.9%" class="on"><b>Tight</b><i>0.30rem</i></button><button data-nb="40.8%"><b>Small</b><i>0.60rem</i></button><button data-nb="43.2%"><b>Roomy</b><i>1.00rem</i></button><button data-nb="61.9%"><b>On the margins (now)</b><i>4.03rem</i></button></div>
+  <div class="container"><span>Gap between the vans</span><button data-nb="40.3%"><b>Overlapping</b><i>-0.30rem</i></button><button data-nb="42.1%" class="on"><b>Touching</b><i>0 gap</i></button><button data-nb="44.0%"><b>Tight</b><i>0.30rem</i></button><button data-nb="45.8%"><b>Small</b><i>0.60rem</i></button><button data-nb="48.3%"><b>Roomy</b><i>1.00rem</i></button><button data-nb="61.9%"><b>On the margins</b><i>3.21rem</i></button></div>
 </div>
 
 <!-- ======================================================= OUR RANGE -->
@@ -86,12 +86,17 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <h2>Built to the drawing</h2>
 
-    <h3>Pick the gap at the top</h3>
+    <h3>This round</h3>
     <ul>
-      <li><b>Nothing resizes.</b> The vans stay at .471 and the stage stays 5.10 &mdash; only how far out a neighbour sits changes.</li>
-      <li>Why they ended up on the margins: last round the rule was <i>hold the neighbour&rsquo;s inner edge on the content column</i>, and the gap was whatever fell out of that &mdash; which turned out to be <b>4.03rem</b>. That is the wrong way round. The offset is now driven by the gap you want, and the position falls out of it.</li>
-      <li>The arithmetic, if useful: the centre van&rsquo;s half-width is 4.09rem and a neighbour&rsquo;s is 1.93rem, so for a gap of <i>g</i> the offset is <b>6.02 + g</b>, which is <code>--nb</code> as a percentage of the 16.24 slot.</li>
-      <li><b>Tight (0.30rem)</b> is loaded by default. <b>Touching</b> and <b>Overlapping</b> are there because at this size they may well read better than any true gap &mdash; the neighbours start to behave like a stack rather than three separate vans.</li>
+      <li><b>Touching</b> is loaded, and the <b>viewed van is 20% bigger</b> &mdash; the stage went 5.10 to 6.12rem, so it is 9.82rem across rather than 8.18.</li>
+      <li><b>The neighbours did not grow with it.</b> Their scale is a fraction of the slot, so a 20% taller stage would have made them 20% bigger too. .471 / 1.2 = <b>.393</b> keeps them exactly the size they were. Any future change to the stage height has to be divided through there as well or they drift.</li>
+      <li>The gap switcher is still at the top and the numbers are recalculated for the new centre van: the offset for a gap of <i>g</i> is now <b>6.84 + g</b>, and 0 gives 42.1%.</li>
+    </ul>
+
+    <h3>One thing this costs</h3>
+    <ul>
+      <li>At 5.10 the section was 11.29rem = 0.475 of the window width, inside the half-width rule. At 6.12 it is <b>12.31rem = 0.518</b>, about <b>995px at 1920</b> &mdash; that wants a window around 1100 tall to show in full, so on a 1080 screen the last of the cream band will sit just under the fold.</li>
+      <li>Getting back under the rule means taking 0.43rem off somewhere else. The two places with any give are the band&rsquo;s padding and the gap at the top. Say the word and I will take it from either &mdash; or leave it, if a van that size is worth the scroll.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -108,7 +113,7 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=219"></script>
+<script src="assets/js/range-viewer.js?v=220"></script>
 <script>
 document.querySelector("[data-gap-bar]").addEventListener("click", function (e) {
   var b = e.target.closest("button[data-nb]");

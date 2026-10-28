@@ -26,7 +26,7 @@
   --rule:  #e4e2de;
   --dim:   #6b6158;
   --plate: var(--col);           /* the van's slot: the content column wide  */
-  --nb:    38.9%;                /* neighbour offset -- see the note below   */
+  --nb:    42.1%;                /* touching: see the note below            */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:
@@ -62,11 +62,13 @@
    width -- so on any window 16:9 or taller the section fits on screen with
    room for the browser's own chrome, at every width, without a media query.
 
-   The measured total was 12.85rem = 1038px at 1920, which a real 1080 window
-   does not have room for once its chrome is counted. 5.10 here, and the two
-   gaps at the foot tightened, brings it to 11.87. The viewed van is 8.18rem
-   across; every pixel beyond that comes straight off this rule. */
-.rvx-stage { position: relative; height: 5.10rem; margin-top: var(--gap);
+   5.10 held the section at 11.29rem = 0.475 of the width, inside that rule.
+   6.12 -- the viewed van 20% bigger, 9.82rem across -- takes it to 12.31rem
+   = 0.518, about 995px at 1920. That wants a window around 1100 tall to show
+   in full, so on a 1080 screen the last of the band will be just under the
+   fold. Going back under the rule means taking 0.43rem off somewhere else;
+   the two places with any give are the band's padding and the top gap. */
+.rvx-stage { position: relative; height: 6.12rem; margin-top: var(--gap);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -83,17 +85,18 @@
 /* HOW FAR OUT A NEIGHBOUR SITS. Driven by --nb so the gap can be changed in
    one place without touching the scale.
 
-     centre van half-width = stage height x 1.604 / 2 = 5.10 x 0.802 = 4.09rem
-     neighbour  half-width = that x .471                             = 1.93rem
-     offset for a gap of g = 4.09 + g + 1.93 = 6.02 + g
+     centre van half-width = stage height x 1.604 / 2 = 6.12 x 0.802 = 4.91rem
+     neighbour  half-width = that x .393                             = 1.93rem
+     offset for a gap of g = 4.91 + g + 1.93 = 6.84 + g
 
-   So --nb is (6.02 + g) / 16.24 as a percentage. The old 61.9% came from
-   holding the neighbour's inner edge on the content column, which put g at
-   4.03rem -- the vans ended up on the page margins and the gap was whatever
-   fell out of that. This drives the gap instead and lets the position fall
-   out of it, which is the right way round. */
-.rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.471); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.471); opacity: .55; z-index: 2; }
+   So --nb is (6.84 + g) / 16.24 as a percentage, and g = 0 gives 42.1%.
+
+   The neighbour's scale is .393, not .471: it is a fraction of the SLOT, so
+   when the stage grew 20% the neighbours would have grown with it. .471 /
+   1.2 = .393 keeps them exactly the size they were. Any future change to the
+   stage height has to be divided through here too, or they drift. */
+.rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.393); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.393); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
