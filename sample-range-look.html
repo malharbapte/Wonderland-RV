@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — four treatments</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=226">
+<link rel="stylesheet" href="assets/css/homepage.css?v=226">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=226">
+<style>
+/* ===========================================================================
+   FOUR TREATMENTS for the range section. Same information, same arrangement,
+   same sizes -- nothing moves and nothing is added or removed. Only surface:
+   what the vans sit on, what the section is made of, and what happens when it
+   changes.
+
+   Why it reads bland as it stands: the vans are cut-outs on flat white with
+   nothing under them, so they float rather than sit; the only colour is the
+   orange on four values and a price; and the step is a straight crossfade,
+   so nothing about the section rewards watching it.
+   =========================================================================== */
+body { background: #fff; margin: 0; }
+.bar { position: sticky; top: 0; z-index: 60; background: #1b1b1b; color: #fff;
+  padding: 0.20rem 0; }
+.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.14rem; }
+.bar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; margin-right: 0.20rem; }
+.bar button { display: flex; flex-direction: column; align-items: flex-start; cursor: pointer;
+  background: transparent; border: 0.0075rem solid #3d3d3d; color: #cfc8be;
+  padding: 0.07rem 0.16rem; line-height: 1.3; }
+.bar button em { font-family: var(--gordita); font-weight: 700; font-size: 0.15rem; font-style: normal; }
+.bar button i { font-family: var(--gordita); font-size: 0.13rem; font-style: normal; color: #8b8379; }
+.bar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.bar button.on i { color: #fff; }
+
+/* =========================================================================
+   SHARED — a contact shadow. Every treatment uses it: the single biggest
+   reason the section looks flat is that nothing is under the vans.
+   ========================================================================= */
+.t .rvx-van::after {
+  content: ""; position: absolute; left: 14%; right: 14%; bottom: 7%;
+  height: 0.26rem; pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%,
+    rgba(26,20,12,.26) 0%, rgba(26,20,12,.10) 45%, rgba(26,20,12,0) 72%);
+}
+.t .rvx-van[data-d="-1"]::after,
+.t .rvx-van[data-d="1"]::after { opacity: .55; }
+
+/* =========================================================================
+   T1 — GROUNDED. The shadow, and a horizon: a wash in the lower half of the
+   stage so the van stands on something instead of in nothing.
+   ========================================================================= */
+.t1 .rvx-stage::before {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 46%;
+  background: linear-gradient(180deg, rgba(240,235,226,0) 0%, rgba(240,235,226,.85) 100%);
+  pointer-events: none; z-index: 0;
+}
+
+/* =========================================================================
+   T2 — TWO TONE. The section takes the site's cream, the stage stays white
+   as a panel inside it, and the band below is already #FFF2DC -- three warm
+   tones stacked instead of one flat white.
+   ========================================================================= */
+.t2 { background: #FAF6F0; }
+.t2 .rvx-stage { background: #fff; }
+.t2 .rvx-stage::before {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 40%;
+  background: linear-gradient(180deg, rgba(250,246,240,0) 0%, rgba(250,246,240,.9) 100%);
+  pointer-events: none; z-index: 0;
+}
+.t2 .rvx-cell + .rvx-cell::before { background: #E0DAD0; }
+
+/* =========================================================================
+   T3 — GHOST WORDMARK. The model name again, very large and very pale,
+   behind the van. Lotus's own move. No new information -- it is the name
+   that is already under the stage.
+   ========================================================================= */
+.t3 .rvx-ghostmark {
+  position: absolute; left: 0; right: 0; top: 50%; margin: 0;
+  transform: translateY(-50%);
+  font-family: var(--aviano); font-weight: 900; font-size: 2.30rem; line-height: 1;
+  text-transform: uppercase; text-align: center; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 0.015rem rgba(26,20,12,.13);
+  pointer-events: none; z-index: 0;
+  transition: opacity .78s cubic-bezier(.33,0,.18,1);
+}
+.t3 .rvx-stage::before {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 44%;
+  background: linear-gradient(180deg, rgba(244,240,233,0) 0%, rgba(244,240,233,.8) 100%);
+  pointer-events: none; z-index: 0;
+}
+
+/* =========================================================================
+   T4 — IT MOVES. The step stops being a straight crossfade: the incoming van
+   arrives from the side it came from, the neighbours drift the other way, and
+   the four values rise in sequence rather than all at once.
+   ========================================================================= */
+.t4 .rvx-van { transition: transform var(--step), opacity var(--step); }
+.t4 .rvx-van[data-d="0"]  { transform: scale(1); }
+.t4 .rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.393) translateY(0.10rem); }
+.t4 .rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.393) translateY(0.10rem); }
+
+.t4 .rvx-panel .rvx-cell { opacity: 0; transform: translateY(0.14rem);
+  transition: opacity .5s cubic-bezier(.33,0,.18,1), transform .5s cubic-bezier(.33,0,.18,1); }
+.t4 .rvx-panel.on .rvx-cell { opacity: 1; transform: none; }
+.t4 .rvx-panel.on .rvx-cell:nth-child(1) { transition-delay: .10s; }
+.t4 .rvx-panel.on .rvx-cell:nth-child(2) { transition-delay: .17s; }
+.t4 .rvx-panel.on .rvx-cell:nth-child(3) { transition-delay: .24s; }
+.t4 .rvx-panel.on .rvx-cell:nth-child(4) { transition-delay: .31s; }
+
+.t4 .rvx-panel .rvx-name,
+.t4 .rvx-panel .rvx-money { opacity: 0; transform: translateY(0.10rem);
+  transition: opacity .5s cubic-bezier(.33,0,.18,1), transform .5s cubic-bezier(.33,0,.18,1); }
+.t4 .rvx-panel.on .rvx-name,
+.t4 .rvx-panel.on .rvx-money { opacity: 1; transform: none; transition-delay: .06s; }
+
+.t4 .rvx-stage::before {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 44%;
+  background: linear-gradient(180deg, rgba(240,235,226,0) 0%, rgba(240,235,226,.8) 100%);
+  pointer-events: none; z-index: 0;
+}
+
+.after { padding: 0.70rem 0 0.90rem; background: #f7f4ee; }
+.after h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; }
+.after h3 { margin: 0.34rem 0 0; font-family: var(--gordita); font-weight: 700;
+  font-size: 0.17rem; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-deep); }
+.after p, .after li { font-family: var(--gordita); font-size: 0.175rem;
+  line-height: 0.30rem; color: #4a4a4a; }
+.after ul { margin: 0.10rem 0 0; padding-left: 0.28rem; }
+.after b { color: #1b1b1b; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="container">
+    <b>Range &mdash; treatment</b>
+    <button data-t="0"><em>As it is</em><i>flat white</i></button>
+    <button data-t="1" class="on"><em>T1 Grounded</em><i>shadow + horizon</i></button>
+    <button data-t="2"><em>T2 Two tone</em><i>cream section, white stage</i></button>
+    <button data-t="3"><em>T3 Ghost wordmark</em><i>the name behind the van</i></button>
+    <button data-t="4"><em>T4 It moves</em><i>staged entrance</i></button>
+  </div>
+</div>
+
+<!-- ======================================================= OUR RANGE -->
+<section class="band band--range">
+  <div class="media ph" data-ph="assets/img/home/range-band.jpg">
+    <img src="assets/img/home/range-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container band-copy">
+    <div>
+      <h2 class="band-title">Our range</h2>
+      <p class="band-sub">Four models and loads of customisations</p>
+    </div>
+  </div>
+</section>
+<!-- ============================================ RANGE VIEWER (desktop) -->
+<section class="rvx">
+  <div class="container">
+  </div>
+
+  <div class="rvx-stage" data-rvx-stage>
+    <div class="rvx-badges" data-rvx-badges></div>
+  </div>
+
+  <div class="container">
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    </div>
+
+  </div>
+
+  <div class="rvx-band">
+    <div class="container">
+      <div class="rvx-act">
+        <a class="btn-solid" href="#">Explore the range</a>
+        <a class="btn-solid rvx-ghost" href="#">Download brochure</a>
+      </div>
+      <p class="rvx-note">Figures shown are for the standard build. Every model can be
+        specified further &mdash; options change capacities and price.</p>
+    </div>
+  </div>
+</section>
+
+<section class="after">
+  <div class="container">
+    <h2>Why it reads bland, and what each one does about it</h2>
+    <p>Three things are causing it, and they are worth separating because they have different fixes. <b>The vans float</b> &mdash; they are cut-outs on flat white with nothing underneath, so they read as pasted on rather than standing anywhere. <b>The section is one tone</b> &mdash; white, with colour only on four values and a price, against a cream band that arrives at the very bottom. And <b>the step does not reward watching</b> &mdash; a straight crossfade in and out, nothing arrives, nothing settles.</p>
+
+    <h3>Every one of these includes the shadow</h3>
+    <p>Not a style choice. It is the single biggest reason the section looks flat, and it costs nothing &mdash; a soft ellipse under each van, weaker under the neighbours. Toggle <b>As it is</b> and back to see how much of the problem it was on its own.</p>
+
+    <h3>What each adds on top</h3>
+    <ul>
+      <li><b>T1 Grounded</b> &mdash; the shadow plus a horizon: a wash across the lower part of the stage so the vans stand on a surface. The smallest change here and the one that is hardest to argue with.</li>
+      <li><b>T2 Two tone</b> &mdash; the section takes the site&rsquo;s cream and the stage stays white as a panel inside it. The band below is already #FFF2DC, so you get three warm tones stacked instead of one flat white, and the stage becomes something the vans are <i>on</i>.</li>
+      <li><b>T3 Ghost wordmark</b> &mdash; the model name again, very large and very pale, behind the van. Lotus&rsquo;s own move and the most distinctive of the four. It adds no information: it is the name already sitting under the stage. The risk is that it is the furthest from the rest of this site, which has nothing like it anywhere.</li>
+      <li><b>T4 It moves</b> &mdash; the step stops being a straight crossfade. The name and price lift in, the four features rise in sequence behind them, and the neighbours drift as they go. Costs nothing visually when the section is at rest, which is most of the time.</li>
+    </ul>
+
+    <h3>If you want my read</h3>
+    <p><b>T2 with T4&rsquo;s motion</b>. Two tone fixes the flatness at rest, which is the state the section is in whenever nobody is touching it; the staged entrance fixes the part you only see once you engage. T3 is the most striking of the four but it is a new idea on a site that does not use one anywhere else &mdash; worth doing deliberately, not by drift. Say the word and I will combine any two of these.</p>
+  </div>
+</section>
+
+<script src="assets/js/range-viewer.js?v=226"></script>
+<script>
+/* sample chrome: the treatment switch, and the ghost wordmark T3 needs. */
+(function () {
+  var sec = document.querySelector(".rvx");
+  var stage = sec.querySelector("[data-rvx-stage]");
+  var set = sec.querySelector("[data-rvx-panelset]");
+
+  var ghost = document.createElement("p");
+  ghost.className = "rvx-ghostmark";
+  stage.insertBefore(ghost, stage.firstChild);
+
+  function sync() {
+    var on = set.querySelector(".rvx-panel.on .rvx-name");
+    if (on) { ghost.textContent = on.textContent; }
+  }
+  new MutationObserver(sync).observe(set, {
+    subtree: true, attributes: true, attributeFilter: ["class"]
+  });
+  sync();
+
+  function wear(n) {
+    sec.classList.remove("t", "t1", "t2", "t3", "t4");
+    if (n) { sec.classList.add("t", "t" + n); }
+  }
+  document.querySelector(".bar").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-t]");
+    if (!b) return;
+    [].slice.call(this.querySelectorAll("button")).forEach(function (x) {
+      x.classList.toggle("on", x === b);
+    });
+    wear(+b.dataset.t);
+  });
+  wear(1);
+})();
+</script>
+</body>
+</html>
