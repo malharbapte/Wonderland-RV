@@ -26,6 +26,7 @@
   --rule:  #e4e2de;
   --dim:   #6b6158;
   --plate: var(--col);           /* the van's slot: the content column wide  */
+  --nb:    38.9%;                /* neighbour offset -- see the note below   */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:
@@ -79,22 +80,20 @@
   width: 100%; height: 100%; object-fit: contain; }
 
 .rvx-van[data-d="0"]  { transform: none;                         opacity: 1;   z-index: 3; }
-/* A neighbour sits tucked against the content column: its INNER edge is flush
-   with where the column starts, so it reads as placed just outside the text
-   block rather than floating in the margin or pinned to the screen.
+/* HOW FAR OUT A NEIGHBOUR SITS. Driven by --nb so the gap can be changed in
+   one place without touching the scale.
 
-     half-width = stage height x 1.604 (the cut-out's ratio) x .471 / 2
-                = 5.10 x 0.3778 = 1.93rem
-     offset     = half the content column + that = 8.12 + 1.93 = 10.05rem
-                = 61.9% of the 16.24 slot
+     centre van half-width = stage height x 1.604 / 2 = 5.10 x 0.802 = 4.09rem
+     neighbour  half-width = that x .471                             = 1.93rem
+     offset for a gap of g = 4.09 + g + 1.93 = 6.02 + g
 
-   At 25% larger the outer edge now lands at 11.97 against an 11.88 half-
-   window, so about 0.09rem -- 7px at 1920 -- of the far end sits off screen.
-   Holding the inner edge on the column is the rule that was chosen, so that
-   is what gives; pulling it in to clear the window would push the van 7px
-   over the column instead. Both numbers follow the stage height. */
-.rvx-van[data-d="-1"] { transform: translateX(-61.9%) scale(.471); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX( 61.9%) scale(.471); opacity: .55; z-index: 2; }
+   So --nb is (6.02 + g) / 16.24 as a percentage. The old 61.9% came from
+   holding the neighbour's inner edge on the content column, which put g at
+   4.03rem -- the vans ended up on the page margins and the gap was whatever
+   fell out of that. This drives the gap instead and lets the position fall
+   out of it, which is the right way round. */
+.rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.471); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.471); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }

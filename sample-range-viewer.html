@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=218">
-<link rel="stylesheet" href="assets/css/homepage.css?v=218">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=218">
+<link rel="stylesheet" href="assets/css/styles.css?v=219">
+<link rel="stylesheet" href="assets/css/homepage.css?v=219">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=219">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -19,8 +19,27 @@ body { background: #fff; margin: 0; }
   color: #4a4a4a; margin-top: 0.07rem; }
 .after b { font-weight: 700; color: #1b1b1b; }
 </style>
+<style>
+.gapbar { position: sticky; top: 0; z-index: 50; background: #1b1b1b; color: #fff;
+  padding: 0.20rem 0; }
+.gapbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.16rem; }
+.gapbar > .container > span { font-family: var(--gordita); font-size: 0.145rem;
+  letter-spacing: .14em; text-transform: uppercase; color: #9b948a; margin-right: 0.20rem; }
+.gapbar button { display: flex; flex-direction: column; align-items: flex-start;
+  cursor: pointer; background: transparent; border: 0.0075rem solid #3d3d3d;
+  color: #cfc8be; padding: 0.07rem 0.16rem; line-height: 1.25; }
+.gapbar button b { font-family: var(--gordita); font-weight: 700; font-size: 0.15rem; }
+.gapbar button i { font-family: var(--gordita); font-style: normal; font-size: 0.13rem;
+  color: #8b8379; }
+.gapbar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.gapbar button.on i { color: #fff; }
+</style>
 </head>
 <body>
+
+<div class="gapbar" data-gap-bar>
+  <div class="container"><span>Gap between the vans</span><button data-nb="34.6%"><b>Overlapping</b><i>-0.30rem</i></button><button data-nb="37.1%"><b>Touching</b><i>0 gap</i></button><button data-nb="38.9%" class="on"><b>Tight</b><i>0.30rem</i></button><button data-nb="40.8%"><b>Small</b><i>0.60rem</i></button><button data-nb="43.2%"><b>Roomy</b><i>1.00rem</i></button><button data-nb="61.9%"><b>On the margins (now)</b><i>4.03rem</i></button></div>
+</div>
 
 <!-- ======================================================= OUR RANGE -->
 <section class="band band--range">
@@ -67,15 +86,12 @@ body { background: #fff; margin: 0; }
   <div class="container">
     <h2>Built to the drawing</h2>
 
-    <h3>This round</h3>
+    <h3>Pick the gap at the top</h3>
     <ul>
-      <li><b>Side vans 25% larger</b>, .377 to .471, inner edge still on the content column. One consequence to know about: at that size the outer edge lands at 11.97 against an 11.88rem half-window, so roughly <b>7px of the far end sits off screen</b>. Holding the inner edge on the column is the rule you picked, so that is what gives &mdash; pulling it in to clear the window would push the van 7px over the column instead.</li>
-      <li><b>A full-bleed band under the features</b>, carrying the buttons and the disclaimer. <code>#FFF2DC</code> &mdash; the site&rsquo;s light panel, the one behind the Legendary Service slides and the ambassador tips, and the only light yellow in the system. Tell me if you meant a different one.</li>
-      <li>The buttons had to come out of the per-model panel to sit in the band, so they are now their own cross-faded stack &mdash; one row per model, same timing as everything else.</li>
-      <li><b>The section carries no bottom padding now.</b> The band ends it, the way the orange stat band runs straight into the Our-range photo above.</li>
-      <li><b>Carousel circles removed.</b> The arrows in the margins, a click on either side van, the arrow keys and a swipe all still work.</li>
-      <li><b>Labels shortened to Explore and Brochure.</b> The buttons were already <code>.btn-solid</code>&rsquo;s exact spec &mdash; 0.30rem Aviano Black, 0.24/0.34 padding, 0.78rem tall, the same as Meet Solara. It was the label length making the pair read as oversized, not the size.</li>
-      <li>Height is now <b>10.89rem = 0.458 of the window width</b>, comfortably inside the half-width rule.</li>
+      <li><b>Nothing resizes.</b> The vans stay at .471 and the stage stays 5.10 &mdash; only how far out a neighbour sits changes.</li>
+      <li>Why they ended up on the margins: last round the rule was <i>hold the neighbour&rsquo;s inner edge on the content column</i>, and the gap was whatever fell out of that &mdash; which turned out to be <b>4.03rem</b>. That is the wrong way round. The offset is now driven by the gap you want, and the position falls out of it.</li>
+      <li>The arithmetic, if useful: the centre van&rsquo;s half-width is 4.09rem and a neighbour&rsquo;s is 1.93rem, so for a gap of <i>g</i> the offset is <b>6.02 + g</b>, which is <code>--nb</code> as a percentage of the 16.24 slot.</li>
+      <li><b>Tight (0.30rem)</b> is loaded by default. <b>Touching</b> and <b>Overlapping</b> are there because at this size they may well read better than any true gap &mdash; the neighbours start to behave like a stack rather than three separate vans.</li>
     </ul>
 
     <h3>The gaps, and where each one comes from</h3>
@@ -92,6 +108,16 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=218"></script>
+<script src="assets/js/range-viewer.js?v=219"></script>
+<script>
+document.querySelector("[data-gap-bar]").addEventListener("click", function (e) {
+  var b = e.target.closest("button[data-nb]");
+  if (!b) return;
+  [].slice.call(this.querySelectorAll("button")).forEach(function (x) {
+    x.classList.toggle("on", x === b);
+  });
+  document.querySelector(".rvx").style.setProperty("--nb", b.dataset.nb);
+});
+</script>
 </body>
 </html>
