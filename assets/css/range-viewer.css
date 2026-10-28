@@ -44,16 +44,18 @@
   --gap:       0.40rem;
   --gap-tight: 0.06rem;
 
-  padding-top: var(--gap);
-  padding-bottom: 0;   /* the band below ends the section */
+  /* the full section gap: with the photograph gone this no longer tucks
+     under anything, it follows the orange stat band the way .solara did */
+  padding-top: var(--section-gap);
+  padding-bottom: 0;   /* the cream band below ends the section */
   touch-action: pan-y;           /* horizontal is ours, vertical the browser's */
 }
 
-/* The line sits on the band above, under "Our range", so the band and the
-   viewer read as one section rather than as a photo followed by a carousel.
-   Scoped to .band--range: .band--why uses the same classes and must not move. */
-.band--range .band-sub { margin: 0.24rem 0 0; font-family: var(--gordita);
-  font-size: 0.30rem; line-height: 0.40rem; color: #fff; }
+/* The photograph header is off the desktop page. HIDDEN, not deleted: that
+   band is still the phone's range header, and home.js builds the phone
+   carousel directly under it. Scoped to .band--range so .band--why, which
+   shares every one of these classes, does not move. */
+.band--range { display: none; }
 
 /* ---- stage: cut-outs on the page, nothing behind them ----------------- */
 /* THE HEIGHT RULE. Because a rem is the window's width / 23.76, this whole
@@ -126,33 +128,19 @@
   transition: opacity var(--step), visibility 0s linear .78s; }
 .rvx-panel.on { opacity: 1; visibility: visible; transition-delay: .08s, 0s; }
 
-/* THE NAME ROW: tagline left, name centred, price right, the three centred
-   on each other.
+/* THE NAME BLOCK. The price is gone, so there is nothing to sit opposite
+   the name and nothing left to centre it against -- the three-column grid
+   has no job. It is a centred stack now: name, then the tagline under it.
 
-   1fr auto 1fr is what actually centres the name. The two outer columns stay
-   equal whatever the tagline and the price happen to measure, so the name
-   sits on the column's true midpoint and stays there when it changes from
-   AMAROO to XTR -- a two-column version would let it drift between models.
-
-   The markup keeps the name and the tagline inside one wrapper, because
-   until now they belonged together on the left. display:contents dissolves
-   that wrapper so both become items of this grid and can be placed in
-   different columns, which is why none of this needed new markup. */
-.rvx-head { display: grid; grid-template-columns: 1fr auto 1fr;
-  column-gap: var(--gap); align-items: center; }
-.rvx-head > div:first-child { display: contents; }
-.rvx-name { grid-column: 2; grid-row: 1;
-  margin: 0; font-family: var(--aviano); font-weight: 900;
+   The markup still wraps the name and the tagline together, which is exactly
+   what this wants, so the display:contents that let them split into separate
+   columns comes back out again. */
+.rvx-head { text-align: center; }
+.rvx-name { margin: 0; font-family: var(--aviano); font-weight: 900;
   font-size: 0.60rem; line-height: 1; text-transform: uppercase;
-  white-space: nowrap; text-align: center; color: #010101; }
-.rvx-tag { grid-column: 1; grid-row: 1; margin: 0; font-family: var(--gordita);
+  white-space: nowrap; color: #010101; }
+.rvx-tag { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
   font-style: italic; font-size: 0.20rem; line-height: 0.28rem; color: var(--dim); }
-.rvx-money { grid-column: 3; grid-row: 1; text-align: right; }
-.rvx-from { margin: 0; font-family: var(--gordita); font-size: 0.20rem;
-  line-height: 0.28rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--dim); }
-.rvx-price { margin: var(--gap-tight) 0 0; font-family: var(--aviano);
-  font-weight: 900; font-size: 0.46rem; line-height: 1; color: var(--orange); }
 
 /* ---- the four features ------------------------------------------------- */
 .rvx-spec { display: grid; grid-template-columns: repeat(4, 1fr);
@@ -208,10 +196,9 @@
 .rvx-ghost:active { background: #fff; color: var(--orange-deep); }
 
 /* ---- chrome the drawing does not show --------------------------------- */
-/* level with the name. The row is as tall as the price block -- From 0.28 +
-   0.06 + price 0.46 = 0.80 -- and the arrow is 0.56, so (0.80 - 0.56) / 2
-   centres it on the row, which is where the name now is too. */
-.rvx-arrow { position: absolute; top: 0.12rem;
+/* level with the name, which is now the first line of the block: the name
+   is 0.60 and the arrow 0.56, so (0.60 - 0.56) / 2 centres it on it. */
+.rvx-arrow { position: absolute; top: 0.02rem;
   width: 0.56rem; height: 0.56rem; border-radius: 50%; cursor: pointer;
   background: transparent; border: 0.0075rem solid transparent; color: #010101;
   display: grid; place-items: center; padding: 0;
