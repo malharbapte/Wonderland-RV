@@ -172,15 +172,21 @@
    one row, two links, the same class every other in-page CTA uses. That is
    the only way they cannot drift out of alignment with the rest of the page.
 
-   The second one is .btn-solid with its fill taken out rather than a
-   separate button. Transparent, not white: a white panel on a cream band
-   reads as a hole cut in the band, which is what made the pair look wrong.
+   The second one is .btn-solid kept white rather than a separate button, so
+   the two share every other value and cannot fall out of line.
    -------------------------------------------------------------------------- */
 .rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: #FFF2DC;
   margin-top: var(--gap); padding: var(--gap) 0; }
 .rvx-act { display: flex; justify-content: center; gap: var(--gap); }
 
-.rvx-ghost { background: transparent; color: var(--orange-deep); }
+/* GET A QUOTE on this page (.dream-quote) is .btn-solid at 0.24rem, so that
+   is the size both of these take. Scoped to .rvx so nothing else moves --
+   .btn-solid elsewhere keeps its own 0.30. Note .dream-quote also carries
+   roomier padding (0.30/0.54 against 0.24/0.34); only the type size is
+   matched here. */
+.rvx .btn-solid { font-size: 0.24rem; }
+
+.rvx-ghost { background: #fff; color: var(--orange-deep); }
 .rvx-ghost:hover,
 .rvx-ghost:focus-visible { background: var(--orange-deep); color: #fff; }
 .rvx-ghost:active { background: #fff; color: var(--orange-deep); }
