@@ -82,7 +82,10 @@
   function buildStage() {
     [].slice.call(stage.querySelectorAll(".rvx-van")).forEach(function (x) { x.remove(); });
     stage.insertAdjacentHTML("afterbegin", MODELS.map(function (m, k) {
-      var src = "assets/img/home/range/" + m.id + "-34.webp";
+      /* the cut-outs were re-cut to drop their baked-in ground shadows, so
+         they need a version of their own -- nothing else would tell a
+         browser holding the old ones to go and get them again */
+      var src = "assets/img/home/range/" + m.id + "-34.webp?v=2";
       return '<div class="rvx-van" data-k="' + k + '">' +
         '<img src="' + src + '" alt="' + m.name + '" onerror="this.remove();">' +
       '</div>';
