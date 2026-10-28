@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — the name in the centre</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=229">
+<link rel="stylesheet" href="assets/css/homepage.css?v=229">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=229">
+<style>
+/* ===========================================================================
+   THE NAME IN THE CENTRE, the tagline on the left, the price where it is.
+
+   The markup has the name and the tagline inside one wrapper, because until
+   now they belonged together on the left. display:contents dissolves that
+   wrapper so both become items of the head's own grid and can be placed in
+   different columns -- so this needs no change to the markup or the script,
+   only to where the three things sit.
+
+   1fr auto 1fr is what actually centres the name: the two outer columns are
+   equal whatever the tagline and the price happen to measure, so the name
+   sits on the column's true midpoint rather than on whatever is left over.
+
+   Name is 0.60rem here, which is 0.46 plus 30%.
+   =========================================================================== */
+body { background: #fff; margin: 0; }
+.bar { position: sticky; top: 0; z-index: 60; background: #1b1b1b; color: #fff;
+  padding: 0.20rem 0; }
+.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.14rem; }
+.bar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; margin-right: 0.20rem; }
+.bar button { display: flex; flex-direction: column; align-items: flex-start; cursor: pointer;
+  background: transparent; border: 0.0075rem solid #3d3d3d; color: #cfc8be;
+  padding: 0.07rem 0.16rem; line-height: 1.3; }
+.bar button em { font-family: var(--gordita); font-weight: 700; font-size: 0.15rem; font-style: normal; }
+.bar button i { font-family: var(--gordita); font-size: 0.13rem; font-style: normal; color: #8b8379; }
+.bar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.bar button.on i { color: #fff; }
+
+.c .rvx-head { grid-template-columns: 1fr auto 1fr; column-gap: var(--gap); }
+.c .rvx-head > div:first-child { display: contents; }
+.c .rvx-tag   { grid-column: 1; grid-row: 1; margin: 0; text-align: left; }
+.c .rvx-name  { grid-column: 2; grid-row: 1; text-align: center; font-size: 0.60rem; }
+.c .rvx-money { grid-column: 3; grid-row: 1; }
+
+/* C1 -- the three sit on one bottom line */
+.c1 .rvx-head { align-items: end; }
+
+/* C2 -- the three centre on each other instead */
+.c2 .rvx-head { align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="container">
+    <b>The name row</b>
+    <button data-c="0"><em>As it is</em><i>name left, 0.46rem</i></button>
+    <button data-c="1" class="on"><em>C1 Centred</em><i>all on one bottom line</i></button>
+    <button data-c="2"><em>C2 Centred</em><i>centred on each other</i></button>
+  </div>
+</div>
+
+<!-- ======================================================= OUR RANGE -->
+<section class="band band--range">
+  <div class="media ph" data-ph="assets/img/home/range-band.jpg">
+    <img src="assets/img/home/range-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container band-copy">
+    <div>
+      <h2 class="band-title">Our range</h2>
+      <p class="band-sub">Four models and loads of customisations</p>
+    </div>
+  </div>
+</section>
+<!-- ============================================ RANGE VIEWER (desktop) -->
+<section class="rvx">
+  <div class="container">
+  </div>
+
+  <div class="rvx-stage" data-rvx-stage>
+    <div class="rvx-badges" data-rvx-badges></div>
+  </div>
+
+  <div class="container">
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    </div>
+
+  </div>
+
+  <div class="rvx-band">
+    <div class="container">
+      <div class="rvx-act">
+        <a class="btn-solid" href="#">Explore the range</a>
+        <a class="btn-solid rvx-ghost" href="#">Download brochure</a>
+      </div>
+      <p class="rvx-note">Figures shown are for the standard build. Every model can be
+        specified further &mdash; options change capacities and price.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:#f7f4ee;padding:0.70rem 0 0.90rem">
+  <div class="container">
+    <h2 style="margin:0;font-family:var(--aviano);font-weight:900;font-size:0.26rem">What this is doing</h2>
+    <ul style="margin:0.14rem 0 0;padding-left:0.28rem">
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a">The name is <b style="color:#1b1b1b">0.60rem</b>, which is 0.46 plus 30%. Tagline left, price right, everything else untouched.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a">The columns are <b style="color:#1b1b1b">1fr auto 1fr</b>, not two columns with the name shoved over. That is what makes it genuinely centred: the outer two are equal whatever the tagline and the price happen to measure, so the name sits on the column&rsquo;s true midpoint and stays there when the name changes length from AMAROO to XTR.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a">No markup or script change. The name and the tagline live inside one wrapper because until now they belonged together on the left; <b style="color:#1b1b1b">display:contents</b> dissolves that wrapper so both become items of the head&rsquo;s own grid and can be placed in different columns.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">C1</b> sits the three on one bottom line, so the name, the tagline and the price all finish together. <b style="color:#1b1b1b">C2</b> centres them on each other instead, which lifts the tagline and the price to the middle of the name and reads lighter but less anchored.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a">It costs <b style="color:#1b1b1b">0.14rem of height</b>, so the section goes from about 0.53 to 0.54 of the window width. Nothing else moves.</li>
+    </ul>
+    <p style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">My read: C1.</b> With the name this much bigger it wants a floor, and the shared bottom line gives the row one.</p>
+  </div>
+</section>
+
+<script src="assets/js/range-viewer.js?v=229"></script>
+<script>
+(function () {
+  var sec = document.querySelector(".rvx");
+  function wear(n) {
+    sec.classList.remove("c", "c1", "c2");
+    if (n) { sec.classList.add("c", "c" + n); }
+  }
+  document.querySelector(".bar").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-c]");
+    if (!b) return;
+    [].slice.call(this.querySelectorAll("button")).forEach(function (x) {
+      x.classList.toggle("on", x === b);
+    });
+    wear(+b.dataset.c);
+  });
+  wear(1);
+})();
+</script>
+</body>
+</html>
