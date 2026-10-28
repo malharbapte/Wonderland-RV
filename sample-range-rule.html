@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range — a line under the showcase</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=227">
+<link rel="stylesheet" href="assets/css/homepage.css?v=227">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=227">
+<style>
+/* ===========================================================================
+   A thin black line between the vans and the writing. Nothing else changes.
+
+   The only real question is how wide it runs, because the two things it is
+   separating are different widths: the showcase bleeds the full window, the
+   writing sits in the 16.24rem content column. So the line can agree with
+   one or the other, and it reads differently either way.
+   =========================================================================== */
+body { background: #fff; margin: 0; }
+.bar { position: sticky; top: 0; z-index: 60; background: #1b1b1b; color: #fff;
+  padding: 0.20rem 0; }
+.bar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.14rem; }
+.bar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; margin-right: 0.20rem; }
+.bar button { display: flex; flex-direction: column; align-items: flex-start; cursor: pointer;
+  background: transparent; border: 0.0075rem solid #3d3d3d; color: #cfc8be;
+  padding: 0.07rem 0.16rem; line-height: 1.3; }
+.bar button em { font-family: var(--gordita); font-weight: 700; font-size: 0.15rem; font-style: normal; }
+.bar button i { font-family: var(--gordita); font-size: 0.13rem; font-style: normal; color: #8b8379; }
+.bar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.bar button.on i { color: #fff; }
+
+/* the line itself, drawn on the panel block so it sits exactly between the
+   stage and the first line of writing, and moves with them */
+.r .rvx-panels::before {
+  content: ""; position: absolute; top: 0; height: 0.0075rem;
+  background: #010101;
+}
+.r .rvx-panels { padding-top: var(--gap); }
+
+/* R1 -- the content column: the line agrees with the writing under it */
+.r1 .rvx-panels::before { left: 0; right: 0; }
+
+/* R2 -- full bleed: the line agrees with the showcase above it, and with the
+   cream band at the foot, which already runs edge to edge */
+.r2 .rvx-panels::before { left: 50%; margin-left: -50vw; width: 100vw; right: auto; }
+
+/* R3 -- the column, at the weight the site's own hairlines use elsewhere
+   (0.015 against 0.0075), in case 1px reads as too faint at this size */
+.r3 .rvx-panels::before { left: 0; right: 0; height: 0.015rem; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="container">
+    <b>The dividing line</b>
+    <button data-r="0"><em>None</em><i>as it is now</i></button>
+    <button data-r="1" class="on"><em>R1 Column</em><i>16.24rem, 1px</i></button>
+    <button data-r="2"><em>R2 Full bleed</em><i>edge to edge, 1px</i></button>
+    <button data-r="3"><em>R3 Column, heavier</em><i>16.24rem, 2px</i></button>
+  </div>
+</div>
+
+<!-- ======================================================= OUR RANGE -->
+<section class="band band--range">
+  <div class="media ph" data-ph="assets/img/home/range-band.jpg">
+    <img src="assets/img/home/range-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container band-copy">
+    <div>
+      <h2 class="band-title">Our range</h2>
+      <p class="band-sub">Four models and loads of customisations</p>
+    </div>
+  </div>
+</section>
+<!-- ============================================ RANGE VIEWER (desktop) -->
+<section class="rvx">
+  <div class="container">
+  </div>
+
+  <div class="rvx-stage" data-rvx-stage>
+    <div class="rvx-badges" data-rvx-badges></div>
+  </div>
+
+  <div class="container">
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    </div>
+
+  </div>
+
+  <div class="rvx-band">
+    <div class="container">
+      <div class="rvx-act">
+        <a class="btn-solid" href="#">Explore the range</a>
+        <a class="btn-solid rvx-ghost" href="#">Download brochure</a>
+      </div>
+      <p class="rvx-note">Figures shown are for the standard build. Every model can be
+        specified further &mdash; options change capacities and price.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:#f7f4ee;padding:0.70rem 0 0.90rem">
+  <div class="container">
+    <h2 style="margin:0;font-family:var(--aviano);font-weight:900;font-size:0.26rem">The one decision in it</h2>
+    <p style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a">The two things the line separates are not the same width. <b style="color:#1b1b1b">The showcase bleeds the full window; the writing sits in the 16.24rem content column.</b> So the line has to agree with one of them, and it reads differently depending which.</p>
+    <ul style="margin:0.10rem 0 0;padding-left:0.28rem">
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">R1 Column</b> &mdash; the line starts and stops where the writing does, so it reads as the top edge of the information block. Quieter, and it matches the hairlines already dividing the four features below it.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">R2 Full bleed</b> &mdash; the line runs the window, so it reads as a horizon under the vans rather than as a lid on the text. It also rhymes with the cream band at the foot, which already runs edge to edge, and the photo band above. Stronger, and more of a statement.</li>
+      <li style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">R3</b> is R1 at the heavier of the site's two hairline weights, in case 1px disappears at this scale on your screen.</li>
+    </ul>
+    <p style="font-family:var(--gordita);font-size:0.175rem;line-height:0.30rem;color:#4a4a4a"><b style="color:#1b1b1b">My read: R2.</b> The line's job here is to close off the showcase, and the showcase is full width &mdash; a line that stops short of the vans it is drawing a line under only half does it.</p>
+  </div>
+</section>
+
+<script src="assets/js/range-viewer.js?v=227"></script>
+<script>
+(function () {
+  var sec = document.querySelector(".rvx");
+  function wear(n) {
+    sec.classList.remove("r", "r1", "r2", "r3");
+    if (n) { sec.classList.add("r", "r" + n); }
+  }
+  document.querySelector(".bar").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-r]");
+    if (!b) return;
+    [].slice.call(this.querySelectorAll("button")).forEach(function (x) {
+      x.classList.toggle("on", x === b);
+    });
+    wear(+b.dataset.r);
+  });
+  wear(1);
+})();
+</script>
+</body>
+</html>

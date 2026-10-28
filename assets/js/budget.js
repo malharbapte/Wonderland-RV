@@ -17,6 +17,7 @@
   var inner = field.querySelector(".budget-inner");
   var fill = field.querySelector(".budget-fill");
   var out = field.querySelector(".budget-value");
+  var why = field.querySelector(".budget-why");
   var ins = [].slice.call(field.querySelectorAll('input[name="budget"]'));
   if (!shell || !inner || !fill || !out || !ins.length) return;
 
@@ -34,11 +35,13 @@
     if (!chosen) {
       fill.style.width = "0px";
       out.innerHTML = "&mdash;";
+      if (why) { why.textContent = ""; }
       ins.forEach(function (i) { i.parentElement.classList.remove("is-past"); });
       return;
     }
 
     out.innerHTML = chosen.value;
+    if (why) { why.textContent = chosen.dataset.why || ""; }
 
     var na = chosen.dataset.na === "1";
     var here = parseFloat(chosen.dataset.p);

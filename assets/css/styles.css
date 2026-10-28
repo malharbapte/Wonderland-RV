@@ -1584,7 +1584,7 @@ input:-webkit-autofill:focus {
 .budget-inner { padding-top: 0.40rem; }
 
 .budget-head {
-  display: flex; align-items: baseline; gap: 0.20rem;
+  display: flex; align-items: baseline; gap: 0.20rem; flex-wrap: wrap;
   font-family: var(--gordita);
   margin-bottom: 0.26rem;
 }
@@ -1661,6 +1661,18 @@ input:-webkit-autofill:focus {
   line-height: 0.24rem;
   color: var(--grey);
 }
+
+/* The bracket said in words, beside the amount. The head is the only line on
+   this field that already changes as the handle moves, so the words arrive
+   with the number instead of somewhere else. "Not sure yet" carries none --
+   it is not a budget, and describing it would make it look like one -- and
+   :empty takes the dash with it rather than leaving it hanging. */
+.budget-why {
+  font-style: normal; font-family: var(--gordita);
+  font-size: 0.20rem; line-height: 0.26rem; color: #6b6158;
+}
+.budget-why::before { content: "\2014"; margin: 0 0.10rem 0 0.04rem; color: var(--grey); }
+.budget-why:empty { display: none; }
 
 }  /* end min-width: 901px */
 
