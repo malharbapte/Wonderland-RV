@@ -158,7 +158,11 @@
 .rvx-ico svg { width: 100%; height: 100%; display: block; }
 .rvx-k { margin: 0; font-family: var(--aviano); font-weight: 900;
   font-size: 0.21rem; line-height: 1; color: #010101; }
-.rvx-v { margin: var(--gap) 0 0; font-family: var(--aviano); font-weight: 900;
+/* 0.30, which is the standard 0.40 less a quarter. The one value in this
+   section that is not on the ladder: the gap between a title and its figure
+   needs to bind them together, and at 0.40 the figure read as a separate
+   line rather than as the answer to the word above it. */
+.rvx-v { margin: 0.30rem 0 0; font-family: var(--aviano); font-weight: 900;
   font-size: var(--t-body); line-height: 1; color: var(--orange); }
 .rvx-n { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Range viewer — to the drawing</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=223">
-<link rel="stylesheet" href="assets/css/homepage.css?v=223">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=223">
+<link rel="stylesheet" href="assets/css/styles.css?v=224">
+<link rel="stylesheet" href="assets/css/homepage.css?v=224">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=224">
 <style>
 /* sample chrome only -- none of this ships */
 body { background: #fff; margin: 0; }
@@ -95,6 +95,7 @@ body { background: #fff; margin: 0; }
       <li><b>Download brochure stays white</b>, with the orange ring and orange type.</li>
       <li><b>Both are 0.24rem</b>, matching GET A QUOTE &mdash; which is <code>.dream-quote</code>, itself a <code>.btn-solid</code> at that size. Scoped to this section so <code>.btn-solid</code> everywhere else keeps its own 0.30. Worth knowing: GET A QUOTE also carries roomier padding, 0.30/0.54 against 0.24/0.34, so it sits taller than these two. Only the type size is matched &mdash; say the word if you want the padding as well.</li>
       <li><b>The sentence under them has room now</b> &mdash; it was on <code>--gap-tight</code> (0.06rem), which had it sitting on the buttons and reading as part of them. It is on the standard 0.40 gap, same as everything else in the section.</li>
+      <li><b>The gap between a feature&rsquo;s title and its figure is down a quarter</b>, 0.40 to 0.30rem. That is the one value in the section not on the ladder, and deliberately so &mdash; at 0.40 the figure read as a separate line rather than as the answer to the word above it.</li>
       <li>Labels back to <b>Explore the range</b> and <b>Download brochure</b>. Both are fixed text, so there is nothing per-model left in the band &mdash; the cross-fade stack that was there has gone and it is one row of two links.</li>
     </ul>
 
@@ -118,7 +119,7 @@ body { background: #fff; margin: 0; }
   </div>
 </section>
 
-<script src="assets/js/range-viewer.js?v=223"></script>
+<script src="assets/js/range-viewer.js?v=224"></script>
 <script>
 document.querySelector("[data-gap-bar]").addEventListener("click", function (e) {
   var b = e.target.closest("button[data-nb]");
