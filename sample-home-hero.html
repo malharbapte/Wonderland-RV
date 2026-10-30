@@ -51,17 +51,20 @@
   }
 
   /* ---- how far the white reaches up ---------------------------------- */
-  .hf-0 .home-hero::after { display: none; }
-  .hf-1 .home-hero::after { height: 15%; }
-  .hf-2 .home-hero::after { height: 24%; }
-  .hf-3 .home-hero::after { height: 34%; }
+  /* the hf/he classes sit ON .home-hero, so these are compound selectors,
+     not descendant ones -- .hf-1 .home-hero::after asks for a hero inside
+     an .hf-1, which never exists, and the toggle silently does nothing */
+  .home-hero.hf-0::after { display: none; }
+  .home-hero.hf-1::after { height: 15%; }
+  .home-hero.hf-2::after { height: 24%; }
+  .home-hero.hf-3::after { height: 34%; }
 
   /* ---- and what it ends on -------------------------------------------- */
-  .he-white .home-hero::after {
+  .home-hero.he-white::after {
     background: linear-gradient(to bottom,
       rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 55%, #fff 100%);
   }
-  .he-short .home-hero::after {
+  .home-hero.he-short::after {
     background: linear-gradient(to bottom,
       rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 55%, rgba(255,255,255,.88) 100%);
   }
