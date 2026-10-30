@@ -1,0 +1,72 @@
+/* ===========================================================================
+   HOMEPAGE ORDER — desktop only.
+
+   What it does, and what it deliberately does not:
+
+     RANGE MOVES UP by moving its markup, not by CSS. That section is
+     display:none below 900, so the phone cannot see it move: the phone's own
+     range -- the .band--range photo header and the .range carousel home.js
+     builds -- stays exactly where it was in the document.
+
+     THE INTRO PARAGRAPH is hidden here rather than deleted, and the same
+     words are put in the hero instead. The phone keeps the paragraph in the
+     section it has always been in; only desktop reads it over the video.
+
+     CARAVANS BUILT needs no move at all. It already follows the slideshow in
+     the document with only .intro between them, and both are full-bleed with
+     no margins -- so hiding .intro is what sticks them together.
+
+   Net effect: not one rule in homepage.css changes, and the phone's document
+   order is untouched.
+   =========================================================================== */
+
+@media (min-width: 901px) {
+
+/* the paragraph now lives in the hero */
+.intro { display: none; }
+
+/* ---- the hero copy, centred -------------------------------------------- */
+.home-hero-copy {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 0;
+}
+.home-hero-body {
+  margin: 0.30rem 0 0;
+  max-width: 11.60rem;
+  font-family: var(--gordita);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: #fff;
+}
+
+/* ---- the foot of the video turns white -------------------------------- */
+/* The dark scrim was weighted to the bottom, because that is where the copy
+   used to sit. The copy is in the middle now and the bottom has to go white,
+   so the weight moves with it: a veil across the upper two thirds for the
+   type to read against, nothing at the foot for the fade to fight. */
+.home-hero-media::before {
+  background: linear-gradient(to bottom,
+    rgba(0,0,0,calc(0.34 * var(--scrim))) 0%,
+    rgba(0,0,0,calc(0.30 * var(--scrim))) 46%,
+    rgba(0,0,0,0) 74%);
+}
+/* z-index 3 puts it with the scrim, under the copy at 4. It runs to #fff
+   rather than to the cream, because what follows is the range section. */
+.home-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  height: 30%; pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.72) 58%, #fff 100%);
+}
+
+/* the range opens the page now, so it does not also open with a section gap:
+   the hero's white fade already is the space above it */
+.rvx { padding-top: 0; }
+
+}  /* end min-width: 901px */
+
+/* The phone keeps the paragraph in its own section, so the hero's copy of it
+   must never appear there. */
+@media (max-width: 900px) { .home-hero-body { display: none; } }
