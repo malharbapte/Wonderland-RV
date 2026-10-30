@@ -26,11 +26,12 @@
 .intro { display: none; }
 
 /* ---- the hero copy, centred -------------------------------------------- */
+/* Centred across, left where it was down the page: .home-hero-copy already
+   justifies to flex-end with 1.16rem under it, so only the horizontal
+   alignment is actually being changed here. */
 .home-hero-copy {
-  justify-content: center;
   align-items: center;
   text-align: center;
-  padding-bottom: 0;
 }
 .home-hero-body {
   margin: 0.30rem 0 0;
@@ -42,23 +43,23 @@
 }
 
 /* ---- the foot of the video turns white -------------------------------- */
-/* The dark scrim was weighted to the bottom, because that is where the copy
-   used to sit. The copy is in the middle now and the bottom has to go white,
-   so the weight moves with it: a veil across the upper two thirds for the
-   type to read against, nothing at the foot for the fade to fight. */
-.home-hero-media::before {
-  background: linear-gradient(to bottom,
-    rgba(0,0,0,calc(0.34 * var(--scrim))) 0%,
-    rgba(0,0,0,calc(0.30 * var(--scrim))) 46%,
-    rgba(0,0,0,0) 74%);
-}
-/* z-index 3 puts it with the scrim, under the copy at 4. It runs to #fff
-   rather than to the cream, because what follows is the range section. */
+/* The dark veil is left exactly as it was. It is weighted to the bottom
+   because that is where the copy sits, and the copy has not moved -- so
+   overriding it would only have made the type harder to read.
+
+   The two do overlap: the fade stands 1.35rem tall and the copy's lowest
+   line sits 1.16rem up, inside it. That is fine rather than lucky -- at
+   that height the gradient is about 9% white, because it does not begin
+   ramping until 55% down. The strong white is in the last 0.19rem, where
+   there is no type. */
+/* z-index 3 puts it with the veil, under the copy at 4. It runs all the way
+   to #fff: a fade that stops short cannot blend into a white section --
+   whatever it stops at becomes a visible edge where the video ends. */
 .home-hero::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
-  height: 30%; pointer-events: none;
+  height: 15%; pointer-events: none;
   background: linear-gradient(to bottom,
-    rgba(255,255,255,0) 0%, rgba(255,255,255,.72) 58%, #fff 100%);
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 55%, #fff 100%);
 }
 
 /* the range opens the page now, so it does not also open with a section gap:
