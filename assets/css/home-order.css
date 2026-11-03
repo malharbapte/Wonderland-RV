@@ -58,12 +58,13 @@
    would still paint a transparent box over the foot of the video at z-index
    3, between the veil and the copy, for nothing. */
 
-/* ---- the header band: 16:9 --------------------------------------------- */
-/* 13.365rem is 56.25vw exactly -- a rem is the viewport over 23.76, so
-   23.76 x 9/16 = 13.365. The band is therefore the same shape as the file
-   the player serves, which is why the bars have to be dealt with below:
-   at 2.65:1 the band cropped them off without being asked to. */
-.home-hero { height: 13.365rem; }
+/* ---- the header band: whatever the header leaves ----------------------- */
+/* .site-header is sticky and 1.43rem tall, so it holds its place in the flow
+   and the hero gets the rest of the window. No fixed ratio: the band is
+   whatever shape that rectangle happens to be, and the picture is fitted to
+   it below rather than the other way round. */
+:root { --band-h: calc(100vh - 1.43rem); }
+.home-hero { height: var(--band-h); }
 
 /* ---- the hero video, at the display's real resolution ------------------ */
 /* YouTube chooses a rendition from the SIZE OF THE PLAYER ELEMENT, in CSS
@@ -83,17 +84,23 @@
 
    What this does NOT fix: YouTube's ladder still starts low and climbs over
    the first seconds. Nothing in the embed API changes that. */
-:root { --dpr: 1; --crop: 1.3235; }
+/* FITTING THE PICTURE, NOT THE FILE. The clip is a 2.3529:1 picture baked
+   into a 16:9 file, with hard black bars 12.2% of frame height top and
+   bottom. The picture spans the full width of the frame, so the frame has to
+   be sized until the PICTURE covers the band -- sizing the frame to the band
+   would put the bars on show.
+
+     picture height = frame width x 9/16 x 0.7556 = frame width x 0.4250
+
+   so to cover a band W x H the frame must be at least W wide and at least
+   H / 0.4250 = H x 2.3529 wide. max() of the two is the cover rule, and it
+   works in both directions: a tall window crops the sides, a wide short one
+   crops the picture's own top and bottom. 2.3529 is just the picture's
+   aspect ratio, which is what you would expect it to be. */
+:root { --dpr: 1; --frame-w: max(100vw, calc(var(--band-h) * 2.3529)); }
 @media (min-resolution: 1.5dppx) { :root { --dpr: 2; } }
 
 .home-hero-media iframe {
-  /* --crop 1.3235 is 1 / (1 - 2 x 0.1222): the clip is a 2.35:1 picture baked
-     into a 16:9 file with hard black bars 12.2% of frame height top and
-     bottom. The band used to be 2.65:1 and cropped 16.4% off each edge, which
-     took the bars away for free. A 16:9 band crops nothing, so the bars would
-     be on show -- the frame is scaled up instead until the picture alone
-     fills the band. The cost is real and worth knowing: 24.4% of the
-     picture's WIDTH goes off the sides. */
   /* NOT CLICKABLE. The embed is built with controls=0, so there is no control
      bar -- but the iframe still takes clicks, and a click on a YouTube player
      pauses it and draws YouTube's own big play button over the frame. That is
@@ -106,8 +113,8 @@
      so that should not arise. */
   pointer-events: none;
 
-  width:  calc(100% * var(--dpr) * var(--crop));
-  height: calc(56.25vw * var(--dpr) * var(--crop));
+  width:  calc(var(--frame-w) * var(--dpr));
+  height: calc(var(--frame-w) * 0.5625 * var(--dpr));
   transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
 }
 
