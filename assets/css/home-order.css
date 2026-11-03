@@ -94,6 +94,18 @@
      be on show -- the frame is scaled up instead until the picture alone
      fills the band. The cost is real and worth knowing: 24.4% of the
      picture's WIDTH goes off the sides. */
+  /* NOT CLICKABLE. The embed is built with controls=0, so there is no control
+     bar -- but the iframe still takes clicks, and a click on a YouTube player
+     pauses it and draws YouTube's own big play button over the frame. That is
+     the button on the header, and there is no parameter that removes it: the
+     only way it never appears is for the player never to be paused. The hero
+     is decoration, not a player, so it stops taking pointer events at all.
+
+     Worth knowing: this also forfeits click-to-play if a browser ever refuses
+     the autoplay. It is muted and playsinline, which is what browsers allow,
+     so that should not arise. */
+  pointer-events: none;
+
   width:  calc(100% * var(--dpr) * var(--crop));
   height: calc(56.25vw * var(--dpr) * var(--crop));
   transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
