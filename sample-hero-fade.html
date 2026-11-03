@@ -93,6 +93,25 @@
       #fff                  100%);
   }
 
+  /* ---- resolution ------------------------------------------------------
+     YouTube picks a rendition from the SIZE OF THE PLAYER ELEMENT in CSS
+     pixels, so on a retina screen a 1920-wide player gets 1080p and every
+     frame is drawn at half the resolution the display can show. There is no
+     parameter for this: vq= is not a documented embed parameter, and
+     setPlaybackQuality() was deprecated in 2019 and does nothing.
+
+     "Match display" lays the iframe out at device scale and scales it back
+     down, so YouTube is asked for the resolution the screen actually has.
+     The readout above is the player's own getPlaybackQuality(). */
+  :root { --dpr: 1; }
+  @media (min-resolution: 1.5dppx) { :root { --dpr: 2; } }
+
+  .res-dpr .home-hero-media iframe {
+    width:  calc(100% * var(--dpr));
+    height: calc(56.25vw * var(--dpr));
+    transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
+  }
+
   /* 4 — NO FADE. The video stops at a hard horizontal line and the white
      section starts. Nothing else is overridden, so the copy drops back to its
      native 1.16rem off the bottom and the veil goes back to being weighted
@@ -108,7 +127,7 @@
 }
 </style>
 </head>
-<body class="fv-1">
+<body class="fv-1 res-dpr">
 
 <div class="hbar">
   <div class="container">
@@ -120,7 +139,11 @@
       <button data-v="fv-4">4 &mdash; No fade</button>
       <button data-v="fv-0">Current</button>
     </span>
-    <span class="hnote">Scroll down to see it meet the range section.</span>
+    <span class="seg"><span>Res</span>
+      <button data-res="dpr" class="on">Match display</button>
+      <button data-res="css">As-is</button>
+    </span>
+    <span class="hnote">Serving: <b id="vq" style="color:#E88426">&hellip;</b> &middot; player <b id="vpx" style="color:#cfc8be">&hellip;</b></span>
   </div>
 </div>
 
@@ -177,16 +200,47 @@
     "&cc_load_policy=0&cc_lang_pref=en&iv_load_policy=3&enablejsapi=1&playlist=" + id;
   f.allow = "autoplay; encrypted-media; picture-in-picture";
   f.title = "Wonderland RV — adventure your way";
+  f.id = "heroYT";
   media.classList.remove("ph");
   media.removeAttribute("data-ph");
   media.appendChild(f);
+
+  /* the readout: the player's own getPlaybackQuality(), plus the element size
+     YouTube is choosing from. Sample only -- the live page mounts no API. */
+  var vq = document.getElementById("vq"), vpx = document.getElementById("vpx");
+  function px() {
+    var r = f.getBoundingClientRect();
+    vpx.textContent = Math.round(r.width * devicePixelRatio / (window.__s || 1)) + "\u00d7" +
+                      Math.round(r.height * devicePixelRatio / (window.__s || 1)) + " dev px";
+  }
+  var tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = function () {
+    var p = new YT.Player("heroYT", { events: { onReady: function () {
+      setInterval(function () {
+        try { vq.textContent = p.getPlaybackQuality() || "\u2014"; } catch (e) {}
+        px();
+      }, 1000);
+    } } });
+  };
 })();
+
+var resOn = true;
+document.querySelectorAll("[data-res]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-res]").forEach(function (o) { o.classList.remove("on"); });
+    b.classList.add("on");
+    resOn = b.dataset.res === "dpr";
+    document.body.classList.toggle("res-dpr", resOn);
+  });
+});
 
 document.querySelectorAll("[data-v]").forEach(function (b) {
   b.addEventListener("click", function () {
     document.querySelectorAll("[data-v]").forEach(function (o) { o.classList.remove("on"); });
     b.classList.add("on");
-    document.body.className = b.dataset.v;
+    document.body.className = b.dataset.v + (resOn ? " res-dpr" : "");
   });
 });
 </script>

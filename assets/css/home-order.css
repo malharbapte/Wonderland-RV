@@ -62,6 +62,33 @@
     rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 55%, #fff 100%);
 }
 
+/* ---- the hero video, at the display's real resolution ------------------ */
+/* YouTube chooses a rendition from the SIZE OF THE PLAYER ELEMENT, in CSS
+   pixels. On a retina display a 1920-wide element is 3840 device pixels, so
+   asking for 1920 and getting 1080p means every frame is drawn at half the
+   resolution the screen can show. There is no parameter for this -- vq= is
+   not a documented embed parameter and the player ignores it, and
+   setPlaybackQuality() was deprecated in 2019 and is a no-op.
+
+   So the element is built at device scale and scaled back down: at --dpr 2
+   the iframe is laid out 3840 x 2160, YouTube serves 2160p, and the transform
+   puts it back in a 1920 x 1080 hole. One device pixel per source pixel.
+
+   The source carries renditions to 2160p, so there is headroom to ask for.
+   --dpr is capped at 2 deliberately: a 3x phone asking for 3x would be a
+   bandwidth bill with no visible return, and the phone layer is gated anyway.
+
+   What this does NOT fix: YouTube's ladder still starts low and climbs over
+   the first seconds. Nothing in the embed API changes that. */
+:root { --dpr: 1; }
+@media (min-resolution: 1.5dppx) { :root { --dpr: 2; } }
+
+.home-hero-media iframe {
+  width:  calc(100% * var(--dpr));
+  height: calc(56.25vw * var(--dpr));
+  transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
+}
+
 /* the range opens the page now, so it does not also open with a section gap:
    the hero's white fade already is the space above it */
 .rvx { padding-top: 0; }
