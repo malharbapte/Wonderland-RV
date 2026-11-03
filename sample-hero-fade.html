@@ -93,11 +93,18 @@
       #fff                  100%);
   }
 
+  /* 4 — NO FADE. The video stops at a hard horizontal line and the white
+     section starts. Nothing else is overridden, so the copy drops back to its
+     native 1.16rem off the bottom and the veil goes back to being weighted
+     there -- with no white to escape, neither has any reason to move. */
+  .fv-4 .home-hero::after { display: none; }
+
   /* CURRENT — exactly what is live now, for comparison: 15% tall, three stops */
   .fv-0 .home-hero-body { display: block; }
 
-  /* the body paragraph is removed in all three variants */
-  .fv-1 .home-hero-body, .fv-2 .home-hero-body, .fv-3 .home-hero-body { display: none; }
+  /* the body paragraph is removed in every variant */
+  .fv-1 .home-hero-body, .fv-2 .home-hero-body,
+  .fv-3 .home-hero-body, .fv-4 .home-hero-body { display: none; }
 }
 </style>
 </head>
@@ -110,6 +117,7 @@
       <button data-v="fv-1" class="on">1 &mdash; Deep 55%</button>
       <button data-v="fv-2">2 &mdash; Deep + taller hero</button>
       <button data-v="fv-3">3 &mdash; Moderate 38%</button>
+      <button data-v="fv-4">4 &mdash; No fade</button>
       <button data-v="fv-0">Current</button>
     </span>
     <span class="hnote">Scroll down to see it meet the range section.</span>
