@@ -25,7 +25,11 @@
 .rvx {
   --rule:  #e4e2de;
   --dim:   #6b6158;
-  --plate: var(--col);           /* the van's slot: the content column wide  */
+  /* 60% of the content column: the vans came down 40%. Everything in the
+     stage is a fraction of this slot, so the neighbours came down with it --
+     s and --nb below are unchanged, which is the point of expressing them
+     that way rather than in rem. */
+  --plate: calc(var(--col) * 0.6);
   --nb:    64.0%;                /* touching: see the note below            */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
@@ -70,7 +74,7 @@
    in full, so on a 1080 screen the last of the band will be just under the
    fold. Going back under the rule means taking 0.43rem off somewhere else;
    the two places with any give are the band's padding and the top gap. */
-.rvx-stage { position: relative; height: 6.40rem; margin-top: var(--gap);
+.rvx-stage { position: relative; height: 3.84rem; margin-top: var(--gap);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -108,16 +112,21 @@
    a small change could silently flip the fit back to height and move every
    number on this page.
 
-   s = .281, not .393. The scale is a fraction of the SLOT, and the centre
-   van grew from 11.60rem to 16.24rem when the elevations came in. .281 is
-   what holds a neighbour at the 4.56rem it has always been:
-   11.60 x .393 = 4.56, and 4.56 / 16.24 = .281. Any future change to
-   --plate has to be divided through here too, or the neighbours drift.
+   s = .281, not .393. The scale is a fraction of the SLOT, so it followed
+   the centre van when the elevations made that 16.24rem, and it followed it
+   again when the whole set came down 40%. .281 is what held a neighbour at
+   the size it had under the 3/4 cut-outs: 11.60 x .393 = 4.56, and
+   4.56 / 16.24 = .281.
 
-   Where that puts them: a neighbour's outer edge lands at 8.12 + 4.56 =
-   12.68rem from centre against a half-viewport of 11.88rem, so 0.80rem --
-   about a fifth of it -- sits past the edge. sample-range-side.html carries
-   one alternative fully inside the margins and one that overflows hard.
+   Because s and --nb are both fractions of --plate, scaling the vans is one
+   number: --plate. Neither of these moves. They would only need redoing if
+   the neighbours were wanted at some size that is NOT a constant fraction of
+   the centre van.
+
+   Where that puts them now: centre half-width 4.87rem, neighbour half-width
+   1.37rem, so an outer edge at 6.24rem from centre against a half-viewport
+   of 11.88rem -- comfortably inside the window, where before the 40% cut it
+   ran a fifth of a neighbour past the edge.
 
    g = 0 gives --nb 64.0%. */
 .rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.281); opacity: .55; z-index: 2; }

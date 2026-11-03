@@ -124,10 +124,16 @@
    ours to change in this pass. Say the word and it goes from both. */
 .testi { display: none; }
 
-/* The range opens the page now, so it does not also open with a section gap.
-   It is not flush against the cut: .rvx-stage carries margin-top: var(--gap),
-   so 0.40rem of white sits between the hard edge and the first van. */
-.rvx { padding-top: 0; }
+/* The gap under the video. .rvx-stage carries margin-top: var(--gap) = 0.40rem
+   on its own, so this padding is the balance: 0.60 + 0.40 = 1.00rem, which is
+   the 0.40 it was, increased by 150%. */
+.rvx { padding-top: 0.60rem; }
+
+/* ---- CARAVANS BUILT ----------------------------------------------------
+   3.03rem less 12% is 2.67rem. The band centres its contents with flex, so
+   taking height off takes it off the top and the bottom equally without
+   anything inside having to move: 0.18rem from each. */
+.stat-band { height: 2.67rem; }
 
 }  /* end min-width: 901px */
 
