@@ -26,7 +26,7 @@
   --rule:  #e4e2de;
   --dim:   #6b6158;
   --plate: var(--col);           /* the van's slot: the content column wide  */
-  --nb:    49.8%;                /* touching: see the note below            */
+  --nb:    64.0%;                /* touching: see the note below            */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:
@@ -70,7 +70,7 @@
    in full, so on a 1080 screen the last of the band will be just under the
    fold. Going back under the rule means taking 0.43rem off somewhere else;
    the two places with any give are the band's padding and the top gap. */
-.rvx-stage { position: relative; height: 6.12rem; margin-top: var(--gap);
+.rvx-stage { position: relative; height: 6.40rem; margin-top: var(--gap);
   width: 100%; overflow: hidden;
   user-select: none; -webkit-user-select: none; }
 .rvx-van { position: absolute; top: 0; left: 50%; height: 100%;
@@ -87,23 +87,41 @@
 /* HOW FAR OUT A NEIGHBOUR SITS. Driven by --nb so the gap can be changed in
    one place without touching the scale.
 
-     centre van half-width = stage height x 1.896 / 2 = 6.12 x 0.948 = 5.80rem
-     neighbour  half-width = that x .393                             = 2.28rem
-     offset for a gap of g = 5.80 + g + 2.28 = 8.08 + g
+   THE FIT FLIPPED when the 3/4 cut-outs became side elevations. object-fit:
+   contain fits by whichever axis runs out first. The old canvas was 1.896
+   against a slot of 2.654, so the image was the TALLER shape and fitted by
+   height -- every width in here used to be derived from the stage height.
+   The elevations are 2.672, WIDER than the slot, so they fit by width:
 
-   So --nb is (8.08 + g) / 16.24 as a percentage, and g = 0 gives 49.8%.
+     rendered width = the slot itself = --plate = 16.24rem
+     centre half-width                          = 8.12rem
+     neighbour half-width                       = 8.12 x s
+     offset for a gap of g      = 8.12 + g + 8.12s
 
-   1.896 is the cut-outs' canvas aspect, and it changed when they were
-   re-cropped: the old 1.604 reserved the footprint of shadows that are no
-   longer there. Anything in here derived from it has to be redone whenever
-   those images are.
+   So --nb is (8.12 + g + 8.12s) / 16.24 as a percentage.
 
-   The neighbour's scale is .393, not .471: it is a fraction of the SLOT, so
-   when the stage grew 20% the neighbours would have grown with it. .471 /
-   1.2 = .393 keeps them exactly the size they were. Any future change to the
-   stage height has to be divided through here too, or they drift. */
-.rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.393); opacity: .55; z-index: 2; }
-.rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.393); opacity: .55; z-index: 2; }
+   This is a steadier rule than the one it replaces: the centre van is now
+   exactly as wide as the content column whatever the stage height does, so
+   nothing here has to be redone if the stage changes again. The stage is
+   6.40rem rather than 6.12 only to keep the fit unambiguous -- at 6.12 the
+   slot is 2.654 against a canvas of 2.672, a 0.7% margin, close enough that
+   a small change could silently flip the fit back to height and move every
+   number on this page.
+
+   s = .281, not .393. The scale is a fraction of the SLOT, and the centre
+   van grew from 11.60rem to 16.24rem when the elevations came in. .281 is
+   what holds a neighbour at the 4.56rem it has always been:
+   11.60 x .393 = 4.56, and 4.56 / 16.24 = .281. Any future change to
+   --plate has to be divided through here too, or the neighbours drift.
+
+   Where that puts them: a neighbour's outer edge lands at 8.12 + 4.56 =
+   12.68rem from centre against a half-viewport of 11.88rem, so 0.80rem --
+   about a fifth of it -- sits past the edge. sample-range-side.html carries
+   one alternative fully inside the margins and one that overflows hard.
+
+   g = 0 gives --nb 64.0%. */
+.rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.281); opacity: .55; z-index: 2; }
+.rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.281); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
 .rvx-van[data-d="-1"], .rvx-van[data-d="1"] { cursor: pointer; }
 .rvx-van[data-d="-1"]:hover, .rvx-van[data-d="1"]:hover { opacity: .82; }
@@ -172,8 +190,15 @@
    section that is not on the ladder: the gap between a title and its figure
    needs to bind them together, and at 0.40 the figure read as a separate
    line rather than as the answer to the word above it. */
-.rvx-v { margin: 0.30rem 0 0; font-family: var(--aviano); font-weight: 900;
-  font-size: var(--t-body); line-height: 1; color: var(--orange); }
+/* Gordita Medium, not Aviano Black. Aviano is the display face, and giving
+   it to the figure made the figure shout louder than the word it answers --
+   which is the hierarchy this section was getting wrong. The orange carries
+   the emphasis now; the weight does not have to as well. Caps are forced
+   rather than assumed: the data happens to read "600W" and "COIL" already,
+   but nothing in the markup guarantees the next value will. */
+.rvx-v { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;
+  font-size: var(--t-body); line-height: 1; color: var(--orange);
+  text-transform: uppercase; }
 .rvx-n { margin: var(--gap-tight) 0 0; font-family: var(--gordita);
   font-size: 0.17rem; line-height: 0.24rem; color: var(--dim); }
 

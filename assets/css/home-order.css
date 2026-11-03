@@ -58,6 +58,13 @@
    would still paint a transparent box over the foot of the video at z-index
    3, between the veil and the copy, for nothing. */
 
+/* ---- the header band: 16:9 --------------------------------------------- */
+/* 13.365rem is 56.25vw exactly -- a rem is the viewport over 23.76, so
+   23.76 x 9/16 = 13.365. The band is therefore the same shape as the file
+   the player serves, which is why the bars have to be dealt with below:
+   at 2.65:1 the band cropped them off without being asked to. */
+.home-hero { height: 13.365rem; }
+
 /* ---- the hero video, at the display's real resolution ------------------ */
 /* YouTube chooses a rendition from the SIZE OF THE PLAYER ELEMENT, in CSS
    pixels. On a retina display a 1920-wide element is 3840 device pixels, so
@@ -76,14 +83,27 @@
 
    What this does NOT fix: YouTube's ladder still starts low and climbs over
    the first seconds. Nothing in the embed API changes that. */
-:root { --dpr: 1; }
+:root { --dpr: 1; --crop: 1.3235; }
 @media (min-resolution: 1.5dppx) { :root { --dpr: 2; } }
 
 .home-hero-media iframe {
-  width:  calc(100% * var(--dpr));
-  height: calc(56.25vw * var(--dpr));
+  /* --crop 1.3235 is 1 / (1 - 2 x 0.1222): the clip is a 2.35:1 picture baked
+     into a 16:9 file with hard black bars 12.2% of frame height top and
+     bottom. The band used to be 2.65:1 and cropped 16.4% off each edge, which
+     took the bars away for free. A 16:9 band crops nothing, so the bars would
+     be on show -- the frame is scaled up instead until the picture alone
+     fills the band. The cost is real and worth knowing: 24.4% of the
+     picture's WIDTH goes off the sides. */
+  width:  calc(100% * var(--dpr) * var(--crop));
+  height: calc(56.25vw * var(--dpr) * var(--crop));
   transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
 }
+
+/* ---- the Kevin Smalley pull quote, off ---------------------------------
+   Hidden here rather than cut from home.html, because the markup is shared:
+   deleting it would take it off the phone too, and the phone layer is not
+   ours to change in this pass. Say the word and it goes from both. */
+.testi { display: none; }
 
 /* The range opens the page now, so it does not also open with a section gap.
    It is not flush against the cut: .rvx-stage carries margin-top: var(--gap),
