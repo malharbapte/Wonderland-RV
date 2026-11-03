@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero video swap — Wonderland RV</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=237">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=237">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=237">
+<link rel="stylesheet" href="assets/css/homepage.css?v=237">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=237">
+<link rel="stylesheet" href="assets/css/home-order.css?v=237">
+<style>
+/* ===========================================================================
+   SAMPLE CHROME ONLY. Nothing here ships.
+
+   THE ONE THING WORTH KNOWING: the new clip is a 2.35:1 picture baked into a
+   16:9 file, so it carries hard black bars 12.2% of the frame height, top and
+   bottom. The hero band is 2.65:1 and crops 16.4% off each edge of a 16:9
+   frame -- so the bars are cropped away with 4.2% of frame height to spare.
+   "WHOLE CLIP" below drops that crop so you can see what is being thrown away.
+   =========================================================================== */
+.hbar { position: sticky; top: 0; z-index: 90; background: #1b1b1b; color: #fff;
+  padding: 0.20rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.30rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
+.hbar .seg > span { letter-spacing: .14em; text-transform: uppercase; }
+.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.06rem 0.15rem; }
+.hbar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.hnote { font-family: var(--gordita); font-size: 0.145rem; color: #6f6f6f;
+  margin-left: auto; }
+
+@media (min-width: 901px) {
+  /* WHOLE CLIP: fit the 16:9 inside the band instead of cropping it, so the
+     baked-in letterbox and everything the live crop removes are both visible. */
+  .hv-whole .home-hero-media iframe {
+    width: auto; height: 100%; min-height: 0; aspect-ratio: 16 / 9;
+  }
+  .hv-whole .home-hero-media { background: #000; }
+}
+</style>
+</head>
+<body>
+
+<div class="hbar">
+  <div class="container">
+    <b>HERO VIDEO</b>
+    <span class="seg"><span>Clip</span>
+      <button data-clip="QHp93M7xf2Y" class="on">New &mdash; Amaroo</button>
+      <button data-clip="mZVHIMStpF4">Current &mdash; 2026 Range</button>
+    </span>
+    <span class="seg"><span>Frame</span>
+      <button data-frame="crop" class="on">Cropped (live)</button>
+      <button data-frame="whole">Whole clip</button>
+    </span>
+    <span class="hnote">Desktop view. The phone layer is untouched.</span>
+  </div>
+</div>
+
+<!-- ============================================================== HERO -->
+<section class="home-hero" id="hero">
+  <div class="home-hero-media video-frame ph" data-ph="HERO VIDEO">
+    <img class="video-poster" src="assets/img/home/hero-poster.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container home-hero-copy">
+    <h1>Adventure <br>your way</h1>
+    <p class="home-hero-cta"><a href="compact.html">get a quote</a></p>
+    <p class="home-hero-body">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury,
+      combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s rugged beauty.
+      Perfectly custom-built for solos, couples, and families, these caravans are designed to elevate
+      every adventure without compromising on style or comfort.</p>
+  </div>
+</section>
+
+<!-- a strip of the white section below, so the fade can be judged in place -->
+<div style="height:3rem;background:#fff"></div>
+
+<script>
+/* Builds the same iframe the site builds -- the embed string is copied from
+   assets/js/video-embed.js so the sample shows the real player, not a stand-in. */
+var media = document.querySelector(".home-hero-media");
+var hero  = document.getElementById("hero");
+
+function mount(id) {
+  var old = media.querySelector("iframe");
+  if (old) old.remove();
+  var f = document.createElement("iframe");
+  f.src = "https://www.youtube.com/embed/" + id +
+    "?autoplay=1&mute=1&loop=1&controls=0&playsinline=1&rel=0&modestbranding=1" +
+    "&cc_load_policy=0&cc_lang_pref=en&iv_load_policy=3&enablejsapi=1&playlist=" + id;
+  f.allow = "autoplay; encrypted-media; picture-in-picture";
+  f.title = "Wonderland RV — adventure your way";
+  media.classList.remove("ph");
+  media.removeAttribute("data-ph");
+  media.appendChild(f);
+}
+mount("QHp93M7xf2Y");
+
+document.querySelectorAll("[data-clip]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-clip]").forEach(function (o) { o.classList.remove("on"); });
+    b.classList.add("on");
+    mount(b.dataset.clip);
+  });
+});
+document.querySelectorAll("[data-frame]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("[data-frame]").forEach(function (o) { o.classList.remove("on"); });
+    b.classList.add("on");
+    hero.classList.toggle("hv-whole", b.dataset.frame === "whole");
+  });
+});
+</script>
+</body>
+</html>

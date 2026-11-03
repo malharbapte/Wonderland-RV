@@ -6,7 +6,7 @@
    string empty and its labelled placeholder stays in place.
    ========================================================================== */
 
-const HERO_VIDEO_URL   = "https://youtu.be/mZVHIMStpF4";   // full-bleed clip behind "Adventure your way"
+const HERO_VIDEO_URL   = "https://youtu.be/QHp93M7xf2Y";   // full-bleed clip behind "Adventure your way"
 const SOLARA_VIDEO_URL = "https://youtu.be/HNcrbrGzMh0";   // clip in the Welcome Solara section
 
 /* Queen of Hearts — five slots, in slide order. Same link rules as above. */

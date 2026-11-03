@@ -1,0 +1,16 @@
+<!DOCTYPE html><meta charset="utf-8"><body style="margin:0"><pre id="o">running…</pre>
+<script>
+var q=new URLSearchParams(location.search), SIZES=[[320,568],[375,667],[375,812],[430,932],[820,1180],[1024,768]], out=[];
+if(q.get("sz")) SIZES=q.get("sz").split(",").map(function(i){return SIZES[+i]});
+function run(i){ if(i>=SIZES.length){document.getElementById("o").textContent=out.join("\n");document.title="done";return;}
+ var s=SIZES[i], f=document.createElement("iframe"); f.style.cssText="position:absolute;left:0;top:0;border:0;width:"+s[0]+"px;height:"+s[1]+"px;visibility:hidden";
+ f.src="../sample-build-app-strip.html?couples&compact&m=xtr"+(s[0]>=744?"&device=tablet":"")+"#details"; document.body.appendChild(f);
+ var t0=Date.now(), poll=setInterval(function(){ try{ var d=f.contentDocument; if(!d||!d.getElementById("go")) return;
+   if(d.querySelector(".thanks")){ clearInterval(poll); setTimeout(function(){ var w=f.contentWindow, th=d.querySelector(".thanks").getBoundingClientRect(), road=d.querySelector(".road").getBoundingClientRect(), st=d.querySelector(".stage").getBoundingClientRect(), kids=Array.from(d.querySelector(".thanks").children).map(function(c){return c.className||c.tagName}).join(","), rvp=d.querySelector(".rvp");
+      var bad=th.bottom>road.top-4||th.top<st.top-1; out.push((bad?"BAD ":"ok  ")+s[0]+"x"+s[1]+" thanks "+Math.round(th.top)+"-"+Math.round(th.bottom)+" strip@"+Math.round(road.top)+" rvp:"+(rvp&&w.getComputedStyle(rvp).opacity)+" ["+kids+"]"); f.remove(); run(i+1); },1500); return; }
+   var rc=d.querySelector(".reply .rc1"); if(rc){ rc.click(); return; }
+   var inp=d.getElementById("cin"); if(inp && !inp.dataset.f){ inp.dataset.f=1; var ty=inp.type; inp.value= ty=="tel"?"0412345678": ty=="email"?"sam@example.com": ty=="date"? new Date(Date.now()+86400000*90).toISOString().slice(0,10) : "Sam"; setTimeout(function(){ d.getElementById("go").click(); },200); }
+  }catch(e){} if(Date.now()-t0>30000){clearInterval(poll);out.push("TIMEOUT "+s);f.remove();run(i+1);} },350);
+}
+run(0);
+</script>
