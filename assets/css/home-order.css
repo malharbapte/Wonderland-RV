@@ -42,25 +42,21 @@
   color: #fff;
 }
 
-/* ---- the foot of the video turns white -------------------------------- */
-/* The dark veil is left exactly as it was. It is weighted to the bottom
-   because that is where the copy sits, and the copy has not moved -- so
-   overriding it would only have made the type harder to read.
+/* ---- the foot of the video: no fade ------------------------------------
+   The video stops at a hard horizontal line and the white section begins.
+   Chosen from sample-hero-fade.html over three smootherstep depths.
 
-   The two do overlap: the fade stands 1.35rem tall and the copy's lowest
-   line sits 1.16rem up, inside it. That is fine rather than lucky -- at
-   that height the gradient is about 9% white, because it does not begin
-   ramping until 55% down. The strong white is in the last 0.19rem, where
-   there is no type. */
-/* z-index 3 puts it with the veil, under the copy at 4. It runs all the way
-   to #fff: a fade that stops short cannot blend into a white section --
-   whatever it stops at becomes a visible edge where the video ends. */
-.home-hero::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
-  height: 15%; pointer-events: none;
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 55%, #fff 100%);
-}
+   Nothing else is overridden here, and that is the point. A fade to white
+   is what forced the other variants to move things: white copy cannot sit
+   inside a white fade, so the copy had to lift to the 10%-white contour and
+   the dark veil had to be rebuilt as a band around it instead of being
+   weighted at the bottom. With no fade there is no white to escape, so the
+   copy keeps its native 1.16rem off the bottom and the veil stays exactly
+   as homepage.css builds it. Only the horizontal centring above is ours.
+
+   There is deliberately no .home-hero::after rule at all -- an empty one
+   would still paint a transparent box over the foot of the video at z-index
+   3, between the veil and the copy, for nothing. */
 
 /* ---- the hero video, at the display's real resolution ------------------ */
 /* YouTube chooses a rendition from the SIZE OF THE PLAYER ELEMENT, in CSS
@@ -89,8 +85,9 @@
   transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
 }
 
-/* the range opens the page now, so it does not also open with a section gap:
-   the hero's white fade already is the space above it */
+/* The range opens the page now, so it does not also open with a section gap.
+   It is not flush against the cut: .rvx-stage carries margin-top: var(--gap),
+   so 0.40rem of white sits between the hard edge and the first van. */
 .rvx { padding-top: 0; }
 
 }  /* end min-width: 901px */
