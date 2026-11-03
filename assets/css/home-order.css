@@ -58,6 +58,27 @@
    would still paint a transparent box over the foot of the video at z-index
    3, between the veil and the copy, for nothing. */
 
+/* ---- the header, lifted off the page ----------------------------------
+   Two shadows, not one. A single blurred shadow reads as fog; a contact
+   shadow (tight, barely offset) plus an ambient one (wider, softer) is what
+   actually says "this edge is above that surface". Both are in rem so they
+   hold their proportion at every window width, like everything else here.
+
+   0.015rem is about 1.2px at a 1920 window. That is the whole effect --
+   anything heavier stops hinting and starts announcing.
+
+   Where it will and will not show: the shadow falls on whatever is under the
+   header, and directly under it is a dark video, where a 5%-black shadow is
+   invisible. It does its work as the page scrolls and white sections pass
+   beneath. That is the honest limit of a shadow on a dark backdrop.
+
+   Homepage desktop only. .site-header is shared by every page and is not
+   gated, so putting this in styles.css would have changed the phone too. */
+.site-header {
+  box-shadow: 0 0.015rem 0.045rem rgba(0, 0, 0, .055),
+              0 0.005rem 0.015rem rgba(0, 0, 0, .045);
+}
+
 /* ---- the header band: whatever the header leaves ----------------------- */
 /* .site-header is sticky and 1.43rem tall, so it holds its place in the flow
    and the hero gets the rest of the window. No fixed ratio: the band is
