@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Band grey — Wonderland RV</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=250">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=250">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=250">
+<link rel="stylesheet" href="assets/css/homepage.css?v=250">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=250">
+<link rel="stylesheet" href="assets/css/home-order.css?v=250">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY. Two sliders on one colour.
+
+   WHY HUE AND SATURATION ARE NOT A FREE CHOICE HERE. "Light grey" in a warm
+   palette is a trap: a neutral grey next to cream, orange and #6b6158 reads
+   blue, because the eye judges it against its warm neighbours. The default
+   below is hsl(40, 10%, 94%) -- 40deg at 10% is exactly the hue and
+   saturation of --rule (#e4e2de), the line colour already used between the
+   feature cells, so the band is the same grey as the rules, only lighter.
+
+   WARMTH at 0% is a true neutral grey, so you can see that effect for
+   yourself: slide it to 0 and the band turns faintly blue against the
+   orange button without a single blue pixel being added.
+   =========================================================================== */
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+  background: #1b1b1b; color: #fff; padding: 0.16rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.28rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.12rem;
+  font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
+.hbar .seg > span { letter-spacing: .14em; text-transform: uppercase; }
+.hbar input[type=range] { width: 2.4rem; accent-color: var(--orange); }
+.hbar output { font-family: var(--gordita); font-size: 0.155rem; color: #fff;
+  min-width: 0.9rem; display: inline-block; }
+.swatch { display: inline-block; width: 0.26rem; height: 0.26rem;
+  border: 0.0075rem solid #4a4a4a; vertical-align: middle; }
+.hex { font-family: var(--gordita); font-size: 0.165rem; color: var(--orange);
+  letter-spacing: .08em; }
+.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.06rem 0.15rem; }
+
+@media (min-width: 901px) {
+  .rvx-band { background: hsl(var(--bh, 40), var(--bs, 10%), var(--bl, 94%)); }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================ RANGE VIEWER (desktop) -->
+<section class="rvx">
+  <div class="container">
+  </div>
+
+  <div class="rvx-stage" data-rvx-stage>
+    <div class="rvx-badges" data-rvx-badges></div>
+  </div>
+
+  <div class="container">
+    <div class="rvx-panels">
+      <button class="rvx-arrow rvx-arrow--prev" data-go="-1" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 7 12l8 8"/></svg></button>
+      <div class="rvx-panelset" data-rvx-panelset></div>
+      <button class="rvx-arrow rvx-arrow--next" data-go="1" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg></button>
+    </div>
+
+  </div>
+
+  <div class="rvx-band">
+    <div class="container">
+      <div class="rvx-act">
+        <a class="btn-solid" href="#">Explore the range</a>
+        <a class="btn-solid rvx-ghost" href="#">Download brochure</a>
+      </div>
+      <p class="rvx-note">Figures shown are for the standard build. Every model can be
+        specified further &mdash; options change capacities and price.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hbar">
+  <div class="container">
+    <b>BAND</b>
+    <span class="seg"><span>Light</span>
+      <input type="range" id="sl" min="80" max="100" step="0.5" value="94">
+      <output id="ol">94%</output>
+    </span>
+    <span class="seg"><span>Warmth</span>
+      <input type="range" id="ss" min="0" max="20" step="0.5" value="10">
+      <output id="os">10%</output>
+    </span>
+    <span class="seg"><span>Cream</span>
+      <button id="cream">#FFF2DC</button>
+    </span>
+    <span class="seg"><span>Now</span>
+      <span class="swatch" id="sw"></span> <span class="hex" id="hx">#F2F0EE</span>
+    </span>
+  </div>
+</div>
+
+<script>
+var sl=document.getElementById("sl"), ss=document.getElementById("ss");
+var ol=document.getElementById("ol"), os=document.getElementById("os");
+var sw=document.getElementById("sw"), hx=document.getElementById("hx");
+var r=document.documentElement;
+
+/* hsl -> hex, so the readout is a value you can paste straight into the
+   stylesheet rather than a set of slider positions to remember */
+function hex(h,s,l){
+  s/=100; l/=100;
+  var c=(1-Math.abs(2*l-1))*s, x=c*(1-Math.abs((h/60)%2-1)), m=l-c/2;
+  var t=h<60?[c,x,0]:h<120?[x,c,0]:h<180?[0,c,x]:h<240?[0,x,c]:h<300?[x,0,c]:[c,0,x];
+  return "#"+t.map(function(v){
+    return Math.round((v+m)*255).toString(16).padStart(2,"0").toUpperCase();
+  }).join("");
+}
+function paint(){
+  var L=+sl.value, S=+ss.value;
+  r.style.setProperty("--bl", L+"%");
+  r.style.setProperty("--bs", S+"%");
+  ol.textContent=L+"%"; os.textContent=S+"%";
+  var c=hex(40,S,L); sw.style.background=c; hx.textContent=c;
+}
+sl.addEventListener("input",paint); ss.addEventListener("input",paint);
+document.getElementById("cream").addEventListener("click",function(){
+  sl.value=93; ss.value=100; paint();   /* #FFF2DC is hsl(40,100%,93%) */
+});
+paint();
+</script>
+<script src="assets/js/range-viewer.js?v=250"></script>
+</body>
+</html>

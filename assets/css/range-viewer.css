@@ -237,7 +237,13 @@
    The second one is .btn-solid kept white rather than a separate button, so
    the two share every other value and cannot fall out of line.
    -------------------------------------------------------------------------- */
-.rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: #FFF2DC;
+/* The band's grey is hsl(40, 10%, 94%). 40deg at 10% is the hue and
+   saturation of --rule (#e4e2de), the line colour this section already uses
+   between the feature cells -- so the band is the same grey as the rules,
+   just lighter. A neutral grey would have been the odd one out: everything
+   around it (the cream panels, #6b6158, the orange) is warm.
+   sample-band-grey.html has a slider on both numbers. */
+.rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: hsl(40, 10%, 94%);
   margin-top: var(--gap); padding: var(--gap) 0; }
 .rvx-act { display: flex; justify-content: center; gap: var(--gap); }
 
