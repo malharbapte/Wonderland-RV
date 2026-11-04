@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brands &mdash; two rows</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=266">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=266">
+<link rel="stylesheet" href="assets/css/homepage.css?v=266">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- the 32 marks split across two rows running against each
+   other.
+
+   HOW THE ONE-ROW MARQUEE WORKS, because the two-row version has to keep
+   every part of it. The track is the list TWICE and the animation runs
+   translateX(0) -> translateX(-50%): at -50% the second copy sits exactly
+   where the first began, so the loop is seamless. Spacing rides on a
+   trailing margin-right per item rather than flex `gap`, because with gap
+   there are 2N-1 gaps and -50% lands half a gap short of a whole copy, which
+   shows as a jump at the seam. Both still hold here -- each row is its own
+   list twice over.
+
+   OPPOSITE DIRECTIONS. The second row uses the same keyframe with
+   animation-direction: reverse, so it is the same motion read backwards
+   rather than a second set of numbers to keep in step.
+
+   SPEED IS NOT THE SAME NUMBER. A row of 16 is half as long as a row of 32,
+   so the same 68s would run it at half the pixel speed. 34s keeps the marks
+   moving at the pace they move at today. Variant C deliberately breaks that
+   to show the alternative.
+
+   The mask, the greyscale, the hover-to-colour and the pause on hover are
+   all inherited from homepage.css untouched.
+   =========================================================================== */
+.brand-marquee + .brand-marquee { margin-top: var(--row-gap, 0.40rem); }
+
+.brand-track--a { animation-duration: var(--speed-a, 34s); }
+.brand-track--b { animation-duration: var(--speed-b, 34s); animation-direction: reverse; }
+
+/* A: matched speed, the standard row gap */
+body.v-a { --speed-a: 34s; --speed-b: 34s; --row-gap: 0.40rem; }
+
+/* B: tighter pair -- the two rows read as one block rather than two bands */
+body.v-b { --speed-a: 34s; --speed-b: 34s; --row-gap: 0.18rem; }
+body.v-b .brand-track img { height: 0.52rem; }
+body.v-b .brand-track li.sm img { height: 0.68rem; }
+
+/* C: the lower row drifts slower. Deliberate mismatch -- the eye reads it as
+   depth rather than as two conveyor belts, but the rows fall out of phase
+   and never return, so the pairing you see on load is not the pairing you
+   see a minute later. */
+body.v-c { --speed-a: 34s; --speed-b: 52s; --row-gap: 0.40rem; }
+
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+  background: #1b1b1b; color: #fff; padding: 0.14rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.20rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.19rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.06rem 0.16rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar .note { font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; margin-left: auto; }
+body { padding-bottom: 1.2rem; }
+.ref { padding: 0 var(--page-margin); font-family: var(--gordita);
+  font-size: var(--t-caption); line-height: var(--lh-caption); color: #8c857b;
+  margin-top: 1.0rem; }
+</style>
+</head>
+<body class="home v-a">
+
+<section class="brands">
+  <div class="container">
+    <h2 class="brands-title">Brands we trust</h2>
+  </div>
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--a">
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+      </ul>
+  </div>
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--b">
+        <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/shann_leather.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/swift.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/thule.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/truma.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/tuffride.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/urban_republic.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/webasto.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/shann_leather.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/swift.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/thule.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/truma.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/tuffride.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/urban_republic.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/webasto.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
+      </ul>
+  </div>
+</section>
+
+<p class="ref">16 marks on each row, each row its own list twice over. Top row runs left,
+  bottom row runs right. Hovering either row pauses that row and brings its marks back
+  to colour, exactly as the single row does today.</p>
+
+<div class="hbar">
+  <div class="container">
+    <b>ROWS</b>
+    <button data-v="a" class="on">A &middot; Matched</button>
+    <button data-v="b">B &middot; Tight pair</button>
+    <button data-v="c">C &middot; Lower row slower</button>
+    <span class="note" id="note"></span>
+  </div>
+</div>
+
+<script>
+var notes = {
+  a: "34s each \u2014 same pixel speed as the single row today",
+  b: "34s each, rows 0.18rem apart, marks 13% smaller",
+  c: "34s against 52s \u2014 rows drift out of phase permanently"
+};
+var bs = document.querySelectorAll(".hbar button");
+function pick(v){
+  document.body.className = "home v-" + v;
+  bs.forEach(function(b){ b.classList.toggle("on", b.dataset.v === v); });
+  document.getElementById("note").textContent = notes[v];
+}
+bs.forEach(function(b){ b.addEventListener("click", function(){ pick(b.dataset.v); }); });
+pick("a");
+</script>
+</body>
+</html>
