@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dream grid — 5 variations</title>
+<title>Dream grid — variations</title>
 <meta name="description" content="Wonderland RV's bespoke off-road caravans combine the comforts of a boutique hotel with the freedom to explore Australia's rugged beauty.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
 <link rel="stylesheet" href="assets/css/styles.css?v=260">
@@ -116,10 +116,47 @@
              display: grid; place-items: center; text-align: center; padding: 0.10rem; }
   .dm-card .dm-title { font-size: 0.30rem; white-space: normal; line-height: 1.12; }
 
+
+  /* ---- 6 and 7  FOUR-UP -----------------------------------------------
+     Measured off the reference rather than guessed at. The three columns
+     are equal (38px each in a 120px frame) and so are the two rows (39 and
+     38 in 80) -- what makes it read as an asymmetric layout is only the
+     spanning, not the track sizes:
+
+       t1  top left        t2  top middle       t3  right, BOTH rows
+       t4  bottom, BOTH left columns
+
+     Corner to corner: the gap is internal only, so the tiles are flush to
+     all four edges of the grid. The two versions differ in one property --
+     where that edge is.
+
+     The heading stays in the centred column in both. It cannot sit inside
+     the pictures any more: filling the frame corner to corner is exactly
+     what removes the hole it used to occupy. */
+  .dm-g6 { display: grid; gap: 0.16rem;
+           grid-template-columns: repeat(3, 1fr);
+           grid-template-rows: repeat(2, 1fr); }
+  .dm-g6 .t1 { grid-area: 1 / 1 / 2 / 2; }
+  .dm-g6 .t2 { grid-area: 1 / 2 / 2 / 3; }
+  .dm-g6 .t3 { grid-area: 1 / 3 / 3 / 4; }   /* the full-height right tile */
+  /* the only tile that crops hard horizontally: it takes a 1.16 source into
+     a portrait slot, and a centre crop cuts the van off at the right. The
+     van is the subject, so the frame is held over it instead. */
+  .dm-g6 .t3 img { object-position: 72% 50%; }
+  .dm-g6 .t4 { grid-area: 2 / 1 / 3 / 3; }   /* the wide bottom tile       */
+
+  /* 6: inside the margins -- the grid is the text column, so the pictures
+     line up with the heading above and the points below */
+  .dm-g6--in  { width: var(--col); margin-left: auto; margin-right: auto; }
+
+  /* 7: outside them -- edge of window to edge of window, nothing held back */
+  .dm-g6--out { width: 100vw; margin-left: calc(50% - 50vw); }
+
   /* ---- the switcher ------------------------------------------------------- */
   .dm { display: none; }
   body.dm-1 .dm--1, body.dm-2 .dm--2, body.dm-3 .dm--3,
-  body.dm-4 .dm--4, body.dm-5 .dm--5 { display: flex; }
+  body.dm-4 .dm--4, body.dm-5 .dm--5,
+  body.dm-6 .dm--6, body.dm-7 .dm--7 { display: flex; }
 
   /* margin guides */
   body.guides .dm-grid::before,
@@ -288,6 +325,36 @@ body.barhide #peek { bottom: 0.08rem; }
   </ul></div>
 </section>
 
+<section class="dm dm--6" data-v="6">
+  <div class="container dm-head"><h2 class="dm-title">your dream van awaits</h2></div>
+  <div class="dm-grid dm-g6 dm-g6--in">
+    <div class="dm-shot t1"><img src="assets/img/home/dream-interior.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t2"><img src="assets/img/home/dream-kitchen.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t3"><img src="assets/img/home/dream-awning.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t4"><img src="assets/img/home/dream-field.jpg" alt="" loading="lazy"></div>
+  </div>
+  <div class="container"><ul class="dm-points">
+    <li><h3>GO ANYWHERE</h3><p>Freedom for off-road and off-grid adventures</p></li>
+    <li><h3>BUILT TO LAST</h3><p>Australian made with superior strength and flex</p></li>
+    <li><h3>TRAVEL IN STYLE</h3><p>Luxuriously appointed with creature comforts</p></li>
+  </ul></div>
+</section>
+
+<section class="dm dm--7" data-v="7">
+  <div class="container dm-head"><h2 class="dm-title">your dream van awaits</h2></div>
+  <div class="dm-grid dm-g6 dm-g6--out">
+    <div class="dm-shot t1"><img src="assets/img/home/dream-interior.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t2"><img src="assets/img/home/dream-kitchen.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t3"><img src="assets/img/home/dream-awning.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t4"><img src="assets/img/home/dream-field.jpg" alt="" loading="lazy"></div>
+  </div>
+  <div class="container"><ul class="dm-points">
+    <li><h3>GO ANYWHERE</h3><p>Freedom for off-road and off-grid adventures</p></li>
+    <li><h3>BUILT TO LAST</h3><p>Australian made with superior strength and flex</p></li>
+    <li><h3>TRAVEL IN STYLE</h3><p>Luxuriously appointed with creature comforts</p></li>
+  </ul></div>
+</section>
+
 <p class="phone-note">Desktop sample &mdash; open this at 901px or wider.</p>
 
 <button id="peek" title="Show / hide the bar">&#9662;</button>
@@ -300,6 +367,8 @@ body.barhide #peek { bottom: 0.08rem; }
     <button data-d="3">3 &middot; Staggered</button>
     <button data-d="4">4 &middot; Feature</button>
     <button data-d="5">5 &middot; Tile wall</button>
+    <button data-d="6">6 &middot; Four-up in</button>
+    <button data-d="7">7 &middot; Four-up out</button>
     <button id="g">Margins</button>
     <span class="fit" id="fit"></span>
   </div>
