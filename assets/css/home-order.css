@@ -149,8 +149,14 @@
 /* ---- the Kevin Smalley pull quote, off ---------------------------------
    Hidden here rather than cut from home.html, because the markup is shared:
    deleting it would take it off the phone too, and the phone layer is not
-   ours to change in this pass. Say the word and it goes from both. */
-.testi { display: none; }
+   ours to change in this pass.
+
+   SCOPED TO .testi--one. There are three .testi sections on this page and
+   bare .testi took all of them -- testimonials two and three went with it.
+   They carry no modifier of their own and :first-of-type counts sections,
+   not .testi sections, so the one being hidden is labelled in the markup.
+   The class alone does nothing below 901. */
+.testi--one { display: none; }
 
 /* The gap under the video. .rvx-stage carries margin-top: var(--gap) = 0.40rem
    on its own, so this padding is the balance: 0.60 + 0.40 = 1.00rem, which is
