@@ -146,6 +146,52 @@
   transform: translate(-50%, -50%) scale(calc(1 / var(--dpr)));
 }
 
+/* ---- YOUR DREAM VAN AWAITS, inside the margins -------------------------
+   Variant 1 from sample-dream-mosaic.html, plus the right-hand shot brought
+   down onto the others' line.
+
+   THE REDUCTION. 16.24 / 23.76 = 0.6835. Every shot is placed in percentages
+   of the mosaic, so narrowing the mosaic to the content column moves all four
+   on its own. Their HEIGHTS are percentages too, so the height has to come
+   down by the same factor or every box stretches: 11.07 x 0.6835 = 7.57rem.
+   The type does not scale with it -- type is in rem -- so it is scaled by
+   hand by the same 0.6835, which is what "uniform" means here.
+
+   THE RIGHT-HAND SHOT. --d sat at top 0 while a, b and c started at 33.33%.
+   Moving it to the others' line puts a, b and d on one top edge and a, c and
+   d on one bottom edge: a grid rather than a stagger.
+
+   THE HOLE THAT LEAVES, and what is done about it. --d was the only thing
+   filling the top third; once it moves down, 1.59rem of the mosaic is empty
+   across its full width with just the heading floating in it. So the mosaic
+   is shortened to close the gap -- NOT by scaling, which would shrink the
+   pictures again, but by taking the dead band out and re-deriving every
+   percentage against the shorter box:
+
+     pictures                     5.05rem, unchanged
+     band above them  0.40 gap + 0.383 heading + 0.54 = 1.32rem
+     mosaic                       6.37rem
+     heights therefore x 7.57 / 6.37 = 1.1884
+
+   Checks that matter: a and d run 20.72% + 79.23% = 99.95%, c the same, and
+   the breath between b and c comes out at 0.233rem -- the same 0.233rem it
+   is today. The pictures are the size variant 1 showed; only the empty band
+   is gone. */
+.dream-mosaic {
+  width: var(--col);
+  margin-left: auto; margin-right: auto;
+  height: 6.37rem;
+}
+.dream-head  { top: 6.28%; }
+.dream-title { font-size: 0.383rem; }
+
+.dream-shot--a { top: 20.72%; height: 79.23%; }
+.dream-shot--b { top: 20.72%; height: 37.90%; }
+.dream-shot--c { top: 62.27%; height: 37.68%; }
+.dream-shot--d { top: 20.72%; height: 79.23%; }
+
+.dream-quote { top: 76.33%; font-size: 0.164rem; padding: 0.205rem 0.369rem; }
+
 /* ---- the Kevin Smalley pull quote, off ---------------------------------
    Hidden here rather than cut from home.html, because the markup is shared:
    deleting it would take it off the phone too, and the phone layer is not
