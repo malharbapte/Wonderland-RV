@@ -233,8 +233,60 @@
    anything inside having to move: 0.18rem from each. */
 .stat-band { height: 2.67rem; }
 
+
+/* ---- QUEEN OF HEARTS ---------------------------------------------------
+   THE VIDEO COMES IN. It was the full content column; it is now 88% of it,
+   centred, still 16/9 so nothing is cropped -- aspect-ratio does the height.
+
+   THE ARROWS HAD TO BE RE-ANCHORED. They are absolute inside .coty-shell,
+   not inside the figure, and sat at top: 62% -- a percentage of the SHELL.
+   Both of this pass's changes move that: a narrower figure is a shorter
+   one, and the note adds height below it, so 62% would no longer land on
+   the picture at all. They are derived from the figure instead:
+
+     0.56  .coty-title, line-height 1
+     0.38  .coty-sub, 0.32 plus its 0.06 margin
+     0.68  .coty-figure margin-top
+     ----
+     1.62  top of the figure, then half its height
+
+   p and h2 are both margin: 0 in styles.css, so nothing else is in the sum.
+   They now sit on the figure's centre line rather than the 0.48rem below it
+   that 62% happened to give.
+
+   THE CTA. .coty-sub carries a link on the first slide only, so this colours
+   that one and leaves the other five subheadings as the plain labels they
+   are. The weight shift on hover is kept and an underline added: colour
+   alone is a weak affordance for something that is already a heading. */
+:root {
+  --coty-vid:   0.88;
+  --coty-vid-w: calc(var(--col) * var(--coty-vid));
+  --coty-vid-h: calc(var(--coty-vid-w) * 9 / 16);
+}
+.coty-figure { width: var(--coty-vid-w); margin-left: auto; margin-right: auto; }
+
+.coty-arrow { top: calc(1.62rem + var(--coty-vid-h) / 2); }
+
+.coty-sub a { color: var(--orange-deep); }
+.coty-sub a:hover,
+.coty-sub a:focus-visible { text-decoration: underline; text-underline-offset: 0.06rem; }
+
+/* two lines at this measure, under the picture and inside its width */
+.coty-note {
+  width: var(--coty-vid-w);
+  margin: 0.30rem auto 0;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
+  color: var(--dim, #6b6158);
+}
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
    must never appear there. */
-@media (max-width: 900px) { .home-hero-body { display: none; } }
+@media (max-width: 900px) {
+  .home-hero-body { display: none; }
+  /* desktop-only copy: the phone deck is headings and dots, nothing else */
+  .coty-note { display: none; }
+}
