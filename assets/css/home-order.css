@@ -298,6 +298,35 @@
    block. */
 .insurance { padding-top: 1.20rem; }
 
+
+/* ---- CARAVANS BUILT: the grey the CTA band uses, in black --------------
+   #F8F8F7 is the value already set on .rvx-band, so this is not a second
+   grey -- the two full-bleed panels on the page now share one.
+
+   BOTH LINES ARE RECOLOURED, not just the number. .stat-label is #FFEBCC,
+   a cream tint that only worked because it sat on orange; on this grey it
+   would be all but invisible. The original pairing was white number over
+   cream label -- both light, one slightly softer. Black over black keeps
+   that relationship intact by keeping both on the same side, though it does
+   flatten the half-step between them. --dim on the label would put the
+   step back if the two lines read too evenly.
+
+   WHAT THIS COSTS THE PAGE, said plainly. The orange band was one of only
+   two large blocks of colour in the scroll, and the blush testimonials were
+   the other -- which are already off. With this grey the desktop homepage is
+   white, near-white and photographs, with orange surviving only in type and
+   buttons. That may be exactly the quiet you are after; it is not a small
+   change to the page's rhythm and should not arrive as a surprise.
+
+   7 levels off the #fff page, so like .rvx-band it reads as a tint rather
+   than a panel, over 2.67rem of height.
+
+   Desktop only, so the phone still carries the orange band until that pass.
+*/
+.stat-band   { background: #F8F8F7; }
+.stat-number { color: #010101; }
+.stat-label  { color: #010101; }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
