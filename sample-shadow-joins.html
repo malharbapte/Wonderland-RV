@@ -3,88 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dividers — Wonderland RV — Luxury Off-Road Caravans</title>
+<title>Where a shadow earns its place</title>
 <meta name="description" content="Wonderland RV's bespoke off-road caravans combine the comforts of a boutique hotel with the freedom to explore Australia's rugged beauty.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=251">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=251">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=251">
-<link rel="stylesheet" href="assets/css/homepage.css?v=251">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=251">
-<link rel="stylesheet" href="assets/css/home-order.css?v=251">
+<link rel="stylesheet" href="assets/css/styles.css?v=276">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=276">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=276">
+<link rel="stylesheet" href="assets/css/homepage.css?v=276">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=276">
+<link rel="stylesheet" href="assets/css/home-order.css?v=276">
 
-<style>
+<style id="jx">
 /* ===========================================================================
-   SAMPLE ONLY -- three ways of compartmentalising the page. Nothing shipped.
+   SAMPLE ONLY -- where a shadow actually earns its place, measured off this
+   page rather than chosen from a list.
 
-   THE MECHANIC WORTH KNOWING: these are shadows on each section's TOP edge,
-   cast upward, not downward off the bottom. Sections are siblings in normal
-   flow, so they paint in document order -- a section painted later covers
-   anything the one before it spilled downward. A downward shadow is simply
-   buried by the next section. An upward shadow is cast by the later element,
-   so it lands on top of the earlier one and is actually visible, with no
-   z-index and no positioning anywhere.
+   METHOD. Every one of the fifteen top-level joins was sampled at ten points
+   across the width, four pixels above and four below the boundary, reading
+   the first non-transparent background up each element's ancestors. A shadow
+   is only worth adding where NOTHING else separates the two sides.
 
-   WHERE A SHADOW CANNOT WORK: on the hero. Under .rvx is a dark video, and a
-   6%-black shadow on a dark surface is nothing. Variant 3 is the only one
-   that marks that seam, because it stops relying on shadow alone.
+   RESULT: twelve of fifteen joins already separate themselves -- the colour
+   changes, a photograph ends, or a treatment is already in place. Adding
+   dividers to those is the redundancy. Three are left:
+
+     amb-more -> coty     white on white at ALL ten points. The only join on
+                          the page with nothing whatsoever between the two
+                          sections.
+     lux -> pull          white above everywhere; below, .pull-media covers
+                          the left 59.5% and the right 40% is bare white.
+     service -> amb-more  the mirror of it: .service-media covers the left
+                          56.9% above, the right 40% is bare white.
+
+   The two partials are the same situation twice -- a photograph occupying
+   roughly the left 60% while the right 40% has nothing. A full-bleed shadow
+   there is half redundant by definition, which is why they are a separate
+   switch rather than bundled in.
+
+   THE SHADOW points UP from the LOWER section, because siblings paint in
+   document order: a downward shadow on the upper one would be painted over
+   by the section below it and never seen. Two shadows, not one -- a tight
+   contact shadow says where the surfaces meet, a wide ambient one says how
+   far apart they are. A single blur has no edge in it and reads as fog.
+   Warm rgba rather than black, since the page's neutrals are warm.
+
+   It works on sections with no background of their own: an outer box-shadow
+   paints outside the border box whether or not the box is filled.
    =========================================================================== */
-.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
-  background: #1b1b1b; color: #fff; padding: 0.16rem 0; }
-.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.30rem; }
-.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; }
-.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
-  font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
-.hbar .seg > span { letter-spacing: .14em; text-transform: uppercase; }
-.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
-  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
-  padding: 0.06rem 0.15rem; }
-.hbar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
-.hnote { font-family: var(--gordita); font-size: 0.145rem; color: #6f6f6f; margin-left: auto; }
+body { --s: 1; }
+.coty, .pull, .amb-more { position: relative; }
 
-@media (min-width: 901px) {
-  /* the seams: every desktop section except the hero, which has the header's
-     own shadow above it and a video below that nothing will show on */
-  .dv-1 .rvx, .dv-1 .lux, .dv-1 .pull, .dv-1 .stat-band, .dv-1 .testi,
-  .dv-1 .dream, .dv-1 .band, .dv-1 .why, .dv-1 .service, .dv-1 .amb-more,
-  .dv-1 .coty, .dv-1 .brands, .dv-1 .insurance, .dv-1 .home-contact, .dv-1 .faq {
-    position: relative;
-    box-shadow: 0 -0.020rem 0.070rem rgba(0,0,0,.055);
-  }
-
-  /* 2 — the same, plus a hairline sitting in the seam itself. The shadow says
-     "above"; the line says "separate". Together they compartmentalise harder,
-     which is the ask, at the cost of a visible drawn edge. */
-  .dv-2 .rvx, .dv-2 .lux, .dv-2 .pull, .dv-2 .stat-band, .dv-2 .testi,
-  .dv-2 .dream, .dv-2 .band, .dv-2 .why, .dv-2 .service, .dv-2 .amb-more,
-  .dv-2 .coty, .dv-2 .brands, .dv-2 .insurance, .dv-2 .home-contact, .dv-2 .faq {
-    position: relative;
-    box-shadow: 0 -0.0075rem 0 rgba(0,0,0,.10),
-                0 -0.025rem 0.090rem rgba(0,0,0,.06);
-  }
-
-  /* 3 — PANELS. The page itself goes a faint warm grey and the white sections
-     become slabs floating on it, inset from the window edge with a shadow on
-     all four sides. This is the only one that reads as compartments rather
-     than as seams -- and the only one that marks the hero boundary, because a
-     grey gutter is visible against a dark video where a shadow is not.
-     Full-bleed sections (the orange band, the cream band) are left spanning
-     the window on purpose: they become the dividers. */
-  .dv-3 { background: hsl(40, 10%, 95%); }
-  .dv-3 .lux, .dv-3 .pull, .dv-3 .testi, .dv-3 .dream, .dv-3 .why,
-  .dv-3 .service, .dv-3 .amb-more, .dv-3 .coty, .dv-3 .brands,
-  .dv-3 .insurance, .dv-3 .home-contact, .dv-3 .faq {
-    position: relative;
-    width: 22.40rem; margin-left: auto; margin-right: auto;
-    background: #fff;
-    box-shadow: 0 0.030rem 0.110rem rgba(0,0,0,.07),
-                0 0.008rem 0.025rem rgba(0,0,0,.05);
-  }
-  .dv-3 .rvx { background: #fff; }
+body.sh-1 .coty,
+body.sh-3 .coty, body.sh-3 .pull, body.sh-3 .amb-more {
+  box-shadow: 0 -0.015rem 0.035rem rgba(60, 48, 36, calc(.055 * var(--s))),
+              0 -0.090rem 0.220rem rgba(60, 48, 36, calc(.070 * var(--s)));
 }
+
+/* ---- the marks ---- */
+.jx-mark { position: absolute; left: 0; right: 0; z-index: 90; pointer-events: none;
+  display: none; }
+body.marks .jx-mark { display: block; }
+.jx-line { position: absolute; left: 0; right: 0; top: 0; height: 1px; }
+.jx-tag { position: absolute; left: 0.24rem; top: 0.04rem; font-family: var(--gordita);
+  font-size: 0.135rem; line-height: 1.5; padding: 0.03rem 0.10rem; color: #fff;
+  white-space: nowrap; }
+.jx-mark[data-v="take"] .jx-line { height: 2px; background: #D57114; }
+.jx-mark[data-v="take"] .jx-tag  { background: #D57114; }
+.jx-mark[data-v="part"] .jx-line { background: #8a7f72; }
+.jx-mark[data-v="part"] .jx-tag  { background: #8a7f72; }
+.jx-mark[data-v="skip"] .jx-line { background: rgba(0,0,0,.14); }
+.jx-mark[data-v="skip"] .jx-tag  { background: rgba(0,0,0,.42); }
+
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.14rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.135rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.05rem 0.13rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar input[type=range] { width: 1.5rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+.hbar .note { font-family: var(--gordita); font-size: 0.135rem; color: #9b948a;
+  margin-left: auto; }
+body { padding-bottom: 0.9rem; }
 </style>
 </head>
-<body class="home dv-0">
+<body class="home">
 
 <!-- ============================================================ HEADER -->
 <header class="site-header">
@@ -379,8 +385,52 @@
     <img src="assets/img/home/why-band.jpg" alt=""
          onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
   </div>
+  <div class="why-scrim" aria-hidden="true"></div>
   <div class="container band-copy">
     <h2 class="band-title">Why Choose us?</h2>
+
+    <!-- DESKTOP COPY OF THE FOUR POINTS, and .why-points rather than
+         .why-list on purpose. home.js runs
+           phoneAccordion({ list: ".why-list", mount: ".why-grid",
+                            before: ".why-figure" })
+         so the phone needs .why-list, .why-grid AND .why-figure to all still
+         exist, in that relationship, further down the page. Naming this list
+         .why-list would hand the accordion the wrong one -- it takes the
+         first in the document, and this one comes first.
+
+         The cost is that the four points exist twice in the markup. Change
+         one, change the other. They should become a single list during the
+         phone pass, when .why can be rebuilt rather than hidden. -->
+    <ul class="why-points">
+      <li>
+        <span class="why-icon why-icon--lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.6 2.6v5.4c0 4-2.7 7.6-6.6 8.9-3.9-1.3-6.6-4.9-6.6-8.9V5.8L12 3.2z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg></span>
+        <div class="why-text">
+          <h3>BUILT TOUGH</h3>
+          <p>Unique Jigsaw construction for strength <br>and durability.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 16.9L15 6.1l2.9 2.9L7.1 19.8H4.2v-2.9z"/><path d="M14.4 6.7l2.9 2.9"/><path d="M16.3 4.8l1.4-1.4a1.3 1.3 0 0 1 1.9 0l1 1a1.3 1.3 0 0 1 0 1.9l-1.4 1.4"/></svg></span>
+        <div class="why-text">
+          <h3>CUSTOM MADE</h3>
+          <p>A caravan to suit your family and the trips <br>you want to take.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.4l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6L12 3.4z"/></svg></span>
+        <div class="why-text">
+          <h3>LUXURY FINISH</h3>
+          <p>Impeccable, comfortable interiors that <br>offer a welcome retreat</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.4C12 20.4 3.6 15.1 3.6 9.3C3.6 6.4 5.9 4.2 8.6 4.2C10.3 4.2 11.5 5.1 12 6.1C12.5 5.1 13.7 4.2 15.4 4.2C18.1 4.2 20.4 6.4 20.4 9.3C20.4 15.1 12 20.4 12 20.4Z"/></svg></span>
+        <div class="why-text">
+          <h3>PEACE OF MIND</h3>
+          <p>3 year factory-backed warranty and <br>premium after sale service</p>
+        </div>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -501,7 +551,7 @@
   <div class="amb-more-strip" tabindex="0" aria-label="The Wonderlanders">
     <div class="wl-card">
       <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Feel Good Family">
-        <img src="assets/img/ambassadors/feel-good-family.jpg?v=251" alt="Katie, Paul and Jasper of The Feel Good Family with their Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        <img src="assets/img/ambassadors/feel-good-family.jpg?v=276" alt="Katie, Paul and Jasper of The Feel Good Family with their Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
       </div>
       <div class="wl-card-name">
         <div class="wl-card-head">
@@ -560,7 +610,7 @@
     </div>
     <div class="wl-card">
       <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Kiwi Van Life">
-        <img src="assets/img/ambassadors/kiwi-van-life.jpg?v=251" alt="Rorden, Cass, Jed and Lexi of The Kiwi Van Life" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        <img src="assets/img/ambassadors/kiwi-van-life.jpg?v=276" alt="Rorden, Cass, Jed and Lexi of The Kiwi Van Life" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
       </div>
       <div class="wl-card-name">
         <div class="wl-card-head">
@@ -605,36 +655,48 @@
         <img class="video-poster" src="assets/img/home/queen-of-hearts.jpg" alt=""
              onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
         </div>
+        <!-- Drawn from the video's own description. Desktop only: the phone
+             deck clones .coty-title and .coty-sub into a shared head and this
+             would be the one slide carrying extra copy. -->
+        <p class="coty-note">The Solara 2006 took the inaugural Judges&rsquo; Choice Award at Caravan
+          World&rsquo;s Caravan of the Year 2026 &mdash; the category for the one van the panel would take
+          home themselves. Twenty foot six: queen bed up front, split ensuite at the back, club lounge
+          for four between.</p>
       </div>
       <div class="coty-slide">
         <h2 class="coty-title">How is a Wonderland built.</h2>
         <p class="coty-sub">Things you can&rsquo;t see</p>
         <div class="coty-figure video-frame ph" data-ph="VIDEO 2 — add the link in assets/js/home.js">
         </div>
+        <p class="coty-note">Kevin takes you past the chassis and into the bones of the van &mdash; CNC-cut panels that interlock, furniture rebated before it is screwed and glued, a PUR glue line that holds in top-end heat. The things that decide how a caravan stands up a thousand kilometres from the nearest town.</p>
       </div>
       <div class="coty-slide">
         <h2 class="coty-title">A caravan built for two.</h2>
         <p class="coty-sub">Inside the club lounge</p>
         <div class="coty-figure video-frame ph" data-ph="VIDEO 3 — add the link in assets/js/home.js">
         </div>
+        <p class="coty-note">Ana walks the couples layout end to end: the rear club lounge, the bed, the kitchen storage and the full shower ensuite. Built for two people travelling Australia for long stretches without giving anything up.</p>
       </div>
       <div class="coty-slide">
         <h2 class="coty-title">Where the kids sleep.</h2>
         <p class="coty-sub">Three bunks, not four</p>
         <div class="coty-figure video-frame ph" data-ph="VIDEO 4 — add the link in assets/js/home.js">
         </div>
+        <p class="coty-note">The 21&prime;7&Prime; quad-bunk layout rebuilt as three. Ana, who has a fourteen-year-old of her own, explains why a teenager needs the wider single bunk &mdash; and why three bunks on one side stops working somewhere around twelve.</p>
       </div>
       <div class="coty-slide">
         <h2 class="coty-title">Stay out longer.</h2>
         <p class="coty-sub">48 volts and 170 litres</p>
         <div class="coty-figure video-frame ph" data-ph="VIDEO 5 — add the link in assets/js/home.js">
         </div>
+        <p class="coty-note">The XTR 1906, second place for Best Couples Caravan at Caravan of the Year 2024. An EcoFlow 48-volt system and 170 litres of fresh water, for couples who want to stay out in the bush without giving up the comforts.</p>
       </div>
       <div class="coty-slide">
         <h2 class="coty-title">It won all three.</h2>
         <p class="coty-sub">Caravan of the Year, 2024</p>
         <div class="coty-figure video-frame ph" data-ph="VIDEO 6 — add the link in assets/js/home.js">
         </div>
+        <p class="coty-note">The XTR 2211 took Best Overall Caravan, Best Family Caravan and Best Innovation at Caravan of the Year 2024. A 48-volt Arizon-Victron system, 1600W of solar, 10kWh of lithium and 900kg of payload.</p>
       </div>
       </div>
     </div>
@@ -665,8 +727,14 @@
 <section class="brands">
   <div class="container">
     <h2 class="brands-title">Brands we trust</h2>
-    <div class="brand-marquee">
-      <ul class="brand-track">
+  </div>
+  <!-- Two rows, 16 marks each, running against each other. Each row is its
+       own list TWICE over: the animation runs translateX(0) to translateX(-50%),
+       so the second copy lands exactly where the first began and the loop has
+       no seam. Do not add a stray <li> to one row only -- the halves must stay
+       equal or that row jumps every cycle. -->
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--a">
         <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
@@ -683,6 +751,26 @@
         <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+      </ul>
+  </div>
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--b">
         <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
@@ -699,22 +787,6 @@
         <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
-        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
-        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
@@ -732,7 +804,6 @@
         <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
       </ul>
-    </div>
   </div>
 </section>
 
@@ -1000,36 +1071,77 @@
   </div>
 </footer>
 
-<script src="assets/js/video-embed.js?v=251"></script>
-<script src="assets/js/home.js?v=251"></script>
-<script src="assets/js/reviews.js?v=251"></script>
-<script src="assets/js/footer.js?v=251"></script>
-<script src="assets/js/budget.js?v=251"></script>
-<script src="assets/js/faq.js?v=251"></script>
-<script src="assets/js/range-viewer.js?v=251"></script>
-<script src="assets/js/wl-strip.js?v=251"></script>
-<script src="assets/js/nav.js?v=251"></script>
+<script src="assets/js/video-embed.js?v=276"></script>
+<script src="assets/js/home.js?v=276"></script>
+<script src="assets/js/reviews.js?v=276"></script>
+<script src="assets/js/footer.js?v=276"></script>
+<script src="assets/js/budget.js?v=276"></script>
+<script src="assets/js/faq.js?v=276"></script>
+<script src="assets/js/range-viewer.js?v=276"></script>
+<script src="assets/js/wl-strip.js?v=276"></script>
+<script src="assets/js/nav.js?v=276"></script>
 
 <div class="hbar">
   <div class="container">
-    <b>SECTION DIVIDERS</b>
-    <span class="seg">
-      <button data-d="dv-0" class="on">0 &mdash; live</button>
-      <button data-d="dv-1">1 &mdash; seam shadow</button>
-      <button data-d="dv-2">2 &mdash; shadow + hairline</button>
-      <button data-d="dv-3">3 &mdash; panels</button>
+    <b>SHADOW</b>
+    <button data-s="0">off</button>
+    <button data-s="1" class="on">the one join</button>
+    <button data-s="3">all three</button>
+    <span class="seg">Strength
+      <input type="range" id="st" min="0" max="2.5" step="0.1" value="1">
+      <output id="sto">1.0&times;</output>
     </span>
-    <span class="hnote">Shadows do not read over the hero video &mdash; only 3 marks that seam.</span>
+    <button id="mk" class="on">marks</button>
+    <span class="note" id="note"></span>
   </div>
 </div>
+
 <script>
-document.querySelectorAll("[data-d]").forEach(function (b) {
-  b.addEventListener("click", function () {
-    document.querySelectorAll("[data-d]").forEach(function (o) { o.classList.remove("on"); });
-    b.classList.add("on");
-    document.body.className = "home " + b.dataset.d;   /* .home is the page's own */
-  });
+var JOINS = [[".site-header", ".home-hero", "skip", "the header already carries its raised-slab shadow"], [".home-hero", ".rvx", "skip", "video meets white \u2014 the hardest edge on the page"], [".rvx", ".lux", "skip", "grey CTA panel meets white: the colour changes"], [".lux", ".pull", "part", "white above; photo for the left 60%, white for the right 40%"], [".pull", ".stat-band", "skip", "colour change, and the 2rem fade is already there"], [".stat-band", ".dream", "skip", "grey meets white: the colour changes"], [".dream", ".band--why", "skip", "white meets a full-bleed photograph"], [".band--why", ".service", "skip", "photograph meets white"], [".service", ".amb-more", "part", "photo for the left 60% above, white for the right 40%"], [".amb-more", ".coty", "take", "WHITE ON WHITE at all ten sample points. Nothing separates these"], [".coty", ".brands", "skip", "white meets grey: the colour changes"], [".brands", ".insurance", "skip", "grey meets white: the colour changes"], [".insurance", ".home-contact", "skip", "white meets grey: the colour changes"], [".home-contact", ".faq", "skip", "grey meets white: the colour changes"], [".faq", ".site-footer", "skip", "the footer already carries its recessed treatment"]];
+var cur = "1", marks = true;
+var st = document.getElementById("st"), sto = document.getElementById("sto");
+
+JOINS.forEach(function (j, i) {
+  var upper = document.querySelector(j[0]), lower = document.querySelector(j[1]);
+  if (!upper || !lower) return;
+  if (getComputedStyle(lower).display === "none") return;
+  var m = document.createElement("div");
+  m.className = "jx-mark";
+  m.dataset.v = j[2];
+  m.innerHTML = '<span class="jx-line"></span><span class="jx-tag">' +
+    (i + 1) + ' &nbsp; ' + j[0] + ' \u2192 ' + j[1] + ' &nbsp;&middot;&nbsp; ' + j[3] + '</span>';
+  document.body.appendChild(m);
+  function place(){
+    var r = lower.getBoundingClientRect();
+    m.style.top = Math.round(r.top + scrollY) + "px";
+    m.style.height = "0px";
+  }
+  place();
+  addEventListener("resize", place);
+  addEventListener("load", place);
+  setTimeout(place, 1200);
+  setTimeout(place, 3000);
 });
+
+var notes = {
+  "0": "no shadow anywhere \u2014 the page as it stands",
+  "1": "amb-more \u2192 coty only: the one join with nothing else separating it",
+  "3": "plus the two half-bare joins, where a photograph covers the left 60%"
+};
+function paint(){
+  document.body.className = "home sh-" + cur + (marks ? " marks" : "");
+  document.body.style.setProperty("--s", st.value);
+  sto.textContent = (+st.value).toFixed(1) + "\u00d7";
+  document.querySelectorAll(".hbar button[data-s]").forEach(function(b){
+    b.classList.toggle("on", b.dataset.s === cur); });
+  document.getElementById("mk").classList.toggle("on", marks);
+  document.getElementById("note").textContent = notes[cur];
+}
+document.querySelectorAll(".hbar button[data-s]").forEach(function(b){
+  b.addEventListener("click", function(){ cur = b.dataset.s; paint(); }); });
+document.getElementById("mk").addEventListener("click", function(){ marks = !marks; paint(); });
+st.addEventListener("input", paint);
+paint();
 </script>
 </body>
 </html>
