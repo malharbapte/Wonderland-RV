@@ -383,8 +383,12 @@
 
 .why-points { display: grid; grid-template-columns: repeat(4, 1fr);
               gap: 0.40rem; align-items: start; }
+/* 0.16 -> 0.28 under the icon. At 0.93rem the mark is big enough that the
+   old 16 read as the heading hanging off it. 0.28 is --t-body, a clear step
+   but still inside the 0.40 standard gap, so it does not start a new
+   interval on a page that only uses 1.20 / 0.40 / 0.06. */
 .why-points li { display: flex; flex-direction: column; align-items: flex-start;
-                 gap: 0.16rem; margin-top: 0; }
+                 gap: 0.28rem; margin-top: 0; }
 /* 1.5x: 0.62 -> 0.93. The details move down on their own -- the li is a
    column with a 0.16rem gap, so a taller icon displaces the heading and
    copy by exactly what the icon gained. The block comes to 4.69rem, which
@@ -441,6 +445,56 @@
    behind the marks until that pass. */
 .home-contact { background: #F8F8F7; }
 .brands { background: #F8F8F7; width: 100vw; margin-left: calc(50% - 50vw); }
+
+
+/* ---- the join above CARAVANS BUILT -------------------------------------
+   The band is #F8F8F7 and the page above it is #fff. The gradient runs the
+   GREY from nothing to full over 2rem ABOVE the band, so the grey has
+   already reached #F8F8F7 by the time it meets the band's top edge -- the
+   join disappears rather than being softened. Running white downward INSIDE
+   the band does not work: the hard edge stays exactly where the band begins.
+
+   z-index: -1 PUTS IT BEHIND THE PICTURE, which is the point. .pull above
+   is 8.36rem tall and .pull-media is absolute at left: 0, width 59.5%,
+   height 100%, so the slideshow runs the full height of the left side and
+   its bottom edge IS this band's top edge. Painted in front, the gradient
+   tinted the bottom of the photograph -- and a photograph meeting a grey
+   band is already an edge the eye accepts. Behind, the photograph covers
+   the fade across the left 59.5% and the white beside the quote on the
+   right 40.5% is the only place it shows, which is the only place white
+   actually meets the band.
+
+   THIS DEPENDS ON .stat-band CREATING NO STACKING CONTEXT. position:
+   relative with z-index auto does not create one, so the pseudo-element
+   escapes to the root context and can sit behind .pull-media. Give
+   .stat-band a z-index and the fade silently returns to the front of the
+   photograph.
+
+   ELEVEN STOPS ON SMOOTHERSTEP, 6t^5-15t^4+10t^3. A two-stop gradient has a
+   corner at each end where the alpha changes direction, and the eye reads
+   those corners as faint horizontal lines -- the exact artefact being
+   removed. Smootherstep has zero first AND second derivatives at both ends,
+   so there is no corner at either. */
+.stat-band { position: relative; }
+.stat-band::before {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  top: -2rem; height: 2rem;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+      rgba(248,248,247,0.000) 0%,
+      rgba(248,248,247,0.009) 10%,
+      rgba(248,248,247,0.058) 20%,
+      rgba(248,248,247,0.163) 30%,
+      rgba(248,248,247,0.317) 40%,
+      rgba(248,248,247,0.500) 50%,
+      rgba(248,248,247,0.683) 60%,
+      rgba(248,248,247,0.837) 70%,
+      rgba(248,248,247,0.942) 80%,
+      rgba(248,248,247,0.991) 90%,
+      rgba(248,248,247,1.000) 100%);
+}
 
 }  /* end min-width: 901px */
 
