@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Choose Us &mdash; one band</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=270">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=270">
+<link rel="stylesheet" href="assets/css/homepage.css?v=270">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- Why Choose Us as one band: photograph, black overlay, the
+   four points on top of it.
+
+   THE IMAGE IS NOT STRETCHED. .media > img in styles.css already carries
+   object-fit: cover, so nothing is being squashed. What is wrong is the
+   photograph against the shape it is given. why-band.jpg is 2600x879 and is
+   roughly sixty per cent empty sky; the rig sits small, low and right of
+   centre. The band is 8.23rem tall, which at 1440 is a 2.89:1 slit of a
+   2.96:1 frame -- so the crop keeps essentially the whole picture, dead sky
+   and all, and the subject ends up tiny in a letterbox. It reads as stretched
+   because there is nothing in most of it.
+
+   WHICH IS WHY MOVING THE TEXT ON TOP FIXES IT RATHER THAN CROWDING IT. The
+   copy wants the empty upper-left, which is exactly the part of the frame
+   doing no work. And carrying the text forces the band taller -- 10.5 to
+   11rem here against 8.23 -- so the shape goes from 2.89:1 to about 2.2:1,
+   the sides crop in, and the rig comes up proportionally. At 2.2:1 the
+   visible width is 73% of the source, centred, and the rig sits between 47%
+   and 72%, so it is comfortably inside the crop at every variant.
+
+   THE OVERLAY is a flat black at --ov, plus a slight bottom-weighted
+   gradient. Flat alone greys the sky evenly and kills the photograph; the
+   gradient keeps the horizon and the rig readable while the copy sits over
+   the top where the scrim is heaviest. Slider included because the only
+   honest way to choose an overlay is against the real picture.
+   =========================================================================== */
+.whyband { position: relative; width: 100vw; margin-left: calc(50% - 50vw);
+           height: var(--bh, 10.5rem); overflow: hidden; }
+.whyband .media { position: absolute; inset: 0; }
+.whyband .media img { width: 100%; height: 100%; object-fit: cover;
+                      object-position: 50% 62%; }   /* hold the rig, lose sky */
+.whyband .scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.28) 0%, rgba(0,0,0,0) 55%),
+    rgba(0, 0, 0, var(--ov, .52));
+}
+.whyband .inner { position: relative; z-index: 2; height: 100%;
+                  width: var(--col); margin-inline: auto;
+                  display: flex; flex-direction: column; }
+
+.whyband .band-title { font-family: var(--aviano); font-weight: 900;
+  font-size: 0.84rem; line-height: 1; color: #fff; }
+
+.whyband .why-list { color: #fff; }
+.whyband .why-list li { display: flex; align-items: center; gap: 0.28rem; }
+.whyband .why-icon { flex: none; width: 0.62rem; height: 0.62rem; color: var(--orange); }
+.whyband .why-icon svg { width: 100%; height: 100%; }
+.whyband .why-icon--lg svg { transform: scale(1.2); }
+.whyband .why-list h3 { font-size: var(--t-sub); font-weight: 700;
+  letter-spacing: 0.02em; line-height: 1; color: #fff; }
+.whyband .why-list p { margin-top: 0.14rem; font-size: var(--t-caption);
+  font-style: italic; line-height: var(--lh-caption); color: rgba(255,255,255,.82); }
+.whyband .why-list br { display: none; }   /* the hand-set breaks were for a column half this wide */
+
+/* ---- A  title top left, points in one row along the foot --------------- */
+body.v-a { --bh: 10.5rem; }
+body.v-a .whyband .inner { padding: 1.10rem 0 1.00rem; justify-content: space-between; }
+body.v-a .whyband .why-list { display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0.40rem; align-items: start; }
+body.v-a .whyband .why-list li { flex-direction: column; align-items: flex-start; gap: 0.16rem; }
+body.v-a .whyband .why-list p { max-width: 3.4rem; }
+
+/* ---- B  title left, points two by two on the right --------------------- */
+body.v-b { --bh: 11.0rem; }
+body.v-b .whyband .inner { display: grid; grid-template-columns: 6.74rem 9.49rem;
+  align-items: center; padding: 1.00rem 0; }
+body.v-b .whyband .why-list { display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.62rem 0.50rem; }
+
+/* ---- C  centred, title over a single row ------------------------------- */
+body.v-c { --bh: 10.0rem; }
+body.v-c .whyband .inner { align-items: center; justify-content: center;
+  text-align: center; padding: 0.90rem 0; gap: 0.80rem; }
+body.v-c .whyband .why-list { display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0.40rem; width: 100%; }
+body.v-c .whyband .why-list li { flex-direction: column; align-items: center; gap: 0.16rem;
+  text-align: center; }
+
+/* what the old section leaves behind */
+.leftover { padding: 1.20rem 0; }
+.leftover .why-figure img { width: 100%; height: auto; display: block; }
+body.nofig .leftover { display: none; }
+
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+  background: #1b1b1b; color: #fff; padding: 0.14rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.20rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.19rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.06rem 0.16rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar input[type=range] { width: 1.7rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.12rem;
+  font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
+.hbar .note { font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; margin-left: auto; }
+body { padding-bottom: 1.1rem; }
+</style>
+</head>
+<body class="home v-a">
+
+<section class="whyband">
+  <div class="media"><img src="assets/img/home/why-band.jpg" alt=""></div>
+  <div class="scrim"></div>
+  <div class="inner">
+    <h2 class="band-title">Why Choose us?</h2>
+    <ul class="why-list">
+      <li>
+        <span class="why-icon why-icon--lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.6 2.6v5.4c0 4-2.7 7.6-6.6 8.9-3.9-1.3-6.6-4.9-6.6-8.9V5.8L12 3.2z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg></span>
+        <div class="why-text">
+          <h3>BUILT TOUGH</h3>
+          <p>Unique Jigsaw construction for strength <br>and durability.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 16.9L15 6.1l2.9 2.9L7.1 19.8H4.2v-2.9z"/><path d="M14.4 6.7l2.9 2.9"/><path d="M16.3 4.8l1.4-1.4a1.3 1.3 0 0 1 1.9 0l1 1a1.3 1.3 0 0 1 0 1.9l-1.4 1.4"/></svg></span>
+        <div class="why-text">
+          <h3>CUSTOM MADE</h3>
+          <p>A caravan to suit your family and the trips <br>you want to take.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.4l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6L12 3.4z"/></svg></span>
+        <div class="why-text">
+          <h3>LUXURY FINISH</h3>
+          <p>Impeccable, comfortable interiors that <br>offer a welcome retreat</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.4C12 20.4 3.6 15.1 3.6 9.3C3.6 6.4 5.9 4.2 8.6 4.2C10.3 4.2 11.5 5.1 12 6.1C12.5 5.1 13.7 4.2 15.4 4.2C18.1 4.2 20.4 6.4 20.4 9.3C20.4 15.1 12 20.4 12 20.4Z"/></svg></span>
+        <div class="why-text">
+          <h3>PEACE OF MIND</h3>
+          <p>3 year factory-backed warranty and <br>premium after sale service</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="leftover">
+  <div class="container">
+    <div class="why-figure"><img src="assets/img/home/why-features.jpg" alt=""></div>
+  </div>
+</section>
+
+<div class="hbar">
+  <div class="container">
+    <b>WHY</b>
+    <button data-v="a" class="on">A &middot; Row at foot</button>
+    <button data-v="b">B &middot; Two by two</button>
+    <button data-v="c">C &middot; Centred</button>
+    <span class="seg">Overlay
+      <input type="range" id="ov" min="0" max="0.85" step="0.01" value="0.52">
+      <output id="ovo">52%</output>
+    </span>
+    <button id="fig">Hide leftover</button>
+    <span class="note" id="note"></span>
+  </div>
+</div>
+
+<script>
+var notes = {
+  a: "title top left, four points along the foot \u2014 band 10.5rem",
+  b: "title left, points two by two \u2014 keeps the current column widths, band 11rem",
+  c: "centred throughout \u2014 band 10rem, the most symmetric and the least like the page"
+};
+var bs = document.querySelectorAll(".hbar button[data-v]");
+var cur = "a";
+var ov = document.getElementById("ov"), ovo = document.getElementById("ovo");
+function paint(){
+  document.body.className = "home v-" + cur + (document.body.dataset.nofig === "1" ? " nofig" : "");
+  document.body.style.setProperty("--ov", ov.value);
+  ovo.textContent = Math.round(ov.value * 100) + "%";
+  bs.forEach(function(b){ b.classList.toggle("on", b.dataset.v === cur); });
+  document.getElementById("note").textContent = notes[cur];
+}
+bs.forEach(function(b){ b.addEventListener("click", function(){ cur = b.dataset.v; paint(); }); });
+ov.addEventListener("input", paint);
+document.getElementById("fig").addEventListener("click", function(){
+  document.body.dataset.nofig = document.body.dataset.nofig === "1" ? "0" : "1";
+  this.classList.toggle("on");
+  this.textContent = document.body.dataset.nofig === "1" ? "Show leftover" : "Hide leftover";
+  paint();
+});
+paint();
+</script>
+</body>
+</html>
