@@ -40,8 +40,20 @@
 .whyband { position: relative; width: 100vw; margin-left: calc(50% - 50vw);
            height: var(--bh, var(--band-h)); overflow: hidden; }
 .whyband .media { position: absolute; inset: 0; }
-.whyband .media img { width: 100%; height: 100%; object-fit: cover;
-                      object-position: 50% 62%; }   /* hold the rig, lose sky */
+/* --fit is switchable in the bar, because the two values do very different
+   things to this picture and the difference is worth seeing side by side.
+
+     cover    keeps the photograph's proportions and crops the sides. At
+              1440x820 that means 66% of the frame survives.
+     fill     uses the whole frame and squashes it to the box. No crop, but
+              at the same window every horizontal measure is compressed to
+              66% of what it should be -- the rig ends up 34% narrower than
+              it is, on a vehicle, in brand photography.
+     contain  keeps proportions and shows everything, at the cost of bars
+              above and below. Included for completeness; it does not fill
+              the band, which is the thing being asked for. */
+.whyband .media img { width: 100%; height: 100%;
+                      object-fit: var(--fit, fill); }
 .whyband .scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
@@ -234,6 +246,10 @@ body { padding-bottom: 1.1rem; }
     <button data-v="a" class="on">A &middot; Row at foot</button>
     <button data-v="b">B &middot; Two by two</button>
     <button data-v="c">C &middot; Centred</button>
+    <span class="seg">Fit</span>
+    <button data-f="fill" class="on">fill</button>
+    <button data-f="cover">cover</button>
+    <button data-f="contain">contain</button>
     <span class="seg">Overlay
       <input type="range" id="ov" min="0" max="0.85" step="0.01" value="0.50">
       <output id="ovo">50%</output>
@@ -250,11 +266,16 @@ var notes = {
   c: "centred throughout \u2014 band 10rem, the most symmetric and the least like the page"
 };
 var bs = document.querySelectorAll(".hbar button[data-v]");
+var fs = document.querySelectorAll(".hbar button[data-f]");
+var fit = "fill";
+fs.forEach(function(b){ b.addEventListener("click", function(){ fit = b.dataset.f; paint(); }); });
 var cur = "a";
 var ov = document.getElementById("ov"), ovo = document.getElementById("ovo");
 function paint(){
   document.body.className = "home v-" + cur;
   document.body.style.setProperty("--ov", ov.value);
+  document.body.style.setProperty("--fit", fit);
+  fs.forEach(function(b){ b.classList.toggle("on", b.dataset.f === fit); });
   ovo.textContent = Math.round(ov.value * 100) + "%";
   bs.forEach(function(b){ b.classList.toggle("on", b.dataset.v === cur); });
   document.getElementById("note").textContent = notes[cur];
