@@ -5,15 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Band grey — Wonderland RV</title>
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=250">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=250">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=250">
-<link rel="stylesheet" href="assets/css/homepage.css?v=250">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=250">
-<link rel="stylesheet" href="assets/css/home-order.css?v=250">
+<link rel="stylesheet" href="assets/css/styles.css?v=258">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=258">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=258">
+<link rel="stylesheet" href="assets/css/homepage.css?v=258">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=258">
+<link rel="stylesheet" href="assets/css/home-order.css?v=258">
 <style>
 /* ===========================================================================
    SAMPLE ONLY. Two sliders on one colour.
+
+   WHAT WENT WRONG LAST TIME, so it cannot happen twice. This bar used to
+   carry a preset button labelled "#FFF2DC". Its handler set ss.value = 100,
+   but the Warmth slider was capped at max="20", so the browser clamped it:
+   the band actually painted hsl(40, 20%, 93%) = #F1EEEA, a grey. The button
+   was therefore showing one hex on its face and rendering a different one
+   on the page. The value approved off this sample was the grey that was
+   visible; the cream on the label is what got shipped. The button is gone,
+   there is now exactly one hex on screen, and it is the one being rendered.
 
    WHY HUE AND SATURATION ARE NOT A FREE CHOICE HERE. "Light grey" in a warm
    palette is a trap: a neutral grey next to cream, orange and #6b6158 reads
@@ -40,9 +49,9 @@
   border: 0.0075rem solid #4a4a4a; vertical-align: middle; }
 .hex { font-family: var(--gordita); font-size: 0.165rem; color: var(--orange);
   letter-spacing: .08em; }
-.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
-  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
-  padding: 0.06rem 0.15rem; }
+.hex.ref { color: #7d766c; }          /* inert: what is on the page today */
+#hx { font-size: 0.21rem; }            /* the one value to read off          */
+.hsl { font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
 
 @media (min-width: 901px) {
   .rvx-band { background: hsl(var(--bh, 40), var(--bs, 10%), var(--bl, 94%)); }
@@ -85,18 +94,21 @@
   <div class="container">
     <b>BAND</b>
     <span class="seg"><span>Light</span>
-      <input type="range" id="sl" min="80" max="100" step="0.5" value="94">
-      <output id="ol">94%</output>
+      <input type="range" id="sl" min="80" max="100" step="0.5" value="93">
+      <output id="ol">93%</output>
     </span>
     <span class="seg"><span>Warmth</span>
-      <input type="range" id="ss" min="0" max="20" step="0.5" value="10">
-      <output id="os">10%</output>
+      <input type="range" id="ss" min="0" max="100" step="0.5" value="20">
+      <output id="os">20%</output>
     </span>
-    <span class="seg"><span>Cream</span>
-      <button id="cream">#FFF2DC</button>
+    <span class="seg"><span>Live</span>
+      <span class="swatch" style="background:#FFF2DC"></span>
+      <span class="hex ref">#FFF2DC</span>
     </span>
-    <span class="seg"><span>Now</span>
-      <span class="swatch" id="sw"></span> <span class="hex" id="hx">#F2F0EE</span>
+    <span class="seg"><span>This</span>
+      <span class="swatch" id="sw"></span>
+      <span class="hex" id="hx">#F1EEEA</span>
+      <span class="hsl" id="hs">hsl(40, 20%, 93%)</span>
     </span>
   </div>
 </div>
@@ -105,6 +117,7 @@
 var sl=document.getElementById("sl"), ss=document.getElementById("ss");
 var ol=document.getElementById("ol"), os=document.getElementById("os");
 var sw=document.getElementById("sw"), hx=document.getElementById("hx");
+var hs=document.getElementById("hs");
 var r=document.documentElement;
 
 /* hsl -> hex, so the readout is a value you can paste straight into the
@@ -123,13 +136,11 @@ function paint(){
   r.style.setProperty("--bs", S+"%");
   ol.textContent=L+"%"; os.textContent=S+"%";
   var c=hex(40,S,L); sw.style.background=c; hx.textContent=c;
+  hs.textContent="hsl(40, "+S+"%, "+L+"%)";
 }
 sl.addEventListener("input",paint); ss.addEventListener("input",paint);
-document.getElementById("cream").addEventListener("click",function(){
-  sl.value=93; ss.value=100; paint();   /* #FFF2DC is hsl(40,100%,93%) */
-});
 paint();
 </script>
-<script src="assets/js/range-viewer.js?v=250"></script>
+<script src="assets/js/range-viewer.js?v=258"></script>
 </body>
 </html>
