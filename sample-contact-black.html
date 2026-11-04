@@ -83,19 +83,38 @@ body.inv .home-contact .budget-track { background: rgba(255,255,255,.18); }
 body.inv .home-contact .budget-stop::before {
   background: var(--ink-bg, #0E0E0E); border-color: rgba(255,255,255,.45); }
 body.inv .home-contact .budget-stop:hover::before { border-color: #fff; }
+/* the slider runs white, not orange: the fill, the handle it leaves behind
+   and the amount in the head all read as one mark */
+body.inv .home-contact .budget-fill { background: #fff; }
+body.inv .home-contact .budget-value { color: #fff; }
 body.inv .home-contact .budget-stop:has(input:checked)::before,
 body.inv .home-contact .budget-stop.is-past::before {
-  background: var(--orange); border-color: var(--orange); }
+  background: #fff; border-color: #fff; }
+/* "Not sure yet" is an answer, not an amount, so it keeps the greyed reading
+   it has on white rather than taking the colour that now means "a figure".
+   Without this it would light up exactly like the largest budget. */
+body.inv .home-contact .budget-stop--na:has(input:checked)::before {
+  background: rgba(255,255,255,.42); border-color: rgba(255,255,255,.42); }
+body.inv .home-contact .budget-stop--na:has(input:checked) span,
+body.inv .home-contact .budget.is-na .budget-value { color: rgba(255,255,255,.55); }
 body.inv .home-contact .budget-stop span { color: rgba(255,255,255,.55); }
 body.inv .home-contact .budget-stop:has(input:checked) span { color: #fff; }
 body.inv .home-contact .budget-head b { color: #fff; }
 body.inv .home-contact .budget-why,
 body.inv .home-contact .budget-note { color: rgba(255,255,255,.55); }
 
-/* ---- submit ---- */
-body.inv .home-contact .btn-submit { background: #fff; color: #111; }
-body.inv .home-contact .btn-submit:hover,
-body.inv .home-contact .btn-submit:focus-visible { background: var(--orange); color: #fff; }
+/* ---- submit: NOT overridden ----
+   This was my mistake in the first cut. .btn-submit is already orange with
+   white type and an inset orange ring; inverting it to a white fill left the
+   ring showing as an orange outline on white, which is the hover state, not
+   a button. Taking the override away puts it back to the same orange every
+   other CTA on the site uses. Its hover still flips to white-on-orange-text,
+   which reads correctly on black as well. */
+
+/* ---- the required marks ----
+   --red on black is the one colour here that reads as an error rather than
+   as a mark, so they go white and lean on position instead. */
+body.inv .home-contact .field .req { color: #fff; }
 
 /* FALLBACKS. Only reached if a script fails; both are overridden by the
    inline styles the scripts set. */
