@@ -237,13 +237,18 @@
    The second one is .btn-solid kept white rather than a separate button, so
    the two share every other value and cannot fall out of line.
    -------------------------------------------------------------------------- */
-/* Back to cream after seeing it against the grey. Worth recording why the
-   two were ever close: #FFF2DC is hsl(40, 100%, 93%) and the grey trialled
-   here was hsl(40, 10%, 94%) -- the same hue at the same lightness, with
-   only the saturation between them. So this is not "cream instead of grey",
-   it is the warm end of one axis. sample-band-grey.html still has the
-   slider if it comes up again. */
-.rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: #FFF2DC;
+/* #F8F8F7, set off the slider. hsl(60, 7%, 97%): a near-neutral at the very
+   top of the lightness axis, 7 levels off the #fff page behind it. The cream
+   it replaces was hsl(40, 100%, 93%) -- the same axis, taken to the warm end
+   by a picker that was reporting the wrong hex (see the sample's own note).
+
+   TWO THINGS THIS BAND NOW SITS CLOSE TO. The page is #fff, so the band
+   separates by 7 levels and reads as a tint rather than a panel. And
+   .rvx-ghost below is background: #fff, so the second CTA is white on
+   near-white: its orange label still reads, but the button's shape very
+   nearly goes. Left as chosen; a hairline border on .rvx-ghost brings the
+   shape back without touching this colour. */
+.rvx-band { width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7;
   margin-top: var(--gap); padding: var(--gap) 0; }
 .rvx-act { display: flex; justify-content: center; gap: var(--gap); }
 
