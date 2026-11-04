@@ -400,6 +400,24 @@
 /* the list and the feature picture are the band's job now */
 .why { display: none; }
 
+
+/* ---- the gap under the why band ---------------------------------------
+   0.55 x 2.5 = 1.375rem.
+
+   WHY IT WAS 0.55 IN THE FIRST PLACE, and why that reason has now gone.
+   homepage.css says of .service: "it sits between .why, which already ends
+   on a full gap, and .coty, which starts on one -- so it keeps the tighter
+   values it was tuned to rather than doubling up." .why is display: none on
+   desktop now, so .service no longer follows a section that ends on a full
+   gap; it follows a fixed-height band with nothing below its last pixel.
+   The 0.55 was half of a pair and has been carrying the whole join on its
+   own since the band went in.
+
+   Only the top changes. padding-bottom stays 0 -- .coty still opens on its
+   own full gap underneath, which was the other half of that original
+   reasoning and is still true. */
+.service { padding-top: 1.375rem; }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
