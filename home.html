@@ -6,12 +6,12 @@
 <title>Wonderland RV — Luxury Off-Road Caravans</title>
 <meta name="description" content="Wonderland RV's bespoke off-road caravans combine the comforts of a boutique hotel with the freedom to explore Australia's rugged beauty.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=266">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=266">
-<link rel="stylesheet" href="assets/css/ambassadors.css?v=266">
-<link rel="stylesheet" href="assets/css/homepage.css?v=266">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=266">
-<link rel="stylesheet" href="assets/css/home-order.css?v=266">
+<link rel="stylesheet" href="assets/css/styles.css?v=267">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=267">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=267">
+<link rel="stylesheet" href="assets/css/homepage.css?v=267">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=267">
+<link rel="stylesheet" href="assets/css/home-order.css?v=267">
 </head>
 <body class="home">
 
@@ -430,7 +430,7 @@
   <div class="amb-more-strip" tabindex="0" aria-label="The Wonderlanders">
     <div class="wl-card">
       <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Feel Good Family">
-        <img src="assets/img/ambassadors/feel-good-family.jpg?v=266" alt="Katie, Paul and Jasper of The Feel Good Family with their Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        <img src="assets/img/ambassadors/feel-good-family.jpg?v=267" alt="Katie, Paul and Jasper of The Feel Good Family with their Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
       </div>
       <div class="wl-card-name">
         <div class="wl-card-head">
@@ -489,7 +489,7 @@
     </div>
     <div class="wl-card">
       <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Kiwi Van Life">
-        <img src="assets/img/ambassadors/kiwi-van-life.jpg?v=266" alt="Rorden, Cass, Jed and Lexi of The Kiwi Van Life" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        <img src="assets/img/ambassadors/kiwi-van-life.jpg?v=267" alt="Rorden, Cass, Jed and Lexi of The Kiwi Van Life" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
       </div>
       <div class="wl-card-name">
         <div class="wl-card-head">
@@ -601,8 +601,14 @@
 <section class="brands">
   <div class="container">
     <h2 class="brands-title">Brands we trust</h2>
-    <div class="brand-marquee">
-      <ul class="brand-track">
+  </div>
+  <!-- Two rows, 16 marks each, running against each other. Each row is its
+       own list TWICE over: the animation runs translateX(0) to translateX(-50%),
+       so the second copy lands exactly where the first began and the loop has
+       no seam. Do not add a stray <li> to one row only -- the halves must stay
+       equal or that row jumps every cycle. -->
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--a">
         <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
@@ -619,6 +625,26 @@
         <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+      </ul>
+  </div>
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--b">
         <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
@@ -635,22 +661,6 @@
         <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
-        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
-        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
-        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
         <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
@@ -668,7 +678,6 @@
         <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
         <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
       </ul>
-    </div>
   </div>
 </section>
 
@@ -936,14 +945,14 @@
   </div>
 </footer>
 
-<script src="assets/js/video-embed.js?v=266"></script>
-<script src="assets/js/home.js?v=266"></script>
-<script src="assets/js/reviews.js?v=266"></script>
-<script src="assets/js/footer.js?v=266"></script>
-<script src="assets/js/budget.js?v=266"></script>
-<script src="assets/js/faq.js?v=266"></script>
-<script src="assets/js/range-viewer.js?v=266"></script>
-<script src="assets/js/wl-strip.js?v=266"></script>
-<script src="assets/js/nav.js?v=266"></script>
+<script src="assets/js/video-embed.js?v=267"></script>
+<script src="assets/js/home.js?v=267"></script>
+<script src="assets/js/reviews.js?v=267"></script>
+<script src="assets/js/footer.js?v=267"></script>
+<script src="assets/js/budget.js?v=267"></script>
+<script src="assets/js/faq.js?v=267"></script>
+<script src="assets/js/range-viewer.js?v=267"></script>
+<script src="assets/js/wl-strip.js?v=267"></script>
+<script src="assets/js/nav.js?v=267"></script>
 </body>
 </html>

@@ -1722,3 +1722,40 @@ input:-webkit-autofill:focus {
   stroke-linecap: butt;
   stroke-linejoin: miter;
 }
+
+/* ==========================================================================
+   WHERE THE FOOTER STARTS — recessed, at 2.5x
+
+   The page folds down into the footer rather than the footer lifting off the
+   page: a warm off-white ground one step off #fff, a hairline along the top
+   edge, and an inset shadow below that hairline so the fold has a direction.
+
+   WHY INSET AND NOT CAST. A cast shadow would have to come from the footer
+   and point UP, because siblings paint in document order and a downward
+   shadow on the section above would be painted over by the footer and never
+   seen. That works, but it says "the footer is in front". Inset says the
+   opposite, which is the one that reads as furniture rather than as layers.
+
+   THE COLOUR IS WARM, not black. #e4e2de — the same hsl(40, 10%, 88%) used
+   for rules elsewhere — sits in the page's warm neutral family, and the
+   shadow is rgba of a warm dark (60, 48, 36). A neutral or blue-black shadow
+   beside these neutrals reads cold, which is the opposite of the brief.
+
+   2.5x: alpha .055 at the sample's 1x, so .1375 here. Offset and blur are
+   unchanged — the strength control scaled opacity only, so this is the same
+   shape at the chosen weight, not a heavier one.
+
+   Site-wide: the footer is shared, so this is every page and both
+   breakpoints. Nothing above it needs to know.
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  background: #FAF9F7;
+  box-shadow: inset 0 0.035rem 0.070rem rgba(60, 48, 36, .1375);
+}
+.site-footer::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0;
+  height: 0.0075rem;
+  background: #e4e2de;
+}

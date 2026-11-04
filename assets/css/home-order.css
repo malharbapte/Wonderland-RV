@@ -290,3 +290,32 @@
   /* desktop-only copy: the phone deck is headings and dots, nothing else */
   .coty-note { display: none; }
 }
+
+/* ==========================================================================
+   BRANDS WE TRUST — two rows, running against each other   (variant C)
+
+   NOT GATED TO DESKTOP, and deliberately. Splitting one track into two is a
+   markup change, so the phone takes the two rows whether or not this block
+   runs. Gating the timing would leave the phone on homepage.css's 68s for a
+   row that is now half as long — the marks would crawl at half the speed
+   they do today. The structure changed for both, so the timing changes for
+   both.
+
+   SPEED IS NOT ONE NUMBER HERE. 68s moved 32 marks. Each row now carries 16,
+   so 34s is the duration that keeps the same pixels per second. Variant C
+   runs the lower row at 52s instead: slower, so the two rows read as depth
+   rather than as two conveyor belts side by side.
+
+   WHAT THAT COSTS, recorded because it is not a bug to be fixed later. 34
+   and 52 share no useful common multiple, so the rows drift out of phase and
+   never return — the pairing of marks on screen is different every pass. On
+   a loop that is never watched end to end this is the point rather than the
+   price, but nobody should "correct" it to 34/34 without knowing it was
+   chosen.
+
+   OPPOSITE DIRECTIONS is animation-direction on the same keyframe, not a
+   second set of numbers to keep in step with the first.
+   ========================================================================== */
+.brand-marquee + .brand-marquee { margin-top: 0.40rem; }
+.brand-track--a { animation-duration: 34s; }
+.brand-track--b { animation-duration: 52s; animation-direction: reverse; }

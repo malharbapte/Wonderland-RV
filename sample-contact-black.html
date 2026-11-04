@@ -11,57 +11,96 @@
 <style>
 /* ===========================================================================
    SAMPLE ONLY -- Ready for Adventure inverted. Black ground, white type,
-   every measurement left exactly where it was.
+   every measurement left where it was.
 
-   "REST THE SAME" CANNOT MEAN THE FORM. Four things in this section are
-   defined by their contrast with white and simply vanish on black, so they
-   are the work rather than an extra:
+   WHY THE PILL AND THE BUDGET WERE MISSING FROM THE FIRST CUT. Neither is
+   styled into existence by CSS alone:
 
-     .field--line input   a 1px bottom border in --rule, and black text
-     ::placeholder        --grey, which is a light grey
-     .field--select       a 1px box border, plus its chevron
-     .btn-submit          a dark fill on a light ground
+     .chips-thumb    ships at width: 0. home.js measures the checked cell
+                     and sets the width and left, so with no script there is
+                     no orange thumb -- only an empty outlined pill whose
+                     1px border is --ink, which on black is invisible.
+     .budget-shell   ships at height: 0 with overflow: hidden. budget.js
+                     opens it for Call back and Get a Quote. With no script
+                     it stays shut, so the slider was not hidden by the
+                     inversion -- it was never on the page.
 
-   Everything else -- the grid, the measure, the line breaks in the lede, the
-   type sizes, the orange required marks, the focus ring -- is untouched.
+   So this sample loads the real scripts rather than faking their output:
+   video-embed.js (home.js calls mountVideo and dies without it), home.js,
+   and budget.js. The CSS fallbacks below only bite if a script fails --
+   both set inline styles, and inline beats a stylesheet.
 
-   TWO BLACKS, because it matters at this size. Pure #000 against white type
-   maximises contrast, which reads as stark rather than expensive, and on OLED
-   it smears slightly as the eye moves. #0E0E0E is one step off and holds the
-   edge. The toggle shows both against each other.
+   WHAT HAS TO INVERT. Everything whose colour is stated against white, and
+   that is more than the four fields:
+
+     .chips border + .chip dividers    --ink, a near-black outline
+     .chip > span                      inherits --ink
+     .budget-track                     #E4E2DE
+     .budget-stop::before              white fill, --grey border. A white
+                                       dot on black reads as SELECTED, so
+                                       the unchecked state is inverted to a
+                                       dark fill with a light rim
+     .budget-stop span                 --grey, and --ink when checked
+     .budget-head, .budget-note        small print in --grey
+
+   Orange is untouched throughout -- the thumb, the fill, the checked node,
+   the required marks and the focus ring. It is the one colour that reads on
+   either ground, which is the whole argument for the inversion being safe.
    =========================================================================== */
-body.inv .home-contact { background: var(--ink-bg, #0E0E0E); }
+body.inv .home-contact {
+  background: var(--ink-bg, #0E0E0E);
+  width: 100vw; margin-left: calc(50% - 50vw);
+  color: #fff;
+}
 body.inv.pure { --ink-bg: #000; }
-
-/* the section is the content column; the ground has to run the full width */
-body.inv .home-contact { width: 100vw; margin-left: calc(50% - 50vw);
-                         padding-left: 0; padding-right: 0; }
 body.inv .home-contact > .container { width: var(--col); margin-inline: auto; }
 
 body.inv .home-contact-title,
 body.inv .home-contact-title a { color: #fff; }
 body.inv .home-contact-lede { color: #CFC8BE; }
 
-/* the four that would otherwise disappear */
+/* ---- the four fields ---- */
 body.inv .home-contact .field--line input {
-  color: #fff; background: transparent;
-  border-bottom-color: rgba(255,255,255,.28);
-}
+  color: #fff; background: transparent; border-bottom-color: rgba(255,255,255,.28); }
 body.inv .home-contact .field input::placeholder,
 body.inv .home-contact .field textarea::placeholder { color: rgba(255,255,255,.45); }
 body.inv .home-contact .field--select select,
 body.inv .home-contact .field--area textarea {
-  color: #fff; background: transparent; border-color: rgba(255,255,255,.28);
-}
+  color: #fff; background: transparent; border-color: rgba(255,255,255,.28); }
 body.inv .home-contact .field--select select option { color: #111; }
 body.inv .home-contact .field--select .chev { stroke: #fff; color: #fff; }
+body.inv .home-contact .field--line input:focus {
+  box-shadow: 0 1px 0 var(--orange); border-bottom-color: var(--orange); }
+
+/* ---- the pill ---- */
+body.inv .home-contact .chips { border-color: rgba(255,255,255,.38); }
+body.inv .home-contact .chip + .chip::before { background: rgba(255,255,255,.38); }
+body.inv .home-contact .chip > span { color: rgba(255,255,255,.78); }
+body.inv .home-contact .chip:has(input:checked) > span { color: #fff; }
+
+/* ---- the budget slider ---- */
+body.inv .home-contact .budget-track { background: rgba(255,255,255,.18); }
+body.inv .home-contact .budget-stop::before {
+  background: var(--ink-bg, #0E0E0E); border-color: rgba(255,255,255,.45); }
+body.inv .home-contact .budget-stop:hover::before { border-color: #fff; }
+body.inv .home-contact .budget-stop:has(input:checked)::before,
+body.inv .home-contact .budget-stop.is-past::before {
+  background: var(--orange); border-color: var(--orange); }
+body.inv .home-contact .budget-stop span { color: rgba(255,255,255,.55); }
+body.inv .home-contact .budget-stop:has(input:checked) span { color: #fff; }
+body.inv .home-contact .budget-head b { color: #fff; }
+body.inv .home-contact .budget-why,
+body.inv .home-contact .budget-note { color: rgba(255,255,255,.55); }
+
+/* ---- submit ---- */
 body.inv .home-contact .btn-submit { background: #fff; color: #111; }
 body.inv .home-contact .btn-submit:hover,
 body.inv .home-contact .btn-submit:focus-visible { background: var(--orange); color: #fff; }
 
-/* focus stays orange: it is the one colour that reads on either ground */
-body.inv .home-contact .field--line input:focus {
-  box-shadow: 0 1px 0 var(--orange); border-bottom-color: var(--orange); }
+/* FALLBACKS. Only reached if a script fails; both are overridden by the
+   inline styles the scripts set. */
+.budget-shell { height: auto; }
+.chips-thumb:not([style*="width"]) { left: 0; width: 50%; }
 
 .hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
   background: #1b1b1b; color: #fff; padding: 0.14rem 0; }
@@ -274,6 +313,10 @@ body { padding-bottom: 1.1rem; }
   </div>
 </div>
 
+<script src="assets/js/video-embed.js?v=267"></script>
+<script src="assets/js/home.js?v=267"></script>
+<script src="assets/js/budget.js?v=267"></script>
+<script src="assets/js/footer.js?v=267"></script>
 <script>
 var notes = {
   off:  "as it is on the page now",
