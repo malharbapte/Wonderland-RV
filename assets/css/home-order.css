@@ -281,6 +281,23 @@
   color: var(--dim, #6b6158);
 }
 
+
+/* ---- BRANDS / CARAVAN INSURANCE, the gap between them ------------------
+   They were not merely tight, they had no gap of their own: .brands closes
+   with padding-bottom 1.20rem and .insurance in homepage.css sets ONLY a
+   padding-bottom, never a top. So the boundary was carrying 1.20rem where
+   every other pair on this page carries 1.20 + 1.20 = 2.40. The two rows of
+   marks made it obvious -- the second row now ends where the single row used
+   to, closer to the logo below it.
+
+   Matching the ladder rather than inventing a number: 1.20rem, which is the
+   section padding used by .lux, .dream, .coty and .brands itself.
+
+   Desktop only, and only because the phone never had the bug -- homepage.css
+   line 722 already gives .insurance 48px top and bottom inside its max-width
+   block. */
+.insurance { padding-top: 1.20rem; }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
