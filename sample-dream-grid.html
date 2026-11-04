@@ -139,10 +139,19 @@
   .dm-g6 .t1 { grid-area: 1 / 1 / 2 / 2; }
   .dm-g6 .t2 { grid-area: 1 / 2 / 2 / 3; }
   .dm-g6 .t3 { grid-area: 1 / 3 / 3 / 4; }   /* the full-height right tile */
-  /* the only tile that crops hard horizontally: it takes a 1.16 source into
-     a portrait slot, and a centre crop cuts the van off at the right. The
-     van is the subject, so the frame is held over it instead. */
-  .dm-g6 .t3 img { object-position: 72% 50%; }
+  /* WHICH TILES CAN HOLD A WHOLE VAN. Every whole-van photograph in the
+     2026 set is 2.0 or wider, so the answer depends on the tile:
+
+       t4  2.4 in / 3.6 out   takes a 3.00 source nearly as shot
+       t1  1.2 in / 1.8 out   outside the margins a 2.0 source loses 11%
+                              of its width -- inside them it loses 40%,
+                              which cuts the van
+       t3  0.6 in / 0.9 out   a portrait slot: no whole van survives it
+
+     So the vans are in t1 and t4, and t3 carries an interior, where a hard
+     horizontal crop costs nothing. This is the real difference between the
+     two versions -- 7 can run whole vans in the top tiles and 6 cannot. */
+  .dm-g6 .t4 img { object-position: 50% 42%; }   /* keep the horizon, lose road */
   .dm-g6 .t4 { grid-area: 2 / 1 / 3 / 3; }   /* the wide bottom tile       */
 
   /* 6: inside the margins -- the grid is the text column, so the pictures
@@ -328,10 +337,10 @@ body.barhide #peek { bottom: 0.08rem; }
 <section class="dm dm--6" data-v="6">
   <div class="container dm-head"><h2 class="dm-title">your dream van awaits</h2></div>
   <div class="dm-grid dm-g6 dm-g6--in">
-    <div class="dm-shot t1"><img src="assets/img/home/dream-interior.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t2"><img src="assets/img/home/dream-kitchen.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t3"><img src="assets/img/home/dream-awning.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t4"><img src="assets/img/home/dream-field.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t1"><img src="assets/img/home/dream26/exterior.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t2"><img src="assets/img/home/dream26/kitchen.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t3"><img src="assets/img/home/dream26/dinette.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t4"><img src="assets/img/home/dream26/coast.webp" alt="" loading="lazy"></div>
   </div>
   <div class="container"><ul class="dm-points">
     <li><h3>GO ANYWHERE</h3><p>Freedom for off-road and off-grid adventures</p></li>
@@ -343,10 +352,10 @@ body.barhide #peek { bottom: 0.08rem; }
 <section class="dm dm--7" data-v="7">
   <div class="container dm-head"><h2 class="dm-title">your dream van awaits</h2></div>
   <div class="dm-grid dm-g6 dm-g6--out">
-    <div class="dm-shot t1"><img src="assets/img/home/dream-interior.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t2"><img src="assets/img/home/dream-kitchen.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t3"><img src="assets/img/home/dream-awning.jpg" alt="" loading="lazy"></div>
-    <div class="dm-shot t4"><img src="assets/img/home/dream-field.jpg" alt="" loading="lazy"></div>
+    <div class="dm-shot t1"><img src="assets/img/home/dream26/exterior.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t2"><img src="assets/img/home/dream26/kitchen.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t3"><img src="assets/img/home/dream26/dinette.webp" alt="" loading="lazy"></div>
+    <div class="dm-shot t4"><img src="assets/img/home/dream26/coast.webp" alt="" loading="lazy"></div>
   </div>
   <div class="container"><ul class="dm-points">
     <li><h3>GO ANYWHERE</h3><p>Freedom for off-road and off-grid adventures</p></li>
