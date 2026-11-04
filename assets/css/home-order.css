@@ -305,11 +305,18 @@
 
    BOTH LINES ARE RECOLOURED, not just the number. .stat-label is #FFEBCC,
    a cream tint that only worked because it sat on orange; on this grey it
-   would be all but invisible. The original pairing was white number over
-   cream label -- both light, one slightly softer. Black over black keeps
-   that relationship intact by keeping both on the same side, though it does
-   flatten the half-step between them. --dim on the label would put the
-   step back if the two lines read too evenly.
+   would be all but invisible.
+
+   --orange-deep, not --orange. Every other piece of orange TYPE on the page
+   uses the deep one -- the dream points, the COTY link, the range figures --
+   while plain --orange is the fill behind white type. Type on a near-white
+   ground wants the darker of the two, and it keeps this consistent with the
+   rest rather than introducing a third treatment.
+
+   The original pairing was a white number over a cream label: both light,
+   one slightly softer. Two lines of one orange keeps them on the same side
+   of the ground but flattens that half-step. --dim on the label puts the
+   step back if the two read too evenly.
 
    WHAT THIS COSTS THE PAGE, said plainly. The orange band was one of only
    two large blocks of colour in the scroll, and the blush testimonials were
@@ -324,8 +331,8 @@
    Desktop only, so the phone still carries the orange band until that pass.
 */
 .stat-band   { background: #F8F8F7; }
-.stat-number { color: #010101; }
-.stat-label  { color: #010101; }
+.stat-number { color: var(--orange-deep); }
+.stat-label  { color: var(--orange-deep); }
 
 }  /* end min-width: 901px */
 
