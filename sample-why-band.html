@@ -36,8 +36,9 @@
    the top where the scrim is heaviest. Slider included because the only
    honest way to choose an overlay is against the real picture.
    =========================================================================== */
+:root { --band-h: calc(100vh - 1.43rem); }   /* 1.43rem is .site-header */
 .whyband { position: relative; width: 100vw; margin-left: calc(50% - 50vw);
-           height: var(--bh, 10.5rem); overflow: hidden; }
+           height: var(--bh, var(--band-h)); overflow: hidden; }
 .whyband .media { position: absolute; inset: 0; }
 .whyband .media img { width: 100%; height: 100%; object-fit: cover;
                       object-position: 50% 62%; }   /* hold the rig, lose sky */
@@ -89,8 +90,15 @@
    is no vertical overflow to position. Only the horizontal term matters,
    and at 2.2:1 the crop keeps the middle 73% while the rig sits between
    47% and 72%, so centred holds it with room on both sides. */
-body.v-a { --bh: 10.5rem; }
-body.v-a .whyband .media img { object-position: 50% 50%; }
+body.v-a { --bh: var(--band-h); }
+/* 56%, not 50%. The crop is horizontal, and how much of the source survives
+   depends on the window's shape: at 1440x820 the band is 1.96:1 and keeps
+   the middle 66%, but at 1440x1200 it is 1.28:1 and keeps only 43%. The rig
+   lies between 47% and 72% of the frame, so a centred crop at 43% spans
+   28.5-71.5% and clips its nose. Holding at 56% spans 31.9-74.9% and keeps
+   the rig whole at every window shape, while still leaving it right of
+   centre rather than parked in the middle. */
+body.v-a .whyband .media img { object-position: 56% 50%; }
 body.v-a .whyband .inner { padding: 1.10rem 0 0; justify-content: flex-start;
   gap: 0.60rem; }
 body.v-a .whyband .why-list { display: grid; grid-template-columns: repeat(4, 1fr);
@@ -114,10 +122,6 @@ body.v-c .whyband .why-list { display: grid; grid-template-columns: repeat(4, 1f
 body.v-c .whyband .why-list li { flex-direction: column; align-items: center; gap: 0.16rem;
   text-align: center; }
 
-/* what the old section leaves behind */
-.leftover { padding: 1.20rem 0; }
-.leftover .why-figure img { width: 100%; height: auto; display: block; }
-body.nofig .leftover { display: none; }
 
 .hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
   background: #1b1b1b; color: #fff; padding: 0.14rem 0; }
@@ -135,6 +139,55 @@ body { padding-bottom: 1.1rem; }
 </style>
 </head>
 <body class="home v-a">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="#">Range</a>
+      <a href="#">Buy</a>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
 <section class="whyband">
   <div class="media"><img src="assets/img/home/why-band.jpg" alt=""></div>
@@ -174,11 +227,6 @@ body { padding-bottom: 1.1rem; }
   </div>
 </section>
 
-<section class="leftover">
-  <div class="container">
-    <div class="why-figure"><img src="assets/img/home/why-features.jpg" alt=""></div>
-  </div>
-</section>
 
 <div class="hbar">
   <div class="container">
@@ -190,14 +238,14 @@ body { padding-bottom: 1.1rem; }
       <input type="range" id="ov" min="0" max="0.85" step="0.01" value="0.50">
       <output id="ovo">50%</output>
     </span>
-    <button id="fig">Hide leftover</button>
     <span class="note" id="note"></span>
+    <span class="note" id="fit" style="margin-left:0.2rem"></span>
   </div>
 </div>
 
 <script>
 var notes = {
-  a: "title and points both in the sky; the landscape keeps the lower 60%",
+  a: "fills what the header leaves; copy in the sky, landscape below",
   b: "title left, points two by two \u2014 keeps the current column widths, band 11rem",
   c: "centred throughout \u2014 band 10rem, the most symmetric and the least like the page"
 };
@@ -205,20 +253,21 @@ var bs = document.querySelectorAll(".hbar button[data-v]");
 var cur = "a";
 var ov = document.getElementById("ov"), ovo = document.getElementById("ovo");
 function paint(){
-  document.body.className = "home v-" + cur + (document.body.dataset.nofig === "1" ? " nofig" : "");
+  document.body.className = "home v-" + cur;
   document.body.style.setProperty("--ov", ov.value);
   ovo.textContent = Math.round(ov.value * 100) + "%";
   bs.forEach(function(b){ b.classList.toggle("on", b.dataset.v === cur); });
   document.getElementById("note").textContent = notes[cur];
+  var hd = document.querySelector(".site-header").getBoundingClientRect().height;
+  var bd = document.querySelector(".whyband").getBoundingClientRect().height;
+  document.getElementById("fit").innerHTML =
+    "band <b>" + Math.round(bd) + "px</b> / header " + Math.round(hd) +
+    " / window " + window.innerHeight + " \u2014 " +
+    (Math.round(bd + hd) <= window.innerHeight + 1 ? "both fit" : "OVER");
 }
 bs.forEach(function(b){ b.addEventListener("click", function(){ cur = b.dataset.v; paint(); }); });
 ov.addEventListener("input", paint);
-document.getElementById("fig").addEventListener("click", function(){
-  document.body.dataset.nofig = document.body.dataset.nofig === "1" ? "0" : "1";
-  this.classList.toggle("on");
-  this.textContent = document.body.dataset.nofig === "1" ? "Show leftover" : "Hide leftover";
-  paint();
-});
+addEventListener("resize", paint);
 paint();
 </script>
 </body>
