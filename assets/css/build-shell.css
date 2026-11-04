@@ -85,3 +85,13 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
 /* used to place the van instantly at its starting stop before a step page animates it forward */
 .road.no-anim .van, .road.no-anim .done, .road.no-anim .mk, .road.no-anim .mk * { transition: none !important; }
 @media (prefers-reduced-motion: reduce) { .road { --pm: 0ms; } .road .mk, .road .mk * { transition: none !important; } }
+
+/* The step arrows take the site chevron: butt caps and a mitred point, same
+   as every prev/next arrow elsewhere. These two set their stroke on the <svg>
+   rather than inline on the path, so that is where it is overridden. This
+   sheet is separate because build-your-caravan does not load styles.css. */
+.go svg, .back svg {
+  stroke-width: 2.6;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}

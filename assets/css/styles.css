@@ -1685,3 +1685,40 @@ input:-webkit-autofill:focus {
 @media (max-width: 900px) {
   .budget { display: none; }
 }
+
+/* ==========================================================================
+   MOVING ARROWS — one chevron everywhere
+
+   Every prev/next arrow on the site is an inline <svg><path>, and each one
+   carries its own stroke-width, stroke-linecap and stroke-linejoin as
+   PRESENTATION ATTRIBUTES in the markup -- 1.6 on the range viewer, 2 on the
+   ambassador tips, 2.4 on the service and COTY decks, all of them round.
+   Presentation attributes lose to a stylesheet rule, so one block here
+   restyles all of them without touching a line of markup, and it reaches the
+   two arrows that build-app.js writes at runtime as well.
+
+   WHAT CHANGES. Round caps and round joins are what made these read soft and
+   thin: a round cap adds a half-disc past the end of each arm and a round
+   join sands the point off. Butt cuts the arms square and miter brings the
+   point back, which is the whole of the difference. The weight is then one
+   number for all of them rather than the four it was.
+
+   --chev-w is deliberately a token: it is the only value worth arguing about
+   and sample-chevron.html shows it at five settings.
+
+   COLOUR IS NOT SET HERE. Each arrow inherits currentColor from its button,
+   and those are already per-context -- the range viewer is near-black with an
+   orange hover, the COTY arrows sit on an orange disc. Forcing one colour
+   would flatten decisions that were made deliberately.
+   ========================================================================== */
+:root { --chev-w: 2.6; }
+
+.rvx-arrow path,
+.coty-arrow path,
+.service-arrow path,
+.amb-tip-prev path,
+.amb-tip-next path {
+  stroke-width: var(--chev-w);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
