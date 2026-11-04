@@ -418,6 +418,26 @@
    reasoning and is still true. */
 .service { padding-top: 1.375rem; }
 
+
+/* ---- ONE GREY FOR THE FULL-BLEED PANELS --------------------------------
+   #F8F8F7 is already on .rvx-band and .stat-band, so this is not a third
+   value -- four full-bleed panels now share one.
+
+   .home-contact drops #FFFAF4, the warm off-white it carried, and is
+   already full-bleed in homepage.css, so only the colour moves.
+
+   .brands had no ground at all and is given the full-bleed treatment to
+   match. The marquee nested inside it still lands correctly: its
+   `margin-left: calc(50% - 50vw)` resolves 50% against a parent that is now
+   100vw, so the offset comes out at zero instead of doubling. Checked,
+   because that is exactly the kind of thing that only shows up at one
+   window width.
+
+   Desktop only, so the phone keeps #FFFAF4 behind the form and no ground
+   behind the marks until that pass. */
+.home-contact { background: #F8F8F7; }
+.brands { background: #F8F8F7; width: 100vw; margin-left: calc(50% - 50vw); }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it

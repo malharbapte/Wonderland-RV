@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two corrections</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=274">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=274">
+<link rel="stylesheet" href="assets/css/homepage.css?v=274">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=274">
+<link rel="stylesheet" href="assets/css/home-order.css?v=274">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- the two corrections. Nothing already implemented is here.
+
+   1  THE FADE NOW STARTS ABOVE THE BAND, which is the opposite construction
+      to the last one and worth being explicit about.
+
+      Before: the gradient sat INSIDE the band, running white at its top edge
+      down to nothing. The band's own grey therefore began part-way down
+      itself, and the hard edge was still where the band began.
+
+      Now: the gradient sits ABOVE the band, running the GREY from nothing
+      down to full. The grey creeps up into the white before the band starts,
+      and by the time it reaches the band's top edge it is already #F8F8F7 --
+      so there is no edge there at all. The join disappears instead of being
+      softened.
+
+      It paints over the section above because siblings paint in document
+      order and .stat-band is the later element -- the same reason the footer
+      shadow points up. .intro sits between them in the markup but is
+      display: none on desktop, so what it lands on is the pull quote.
+
+      Eleven stops on smootherstep again: a two-stop gradient has a corner at
+      each end where the alpha changes direction, and those corners read as
+      faint horizontal lines -- the exact thing being removed.
+
+   2  ICONS AT 1.5x, not 2x. 0.62rem becomes 0.93rem. The details move down
+      on their own: the item is a column with a 0.16rem gap, so a taller icon
+      displaces the heading and copy by exactly what the icon gained.
+   =========================================================================== */
+.stat-band { position: relative; }
+.stat-band::before {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  top: calc(-1 * var(--fade, 0.70rem));
+  height: var(--fade, 0.70rem);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+      rgba(248,248,247,0.000) 0%,
+      rgba(248,248,247,0.009) 10%,
+      rgba(248,248,247,0.058) 20%,
+      rgba(248,248,247,0.163) 30%,
+      rgba(248,248,247,0.317) 40%,
+      rgba(248,248,247,0.500) 50%,
+      rgba(248,248,247,0.683) 60%,
+      rgba(248,248,247,0.837) 70%,
+      rgba(248,248,247,0.942) 80%,
+      rgba(248,248,247,0.991) 90%,
+      rgba(248,248,247,1.000) 100%);
+}
+body.nofade .stat-band::before { display: none; }
+
+.why-points .why-icon { width: var(--ic, 0.93rem); height: var(--ic, 0.93rem); }
+
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.16rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.135rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.05rem 0.14rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar input[type=range] { width: 1.5rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+body { padding-bottom: 0.9rem; }
+</style>
+</head>
+<body class="home">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="#">Range</a>
+      <a href="#">Buy</a>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="pull">
+  <div class="pull-media" id="pullSlides" data-ph="SLIDESHOW — add slide-1.jpg … slide-6.jpg"></div>
+  <blockquote class="pull-quote">
+    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the <br>
+      beaten path and <br>
+      explore in style?<br>
+      Embark on exceptional <br>
+      adventures with loved <br>
+      ones and create <br>
+      memories that will <br>
+      last a lifetime.&rdquo;</p>
+  </blockquote>
+</section>
+
+<section class="stat-band">
+  <p class="stat-number" data-count-to="1300">0<span aria-hidden="true">+</span></p>
+  <p class="stat-label">CARAVANS BUILT</p>
+</section>
+
+<section class="band band--why">
+  <div class="media ph" data-ph="assets/img/home/why-band.jpg">
+    <img src="assets/img/home/why-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="why-scrim" aria-hidden="true"></div>
+  <div class="container band-copy">
+    <h2 class="band-title">Why Choose us?</h2>
+
+    <!-- DESKTOP COPY OF THE FOUR POINTS, and .why-points rather than
+         .why-list on purpose. home.js runs
+           phoneAccordion({ list: ".why-list", mount: ".why-grid",
+                            before: ".why-figure" })
+         so the phone needs .why-list, .why-grid AND .why-figure to all still
+         exist, in that relationship, further down the page. Naming this list
+         .why-list would hand the accordion the wrong one -- it takes the
+         first in the document, and this one comes first.
+
+         The cost is that the four points exist twice in the markup. Change
+         one, change the other. They should become a single list during the
+         phone pass, when .why can be rebuilt rather than hidden. -->
+    <ul class="why-points">
+      <li>
+        <span class="why-icon why-icon--lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.6 2.6v5.4c0 4-2.7 7.6-6.6 8.9-3.9-1.3-6.6-4.9-6.6-8.9V5.8L12 3.2z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg></span>
+        <div class="why-text">
+          <h3>BUILT TOUGH</h3>
+          <p>Unique Jigsaw construction for strength <br>and durability.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 16.9L15 6.1l2.9 2.9L7.1 19.8H4.2v-2.9z"/><path d="M14.4 6.7l2.9 2.9"/><path d="M16.3 4.8l1.4-1.4a1.3 1.3 0 0 1 1.9 0l1 1a1.3 1.3 0 0 1 0 1.9l-1.4 1.4"/></svg></span>
+        <div class="why-text">
+          <h3>CUSTOM MADE</h3>
+          <p>A caravan to suit your family and the trips <br>you want to take.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.4l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6L12 3.4z"/></svg></span>
+        <div class="why-text">
+          <h3>LUXURY FINISH</h3>
+          <p>Impeccable, comfortable interiors that <br>offer a welcome retreat</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.4C12 20.4 3.6 15.1 3.6 9.3C3.6 6.4 5.9 4.2 8.6 4.2C10.3 4.2 11.5 5.1 12 6.1C12.5 5.1 13.7 4.2 15.4 4.2C18.1 4.2 20.4 6.4 20.4 9.3C20.4 15.1 12 20.4 12 20.4Z"/></svg></span>
+        <div class="why-text">
+          <h3>PEACE OF MIND</h3>
+          <p>3 year factory-backed warranty and <br>premium after sale service</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="hbar">
+  <div class="container">
+    <b>1</b>
+    <span class="seg">Fade above the band
+      <input type="range" id="fade" min="0" max="2" step="0.05" value="0.70">
+      <output id="fo">0.70rem</output>
+    </span>
+    <button id="nf">off</button>
+    <b>2</b>
+    <button data-i="0.62">1&times;</button>
+    <button data-i="0.93" class="on">1.5&times;</button>
+    <button data-i="1.24">2&times;</button>
+    <span class="seg" id="icn"></span>
+  </div>
+</div>
+
+<script>
+var fade = document.getElementById("fade"), fo = document.getElementById("fo");
+var ic = "0.93", nofade = false;
+function paint(){
+  document.body.className = "home" + (nofade ? " nofade" : "");
+  document.body.style.setProperty("--fade", fade.value + "rem");
+  document.body.style.setProperty("--ic", ic + "rem");
+  fo.textContent = (+fade.value).toFixed(2) + "rem";
+  document.querySelectorAll(".hbar button[data-i]").forEach(function(b){
+    b.classList.toggle("on", b.dataset.i === ic); });
+  document.getElementById("nf").classList.toggle("on", nofade);
+  document.getElementById("icn").textContent = ic + "rem";
+}
+document.querySelectorAll(".hbar button[data-i]").forEach(function(b){
+  b.addEventListener("click", function(){ ic = b.dataset.i; paint(); }); });
+document.getElementById("nf").addEventListener("click", function(){ nofade = !nofade; paint(); });
+fade.addEventListener("input", paint);
+paint();
+</script>
+</body>
+</html>
