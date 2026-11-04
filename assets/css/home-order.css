@@ -205,12 +205,19 @@
    deleting it would take it off the phone too, and the phone layer is not
    ours to change in this pass.
 
-   SCOPED TO .testi--one. There are three .testi sections on this page and
-   bare .testi took all of them -- testimonials two and three went with it.
-   They carry no modifier of their own and :first-of-type counts sections,
-   not .testi sections, so the one being hidden is labelled in the markup.
-   The class alone does nothing below 901. */
-.testi--one { display: none; }
+   ALL THREE NOW. This started as .testi--one, scoped that way because bare
+   .testi had once taken all three by accident. The scope is removed on
+   purpose this time: Kevin Smalley, Sharni Miller and John Ford all go,
+   because the reviews live in the Legendary Service section and running
+   them twice on one page is the duplication, not the layout.
+
+   The .testi--one class is left in the markup. It selects nothing now, but
+   it is the only thing naming which of three identical sections is which,
+   and it costs nothing to keep.
+
+   Desktop only. homepage.css lines 864-869 give .testi its own phone
+   treatment inside a max-width query, so the phone keeps all three. */
+.testi { display: none; }
 
 /* The gap under the video. .rvx-stage carries margin-top: var(--gap) = 0.40rem
    on its own, so this padding is the balance: 1.35 + 0.40 = 1.75rem -- the
