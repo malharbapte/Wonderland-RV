@@ -55,7 +55,17 @@
   font-size: 0.84rem; line-height: 1; color: #fff; }
 
 .whyband .why-list { color: #fff; }
-.whyband .why-list li { display: flex; align-items: center; gap: 0.28rem; }
+/* margin-top: 0 IS THE FIX, not tidiness. homepage.css:484 carries
+   `.why-list li + li { margin-top: 0.55rem; }` from the old layout, where
+   the four points were a VERTICAL list and that margin was the space
+   between them. In a horizontal grid it still applies -- to items 2, 3 and
+   4 but not to 1 -- so the first point sat 0.55rem higher than the other
+   three, which at a 1920 window is 44px. That is the stagger, and it is
+   also why 2, 3 and 4 looked level with each other while only the first
+   was out. */
+.whyband .why-list li { display: flex; align-items: center; gap: 0.28rem;
+                        margin-top: 0; }
+.whyband .why-list li + li { margin-top: 0; }
 .whyband .why-icon { flex: none; width: 0.62rem; height: 0.62rem; color: var(--orange); }
 .whyband .why-icon svg { width: 100%; height: 100%; }
 .whyband .why-icon--lg svg { transform: scale(1.2); }
