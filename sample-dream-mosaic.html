@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dream van mosaic — Wonderland RV</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=253">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=253">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=253">
+<link rel="stylesheet" href="assets/css/homepage.css?v=253">
+<link rel="stylesheet" href="assets/css/home-order.css?v=253">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY. Bringing the mosaic inside the page margins.
+
+   THE SCALE FACTOR IS ONE NUMBER: 16.24 / 23.76 = 0.6835. Every shot is
+   positioned in PERCENTAGES of the mosaic, so narrowing the mosaic to the
+   content column moves all four correctly on its own. What does NOT follow
+   is the height: the shots' heights are percentages too, so leaving the
+   mosaic 11.07rem tall while the width drops would stretch every box
+   vertically. 11.07 x 0.6835 = 7.57rem keeps every one of them the shape it
+   is today -- this is a reduction, not a re-crop.
+
+   WHAT BREAKS, AND IS THE REAL QUESTION HERE: the heading does not scale
+   with the mosaic, because type is in rem, not percentages. Today
+   "your dream van awaits" runs to roughly x 14.8rem and the tall right-hand
+   shot starts at x 15.3rem -- about half a rem of clearance. Narrow the
+   mosaic and that shot moves in to x 14.2rem, so the heading now runs into
+   it. The three variants are three answers to that, not three looks.
+   =========================================================================== */
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+  background: #1b1b1b; color: #fff; padding: 0.16rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.30rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.20rem; }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.145rem; color: #9b948a; }
+.hbar button { font-family: var(--gordita); font-size: 0.145rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.06rem 0.15rem; }
+.hbar button.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.hnote { font-family: var(--gordita); font-size: 0.145rem; color: #6f6f6f; margin-left: auto; }
+.edge { position: fixed; top: 0; bottom: 0; width: 0.0075rem; background: rgba(232,132,38,.55);
+  z-index: 110; pointer-events: none; display: none; }
+.guide .edge { display: block; }
+.edge--l { left: 3.76rem; } .edge--r { right: 3.76rem; }
+
+@media (min-width: 901px) {
+  /* common to all three: the mosaic becomes the content column, and the
+     height comes down by the same factor so nothing is distorted */
+  .dm-1 .dream-mosaic, .dm-2 .dream-mosaic, .dm-3 .dream-mosaic {
+    width: var(--col);
+    margin-left: auto; margin-right: auto;
+    height: 7.57rem;
+  }
+
+  /* 1 — UNIFORM. The type scales by 0.6835 as well, so the section is the
+     same composition at 68%. Nothing collides because nothing moved
+     relative to anything else. The cost: the heading drops to 0.38rem and
+     stops matching every other section title on the page. */
+  .dm-1 .dream-title { font-size: 0.383rem; }
+  .dm-1 .dream-quote { font-size: 0.164rem; padding: 0.205rem 0.369rem; }
+
+  /* 2 — HEADING OUT. The mosaic shrinks, the type does not. The heading
+     leaves the mosaic and sits above it as a normal section title, which is
+     what every other section on this page does -- .lux, .why and .coty all
+     put the heading above the picture. Nothing can collide because they no
+     longer share a box. */
+  .dm-2 .dream-mosaic { margin-top: 1.05rem; }
+  .dm-2 .dream-head {
+    top: auto; bottom: 100%; margin-bottom: 0.34rem;
+  }
+
+  /* 3 — HEADING STAYS, SMALLER. A middle course: the heading keeps its place
+     in the gap beside the tall shot but comes down to 0.44rem, which is what
+     it takes to clear that shot's new left edge. The quote button keeps full
+     size. Honest about what it costs: 0.44 is not a size this page uses
+     anywhere else. */
+  .dm-3 .dream-title { font-size: 0.44rem; }
+}
+</style>
+</head>
+<body class="home dm-1">
+
+<span class="edge edge--l"></span><span class="edge edge--r"></span>
+
+<!-- ================================================ YOUR DREAM VAN -->
+<section class="dream">
+  <div class="dream-mosaic">
+    <div class="container dream-head"><h2 class="dream-title">your dream van awaits</h2></div>
+    <div class="dream-shot dream-shot--a ph" data-ph="dream-interior.jpg">
+      <img src="assets/img/home/dream-interior.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
+    <div class="dream-shot dream-shot--b ph" data-ph="dream-field.jpg">
+      <img src="assets/img/home/dream-field.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
+    <div class="dream-shot dream-shot--c ph" data-ph="dream-kitchen.jpg">
+      <img src="assets/img/home/dream-kitchen.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
+    <div class="dream-shot dream-shot--d ph" data-ph="dream-awning.jpg">
+      <img src="assets/img/home/dream-awning.jpg" alt="" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </div>
+    <a class="btn-solid dream-quote" href="compact.html">GET A QUOTE</a>
+  </div>
+
+  <div class="container">
+    <ul class="dream-points">
+      <li><h3>GO ANYWHERE</h3><p>Freedom for off-road and off-grid adventures</p></li>
+      <li><h3>BUILT TO LAST</h3><p>Australian made with superior strength and flex</p></li>
+      <li><h3>TRAVEL IN STYLE</h3><p>Luxuriously appointed with creature comforts</p></li>
+    </ul>
+  </div>
+</section>
+
+<div class="hbar">
+  <div class="container">
+    <b>DREAM VAN</b>
+    <span class="seg">
+      <button data-m="dm-0">0 &mdash; live</button>
+      <button data-m="dm-1" class="on">1 &mdash; uniform 68%</button>
+      <button data-m="dm-2">2 &mdash; heading above</button>
+      <button data-m="dm-3">3 &mdash; heading smaller</button>
+    </span>
+    <span class="seg">
+      <button id="g">Margin guides</button>
+    </span>
+    <span class="hnote">Guides mark the 3.76rem page margins.</span>
+  </div>
+</div>
+
+<script>
+var m="dm-1", guide=false;
+function paint(){ document.body.className = "home " + m + (guide ? " guide" : ""); }
+document.querySelectorAll("[data-m]").forEach(function(b){
+  b.addEventListener("click",function(){
+    document.querySelectorAll("[data-m]").forEach(function(o){o.classList.remove("on");});
+    b.classList.add("on"); m=b.dataset.m; paint();
+  });
+});
+document.getElementById("g").addEventListener("click",function(){
+  guide=!guide; this.classList.toggle("on",guide); paint();
+});
+paint();
+</script>
+</body>
+</html>
