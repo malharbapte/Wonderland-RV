@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Two corrections</title>
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=274">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=274">
-<link rel="stylesheet" href="assets/css/homepage.css?v=274">
-<link rel="stylesheet" href="assets/css/range-viewer.css?v=274">
-<link rel="stylesheet" href="assets/css/home-order.css?v=274">
+<link rel="stylesheet" href="assets/css/styles.css?v=275">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=275">
+<link rel="stylesheet" href="assets/css/homepage.css?v=275">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=275">
+<link rel="stylesheet" href="assets/css/home-order.css?v=275">
 <style>
 /* ===========================================================================
    SAMPLE ONLY -- the two corrections. Nothing already implemented is here.
@@ -27,10 +27,25 @@
       so there is no edge there at all. The join disappears instead of being
       softened.
 
-      It paints over the section above because siblings paint in document
-      order and .stat-band is the later element -- the same reason the footer
-      shadow points up. .intro sits between them in the markup but is
-      display: none on desktop, so what it lands on is the pull quote.
+      IT SITS BEHIND THE PICTURE ABOVE, via z-index: -1, and that is the
+      whole of this revision. .pull is 8.36rem tall and .pull-media is
+      absolutely positioned at left: 0, width 59.5%, height 100% -- so the
+      slideshow runs the FULL height of the left side and its bottom edge IS
+      the band's top edge. Painting the fade over that section tinted the
+      bottom of the photograph, which is not a join that needs softening: a
+      photograph meeting a grey band is already an edge the eye accepts.
+
+      At z-index: -1 the gradient drops below the in-flow content and below
+      .pull-media, which is positioned and therefore sits in the z-index auto
+      group above it. The photograph covers the fade on the left 59.5% and is
+      left alone; the white beside the quote on the right 40.5% has nothing
+      covering it, so that is where the fade does its work -- which is the
+      only place white actually meets the band.
+
+      This works because .stat-band is position: relative with z-index auto,
+      so it creates NO stacking context and the pseudo-element escapes to the
+      root one. Give .stat-band a z-index and the fade will jump back in
+      front of the photograph.
 
       Eleven stops on smootherstep again: a two-stop gradient has a corner at
       each end where the alpha changes direction, and those corners read as
@@ -44,8 +59,9 @@
 .stat-band::before {
   content: "";
   position: absolute; left: 0; right: 0;
-  top: calc(-1 * var(--fade, 0.70rem));
-  height: var(--fade, 0.70rem);
+  top: calc(-1 * var(--fade, 2rem));
+  height: var(--fade, 2rem);
+  z-index: -1;                 /* behind .pull-media; see the note above */
   pointer-events: none;
   background: linear-gradient(to bottom,
       rgba(248,248,247,0.000) 0%,
@@ -206,8 +222,8 @@ body { padding-bottom: 0.9rem; }
   <div class="container">
     <b>1</b>
     <span class="seg">Fade above the band
-      <input type="range" id="fade" min="0" max="2" step="0.05" value="0.70">
-      <output id="fo">0.70rem</output>
+      <input type="range" id="fade" min="0" max="3" step="0.05" value="2.00">
+      <output id="fo">2.00rem</output>
     </span>
     <button id="nf">off</button>
     <b>2</b>
