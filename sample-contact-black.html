@@ -76,7 +76,12 @@ body.inv .home-contact .field--line input:focus {
 body.inv .home-contact .chips { border-color: rgba(255,255,255,.38); }
 body.inv .home-contact .chip + .chip::before { background: rgba(255,255,255,.38); }
 body.inv .home-contact .chip > span { color: rgba(255,255,255,.78); }
-body.inv .home-contact .chip:has(input:checked) > span { color: #fff; }
+/* the travelling indicator goes white with the slider, so the label riding
+   on it has to stop being white too -- orange is the only thing that reads
+   on it, and it is the same accent the submit button and the budget figure
+   carry. Three orange things in the section, all of them answers. */
+body.inv .home-contact .chips-thumb { background: #fff; }
+body.inv .home-contact .chip:has(input:checked) > span { color: var(--orange); font-weight: 700; }
 
 /* ---- the budget slider ---- */
 body.inv .home-contact .budget-track { background: rgba(255,255,255,.18); }
@@ -86,7 +91,9 @@ body.inv .home-contact .budget-stop:hover::before { border-color: #fff; }
 /* the slider runs white, not orange: the fill, the handle it leaves behind
    and the amount in the head all read as one mark */
 body.inv .home-contact .budget-fill { background: #fff; }
-body.inv .home-contact .budget-value { color: #fff; }
+/* the figure stays orange: it is the answer the control produces, and the
+   bar is only how you got there */
+body.inv .home-contact .budget-value { color: var(--orange); }
 body.inv .home-contact .budget-stop:has(input:checked)::before,
 body.inv .home-contact .budget-stop.is-past::before {
   background: #fff; border-color: #fff; }
