@@ -30,7 +30,7 @@
      s and --nb below are unchanged, which is the point of expressing them
      that way rather than in rem. */
   --plate: calc(var(--col) * 0.6);
-  --nb:    64.0%;                /* touching: see the note below            */
+  --nb:    70.2%;                /* touching: see the note below            */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:
@@ -128,7 +128,22 @@
    of 11.88rem -- comfortably inside the window, where before the 40% cut it
    ran a fifth of a neighbour past the edge.
 
-   g = 0 gives --nb 64.0%. */
+   THE GAP. --plate is 9.744rem now, so centre half-width is 4.872 and a
+   neighbour's is 4.872 x .281 = 1.369. --nb is therefore
+   (4.872 + g + 1.369) / 9.744:
+
+     g = 0      ->  64.0%   touching
+     g = 0.60   ->  70.2%   <- live
+     g = 1.00   ->  74.3%
+
+   g is not the whole of what you see. Every canvas carries about 4% of
+   transparent margin each side, which at this size is 0.19rem off the centre
+   van and 0.11rem off a neighbour -- so g = 0 already looked like a 0.30rem
+   gap, and g = 0.60 reads as roughly 0.90.
+
+   Room to grow: at g = 0.60 a neighbour's outer edge is 8.21rem from centre
+   against a half-viewport of 11.88rem, so there is 3.67rem spare before
+   anything starts leaving the window. */
 .rvx-van[data-d="-1"] { transform: translateX(calc(-1 * var(--nb))) scale(.281); opacity: .55; z-index: 2; }
 .rvx-van[data-d="1"]  { transform: translateX(var(--nb)) scale(.281); opacity: .55; z-index: 2; }
 .rvx-van[data-d="2"]  { transform: translateX( 105%) scale(.30);  opacity: 0;   z-index: 1; }
