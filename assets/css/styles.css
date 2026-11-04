@@ -1759,3 +1759,37 @@ input:-webkit-autofill:focus {
   height: 0.0075rem;
   background: #e4e2de;
 }
+
+/* ==========================================================================
+   NO CIRCLES BEHIND THE CHEVRONS
+
+   The disc was doing contrast work, not decoration, so taking it away is not
+   just deleting a background — every one of these chevrons was coloured
+   against the disc it sat on, and each needs a colour that works against
+   whatever is actually behind it.
+
+   .service-arrow was white on a 35%-orange disc. Its two arrows do NOT share
+   a ground: --prev sits at 0.87rem, which is inside .service-media (56.9%
+   wide, a photograph), and --next sits at 0.83rem from the right, which is
+   over the #FFF2DC panel .service-band::before draws. So they take different
+   colours. White on the photograph keeps a drop-shadow, because the review
+   images are not all dark and a bare white chevron can land on sky.
+   ========================================================================== */
+.service-arrow {
+  border-radius: 0;
+  background: none;
+  transition: color .2s ease, opacity .2s ease;
+}
+.service-arrow:hover { background: none; }
+
+.service-arrow--prev {                       /* over the photograph */
+  color: #fff;
+  filter: drop-shadow(0 0.01rem 0.035rem rgba(0, 0, 0, .55));
+}
+.service-arrow--prev:hover { opacity: .78; }
+
+.service-arrow--next {                       /* over the cream panel */
+  color: var(--ink);
+  filter: none;
+}
+.service-arrow--next:hover { color: var(--orange-deep); }

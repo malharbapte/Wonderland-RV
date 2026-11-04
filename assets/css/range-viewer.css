@@ -291,3 +291,8 @@
   .rvx,
   .band--range .band-sub { display: none; }
 }
+
+/* No circle. The ring was a transparent 0.0075rem border that only appeared
+   on hover via border-color, so removing it means the hover is now a colour
+   change alone — which .rvx-arrow already had alongside it. */
+.rvx-arrow { border: 0; border-radius: 0; transition: color .3s ease; }

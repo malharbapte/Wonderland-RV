@@ -899,3 +899,10 @@
   .amb-more-strip { scroll-snap-type: x mandatory; scroll-padding-inline: var(--page-margin); -webkit-overflow-scrolling: touch; }
   .amb-more-strip .wl-card { scroll-snap-align: start; }
 }
+
+/* No circle. These were ink on nothing, turning to white on an orange fill;
+   with the fill gone the white would be invisible, so the hover becomes the
+   colour change it should have been. */
+.amb-tips-arrows button { border-radius: 0; background: none; transition: color .2s ease; }
+.amb-tips-arrows button:hover,
+.amb-tips-arrows button:focus-visible { background: none; color: var(--orange-deep); }

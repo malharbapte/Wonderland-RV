@@ -319,3 +319,20 @@
 .brand-marquee + .brand-marquee { margin-top: 0.40rem; }
 .brand-track--a { animation-duration: 34s; }
 .brand-track--b { animation-duration: 52s; animation-direction: reverse; }
+
+/* ---- COTY arrows: no disc ----------------------------------------------
+   Overridden from here rather than edited in homepage.css, which this round
+   of work does not touch. Unscoped on purpose: the arrows are not gated to
+   desktop, so neither is their colour.
+
+   They were #fff on a 35%-orange disc, and they sit at left/right -1.10rem
+   — OUTSIDE the video, on the white page. White on white: without the disc
+   they would be gone entirely, so they take the page's ink and the same
+   orange hover the range-viewer arrows use. */
+.coty-arrow {
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  transition: color .2s ease;
+}
+.coty-arrow:hover { background: none; color: var(--orange-deep); }
