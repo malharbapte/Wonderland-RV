@@ -190,23 +190,15 @@
 .dream-shot--c { top: 62.27%; height: 37.68%; }
 .dream-shot--d { top: 20.72%; height: 79.23%; }
 
-/* GET A QUOTE, up on the heading's line and out on the right margin.
+/* GET A QUOTE is off the desktop mosaic. Hidden, not deleted: homepage.css
+   line 923 gives this button its own phone rule -- position: static, in the
+   flow under the picture rail -- so the phone still carries it. Deleting the
+   markup would have taken it off there too.
 
-   Vertically: the heading's box starts at 6.28% of 6.37rem = 0.400rem and is
-   0.383rem tall (line-height 1, and h2 margins are reset), so its centre line
-   is 0.592rem. The button is put ON that line and pulled back by half of its
-   OWN height with translateY(-50%) -- so nothing here has to know how tall
-   the button is, and it stays centred if its padding or size ever changes.
-
-   Horizontally: right: 0 is all it takes now. The mosaic was 100vw when the
-   button was placed at left 64.23%; it is var(--col) wide today, so its right
-   edge IS the right page margin. */
-.dream-quote {
-  top: 0.592rem;
-  transform: translateY(-50%);
-  left: auto; right: 0;
-  font-size: 0.164rem; padding: 0.205rem 0.369rem;
-}
+   The positioning that was here (the heading's centre line, right: 0) is gone
+   rather than left behind a display:none, since none of it describes anything
+   any more. */
+.dream-quote { display: none; }
 
 /* ---- the Kevin Smalley pull quote, off ---------------------------------
    Hidden here rather than cut from home.html, because the markup is shared:
