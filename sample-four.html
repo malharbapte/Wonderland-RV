@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four changes &mdash; one sample</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=273">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=273">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=273">
+<link rel="stylesheet" href="assets/css/homepage.css?v=273">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=273">
+<link rel="stylesheet" href="assets/css/home-order.css?v=273">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- four changes on one page, in page order.
+
+   1  HERO POSTER      the still behind the header video
+   2  STAT BAND        a soft top edge into the white above
+   3  WHY CHOOSE US    icons at double size
+   4  GROUNDS          grey behind Ready for Adventure and Brands we trust
+
+   Everything not under a control below is the live page as it stands.
+   =========================================================================== */
+
+/* ---- 1  HERO POSTER ----------------------------------------------------
+   Nothing to style. assets/img/home/hero-poster.jpg has been REPLACED: it
+   was a frame of the video that used to run here, which is why the old clip
+   flashed up on every load before the player painted over it.
+
+   The new file is the current video's own frame, and its letterbox is cut
+   off first. The source arrives 1280x720 with black bars measuring 12.2% at
+   the top and 11.7% at the bottom -- the same bars baked into the clip, and
+   the same 12.2% measured off the running video earlier. Cropped out, the
+   poster is 1280x548 at 2.336:1, which is the picture the player actually
+   shows, so the still and the first frame line up instead of jumping.
+
+   home.js runs in this sample, so the player mounts over the poster the way
+   it does on the page. "show poster" in the bar pulls the iframe back out so
+   the still underneath is visible -- that is the frame everyone sees for the
+   first second of every visit. */
+
+/* ---- 2  STAT BAND, soft top edge --------------------------------------
+   The band is #F8F8F7 and the page above it is #fff: seven levels apart,
+   which is a faint line rather than a join. This fades the band's top into
+   white over --blur, so the edge stops being an edge.
+
+   ELEVEN STOPS, NOT TWO. A two-stop linear-gradient has a corner at each
+   end -- the alpha changes direction instantly -- and the eye reads those
+   corners as faint horizontal lines, which is the exact artefact being
+   removed. These stops follow smootherstep, 6t^5-15t^4+10t^3, whose first
+   AND second derivatives are zero at both ends, so there is no corner to
+   see at either one.
+
+   On the band rather than the section above it: the band is the later
+   element, so its own ::before paints over its own ground and nothing needs
+   a z-index. */
+.stat-band { position: relative; }
+.stat-band::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0;
+  height: var(--blur, 0.70rem);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+      rgba(255,255,255,1.000) 0%,
+      rgba(255,255,255,0.991) 10%,
+      rgba(255,255,255,0.942) 20%,
+      rgba(255,255,255,0.837) 30%,
+      rgba(255,255,255,0.683) 40%,
+      rgba(255,255,255,0.500) 50%,
+      rgba(255,255,255,0.317) 60%,
+      rgba(255,255,255,0.163) 70%,
+      rgba(255,255,255,0.058) 80%,
+      rgba(255,255,255,0.009) 90%,
+      rgba(255,255,255,0.000) 100%);
+}
+body.noblur .stat-band::before { display: none; }
+
+/* ---- 3  WHY CHOOSE US, icons at 2x ------------------------------------
+   0.62rem to 1.24rem. The details move down on their own: the li is a
+   column with a 0.16rem gap, so a taller icon pushes the heading and copy
+   down by exactly the amount the icon grew. Nothing else is touched.
+
+   THE COPY STILL CLEARS THE HORIZON, which is the thing worth checking
+   rather than assuming. The block is now 1.10 padding + 0.84 title + 0.60
+   gap + 1.24 icon + 0.16 + 0.32 heading + 0.14 + 0.60 of copy = 5.00rem. At
+   1440x820 the band is 733px and 1rem is 60.6px, so that is 303px, or 41%
+   of the band. The photograph puts the horizon at about 70% and the rig at
+   62-80%, so there is still a clear third of sky between the copy and
+   anything in the picture. */
+body.icon2x .why-points .why-icon { width: 1.24rem; height: 1.24rem; }
+
+/* ---- 4  GROUNDS --------------------------------------------------------
+   #F8F8F7, the grey already on .rvx-band and the stat band, so this is not
+   a fourth value -- four full-bleed panels sharing one.
+
+   .home-contact is #FFFAF4 today, a warm off-white; it becomes the grey.
+   .brands has no ground at all, so it takes one. .brands is given the
+   full-bleed treatment to match, and the marquee nested inside it still
+   lands correctly: its `margin-left: calc(50% - 50vw)` resolves against a
+   parent that is now 100vw, so 50% IS 50vw and the offset comes out at
+   zero rather than doubling. */
+body.grey .home-contact { background: #F8F8F7; }
+body.grey .brands {
+  background: #F8F8F7;
+  width: 100vw; margin-left: calc(50% - 50vw);
+}
+/* the black that was approved earlier, kept switchable rather than lost */
+body.black .home-contact { background: #0E0E0E; color: #fff; }
+body.black .home-contact-title, body.black .home-contact-title a { color: #fff; }
+body.black .home-contact-lede { color: #CFC8BE; }
+body.black .home-contact .field--line input { color: #fff; background: transparent;
+  border-bottom-color: rgba(255,255,255,.28); }
+body.black .home-contact .field input::placeholder,
+body.black .home-contact .field textarea::placeholder { color: rgba(255,255,255,.45); }
+body.black .home-contact .field--select select,
+body.black .home-contact .field--area textarea { color: #fff; background: transparent;
+  border-color: rgba(255,255,255,.28); }
+body.black .home-contact .field--select select option { color: #111; }
+body.black .home-contact .field .req { color: #fff; }
+body.black .home-contact .chips { border-color: rgba(255,255,255,.38); }
+body.black .home-contact .chip + .chip::before { background: rgba(255,255,255,.38); }
+body.black .home-contact .chip > span { color: rgba(255,255,255,.78); }
+body.black .home-contact .chips-thumb { background: #fff; }
+body.black .home-contact .chip:has(input:checked) > span { color: var(--orange); font-weight: 700; }
+body.black .home-contact .budget-track { background: rgba(255,255,255,.18); }
+body.black .home-contact .budget-fill { background: #fff; }
+body.black .home-contact .budget-value { color: var(--orange); }
+body.black .home-contact .budget-stop::before { background: #0E0E0E; border-color: rgba(255,255,255,.45); }
+body.black .home-contact .budget-stop:has(input:checked)::before,
+body.black .home-contact .budget-stop.is-past::before { background: #fff; border-color: #fff; }
+body.black .home-contact .budget-stop span { color: rgba(255,255,255,.55); }
+body.black .home-contact .budget-stop:has(input:checked) span { color: #fff; }
+body.black .home-contact .budget-head b { color: #fff; }
+body.black .home-contact .budget-why,
+body.black .home-contact .budget-note { color: rgba(255,255,255,.55); }
+
+/* ---- the bar ---- */
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.16rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.135rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.05rem 0.14rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar input[type=range] { width: 1.3rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+.hbar a { color: var(--orange); font-family: var(--gordita); font-size: 0.135rem;
+  margin-left: auto; }
+.jump { position: fixed; right: 0.16rem; bottom: 0.60rem; z-index: 200;
+  display: flex; flex-direction: column; gap: 0.06rem; }
+.jump a { font-family: var(--gordita); font-size: 0.13rem; background: #1b1b1b;
+  color: #cfc8be; padding: 0.05rem 0.12rem; text-align: right; }
+body { padding-bottom: 0.9rem; }
+</style>
+</head>
+<body class="home icon2x grey">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="#">Range</a>
+      <a href="#">Buy</a>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="home-hero">
+  <div class="home-hero-media video-frame ph" data-ph="HERO VIDEO — add the link in assets/js/home.js">
+    <img class="video-poster" src="assets/img/home/hero-poster.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container home-hero-copy">
+    <!-- PARKED 2026-11-04 at Malhar's request: "Remove the Adventure your way
+         and Get a quote." Kept verbatim beside the body paragraph parked above,
+         so the whole hero copy block can be restored in one go. homepage.css
+         keeps .home-hero h1 and .home-hero-cta; nothing has to be rebuilt. -->
+    <!--
+    <h1>Adventure <br>your way</h1>
+    <p class="home-hero-cta"><a href="compact.html">get a quote</a></p>
+    -->
+    <!-- PARKED 2026-11-04 at Malhar's request: "Remove the body text for now.
+         Still keep it saved." Kept verbatim so it can be dropped straight
+         back in. home-order.css styles .home-hero-body and is left in place. -->
+    <!--
+    <p class="home-hero-body">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury,
+      combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s rugged beauty.
+      Perfectly custom-built for solos, couples, and families, these caravans are designed to elevate
+      every adventure without compromising on style or comfort.</p>
+    -->
+  </div>
+</section>
+
+<section class="stat-band">
+  <p class="stat-number" data-count-to="1300">0<span aria-hidden="true">+</span></p>
+  <p class="stat-label">CARAVANS BUILT</p>
+</section>
+
+<section class="band band--why">
+  <div class="media ph" data-ph="assets/img/home/why-band.jpg">
+    <img src="assets/img/home/why-band.jpg" alt=""
+         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="why-scrim" aria-hidden="true"></div>
+  <div class="container band-copy">
+    <h2 class="band-title">Why Choose us?</h2>
+
+    <!-- DESKTOP COPY OF THE FOUR POINTS, and .why-points rather than
+         .why-list on purpose. home.js runs
+           phoneAccordion({ list: ".why-list", mount: ".why-grid",
+                            before: ".why-figure" })
+         so the phone needs .why-list, .why-grid AND .why-figure to all still
+         exist, in that relationship, further down the page. Naming this list
+         .why-list would hand the accordion the wrong one -- it takes the
+         first in the document, and this one comes first.
+
+         The cost is that the four points exist twice in the markup. Change
+         one, change the other. They should become a single list during the
+         phone pass, when .why can be rebuilt rather than hidden. -->
+    <ul class="why-points">
+      <li>
+        <span class="why-icon why-icon--lg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.6 2.6v5.4c0 4-2.7 7.6-6.6 8.9-3.9-1.3-6.6-4.9-6.6-8.9V5.8L12 3.2z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg></span>
+        <div class="why-text">
+          <h3>BUILT TOUGH</h3>
+          <p>Unique Jigsaw construction for strength <br>and durability.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 16.9L15 6.1l2.9 2.9L7.1 19.8H4.2v-2.9z"/><path d="M14.4 6.7l2.9 2.9"/><path d="M16.3 4.8l1.4-1.4a1.3 1.3 0 0 1 1.9 0l1 1a1.3 1.3 0 0 1 0 1.9l-1.4 1.4"/></svg></span>
+        <div class="why-text">
+          <h3>CUSTOM MADE</h3>
+          <p>A caravan to suit your family and the trips <br>you want to take.</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.4l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6L12 3.4z"/></svg></span>
+        <div class="why-text">
+          <h3>LUXURY FINISH</h3>
+          <p>Impeccable, comfortable interiors that <br>offer a welcome retreat</p>
+        </div>
+      </li>
+      <li>
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.4C12 20.4 3.6 15.1 3.6 9.3C3.6 6.4 5.9 4.2 8.6 4.2C10.3 4.2 11.5 5.1 12 6.1C12.5 5.1 13.7 4.2 15.4 4.2C18.1 4.2 20.4 6.4 20.4 9.3C20.4 15.1 12 20.4 12 20.4Z"/></svg></span>
+        <div class="why-text">
+          <h3>PEACE OF MIND</h3>
+          <p>3 year factory-backed warranty and <br>premium after sale service</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="brands">
+  <div class="container">
+    <h2 class="brands-title">Brands we trust</h2>
+  </div>
+  <!-- Two rows, 16 marks each, running against each other. Each row is its
+       own list TWICE over: the animation runs translateX(0) to translateX(-50%),
+       so the second copy lands exactly where the first began and the loop has
+       no seam. Do not add a stray <li> to one row only -- the halves must stay
+       equal or that row jumps every cycle. -->
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--a">
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/cafamo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/cruisemaster_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dexter.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dibond.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/diesel_heat.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/dometic_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/eco_power_world_logo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/fusion_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/girard.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/isi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nce.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/nikpol.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ogo.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/profile_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/ranger.webp" alt=""></li>
+      </ul>
+  </div>
+  <div class="brand-marquee">
+      <ul class="brand-track brand-track--b">
+        <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/shann_leather.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/swift.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/thule.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/truma.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/tuffride.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/urban_republic.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/webasto.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/redarc_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/rv_wifi.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/s_m_chassis_logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/shann_leather.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/swift.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/thule.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/tracking_mate-1.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/truma.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/tuffride.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/urban_republic.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/victron-arizon-logo.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/warwick_fabrics.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/webasto.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/westinghouse.webp" alt=""></li>
+        <li><img src="assets/img/home/brands-colour/wilsonart.webp" alt=""></li>
+        <li class="sm"><img src="assets/img/home/brands-colour/witi.webp" alt=""></li>
+      </ul>
+  </div>
+</section>
+
+<section class="home-contact">
+  <div class="container">
+    <h2 class="home-contact-title"><a href="compact.html"><span class="ln">Ready for</span> <span class="ln">Adventure ?</span></a></h2>
+    <p class="home-contact-lede">Our experts will guide you through your caravan <br>
+      customisation. We&rsquo;ll listen to understand how you&rsquo;ll use <br>
+      your van, then bring your dream to life.</p>
+
+    <form class="home-form" action="#" method="post" autocomplete="off" novalidate>
+      <div class="home-cols">
+
+        <div class="home-col">
+          <div class="field field--line">
+            <input id="h-first" name="first-name" type="text" placeholder="First Name" required autocomplete="given-name">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--line">
+            <input id="h-email" name="email" type="email" placeholder="Email" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="home-pair">
+            <div class="field field--select">
+              <select id="h-state" name="state" autocomplete="off" required>
+                <option value="" selected disabled>State</option>
+                <option>Victoria</option>
+                <option>New South Wales</option>
+                <option>Queensland</option>
+                <option>South Australia</option>
+                <option>Western Australia</option>
+                <option>Tasmania</option>
+                <option>Northern Territory</option>
+                <option>Australian Capital Territory</option>
+              </select>
+              <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+            <div class="field field--line">
+              <input id="h-postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+          </div>
+
+          <!-- the artboard's two checkboxes, rebuilt as the Contact page pill -->
+          <fieldset class="chips home-chips">
+            <legend class="sr-only">What would you like to do?</legend>
+            <span class="chips-thumb is-init" aria-hidden="true"></span>
+            <label class="chip">
+              <input type="radio" name="enquiry-type" value="Call back" checked>
+              <span>Call back</span>
+            </label>
+            <label class="chip">
+              <input type="radio" name="enquiry-type" value="Book a factory tour">
+              <span>Book a factory tour</span>
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="home-col">
+          <div class="field field--line">
+            <input id="h-last" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
+          </div>
+          <div class="field field--line">
+            <input id="h-phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
+            <span class="req" aria-hidden="true">*</span>
+          </div>
+          <div class="field field--area home-area">
+            <label class="sr-only" for="h-message">Something you&rsquo;d like to tell us...</label>
+            <textarea id="h-message" name="message" placeholder="Something you&rsquo;d like to tell us..."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Budget. Opens for Call back and Get a Quote; see budget.js.
+           The radios ship disabled so nothing is submitted from a phone,
+           or without JS, where the question is never asked. -->
+      <div class="budget">
+        <div class="budget-shell no-anim">
+          <div class="budget-inner">
+            <div class="budget-head"><b>Budget</b><i class="budget-value">&mdash;</i><i class="budget-why"></i></div>
+            <div class="budget-scale" role="radiogroup" aria-label="Budget">
+            <div class="budget-track"><span class="budget-fill"></span></div>
+            <label class="budget-stop" style="--p: 0">
+              <input type="radio" name="budget" value="$120,000 &ndash; $140,000" data-why="range" data-p="0" checked disabled>
+              <span>$120&ndash;140k</span>
+            </label>
+            <label class="budget-stop" style="--p: .33333">
+              <input type="radio" name="budget" value="$140,000 &ndash; $180,000" data-why="flexible" data-p=".33333" disabled>
+              <span>$140&ndash;180k</span>
+            </label>
+            <label class="budget-stop" style="--p: .66667">
+              <input type="radio" name="budget" value="$180,000 +" data-why="willing to invest in the best spec" data-p=".66667" disabled>
+              <span>$180k +</span>
+            </label>
+            <label class="budget-stop budget-stop--na" style="--p: 1">
+              <input type="radio" name="budget" value="Not sure yet" data-p="1" data-na="1" disabled>
+              <span>Not sure yet</span>
+            </label>
+            </div>
+            <p class="budget-note">We don&rsquo;t have caravans under $120,000.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-submit" type="submit">Submit</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img class="footer-logo" src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+      <p class="footer-blurb">Join the Facebook group where Wonderland
+        owners share their adventures, photos,
+        stories, comments, reviews and advice about
+        travels in their Wonderland RV.</p>
+      <p><a class="footer-strong" href="#">Find out more</a></p>
+
+      <h3 class="footer-head">LET'S CHAT</h3>
+      <p class="footer-contact">
+        <a class="footer-strong" href="tel:+61386920032">(03) 8692 0032</a><br>
+        <a class="footer-strong" href="mailto:sales@wonderlandrv.com.au">sales@wonderlandrv.com.au</a><br>
+        <span>46 Lara Way, Campbellfield, Victoria 3061</span>
+      </p>
+
+      <ul class="socials">
+        <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 8.5V6.9c0-.8.2-1.2 1.4-1.2h1.5V2.8h-2.5c-3 0-4 1.4-4 3.8v1.9H9v3h1.9V21h3.6v-9.7h2.5l.3-3h-2.8z"/></svg></a></li>
+        <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a></li>
+        <li><a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.7 19.3c-.1-.8-.2-2 0-2.9l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.9 1.6 1.9 1.9 0 3.3-2 3.3-4.9 0-2.6-1.8-4.4-4.4-4.4-3 0-4.8 2.2-4.8 4.6 0 .9.3 1.9.8 2.4.1.1.1.2.1.3l-.3 1.1c0 .2-.1.2-.3.1-1.3-.6-2-2.4-2-3.9 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.3-5.2 6.3-1 0-2-.5-2.3-1.2l-.6 2.4c-.2.9-.8 2-1.2 2.6A10 10 0 1 0 12 2z"/></svg></a></li>
+        <li><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2C1 8.9 1 12 1 12s0 3.1.5 4.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.7.5-4.8.5-4.8s0-3.1-.5-4.8zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg></a></li>
+        <li><a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3v13.1a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.5a5.7 5.7 0 1 0 4.8 5.6V8.6a6.6 6.6 0 0 0 3.9 1.3V6.8a3.6 3.6 0 0 1-3.9-3.6V2z"/></svg></a></li>
+      </ul>
+
+      <img class="made-in" src="assets/img/made-in-australia.png"
+           alt="Wonderland — proudly made in Australia" width="1000" height="148">
+    </div>
+
+    <div class="footer-links">
+      <div class="newsletter">
+        <h3 class="footer-head">SUBSCRIBE TO OUR NEWSLETTER</h3>
+        <form class="newsletter-form" action="#" method="post" autocomplete="off">
+          <div class="field field--line">
+            <label class="sr-only" for="h-nl-email">Email</label>
+            <input id="h-nl-email" name="email" type="email" placeholder="Email*" required autocomplete="off">
+          </div>
+          <button class="btn-subscribe" type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="link-cols">
+        <div class="link-col">
+          <h4 class="footer-head">RANGE</h4>
+          <ul><li><a href="#">Solara</a></li><li><a href="#">XTR</a></li><li><a href="#">Hornet</a></li><li><a href="#">Amaroo</a></li></ul>
+          <h4 class="footer-head footer-head--gap">OWNERS SUPPORT</h4>
+          <ul><li><a href="#">Owners manual</a></li><li><a href="#">Warranty &amp; repairs</a></li><li><a href="compact.html">Contact us</a></li></ul>
+        </div>
+
+        <div class="link-col">
+          <h4 class="footer-head">EXPLORE</h4>
+          <ul><li><a href="#">Blog</a></li><li><a href="#">Media features</a></li><li><a href="#">Partners</a></li><li><a href="ambassadors.html">Wonderlanders</a></li></ul>
+          <h4 class="footer-head footer-head--gap">WHERE TO BUY</h4>
+          <ul><li><a href="#">Find a dealer</a></li><li><a href="compact.html">Book a factory tour</a></li><li><a href="#">Request a quote</a></li><li><a href="compact.html">Get in touch</a></li></ul>
+        </div>
+
+        <div class="link-col">
+          <h4 class="footer-head">LOCATIONS</h4>
+          <ul><li><a href="#">Melbourne</a></li><li><a href="#">Sydney</a></li><li><a href="#">Port Stephens</a></li><li><a href="#">Brisbane</a></li><li><a href="#">Mackay</a></li><li><a href="#">Perth</a></li><li><a href="#">Tasmania</a></li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal-left">
+      <p><a href="#">Privacy Policy</a></p>
+      <p><a href="#">Terms &amp; Conditions</a></p>
+      <p>&copy; 2026 Wonderland RV Caravans. All Rights Reserved.</p>
+    </div>
+
+    <div class="footer-legal-right">
+      <p>Disclaimer: Images shown may have optional extras fitted. Wonderland RV reserves the right to discontinue or change the
+        models, features, specifications, or designs of the caravans referred to herein, at their discretion without prior notice.</p>
+      <p>Photo credit: We would like to thank many of our Wonderlanders for their great photography used across our site.</p>
+    </div>
+
+  </div>
+</footer>
+
+<div class="jump">
+  <a href="#top">1 &middot; poster</a>
+  <a href="#stat">2 &middot; stat band</a>
+  <a href="#why">3 &middot; icons</a>
+  <a href="#grounds">4 &middot; grounds</a>
+</div>
+
+<div class="hbar">
+  <div class="container">
+    <b>1</b>
+    <button id="poster">show poster</button>
+    <b>2</b>
+    <span class="seg">Top fade
+      <input type="range" id="blur" min="0" max="1.6" step="0.05" value="0.70">
+      <output id="blo">0.70</output>
+    </span>
+    <button id="nb">off</button>
+    <b>3</b>
+    <button data-i="1">icons 1&times;</button>
+    <button data-i="2" class="on">icons 2&times;</button>
+    <b>4</b>
+    <button data-g="today">today</button>
+    <button data-g="grey" class="on">grey</button>
+    <button data-g="black">black</button>
+  </div>
+</div>
+
+<script>
+var blur = document.getElementById("blur"), blo = document.getElementById("blo");
+var icon = "2", ground = "grey", noblur = false;
+function paint(){
+  document.body.className = "home" + (icon === "2" ? " icon2x" : "") +
+    (ground === "grey" ? " grey" : ground === "black" ? " black" : "") +
+    (noblur ? " noblur" : "");
+  document.body.style.setProperty("--blur", blur.value + "rem");
+  blo.textContent = (+blur.value).toFixed(2);
+  document.querySelectorAll(".hbar button[data-i]").forEach(function(b){
+    b.classList.toggle("on", b.dataset.i === icon); });
+  document.querySelectorAll(".hbar button[data-g]").forEach(function(b){
+    b.classList.toggle("on", b.dataset.g === ground); });
+  document.getElementById("nb").classList.toggle("on", noblur);
+}
+document.querySelectorAll(".hbar button[data-i]").forEach(function(b){
+  b.addEventListener("click", function(){ icon = b.dataset.i; paint(); }); });
+document.querySelectorAll(".hbar button[data-g]").forEach(function(b){
+  b.addEventListener("click", function(){ ground = b.dataset.g; paint(); }); });
+document.getElementById("nb").addEventListener("click", function(){ noblur = !noblur; paint(); });
+blur.addEventListener("input", paint);
+paint();
+
+/* the hero still sits under the player; pull the player out to see it */
+document.getElementById("poster").addEventListener("click", function () {
+  var f = document.querySelector(".home-hero-media");
+  var i = f && f.querySelector("iframe");
+  if (i) { i.remove(); this.textContent = "poster showing"; this.classList.add("on"); }
+  else { location.reload(); }
+});
+
+/* anchors for the jump list */
+document.querySelector(".stat-band").id = "stat";
+document.querySelector(".band--why").id = "why";
+document.querySelector(".brands").id = "grounds";
+document.querySelector(".site-header").id = "top";
+</script>
+<script src="assets/js/video-embed.js?v=273"></script>
+<script src="assets/js/home.js?v=273"></script>
+<script src="assets/js/budget.js?v=273"></script>
+</body>
+</html>
