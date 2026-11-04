@@ -334,12 +334,80 @@
 .stat-number { color: var(--orange-deep); }
 .stat-label  { color: var(--orange-deep); }
 
+
+/* ---- WHY CHOOSE US: one band, copy in the sky -------------------------
+   Variant A from sample-why-band.html. The band becomes what the header
+   leaves, the four points move onto the photograph, and the list and the
+   feature picture below it are hidden rather than deleted -- see the markup
+   note: the phone accordion needs .why-list, .why-grid and .why-figure to
+   all still exist in their original relationship.
+
+   THE PICTURE IS object-fit: fill, as chosen. It uses the whole frame with
+   no crop, and squashes it to the box: at 1440x820 the band is 1.96:1
+   against the source's 2.96:1, so every horizontal measure renders at 66%
+   of true -- the rig draws about a third narrower than it is. At 1440x1200
+   the band squares up to 1.29:1 and that becomes 44%. This is a deliberate
+   choice and is recorded as one; `cover` with object-position 56% was the
+   alternative and kept the rig whole at every window shape tested.
+
+   Because fill never overflows, object-position has nothing to act on and
+   is not set. Do not add one back expecting it to do something.
+
+   WHY THE COPY STOPS AT 40%. Under fill the whole frame is always on
+   screen, so the horizon stays at about 70% of the band and the rig at
+   62-80% whatever the window does. Everything above 40% is empty sky.
+
+   THE SCRIM is flat black at 45% plus a bottom-weighted gradient. Flat
+   alone greys the sky evenly and flattens the photograph; the gradient
+   keeps the horizon and the rig readable while the copy sits where the
+   scrim is heaviest.
+
+   The inherited `.why-list li + li { margin-top: 0.55rem }` is why this is
+   .why-points and not a reuse of .why-list styling: that rule was the gap
+   in a VERTICAL list and in a horizontal grid it pushed items 2, 3 and 4
+   down by 0.55rem while leaving the first alone. */
+.band--why { height: var(--band-h); overflow: hidden; }
+.band--why .media img { object-fit: fill; }
+
+.why-scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,.28) 0%, rgba(0,0,0,0) 55%),
+              rgba(0, 0, 0, .45);
+}
+
+.band--why .band-copy {
+  z-index: 2;
+  flex-direction: column; align-items: stretch;
+  padding-top: 1.10rem; gap: 0.60rem;
+}
+
+.why-points { display: grid; grid-template-columns: repeat(4, 1fr);
+              gap: 0.40rem; align-items: start; }
+.why-points li { display: flex; flex-direction: column; align-items: flex-start;
+                 gap: 0.16rem; margin-top: 0; }
+.why-points .why-icon { flex: none; width: 0.62rem; height: 0.62rem;
+                        color: var(--orange); }
+.why-points .why-icon svg { width: 100%; height: 100%; }
+.why-points .why-icon--lg svg { transform: scale(1.2); }
+.why-points h3 { font-size: var(--t-sub); font-weight: 700;
+                 letter-spacing: 0.02em; line-height: 1; color: #fff; }
+.why-points p { margin-top: 0.14rem; font-size: var(--t-caption);
+                font-style: italic; line-height: var(--lh-caption);
+                color: rgba(255,255,255,.82); max-width: 3.4rem; }
+/* the hand-set breaks were measured for a column half this wide */
+.why-points br { display: none; }
+
+/* the list and the feature picture are the band's job now */
+.why { display: none; }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
    must never appear there. */
 @media (max-width: 900px) {
   .home-hero-body { display: none; }
+  /* desktop-only: the phone keeps .why-list in .why-grid and its own band */
+  .why-points, .why-scrim { display: none; }
   /* desktop-only copy: the phone deck is headings and dots, nothing else */
   .coty-note { display: none; }
 }
