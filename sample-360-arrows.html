@@ -13,6 +13,7 @@
           line-height: 0.40rem; max-width: 11.5rem; margin: 0 0 1.1rem; color:#4A4038; }
   .lede b { font-weight:500; }
   .grid { display:grid; gap: 0.6rem; }
+  .grid--2 { grid-template-columns: repeat(2,1fr); gap:0.9rem 0.8rem; }
   .card { margin:0; background:#fff; border:1px solid rgba(60,48,36,.10);
           display:grid; grid-template-columns: 4.6rem 1fr; }
   .card.ok { border-color:#2B2520; }
@@ -26,8 +27,7 @@
   .ico svg { width:100%; height:100%; display:block; }
   h2 { font-size: var(--t-sub); line-height:0.34rem; margin:0 0 0.16rem; }
   .what, .note { font-family: var(--gordita); font-weight:400; font-size: var(--t-caption);
-                 line-height: var(--lh-caption); margin:0 0 0.18rem; text-wrap:pretty;
-                 max-width: 13rem; }
+                 line-height: var(--lh-caption); margin:0 0 0.18rem; text-wrap:pretty; max-width:13rem; }
   .what { color:#2B2520; } .what em { font-style:normal; font-weight:500; }
   .note { color:#7A6E62; }
   .sizes { display:flex; align-items:center; gap:0.24rem; margin:0.32rem 0;
@@ -42,111 +42,51 @@
 <body>
   <div class="container wrap">
     <h1>Crossed arcs &mdash; where the arrows go</h1>
-    <p class="lede">The arcs are unchanged. Heads are now <b>2.0 long instead of 2.6</b>, and every one sits on its arc&rsquo;s real tangent. Three readings of &ldquo;either ends&rdquo;, because the icon has four open ends and only two of them are in clear space. <b>A is the one</b>; B and C are here so the fault is visible rather than asserted.</p>
+    <p class="lede">The arcs are unchanged. Heads are <b>2.0 long instead of 2.6</b> and each sits on its arc&rsquo;s real tangent. Three readings of &ldquo;either ends&rdquo;, since the icon has four open ends and only two are in clear space. <b>A is the one.</b></p>
     <div class="grid">
       <figure class="card ok">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i></div>
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/></svg></i></div>
         <figcaption>
           <h2>A &mdash; both ends of one gap</h2>
-          <p class="what">Two heads at the two ends of the tall arc&rsquo;s gap, pointing opposite ways. Symmetric, and it says <em>drag it either way</em>, which is what a tour actually does.</p>
+          <p class="what">Two heads at the two ends of the tall arc&rsquo;s gap, pointing opposite ways. Symmetric, and it says <em>drag it either way</em>, which is what a tour does.</p>
           <p class="note">Clean. The pair sits in open space at the bottom and nothing overlaps.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>Virtual tour</span></div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
-      <figure class="card bad">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i></div>
+      <figure class="card ">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></i></div>
         <figcaption>
           <h2>B &mdash; one head per arc</h2>
           <p class="what">A head on each ellipse, both running the same way round the icon.</p>
-          <p class="note">The second head lands where the wide arc crosses the tall one and reads as a kink, not an arrow. Same collision fault I just fixed on the orbit ring.</p>
+          <p class="note">The second head lands where the wide arc crosses the tall one and reads as a kink, not an arrow.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>Virtual tour</span></div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
-      <figure class="card bad">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i></div>
+      <figure class="card ">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/><polyline points=" 1.564,13.154 3.47,13.761 3.319,11.766 "/></svg></i></div>
         <figcaption>
           <h2>C &mdash; every open end</h2>
           <p class="what">All four open ends carry a head.</p>
-          <p class="note">Carries B&rsquo;s collision and adds a stray tick on the left rim. Busy at full size and mush at 0.30rem.</p>
+          <p class="note">Carries B&rsquo;s collision and adds a stray tick on the left rim. Busy large, mush at 0.30rem.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/><polyline points=" 1.564,13.154 3.47,13.761 3.319,11.766 "/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/><polyline points=" 1.564,13.154 3.47,13.761 3.319,11.766 "/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/><polyline points=" 1.564,13.154 3.47,13.761 3.319,11.766 "/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>Virtual tour</span></div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.251,18.916 13.452,20.75 15.452,20.804 "/><polyline points=" 7.838,19.702 9.793,20.123 9.451,18.153 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/><polyline points=" 1.564,13.154 3.47,13.761 3.319,11.766 "/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
     </div>

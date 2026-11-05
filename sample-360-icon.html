@@ -10,32 +10,29 @@
   .wrap { padding: 1.6rem 0 2.4rem; }
   h1 { font-size: var(--t-heading); line-height: 0.62rem; margin: 0 0 0.26rem; }
   .lede { font-family: var(--gordita); font-weight:400; font-size: var(--t-body);
-          line-height: 0.40rem; max-width: 11rem; margin: 0 0 1.1rem; color:#4A4038; }
+          line-height: 0.40rem; max-width: 11.5rem; margin: 0 0 1.1rem; color:#4A4038; }
   .lede b { font-weight:500; }
-
-  .grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem 0.8rem; }
+  .grid { display:grid; gap: 0.6rem; }
+  .grid--2 { grid-template-columns: repeat(2,1fr); gap:0.9rem 0.8rem; }
   .card { margin:0; background:#fff; border:1px solid rgba(60,48,36,.10);
-          display:grid; grid-template-columns: 4.2rem 1fr; }
+          display:grid; grid-template-columns: 4.6rem 1fr; }
+  .card.ok { border-color:#2B2520; }
   .stage { display:grid; place-items:center; background:#F8F8F7;
            border-right:1px solid rgba(60,48,36,.10); }
-  figcaption { padding: 0.46rem 0.5rem 0.5rem; }
-
+  .card.ok .stage { border-right-color:#2B2520; }
+  figcaption { padding: 0.50rem 0.56rem 0.54rem; }
   .ico { display:inline-grid; place-items:center; width:var(--s,0.53rem); height:var(--s,0.53rem);
          color:#2B2520; flex:0 0 auto; }
-  .ico--lg { --s: 1.5rem; }
+  .ico--lg { --s: 1.7rem; }
   .ico svg { width:100%; height:100%; display:block; }
-
   h2 { font-size: var(--t-sub); line-height:0.34rem; margin:0 0 0.16rem; }
   .what, .note { font-family: var(--gordita); font-weight:400; font-size: var(--t-caption);
-                 line-height: var(--lh-caption); margin:0 0 0.18rem; text-wrap:pretty; }
-  .what { color:#2B2520; }
+                 line-height: var(--lh-caption); margin:0 0 0.18rem; text-wrap:pretty; max-width:13rem; }
+  .what { color:#2B2520; } .what em { font-style:normal; font-weight:500; }
   .note { color:#7A6E62; }
-  .what em { font-style:normal; font-weight:500; }
-
-  .sizes { display:flex; align-items:center; gap:0.22rem; margin:0.30rem 0;
-           padding-top:0.26rem; border-top:1px solid rgba(60,48,36,.10); }
+  .sizes { display:flex; align-items:center; gap:0.24rem; margin:0.32rem 0;
+           padding-top:0.28rem; border-top:1px solid rgba(60,48,36,.10); }
   .slab { font-family:var(--gordita); font-size:0.17rem; color:#9A8F84; margin-left:0.14rem; }
-
   .inctx { padding-top:0.22rem; }
   .cta { display:inline-flex; align-items:center; gap:0.20rem;
          font-family:var(--gordita); font-weight:500; font-size:var(--t-cta);
@@ -45,124 +42,66 @@
 <body>
   <div class="container wrap">
     <h1>The 360 icon</h1>
-    <p class="lede">Four candidates, drawn in Illustrator on the same 24&times;24 frame as the existing set, at <b>0.96 stroke</b> with round caps and joins &mdash; so the weight follows the box size exactly as the why- and range- icons do. <b>Only the first is based on a real library icon</b> (Lucide&rsquo;s rotate-3d, checked against source); the other three are my own. Each is shown large, then at the sizes it would ship at, then inside the Virtual tour CTA it has to live in.</p>
-    <div class="grid">
-      <figure class="card">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i></div>
+    <p class="lede">Four candidates on the same 24&times;24 frame as the existing set, at <b>0.96 stroke</b> with round caps and joins, so weight follows box size as the why- and range- icons do. <b>Only the first is based on a real library icon</b>; the other three are mine.</p>
+    <div class="grid grid--2">
+      <figure class="card ok">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.573,18.404 13.452,20.75 16.052,20.729 "/></svg></i></div>
         <figcaption>
           <h2>Crossed arcs</h2>
-          <p class="what">Redrawn from Lucide&rsquo;s <em>rotate-3d</em>, which I did check against their source. Two ellipses crossed and left <em>open</em>, one arrowhead on the gap &mdash; close the gaps and it is a wireframe globe.</p>
-          <p class="note">The safest pick. It is what a reader has already met in every other interface.</p>
+          <p class="what">Redrawn from Lucide&rsquo;s <em>rotate-3d</em>, which I checked against their source. Two ellipses crossed and left <em>open</em> &mdash; close the gaps and it is a wireframe globe.</p>
+          <p class="note">Chosen. See the arrows page for where the heads go.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.573,18.404 13.452,20.75 16.052,20.729 "/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.573,18.404 13.452,20.75 16.052,20.729 "/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.573,18.404 13.452,20.75 16.052,20.729 "/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx">
-            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
-	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
-	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
-	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>Virtual tour</span>
-          </div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123 c0.253,4.346-1.092,8.44-3.217,9.791"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 14.573,18.404 13.452,20.75 16.052,20.729 "/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
-      <figure class="card">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
-	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
-	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i></div>
+      <figure class="card ">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003 c-4.12,0.416-8.321-0.528-10.105-2.27"/><polyline points=" 6.286,15.867 3.843,15.333 4.434,17.762 "/><path d=" M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i></div>
         <figcaption>
           <h2>Orbit</h2>
-          <p class="what">One wide ring carrying a single arrowhead, with the subject sitting inside it. Says <em>you move around this</em> rather than <em>this spins</em>. My own drawing, not taken from a library.</p>
-          <p class="note">Reads at the smallest size of the four, because it is one ring and one head.</p>
+          <p class="what">One wide ring carrying a single arrowhead, the subject sitting inside it. Says <em>you move around this</em> rather than <em>this spins</em>. My own drawing, not from a library.</p>
+          <p class="note">Reads smallest of the four, being one ring and one head.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
-	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
-	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
-	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
-	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
-	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
-	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003 c-4.12,0.416-8.321-0.528-10.105-2.27"/><polyline points=" 6.286,15.867 3.843,15.333 4.434,17.762 "/><path d=" M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003 c-4.12,0.416-8.321-0.528-10.105-2.27"/><polyline points=" 6.286,15.867 3.843,15.333 4.434,17.762 "/><path d=" M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003 c-4.12,0.416-8.321-0.528-10.105-2.27"/><polyline points=" 6.286,15.867 3.843,15.333 4.434,17.762 "/><path d=" M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx">
-            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
-	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
-	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>Virtual tour</span>
-          </div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003 c-4.12,0.416-8.321-0.528-10.105-2.27"/><polyline points=" 6.286,15.867 3.843,15.333 4.434,17.762 "/><path d=" M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
-      <figure class="card">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i></div>
+      <figure class="card ">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,8.6 19.4,12.6 12,16.6 4.6,12.6 "/><polyline points=" 4.6,12.6 4.6,18 12,22 19.4,18 19.4,12.6 "/><line x1="12" y1="16.6" x2="12" y2="22"/><path d=" M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/><polyline points=" 16.657,4.391 18.338,5.81 18.877,3.678 "/></svg></i></div>
         <figcaption>
           <h2>Turn the room</h2>
-          <p class="what">The subject drawn as a box, with the turn gesture arcing over it. The only one of the four that names <em>what</em> is being turned.</p>
-          <p class="note">Most literal for a van interior. Also the busiest &mdash; three shapes before the arrow.</p>
+          <p class="what">The subject as a box with the turn gesture arcing over it. The only one that names <em>what</em> is turning. My own drawing.</p>
+          <p class="note">Most literal for a van interior, also the busiest &mdash; three shapes before the arrow.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,8.6 19.4,12.6 12,16.6 4.6,12.6 "/><polyline points=" 4.6,12.6 4.6,18 12,22 19.4,18 19.4,12.6 "/><line x1="12" y1="16.6" x2="12" y2="22"/><path d=" M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/><polyline points=" 16.657,4.391 18.338,5.81 18.877,3.678 "/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,8.6 19.4,12.6 12,16.6 4.6,12.6 "/><polyline points=" 4.6,12.6 4.6,18 12,22 19.4,18 19.4,12.6 "/><line x1="12" y1="16.6" x2="12" y2="22"/><path d=" M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/><polyline points=" 16.657,4.391 18.338,5.81 18.877,3.678 "/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,8.6 19.4,12.6 12,16.6 4.6,12.6 "/><polyline points=" 4.6,12.6 4.6,18 12,22 19.4,18 19.4,12.6 "/><line x1="12" y1="16.6" x2="12" y2="22"/><path d=" M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/><polyline points=" 16.657,4.391 18.338,5.81 18.877,3.678 "/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx">
-            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>Virtual tour</span>
-          </div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,8.6 19.4,12.6 12,16.6 4.6,12.6 "/><polyline points=" 4.6,12.6 4.6,18 12,22 19.4,18 19.4,12.6 "/><line x1="12" y1="16.6" x2="12" y2="22"/><path d=" M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/><polyline points=" 16.657,4.391 18.338,5.81 18.877,3.678 "/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
-      <figure class="card">
-        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
-	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i></div>
+      <figure class="card ">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d=" M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/><line x1="6.647" y1="7.63" x2="6.647" y2="16.37"/><line x1="17.353" y1="7.63" x2="17.353" y2="16.37"/><line x1="7.4" y1="12" x2="16.6" y2="12"/></svg></i></div>
         <figcaption>
           <h2>Panorama</h2>
-          <p class="what">A barrel-sided frame &mdash; the image bowed as if wrapped around you. My own drawing, not taken from a library, and the only one here with no arrow.</p>
-          <p class="note">Quietest of the four. No arrow, so it reads as a still rather than a movement.</p>
+          <p class="what">A barrel-sided frame, the image bowed as if wrapped around you. My own drawing, and the only one with no arrow.</p>
+          <p class="note">Quietest of the four, so it reads as a still rather than a movement.</p>
           <div class="sizes">
-            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
-	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
-            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
-	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
-            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
-	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d=" M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/><line x1="6.647" y1="7.63" x2="6.647" y2="16.37"/><line x1="17.353" y1="7.63" x2="17.353" y2="16.37"/><line x1="7.4" y1="12" x2="16.6" y2="12"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d=" M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/><line x1="6.647" y1="7.63" x2="6.647" y2="16.37"/><line x1="17.353" y1="7.63" x2="17.353" y2="16.37"/><line x1="7.4" y1="12" x2="16.6" y2="12"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d=" M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/><line x1="6.647" y1="7.63" x2="6.647" y2="16.37"/><line x1="17.353" y1="7.63" x2="17.353" y2="16.37"/><line x1="7.4" y1="12" x2="16.6" y2="12"/></svg></i>
             <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
           </div>
-          <div class="inctx">
-            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
-	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
-	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>Virtual tour</span>
-          </div>
+          <div class="inctx"><span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d=" M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d=" M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/><line x1="6.647" y1="7.63" x2="6.647" y2="16.37"/><line x1="17.353" y1="7.63" x2="17.353" y2="16.37"/><line x1="7.4" y1="12" x2="16.6" y2="12"/></svg></i>Virtual tour</span></div>
         </figcaption>
       </figure>
     </div>
