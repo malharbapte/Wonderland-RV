@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>360 icon</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=298">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=298">
+<link rel="stylesheet" href="assets/css/homepage.css?v=298">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- a 360 mark for the Virtual tour control.
+
+   WHAT IS WRONG WITH A, which is on the page now. It is a globe: an ellipse
+   round a dot. Globes mean language, international, world -- not "look
+   around this room". It also collapses at 0.62rem, because the ellipse and
+   the inner circle end up near enough the same weight and spacing that the
+   whole thing reads as a blob with a hole.
+
+   The six beside it each pick a different thing to say:
+
+     B  the number. Unambiguous and language-free, but it is lettering at
+        icon size, which is the hardest thing on this list to keep crisp
+     C  the gesture -- a loop with a head at each end. Says "turn it", says
+        nothing about what you are turning
+     D  the subject. An isometric room, which is what a floorplan tour
+        actually shows. The only one here tied to THIS page rather than to
+        360 in general
+     E  the sphere, properly built: latitudes and a meridian, so it reads as
+        a ball rather than a ring
+     F  the panorama -- a curved strip, the shape of an unwrapped 360 photo.
+        Quiet, and reads instantly once seen
+     G  the viewpoint: you, with the view opening out. The only one that puts
+        the person in it
+
+   All at --icon-stroke, shown at 0.62rem -- the size on the page -- and
+   again at 1.4rem so the drawing can be judged, then in place beside the
+   real CTA.
+   =========================================================================== */
+body { padding: 0.7rem var(--page-margin) 1.4rem; }
+h1 { font-family: var(--aviano); font-weight: 900; font-size: 0.40rem; }
+h2 { font-family: var(--aviano); font-weight: 900; font-size: 0.24rem;
+     margin-top: 0.8rem; padding-top: 0.3rem; border-top: 1px solid #e4e2de; }
+.lede { margin-top: 0.14rem; font-family: var(--gordita); font-size: var(--t-caption);
+  line-height: var(--lh-caption); color: #6b6158; max-width: 13rem; }
+.strip { display: flex; gap: 0.8rem; margin-top: 0.4rem; flex-wrap: wrap; }
+.cell { width: 2.1rem; text-align: center; }
+.ic { width: var(--box, 1.4rem); height: var(--box, 1.4rem); margin: 0 auto; color: #010101; }
+.ic svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
+.cell b { display: block; margin-top: 0.16rem; font-family: var(--gordita);
+  font-size: var(--t-caption); }
+.cell i { display: block; font-style: normal; font-family: var(--gordita);
+  font-size: 0.145rem; line-height: 1.35; color: #8c857b; margin-top: 0.04rem; }
+.cta-row { display: flex; align-items: center; gap: 0.26rem; margin-top: 0.26rem; }
+.cta-row .tag { font-family: var(--gordita); font-size: 0.145rem; color: #8c857b; }
+.fp-icon { width: 0.62rem; height: 0.62rem; display: grid; place-items: center;
+  background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
+.fp-icon svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
+.fp-tour { height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta); }
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; align-items: center; gap: 0.14rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar input[type=range] { width: 1.8rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+</style>
+</head>
+<body class="home">
+<h1>A mark for the virtual tour</h1>
+<p class="lede">A is what is on the page: an ellipse round a dot, which is a globe &mdash;
+  globes mean language and world, not &ldquo;look around this room&rdquo; &mdash; and at 0.62rem
+  the ring and the dot close up into a blob with a hole. Six alternatives, each saying a
+  different thing.</p>
+
+<h2>Drawn large</h2>
+<div class="strip"><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg></div><b>A &middot; orbit</b><i>on the page now</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4A10.6 10.6 0 0 1 12 5.2c5.2 0 9.4 2.3 9.4 5.2 0 2-2 3.7-4.9 4.6"/><path d="M20.4 15.6A10.6 10.6 0 0 1 12 18.8c-5.2 0-9.4-2.3-9.4-5.2 0-2 2-3.7 4.9-4.6"/><path d="M9.4 10.4h1.9l-1.3 1.6a1.5 1.5 0 1 1-1.2 2.4M14.6 10.4h-1.5a1.6 1.6 0 0 0-1.6 1.6v1a1.6 1.6 0 0 0 1.6 1.6h0a1.6 1.6 0 0 0 1.6-1.6v-.2a1.4 1.4 0 0 0-1.4-1.4h-1.8"/></svg></div><b>B &middot; 360</b><i>the number does the talking</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 9.4A8 8 0 0 0 5.5 7.8"/><path d="M4.6 14.6A8 8 0 0 0 18.5 16.2"/><path d="M19.9 5.1v4.4h-4.4M4.1 18.9v-4.4h4.4"/></svg></div><b>C &middot; rotate</b><i>two arrowheads on one loop</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4 20.6 8v8l-8.6 4.6L3.4 16V8z"/><path d="M3.4 8 12 12.6 20.6 8M12 12.6v8"/></svg></div><b>D &middot; room</b><i>a corner of the van, in plan</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><ellipse cx="12" cy="12" rx="3.6" ry="8.4"/><path d="M4.2 9.2h15.6M4.2 14.8h15.6"/></svg></div><b>E &middot; sphere</b><i>latitudes, with a turn</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.2c5.9 1.7 11.7 1.7 17.6 0v9.6c-5.9-1.7-11.7-1.7-17.6 0z"/><path d="M9.1 7.9v8.2M14.9 7.9v8.2"/></svg></div><b>F &middot; panorama</b><i>the unwrapped view</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15.6" r="2.4"/><path d="M7.4 12.4a6 6 0 0 1 9.2 0"/><path d="M4.6 8.8a10 10 0 0 1 14.8 0"/></svg></div><b>G &middot; viewpoint</b><i>where you stand, looking out</i></div></div>
+
+<h2>At 0.62rem, beside the real CTA</h2>
+<div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">A &middot; orbit</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4A10.6 10.6 0 0 1 12 5.2c5.2 0 9.4 2.3 9.4 5.2 0 2-2 3.7-4.9 4.6"/><path d="M20.4 15.6A10.6 10.6 0 0 1 12 18.8c-5.2 0-9.4-2.3-9.4-5.2 0-2 2-3.7 4.9-4.6"/><path d="M9.4 10.4h1.9l-1.3 1.6a1.5 1.5 0 1 1-1.2 2.4M14.6 10.4h-1.5a1.6 1.6 0 0 0-1.6 1.6v1a1.6 1.6 0 0 0 1.6 1.6h0a1.6 1.6 0 0 0 1.6-1.6v-.2a1.4 1.4 0 0 0-1.4-1.4h-1.8"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">B &middot; 360</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 9.4A8 8 0 0 0 5.5 7.8"/><path d="M4.6 14.6A8 8 0 0 0 18.5 16.2"/><path d="M19.9 5.1v4.4h-4.4M4.1 18.9v-4.4h4.4"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">C &middot; rotate</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4 20.6 8v8l-8.6 4.6L3.4 16V8z"/><path d="M3.4 8 12 12.6 20.6 8M12 12.6v8"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">D &middot; room</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><ellipse cx="12" cy="12" rx="3.6" ry="8.4"/><path d="M4.2 9.2h15.6M4.2 14.8h15.6"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">E &middot; sphere</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.2c5.9 1.7 11.7 1.7 17.6 0v9.6c-5.9-1.7-11.7-1.7-17.6 0z"/><path d="M9.1 7.9v8.2M14.9 7.9v8.2"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">F &middot; panorama</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15.6" r="2.4"/><path d="M7.4 12.4a6 6 0 0 1 9.2 0"/><path d="M4.6 8.8a10 10 0 0 1 14.8 0"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">G &middot; viewpoint</span></div>
+
+<div class="hbar">
+  <div class="container">
+    <b>SIZE</b>
+    <span class="seg"><input type="range" id="bx" min="0.5" max="2.4" step="0.02" value="1.4">
+      <output id="bo">1.40rem</output></span>
+    <span class="seg" id="note"></span>
+  </div>
+</div>
+<script>
+var bx=document.getElementById("bx"), bo=document.getElementById("bo");
+function paint(){
+  document.body.style.setProperty("--box", bx.value+"rem");
+  bo.textContent=(+bx.value).toFixed(2)+"rem";
+  var rem=parseFloat(getComputedStyle(document.documentElement).fontSize);
+  document.getElementById("note").textContent="the row below is fixed at 0.62rem, the page size";
+}
+bx.addEventListener("input",paint); paint();
+</script>
+</body></html>

@@ -21,7 +21,10 @@
    heading nothing else on the site shares.
    ========================================================================== */
 
-.fp { position: relative; padding-top: 1.20rem; padding-bottom: 1.20rem; }
+.fp {
+  --fp-foot: 1.39rem;   /* .fp-actions: 0.46 margin + 0.93 height */
+  position: relative; padding-top: 1.20rem; padding-bottom: 1.20rem;
+}
 
 .fp-title { font-family: var(--aviano); font-weight: 900;
             font-size: var(--t-heading); line-height: 1; }
@@ -90,6 +93,14 @@
 }
 .fp-size-value { font-style: normal; font-size: 0.26rem; font-weight: 500;
                  color: var(--orange); }
+.fp-size-count { font-style: normal; font-size: var(--t-caption);
+                 color: var(--dim, #6b6158); }
+/* a kind with nothing left under the current maximum says so, rather than
+   leaving an empty rail that looks broken */
+.fp-rail-empty { padding: 0.3rem 0.46rem; font-family: var(--gordita);
+                 font-size: var(--t-caption); line-height: var(--lh-caption);
+                 color: var(--dim, #6b6158); }
+.fp-row[hidden] { display: none; }
 .fp-size-scale { position: relative; height: 0.62rem; }
 .fp-size-track {
   position: absolute; left: 0; right: 0; top: 0.11rem;
@@ -148,25 +159,30 @@
 /* ---- the foot ----------------------------------------------------------- */
 .fp-actions {
   margin-top: 0.46rem;
-  display: grid; grid-template-columns: auto auto 1fr;
-  align-items: end; column-gap: 0.22rem;
+  /* the middle track IS the button: 276.09 of the artboard's 1108.41 column
+     is 24.91%, so the CTA matches the reference instead of being as wide as
+     its own words happen to make it */
+  display: grid; grid-template-columns: auto 24.91% 1fr;
+  align-items: center; column-gap: 0.26rem;
 }
 .fp-actions .fp-fine { padding-left: 0.3rem; }
 /* A SQUARE BESIDE THE CTA, as the wireframe draws it, with the icon in it.
    Outlined rather than filled: two solid orange blocks side by side would
    read as two primary actions, and only one of them is. Same height as the
    button so they sit on one line. */
+/* NO FRAME. The square on the artboard marked where the icon goes; it was
+   never a box to draw. The mark sits on its own beside the CTA, on the
+   same baseline, at the page's own --icon-stroke. */
 .fp-icon {
-  width: 0.93rem; height: 0.93rem; flex: none;
+  width: 0.62rem; height: 0.62rem; flex: none;
   display: grid; place-items: center;
-  background: #fff; border: 0.0075rem solid var(--ink);
-  padding: 0; cursor: pointer;
+  background: none; border: 0; padding: 0; cursor: pointer;
   color: var(--ink);
-  transition: color .3s ease, border-color .3s ease;
+  transition: color .3s ease;
 }
-.fp-icon svg { width: 0.42rem; height: 0.42rem; stroke-width: var(--icon-stroke); }
-.fp-icon:hover { color: var(--orange-deep); border-color: var(--orange-deep); }
-.fp-tour { height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta); }
+.fp-icon svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
+.fp-icon:hover { color: var(--orange-deep); }
+.fp-tour { width: 100%; height: 0.93rem; padding: 0; font-size: var(--t-cta); }
 .fp-fine {
   font-family: var(--gordita); font-size: 0.161rem; line-height: 0.22rem;
   color: var(--dim, #6b6158);
@@ -183,7 +199,11 @@
 .fp-rail {
   --peek: 0.76rem;                /* the sliver left showing when it is shut */
   position: absolute; left: calc(50% - 50vw);
-  top: 0; bottom: 0;              /* ends where .fp-body does, on the CTA row */
+  /* ENDS WHERE THE PLAN IMAGE ENDS, not at the foot of the section. --fp-foot
+     is what sits below the grid: the actions row's 0.46rem top margin plus
+     its own 0.93rem height. Pulling the rail up by that much lands its
+     bottom edge on the same line as the bottom of .fp-plan. */
+  top: 0; bottom: var(--fp-foot);
   width: 30.59%; max-width: 4.96rem;
   padding: 0.46rem 0 0.6rem;
   background: #F8F8F7;

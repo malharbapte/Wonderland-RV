@@ -6,10 +6,10 @@
 <title>Layouts &mdash; Wonderland RV</title>
 <meta name="description" content="Wonderland RV floorplans from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;, for families, couples and solo adventurers.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=297">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=297">
-<link rel="stylesheet" href="assets/css/homepage.css?v=297">
-<link rel="stylesheet" href="assets/css/range-page.css?v=297">
+<link rel="stylesheet" href="assets/css/styles.css?v=299">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=299">
+<link rel="stylesheet" href="assets/css/homepage.css?v=299">
+<link rel="stylesheet" href="assets/css/range-page.css?v=299">
 </head>
 <body class="home">
 
@@ -113,12 +113,13 @@
         </fieldset>
 
         <div class="fp-size">
-          <div class="fp-size-head"><b>Size</b><i class="fp-size-value">17&rsquo;09&rdquo;</i></div>
+          <div class="fp-size-head"><b>Up to</b><i class="fp-size-value"></i><i class="fp-size-count"></i></div>
           <div class="fp-size-scale">
             <div class="fp-size-track"><span class="fp-size-fill"></span></div>
-            <input type="range" id="fpSize" min="0" max="14" step="1" value="0" aria-label="Layout size">
-            <span class="fp-size-min">17&rsquo;00&rdquo;</span>
-            <span class="fp-size-max">24&rsquo;00&rdquo;</span>
+            <input type="range" id="fpSize" min="0" max="1" step="1" value="1"
+                   aria-label="Maximum layout length">
+            <span class="fp-size-min" id="fpSizeMin"></span>
+            <span class="fp-size-max" id="fpSizeMax"></span>
           </div>
         </div>
       </div>
@@ -134,8 +135,8 @@
       </div>
 
       <div class="fp-actions">
-        <!-- the wireframe parks a square beside the CTA; the icon belongs in it -->
-        <button class="fp-icon" type="button" aria-label="Floorplan view">
+        <!-- the wireframe's square was a placement marker, not a frame -->
+        <button class="fp-icon" type="button" aria-label="360 degree view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/>
           </svg>
@@ -227,6 +228,6 @@
   </div>
 </footer>
 
-<script src="assets/js/range-page.js?v=297"></script>
+<script src="assets/js/range-page.js?v=299"></script>
 </body>
 </html>
