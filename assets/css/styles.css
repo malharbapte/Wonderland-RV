@@ -1821,3 +1821,22 @@ input:-webkit-autofill:focus {
   filter: none;
 }
 .service-arrow--next:hover { color: var(--orange-deep); }
+
+/* ==========================================================================
+   FULL BLEED FOR THE TWO BARS
+
+   The header and the footer both paint a background but neither was ever
+   made full-bleed: they relied on body being exactly as wide as the window,
+   which it was while the artboard divisor matched body's max-width. It does
+   not any more -- body is now 84.58vw and centred -- so both were stopping
+   7.71vw short on each side. On the footer that shows as its #FAF9F7 ground,
+   its hairline and its inset shadow all ending before the window edge; on the
+   header the white is invisible against a white page but the raised-slab
+   shadow was stopping short with it.
+
+   Their inner wrappers are .header-inner and .footer-inner, both
+   width: var(--col) with margin-inline: auto, so widening the outer element
+   does not move the content: the column centres on the same axis either way.
+   ========================================================================== */
+.site-header,
+.site-footer { width: 100vw; margin-left: calc(50% - 50vw); }

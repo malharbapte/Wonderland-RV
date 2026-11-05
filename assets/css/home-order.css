@@ -611,7 +611,14 @@
      viewer's arrow sits on. Writing it as a fixed rem would have been correct
      only at the one divisor. */
   right: calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.28rem);
-  z-index: 3;
+  /* ABOVE THE QUOTE, which is the reason the first attempt did nothing.
+     .pull-quote is z-index 4 and its BOX runs 61.7% to 95.7% of the section
+     -- 1185px to 1837px at a 1920 window -- so an arrow on the shared chevron
+     line at 1624 sits inside it. At z-index 3 the quote was painting over the
+     button and swallowing the click. The hand-set line breaks keep the actual
+     text to roughly the left third of that box, so sitting above it lands the
+     arrow in empty space rather than on a line. */
+  z-index: 5;
   width: 0.56rem; height: 0.56rem;
   display: grid; place-items: center;
   padding: 0; border: 0; background: none; cursor: pointer;
