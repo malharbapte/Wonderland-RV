@@ -663,6 +663,68 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   window.addEventListener("resize", function () { show(false); });
 })();
 
+/* --------------------------------------- your dream van awaits: cycle ---
+   The four tiles rotate through one pool of photographs, all advancing on
+   the same tick so the set on screen is always four DIFFERENT pictures.
+   Advancing a single tile instead would, with a pool the same size as the
+   grid, put the same photograph in two tiles at once.
+
+   Each tile gets a second <img> stacked on the first; the incoming frame
+   fades up over the outgoing one and they swap roles. Two frames, reused --
+   nothing is created or destroyed on a tick.
+
+   Desktop only. Below 901 the mosaic is display: none and home.js builds a
+   swipe rail from copies of these shots instead, which has its own timing.
+
+   TO ADD PHOTOGRAPHS: put them in EXTRA below. The pool is whatever the four
+   tiles start with plus that list, so the grid keeps working at any pool
+   size greater than one -- with more photographs than tiles, the rotation
+   simply takes longer to come back round.                                */
+(function dreamCycle() {
+  var DESKTOP = window.matchMedia("(min-width: 901px)");
+  var shots = [].slice.call(document.querySelectorAll(".dream-mosaic .dream-shot"));
+  if (shots.length < 2) return;
+
+  var EXTRA = [];            /* e.g. "assets/img/home/dream-fire.jpg" */
+
+  var pool = [];
+  shots.forEach(function (s) {
+    var im = s.querySelector("img");
+    if (im && pool.indexOf(im.getAttribute("src")) < 0) pool.push(im.getAttribute("src"));
+  });
+  pool = pool.concat(EXTRA);
+  if (pool.length < 2) return;
+
+  /* the second frame, parked transparent behind the first */
+  var pair = shots.map(function (s, i) {
+    var a = s.querySelector("img");
+    if (!a) return null;
+    var b = a.cloneNode(false);
+    b.removeAttribute("onload");
+    b.removeAttribute("onerror");
+    b.classList.add("is-out");
+    s.appendChild(b);
+    return { el: s, front: a, back: b, k: i };
+  }).filter(Boolean);
+  if (!pair.length) return;
+
+  var HOLD = 5000, STAGGER = 220;
+
+  function turn(p) {
+    p.k = (p.k + 1) % pool.length;
+    var next = pool[p.k];
+    if (p.back.getAttribute("src") !== next) p.back.setAttribute("src", next);
+    p.back.classList.remove("is-out");
+    p.front.classList.add("is-out");
+    var t = p.front; p.front = p.back; p.back = t;
+  }
+
+  setInterval(function () {
+    if (!DESKTOP.matches) return;
+    pair.forEach(function (p, i) { setTimeout(function () { turn(p); }, i * STAGGER); });
+  }, HOLD);
+})();
+
 /* ------------------------------------------ your dream van awaits: rail ---
    On a phone the four tiles become a slideshow that runs on its own. The set is
    laid down three times and the rail moves a whole set width whenever it
