@@ -85,8 +85,35 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  /* 1rem = 100 design px */
-  font-size: min(calc(100vw / 23.76), 100px);
+  /* 1rem = 100 design px.
+     THE DIVISOR IS THE PAGE'S MARGIN CONTROL, and it is the only thing that
+     changed to widen them. The artboard is 23.76rem wide and body still has
+     max-width: 23.76rem, so dividing the viewport by MORE than 23.76 renders
+     the whole artboard smaller than the window and `margin: 0 auto` centres
+     what is left as an outer margin.
+
+     Why this and not a bigger --page-margin: every rem, every percentage and
+     every image scales by one factor, so no ratio anywhere changes and
+     nothing can skew. Widening --page-margin instead would narrow --col while
+     leaving behind every rule tuned in absolute rem against the old column --
+     .why-grid's 6.74/9.49 tracks, .footer-inner's 6.61/9.63, .chips at
+     11.6974 -- and those would have overflowed or fallen out of alignment.
+
+     The arithmetic. The inner margin is --page-margin / 23.76 = 15.82% of the
+     artboard. Measuring the reference, the wanted margin is 21.09% of the
+     WINDOW. With s the artboard's share of the window:
+         (1 - s) / 2  +  0.1582 s  =  0.2109   ->   s = 0.8458
+     so the divisor is 23.76 / 0.8458 = 28.09. Outer margin 7.71vw each side,
+     inner 13.38vw, total 21.09vw.
+
+     Full bleed still works. `width: 100vw; margin-left: calc(50% - 50vw)` on a
+     child of body gives 42.29vw - 50vw = -7.71vw, and body starts at 7.71vw,
+     so the element lands on 0 and runs the full window.
+
+     The 100px cap now bites at 2809px rather than 2376px; past it the artboard
+     is fixed at 2376px and the margins keep growing, which is the behaviour
+     that was already there. */
+  font-size: min(calc(100vw / 28.09), 100px);
   -webkit-text-size-adjust: 100%;
 }
 

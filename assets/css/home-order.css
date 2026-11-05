@@ -598,16 +598,27 @@
 .pull-arrow {
   position: absolute;
   top: 50%; margin-top: -0.35rem;
-  right: calc(40.5% + 0.83rem);
+  /* OUT INTO THE MARGIN, where every other chevron on the page sits, instead
+     of on the picture. .pull is 100vw, so the distance from its right edge to
+     the centre of the right page margin is --page-margin / 2; less half the
+     button's own 0.70rem to centre it there. Off the photograph it needs the
+     page's ink rather than white, and no drop-shadow -- same as .rvx-arrow.
+
+     Measured FROM THE COLUMN, not from the window. .pull is 100vw, and the
+     gap from its right edge to the column's right edge is (100vw - col)/2 --
+     which now contains the outer margin as well as --page-margin. Taking
+     pm/2 and half the button off that lands it on exactly the line the range
+     viewer's arrow sits on. Writing it as a fixed rem would have been correct
+     only at the one divisor. */
+  right: calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.28rem);
   z-index: 3;
-  width: 0.70rem; height: 0.70rem;
+  width: 0.56rem; height: 0.56rem;
   display: grid; place-items: center;
   padding: 0; border: 0; background: none; cursor: pointer;
-  color: #fff;
-  filter: drop-shadow(0 0.01rem 0.035rem rgba(0, 0, 0, .55));
-  transition: opacity .2s ease;
+  color: var(--ink);
+  transition: color .2s ease;
 }
 .pull-arrow[hidden] { display: none; }
-.pull-arrow svg { width: 0.30rem; height: 0.30rem; fill: none; stroke: currentColor; }
-.pull-arrow:hover { opacity: .78; }
+.pull-arrow svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: currentColor; }
+.pull-arrow:hover { color: var(--orange-deep); }
 .pull-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
