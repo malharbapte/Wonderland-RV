@@ -2,100 +2,117 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rail open and shut</title>
+<title>Rail handle</title>
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=300">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=300">
-<link rel="stylesheet" href="assets/css/homepage.css?v=300">
-<link rel="stylesheet" href="assets/css/range-page.css?v=300">
+<link rel="stylesheet" href="assets/css/styles.css?v=304">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=304">
+<link rel="stylesheet" href="assets/css/homepage.css?v=304">
+<link rel="stylesheet" href="assets/css/range-page.css?v=304">
 <style>
 /* ===========================================================================
-   SAMPLE ONLY -- what the rail does when it is shut, and how it gets there.
+   SAMPLE ONLY -- slide-stay, with one handle that never leaves.
 
-   WHAT IS WRONG WITH THE ONE ON THE PAGE. Shut, it slides left until a
-   0.88rem strip is left showing -- and that strip is a slice of the panel
-   itself. So the closed state is a sliver of grey with a chevron in it: it
-   reads as a panel that failed to close rather than as a control waiting to
-   be pressed. The panel is still the thing on screen; it is just mostly
-   gone.
+   THE BUG IN THE LAST SAMPLE, since it is the reason this one exists. There
+   were TWO chevrons: one inside the panel and one outside it. The outside
+   one was shown only when the rail was shut, and the inside one was hidden
+   for every handle style except the sliver. So in slide-stay, with the rail
+   OPEN, both were hidden -- the rail could be opened and never closed
+   again. Two controls for one job, each assuming the other was covering it.
 
-   The fix in every option below is the same idea: when it is shut the thing
-   on screen should be a HANDLE, not an offcut of the panel. They differ in
-   what sort of handle.
+   There is one handle here. It never hides, never moves, and only flips.
+   That is what slide-stay means: the panel is the thing that travels, and
+   the control is a fixed point on the page it docks to.
 
-     1  sliver      what is there now, for comparison
-     2  bare        the panel goes completely; the chevron stays on the
-                    page margin with nothing behind it. Quietest, and the
-                    chevron matches the ones elsewhere on the site exactly
-     3  tab         a small rounded tab holds the chevron against the edge.
-                    Obviously pressable, obviously attached to something
-     4  capsule     a tall thin pill, ink, with the chevron reversed out.
-                    The most clearly a control; the heaviest on the page
-     5  labelled    a thin strip with LAYOUTS set vertically beside the
-                    chevron. Says what it opens, which none of the others do
+   WHERE IT IS ANCHORED is a real choice and is on a switch:
 
-   HOW IT MOVES is a separate choice, because the handle can stay put while
-   the panel leaves:
+     edge   the page's left margin. Shut, it sits where a reader's eye
+            already goes looking for a hidden drawer; open, the panel runs
+            out from under it
+     rim    the panel's right edge, where the artboard draws it. Open, it
+            is on the boundary between panel and page, which is what it
+            controls; shut, it stands in the margin with nothing behind it
 
-     slide        panel and handle travel together -- what happens now
-     slide-stay   the panel slides out behind the handle, which never moves.
-                  The chevron is then a fixed thing on the page that the
-                  panel docks to, rather than a part of the panel
-     collapse     the panel loses its width rather than translating, so the
-                  rows compress out instead of sliding off
-     fade         panel slides and fades at once; the handle fades in
+   THE TREATMENTS are rebuilt. The previous five all answered "what should
+   the leftover look like"; these answer "what IS the control", which is a
+   better question:
 
-   slide-stay is the one worth looking at first: the reason the current
-   close looks wrong is that the control travels with the thing it controls,
-   so there is a moment where neither is anywhere in particular.
+     1 bare       the chevron alone, as it appears everywhere else on the
+                  site. Nothing added
+     2 rule       a hairline the full height of the section with the
+                  chevron on it. The LINE persists in both states, so the
+                  panel appears to slide out from behind an edge that was
+                  always there
+     3 strip      the panel never fully leaves: it collapses to a narrow
+                  band of its own ground with the chevron centred. The
+                  shut state is a rail, not a remnant
+     4 named      the strip, with LAYOUTS set vertically. Says what it
+                  opens, which a bare chevron cannot
+     5 disc       a round button, the same disc the COTY arrows sit on
    =========================================================================== */
 .rg { position: relative; min-height: 7.4rem; padding: 0.8rem 0; }
 
-/* the panel, stripped to what matters here */
-.fp-rail { transition: transform .5s cubic-bezier(.33,0,.18,1),
-                       opacity .4s ease, width .5s cubic-bezier(.33,0,.18,1); }
-.fp-rail.is-in { transform: none; opacity: 1; }
+/* ---- the panel: slide-stay, always ---- */
+.fp-rail {
+  transition: transform .5s cubic-bezier(.33,0,.18,1);
+  opacity: 1;
+}
+.fp-rail.is-in   { transform: none; }
+.fp-rail.is-shut { transform: translateX(-100%); }
+/* with the strip treatments the panel stops short, so the band is left */
+body.h-strip .fp-rail.is-shut,
+body.h-named .fp-rail.is-shut { transform: translateX(calc(-100% + var(--band))); }
 
-/* ---- how it moves ---- */
-body.m-slide     .fp-rail.is-shut { transform: translateX(calc(-100% + var(--peek))); }
-body.m-stay      .fp-rail.is-shut { transform: translateX(-100%); }
-body.m-collapse  .fp-rail.is-shut { transform: none; width: 0; padding-left: 0; padding-right: 0;
-                                    overflow: hidden; }
-body.m-fade      .fp-rail.is-shut { transform: translateX(-100%); opacity: 0; }
-
-/* the handle lives OUTSIDE the panel for every mode except the sliver, so it
-   can stay where it is while the panel goes */
+/* ---- the one handle ---- */
 .rg-handle {
-  position: absolute; left: calc(50% - 50vw); top: 50%;
+  --band: 0.82rem;
+  position: absolute; top: 50%;
   transform: translateY(-50%);
-  z-index: 4; display: none; place-items: center;
+  z-index: 6;
+  display: grid; place-items: center; align-content: center;
   background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: color .2s ease, opacity .3s ease;
+  color: var(--ink);
+  transition: color .2s ease, left .5s cubic-bezier(.33,0,.18,1);
 }
 .rg-handle:hover { color: var(--orange-deep); }
-.rg-handle svg { fill: none; stroke: currentColor; stroke-width: var(--chev-w);
-                 stroke-linecap: butt; stroke-linejoin: miter;
-                 width: var(--chev, 0.32rem); height: var(--chev, 0.32rem); }
-body:not(.h-sliver) .rg-handle { display: grid; }
-body:not(.h-sliver) .fp-rail-toggle { display: none; }
+.rg-handle svg {
+  fill: none; stroke: currentColor; stroke-width: var(--chev-w);
+  stroke-linecap: butt; stroke-linejoin: miter;
+  width: var(--chev, 0.32rem); height: var(--chev, 0.32rem);
+  transition: transform .4s cubic-bezier(.33,0,.18,1);
+}
+/* shut, it points the other way. One element, one rotation -- not a second
+   button swapped in. */
+body.is-shut-state .rg-handle svg { transform: scaleX(-1); }
 
-/* ---- what the handle looks like ---- */
-body.h-bare    .rg-handle { width: 0.68rem; height: 0.68rem; margin-left: 0.3rem; }
-body.h-tab     .rg-handle { width: 0.62rem; height: 1.0rem; background: #F8F8F7;
-                            border-radius: 0 0.14rem 0.14rem 0; }
-body.h-capsule .rg-handle { width: 0.52rem; height: 1.6rem; background: var(--ink);
-                            color: #fff; border-radius: 0 0.26rem 0.26rem 0; }
-body.h-capsule .rg-handle:hover { background: var(--orange-deep); color: #fff; }
-body.h-label   .rg-handle { width: 0.72rem; height: 3.2rem; background: #F8F8F7;
-                            border-radius: 0 0.14rem 0.14rem 0;
-                            grid-auto-flow: row; gap: 0.2rem; align-content: center; }
-.rg-handle .rg-word { display: none; writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; letter-spacing: .1em; }
-body.h-label .rg-handle .rg-word { display: block; }
+/* where it is anchored */
+body.a-edge .rg-handle { left: calc(50% - 50vw + 0.26rem); }
+body.a-rim  .rg-handle { left: calc(50% - 50vw + 4.96rem - 0.34rem); }
+body.a-rim.h-strip.is-shut-state  .rg-handle,
+body.a-rim.h-named.is-shut-state  .rg-handle { left: calc(50% - 50vw + 0.82rem - 0.34rem); }
 
-/* the handle is only on screen when the rail is shut */
-.rg-handle { opacity: 0; pointer-events: none; }
-body.is-shut-state .rg-handle { opacity: 1; pointer-events: auto; }
+/* treatments */
+body.h-bare  .rg-handle { width: 0.68rem; height: 0.68rem; }
+body.h-rule  .rg-handle { width: 0.68rem; height: 0.68rem; }
+body.h-rule  .rg-handle::before {
+  content: ""; position: absolute; left: 50%; top: -3.1rem; bottom: -3.1rem;
+  width: 1px; background: #d8d4ce; z-index: -1;
+}
+body.h-strip .rg-handle,
+body.h-named .rg-handle { width: 0.82rem; height: 100%; top: 0; transform: none;
+                          background: none; }
+body.h-strip .rg-handle svg,
+body.h-named .rg-handle svg { position: relative; }
+body.h-named .rg-handle { gap: 0.24rem; }
+.rg-word { display: none; writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--aviano); font-weight: 900; font-size: 0.17rem;
+  letter-spacing: .12em; color: var(--ink); }
+body.h-named .rg-word { display: block; }
+body.h-disc  .rg-handle { width: 0.7rem; height: 0.7rem; border-radius: 50%;
+                          background: rgba(213,113,20,.35); color: #fff; }
+body.h-disc  .rg-handle:hover { background: rgba(213,113,20,.75); color: #fff; }
+
+/* the band the strip leaves behind, drawn by the panel itself */
+body.h-strip .fp-rail, body.h-named .fp-rail { --band: 0.82rem; }
 
 .hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
   background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
@@ -111,7 +128,7 @@ body.is-shut-state .rg-handle { opacity: 1; pointer-events: auto; }
 body { padding-bottom: 0.9rem; }
 </style>
 </head>
-<body class="home m-stay h-tab">
+<body class="home a-rim h-strip">
 
 <header class="site-header">
   <div class="header-inner">
@@ -165,10 +182,6 @@ body { padding-bottom: 0.9rem; }
 <section class="fp rg">
   <div class="fp-body">
 <aside class="fp-rail" id="fpRail" aria-label="Layout selection">
-      <button class="fp-rail-toggle" id="fpRailToggle" type="button" aria-expanded="true"
-              aria-controls="fpRail" aria-label="Hide the layout list">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg>
-      </button>
       <h2 class="fp-rail-title">Layout selection</h2>
       <ul class="fp-rail-list">
         <li><button type="button" class="fp-row is-on" data-size="17&rsquo;09&rdquo;" data-ft="1709" data-kind="couples"><span class="fp-row-name">1709Q-R-L</span><span class="fp-row-size">17&rsquo;09&rdquo;</span></button></li>
@@ -188,9 +201,9 @@ body { padding-bottom: 0.9rem; }
         <li><button type="button" class="fp-row" data-size="23&rsquo;11&rdquo;" data-ft="2311" data-kind="family"><span class="fp-row-name">2311K-F4.3</span><span class="fp-row-size">23&rsquo;11&rdquo;</span></button></li>
       </ul>
     </aside>
-    <button class="rg-handle" id="rgHandle" type="button" aria-label="Show the layout list">
+    <button class="rg-handle" id="rgHandle" type="button" aria-label="Hide the layout list">
       <span class="rg-word">Layouts</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
     </button>
 <div class="container fp-inner">
       <div class="fp-controls">
@@ -240,44 +253,40 @@ body { padding-bottom: 0.9rem; }
 
 <div class="hbar">
   <div class="container">
-    <b>SHUT</b>
-    <button data-h="sliver">1 sliver</button>
-    <button data-h="bare">2 bare</button>
-    <button data-h="tab" class="on">3 tab</button>
-    <button data-h="capsule">4 capsule</button>
-    <button data-h="label">5 labelled</button>
-    <b>MOVE</b>
-    <button data-m="slide">slide</button>
-    <button data-m="stay" class="on">slide-stay</button>
-    <button data-m="collapse">collapse</button>
-    <button data-m="fade">fade</button>
+    <b>HANDLE</b>
+    <button data-h="bare">1 bare</button>
+    <button data-h="rule">2 rule</button>
+    <button data-h="strip" class="on">3 strip</button>
+    <button data-h="named">4 named</button>
+    <button data-h="disc">5 disc</button>
+    <b>ANCHOR</b>
+    <button data-a="edge">edge</button>
+    <button data-a="rim" class="on">rim</button>
     <span class="seg">chevron<input type="range" id="cv" min="0.2" max="0.6" step="0.01" value="0.32"><output id="cvo">0.32</output></span>
-    <button id="tg">open / shut</button>
     <span class="note" id="note"></span>
   </div>
 </div>
 <script>
 var rail=document.getElementById("fpRail"), handle=document.getElementById("rgHandle");
-var h="tab", m="stay", shut=false;
+var h="strip", a="rim", shut=false;
 var cv=document.getElementById("cv"), cvo=document.getElementById("cvo");
 function paint(){
-  document.body.className="home m-"+m+" h-"+h+(shut?" is-shut-state":"");
+  document.body.className="home a-"+a+" h-"+h+(shut?" is-shut-state":"");
   document.body.style.setProperty("--chev", cv.value+"rem");
   cvo.textContent=(+cv.value).toFixed(2);
   rail.classList.toggle("is-shut", shut);
   rail.classList.toggle("is-in", !shut);
+  handle.setAttribute("aria-label", shut ? "Show the layout list" : "Hide the layout list");
   document.querySelectorAll(".hbar button[data-h]").forEach(function(b){b.classList.toggle("on",b.dataset.h===h);});
-  document.querySelectorAll(".hbar button[data-m]").forEach(function(b){b.classList.toggle("on",b.dataset.m===m);});
-  document.getElementById("note").textContent = shut ? "shut" : "open \u2014 press open / shut";
+  document.querySelectorAll(".hbar button[data-a]").forEach(function(b){b.classList.toggle("on",b.dataset.a===a);});
+  document.getElementById("note").textContent =
+    (shut?"shut":"open")+" \u2014 the handle is the same element either way";
 }
+handle.addEventListener("click",function(){shut=!shut;paint();});
 document.querySelectorAll(".hbar button[data-h]").forEach(function(b){
   b.addEventListener("click",function(){h=b.dataset.h;paint();});});
-document.querySelectorAll(".hbar button[data-m]").forEach(function(b){
-  b.addEventListener("click",function(){m=b.dataset.m;paint();});});
-document.getElementById("tg").addEventListener("click",function(){shut=!shut;paint();});
-handle.addEventListener("click",function(){shut=false;paint();});
-var inner=document.getElementById("fpRailToggle");
-if(inner) inner.addEventListener("click",function(e){e.stopPropagation();shut=!shut;paint();});
+document.querySelectorAll(".hbar button[data-a]").forEach(function(b){
+  b.addEventListener("click",function(){a=b.dataset.a;paint();});});
 cv.addEventListener("input",paint);
 rail.classList.add("is-in");
 paint();

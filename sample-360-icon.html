@@ -1,106 +1,171 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>360 icon</title>
-<link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=303">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=303">
-<link rel="stylesheet" href="assets/css/homepage.css?v=303">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>360 icon &mdash; four candidates</title>
+<link rel="stylesheet" href="assets/css/styles.css">
 <style>
-/* ===========================================================================
-   SAMPLE ONLY -- a 360 mark for the Virtual tour control.
+  body { background:#FAF9F7; }
+  .wrap { padding: 1.6rem 0 2.4rem; }
+  h1 { font-size: var(--t-heading); line-height: 0.62rem; margin: 0 0 0.26rem; }
+  .lede { font-family: var(--gordita); font-weight:400; font-size: var(--t-body);
+          line-height: 0.40rem; max-width: 11rem; margin: 0 0 1.1rem; color:#4A4038; }
+  .lede b { font-weight:500; }
 
-   WHAT IS WRONG WITH A, which is on the page now. It is a globe: an ellipse
-   round a dot. Globes mean language, international, world -- not "look
-   around this room". It also collapses at 0.62rem, because the ellipse and
-   the inner circle end up near enough the same weight and spacing that the
-   whole thing reads as a blob with a hole.
+  .grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem 0.8rem; }
+  .card { margin:0; background:#fff; border:1px solid rgba(60,48,36,.10);
+          display:grid; grid-template-columns: 4.2rem 1fr; }
+  .stage { display:grid; place-items:center; background:#F8F8F7;
+           border-right:1px solid rgba(60,48,36,.10); }
+  figcaption { padding: 0.46rem 0.5rem 0.5rem; }
 
-   The six beside it each pick a different thing to say:
+  .ico { display:inline-grid; place-items:center; width:var(--s,0.53rem); height:var(--s,0.53rem);
+         color:#2B2520; flex:0 0 auto; }
+  .ico--lg { --s: 1.5rem; }
+  .ico svg { width:100%; height:100%; display:block; }
 
-     B  the number. Unambiguous and language-free, but it is lettering at
-        icon size, which is the hardest thing on this list to keep crisp
-     C  the gesture -- a loop with a head at each end. Says "turn it", says
-        nothing about what you are turning
-     D  the subject. An isometric room, which is what a floorplan tour
-        actually shows. The only one here tied to THIS page rather than to
-        360 in general
-     E  the sphere, properly built: latitudes and a meridian, so it reads as
-        a ball rather than a ring
-     F  the panorama -- a curved strip, the shape of an unwrapped 360 photo.
-        Quiet, and reads instantly once seen
-     G  the viewpoint: you, with the view opening out. The only one that puts
-        the person in it
+  h2 { font-size: var(--t-sub); line-height:0.34rem; margin:0 0 0.16rem; }
+  .what, .note { font-family: var(--gordita); font-weight:400; font-size: var(--t-caption);
+                 line-height: var(--lh-caption); margin:0 0 0.18rem; text-wrap:pretty; }
+  .what { color:#2B2520; }
+  .note { color:#7A6E62; }
+  .what em { font-style:normal; font-weight:500; }
 
-   All at --icon-stroke, shown at 0.62rem -- the size on the page -- and
-   again at 1.4rem so the drawing can be judged, then in place beside the
-   real CTA.
-   =========================================================================== */
-body { padding: 0.7rem var(--page-margin) 1.4rem; }
-h1 { font-family: var(--aviano); font-weight: 900; font-size: 0.40rem; }
-h2 { font-family: var(--aviano); font-weight: 900; font-size: 0.24rem;
-     margin-top: 0.8rem; padding-top: 0.3rem; border-top: 1px solid #e4e2de; }
-.lede { margin-top: 0.14rem; font-family: var(--gordita); font-size: var(--t-caption);
-  line-height: var(--lh-caption); color: #6b6158; max-width: 13rem; }
-.strip { display: flex; gap: 0.8rem; margin-top: 0.4rem; flex-wrap: wrap; }
-.cell { width: 2.1rem; text-align: center; }
-.cell.ai b { color: var(--orange-deep); }
-code { font-family: ui-monospace, Menlo, monospace; font-size: .9em; }
-.ic { width: var(--box, 1.4rem); height: var(--box, 1.4rem); margin: 0 auto; color: #010101; }
-.ic svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
-.cell b { display: block; margin-top: 0.16rem; font-family: var(--gordita);
-  font-size: var(--t-caption); }
-.cell i { display: block; font-style: normal; font-family: var(--gordita);
-  font-size: 0.145rem; line-height: 1.35; color: #8c857b; margin-top: 0.04rem; }
-.cta-row { display: flex; align-items: center; gap: 0.26rem; margin-top: 0.26rem; }
-.cta-row .tag { font-family: var(--gordita); font-size: 0.145rem; color: #8c857b; }
-.fp-icon { width: 0.62rem; height: 0.62rem; display: grid; place-items: center;
-  background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
-.fp-icon svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
-.fp-tour { height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta); }
-.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
-  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
-.hbar .container { display: flex; align-items: center; gap: 0.14rem; }
-.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
-.hbar input[type=range] { width: 1.8rem; accent-color: var(--orange); }
-.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
-  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+  .sizes { display:flex; align-items:center; gap:0.22rem; margin:0.30rem 0;
+           padding-top:0.26rem; border-top:1px solid rgba(60,48,36,.10); }
+  .slab { font-family:var(--gordita); font-size:0.17rem; color:#9A8F84; margin-left:0.14rem; }
+
+  .inctx { padding-top:0.22rem; }
+  .cta { display:inline-flex; align-items:center; gap:0.20rem;
+         font-family:var(--gordita); font-weight:500; font-size:var(--t-cta);
+         padding:0.20rem 0.40rem; border:1px solid #2B2520; color:#2B2520; }
 </style>
 </head>
-<body class="home">
-<h1>A mark for the virtual tour</h1>
-<p class="lede">A is what is on the page: an ellipse round a dot, which is a globe &mdash;
-  globes mean language and world, not &ldquo;look around this room&rdquo; &mdash; and at 0.62rem
-  the ring and the dot close up into a blob with a hole. Six alternatives, each saying a
-  different thing.</p>
-
-<h2>Made in Illustrator</h2>
-<p class="lede">H, I and J come out of <code>assets/icons/360-icons.jsx</code> &mdash; a 24&times;24 artboard, 0.96pt stroke, round cap and join. The set’s conventions are applied IN the file, so the export needs no correcting afterwards: viewBox 0 0 24 24, fill none, stroke 0.96. Each has an .ai source beside its .svg.</p>
-<div class="strip"><div class="cell ai"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,3.4 20.6,8 12,12.6 3.4,8 "/><polyline points=" 3.4,8 3.4,16 12,20.6 20.6,16 20.6,8 "/><line x1="12" y1="12.6" x2="12" y2="20.6"/></svg></div><b>H &middot; room</b><i>the subject itself</i></div><div class="cell ai"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.4,6.2C8,8.4,16,8.4,20.6,6.2v11.6C16,15.6,8,15.6,3.4,17.8V6.2z"/><line x1="9" y1="7.6" x2="9" y2="16.4"/><line x1="15" y1="7.6" x2="15" y2="16.4"/></svg></div><b>I &middot; panorama</b><i>the unwrapped view</i></div><div class="cell ai"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d=" M20.4,12c0,4.639-3.761,8.4-8.4,8.4S3.6,16.639,3.6,12S7.361,3.6,12,3.6S20.4,7.361,20.4,12L20.4,12z"/><line x1="4.6" y1="9.4" x2="19.4" y2="9.4"/><line x1="4.6" y1="14.6" x2="19.4" y2="14.6"/><path d=" M15.528,12c0,4.639-1.58,8.4-3.528,8.4S8.472,16.639,8.472,12S10.052,3.6,12,3.6S15.528,7.361,15.528,12L15.528,12z"/></svg></div><b>J &middot; sphere</b><i>latitudes and a meridian</i></div></div>
-
-<h2>Drawn by hand, for comparison</h2>
-<div class="strip"><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg></div><b>A &middot; orbit</b><i>on the page now</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4A10.6 10.6 0 0 1 12 5.2c5.2 0 9.4 2.3 9.4 5.2 0 2-2 3.7-4.9 4.6"/><path d="M20.4 15.6A10.6 10.6 0 0 1 12 18.8c-5.2 0-9.4-2.3-9.4-5.2 0-2 2-3.7 4.9-4.6"/><path d="M9.4 10.4h1.9l-1.3 1.6a1.5 1.5 0 1 1-1.2 2.4M14.6 10.4h-1.5a1.6 1.6 0 0 0-1.6 1.6v1a1.6 1.6 0 0 0 1.6 1.6h0a1.6 1.6 0 0 0 1.6-1.6v-.2a1.4 1.4 0 0 0-1.4-1.4h-1.8"/></svg></div><b>B &middot; 360</b><i>the number does the talking</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 9.4A8 8 0 0 0 5.5 7.8"/><path d="M4.6 14.6A8 8 0 0 0 18.5 16.2"/><path d="M19.9 5.1v4.4h-4.4M4.1 18.9v-4.4h4.4"/></svg></div><b>C &middot; rotate</b><i>two arrowheads on one loop</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4 20.6 8v8l-8.6 4.6L3.4 16V8z"/><path d="M3.4 8 12 12.6 20.6 8M12 12.6v8"/></svg></div><b>D &middot; room</b><i>a corner of the van, in plan</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><ellipse cx="12" cy="12" rx="3.6" ry="8.4"/><path d="M4.2 9.2h15.6M4.2 14.8h15.6"/></svg></div><b>E &middot; sphere</b><i>latitudes, with a turn</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.2c5.9 1.7 11.7 1.7 17.6 0v9.6c-5.9-1.7-11.7-1.7-17.6 0z"/><path d="M9.1 7.9v8.2M14.9 7.9v8.2"/></svg></div><b>F &middot; panorama</b><i>the unwrapped view</i></div><div class="cell"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15.6" r="2.4"/><path d="M7.4 12.4a6 6 0 0 1 9.2 0"/><path d="M4.6 8.8a10 10 0 0 1 14.8 0"/></svg></div><b>G &middot; viewpoint</b><i>where you stand, looking out</i></div></div>
-
-<h2>At 0.62rem, beside the real CTA</h2>
-<div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points=" 12,3.4 20.6,8 12,12.6 3.4,8 "/><polyline points=" 3.4,8 3.4,16 12,20.6 20.6,16 20.6,8 "/><line x1="12" y1="12.6" x2="12" y2="20.6"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">H &middot; room</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d=" M3.4,6.2C8,8.4,16,8.4,20.6,6.2v11.6C16,15.6,8,15.6,3.4,17.8V6.2z"/><line x1="9" y1="7.6" x2="9" y2="16.4"/><line x1="15" y1="7.6" x2="15" y2="16.4"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">I &middot; panorama</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d=" M20.4,12c0,4.639-3.761,8.4-8.4,8.4S3.6,16.639,3.6,12S7.361,3.6,12,3.6S20.4,7.361,20.4,12L20.4,12z"/><line x1="4.6" y1="9.4" x2="19.4" y2="9.4"/><line x1="4.6" y1="14.6" x2="19.4" y2="14.6"/><path d=" M15.528,12c0,4.639-1.58,8.4-3.528,8.4S8.472,16.639,8.472,12S10.052,3.6,12,3.6S15.528,7.361,15.528,12L15.528,12z"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">J &middot; sphere</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">A &middot; orbit</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4A10.6 10.6 0 0 1 12 5.2c5.2 0 9.4 2.3 9.4 5.2 0 2-2 3.7-4.9 4.6"/><path d="M20.4 15.6A10.6 10.6 0 0 1 12 18.8c-5.2 0-9.4-2.3-9.4-5.2 0-2 2-3.7 4.9-4.6"/><path d="M9.4 10.4h1.9l-1.3 1.6a1.5 1.5 0 1 1-1.2 2.4M14.6 10.4h-1.5a1.6 1.6 0 0 0-1.6 1.6v1a1.6 1.6 0 0 0 1.6 1.6h0a1.6 1.6 0 0 0 1.6-1.6v-.2a1.4 1.4 0 0 0-1.4-1.4h-1.8"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">B &middot; 360</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 9.4A8 8 0 0 0 5.5 7.8"/><path d="M4.6 14.6A8 8 0 0 0 18.5 16.2"/><path d="M19.9 5.1v4.4h-4.4M4.1 18.9v-4.4h4.4"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">C &middot; rotate</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4 20.6 8v8l-8.6 4.6L3.4 16V8z"/><path d="M3.4 8 12 12.6 20.6 8M12 12.6v8"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">D &middot; room</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><ellipse cx="12" cy="12" rx="3.6" ry="8.4"/><path d="M4.2 9.2h15.6M4.2 14.8h15.6"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">E &middot; sphere</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.2c5.9 1.7 11.7 1.7 17.6 0v9.6c-5.9-1.7-11.7-1.7-17.6 0z"/><path d="M9.1 7.9v8.2M14.9 7.9v8.2"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">F &middot; panorama</span></div><div class="cta-row"><button class="fp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15.6" r="2.4"/><path d="M7.4 12.4a6 6 0 0 1 9.2 0"/><path d="M4.6 8.8a10 10 0 0 1 14.8 0"/></svg></button><a class="btn-solid fp-tour" href="#">Virtual tour</a><span class="tag">G &middot; viewpoint</span></div>
-
-<div class="hbar">
-  <div class="container">
-    <b>SIZE</b>
-    <span class="seg"><input type="range" id="bx" min="0.5" max="2.4" step="0.02" value="1.4">
-      <output id="bo">1.40rem</output></span>
-    <span class="seg" id="note"></span>
+<body>
+  <div class="container wrap">
+    <h1>The 360 icon</h1>
+    <p class="lede">Four candidates, drawn in Illustrator on the same 24&times;24 frame as the existing set, at <b>0.96 stroke</b> with round caps and joins &mdash; so the weight follows the box size exactly as the why- and range- icons do. Each is shown large, then at the sizes it would ship at, then inside the Virtual tour CTA it has to live in.</p>
+    <div class="grid">
+      <figure class="card">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
+	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
+	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
+	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i></div>
+        <figcaption>
+          <h2>Crossed arcs</h2>
+          <p class="what">Lucide&rsquo;s own answer to 360. Two ellipses crossed and left <em>open</em>, one arrowhead on the gap. The gaps are the whole trick &mdash; close them and it is a wireframe globe.</p>
+          <p class="note">The safest pick. It is what a reader has already met in every other interface.</p>
+          <div class="sizes">
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
+	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
+	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
+	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
+	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
+	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
+	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
+	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
+	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
+	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>
+            <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
+          </div>
+          <div class="inctx">
+            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M9.793,20.123c-1.973-2.053-2.935-6.542-2.3-10.736c0.635-4.194,2.69-6.933,4.916-6.552c2.226,0.381,4.007,3.778,4.26,8.123
+	c0.253,4.346-1.092,8.44-3.217,9.791"/><path d="
+	M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917
+	c-2.414,1.863-7.063,2.601-11.118,1.764"/></svg></i>Virtual tour</span>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
+	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
+	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i></div>
+        <figcaption>
+          <h2>Orbit</h2>
+          <p class="what">Material&rsquo;s flattened version: one wide ring carrying a single arrowhead, with the subject sitting inside it. Says <em>you move around this</em> rather than <em>this spins</em>.</p>
+          <p class="note">Reads at the smallest size of the four, because it is one ring and one head.</p>
+          <div class="sizes">
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
+	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
+	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
+	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
+	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
+	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
+	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>
+            <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
+          </div>
+          <div class="inctx">
+            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M3.843,11.867c1.783-1.742,5.985-2.686,10.105-2.27C18.068,10.013,21,11.678,21,13.6s-2.932,3.587-7.052,4.003
+	c-4.12,0.416-8.321-0.528-10.105-2.27"/><path d="
+	M14.9,9.4c0,1.602-1.298,2.9-2.9,2.9s-2.9-1.298-2.9-2.9s1.298-2.9,2.9-2.9S14.9,7.798,14.9,9.4L14.9,9.4z"/></svg></i>Virtual tour</span>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i></div>
+        <figcaption>
+          <h2>Turn the room</h2>
+          <p class="what">The subject drawn as a box, with the turn gesture arcing over it. The only one of the four that names <em>what</em> is being turned.</p>
+          <p class="note">Most literal for a van interior. Also the busiest &mdash; three shapes before the arrow.</p>
+          <div class="sizes">
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>
+            <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
+          </div>
+          <div class="inctx">
+            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M5.635,5.907C5.973,4.501,8.656,3.425,11.888,3.4c3.233-0.025,6,1.009,6.449,2.41"/></svg></i>Virtual tour</span>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <div class="stage"><i class="ico ico--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
+	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i></div>
+        <figcaption>
+          <h2>Panorama</h2>
+          <p class="what">The barrel-sided frame, which is the panorama convention. Not a globe: a globe says <em>world</em>, this says <em>the image wraps around you</em>.</p>
+          <p class="note">Quietest of the four. No arrow, so it reads as a still rather than a movement.</p>
+          <div class="sizes">
+            <i class="ico" style="--s:0.53rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
+	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
+            <i class="ico" style="--s:0.40rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
+	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
+            <i class="ico" style="--s:0.30rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
+	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>
+            <span class="slab">0.53 &middot; 0.40 &middot; 0.30rem</span>
+          </div>
+          <div class="inctx">
+            <span class="cta"><i class="ico" style="--s:0.46rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.96" stroke-linecap="round" stroke-linejoin="round"><path d="
+	M6.647,7.63c3.043-1.507,7.663-1.507,10.706,0"/><path d="
+	M17.353,16.37c-3.043,1.507-7.663,1.507-10.706,0"/></svg></i>Virtual tour</span>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
   </div>
-</div>
-<script>
-var bx=document.getElementById("bx"), bo=document.getElementById("bo");
-function paint(){
-  document.body.style.setProperty("--box", bx.value+"rem");
-  bo.textContent=(+bx.value).toFixed(2)+"rem";
-  var rem=parseFloat(getComputedStyle(document.documentElement).fontSize);
-  document.getElementById("note").textContent="the row below is fixed at 0.62rem, the page size";
-}
-bx.addEventListener("input",paint); paint();
-</script>
-</body></html>
+</body>
+</html>
