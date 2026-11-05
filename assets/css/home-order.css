@@ -26,12 +26,24 @@
 .intro { display: none; }
 
 /* ---- the hero copy, centred -------------------------------------------- */
-/* Centred across, left where it was down the page: .home-hero-copy already
-   justifies to flex-end with 1.16rem under it, so only the horizontal
-   alignment is actually being changed here. */
+/* Centred across, and now lifted a little off the foot of the video.
+   homepage.css gives .home-hero-copy flex-end with 1.16rem under it; raising
+   that to 1.36rem moves the title up by exactly 20pt, since 1rem is 100
+   artboard points here (html is min(100vw / 28.09, 100px), and the h1's own
+   note -- "was 64" against 0.64rem -- is the same conversion).
+
+   THE OVERRIDE LIVES HERE, not in homepage.css, because this block is inside
+   @media (min-width: 901px). The phone keeps its own padding-bottom: 32px
+   from homepage.css's max-width: 900px block, untouched.
+
+   Padding and not a margin on the h1: the copy sheet is the full height of
+   the hero and justifies to flex-end, so the gap under the content is what
+   positions it. The title is the only thing in there -- the CTA and the body
+   are both parked -- so nothing else moves with it. */
 .home-hero-copy {
   align-items: center;
   text-align: center;
+  padding-bottom: 1.36rem;
 }
 .home-hero-body {
   margin: 0.30rem 0 0;
