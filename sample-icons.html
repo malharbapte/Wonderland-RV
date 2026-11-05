@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icons</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=284">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=284">
+<link rel="stylesheet" href="assets/css/homepage.css?v=284">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- the four Why Choose Us icons redrawn, and the line weight
+   put on one number across the whole page.
+
+   THE WEIGHT WAS PARTLY MY DOING. Both icon sets carry stroke-width 1.5 in a
+   24 viewBox, which only means anything once you know the box:
+
+     .rvx-ico   0.53rem   27.2px   stroke 1.70px
+     .why-icon  0.62rem   31.8px   stroke 1.99px   (before)
+     .why-icon  0.93rem   47.7px   stroke 2.98px   (after the 1.5x)
+
+   Scaling the box scales the stroke with it, so the enlargement took the Why
+   icons to nearly 3px while the range icons sat at 1.7. That is the "too
+   thick", and it is also why the page reads as two different icon families.
+
+   The fix is one TARGET IN PIXELS, converted per set: stroke-width =
+   target x 24 / box_px. At 0.93rem a 1.70px line needs 0.855, at 0.53rem it
+   needs 1.50. The slider below drives both sets at once, so they cannot
+   drift apart again.
+
+   WHAT THE REDRAWS CHANGE, beyond weight. The old four were stock symbols --
+   shield, pencil, star, heart -- none of which says caravan:
+
+     BUILT TOUGH    the copy says "Unique Jigsaw construction", so it is an
+                    interlocking seam through a panel, not a shield.
+     CUSTOM MADE    three settings on three tracks: the configurator, rather
+                    than a pencil, which reads as "edit" not "specify".
+     LUXURY FINISH  the lounge the copy actually describes, not a star, which
+                    is a rating symbol and means quality in the abstract.
+     PEACE OF MIND  this is where the shield belongs -- the copy is a 3 year
+                    warranty. The heart it replaces meant nothing in context.
+
+   The shield is kept rather than discarded; it just moves to the line it
+   actually illustrates.
+   =========================================================================== */
+body { padding: 0.70rem var(--page-margin) 1.3rem; --sw: 1.70; }
+h1 { font-family: var(--aviano); font-weight: 900; font-size: 0.40rem; }
+.lede { margin-top: 0.14rem; font-family: var(--gordita); font-size: var(--t-caption);
+  line-height: var(--lh-caption); color: #6b6158; max-width: 13rem; }
+.head { display: grid; grid-template-columns: 7rem 3.2rem 3.2rem; gap: 0.3rem;
+  margin-top: 0.5rem; font-family: var(--gordita); font-size: 0.14rem;
+  letter-spacing: .12em; text-transform: uppercase; color: #a79f95; }
+.row { display: grid; grid-template-columns: 7rem 3.2rem 3.2rem; gap: 0.3rem;
+  align-items: center; padding: 0.22rem 0; border-top: 1px solid #e4e2de; }
+.lbl b { display: block; font-family: var(--gordita); font-weight: 700;
+  font-size: var(--t-sub); letter-spacing: .02em; color: var(--orange-deep); }
+.lbl i { display: block; font-style: italic; font-family: var(--gordita);
+  font-size: var(--t-caption); line-height: var(--lh-caption); margin-top: 0.06rem; }
+.ic { width: 0.93rem; height: 0.93rem; color: var(--orange); }
+.ic svg { width: 100%; height: 100%; }
+.ic.rng { width: 0.53rem; height: 0.53rem; color: #010101; }
+/* ONE number, converted per box so both sets land on the same rendered line */
+.ic.old svg, .ic.new svg { stroke-width: calc(var(--sw) * 24 / (0.93 * var(--rempx, 51.26))); }
+.ic.rng svg { stroke-width: calc(var(--sw) * 24 / (0.53 * var(--rempx, 51.26))); }
+body.orig .ic.old svg { stroke-width: 1.5; }
+.rngrow { display: flex; gap: 0.7rem; margin-top: 0.5rem; padding-top: 0.3rem;
+  border-top: 1px solid #e4e2de; }
+.rc { text-align: center; }
+.rc span { display: block; margin-top: 0.1rem; font-family: var(--aviano);
+  font-weight: 900; font-size: 0.15rem; letter-spacing: .06em; }
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; align-items: center; gap: 0.14rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.135rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.05rem 0.13rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar input[type=range] { width: 2rem; accent-color: var(--orange); }
+.hbar .seg { display: inline-flex; align-items: center; gap: 0.08rem;
+  font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+.hbar .note { margin-left: auto; font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; }
+</style>
+</head>
+<body class="home">
+<h1>Icons, redrawn and put on one line weight</h1>
+<p class="lede">Both sets carry stroke-width 1.5 in a 24 viewBox, which only means something
+  once you know the box. Enlarging the Why icons to 0.93rem took their stroke to 2.98px while
+  the range icons sat at 1.70px &mdash; that is the thickness, and the reason the page reads as
+  two icon families. The slider drives a pixel target and converts it per set.</p>
+
+<div class="head"><span></span><span>now</span><span>redrawn</span></div>
+  <div class="row"><div class="lbl"><b>BUILT TOUGH</b><i>Unique Jigsaw construction for strength and durability.</i></div><div class="ic old"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l6.6 2.6v5.4c0 4-2.7 7.6-6.6 8.9-3.9-1.3-6.6-4.9-6.6-8.9V5.8L12 3.2z"/><path d="M9.2 12.1l2 2 3.6-3.9"/></svg></div><div class="ic new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="5.4" width="16.8" height="13.2" rx="1.4"/><path d="M12 5.4V9h3v6h-3v3.6"/></svg></div></div>
+  <div class="row"><div class="lbl"><b>CUSTOM MADE</b><i>A caravan to suit your family and the trips you want to take.</i></div><div class="ic old"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 16.9L15 6.1l2.9 2.9L7.1 19.8H4.2v-2.9z"/><path d="M14.4 6.7l2.9 2.9"/><path d="M16.3 4.8l1.4-1.4a1.3 1.3 0 0 1 1.9 0l1 1a1.3 1.3 0 0 1 0 1.9l-1.4 1.4"/></svg></div><div class="ic new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 7.6h15.6M4.2 12h15.6M4.2 16.4h15.6"/><circle cx="9" cy="7.6" r="1.7"/><circle cx="15.4" cy="12" r="1.7"/><circle cx="11.2" cy="16.4" r="1.7"/></svg></div></div>
+  <div class="row"><div class="lbl"><b>LUXURY FINISH</b><i>Impeccable, comfortable interiors that offer a welcome retreat</i></div><div class="ic old"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.4l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6L12 3.4z"/></svg></div><div class="ic new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 16.9v-3.3a1.8 1.8 0 0 1 1.8-1.8h10.6a1.8 1.8 0 0 1 1.8 1.8v3.3"/><path d="M7.3 11.8V8.7a1.9 1.9 0 0 1 1.9-1.9h5.6a1.9 1.9 0 0 1 1.9 1.9v3.1"/><path d="M4.9 16.9h14.2M6.6 16.9v1.5M17.4 16.9v1.5"/></svg></div></div>
+  <div class="row"><div class="lbl"><b>PEACE OF MIND</b><i>3 year factory-backed warranty and premium after sale service</i></div><div class="ic old"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.4C12 20.4 3.6 15.1 3.6 9.3C3.6 6.4 5.9 4.2 8.6 4.2C10.3 4.2 11.5 5.1 12 6.1C12.5 5.1 13.7 4.2 15.4 4.2C18.1 4.2 20.4 6.4 20.4 9.3C20.4 15.1 12 20.4 12 20.4Z"/></svg></div><div class="ic new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6l6.3 2.4v5a9 9 0 0 1-6.3 8.4A9 9 0 0 1 5.7 11V6z"/><path d="M9.4 11.9l2 2 3.3-3.6"/></svg></div></div>
+  
+
+<div class="rngrow"><div class="rc"><div class="ic rng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 14.6 5.6 7h12.8l2.4 7.6z"/><path d="M4.6 11h14.8M10.4 7l-.9 7.6M13.6 7l.9 7.6"/><path d="M12 14.6V21M8.4 21h7.2"/></svg></div><span>SOLAR</span></div><div class="rc"><div class="ic rng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2s5.8 6.1 5.8 9.9A5.8 5.8 0 0 1 6.2 13c0-3.8 5.8-9.8 5.8-9.8Z"/><path d="M9 13.4A3 3 0 0 0 12 16.4"/></svg></div><span>WATER</span></div><div class="rc"><div class="ic rng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.4" r="2.2"/><circle cx="12" cy="3.4" r="0.8"/><circle cx="12" cy="20.6" r="2.2"/><circle cx="12" cy="20.6" r="0.8"/><path d="M12 5.6v2M12 18.6v-2"/><path d="M8.3 9.4 15.7 7.6a1.3 1.3 0 0 1 0 2.6L8.3 12a1.3 1.3 0 0 0 0 2.6l7.4-1.8a1.3 1.3 0 0 1 0 2.6L8.3 17.2"/></svg></div><span>SUSPENSION</span></div><div class="rc"><div class="ic rng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7.8"/><circle cx="12" cy="12" r="2.6"/><path d="M12 4.2v2.4M12 17.4v2.4M4.2 12h2.4M17.4 12h2.4"/></svg></div><span>BRAKES</span></div></div>
+
+<div class="hbar">
+  <div class="container">
+    <b>LINE</b>
+    <span class="seg">target
+      <input type="range" id="sw" min="0.8" max="3" step="0.05" value="1.70">
+      <output id="so">1.70px</output>
+    </span>
+    <button id="og">show "now" at its real weight</button>
+    <span class="note" id="note"></span>
+  </div>
+</div>
+<script>
+var sw = document.getElementById("sw"), so = document.getElementById("so");
+var orig = false;
+function px(){ return parseFloat(getComputedStyle(document.documentElement).fontSize); }
+function paint(){
+  document.documentElement.style.setProperty("--rempx", px());
+  document.body.style.setProperty("--sw", sw.value);
+  document.body.className = "home" + (orig ? " orig" : "");
+  so.textContent = (+sw.value).toFixed(2) + "px";
+  document.getElementById("og").classList.toggle("on", orig);
+  document.getElementById("note").textContent = orig
+    ? "left column pinned at stroke-width 1.5 \u2014 2.98px as it is on the page"
+    : "both columns and the range icons on the same pixel target";
+}
+sw.addEventListener("input", paint);
+document.getElementById("og").addEventListener("click", function(){ orig = !orig; paint(); });
+addEventListener("resize", paint);
+paint();
+</script>
+</body></html>
