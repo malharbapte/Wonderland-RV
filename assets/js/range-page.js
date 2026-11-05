@@ -21,6 +21,10 @@
 (function () {
   var rail   = document.getElementById("fpRail");
   var toggle = document.getElementById("fpRailToggle");
+  /* THE STATE LIVES ON THE DOCK, not the panel. The dock is what opens, and
+     the strip is its sibling rather than its child, so a class on the dock
+     is the one place both can be driven from. */
+  var dock   = document.getElementById("fpRailDock");
   var name   = document.getElementById("fpName");
   var plan   = document.getElementById("fpPlan");
   var size   = document.getElementById("fpSize");
@@ -31,7 +35,7 @@
   var minEl  = document.getElementById("fpSizeMin");
   var maxEl  = document.getElementById("fpSizeMax");
   var list   = document.querySelector(".fp-rail-list");
-  if (!rail || !rows.length) return;
+  if (!rail || !dock || !rows.length) return;
 
   function ft(row) { return +row.dataset.ft; }
   function label(n) { return String(n).slice(0, 2) + "’" + String(n).slice(2) + "”"; }
@@ -110,24 +114,37 @@
     });
   });
 
-  /* ---- the rail, per the artboard's notes ------------------------------- */
+  /* ---- the rail, per the artboard's notes -------------------------------
+     It should only appear once this section is scrolled to, and it can be
+     hidden from the side. Both are the SAME gesture now -- the dock's
+     max-width opening -- so arriving and being reopened look alike. */
+  function syncRail() {
+    var open = dock.classList.contains("is-in") && !dock.classList.contains("is-shut");
+    /* the markup starts shut, so this has to run on the observer's pass too
+       and not only on a click, or the strip would announce the wrong state
+       for the whole time the rail sat open by itself */
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Hide the layout list" : "Show the layout list");
+  }
+
   var section = document.querySelector(".fp");
   if (section && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (rail.classList.contains("is-shut")) return;
-        rail.classList.toggle("is-in", e.isIntersecting);
+        if (dock.classList.contains("is-shut")) return;
+        dock.classList.toggle("is-in", e.isIntersecting);
+        syncRail();
       });
     }, { rootMargin: "-10% 0px -40% 0px" }).observe(section);
   } else {
-    rail.classList.add("is-in");
+    dock.classList.add("is-in");
+    syncRail();
   }
 
   toggle.addEventListener("click", function () {
-    var shut = rail.classList.toggle("is-shut");
-    if (!shut) rail.classList.add("is-in");
-    toggle.setAttribute("aria-expanded", String(!shut));
-    toggle.setAttribute("aria-label", shut ? "Show the layout list" : "Hide the layout list");
+    var shut = dock.classList.toggle("is-shut");
+    if (!shut) dock.classList.add("is-in");
+    syncRail();
   });
 
   rebuildStops();

@@ -24,6 +24,14 @@
 .fp {
   --fp-foot: 1.39rem;   /* .fp-actions: 0.46 margin + 0.93 height */
 
+  /* The rail's two widths and its one timing. On .fp and not on the dock
+     because the handle is the dock's SIBLING, not its child, and has to
+     travel the same distance on the same curve. */
+  --band:      0.82rem;   /* the strip: all that is left when it is shut */
+  --railw:     4.96rem;   /* the rail at full width */
+  --rail-dur:  .4s;
+  --rail-ease: cubic-bezier(.33,0,.18,1);
+
   /* ONE MEASUREMENT GOVERNS BOTH ROWS. In the artboard the pill's right edge
      and the CTA's right edge land on the same line -- 779.43 and 779.44 of
      1920 -- and they do it because the icon, the gap and the button add up
@@ -224,29 +232,61 @@
    move the bands use, because the artboard hangs it off the page edge rather
    than inside the column.
 
-   The artboard's notes: it should only appear once this section is scrolled
-   to, and it can be hidden from the side. Both are here -- .is-in comes from
-   the observer in range-page.js, and the chevron collapses it. */
-.fp-rail {
-  --peek: 0.88rem;                /* the sliver left showing when it is shut */
+   THE DOCK IS WHAT MOVES, AND IT MOVES BY OPENING, NOT BY TRAVELLING. The
+   panel sits still at full width and the dock's max-width runs from --band
+   to --railw, so the list is uncovered where it already is. The rows never
+   shift. Three things this fixes, all of them faults of the old version:
+
+     it used to fade. The scroll-in was transform + opacity while the toggle
+     was transform alone, so the same panel arrived one way and left another.
+     A drawer is behind an edge or in front of it, never transparent
+     it used to come from nowhere. The 0.88rem peek was the cut-off right
+     ends of the white rows, so there was no edge to open from and the panel
+     read as flying in off-page
+     it used to travel 4.96rem in 0.5s, beside a plan image that is the
+     actual subject of the section
+
+   THE ENTRANCE IS THE SAME GESTURE AS THE TOGGLE -- both are .is-in on the
+   dock. The observer in range-page.js opens it on arrival, the strip closes
+   it, and there is only ever one motion to recognise.
+
+   THE OUTLINE is 1px solid --ink, which is not a new weight: it is what
+   .fp-dims, the box on the far side of the plan image, already carries, so
+   the two read as the same kind of object. No border on the LEFT -- the rail
+   bleeds off the page edge on purpose and a line down that edge would
+   contradict the bleed. The radius is 0.05rem, the same just-off-square this
+   file already uses on the size track and the scrollbar thumb, and only on
+   the two right corners for the same reason the border skips the left.
+
+   GROUND AND OUTLINE BOTH BELONG TO THE DOCK, not the panel. The dock is the
+   thing that narrows, so the box closes with the mouth and the shut state is
+   an outlined tab rather than a bare strip. It is also a collision fix: shut,
+   the strip and the dock occupy the same 0.82rem, and a strip carrying its
+   own ground would paint straight over the dock's right border. */
+.fp-rail-dock {
   position: absolute; left: calc(50% - 50vw);
-  /* ENDS WHERE THE PLAN IMAGE ENDS, not at the foot of the section. --fp-foot
-     is what sits below the grid: the actions row's 0.46rem top margin plus
-     its own 0.93rem height. Pulling the rail up by that much lands its
-     bottom edge on the same line as the bottom of .fp-plan. */
   top: 0; bottom: var(--fp-foot);
-  width: 30.59%; max-width: 4.96rem;
-  padding: 0.46rem 0 0.6rem;
+  width: 30.59%;
+  max-width: var(--band);          /* closed until the section is reached */
+  z-index: 3; overflow: hidden;
   background: #F8F8F7;
-  z-index: 3;
-  display: flex; flex-direction: column;
-  transform: translateX(-100%); opacity: 0;
-  transition: transform .5s cubic-bezier(.33,0,.18,1), opacity .4s ease;
+  border: 1px solid var(--ink); border-left: 0;
+  border-radius: 0 0.05rem 0.05rem 0;
+  transition: max-width var(--rail-dur) var(--rail-ease);
 }
-.fp-rail.is-in { transform: none; opacity: 1; }
-/* shut, it keeps --peek on screen so the chevron is still reachable -- a rail
-   that hides its own control cannot be reopened */
-.fp-rail.is-shut { transform: translateX(calc(-100% + var(--peek))); opacity: 1; }
+.fp-rail-dock.is-in { max-width: var(--railw); }
+.fp-rail-dock.is-in.is-shut { max-width: var(--band); }
+
+/* The panel holds still and keeps a FIXED width, pinned to the strip's left.
+   Fixed and not a percentage: were it elastic the mouth would squash the
+   rows on the way closed instead of clipping them. */
+.fp-rail {
+  position: absolute; top: 0; bottom: 0;
+  left: auto; right: var(--band);
+  width: calc(var(--railw) - var(--band));
+  padding: 0.46rem 0 0.6rem;
+  display: flex; flex-direction: column;
+}
 
 .fp-rail-title {
   padding: 0 0.46rem;
@@ -283,32 +323,56 @@
 .fp-rail-list::-webkit-scrollbar-thumb { background: #c9c4bc; border-radius: 0.05rem; }
 .fp-rail-list::-webkit-scrollbar-track { background: transparent; }
 
-/* The wireframe's yellow square marked WHERE this goes, not what it is. No
-   plate behind it and it sits inside the rail, so the chevron reads as the
-   same mark the range viewer and the slideshow use -- same shape, same
-   --chev-w, same ink-to-orange hover. */
-/* ON THE RAIL'S VERTICAL CENTRE, not its top: the rail now runs the height of
-   the section, so a control pinned to the top would drift further from the
-   middle the taller the page gets. */
+/* ---- the strip ---------------------------------------------------------
+   Not a chevron on a plate. A 0.82rem full-height band with LAYOUTS set
+   vertically and the chevron beside it, which is the only version of this
+   control that says what it opens before you touch it.
+
+   IT DOES NOT HIDE AND IT DOES NOT CHANGE. One element, open or shut; it
+   only flips and slides to the edge it belongs to. A control that disappears
+   with the thing it controls cannot bring it back.
+
+   NO GROUND OF ITS OWN -- the dock carries it. See the dock's note: this is
+   what stops the strip painting over the dock's right border when the two
+   sit on the same 0.82rem. The panel stops short of the strip, so nothing
+   shows through behind the word.
+
+   ORANGE at rest, deepening on hover: --orange / --orange-deep, the pair
+   .lede-accent and the nav already use. The chevron takes it through
+   currentColor, so the word and the mark cannot drift apart. */
 .fp-rail-toggle {
-  position: absolute; right: 0.1rem; top: 50%;
-  transform: translateY(-50%);
-  width: 0.68rem; height: 0.68rem;
-  display: grid; place-items: center;
+  position: absolute; top: 0; bottom: var(--fp-foot);
+  left: calc(50% - 50vw);          /* closed: standing at the page edge */
+  width: var(--band); z-index: 5;
+  display: grid; place-items: center; align-content: center; gap: 0.24rem;
   background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: color .2s ease;
+  color: var(--orange);
+  transition: color .2s ease, left var(--rail-dur) var(--rail-ease);
 }
+/* open, it rides the panel's rim, where the artboard draws it. Sibling
+   selector and not a body class: the state stays on the one element the
+   observer and the toggle both write to. */
+.fp-rail-dock.is-in:not(.is-shut) ~ .fp-rail-toggle {
+  left: calc(50% - 50vw + var(--railw) - var(--band));
+}
+.fp-rail-toggle:hover { color: var(--orange-deep); }
 .fp-rail-toggle svg { width: 0.32rem; height: 0.32rem; fill: none;
                       stroke: currentColor; stroke-width: var(--chev-w);
-                      stroke-linecap: butt; stroke-linejoin: miter; }
-.fp-rail-toggle:hover { color: var(--orange-deep); }
-.fp-rail.is-shut .fp-rail-toggle { transform: translateY(-50%) scaleX(-1); }
+                      stroke-linecap: butt; stroke-linejoin: miter;
+                      transform: scaleX(-1);   /* closed: points outward */
+                      transition: transform .4s var(--rail-ease); }
+.fp-rail-dock.is-in:not(.is-shut) ~ .fp-rail-toggle svg { transform: none; }
+.fp-rail-word {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--aviano); font-weight: 900; font-size: 0.17rem;
+  letter-spacing: .12em; color: inherit;
+}
 
 /* ---- phone ----------------------------------------------------------------
    Held back rather than half-built: the rail has no margin to hang in below
    901, so it is hidden and the grid stacks. */
 @media (max-width: 900px) {
-  .fp-rail { display: none; }
+  .fp-rail-dock, .fp-rail-toggle { display: none; }
   .fp-controls { flex-direction: column; gap: 0.3rem; }
   .fp-kind { width: 100%; }
   .fp-grid { grid-template-columns: 1fr; row-gap: 0.3rem; }
