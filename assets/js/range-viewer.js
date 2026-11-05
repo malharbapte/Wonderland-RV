@@ -86,7 +86,7 @@
          twice now, first to drop the baked-in shadows and then to crop the
          empty canvas those shadows had been reserving, and nothing else
          would tell a browser holding the old ones to fetch them again */
-      var src = "assets/img/home/range/" + m.id + "-side.webp?v=2";
+      var src = "assets/img/home/range/" + m.id + "-side.webp?v=3";
       return '<div class="rvx-van" data-k="' + k + '">' +
         '<img src="' + src + '" alt="' + m.name + '" onerror="this.remove();">' +
       '</div>';
