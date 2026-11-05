@@ -225,7 +225,7 @@
    0.40 base increased by 150%, so the gap now stands at 4.375x where it
    started. The empty .container above the stage adds nothing: .container
    carries width and margin-inline only, no vertical padding. */
-.rvx { padding-top: 1.35rem; }
+.rvx { padding-top: 2.15rem; }   /* 1.35 + the 0.80 fall-off; see the note below */
 
 /* ---- CARAVANS BUILT ----------------------------------------------------
    3.03rem less 12% is 2.67rem. The band centres its contents with flex, so
@@ -603,6 +603,46 @@
    not. */
 .coty-note { text-wrap: pretty; }
 
+
+/* ---- the fall-off under the header video ------------------------------
+   The video band ends on a hard horizontal edge against white, which is
+   what made it and the range viewer read as one undivided block. This hangs
+   a short dark fade BELOW the band so the picture dissolves into the page
+   instead of stopping.
+
+   It is .home-hero::after at top: 100%, so it lives outside the band and
+   over the section beneath. No z-index is needed: .home-hero comes first in
+   the document and .rvx has no background of its own, so there is nothing
+   to paint over the fade. If .rvx is ever given a ground, this needs one.
+
+   ELEVEN STOPS ON SMOOTHERSTEP, 6t^5-15t^4+10t^3. A two-stop gradient turns
+   its alpha at both ends and the eye reads those corners as lines -- which
+   on a fade whose whole job is to not be an edge would be self-defeating.
+
+   THE GAP IS SCALED WITH IT. .rvx carried padding-top: 1.35rem as the gap
+   under the video. The fade is 0.80rem of that, so the clear space after it
+   would have been 0.55 -- half what was there. 1.35 + 0.80 = 2.15rem keeps
+   the breathing room measured from where the fade ENDS, which is where the
+   eye reads the video as finishing. */
+.home-hero { position: relative; }
+.home-hero::after {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  top: 100%; height: 0.80rem;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+      rgba(17,17,17,0.500) 0%,
+      rgba(17,17,17,0.496) 10%,
+      rgba(17,17,17,0.471) 20%,
+      rgba(17,17,17,0.418) 30%,
+      rgba(17,17,17,0.341) 40%,
+      rgba(17,17,17,0.250) 50%,
+      rgba(17,17,17,0.159) 60%,
+      rgba(17,17,17,0.082) 70%,
+      rgba(17,17,17,0.029) 80%,
+      rgba(17,17,17,0.004) 90%,
+      rgba(17,17,17,0.000) 100%);
+}
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
