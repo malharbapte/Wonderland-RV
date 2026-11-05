@@ -1,0 +1,262 @@
+/* ==========================================================================
+   FLOORPLANS  —  range.html
+
+   LAYOUT COMPOSITION ONLY. Everything here is geometry and placement taken
+   off "Range/Artboard 1.svg"; no final copy, imagery or data.
+
+   THE ARTBOARD IS ON THIS SITE'S GRID, which is worth stating because it is
+   what let the whole thing be measured rather than eyeballed. Its content
+   column runs 409.32 to 1517.73 of 1920, i.e. 21.32% to 79.05% of the
+   width. The site's column sits at 21.09% to 78.91%. A quarter of a per
+   cent apart, so .container is the artboard's column and every width below
+   is expressed as a percentage OF IT rather than as a converted pixel.
+
+     main plan image   66.70% of the column, aspect 1.809
+     gap               2.33%
+     dimension panel   30.97%
+     pill              33.25% wide, 6.92% tall
+     rail              30.59% of the column, docked to the window edge
+     icon              6.67%  square
+     virtual tour      24.91% wide, 5.73% tall
+
+   Type follows the artboard where it has a view and the site's scale where
+   it does not: the heading is 52.8px on 1920, which is 0.772rem here —
+   deliberately larger than the 0.56rem section headings, because this is a
+   page title and not a section head.
+   ========================================================================== */
+
+.fp { position: relative; padding-top: 1.20rem; padding-bottom: 1.20rem; }
+
+.fp-title {
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.772rem;
+  line-height: 1;
+}
+.fp-lede {
+  margin-top: 0.26rem;
+  max-width: 11.6rem;          /* the artboard breaks it after "solo" */
+  font-family: var(--gordita);
+  font-size: 0.351rem;
+  line-height: 0.47rem;
+}
+
+/* the rail is positioned against this, so its top meets the controls row */
+.fp-body { position: relative; margin-top: 0.62rem; }
+
+/* ---- the controls row --------------------------------------------------- */
+.fp-controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.56rem;
+}
+
+/* PILL. One control, two states, with the indicator travelling between them
+   rather than each half lighting up — the same behaviour as .chips on the
+   contact form, so the page has one way of showing a two-way choice. */
+.fp-kind {
+  position: relative;
+  flex: none;
+  width: 33.25%;
+  height: 1.122rem;
+  margin: 0; padding: 0;
+  border: 0.0075rem solid var(--ink);
+  border-radius: 0.155rem;
+  display: flex;
+}
+.fp-kind label {
+  flex: 1 1 0;
+  display: grid; place-items: center;
+  cursor: pointer;
+  font-family: var(--gordita);
+  font-size: var(--t-cta);
+  transition: color .28s ease;
+}
+.fp-kind input { position: absolute; opacity: 0; pointer-events: none; }
+.fp-kind label:has(input:checked) { color: #fff; }
+.fp-kind label + label::before {
+  content: ""; position: absolute; top: 0; bottom: 0;
+  width: 1px; background: var(--ink);
+}
+/* the travelling indicator sits under the labels */
+.fp-kind::before {
+  content: "";
+  position: absolute; top: 0.05rem; bottom: 0.05rem; left: 0.05rem;
+  width: calc(50% - 0.05rem);
+  border-radius: 0.11rem;
+  background: var(--orange-deep);
+  transition: transform .28s cubic-bezier(.33,0,.18,1);
+  z-index: 0;
+}
+.fp-kind:has(label:last-child input:checked)::before { transform: translateX(100%); }
+.fp-kind label span { position: relative; z-index: 1; }
+
+/* SIZE. A native range input so it is keyboard- and screen-reader-complete
+   before any script runs; the track and thumb are restyled, not replaced. */
+.fp-size {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  column-gap: 0.2rem;
+  padding-top: 0.1rem;
+}
+.fp-size-label {
+  grid-column: 1 / -1;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: 1;
+  margin-bottom: 0.17rem;
+}
+.fp-size input[type=range] {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+  accent-color: var(--orange-deep);
+}
+.fp-size-min, .fp-size-max {
+  margin-top: 0.14rem;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: 1;
+}
+.fp-size-max { text-align: right; }
+
+/* ---- the selected layout ------------------------------------------------ */
+.fp-name {
+  margin-top: 0.52rem;
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.52rem;
+  line-height: 1;
+}
+
+.fp-grid {
+  margin-top: 0.3rem;
+  display: grid;
+  grid-template-columns: 66.70% 30.97%;
+  justify-content: space-between;     /* the 2.33% gap, without hard-coding it */
+}
+.fp-plan {
+  aspect-ratio: 739.28 / 408.77;      /* straight off the artboard */
+  background: #999;
+}
+.fp-dims {
+  border: 1px solid var(--ink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  font-family: var(--gordita);
+}
+.fp-dims h3 { font-size: var(--t-body); font-weight: 400; line-height: 1.25; }
+.fp-tbd { font-size: var(--t-body); color: var(--dim, #6b6158); }
+
+/* ---- the foot ----------------------------------------------------------- */
+.fp-actions {
+  margin-top: 0.46rem;
+  display: grid;
+  grid-template-columns: 6.67% 24.91% 1fr;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+.fp-icon { aspect-ratio: 1; background: #999; }
+.fp-tour {
+  height: 0.93rem;
+  padding: 0 0.2rem;
+  font-size: var(--t-cta);
+}
+.fp-fine {
+  align-self: end;
+  padding-left: 0.5rem;
+  font-family: var(--gordita);
+  font-size: 0.161rem;
+  line-height: 0.22rem;
+  color: var(--dim, #6b6158);
+}
+
+/* ---- the layout rail ----------------------------------------------------
+   Docked to the WINDOW edge, not the column: left: calc(50% - 50vw) takes it
+   out to 0 the same way every full-bleed band on this site does. The
+   artboard draws it hanging off the left edge of the page, overlapping the
+   margin rather than sitting inside the column.
+
+   The note on the artboard says it should only appear once this section is
+   scrolled to, and that it can be hidden from the side. Both are here: .is-in
+   is added by the observer in range-page.js, and the chevron collapses it.  */
+.fp-rail {
+  position: absolute;
+  left: calc(50% - 50vw);
+  top: 0;
+  width: 30.59%;
+  max-width: 4.96rem;
+  padding: 0.52rem 0 0.7rem;
+  background: #ccc;
+  z-index: 3;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.33,0,.18,1), opacity .4s ease;
+}
+.fp-rail.is-in { transform: none; opacity: 1; }
+.fp-rail.is-shut { transform: translateX(-100%); opacity: 1; }
+
+.fp-rail-title {
+  padding: 0 0.46rem;
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: 0.3rem;
+  line-height: 1.18;
+  text-transform: uppercase;
+}
+.fp-rail-list {
+  margin-top: 0.34rem;
+  padding: 0 0.46rem 0 0.52rem;
+  max-height: 4.3rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.fp-rail-list li + li { margin-top: 0.13rem; }
+.fp-row {
+  display: block; width: 100%;
+  height: 0.756rem;
+  background: #fff;
+  border: 1px solid #606161;
+  cursor: pointer;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: 1;
+  transition: background .2s ease, color .2s ease;
+}
+.fp-row:hover { background: #f1efec; }
+.fp-row.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* the artboard puts a slim rounded scrollbar on the rail's LEFT edge */
+.fp-rail-list::-webkit-scrollbar { width: 0.132rem; }
+.fp-rail-list::-webkit-scrollbar-thumb { background: #999; border-radius: 0.066rem; }
+.fp-rail-list::-webkit-scrollbar-track { background: transparent; }
+
+/* the yellow square on the artboard marks where this goes, not what it is */
+.fp-rail-toggle {
+  position: absolute;
+  right: -0.185rem; top: 50%;
+  width: 0.37rem; height: 0.37rem;
+  transform: translateY(-50%);
+  display: grid; place-items: center;
+  background: var(--orange-deep); color: #fff;
+  border: 0; cursor: pointer; padding: 0;
+}
+.fp-rail-toggle svg { width: 0.22rem; height: 0.22rem; stroke-width: var(--icon-stroke); }
+.fp-rail.is-shut .fp-rail-toggle { transform: translateY(-50%) translateX(100%) scaleX(-1); }
+
+/* ---- phone ----------------------------------------------------------------
+   Out of scope for this pass, which is desktop composition. The rail would
+   have to become something else entirely below 901 -- there is no margin to
+   hang it in -- so it is held back rather than half-built. */
+@media (max-width: 900px) {
+  .fp-rail { display: none; }
+  .fp-controls { flex-direction: column; gap: 0.3rem; }
+  .fp-kind { width: 100%; }
+  .fp-grid { grid-template-columns: 1fr; row-gap: 0.3rem; }
+  .fp-actions { grid-template-columns: 1fr; row-gap: 0.2rem; }
+  .fp-fine { padding-left: 0; }
+}
