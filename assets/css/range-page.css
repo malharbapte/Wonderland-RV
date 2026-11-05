@@ -139,8 +139,12 @@
 .fp-size-max { right: 0; }
 
 /* ---- the selected layout ------------------------------------------------ */
-.fp-name { margin-top: 0.60rem; font-family: var(--aviano); font-weight: 900;
-           font-size: var(--t-sub); letter-spacing: .04em; line-height: 1; }
+/* Gordita Medium, not Aviano Black. 500 is the Medium face -- the licensed
+   set is Regular, Medium and Bold, so this is a real weight rather than a
+   synthesised one. The tracking goes with the Aviano: Gordita does not need
+   it opened up. */
+.fp-name { margin-top: 0.60rem; font-family: var(--gordita); font-weight: 500;
+           font-size: var(--t-sub); line-height: 1; }
 
 .fp-grid {
   margin-top: 0.3rem;
@@ -197,7 +201,7 @@
    to, and it can be hidden from the side. Both are here -- .is-in comes from
    the observer in range-page.js, and the chevron collapses it. */
 .fp-rail {
-  --peek: 0.76rem;                /* the sliver left showing when it is shut */
+  --peek: 0.88rem;                /* the sliver left showing when it is shut */
   position: absolute; left: calc(50% - 50vw);
   /* ENDS WHERE THE PLAN IMAGE ENDS, not at the foot of the section. --fp-foot
      is what sits below the grid: the actions row's 0.46rem top margin plus
@@ -222,11 +226,18 @@
   font-family: var(--aviano); font-weight: 900;
   font-size: var(--t-sub); line-height: 1.15; text-transform: uppercase;
 }
+/* THE SCROLLBAR SITS ON THE LEFT, as the artboard draws it. There is no
+   property for which side a scrollbar lands on -- it follows the writing
+   direction -- so the scroller is turned rtl and each row is turned back to
+   ltr. The padding is swapped with it, or the rows would sit under the bar. */
 .fp-rail-list {
   flex: 1 1 auto; min-height: 0;     /* min-height: 0 or a flex child will not scroll */
-  margin-top: 0.3rem; padding: 0 0.46rem;
+  margin-top: 0.3rem;
+  padding: 0 0.46rem 0 0.3rem;
+  direction: rtl;
   overflow-y: auto; overscroll-behavior: contain;
 }
+.fp-rail-list > li { direction: ltr; }
 .fp-rail-list li + li { margin-top: 0.1rem; }
 .fp-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -255,12 +266,12 @@
 .fp-rail-toggle {
   position: absolute; right: 0.1rem; top: 50%;
   transform: translateY(-50%);
-  width: 0.56rem; height: 0.56rem;
+  width: 0.68rem; height: 0.68rem;
   display: grid; place-items: center;
   background: none; border: 0; padding: 0; cursor: pointer;
   color: var(--ink); transition: color .2s ease;
 }
-.fp-rail-toggle svg { width: 0.24rem; height: 0.24rem; fill: none;
+.fp-rail-toggle svg { width: 0.32rem; height: 0.32rem; fill: none;
                       stroke: currentColor; stroke-width: var(--chev-w);
                       stroke-linecap: butt; stroke-linejoin: miter; }
 .fp-rail-toggle:hover { color: var(--orange-deep); }
