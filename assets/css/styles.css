@@ -1738,7 +1738,20 @@ input:-webkit-autofill:focus {
    orange hover, the COTY arrows sit on an orange disc. Forcing one colour
    would flatten decisions that were made deliberately.
    ========================================================================== */
-:root { --chev-w: 2.6; }
+:root {
+  --chev-w: 2.6;
+  /* ONE STROKE FOR EVERY ICON ON THE PAGE. A stroke in a 24-unit viewBox is
+     a RATIO, so one value here means the rendered line follows the icon's
+     size: a smaller icon gets a finer line, which is the point. The previous
+     arrangement gave each set its own number so both rendered the same
+     pixel width, which made the small icons look heavy for their size.
+
+       why icons   0.93rem = 47.7px  ->  1.91px
+       range icons 0.53rem = 27.2px  ->  1.09px
+
+     Change it here and every icon follows. */
+  --icon-stroke: 0.96;
+}
 
 .rvx-arrow path,
 .coty-arrow path,
