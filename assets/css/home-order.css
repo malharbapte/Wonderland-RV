@@ -561,12 +561,15 @@
    not four" -- which said in four words what the note under the video now
    says properly. Two summaries stacked on one slide is one too many.
 
-   The FIRST slide keeps its subheading, because that one is not a label: it
-   is the READ THE COTY 2026 REVIEW link, the only call to action in the deck.
+   SLIDES 1, 5 AND 6 KEEP THEIRS, because on those three the subheading is
+   not a label -- it is a link to the review that video is about. Only 2, 3
+   and 4 carried a label that the note underneath now says properly, so only
+   those three are hidden. The selector is bounded at both ends for that
+   reason; an open-ended nth-child(n+2) would swallow the two links.
 
    Hidden, not deleted. phoneDeck in home.js clones .coty-title and .coty-sub
    into a shared head for the phone, so the markup has to stay. */
-.coty-slide:nth-child(n+2) .coty-sub { display: none; }
+.coty-slide:nth-child(n+2):nth-child(-n+4) .coty-sub { display: none; }
 
 
 /* ---- the hero title, now the page's first call to action --------------
