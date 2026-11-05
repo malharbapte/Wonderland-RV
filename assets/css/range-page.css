@@ -198,13 +198,17 @@
    never a box to draw. The mark sits on its own beside the CTA, on the
    same baseline, at the page's own --icon-stroke. */
 .fp-icon {
-  width: 100%; height: 0.62rem; flex: none;
+  /* The earlier reference square was 0.93rem, the CTA's own height, and the
+     icon is now edge to edge inside that footprint rather than the 0.62rem
+     it sat at. Keeping 0.93 means the actions row is still CTA-height, so
+     --fp-foot stays 1.39rem and the rail's bottom edge does not move. */
+  width: 0.93rem; height: 0.93rem; flex: none;
   display: grid; place-items: center;
   background: none; border: 0; padding: 0; cursor: pointer;
   color: var(--ink);
   transition: color .3s ease;
 }
-.fp-icon svg { width: 0.62rem; height: 0.62rem; stroke-width: var(--icon-stroke-360); }
+.fp-icon svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke-360); }
 /* --icon-stroke-360, not --icon-stroke: this icon holds 1.58x the linework of
    the why- icons in the same box, so the shared number reads heavier here.
    styles.css carries the measurement. */
