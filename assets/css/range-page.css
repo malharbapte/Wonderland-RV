@@ -1,153 +1,146 @@
 /* ==========================================================================
    FLOORPLANS  —  range.html
 
-   LAYOUT COMPOSITION ONLY. Everything here is geometry and placement taken
-   off "Range/Artboard 1.svg"; no final copy, imagery or data.
+   LAYOUT COMPOSITION. Geometry is taken off Range/Artboard 1.svg; type,
+   colour and controls follow the homepage rather than the artboard, because
+   the artboard is a wireframe and the homepage is the design language.
 
-   THE ARTBOARD IS ON THIS SITE'S GRID, which is worth stating because it is
-   what let the whole thing be measured rather than eyeballed. Its content
-   column runs 409.32 to 1517.73 of 1920, i.e. 21.32% to 79.05% of the
-   width. The site's column sits at 21.09% to 78.91%. A quarter of a per
-   cent apart, so .container is the artboard's column and every width below
-   is expressed as a percentage OF IT rather than as a converted pixel.
+   THE ARTBOARD IS ON THIS SITE'S GRID. Its content column runs 409.32 to
+   1517.73 of 1920 -- 21.32% to 79.05% -- against the site's 21.09% to
+   78.91%. So .container IS the artboard's column and every width below is a
+   percentage OF IT, not a converted pixel:
 
-     main plan image   66.70% of the column, aspect 1.809
-     gap               2.33%
-     dimension panel   30.97%
-     pill              33.25% wide, 6.92% tall
-     rail              30.59% of the column, docked to the window edge
-     icon              6.67%  square
-     virtual tour      24.91% wide, 5.73% tall
+     plan image       66.70%, aspect 739.28/408.77
+     dimension panel  30.97%, the 2.33% gap done by space-between
+     pill             33.25% wide
+     rail             30.59%, docked to the window edge
 
-   Type follows the artboard where it has a view and the site's scale where
-   it does not: the heading is 52.8px on 1920, which is 0.772rem here —
-   deliberately larger than the 0.56rem section headings, because this is a
-   page title and not a section head.
+   TYPE IS THE HOMEPAGE'S, not the artboard's. The artboard sets the heading
+   at 52.8px on 1920, which would be 0.772rem; the site's heading step is
+   --t-heading. Using the artboard's number would have given this page a
+   heading nothing else on the site shares.
    ========================================================================== */
 
 .fp { position: relative; padding-top: 1.20rem; padding-bottom: 1.20rem; }
 
-.fp-title {
-  font-family: var(--aviano);
-  font-weight: 900;
-  font-size: 0.772rem;
-  line-height: 1;
-}
-.fp-lede {
-  margin-top: 0.26rem;
-  max-width: 11.6rem;          /* the artboard breaks it after "solo" */
-  font-family: var(--gordita);
-  font-size: 0.351rem;
-  line-height: 0.47rem;
-}
+.fp-title { font-family: var(--aviano); font-weight: 900;
+            font-size: var(--t-heading); line-height: 1; }
+.fp-lede  { margin-top: 0.24rem; max-width: 11.6rem;
+            font-family: var(--gordita); font-size: var(--t-body);
+            line-height: var(--lh-body); }
 
-/* the rail is positioned against this, so its top meets the controls row */
-.fp-body { position: relative; margin-top: 0.62rem; }
+.fp-body { position: relative; margin-top: 0.70rem; }
 
 /* ---- the controls row --------------------------------------------------- */
-.fp-controls {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.56rem;
-}
+.fp-controls { display: flex; align-items: flex-start; gap: 0.62rem; }
 
-/* PILL. One control, two states, with the indicator travelling between them
-   rather than each half lighting up — the same behaviour as .chips on the
-   contact form, so the page has one way of showing a two-way choice. */
+/* PILL. The indicator sits INSIDE its half rather than spanning to the
+   divider: with --p of padding, each half runs from p to 50% - 0.5p, so the
+   divider keeps 0.5p of clearance on both sides and the bubble never touches
+   it. Travelling indicator rather than two lit halves, which is how .chips
+   on the contact form already does a two-way choice. */
 .fp-kind {
+  --p: 0.08rem;
   position: relative;
-  flex: none;
-  width: 33.25%;
-  height: 1.122rem;
+  flex: none; width: 33.25%; height: 0.92rem;
   margin: 0; padding: 0;
   border: 0.0075rem solid var(--ink);
-  border-radius: 0.155rem;
+  border-radius: 0.46rem;
   display: flex;
 }
-.fp-kind label {
-  flex: 1 1 0;
-  display: grid; place-items: center;
-  cursor: pointer;
-  font-family: var(--gordita);
-  font-size: var(--t-cta);
-  transition: color .28s ease;
-}
 .fp-kind input { position: absolute; opacity: 0; pointer-events: none; }
-.fp-kind label:has(input:checked) { color: #fff; }
-.fp-kind label + label::before {
-  content: ""; position: absolute; top: 0; bottom: 0;
-  width: 1px; background: var(--ink);
-}
-/* the travelling indicator sits under the labels */
-.fp-kind::before {
-  content: "";
-  position: absolute; top: 0.05rem; bottom: 0.05rem; left: 0.05rem;
-  width: calc(50% - 0.05rem);
-  border-radius: 0.11rem;
+.fp-kind-thumb {
+  position: absolute; z-index: 0;
+  top: var(--p); bottom: var(--p); left: var(--p);
+  width: calc(50% - var(--p) * 1.5);
+  border-radius: 0.46rem;
   background: var(--orange-deep);
   transition: transform .28s cubic-bezier(.33,0,.18,1);
-  z-index: 0;
 }
-.fp-kind:has(label:last-child input:checked)::before { transform: translateX(100%); }
-.fp-kind label span { position: relative; z-index: 1; }
+.fp-kind:has(label:last-of-type input:checked) .fp-kind-thumb {
+  transform: translateX(calc(100% + var(--p)));
+}
+.fp-kind label {
+  position: relative; z-index: 1;
+  flex: 1 1 0; display: grid; place-items: center; cursor: pointer;
+  font-family: var(--gordita); font-size: var(--t-cta); line-height: 1;
+  transition: color .28s ease;
+}
+.fp-kind label:has(input:checked) { color: #fff; }
+.fp-kind label + label::before {
+  content: ""; position: absolute; left: 0; top: 0.12rem; bottom: 0.12rem;
+  width: 1px; background: var(--ink);
+}
+.fp-kind:has(input:checked) label + label::before,
+.fp-kind label + label:has(input:checked)::before { opacity: 0; }
 
-/* SIZE. A native range input so it is keyboard- and screen-reader-complete
-   before any script runs; the track and thumb are restyled, not replaced. */
-.fp-size {
-  flex: 1 1 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  column-gap: 0.2rem;
-  padding-top: 0.1rem;
+/* SIZE. Built like the budget slider on the contact form: a head carrying
+   the label and the live figure in orange, then a flat track with an orange
+   fill behind a native range input. The input stays a real range so it is
+   keyboard and screen-reader complete; only its track and thumb are
+   restyled. */
+.fp-size { flex: 1 1 auto; }
+.fp-size-head {
+  display: flex; align-items: baseline; gap: 0.2rem;
+  font-family: var(--gordita); margin-bottom: 0.2rem;
 }
-.fp-size-label {
-  grid-column: 1 / -1;
-  font-family: var(--gordita);
-  font-size: var(--t-caption);
-  line-height: 1;
-  margin-bottom: 0.17rem;
+.fp-size-head b {
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 0.16rem; letter-spacing: .06em; text-transform: uppercase;
+}
+.fp-size-value { font-style: normal; font-size: 0.26rem; font-weight: 500;
+                 color: var(--orange); }
+.fp-size-scale { position: relative; height: 0.62rem; }
+.fp-size-track {
+  position: absolute; left: 0; right: 0; top: 0.11rem;
+  height: 0.10rem; background: #E4E2DE; border-radius: 0.05rem;
+}
+.fp-size-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: var(--orange); border-radius: 0.05rem;
+  transition: width .28s cubic-bezier(.65,0,.35,1);
 }
 .fp-size input[type=range] {
-  grid-column: 1 / -1;
-  width: 100%;
-  margin: 0;
-  accent-color: var(--orange-deep);
+  position: absolute; left: 0; right: 0; top: 0;
+  width: 100%; height: 0.32rem; margin: 0;
+  background: none; -webkit-appearance: none; appearance: none; cursor: pointer;
+}
+.fp-size input[type=range]::-webkit-slider-runnable-track { background: none; height: 0.32rem; }
+.fp-size input[type=range]::-moz-range-track { background: none; height: 0.32rem; }
+.fp-size input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 0.32rem; height: 0.32rem; border-radius: 50%;
+  background: var(--orange); border: 0.015rem solid var(--orange);
+}
+.fp-size input[type=range]::-moz-range-thumb {
+  width: 0.32rem; height: 0.32rem; border-radius: 50%;
+  background: var(--orange); border: 0.015rem solid var(--orange);
+}
+.fp-size input[type=range]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px var(--orange-deep);
 }
 .fp-size-min, .fp-size-max {
-  margin-top: 0.14rem;
-  font-family: var(--gordita);
-  font-size: var(--t-caption);
-  line-height: 1;
+  position: absolute; top: 0.40rem;
+  font-family: var(--gordita); font-size: var(--t-caption); line-height: 1;
+  color: var(--dim, #6b6158);
 }
-.fp-size-max { text-align: right; }
+.fp-size-min { left: 0; }
+.fp-size-max { right: 0; }
 
 /* ---- the selected layout ------------------------------------------------ */
-.fp-name {
-  margin-top: 0.52rem;
-  font-family: var(--aviano);
-  font-weight: 900;
-  font-size: 0.52rem;
-  line-height: 1;
-}
+.fp-name { margin-top: 0.60rem; font-family: var(--aviano); font-weight: 900;
+           font-size: var(--t-sub); letter-spacing: .04em; line-height: 1; }
 
 .fp-grid {
   margin-top: 0.3rem;
-  display: grid;
-  grid-template-columns: 66.70% 30.97%;
-  justify-content: space-between;     /* the 2.33% gap, without hard-coding it */
+  display: grid; grid-template-columns: 66.70% 30.97%;
+  justify-content: space-between;
 }
-.fp-plan {
-  aspect-ratio: 739.28 / 408.77;      /* straight off the artboard */
-  background: #999;
-}
+.fp-plan { aspect-ratio: 739.28 / 408.77; background: #F8F8F7; }
 .fp-dims {
   border: 1px solid var(--ink);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 0.4rem;
-  text-align: center;
-  font-family: var(--gordita);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.3rem; text-align: center; font-family: var(--gordita);
 }
 .fp-dims h3 { font-size: var(--t-body); font-weight: 400; line-height: 1.25; }
 .fp-tbd { font-size: var(--t-body); color: var(--dim, #6b6158); }
@@ -155,108 +148,93 @@
 /* ---- the foot ----------------------------------------------------------- */
 .fp-actions {
   margin-top: 0.46rem;
-  display: grid;
-  grid-template-columns: 6.67% 24.91% 1fr;
-  align-items: center;
-  column-gap: 0.25rem;
+  display: grid; grid-template-columns: auto 1fr;
+  align-items: end; column-gap: 0.5rem;
 }
-.fp-icon { aspect-ratio: 1; background: #999; }
+/* the icon rides INSIDE the button, beside the words, rather than sitting in
+   its own grey square the way the wireframe parked it */
 .fp-tour {
-  height: 0.93rem;
-  padding: 0 0.2rem;
-  font-size: var(--t-cta);
+  display: inline-flex; align-items: center; gap: 0.18rem;
+  height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta);
 }
+.fp-tour-ico { width: 0.3rem; height: 0.3rem; flex: none;
+               stroke-width: var(--icon-stroke); }
 .fp-fine {
-  align-self: end;
-  padding-left: 0.5rem;
-  font-family: var(--gordita);
-  font-size: 0.161rem;
-  line-height: 0.22rem;
+  font-family: var(--gordita); font-size: 0.161rem; line-height: 0.22rem;
   color: var(--dim, #6b6158);
 }
 
 /* ---- the layout rail ----------------------------------------------------
-   Docked to the WINDOW edge, not the column: left: calc(50% - 50vw) takes it
-   out to 0 the same way every full-bleed band on this site does. The
-   artboard draws it hanging off the left edge of the page, overlapping the
-   margin rather than sitting inside the column.
+   Docked to the WINDOW edge with left: calc(50% - 50vw), the same full-bleed
+   move the bands use, because the artboard hangs it off the page edge rather
+   than inside the column.
 
-   The note on the artboard says it should only appear once this section is
-   scrolled to, and that it can be hidden from the side. Both are here: .is-in
-   is added by the observer in range-page.js, and the chevron collapses it.  */
+   The artboard's notes: it should only appear once this section is scrolled
+   to, and it can be hidden from the side. Both are here -- .is-in comes from
+   the observer in range-page.js, and the chevron collapses it. */
 .fp-rail {
-  position: absolute;
-  left: calc(50% - 50vw);
-  top: 0;
-  width: 30.59%;
-  max-width: 4.96rem;
-  padding: 0.52rem 0 0.7rem;
-  background: #ccc;
+  position: absolute; left: calc(50% - 50vw); top: 0;
+  width: 30.59%; max-width: 4.96rem;
+  padding: 0.46rem 0 0.6rem;
+  background: #F8F8F7;
   z-index: 3;
-  transform: translateX(-100%);
-  opacity: 0;
+  transform: translateX(-100%); opacity: 0;
   transition: transform .5s cubic-bezier(.33,0,.18,1), opacity .4s ease;
 }
-.fp-rail.is-in { transform: none; opacity: 1; }
+.fp-rail.is-in   { transform: none; opacity: 1; }
 .fp-rail.is-shut { transform: translateX(-100%); opacity: 1; }
 
 .fp-rail-title {
   padding: 0 0.46rem;
-  font-family: var(--aviano);
-  font-weight: 900;
-  font-size: 0.3rem;
-  line-height: 1.18;
-  text-transform: uppercase;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: var(--t-sub); line-height: 1.15; text-transform: uppercase;
 }
 .fp-rail-list {
-  margin-top: 0.34rem;
-  padding: 0 0.46rem 0 0.52rem;
-  max-height: 4.3rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  margin-top: 0.3rem; padding: 0 0.46rem;
+  max-height: 4.6rem; overflow-y: auto; overscroll-behavior: contain;
 }
-.fp-rail-list li + li { margin-top: 0.13rem; }
+.fp-rail-list li + li { margin-top: 0.1rem; }
 .fp-row {
-  display: block; width: 100%;
-  height: 0.756rem;
-  background: #fff;
-  border: 1px solid #606161;
-  cursor: pointer;
-  font-family: var(--gordita);
-  font-size: var(--t-caption);
-  line-height: 1;
-  transition: background .2s ease, color .2s ease;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; height: 0.62rem; padding: 0 0.2rem;
+  background: #fff; border: 1px solid #e4e2de; cursor: pointer;
+  font-family: var(--gordita); line-height: 1;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
 }
-.fp-row:hover { background: #f1efec; }
+.fp-row-name { font-size: var(--t-caption); }
+.fp-row-size { font-size: var(--t-caption); color: var(--dim, #6b6158); }
+.fp-row:hover { border-color: var(--ink); }
 .fp-row.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.fp-row.is-on .fp-row-size { color: rgba(255,255,255,.72); }
 
-/* the artboard puts a slim rounded scrollbar on the rail's LEFT edge */
-.fp-rail-list::-webkit-scrollbar { width: 0.132rem; }
-.fp-rail-list::-webkit-scrollbar-thumb { background: #999; border-radius: 0.066rem; }
+.fp-rail-list::-webkit-scrollbar { width: 0.1rem; }
+.fp-rail-list::-webkit-scrollbar-thumb { background: #c9c4bc; border-radius: 0.05rem; }
 .fp-rail-list::-webkit-scrollbar-track { background: transparent; }
 
-/* the yellow square on the artboard marks where this goes, not what it is */
+/* The wireframe's yellow square marked WHERE this goes, not what it is. No
+   plate behind it and it sits inside the rail, so the chevron reads as the
+   same mark the range viewer and the slideshow use -- same shape, same
+   --chev-w, same ink-to-orange hover. */
 .fp-rail-toggle {
-  position: absolute;
-  right: -0.185rem; top: 50%;
-  width: 0.37rem; height: 0.37rem;
-  transform: translateY(-50%);
+  position: absolute; right: 0.2rem; top: 0.46rem;
+  width: 0.56rem; height: 0.56rem;
   display: grid; place-items: center;
-  background: var(--orange-deep); color: #fff;
-  border: 0; cursor: pointer; padding: 0;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink); transition: color .2s ease;
 }
-.fp-rail-toggle svg { width: 0.22rem; height: 0.22rem; stroke-width: var(--icon-stroke); }
-.fp-rail.is-shut .fp-rail-toggle { transform: translateY(-50%) translateX(100%) scaleX(-1); }
+.fp-rail-toggle svg { width: 0.24rem; height: 0.24rem; fill: none;
+                      stroke: currentColor; stroke-width: var(--chev-w);
+                      stroke-linecap: butt; stroke-linejoin: miter; }
+.fp-rail-toggle:hover { color: var(--orange-deep); }
+.fp-rail.is-shut .fp-rail-toggle { transform: scaleX(-1) translateX(-1.6rem); }
 
 /* ---- phone ----------------------------------------------------------------
-   Out of scope for this pass, which is desktop composition. The rail would
-   have to become something else entirely below 901 -- there is no margin to
-   hang it in -- so it is held back rather than half-built. */
+   Held back rather than half-built: the rail has no margin to hang in below
+   901, so it is hidden and the grid stacks. */
 @media (max-width: 900px) {
   .fp-rail { display: none; }
   .fp-controls { flex-direction: column; gap: 0.3rem; }
   .fp-kind { width: 100%; }
   .fp-grid { grid-template-columns: 1fr; row-gap: 0.3rem; }
   .fp-actions { grid-template-columns: 1fr; row-gap: 0.2rem; }
-  .fp-fine { padding-left: 0; }
 }

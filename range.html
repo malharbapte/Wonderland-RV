@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Floorplans &mdash; Wonderland RV</title>
-<meta name="description" content="Twenty Wonderland RV floorplans from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;, for families, couples and solo adventurers.">
+<meta name="description" content="Wonderland RV floorplans from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;, for families, couples and solo adventurers.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=295">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=295">
-<link rel="stylesheet" href="assets/css/homepage.css?v=295">
-<link rel="stylesheet" href="assets/css/range-page.css?v=295">
+<link rel="stylesheet" href="assets/css/styles.css?v=296">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=296">
+<link rel="stylesheet" href="assets/css/homepage.css?v=296">
+<link rel="stylesheet" href="assets/css/range-page.css?v=296">
 </head>
 <body class="home">
 
@@ -63,10 +63,11 @@
 </header>
 
 <!-- =========================================================== FLOORPLANS
-  LAYOUT COMPOSITION ONLY, per the brief. Every figure is a placeholder:
-  the plan image, the dimension panel, the icon, and the layout list. The
-  list names and sizes are stand-ins drawn from the model naming on
-  wonderlandrv.com.au and are NOT confirmed against the real floorplan set.
+  LAYOUT COMPOSITION. The plan image and the dimension panel are
+  placeholders; the layout names and sizes are the real ones, taken from
+  wonderlandrv.com.au/layout/couples-caravans and /family-off-road-caravans.
+  Those pages list the best sellers, which is fifteen of the twenty the
+  lede claims -- the remaining five need to come from the full set.
   ====================================================================== -->
 <section class="fp">
   <div class="container">
@@ -76,51 +77,56 @@
       capability in equal measure.</p>
   </div>
 
-  <!-- the rail is positioned against THIS block, so its top lines up with the
-       controls row the way the artboard draws it -->
   <div class="fp-body">
     <aside class="fp-rail" id="fpRail" aria-label="Layout selection">
-      <h2 class="fp-rail-title">Layout<br>selection</h2>
-      <ul class="fp-rail-list">
-        <li><button type="button" class="fp-row is-on" data-size="17&rsquo;06&rdquo;" data-kind="couples">Amaroo 1706</button></li>
-        <li><button type="button" class="fp-row" data-size="21&rsquo;00&rdquo;" data-kind="family">Amaroo 2100</button></li>
-        <li><button type="button" class="fp-row" data-size="23&rsquo;11&rdquo;" data-kind="family">Amaroo 2311</button></li>
-        <li><button type="button" class="fp-row" data-size="19&rsquo;06&rdquo;" data-kind="couples">Hornet 1906</button></li>
-        <li><button type="button" class="fp-row" data-size="21&rsquo;04&rdquo;" data-kind="family">Hornet 2104</button></li>
-        <li><button type="button" class="fp-row" data-size="23&rsquo;04&rdquo;" data-kind="family">Hornet 2304</button></li>
-        <li><button type="button" class="fp-row" data-size="20&rsquo;06&rdquo;" data-kind="couples">Solara 2006</button></li>
-        <li><button type="button" class="fp-row" data-size="22&rsquo;06&rdquo;" data-kind="family">Solara 2206</button></li>
-        <li><button type="button" class="fp-row" data-size="19&rsquo;06&rdquo;" data-kind="couples">XTR 1906</button></li>
-        <li><button type="button" class="fp-row" data-size="22&rsquo;11&rdquo;" data-kind="family">XTR 2211</button></li>
-        <li><button type="button" class="fp-row" data-size="23&rsquo;00&rdquo;" data-kind="family">XTR 2300</button></li>
-        <li><button type="button" class="fp-row" data-size="24&rsquo;00&rdquo;" data-kind="family">XTR 2400</button></li>
-      </ul>
       <button class="fp-rail-toggle" id="fpRailToggle" type="button" aria-expanded="true"
               aria-controls="fpRail" aria-label="Hide the layout list">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg>
       </button>
+      <h2 class="fp-rail-title">Layout selection</h2>
+      <ul class="fp-rail-list">
+        <li><button type="button" class="fp-row is-on" data-size="17&rsquo;09&rdquo;" data-ft="1709" data-kind="couples"><span class="fp-row-name">1709Q-R-L</span><span class="fp-row-size">17&rsquo;09&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="18&rsquo;06&rdquo;" data-ft="1806" data-kind="couples"><span class="fp-row-name">1806Q-M-L</span><span class="fp-row-size">18&rsquo;06&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="18&rsquo;06&rdquo;" data-ft="1806" data-kind="couples"><span class="fp-row-name">1806Q-R-L</span><span class="fp-row-size">18&rsquo;06&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="19&rsquo;06&rdquo;" data-ft="1906" data-kind="couples"><span class="fp-row-name">1906Q-RC</span><span class="fp-row-size">19&rsquo;06&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="20&rsquo;06&rdquo;" data-ft="2006" data-kind="couples"><span class="fp-row-name">2006Q-R-C</span><span class="fp-row-size">20&rsquo;06&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="21&rsquo;00&rdquo;" data-ft="2100" data-kind="couples"><span class="fp-row-name">2100Q-M-XLE</span><span class="fp-row-size">21&rsquo;00&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="21&rsquo;00&rdquo;" data-ft="2100" data-kind="family"><span class="fp-row-name">2100Q-F2.0</span><span class="fp-row-size">21&rsquo;00&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="21&rsquo;00&rdquo;" data-ft="2100" data-kind="family"><span class="fp-row-name">2100Q-F3.0</span><span class="fp-row-size">21&rsquo;00&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="21&rsquo;06&rdquo;" data-ft="2106" data-kind="family"><span class="fp-row-name">2106EW-F3.4</span><span class="fp-row-size">21&rsquo;06&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="21&rsquo;07&rdquo;" data-ft="2107" data-kind="family"><span class="fp-row-name">2107EW-F4.3</span><span class="fp-row-size">21&rsquo;07&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="22&rsquo;00&rdquo;" data-ft="2200" data-kind="couples"><span class="fp-row-name">2200Q-RC</span><span class="fp-row-size">22&rsquo;00&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="22&rsquo;11&rdquo;" data-ft="2211" data-kind="family"><span class="fp-row-name">2211Q2-F2.2</span><span class="fp-row-size">22&rsquo;11&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="23&rsquo;00&rdquo;" data-ft="2300" data-kind="family"><span class="fp-row-name">2300Q-F3.4</span><span class="fp-row-size">23&rsquo;00&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="23&rsquo;04&rdquo;" data-ft="2304" data-kind="family"><span class="fp-row-name">2304EW-F4.5</span><span class="fp-row-size">23&rsquo;04&rdquo;</span></button></li>
+        <li><button type="button" class="fp-row" data-size="23&rsquo;11&rdquo;" data-ft="2311" data-kind="family"><span class="fp-row-name">2311K-F4.3</span><span class="fp-row-size">23&rsquo;11&rdquo;</span></button></li>
+      </ul>
     </aside>
 
     <div class="container fp-inner">
       <div class="fp-controls">
         <fieldset class="fp-kind">
           <legend class="sr-only">Who is it for?</legend>
+          <span class="fp-kind-thumb" aria-hidden="true"></span>
           <label><input type="radio" name="fp-kind" value="couples" checked><span>Couples</span></label>
           <label><input type="radio" name="fp-kind" value="family"><span>Family</span></label>
         </fieldset>
 
         <div class="fp-size">
-          <span class="fp-size-label">Size</span>
-          <input type="range" id="fpSize" min="0" max="11" step="1" value="0" aria-label="Layout size">
-          <span class="fp-size-min">17&rsquo;00&rdquo;</span>
-          <span class="fp-size-max">24&rsquo;00&rdquo;</span>
+          <div class="fp-size-head"><b>Size</b><i class="fp-size-value">17&rsquo;09&rdquo;</i></div>
+          <div class="fp-size-scale">
+            <div class="fp-size-track"><span class="fp-size-fill"></span></div>
+            <input type="range" id="fpSize" min="0" max="14" step="1" value="0" aria-label="Layout size">
+            <span class="fp-size-min">17&rsquo;00&rdquo;</span>
+            <span class="fp-size-max">24&rsquo;00&rdquo;</span>
+          </div>
         </div>
       </div>
 
-      <h2 class="fp-name" id="fpName">Amaroo 1706</h2>
+      <h2 class="fp-name" id="fpName">1709Q-R-L</h2>
 
       <div class="fp-grid">
-        <div class="fp-plan ph" data-ph="LAYOUT 3D IMAGE"></div>
+        <div class="fp-plan ph" id="fpPlan" data-ph="FLOORPLAN &mdash; 1709Q-R-L"></div>
         <aside class="fp-dims">
           <h3>Dimension details</h3>
           <p class="fp-tbd">TBD</p>
@@ -128,8 +134,7 @@
       </div>
 
       <div class="fp-actions">
-        <span class="fp-icon ph" data-ph="ICON" aria-hidden="true"></span>
-        <a class="btn-solid fp-tour" href="#">Virtual tour</a>
+        <a class="btn-solid fp-tour" href="#"><svg class="fp-tour-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg><span>Virtual tour</span></a>
         <p class="fp-fine">*T&amp;C apply. Specifications may be subject to change without notice at the
           discretion of Wonderland RV Caravans. Floorplans &amp; images are for illustrative purposes only.</p>
       </div>
@@ -216,6 +221,6 @@
   </div>
 </footer>
 
-<script src="assets/js/range-page.js?v=295"></script>
+<script src="assets/js/range-page.js?v=296"></script>
 </body>
 </html>

@@ -1,24 +1,27 @@
 /* ==========================================================================
    FLOORPLANS — range.html
 
-   COMPOSITION ONLY. This wires the three things the artboard's notes call
-   for and nothing beyond them: the rail appearing on scroll, the rail
-   collapsing, and the controls staying in step with the list. There is no
-   floorplan data behind any of it yet.
+   COMPOSITION ONLY. Three behaviours, all of them called for by the
+   artboard's own notes: the rail appearing on scroll, the rail collapsing,
+   and the three controls staying in step with each other. No floorplan
+   data sits behind any of it yet.
    ========================================================================== */
 (function () {
   var rail   = document.getElementById("fpRail");
   var toggle = document.getElementById("fpRailToggle");
   var name   = document.getElementById("fpName");
+  var plan   = document.getElementById("fpPlan");
   var size   = document.getElementById("fpSize");
   var rows   = [].slice.call(document.querySelectorAll(".fp-row"));
+  var fill   = document.querySelector(".fp-size-fill");
+  var value  = document.querySelector(".fp-size-value");
   if (!rail || !rows.length) return;
 
-  /* ---- "should only pop out when scrolled to this section" ---------------
-     An IntersectionObserver on the section rather than a scroll handler:
-     scroll events fire constantly and still have to measure, where this is
-     told once when the threshold is crossed. Once shut by hand it stays
-     shut -- the observer must not undo a deliberate close. */
+  /* ---- "should only pop out when scrolled to this section" --------------
+     An observer rather than a scroll handler: scroll fires constantly and
+     still has to measure, where this is told once at the threshold. A rail
+     shut by hand stays shut -- the observer must not undo a deliberate
+     close. */
   var section = document.querySelector(".fp");
   if (section && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
@@ -28,7 +31,7 @@
       });
     }, { rootMargin: "-10% 0px -40% 0px" }).observe(section);
   } else {
-    rail.classList.add("is-in");          /* no observer: just show it */
+    rail.classList.add("is-in");
   }
 
   /* ---- "this can be hidden in the side" --------------------------------- */
@@ -39,29 +42,44 @@
     toggle.setAttribute("aria-label", shut ? "Show the layout list" : "Hide the layout list");
   });
 
-  /* ---- selecting a layout ----------------------------------------------- */
-  function select(row) {
+  /* ---- one selection, three controls ------------------------------------
+     The list, the slider and the pill are three views of the same choice,
+     so they are all written from one function. Anything else lets them
+     disagree. */
+  function select(row, fromSlider) {
     rows.forEach(function (r) { r.classList.toggle("is-on", r === row); });
-    name.textContent = row.textContent.trim();
-    /* the slider tracks the list, so the two controls never disagree */
+
+    var label = row.querySelector(".fp-row-name").textContent.trim();
+    name.textContent = label;
+    if (plan) plan.setAttribute("data-ph", "FLOORPLAN — " + label);
+
     var i = rows.indexOf(row);
-    if (size && i >= 0) size.value = String(i);
-    /* the pill follows the layout's own kind */
-    var kind = row.dataset.kind;
-    var radio = document.querySelector('.fp-kind input[value="' + kind + '"]');
+    if (size && !fromSlider) size.value = String(i);
+    if (fill) fill.style.width = (i / (rows.length - 1) * 100) + "%";
+    if (value) value.innerHTML = row.querySelector(".fp-row-size").innerHTML;
+
+    var radio = document.querySelector('.fp-kind input[value="' + row.dataset.kind + '"]');
     if (radio) radio.checked = true;
   }
+
   rows.forEach(function (r) { r.addEventListener("click", function () { select(r); }); });
 
-  /* ---- the slider drives the same selection ----------------------------- */
   if (size) {
     size.max = String(rows.length - 1);
     size.addEventListener("input", function () {
       var row = rows[+size.value];
-      if (row) {
-        select(row);
-        row.scrollIntoView({ block: "nearest" });
-      }
+      if (row) { select(row, true); row.scrollIntoView({ block: "nearest" }); }
     });
   }
+
+  /* the pill jumps to the first layout of the kind chosen, so picking
+     "Family" cannot leave a couples layout on screen */
+  [].forEach.call(document.querySelectorAll('.fp-kind input'), function (inp) {
+    inp.addEventListener("change", function () {
+      var first = rows.filter(function (r) { return r.dataset.kind === inp.value; })[0];
+      if (first) { select(first); first.scrollIntoView({ block: "nearest" }); }
+    });
+  });
+
+  select(rows[0]);
 })();
