@@ -70,7 +70,7 @@
 body {
   --band: 0.82rem;          /* the strip, and the ONLY thing left when shut */
   --railw: 4.96rem;         /* the rail at full width, as range-page.css has it */
-  --dur: .5s;
+  --dur: .4s;
   --ease: cubic-bezier(.33,0,.18,1);
   padding-bottom: 0.9rem;
 }
@@ -84,6 +84,21 @@ body {
   top: 0; bottom: var(--fp-foot);
   width: 30.59%; max-width: var(--railw);
   z-index: 3; overflow: hidden;
+  background: #F8F8F7;
+  /* THE OUTLINE. 1px solid --ink is not a new weight -- it is what .fp-dims,
+     the Dimension details box on the same row, already carries. The two
+     boxes flanking the plan image now read as the same kind of object.
+
+     NO LEFT BORDER. The rail bleeds off the page's left edge on purpose
+     (left: calc(50% - 50vw)); drawing a line down that edge would contradict
+     the bleed and make the box look like a card shoved against the window.
+     Three sides close it, the fourth runs off.
+
+     IT IS ON THE DOCK, not the panel. The dock is the thing that narrows, so
+     the outline narrows with the mouth and the shut state is an outlined
+     tab rather than a bare strip. The ground moved here with it, which also
+     keeps the handle from painting over the border when the two coincide. */
+  border: 1px solid var(--ink); border-left: 0;
   transition: max-width var(--dur) var(--ease);
 }
 
@@ -129,8 +144,16 @@ body.m-unroll.is-shut-state .fp-rail { clip-path: inset(0 0 100% 0); }
   position: absolute; top: 0; bottom: var(--fp-foot);
   width: var(--band); z-index: 5;
   display: grid; place-items: center; align-content: center; gap: 0.24rem;
-  background: #F8F8F7; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink);
+  /* no ground of its own: the dock carries it, so the strip can never cover
+     the dock's right border in the shut state, where the two sit on the
+     same 0.82rem. The panel stops short of the strip on either side, so
+     nothing shows through behind the word. */
+  background: none; border: 0; padding: 0; cursor: pointer;
+  /* ORANGE at rest, deepening on hover -- the site's established pair
+     (--orange #E37921 resting, --orange-deep #D57114 on hover), the same way
+     .lede-accent and the nav behave. The chevron inherits it through
+     currentColor, so the word and the mark can never drift apart. */
+  color: var(--orange);
   transition: color .2s ease, left var(--dur) var(--ease);
 }
 .rg-handle:hover { color: var(--orange-deep); }
@@ -144,7 +167,7 @@ body.is-shut-state .rg-handle svg { transform: scaleX(-1); }
 .rg-word {
   writing-mode: vertical-rl; transform: rotate(180deg);
   font-family: var(--aviano); font-weight: 900; font-size: 0.17rem;
-  letter-spacing: .12em; color: var(--ink);
+  letter-spacing: .12em; color: inherit;   /* orange, and follows the hover */
 }
 /* where it stands */
 body.s-left  .rg-handle { left: calc(50% - 50vw); }
@@ -169,7 +192,7 @@ body.s-left .fp-rail-list { padding-right: 0.3rem; padding-left: 0.3rem; }
 .hbar .note { margin-left: auto; font-family: var(--gordita); font-size: 0.13rem; color: #9b948a; }
 </style>
 </head>
-<body class="home m-mouth s-left">
+<body class="home m-mouth s-right">
 <header class="site-header">
   <div class="header-inner">
     <a class="logo" href="home.html" aria-label="Wonderland RV — home">
@@ -300,16 +323,16 @@ body.s-left .fp-rail-list { padding-right: 0.3rem; padding-left: 0.3rem; }
     <button data-m="slide">2 slide</button>
     <button data-m="unroll">3 unroll</button>
     <b>SIDE</b>
-    <button data-s="left" class="on">left bleed</button>
-    <button data-s="right">panel rim</button>
+    <button data-s="left">left bleed</button>
+    <button data-s="right" class="on">panel rim</button>
     <button id="replay">replay entrance</button>
-    <span class="seg">speed<input type="range" id="dr" min="0.25" max="0.9" step="0.01" value="0.5"><output id="dro">0.50s</output></span>
+    <span class="seg">speed<input type="range" id="dr" min="0.25" max="0.9" step="0.01" value="0.4"><output id="dro">0.40s</output></span>
     <span class="note" id="note"></span>
   </div>
 </div>
 <script>
 var rail=document.getElementById("fpRail"), handle=document.getElementById("rgHandle");
-var m="mouth", s="left", shut=false;
+var m="mouth", s="right", shut=false;
 var dr=document.getElementById("dr"), dro=document.getElementById("dro");
 var NOTE={
   mouth:"the strip holds, the opening widens — the rows never move",
