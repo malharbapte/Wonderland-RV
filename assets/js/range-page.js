@@ -70,6 +70,10 @@
     size.value = String(i);
   }
 
+  /* the row set the last pass produced, so this one can tell whether the
+     filters actually changed anything. null until the first pass has run. */
+  var lastSig = null;
+
   function apply() {
     var k = kind();
     var max = stops.length ? stops[+size.value] : 0;
@@ -96,6 +100,29 @@
     var on = shown.filter(function (r) { return r.classList.contains("is-on"); })[0];
     if (!on && shown.length) select(shown[0]);
     else if (!shown.length) { name.textContent = "—"; }
+
+    /* ---- the rail answers the filters ------------------------------------
+       Shut, the rail is out of the way rather than switched off: a filter
+       that changes what the list holds has something new to show, so the
+       rail comes back on its own.
+
+       THE TEST IS THE RESULT, NOT THE INPUT. Dragging the slider inside one
+       length bracket leaves the same rows standing, so it stays shut --
+       popping out to show you what you were already looking at is the
+       version of this that would annoy. Re-picking the pill that is already
+       on never reaches here at all: a radio fires change only when it
+       changes.
+
+       THE FIRST PASS ONLY RECORDS. On load the rail is closed by design and
+       the observer owns the entrance; opening here as well would make it
+       arrive twice, which is the two-grammars fault all over again. */
+    var sig = shown.map(function (r) { return rows.indexOf(r); }).join(",");
+    if (lastSig !== null && sig !== lastSig) {
+      dock.classList.remove("is-shut");
+      dock.classList.add("is-in");
+      syncRail();
+    }
+    lastSig = sig;
   }
 
   function select(row) {
