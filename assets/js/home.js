@@ -128,8 +128,11 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
     if (slides.length < 2) return;
 
     let cur = 0;
-    setInterval(function () {
-      if (ON_PHONE.matches) return;      /* the phone scrolls it by hand */
+
+    /* The turn is lifted out of the interval so the arrow can call it too.
+       Everything inside is what the timer always did; nothing about the
+       animation has changed. */
+    function turn() {
       const next = (cur + 1) % slides.length;
       const out = slides[cur];
       out.classList.remove("is-current");
@@ -142,7 +145,25 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
         out.classList.remove("no-anim");
       }, TURN);
       cur = next;
-    }, HOLD);
+    }
+
+    /* The arrow restarts the clock as well as turning the slide. Without
+       this, pressing it a moment before the timer fires gives two turns in
+       quick succession, which reads as a stutter rather than a press. */
+    let clock = setInterval(tick, HOLD);
+    function tick() { if (!ON_PHONE.matches) turn(); }
+
+    const arrow = document.querySelector(".pull-arrow");
+    if (arrow) {
+      arrow.hidden = false;
+      arrow.addEventListener("click", function () {
+        turn();
+        clearInterval(clock);
+        clock = setInterval(tick, HOLD);
+      });
+    }
+
+
   }
 })();
 

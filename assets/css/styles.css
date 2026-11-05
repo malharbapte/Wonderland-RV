@@ -1716,6 +1716,7 @@ input:-webkit-autofill:focus {
 .rvx-arrow path,
 .coty-arrow path,
 .service-arrow path,
+.pull-arrow path,
 .amb-tip-prev path,
 .amb-tip-next path {
   stroke-width: var(--chev-w);

@@ -553,3 +553,38 @@
   transition: color .2s ease;
 }
 .coty-arrow:hover { background: none; color: var(--orange-deep); }
+
+/* ==========================================================================
+   LUXURY OFF-ROAD — a next arrow on the slideshow
+
+   Unscoped on purpose. The arrow is hidden in the markup and home.js only
+   un-hides it once it has found two or more slides, so it cannot appear over
+   the placeholder; and the auto-advance it drives is already desktop-only
+   inside home.js, where the phone returns early and scrolls the rail by hand.
+
+   PLACED ON THE MEDIA'S EDGE, NOT THE SECTION'S. .pull is 100vw and
+   .pull-media covers the left 59.5% of it, so the right-hand edge of the
+   picture is at 59.5% and the arrow sits 0.83rem inside it:
+   right = 40.5% + 0.83rem. The same 0.83rem .service-arrow--next uses, which
+   is the other arrow on this page that sits over a photograph.
+
+   White with a drop-shadow for the same reason that one has it: the
+   slideshow is six different pictures and a bare white chevron can land on
+   sky. The shape comes from the shared chevron rule in styles.css.
+   ========================================================================== */
+.pull-arrow {
+  position: absolute;
+  top: 50%; margin-top: -0.35rem;
+  right: calc(40.5% + 0.83rem);
+  z-index: 3;
+  width: 0.70rem; height: 0.70rem;
+  display: grid; place-items: center;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  color: #fff;
+  filter: drop-shadow(0 0.01rem 0.035rem rgba(0, 0, 0, .55));
+  transition: opacity .2s ease;
+}
+.pull-arrow[hidden] { display: none; }
+.pull-arrow svg { width: 0.30rem; height: 0.30rem; fill: none; stroke: currentColor; }
+.pull-arrow:hover { opacity: .78; }
+.pull-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }

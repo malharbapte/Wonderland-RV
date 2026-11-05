@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finishing touches</title>
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=277">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=277">
+<link rel="stylesheet" href="assets/css/homepage.css?v=277">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=277">
+<link rel="stylesheet" href="assets/css/home-order.css?v=277">
+<style>
+/* ===========================================================================
+   SAMPLE ONLY -- three of the four finishing items. The fourth, the arrow on
+   the Luxury off-road slideshow, is already on the page: scroll to it below
+   and it appears on the right-hand edge of the picture once two or more
+   slides have loaded.
+
+   1  THE VANS. Measured, not eyeballed. Every one of the four carried a pale
+      horizontal haze across the full width at about chassis height -- the
+      original backdrop's floor, left behind as semi-transparent light pixels
+      because it sits BESIDE the tyres rather than below them, so the old
+      cut-off-everything-under-the-lowest-dark-pixel rule never reached it.
+      Between 195,000 and 268,000 pixels per image, different in each. That
+      is the inconsistency.
+
+      Removed by keeping only the soft pixels that lie within 4px of
+      something solid: a van's anti-aliased edge always does, the haze never
+      does. Composited on blue below so it cannot be missed.
+
+      EXPOSURE IS LEFT ALONE, and that is a decision rather than an omission.
+      The four differ a lot in brightness -- highlights peak at 160 on the
+      Amaroo against 234 on the Hornet -- but matching them needs gamma 0.45
+      on one and 2.49 on another, which is not a correction, it is repainting
+      the vans. The Amaroo and XTR really are grey where the Hornet and
+      Solara really are white. The third strip shows what forcing it does.
+
+   2  THE PULL QUOTE. There is no Gordita Light in the font set -- the
+      licensed faces are Regular, Medium and Bold, and nothing here will fake
+      a lighter one by synthesising it. So the real choice is Regular 400
+      against Medium 500, italics off in both. The current setting is Medium
+      500 italic, kept on the switch for comparison.
+
+   3  THE VIDEO DESCRIPTIONS, rewritten as log-lines: what the video is
+      about, rather than an account of what happens in it. The old ones
+      narrate -- "Kevin takes you past the chassis", "Ana walks the layout" --
+      which tells a viewer what they would be watching rather than why.
+   =========================================================================== */
+.sx { padding: 0.70rem var(--page-margin) 0.30rem; }
+.sx h3 { font-family: var(--aviano); font-weight: 900; font-size: 0.34rem; }
+.sx p.lede { margin-top: 0.14rem; font-family: var(--gordita); font-size: var(--t-caption);
+  line-height: var(--lh-caption); color: #6b6158; max-width: 13rem; }
+.strip { margin-top: 0.26rem; }
+.strip img { width: 100%; display: block; }
+.strip b { display: block; font-family: var(--gordita); font-size: 0.15rem;
+  letter-spacing: .1em; text-transform: uppercase; color: #8c857b; margin: 0.22rem 0 0.08rem; }
+
+/* 2 -- the quote */
+body.q-reg .pull-quote { font-style: normal; font-weight: 400; }
+body.q-med .pull-quote { font-style: normal; font-weight: 500; }
+body.q-now .pull-quote { font-style: italic;  font-weight: 500; }
+
+/* 3 -- the descriptions */
+.cmp { max-width: 13.5rem; padding: 0.26rem 0; border-top: 1px solid #e4e2de; }
+.cmp h4 { font-family: var(--aviano); font-weight: 900; font-size: 0.22rem;
+  letter-spacing: .04em; }
+.cmp p { font-family: var(--gordita); font-size: var(--t-caption);
+  line-height: var(--lh-caption); margin-top: 0.10rem; }
+.cmp b { font-family: var(--gordita); font-size: 0.14rem; letter-spacing: .1em;
+  text-transform: uppercase; margin-right: 0.12rem; }
+.cmp .old   { color: #9a938a; }
+.cmp .old b { color: #c0b9b0; }
+.cmp .new   { color: #1a1a1a; }
+.cmp .new b { color: var(--orange-deep); }
+body.only-new .cmp .old { display: none; }
+
+.hbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: #1b1b1b; color: #fff; padding: 0.12rem 0; }
+.hbar .container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.14rem; }
+.hbar b { font-family: var(--aviano); font-weight: 900; font-size: 0.17rem; }
+.hbar button { font-family: var(--gordita); font-size: 0.135rem; cursor: pointer;
+  background: transparent; color: #cfc8be; border: 0.0075rem solid #3d3d3d;
+  padding: 0.05rem 0.13rem; }
+.hbar button.on { background: var(--orange); color: #fff; border-color: var(--orange); }
+.hbar .note { font-family: var(--gordita); font-size: 0.135rem; color: #9b948a; margin-left: auto; }
+body { padding-bottom: 0.9rem; }
+</style>
+</head>
+<body class="home q-reg">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="#">Range</a>
+      <a href="#">Buy</a>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sx">
+  <h3>1 &nbsp; The vans</h3>
+  <p class="lede">Each one carried a pale haze across the full width at chassis height &mdash;
+    the backdrop's floor, surviving as semi-transparent pixels beside the tyres rather than
+    below them. 195,000 to 268,000 pixels per image, different in each. Shown on blue so it
+    is visible; on the page it reads as a grey smudge.</p>
+  <div class="strip"><b>before &mdash; the feet, on blue</b><img src="assets/img/sample/feet-before.jpg" alt=""></div>
+  <div class="strip"><b>after</b><img src="assets/img/sample/feet-after.jpg" alt=""></div>
+  <div class="strip"><b>before &mdash; on the page's own grey</b><img src="assets/img/sample/vans-before.jpg" alt=""></div>
+  <div class="strip"><b>after &mdash; shipped</b><img src="assets/img/sample/vans-after.jpg" alt=""></div>
+  <div class="strip"><b>exposure forced to match &mdash; NOT shipped, and this is why</b><img src="assets/img/sample/vans-exposure.jpg" alt=""></div>
+</div>
+
+<div class="sx">
+  <h3>2 &nbsp; The pull quote</h3>
+  <p class="lede">No Gordita Light exists in the licensed set &mdash; Regular, Medium and Bold
+    are all there is, and a synthesised light weight would not be a brand font. So the choice
+    is Regular 400 against Medium 500, italics off in both. Switch below.</p>
+</div>
+
+<section class="lux">
+  <div class="container">
+    <h2 class="lux-title">Luxury off-road Caravans</h2>
+  </div>
+</section>
+<section class="pull">
+  <div class="pull-media" id="pullSlides" data-ph="SLIDESHOW — add slide-1.jpg … slide-6.jpg"></div>
+  <!-- Next only. hidden until home.js finds at least two slides, so it never
+       appears over the placeholder or over a single still. -->
+  <button class="pull-arrow" type="button" aria-label="Next picture" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <blockquote class="pull-quote">
+    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the <br>
+      beaten path and <br>
+      explore in style?<br>
+      Embark on exceptional <br>
+      adventures with loved <br>
+      ones and create <br>
+      memories that will <br>
+      last a lifetime.&rdquo;</p>
+  </blockquote>
+</section>
+
+<div class="sx">
+  <h3>3 &nbsp; The video descriptions</h3>
+  <p class="lede">Rewritten as log-lines &mdash; what the video is about, rather than an account
+    of what happens in it.</p>
+  <div class="cmp"><h4>1 &nbsp; Queen of hearts</h4><p class="old"><b>now</b> The Solara 2006 took the inaugural Judges&rsquo; Choice Award at Caravan World&rsquo;s Caravan of the Year 2026 &mdash; the category for the one van the panel would take home themselves. Twenty foot six: queen bed up front, split ensuite at the back, club lounge for four between.</p><p class="new"><b>log-line</b> What makes a judging panel pick one van, out of a whole field, as the one they would take home themselves.</p></div>
+<div class="cmp"><h4>2 &nbsp; How is a Wonderland built.</h4><p class="old"><b>now</b> Kevin takes you past the chassis and into the bones of the van &mdash; CNC-cut panels that interlock, furniture rebated before it is screwed and glued, a PUR glue line that holds in top-end heat.</p><p class="new"><b>log-line</b> Two caravans can sit side by side on a showroom floor, look the same and cost thousands apart. This is where that money goes.</p></div>
+<div class="cmp"><h4>3 &nbsp; A caravan built for two.</h4><p class="old"><b>now</b> Ana walks the couples layout end to end: the rear club lounge, the bed, the kitchen storage and the full shower ensuite.</p><p class="new"><b>log-line</b> What a caravan looks like when it is built for two people to live in it rather than just sleep in it.</p></div>
+<div class="cmp"><h4>4 &nbsp; Where the kids sleep.</h4><p class="old"><b>now</b> The 21&prime;7&Prime; quad-bunk layout rebuilt as three. Ana, who has a fourteen-year-old of her own, explains why a teenager needs the wider single bunk.</p><p class="new"><b>log-line</b> Why three bunks beat four the moment a child turns twelve, and what changes when you stop counting beds and start measuring them.</p></div>
+<div class="cmp"><h4>5 &nbsp; Stay out longer.</h4><p class="old"><b>now</b> The XTR 1906, second place for Best Couples Caravan at Caravan of the Year 2024. An EcoFlow 48-volt system and 170 litres of fresh water.</p><p class="new"><b>log-line</b> How much power and water it takes to stay out for weeks instead of nights &mdash; and what carrying it costs you in space.</p></div>
+<div class="cmp"><h4>6 &nbsp; It won all three.</h4><p class="old"><b>now</b> The XTR 2211 took Best Overall Caravan, Best Family Caravan and Best Innovation at Caravan of the Year 2024. A 48-volt Arizon-Victron system, 1600W of solar, 10kWh of lithium and 900kg of payload.</p><p class="new"><b>log-line</b> Three Caravan of the Year titles in one night &mdash; best overall, best family, best innovation. The van and the spec that took them.</p></div>
+</div>
+
+<div class="hbar">
+  <div class="container">
+    <b>QUOTE</b>
+    <button data-q="now">now &middot; Medium italic</button>
+    <button data-q="reg" class="on">Regular 400</button>
+    <button data-q="med">Medium 500</button>
+    <b>DESC</b>
+    <button id="on">hide the old</button>
+    <span class="note" id="note"></span>
+  </div>
+</div>
+
+<script>
+var notes = {
+  now: "as it is on the page \u2014 Gordita Medium, italic",
+  reg: "Gordita Regular 400, upright",
+  med: "Gordita Medium 500, upright \u2014 same weight as now, italics off"
+};
+var q = "reg", onlyNew = false;
+function paint(){
+  document.body.className = "home q-" + q + (onlyNew ? " only-new" : "");
+  document.querySelectorAll(".hbar button[data-q]").forEach(function(b){
+    b.classList.toggle("on", b.dataset.q === q); });
+  document.getElementById("on").classList.toggle("on", onlyNew);
+  document.getElementById("note").textContent = notes[q];
+}
+document.querySelectorAll(".hbar button[data-q]").forEach(function(b){
+  b.addEventListener("click", function(){ q = b.dataset.q; paint(); }); });
+document.getElementById("on").addEventListener("click", function(){ onlyNew = !onlyNew; paint(); });
+paint();
+</script>
+<script src="assets/js/video-embed.js?v=277"></script>
+<script src="assets/js/home.js?v=277"></script>
+</body>
+</html>
