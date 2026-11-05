@@ -296,3 +296,18 @@
    on hover via border-color, so removing it means the hover is now a colour
    change alone — which .rvx-arrow already had alongside it. */
 .rvx-arrow { border: 0; border-radius: 0; transition: color .3s ease; }
+
+/* ONE LINE WEIGHT ACROSS THE PAGE. The Why Choose Us icons render 1.9px at a
+   1440 window; these have to match, and matching means a DIFFERENT number in
+   the markup, not the same one.
+
+   A stroke in a 24 viewBox is a ratio, so what it renders depends on the box
+   it is drawn into. These sit at 0.53rem against the Why icons' 0.93rem:
+
+     why    0.93rem = 47.7px   stroke-width 0.96   ->  1.90px
+     range  0.53rem = 27.2px   stroke-width 1.68   ->  1.90px
+
+   The markup's 1.5 was rendering 1.70px here, which is why the two sets did
+   not look like one family even though both said "1.5". Both values are
+   proportional, so the match holds at every window width, not just 1440. */
+.rvx-ico svg { stroke-width: 1.68; }
