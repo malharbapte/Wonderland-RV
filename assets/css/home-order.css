@@ -496,6 +496,29 @@
       rgba(248,248,247,1.000) 100%);
 }
 
+
+/* ---- the pull quote, upright --------------------------------------------
+   Gordita REGULAR, not Light: there is no Light in the licensed set -- the
+   faces are Regular, Medium and Bold -- and a synthesised lighter weight
+   would not be a brand font. 400 is as light as this page can honestly go.
+
+   Italics off. Leading up 15%: 0.394 x 1.15 = 0.453rem. Upright at 400 sets
+   looser than italic at 500 did, and the old leading was measured against
+   the tighter setting, so it needed the room. */
+.pull-quote { font-style: normal; font-weight: 400; line-height: 0.453rem; }
+
+/* ---- COTY: the subheading goes where a log-line now sits ----------------
+   Slides two to six carried a label -- "Things you can't see", "Three bunks,
+   not four" -- which said in four words what the note under the video now
+   says properly. Two summaries stacked on one slide is one too many.
+
+   The FIRST slide keeps its subheading, because that one is not a label: it
+   is the READ THE COTY 2026 REVIEW link, the only call to action in the deck.
+
+   Hidden, not deleted. phoneDeck in home.js clones .coty-title and .coty-sub
+   into a shared head for the phone, so the markup has to stay. */
+.coty-slide:nth-child(n+2) .coty-sub { display: none; }
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
