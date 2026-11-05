@@ -23,6 +23,26 @@
 
 .fp {
   --fp-foot: 1.39rem;   /* .fp-actions: 0.46 margin + 0.93 height */
+
+  /* ONE MEASUREMENT GOVERNS BOTH ROWS. In the artboard the pill's right edge
+     and the CTA's right edge land on the same line -- 779.43 and 779.44 of
+     1920 -- and they do it because the icon, the gap and the button add up
+     to the pill's width. Written as three parts plus their sum, so the two
+     rows cannot drift apart when any one of them is adjusted:
+
+       icon  73.98 / 1108.41 = 6.675%
+       gap   18.93 / 1108.41 = 1.708%
+       cta  276.09 / 1108.41 = 24.909%
+       pill                  = 33.292%
+
+     The earlier version set the pill and the CTA independently -- 33.25% and
+     24.91% -- so the CTA fell 2.92% short of the pill and no amount of
+     nudging the button alone would have closed it. */
+  --fp-ico: 6.675%;
+  --fp-gap: 1.708%;
+  --fp-cta: 24.909%;
+  --fp-lead: calc(var(--fp-ico) + var(--fp-gap) + var(--fp-cta));
+
   position: relative; padding-top: 1.20rem; padding-bottom: 1.20rem;
 }
 
@@ -45,7 +65,7 @@
 .fp-kind {
   --p: 0.08rem;
   position: relative;
-  flex: none; width: 33.25%; height: 0.92rem;
+  flex: none; width: var(--fp-lead); height: 0.92rem;
   margin: 0; padding: 0;
   border: 0.0075rem solid var(--ink);
   border-radius: 0.46rem;
@@ -163,11 +183,11 @@
 /* ---- the foot ----------------------------------------------------------- */
 .fp-actions {
   margin-top: 0.46rem;
-  /* the middle track IS the button: 276.09 of the artboard's 1108.41 column
-     is 24.91%, so the CTA matches the reference instead of being as wide as
-     its own words happen to make it */
-  display: grid; grid-template-columns: auto 24.91% 1fr;
-  align-items: center; column-gap: 0.26rem;
+  /* icon, gap, button -- the same three parts the pill is built from, so the
+     button's right edge lands on the pill's. The fine print takes what is
+     left and is pushed clear by the same gap. */
+  display: grid; grid-template-columns: var(--fp-ico) var(--fp-cta) 1fr;
+  align-items: center; column-gap: var(--fp-gap);
 }
 .fp-actions .fp-fine { padding-left: 0.3rem; }
 /* A SQUARE BESIDE THE CTA, as the wireframe draws it, with the icon in it.
@@ -178,13 +198,13 @@
    never a box to draw. The mark sits on its own beside the CTA, on the
    same baseline, at the page's own --icon-stroke. */
 .fp-icon {
-  width: 0.62rem; height: 0.62rem; flex: none;
+  width: 100%; height: 0.62rem; flex: none;
   display: grid; place-items: center;
   background: none; border: 0; padding: 0; cursor: pointer;
   color: var(--ink);
   transition: color .3s ease;
 }
-.fp-icon svg { width: 100%; height: 100%; stroke-width: var(--icon-stroke); }
+.fp-icon svg { width: 0.62rem; height: 0.62rem; stroke-width: var(--icon-stroke); }
 .fp-icon:hover { color: var(--orange-deep); }
 .fp-tour { width: 100%; height: 0.93rem; padding: 0; font-size: var(--t-cta); }
 .fp-fine {
