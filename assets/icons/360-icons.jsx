@@ -8,8 +8,9 @@
    CLOSED crossed ellipses are a wireframe globe, and a globe says WORLD, not
    "look around this room". Lucide's actual globe icon is circle + meridian +
    equator, which is what the earlier sphere attempt had accidentally drawn.
-   Material's 360 is the same idea flattened: one wide ring carrying ONE head
-   (an earlier pass put a head on both ends and they collided).
+   Only rotate3d is based on a checked library icon. orbitring, roomturn and
+   panoframe are my own drawings -- an earlier version of this comment claimed
+   Material and "the panorama convention" as sources without checking either.
 
    MATCHES THE EXISTING SET BY CONSTRUCTION:
      24 x 24 artboard, so the export carries viewBox 0 0 24 24
