@@ -407,7 +407,41 @@
    2.5px at 1920. What is fixed is the RATIO to the icon, which is what keeps
    the four looking like one set at any width. */
 .why-points .why-icon svg { width: 100%; height: 100%; stroke-width: 0.96; }
-.why-points .why-icon--lg svg { transform: scale(1.2); }
+/* SIZED AND CENTRED FROM MEASUREMENT, not by eye. Each icon was rendered on
+   its own at one stroke and its ink measured in the 24-unit box:
+
+     shield  14.2 x 17.9   centre 11.98, 11.62
+     pencil  17.8 x 17.8   centre 12.57, 11.38
+     star    16.6 x 15.7   centre 11.97, 10.72
+     heart   17.8 x 17.2   centre 11.98, 12.28
+
+   So they were never the same size, and the old scale(1.2) on the shield
+   made it worse rather than better: the shield is the NARROWEST of the four
+   but already the TALLEST, so multiplying it by 1.2 took it to 21.5 units
+   against the others' 17-18. That rule is gone.
+
+   Each is now scaled so its largest dimension is 17.8 -- the pencil and the
+   heart, which already agreed -- and nudged so its ink centre sits on 12,12
+   rather than wherever the artwork happened to put it. The star needed the
+   most of both: it was the smallest and sat 1.3 units high.
+
+   THE STROKE IS NOT COMPENSATED, deliberately. Scaling an SVG scales its
+   stroke, so the star's line comes up 7.6% with the star. That is the rule
+   asked for -- weight follows size -- and at these scales the spread is
+   1.90px to 2.04px, which is below the threshold anyone can see.
+
+   transform-box: fill-box makes the percentages resolve against the icon's
+   own 24-unit box rather than the viewport. */
+.why-points .why-icon svg { transform-box: fill-box; transform-origin: center; }
+.why-points li:nth-child(1) svg { transform: translate( 0.10%,  1.56%) scale(0.997); }
+.why-points li:nth-child(2) svg { transform: translate(-2.40%,  2.61%) scale(1.003); }
+.why-points li:nth-child(3) svg { transform: translate( 0.11%,  5.71%) scale(1.076); }
+.why-points li:nth-child(4) svg { transform: translate( 0.10%, -1.15%) scale(1.003); }
+
+/* the four headings sit on one line: equal icon boxes, one gap, and each
+   heading is a single line at this measure. nowrap keeps it that way if a
+   label is ever lengthened. */
+.why-points h3 { white-space: nowrap; }
 .why-points h3 { font-size: var(--t-sub); font-weight: 700;
                  letter-spacing: 0.02em; line-height: 1; color: #fff; }
 /* Gordita Regular, upright. Italic at --t-caption over a photograph was the
