@@ -30,7 +30,7 @@
      s and --nb below are unchanged, which is the point of expressing them
      that way rather than in rem. */
   --plate: calc(var(--col) * 0.6);
-  --nb:    74.3%;                /* g = 1.00rem: see the note below         */
+  --nb:    75.5%;                /* g = 1.25rem: see the note below         */
   --step:  .78s cubic-bezier(.33,0,.18,1);
 
   /* ONE LADDER OF GAPS, taken off the sections either side of this one:

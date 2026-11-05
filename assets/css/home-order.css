@@ -519,12 +519,40 @@
    into a shared head for the phone, so the markup has to stay. */
 .coty-slide:nth-child(n+2) .coty-sub { display: none; }
 
+
+/* ---- OUR RANGE, the heading over the viewer ---------------------------
+   It goes in the empty .container that has been sitting at the top of .rvx
+   since the section was built -- the slot was always there, nothing had been
+   put in it.
+
+   Left on the column, like every other section heading on this page: Luxury
+   off-road Caravans, Brands we trust, Your dream van awaits. The viewer's own
+   contents are centred, but the heading belongs to the page's rhythm rather
+   than to the carousel.
+
+   THE GAPS. Above it is .rvx's own padding-top, 1.35rem, which was set as the
+   distance from the hero video and now reads as the space over the heading.
+   Below it, 0.25rem here plus the stage's own margin-top of --gap (0.40) =
+   0.65rem, which is clear of the 0.40 standard without opening a new interval.
+
+   Desktop only. The phone has no range heading today -- .band--range, which
+   used to carry "Our range", is display: none -- and this does not change
+   that until the phone pass. */
+.rvx-title {
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: var(--t-heading);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
 }  /* end min-width: 901px */
 
 /* The phone keeps the paragraph in its own section, so the hero's copy of it
    must never appear there. */
 @media (max-width: 900px) {
   .home-hero-body { display: none; }
+  .rvx-title { display: none; }
   /* desktop-only: the phone keeps .why-list in .why-grid and its own band */
   .why-points, .why-scrim { display: none; }
   /* desktop-only copy: the phone deck is headings and dots, nothing else */
