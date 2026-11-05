@@ -1751,6 +1751,19 @@ input:-webkit-autofill:focus {
 
      Change it here and every icon follows. */
   --icon-stroke: 0.96;
+
+  /* The 360 icon is the one deliberate exception, and it is an OPTICAL one,
+     not a change of mind about sharing a value. Weight is stroke x how much
+     line is in the box, and this icon is two crossed ellipses plus two heads
+     in the same 24x24 frame: measured against the why- icons it carries
+     1.58x their linework, so at 0.96 it reads noticeably heavier than its
+     neighbours even though the number matches.
+
+     Equal INK would need 0.608, which goes too far -- the line stops
+     belonging to the same family. 0.76 is the geometric midpoint between
+     matching the number and matching the ink, which is the usual compromise
+     and is what the eye wanted in the strip test. */
+  --icon-stroke-360: 0.76;
 }
 
 .rvx-arrow path,

@@ -204,7 +204,10 @@
   color: var(--ink);
   transition: color .3s ease;
 }
-.fp-icon svg { width: 0.62rem; height: 0.62rem; stroke-width: var(--icon-stroke); }
+.fp-icon svg { width: 0.62rem; height: 0.62rem; stroke-width: var(--icon-stroke-360); }
+/* --icon-stroke-360, not --icon-stroke: this icon holds 1.58x the linework of
+   the why- icons in the same box, so the shared number reads heavier here.
+   styles.css carries the measurement. */
 .fp-icon:hover { color: var(--orange-deep); }
 .fp-tour { width: 100%; height: 0.93rem; padding: 0; font-size: var(--t-cta); }
 .fp-fine {
