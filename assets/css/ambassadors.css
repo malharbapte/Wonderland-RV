@@ -89,7 +89,19 @@
   color: inherit;
   position: relative;
   aspect-ratio: 4 / 3;   /* landscape, per request — was the SVG's 759:793 */
-  border-radius: 0.155rem;
+  /* 0.08rem, about 4px at 1440 -- the smallest radius that still reads as
+     deliberate rather than as a rendering artefact. It was 0.155.
+
+     The corner clips the PHOTOGRAPH as well as drawing the frame, because
+     the card is overflow: hidden with the picture filling it, so every step
+     up takes a visible bite out of each corner of the image. Half the old
+     value is the point where the frame still looks intentional and the
+     photograph stops paying for it.
+
+     A rem, not a pixel: it scales with the artboard, so the corner holds its
+     proportion at 2560 instead of flattening out. The phone keeps its own
+     --radius: 10px further down this sheet. */
+  border-radius: 0.08rem;
   border: 1px solid #e6e6e6;
   overflow: hidden;
   background: #fff;
