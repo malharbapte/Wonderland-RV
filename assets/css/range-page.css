@@ -148,17 +148,25 @@
 /* ---- the foot ----------------------------------------------------------- */
 .fp-actions {
   margin-top: 0.46rem;
-  display: grid; grid-template-columns: auto 1fr;
-  align-items: end; column-gap: 0.5rem;
+  display: grid; grid-template-columns: auto auto 1fr;
+  align-items: end; column-gap: 0.22rem;
 }
-/* the icon rides INSIDE the button, beside the words, rather than sitting in
-   its own grey square the way the wireframe parked it */
-.fp-tour {
-  display: inline-flex; align-items: center; gap: 0.18rem;
-  height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta);
+.fp-actions .fp-fine { padding-left: 0.3rem; }
+/* A SQUARE BESIDE THE CTA, as the wireframe draws it, with the icon in it.
+   Outlined rather than filled: two solid orange blocks side by side would
+   read as two primary actions, and only one of them is. Same height as the
+   button so they sit on one line. */
+.fp-icon {
+  width: 0.93rem; height: 0.93rem; flex: none;
+  display: grid; place-items: center;
+  background: #fff; border: 0.0075rem solid var(--ink);
+  padding: 0; cursor: pointer;
+  color: var(--ink);
+  transition: color .3s ease, border-color .3s ease;
 }
-.fp-tour-ico { width: 0.3rem; height: 0.3rem; flex: none;
-               stroke-width: var(--icon-stroke); }
+.fp-icon svg { width: 0.42rem; height: 0.42rem; stroke-width: var(--icon-stroke); }
+.fp-icon:hover { color: var(--orange-deep); border-color: var(--orange-deep); }
+.fp-tour { height: 0.93rem; padding: 0 0.34rem; font-size: var(--t-cta); }
 .fp-fine {
   font-family: var(--gordita); font-size: 0.161rem; line-height: 0.22rem;
   color: var(--dim, #6b6158);
@@ -173,16 +181,21 @@
    to, and it can be hidden from the side. Both are here -- .is-in comes from
    the observer in range-page.js, and the chevron collapses it. */
 .fp-rail {
-  position: absolute; left: calc(50% - 50vw); top: 0;
+  --peek: 0.76rem;                /* the sliver left showing when it is shut */
+  position: absolute; left: calc(50% - 50vw);
+  top: 0; bottom: 0;              /* ends where .fp-body does, on the CTA row */
   width: 30.59%; max-width: 4.96rem;
   padding: 0.46rem 0 0.6rem;
   background: #F8F8F7;
   z-index: 3;
+  display: flex; flex-direction: column;
   transform: translateX(-100%); opacity: 0;
   transition: transform .5s cubic-bezier(.33,0,.18,1), opacity .4s ease;
 }
-.fp-rail.is-in   { transform: none; opacity: 1; }
-.fp-rail.is-shut { transform: translateX(-100%); opacity: 1; }
+.fp-rail.is-in { transform: none; opacity: 1; }
+/* shut, it keeps --peek on screen so the chevron is still reachable -- a rail
+   that hides its own control cannot be reopened */
+.fp-rail.is-shut { transform: translateX(calc(-100% + var(--peek))); opacity: 1; }
 
 .fp-rail-title {
   padding: 0 0.46rem;
@@ -190,8 +203,9 @@
   font-size: var(--t-sub); line-height: 1.15; text-transform: uppercase;
 }
 .fp-rail-list {
+  flex: 1 1 auto; min-height: 0;     /* min-height: 0 or a flex child will not scroll */
   margin-top: 0.3rem; padding: 0 0.46rem;
-  max-height: 4.6rem; overflow-y: auto; overscroll-behavior: contain;
+  overflow-y: auto; overscroll-behavior: contain;
 }
 .fp-rail-list li + li { margin-top: 0.1rem; }
 .fp-row {
@@ -215,8 +229,12 @@
    plate behind it and it sits inside the rail, so the chevron reads as the
    same mark the range viewer and the slideshow use -- same shape, same
    --chev-w, same ink-to-orange hover. */
+/* ON THE RAIL'S VERTICAL CENTRE, not its top: the rail now runs the height of
+   the section, so a control pinned to the top would drift further from the
+   middle the taller the page gets. */
 .fp-rail-toggle {
-  position: absolute; right: 0.2rem; top: 0.46rem;
+  position: absolute; right: 0.1rem; top: 50%;
+  transform: translateY(-50%);
   width: 0.56rem; height: 0.56rem;
   display: grid; place-items: center;
   background: none; border: 0; padding: 0; cursor: pointer;
@@ -226,7 +244,7 @@
                       stroke: currentColor; stroke-width: var(--chev-w);
                       stroke-linecap: butt; stroke-linejoin: miter; }
 .fp-rail-toggle:hover { color: var(--orange-deep); }
-.fp-rail.is-shut .fp-rail-toggle { transform: scaleX(-1) translateX(-1.6rem); }
+.fp-rail.is-shut .fp-rail-toggle { transform: translateY(-50%) scaleX(-1); }
 
 /* ---- phone ----------------------------------------------------------------
    Held back rather than half-built: the rail has no margin to hang in below

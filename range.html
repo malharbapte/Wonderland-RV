@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Floorplans &mdash; Wonderland RV</title>
+<title>Layouts &mdash; Wonderland RV</title>
 <meta name="description" content="Wonderland RV floorplans from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;, for families, couples and solo adventurers.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=296">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=296">
-<link rel="stylesheet" href="assets/css/homepage.css?v=296">
-<link rel="stylesheet" href="assets/css/range-page.css?v=296">
+<link rel="stylesheet" href="assets/css/styles.css?v=297">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=297">
+<link rel="stylesheet" href="assets/css/homepage.css?v=297">
+<link rel="stylesheet" href="assets/css/range-page.css?v=297">
 </head>
 <body class="home">
 
@@ -62,7 +62,7 @@
   </div>
 </header>
 
-<!-- =========================================================== FLOORPLANS
+<!-- =============================================================== LAYOUTS
   LAYOUT COMPOSITION. The plan image and the dimension panel are
   placeholders; the layout names and sizes are the real ones, taken from
   wonderlandrv.com.au/layout/couples-caravans and /family-off-road-caravans.
@@ -71,7 +71,7 @@
   ====================================================================== -->
 <section class="fp">
   <div class="container">
-    <h1 class="fp-title">Floorplans</h1>
+    <h1 class="fp-title">Layouts</h1>
     <p class="fp-lede">Available in 20 different layouts from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;.
       Designed for families, couples and solo adventurers who value comfort and
       capability in equal measure.</p>
@@ -134,7 +134,13 @@
       </div>
 
       <div class="fp-actions">
-        <a class="btn-solid fp-tour" href="#"><svg class="fp-tour-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/></svg><span>Virtual tour</span></a>
+        <!-- the wireframe parks a square beside the CTA; the icon belongs in it -->
+        <button class="fp-icon" type="button" aria-label="Floorplan view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <ellipse cx="12" cy="12" rx="9.4" ry="4.6"/><path d="M5.1 9.2a7.2 7.2 0 1 0 13.8 0"/><circle cx="12" cy="12" r="2.1"/>
+          </svg>
+        </button>
+        <a class="btn-solid fp-tour" href="#">Virtual tour</a>
         <p class="fp-fine">*T&amp;C apply. Specifications may be subject to change without notice at the
           discretion of Wonderland RV Caravans. Floorplans &amp; images are for illustrative purposes only.</p>
       </div>
@@ -221,6 +227,6 @@
   </div>
 </footer>
 
-<script src="assets/js/range-page.js?v=296"></script>
+<script src="assets/js/range-page.js?v=297"></script>
 </body>
 </html>
