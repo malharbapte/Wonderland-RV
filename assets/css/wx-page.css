@@ -174,28 +174,45 @@
 }
 
 /* ------------------------------------------------------------ 4 JOURNEY --
-   A bordered band across the whole window (y 36.849 - 48.302) holding the
-   heading and a SLIDING row of six steps. Four show at a time and one press
-   moves the row by one step; the live page has six steps and the artboard
-   drew five, so there is always something past the edge to slide to.
+   A full-bleed grey panel (#F8F8F7, the one grey the home page's other
+   full-bleed panels share) holding the heading and a SLIDING row of six
+   steps. Four show at a time.
+
+   THE CARDS ARE THE WONDERLANDERS' CARDS. Same frame (0.08rem corner, 1px
+   #e6e6e6), same movement: the photograph fills the card, a band sits on its
+   foot carrying the title, and on hover the band grows to show the step's
+   paragraph while the photograph lifts 0.34rem and eases 6% closer, all on
+   the same .30s. The grid-row trick (0fr -> 1fr) is theirs too, so the band
+   grows to whatever the paragraph's length turns out to be. The band is
+   brand orange with a white title, as asked; the Wonderlanders use blush.
+
+   TITLE SIZE IS ONE VARIABLE, --wxc-size, so the size can be decided by
+   looking at it (sample-wx-journey.html switches it). --wxc-lines is set by
+   wx-page.js to the number of lines the longest title needs at the current
+   size, so every band is the same height at rest even when one title wraps
+   to three lines. 2 is the no-script fallback.
+
+   --wxc-band picks where the band sits: the foot (as the Wonderlanders, the
+   default) or the top (as the artboard drew it, with the band growing
+   downward over the picture). .wx-journey--top is that variant.
 
    THE SPACE BETWEEN CARDS IS 0.72rem, NOT THE ARTBOARD'S 0.26. A chevron is
-   0.22rem across, so 0.26 would have left it touching both cards. 0.72
-   gives 0.25 clear on either side -- enough that the arrow reads as a
-   separate mark from the picture edges. The cards stay square-ish as a
-   result: four across inside the arrow margins is (100% - 3 gaps) / 4.
+   0.12rem across, so 0.26 would have left it hard against both cards. 0.72
+   gives 0.30 clear on either side.
 
-   THE CHEVRONS BETWEEN CARDS ARE IN THE TRACK, so they slide with the
-   cards. The prev/next chevrons are the site's own: no disc, ink colour,
-   orange-deep on hover (see "No circles behind the chevrons" in styles.css),
-   sitting in the 1.2rem strips either side of the row. */
+   THE CHEVRONS BETWEEN CARDS ARE IN THE TRACK, so they slide with the cards.
+   The prev/next chevrons are the site's own: no disc, ink colour, orange-deep
+   on hover (see "No circles behind the chevrons" in styles.css), sitting in
+   the 1.2rem strips either side of the row. */
 .wx-journey {
   --j-gap: 0.72rem;
   --j-edge: 1.2rem;
+  --wxc-size: 0.40rem;      /* card title size: the Wonderlander name's */
+  --wxc-lines: 2;
+  --wxc-bio: 0.26rem;       /* the paragraph that opens under it */
   margin-top: 2.097rem;
   height: 11.453rem;
-  border-top: 1px solid var(--ph-rule);
-  border-bottom: 1px solid var(--ph-rule);
+  background: #F8F8F7;
   box-sizing: border-box;
   padding-top: 1.3rem;
 }
@@ -205,31 +222,86 @@
   margin-top: 0.55rem;
   padding-inline: var(--j-edge);
 }
-.wx-journey-viewport { overflow: hidden; }
+.wx-journey-viewport {
+  overflow: hidden;
+  touch-action: pan-y;          /* a sideways finger is ours; a vertical one still scrolls the page */
+  cursor: grab;
+}
+.wx-journey.is-dragging .wx-journey-viewport { cursor: grabbing; user-select: none; }
 .wx-journey-track {
   display: flex;
   transition: transform .9s cubic-bezier(.45, .05, .15, 1);   /* the service slider's ease */
+  will-change: transform;
 }
 .wx-journey-card {
   flex: 0 0 calc((100% - 3 * var(--j-gap)) / 4);
   height: 6.8rem;
-  border: 0.5px solid var(--ph-rule);
-  background: var(--ph-strip);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.08rem;
+  border: 1px solid #e6e6e6;
+  background: #fff;
   box-sizing: border-box;
-  display: flex; flex-direction: column;
+  outline: none;
 }
-.wx-journey-card h3 {
-  margin: 0; padding: 0.18rem 0.16rem;
-  min-height: 0.66rem; box-sizing: border-box;
-  font-family: var(--gordita); font-weight: 500;
-  font-size: var(--t-caption); line-height: var(--lh-caption);
-  text-transform: uppercase; letter-spacing: .02em;
+.wx-journey-card:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+
+.wx-card-media { position: absolute; inset: 0; transition: transform .30s ease; }
+.wx-card-media img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: center 42%;
+  transition: transform .30s ease; transform-origin: 50% 100%;
+  -webkit-user-drag: none; user-select: none;
 }
-.wx-journey-card img {
-  flex: 1; min-height: 0; width: 100%;
-  object-fit: cover; display: block;
-  border-top: 0.5px solid var(--ph-rule);
+
+.wx-card-band {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 0.16rem 0.22rem 0.30rem;
+  background: var(--orange-deep);
+  color: #fff;
 }
+.wx-card-title {
+  margin: 0;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: var(--wxc-size);
+  line-height: 1.1;
+  min-height: calc(var(--wxc-lines) * 1.1em);
+  text-wrap: balance;
+}
+.wx-card-bio-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .30s ease;
+}
+.wx-card-bio-inner { overflow: hidden; min-height: 0; }
+.wx-card-bio {
+  margin: 0.10rem 0 0;
+  font-family: var(--gordita); font-weight: 400;
+  font-size: var(--wxc-bio, 0.26rem);           /* the Wonderlander bio is 0.24; this reads a step larger */
+  line-height: calc(var(--wxc-bio, 0.26rem) * 1.36);
+  color: #fff;
+  text-wrap: pretty;
+}
+
+/* the band at the TOP instead: grows downward over the picture */
+.wx-journey--top .wx-card-band { top: 0; bottom: auto; padding: 0.30rem 0.22rem 0.16rem; }
+
+/* HOVER, gated on a real pointer as the Wonderlanders are. Not while a drag
+   is under way: a card opening under a moving finger would be wrong. */
+@media (hover: hover) {
+  .wx-journey:not(.is-dragging) .wx-journey-card:hover .wx-card-media { transform: translateY(-0.34rem); }
+  .wx-journey:not(.is-dragging) .wx-journey-card:hover .wx-card-media img { transform: scale(1.06); }
+  .wx-journey:not(.is-dragging) .wx-journey-card:hover .wx-card-bio-wrap { grid-template-rows: 1fr; }
+  .wx-journey--top:not(.is-dragging) .wx-journey-card:hover .wx-card-media { transform: none; }
+}
+/* keyboard's equivalent, desktop only (the cards take focus) */
+@media (min-width: 901px) {
+  .wx-journey-card:focus-within .wx-card-media { transform: translateY(-0.34rem); }
+  .wx-journey-card:focus-within .wx-card-media img { transform: scale(1.06); }
+  .wx-journey-card:focus-within .wx-card-bio-wrap { grid-template-rows: 1fr; }
+  .wx-journey--top .wx-journey-card:focus-within .wx-card-media { transform: none; }
+}
+
 .wx-journey-chev {
   flex: 0 0 var(--j-gap);
   align-self: center;
@@ -280,11 +352,15 @@
   display: grid;
   grid-template-columns: 5.693rem 1fr;
 }
-.wx-options-list { padding: 0 0 0 0.463rem; }
+/* LINE DIVIDERS: a rule above the list and one under every option. #e4e2de is
+   the warm hairline the footer and its rows already use. The indent lives on
+   the option, not the list, so the rules run the full width of the column; the
+   right margin stops them short of the picture. */
+.wx-options-list { padding: 0; margin-right: 0.5rem; border-top: 1px solid #e4e2de; }
 .wx-opt {
   display: flex; align-items: center; gap: 0.12rem;
   width: 100%; height: 1.3645rem;          /* the artboard's step */
-  margin: 0; padding: 0; border: 0; background: none;
+  margin: 0; padding: 0 0 0 0.463rem; border: 0; border-bottom: 1px solid #e4e2de; background: none;
   text-align: left; cursor: pointer;
   font-family: var(--gordita); font-size: 0.30rem; line-height: 1;
   color: var(--ink);
@@ -404,11 +480,18 @@
    Four cards across the whole window. These are the same four models the
    homepage viewer already carries. */
 .wx-range { margin-top: 2.545rem; }
+/* THE SIDE GAPS ARE THE MAKERS ROW'S (1.941rem of padding, 0.568rem between).
+   The first pass ran the cards edge to edge, with nothing between the first
+   and last card and the window. Padding, not width, for the reason given on
+   .wx-makers-row: this row is 100vw and a percentage would resolve against
+   the wrong box. */
 .wx-range-row {
   margin-top: 1.485rem;
+  padding-inline: 1.941rem;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2.35%;
+  gap: 0.568rem;
 }
 .wx-range-row .wx-ph { aspect-ratio: 1; }
 .wx-range-row figure { margin: 0; }
@@ -423,12 +506,13 @@
 }
 
 
-/* --------------------------------------------------------------- 10 CTA --
-   Heading baseline 121.751, and the artboard runs on to 125.413 -- so there
-   is 3.5rem of something under it that the design does not draw. Reserved
-   rather than guessed at. */
-.wx-cta { margin-top: 2.511rem; padding-bottom: 1rem; }
-.wx-cta .wx-ph { margin-top: 0.7rem; height: 2.8rem; }
+/* ---------------------------------------------------------------- 10 CTA --
+   COPIED FROM THE HOME PAGE, not redrawn: markup from home.html, rules from
+   styles.css and homepage.css, budget.js, and the select-chevron and pill
+   behaviours from home.js. The grey ground is what home-order.css gives
+   .home-contact on the home page (that sheet is not loaded here), and the
+   gap above is the one the Range section's own spacing calls for. */
+.wx-contact { margin-top: 2.545rem; background: #F8F8F7; }
 
 
 /* --------------------------------------------------------------- phones --
@@ -450,6 +534,8 @@
   .wx-journey-viewport { overflow-x: auto; }
   .wx-journey-track { transform: none !important; transition: none; }
   .wx-journey-card { flex-basis: 70%; }
+  .wx-journey-viewport { cursor: auto; }
+  .wx-contact { background: none; }
   .wx-journey-arrow { display: none; }
   .wx-options-grid,
   .wx-makers-row,

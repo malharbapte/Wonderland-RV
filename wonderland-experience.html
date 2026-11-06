@@ -6,10 +6,10 @@
 <title>The Wonderland Experience &mdash; Wonderland RV</title>
 <meta name="description" content="How a Wonderland RV caravan is customised, built and backed &mdash; the journey, the options, the team and the dealers behind it.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=315">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=315">
-<link rel="stylesheet" href="assets/css/homepage.css?v=315">
-<link rel="stylesheet" href="assets/css/wx-page.css?v=315">
+<link rel="stylesheet" href="assets/css/styles.css?v=316">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=316">
+<link rel="stylesheet" href="assets/css/homepage.css?v=316">
+<link rel="stylesheet" href="assets/css/wx-page.css?v=316">
 </head>
 <body class="home">
 <header class="site-header">
@@ -71,10 +71,10 @@
 </header>
 
 <!-- ================================================ THE WONDERLAND EXPERIENCE
-  Sections 1-6 are filled: hero, DNA + quote, the customisation journey, the
-  options, and Legendary service. Sections 7-10 (dream makers, dealers, the
-  range, the closing call to action) are still the skeleton -- grey blocks
-  labelled with what goes in them.
+  Filled: hero, DNA + quote, the customisation journey, the options, Legendary
+  service, and the closing "Ready for adventure ?" (copied from the home page).
+  Still the skeleton: sections 7 (dream makers), 8 (dealers) and the images of
+  section 9 (the range) -- grey blocks labelled with what goes in them.
   ======================================================================= -->
 <main class="wx">
 
@@ -120,43 +120,76 @@
   </section>
 
   <!-- ------------------------------------------------------- 4 JOURNEY -->
-  <!-- Six steps; four show at a time and the row slides one step per press.
-       The chevrons between the cards are part of the track, so they travel
-       with the cards. -->
+  <!-- Six steps; four show at a time. One press, a drag, a swipe or a
+       sideways trackpad gesture each move the row; see wx-page.js. Each card
+       works like a Wonderlander card on the home page: the orange band holds
+       the title and grows on hover to reveal the step's paragraph. The
+       chevrons between the cards are part of the track, so they travel with
+       the cards. -->
   <section class="wx-journey wx-bleed" aria-roledescription="carousel" aria-label="Your Wonderland customisation journey">
     <h2 class="wx-h">Your Wonderland<br>customisation journey</h2>
     <div class="wx-journey-stage">
       <button class="wx-journey-arrow wx-journey-arrow--prev" type="button" aria-label="Previous steps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div class="wx-journey-viewport">
         <div class="wx-journey-track" id="wxJourneyTrack">
-        <article class="wx-journey-card">
-          <h3>Your dream vision</h3>
-          <img src="assets/img/experience/step-1.webp" alt="A Wonderland caravan being towed along a country road" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-1.webp" alt="A Wonderland caravan being towed along a country road" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Your dream vision</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Envision your dream caravan. What kind of trips would you take? How many companions will travel with you? What features and amenities are essential for your comfort? Get inspired by fellow Wonderlanders, caravan shows, and ideas shared on social&nbsp;media.</p>
+            </div></div>
+          </div>
         </article>
         <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <article class="wx-journey-card">
-          <h3>The fundamental decisions</h3>
-          <img src="assets/img/experience/step-2.jpg" alt="A queen bed made up with cushions and a throw" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-2.jpg" alt="A queen bed made up with cushions and a throw" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">The fundamental decisions</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Select the model that best matches your needs and preferences, and chose from over 60 pre-defined layouts for couples and family configurations. Add your specifications, length, chassis, suspension, wheels, insulation, and&nbsp;more.</p>
+            </div></div>
+          </div>
         </article>
         <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <article class="wx-journey-card">
-          <h3>Make it your own</h3>
-          <img src="assets/img/experience/step-3.webp" alt="A kitchen sink with a gold tap beneath a window" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-3.webp" alt="A kitchen sink with a gold tap beneath a window" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Make it your own</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Personalise your caravan with a wide range of upgrades. Choose from electrical system, to cladding, privacy options and appliances. You can also select your preferred interior finishes, fabrics, and colours. We&rsquo;re excited to create a space that&rsquo;s truly your&nbsp;own!</p>
+            </div></div>
+          </div>
         </article>
         <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <article class="wx-journey-card">
-          <h3>Designing your caravan</h3>
-          <img src="assets/img/experience/step-4.jpg" alt="A dinette seat with a bowl of fruit on the table" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-4.jpg" alt="A dinette seat with a bowl of fruit on the table" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Designing your caravan</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Our creative team will take your inputs to come up with the perfect van design. They&rsquo;ll prepare floor plans and elevations, and make sure all your requests work perfectly together so there isn&rsquo;t any surprises at a later&nbsp;stage.</p>
+            </div></div>
+          </div>
         </article>
         <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <article class="wx-journey-card">
-          <h3>Watch your van coming to life</h3>
-          <img src="assets/img/experience/step-5.webp" alt="The underside of a Wonderland chassis in the factory" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-5.webp" alt="The underside of a Wonderland chassis in the factory" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Watch your van coming to life</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Our unmatched craftsmanship uses a unique jigsaw wall construction method for strength, durability, and precision. We build only with premium materials from reputable suppliers. Watch your van come to life with progress updates and&nbsp;images!</p>
+            </div></div>
+          </div>
         </article>
         <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <article class="wx-journey-card">
-          <h3>Your travel journey begins here</h3>
-          <img src="assets/img/experience/step-6.jpg" alt="An aerial view of a caravan on a dirt road through bushland" loading="lazy">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-6.jpg" alt="An aerial view of a caravan on a dirt road through bushland" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Your travel journey begins here</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">After a thorough inspection, we will hand over the keys to your new caravan. In our comprehensive handover session, we will explain how to use and maintain it. It will come with a 3-year factory-backed warranty and premium after-sales service for your peace of mind and&nbsp;satisfaction.</p>
+            </div></div>
+          </div>
         </article>
         </div>
       </div>
@@ -323,11 +356,114 @@
   </section>
 
   <!-- ---------------------------------------------------------- 10 CTA -->
-  <section class="wx-cta">
+  <!-- Copied from home.html unchanged (markup, styles.css/homepage.css rules,
+       budget.js; the select-chevron and pill behaviours are lifted verbatim
+       into wx-contact.js). The form still posts nowhere, as on home. -->
+  <section class="home-contact wx-contact" id="ready">
     <div class="container">
-      <h2 class="wx-h">Ready for adventure ?</h2>
-      <div class="wx-ph">CTA block &mdash; the artboard runs 3.5rem past this
-        heading without drawing what fills it</div>
+      <h2 class="home-contact-title"><a href="compact.html"><span class="ln">Ready for</span> <span class="ln">Adventure ?</span></a></h2>
+      <p class="home-contact-lede">Our experts will guide you through your caravan <br>
+        customisation. We&rsquo;ll listen to understand how you&rsquo;ll use <br>
+        your van, then bring your dream to life.</p>
+
+      <form class="home-form" action="#" method="post" autocomplete="off" novalidate>
+        <div class="home-cols">
+
+          <div class="home-col">
+            <div class="field field--line">
+              <input id="h-first" name="first-name" type="text" placeholder="First Name" required autocomplete="given-name">
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+            <div class="field field--line">
+              <input id="h-email" name="email" type="email" placeholder="Email" required autocomplete="off">
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+            <div class="home-pair">
+              <div class="field field--select">
+                <select id="h-state" name="state" autocomplete="off" required>
+                  <option value="" selected disabled>State</option>
+                  <option>Victoria</option>
+                  <option>New South Wales</option>
+                  <option>Queensland</option>
+                  <option>South Australia</option>
+                  <option>Western Australia</option>
+                  <option>Tasmania</option>
+                  <option>Northern Territory</option>
+                  <option>Australian Capital Territory</option>
+                </select>
+                <svg class="chev" viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>
+                <span class="req" aria-hidden="true">*</span>
+              </div>
+              <div class="field field--line">
+                <input id="h-postcode" name="postcode" type="text" inputmode="numeric" placeholder="Post Code" required autocomplete="off">
+                <span class="req" aria-hidden="true">*</span>
+              </div>
+            </div>
+
+            <!-- the artboard's two checkboxes, rebuilt as the Contact page pill -->
+            <fieldset class="chips home-chips">
+              <legend class="sr-only">What would you like to do?</legend>
+              <span class="chips-thumb is-init" aria-hidden="true"></span>
+              <label class="chip">
+                <input type="radio" name="enquiry-type" value="Call back" checked>
+                <span>Call back</span>
+              </label>
+              <label class="chip">
+                <input type="radio" name="enquiry-type" value="Book a factory tour">
+                <span>Book a factory tour</span>
+              </label>
+            </fieldset>
+          </div>
+
+          <div class="home-col">
+            <div class="field field--line">
+              <input id="h-last" name="last-name" type="text" placeholder="Last Name" required autocomplete="off">
+            </div>
+            <div class="field field--line">
+              <input id="h-phone" name="phone" type="tel" placeholder="Phone" required autocomplete="off">
+              <span class="req" aria-hidden="true">*</span>
+            </div>
+            <div class="field field--area home-area">
+              <label class="sr-only" for="h-message">Something you&rsquo;d like to tell us...</label>
+              <textarea id="h-message" name="message" placeholder="Something you&rsquo;d like to tell us..."></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Budget. Opens for Call back and Get a Quote; see budget.js.
+             The radios ship disabled so nothing is submitted from a phone,
+             or without JS, where the question is never asked. -->
+        <div class="budget">
+          <div class="budget-shell no-anim">
+            <div class="budget-inner">
+              <div class="budget-head"><b>Budget</b><i class="budget-value">&mdash;</i><i class="budget-why"></i></div>
+              <div class="budget-scale" role="radiogroup" aria-label="Budget">
+              <div class="budget-track"><span class="budget-fill"></span></div>
+              <label class="budget-stop" style="--p: 0">
+                <input type="radio" name="budget" value="$120,000 &ndash; $140,000" data-why="range" data-p="0" checked disabled>
+                <span>$120&ndash;140k</span>
+              </label>
+              <label class="budget-stop" style="--p: .33333">
+                <input type="radio" name="budget" value="$140,000 &ndash; $180,000" data-why="flexible" data-p=".33333" disabled>
+                <span>$140&ndash;180k</span>
+              </label>
+              <label class="budget-stop" style="--p: .66667">
+                <input type="radio" name="budget" value="$180,000 +" data-why="willing to invest in the best spec" data-p=".66667" disabled>
+                <span>$180k +</span>
+              </label>
+              <label class="budget-stop budget-stop--na" style="--p: 1">
+                <input type="radio" name="budget" value="Not sure yet" data-p="1" data-na="1" disabled>
+                <span>Not sure yet</span>
+              </label>
+              </div>
+              <p class="budget-note">We don&rsquo;t have caravans under $120,000.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-submit" type="submit">Submit</button>
+      </form>
     </div>
   </section>
 
@@ -411,7 +547,9 @@
   </div>
 </footer>
 
-<script src="assets/js/reviews.js?v=315"></script>
-<script src="assets/js/wx-page.js?v=315"></script>
+<script src="assets/js/reviews.js?v=316"></script>
+<script src="assets/js/budget.js?v=316"></script>
+<script src="assets/js/wx-contact.js?v=316"></script>
+<script src="assets/js/wx-page.js?v=316"></script>
 </body>
 </html>
