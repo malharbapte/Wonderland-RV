@@ -1,0 +1,327 @@
+/* ==========================================================================
+   THE WONDERLAND EXPERIENCE — wonderland-experience.html
+
+   SKELETON. Every section stands at its measured height and position with
+   its heading in place; the media are labelled grey blocks. Nothing here is
+   final but the geometry.
+
+   THE ARTBOARD IS ON THIS SITE'S GRID, the same way the Range artboard is.
+   It is 1920 wide and its headings start at 405.6 of that -- 21.13% --
+   against the site's content column at 21.09%. So .container IS the
+   artboard's column and this page needs no grid of its own.
+
+   HORIZONTAL IS A PERCENTAGE, VERTICAL IS CONVERTED. Widths are written as
+   percentages of the window or of .container, so nothing can skew. Heights
+   and the spaces between sections are rem, converted at
+
+       rem = artboard px * (2809/1920) / 100          [1920 IS THE WINDOW]
+
+   Checked against the hero: its 1079px becomes 15.786rem, which at a 1920
+   viewport renders 1079px again -- one full screen, which is what the
+   artboard draws. The same factor puts every heading 3.769rem inside the
+   body against the site's --page-margin of 3.76rem, which is how we know
+   1920 is the window and not the body.
+
+   TYPE IS THE SITE'S, NOT THE ARTBOARD'S, for the reason range-page.css
+   already gives: this artboard sets its headings at 52.8px on 1920, which
+   would be 0.772rem and would give the page a heading nothing else on the
+   site shares. --t-heading is used instead, so the headings here match
+   every other section heading on the site.
+
+   PLACEHOLDER GREYS ARE THE ARTBOARD'S -- #b3b3b3 media, #ccc photography,
+   #f2f2f2 card strips, #e6e6e6 the service panel -- so the page reads at
+   the weight the design intends while the content is still missing.
+   ========================================================================== */
+
+.wx {
+  --ph:        #b3b3b3;   /* media placeholder      (artboard cls-15) */
+  --ph-photo:  #ccc;      /* photography            (artboard cls-14) */
+  --ph-strip:  #f2f2f2;   /* journey card strip     (artboard cls-13) */
+  --ph-panel:  #e6e6e6;   /* service panel          (artboard cls-16) */
+  --ph-rule:   #606161;   /* the artboard's hairline                  */
+}
+
+/* Every media block is one of these. The label is what makes the skeleton
+   readable -- a grey box with no name tells you nothing about what is
+   missing from it. */
+.wx-ph {
+  background: var(--ph);
+  border: 0.5px solid var(--ph-rule);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: var(--gordita);
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
+  color: #4a4a4a;
+  padding: 0.2rem;
+}
+.wx-ph--photo { background: var(--ph-photo); }
+.wx-ph--panel { background: var(--ph-panel); }
+
+.wx-h {
+  margin: 0;
+  font-family: var(--aviano);
+  font-weight: 900;
+  font-size: var(--t-heading);
+  line-height: 1;
+}
+
+/* full-bleed, the same move .site-header makes */
+.wx-bleed { width: 100vw; margin-left: calc(50% - 50vw); }
+
+
+/* --------------------------------------------------------------- 1 HERO --
+   y 1.491 – 17.277. A full screen of artboard, title and subtitle sitting
+   on the page margin near its foot. */
+.wx-hero {
+  margin-top: 0.061rem;          /* the artboard clears the header by this */
+  height: 15.786rem;
+  position: relative;
+}
+.wx-hero-copy {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 1.6rem;
+  width: var(--col);
+}
+.wx-hero-copy h1 { margin: 0; font-family: var(--aviano); font-weight: 900;
+                   font-size: var(--t-heading); line-height: 1; }
+.wx-hero-copy p  { margin: 0.22rem 0 0; font-family: var(--aviano);
+                   font-weight: 900; font-size: var(--t-sub); line-height: 1; }
+
+
+/* ---------------------------------------------------------------- 2 DNA --
+   Heading baseline 19.491, paragraph 20.349 on a 0.421 leading, five lines
+   across the full column. */
+.wx-dna { margin-top: 1.774rem; }
+.wx-dna p {
+  margin: 0.52rem 0 0;
+  font-family: var(--gordita);
+  font-size: var(--t-body);
+  line-height: 0.421rem;
+}
+
+
+/* -------------------------------------------------------------- 3 QUOTE --
+   Image bleeds off the left edge to 59.6% of the window; the quote sits to
+   its right and finishes on the column's right edge. */
+.wx-quote { margin-top: 1.609rem; position: relative; height: 11.013rem; }
+.wx-quote .wx-ph { position: absolute; left: 0; top: 0; width: 59.6%; height: 100%; }
+.wx-quote-copy {
+  position: absolute;
+  left: 56.3%; right: 21.09%;
+  top: 2.6rem;
+}
+.wx-quote-mark {
+  display: block; margin: 0;
+  font-family: var(--aviano); font-weight: 900;
+  font-size: 1.6rem; line-height: 0.6;
+  color: var(--orange-deep);
+}
+.wx-quote-copy blockquote {
+  margin: 0.3rem 0 0;
+  font-family: var(--gordita);
+  font-size: 0.30rem; line-height: 0.44rem;
+}
+.wx-quote-copy cite {
+  display: block; margin-top: 0.5rem;
+  font-style: normal;
+  font-family: var(--gordita); font-weight: 500;
+  font-size: 0.26rem; line-height: 0.38rem;
+  letter-spacing: .02em; text-transform: uppercase;
+}
+
+
+/* ------------------------------------------------------------ 4 JOURNEY --
+   A bordered band across the whole window, y 36.849 – 48.302, holding the
+   heading and five cards. The cards are a grid rather than five measured
+   boxes so the row cannot overflow the band the way the artboard's does
+   (its five cards add up to 101.6% of 1920). */
+.wx-journey {
+  margin-top: 2.097rem;
+  height: 11.453rem;
+  border-top: 1px solid var(--ph-rule);
+  border-bottom: 1px solid var(--ph-rule);
+  box-sizing: border-box;
+  padding-top: 1.3rem;
+}
+.wx-journey .wx-h { width: var(--col); margin-inline: auto; }
+.wx-journey-row {
+  margin: 0.55rem auto 0;
+  width: 96.2%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.26rem;
+}
+.wx-journey-card {
+  height: 6.8rem;
+  border: 0.5px solid var(--ph-rule);
+  background: var(--ph-strip);
+  display: flex; flex-direction: column;
+}
+.wx-journey-card h3 {
+  margin: 0; padding: 0.18rem 0.16rem;
+  font-family: var(--gordita); font-weight: 500;
+  font-size: var(--t-caption); line-height: var(--lh-caption);
+  text-transform: uppercase; letter-spacing: .02em;
+}
+.wx-journey-card .wx-ph { flex: 1; border: 0; border-top: 0.5px solid var(--ph-rule); }
+
+
+/* ------------------------------------------------------------ 5 OPTIONS --
+   Inside the column: the list runs down the left, the image and its
+   description take the right from 5.693rem of 16.24rem across. */
+.wx-options { margin-top: 1.728rem; }
+.wx-options-grid {
+  margin-top: 0.94rem;
+  display: grid;
+  grid-template-columns: 5.693rem 1fr;
+}
+.wx-options-list { margin: 0; padding: 0 0 0 0.463rem; list-style: none; }
+.wx-options-list li {
+  display: flex; align-items: baseline; gap: 0.14rem;
+  height: 1.3645rem;                      /* the artboard's step */
+  font-family: var(--gordita);
+  font-size: 0.30rem; line-height: 1;
+}
+.wx-options-list li::before { content: "\25B7"; color: #9a9a9a; font-size: 0.22rem; }
+.wx-options-list .is-on { font-weight: 500; color: var(--orange); }
+.wx-options-list .is-on::before { color: var(--orange); }
+.wx-options-media .wx-ph { height: 6.51rem; }
+.wx-options-media p {
+  margin: 0.33rem 0 0;
+  font-family: var(--gordita);
+  font-size: var(--t-caption); line-height: 0.26rem;
+}
+
+
+/* ------------------------------------------------------------ 6 SERVICE --
+   The image bleeds off the left to 59.6%; the panel runs 40.3% to the right
+   edge and sits behind it, so the two overlap across a fifth of the window.
+   Heading at 35% of the window, which is where the artboard puts it. */
+.wx-service { margin-top: 3.267rem; }
+.wx-service .wx-h { margin-left: 35%; }
+.wx-service-stack { position: relative; height: 10.354rem; margin-top: 1.306rem; }
+.wx-service-stack .wx-ph--panel {
+  position: absolute; left: 40.3%; right: 0;
+  top: 0.982rem; height: 8.364rem;
+}
+.wx-service-stack .wx-ph--photo {
+  position: absolute; left: 0; width: 59.6%;
+  top: 0; height: 100%;
+}
+
+
+/* ------------------------------------------------------------- 7 MAKERS --
+   Four squares, 6.9% to 92.6% of the window, captions beneath. */
+.wx-makers { margin-top: 3.763rem; }
+/* THE INSET IS PADDING, NOT A WIDTH. .wx-bleed sets width:100vw and a
+   negative left margin; a `width` or a `margin` shorthand here would
+   override one of them and quietly pull the row back to body width. */
+.wx-makers-row {
+  margin-top: 1.347rem;
+  padding-inline: 1.941rem;   /* rem, not %: a percentage padding resolves
+                                 against the containing block (body width),
+                                 not this row's own 100vw */
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.568rem;          /* the artboard's gap, not a percentage of a
+                             padding box that resolves against the wrong edge */
+}
+.wx-makers-row .wx-ph { aspect-ratio: 1; }
+.wx-makers-row figcaption {
+  margin-top: 0.45rem;
+  font-family: var(--gordita); font-weight: 500;
+  font-size: 0.28rem; line-height: 0.36rem;
+}
+.wx-makers-row figure { margin: 0; }
+
+
+/* ------------------------------------------------------------ 8 DEALERS --
+   A full-bleed row: the map takes 75.4% of the window, the dealer panel the
+   rest. The state pill is the Contact page's pill, per the artboard's note.
+   Both are placeholders at this stage. */
+.wx-dealers { margin-top: 3.412rem; }
+.wx-dealers-row {
+  margin-top: 1.275rem;
+  display: grid;
+  grid-template-columns: 75.4% 1fr;
+  height: 12.947rem;
+}
+.wx-dealers-map { position: relative; }
+.wx-dealers-pill {
+  position: absolute; left: 6.26%; top: 0.493rem;
+  width: 89.2%; height: 1.336rem;
+  background: #fff; border-radius: 0.668rem;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0 0.42rem; box-sizing: border-box;
+  font-family: var(--gordita); font-weight: 500; font-size: 0.26rem;
+}
+.wx-dealers-pill span:last-child { color: #6b6158; font-weight: 400; }
+.wx-dealers-panel {
+  border: 0.5px solid var(--ph-rule); border-left: 0;
+  box-sizing: border-box;
+  padding: 0.6rem 0.5rem;
+}
+.wx-dealers-panel h3 {
+  margin: 0; font-family: var(--gordita); font-weight: 500;
+  font-size: 0.28rem; line-height: 1;
+}
+.wx-dealers-panel .wx-ph { margin-top: 0.36rem; height: 2.639rem; }
+
+
+/* -------------------------------------------------------------- 9 RANGE --
+   Four cards across the whole window. These are the same four models the
+   homepage viewer already carries. */
+.wx-range { margin-top: 2.545rem; }
+.wx-range-row {
+  margin-top: 1.485rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.35%;
+}
+.wx-range-row .wx-ph { aspect-ratio: 1; }
+.wx-range-row figure { margin: 0; }
+.wx-range-row figcaption { margin-top: 0.70rem; }
+.wx-range-row h3 {
+  margin: 0; font-family: var(--gordita); font-weight: 500;
+  font-size: 0.28rem; line-height: 1;
+}
+.wx-range-row p {
+  margin: 0.14rem 0 0; font-family: var(--gordita);
+  font-size: var(--t-caption); line-height: 1;
+}
+
+
+/* --------------------------------------------------------------- 10 CTA --
+   Heading baseline 121.751, and the artboard runs on to 125.413 -- so there
+   is 3.5rem of something under it that the design does not draw. Reserved
+   rather than guessed at. */
+.wx-cta { margin-top: 2.511rem; padding-bottom: 1rem; }
+.wx-cta .wx-ph { margin-top: 0.7rem; height: 2.8rem; }
+
+
+/* --------------------------------------------------------------- phones --
+   GATED, NOT BUILT. Nothing on this page has a phone design yet, so below
+   901 the measured composition is dropped and the blocks stack at their own
+   height. This is a safety net so the page is not broken on a phone -- it
+   is not a phone layout, and it should be replaced by one during the phone
+   pass rather than tidied here. */
+@media (max-width: 900px) {
+  .wx-hero { height: auto; padding: 2rem 0; }
+  .wx-hero-copy { position: static; transform: none; width: auto; }
+  .wx-quote, .wx-service-stack, .wx-dealers-row { height: auto; }
+  .wx-quote .wx-ph,
+  .wx-service-stack .wx-ph--panel,
+  .wx-service-stack .wx-ph--photo { position: static; width: auto; }
+  .wx-quote-copy { position: static; }
+  .wx-journey { height: auto; padding-bottom: 1rem; }
+  .wx-journey-row,
+  .wx-options-grid,
+  .wx-makers-row,
+  .wx-dealers-row,
+  .wx-range-row { grid-template-columns: 1fr; }
+  .wx-service .wx-h { margin-left: 0; }
+}

@@ -266,6 +266,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   opacity: 1; visibility: visible; pointer-events: auto;
   transform: translateY(0);
 }
+/* A single-column dropdown. Buy has three links and no sub-list, so the
+   three-column track the About menu needs would leave two empty. */
+.nav-dropdown--one { grid-template-columns: auto; }
+
 .nav-dropdown .dd-col {
   display: flex;
   flex-direction: column;
