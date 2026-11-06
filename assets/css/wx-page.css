@@ -400,15 +400,18 @@
 .wx-opt-panel[data-opt="electrical"] img { object-position: 50% 18%; }
 .wx-opt-panel[data-opt="plumbing"]   img { object-position: 50% 58%; }
 .wx-opt-panel[data-opt="external"]   img { object-position: 50% 24%; }
+/* THE COPY IS 1.5x WHAT IT WAS (0.20 -> 0.30rem, the site's --t-cta size) on
+   the body line-height token. The heading went 0.32 -> 0.40rem with it: at
+   0.32 it would sit within 7% of the copy and stop reading as a heading. */
 .wx-opt-panel h3 {
   margin: 0.33rem 0 0;
   font-family: var(--gordita); font-weight: 500;
-  font-size: var(--t-sub); line-height: 1;
+  font-size: 0.40rem; line-height: 1;
 }
 .wx-opt-panel p {
-  margin: 0.16rem 0 0;
+  margin: 0.18rem 0 0;
   font-family: var(--gordita);
-  font-size: var(--t-caption); line-height: 0.26rem;
+  font-size: var(--t-cta); line-height: var(--lh-body);
   text-wrap: pretty;
 }
 
