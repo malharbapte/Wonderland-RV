@@ -167,10 +167,14 @@
   line-height: 0.453rem; letter-spacing: -0.01em;
 }
 .wx-quote-copy .qmark { width: 1.1968rem; }
+/* THE SECOND LINE IS THE HIGHLIGHT. It was set small, like a reviewer's name;
+   it is now capitals, Gordita Bold, and larger than the quote above it
+   (0.325rem), so it is the line the eye lands on. */
 .wx-quote-copy cite {
-  display: block; margin-top: 0.42rem;
+  display: block; margin-top: 0.5rem;
   font-style: normal; font-weight: 700;
-  font-size: 0.21rem; line-height: 0.28rem;
+  font-size: 0.38rem; line-height: 0.5rem;
+  text-transform: uppercase;
 }
 
 /* ------------------------------------------------------------ 4 JOURNEY --
