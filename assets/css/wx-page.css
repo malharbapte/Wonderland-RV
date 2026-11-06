@@ -33,6 +33,30 @@
    the weight the design intends while the content is still missing.
    ========================================================================== */
 
+/* ==========================================================================
+   VERTICAL RHYTHM  (content to content, in rem)
+
+   Measured against the home page, whose sections sit 1.2-1.6 apart with 2.4
+   around a grey or form panel. This page runs larger type, so it takes a
+   step up from that rather than the home page's exact figures:
+
+       white section  ->  white section      1.8
+       either side of a panel (journey,
+       contact form)                         2.8   = 1.4 margin + 1.4 panel padding
+       heading        ->  its content        1.1
+       picture        ->  caption (range)    0.5
+
+   Hero -> DNA (1.77) and DNA -> quote (1.6) are the artboard's own.
+
+   A panel's gap is split in half between its margin and its own padding, so
+   the grey edge sits midway between the content either side of it. The
+   contact form's padding is not ours (homepage.css gives it ~1.175), so its
+   margin is 2.8 - 1.175; the service block likewise carries 0.55 of its own
+   top padding. The Options section holds the height of its longest copy, so
+   under a short option there is up to 0.8 of spare air; the service margin
+   gives back half of that (0.4) so the average gap lands on 1.8.
+   ========================================================================== */
+
 .wx {
   --ph:        #b3b3b3;   /* media placeholder      (artboard cls-15) */
   --ph-photo:  #ccc;      /* photography            (artboard cls-14) */
@@ -145,7 +169,7 @@
    a fixed 2.55rem; and it carries a second line, set the way the service
    reviews set a name (0.21rem, 700, caps). The section keeps the artboard's
    11.013rem rather than home's 8.36rem. */
-.wx-quote { margin-top: 1.609rem; position: relative; height: 11.013rem; }
+.wx-quote { margin-top: 1.6rem; position: relative; height: 11.013rem; }
 .wx-quote-media {
   position: absolute; left: 0; top: 0;
   width: 59.5%; height: 100%;
@@ -214,11 +238,10 @@
   --wxc-size: 0.40rem;      /* card title size: the Wonderlander name's */
   --wxc-lines: 2;
   --wxc-bio: 0.26rem;       /* the paragraph that opens under it */
-  margin-top: 2.097rem;
-  height: 11.453rem;
+  margin-top: 1.4rem;
+  padding: 1.4rem 0;       /* half of the 2.8 panel gap; the height follows the content */
   background: #F8F8F7;
   box-sizing: border-box;
-  padding-top: 1.3rem;
 }
 .wx-journey .wx-h { width: var(--col); margin-inline: auto; }
 .wx-journey-stage {
@@ -350,9 +373,9 @@
    hidden, never removed, so the cell is as tall as the tallest panel. The
    section therefore keeps one height whichever option is chosen, and nothing
    below it moves. */
-.wx-options { margin-top: 1.728rem; }
+.wx-options { margin-top: 1.4rem; }
 .wx-options-grid {
-  margin-top: 0.94rem;
+  margin-top: 1.1rem;
   display: grid;
   grid-template-columns: 5.693rem 1fr;
 }
@@ -360,10 +383,10 @@
    the warm hairline the footer and its rows already use. The indent lives on
    the option, not the list, so the rules run the full width of the column; the
    right margin stops them short of the picture. */
-.wx-options-list { padding: 0; margin-right: 0.5rem; border-top: 1px solid #e4e2de; }
+.wx-options-list { padding: 0; margin-right: 0.8rem; border-top: 1px solid #e4e2de; }
 .wx-opt {
   display: flex; align-items: center; gap: 0.12rem;
-  width: 100%; height: 1.3645rem;          /* the artboard's step */
+  width: 100%; height: 1.4rem;              /* the artboard's step was 1.3645 */
   margin: 0; padding: 0 0 0 0.463rem; border: 0; border-bottom: 1px solid #e4e2de; background: none;
   text-align: left; cursor: pointer;
   font-family: var(--gordita); font-size: 0.30rem; line-height: 1;
@@ -404,12 +427,12 @@
    the body line-height token. The heading went 0.32 -> 0.40rem with it: at
    0.32 it would sit within 7% of the copy and stop reading as a heading. */
 .wx-opt-panel h3 {
-  margin: 0.33rem 0 0;
+  margin: 0.5rem 0 0;
   font-family: var(--gordita); font-weight: 500;
   font-size: 0.40rem; line-height: 1;
 }
 .wx-opt-panel p {
-  margin: 0.18rem 0 0;
+  margin: 0.26rem 0 0;
   font-family: var(--gordita);
   font-size: var(--t-cta); line-height: var(--lh-body);
   text-wrap: pretty;
@@ -420,18 +443,18 @@
    rules are the shared ones in styles.css, the slider is reviews.js. The
    only thing set here is the gap above, which stands in for what the home
    page gets from the section before it. .service already carries 0.55rem of
-   top padding, so 2.717 + 0.55 puts the heading where the artboard's
-   3.267 did. */
-.wx-service { margin-top: 2.717rem; }
+   top padding, so 0.85 + 0.55 gives a 1.4 lead-in, which with the
+   Options section's spare air averages the page's 1.8 (see VERTICAL RHYTHM). */
+.wx-service { margin-top: 0.85rem; }
 
 /* ------------------------------------------------------------- 7 MAKERS --
    Four squares, 6.9% to 92.6% of the window, captions beneath. */
-.wx-makers { margin-top: 3.763rem; }
+.wx-makers { margin-top: 1.8rem; }
 /* THE INSET IS PADDING, NOT A WIDTH. .wx-bleed sets width:100vw and a
    negative left margin; a `width` or a `margin` shorthand here would
    override one of them and quietly pull the row back to body width. */
 .wx-makers-row {
-  margin-top: 1.347rem;
+  margin-top: 1.1rem;
   padding-inline: 1.941rem;   /* rem, not %: a percentage padding resolves
                                  against the containing block (body width),
                                  not this row's own 100vw */
@@ -454,9 +477,9 @@
    A full-bleed row: the map takes 75.4% of the window, the dealer panel the
    rest. The state pill is the Contact page's pill, per the artboard's note.
    Both are placeholders at this stage. */
-.wx-dealers { margin-top: 3.412rem; }
+.wx-dealers { margin-top: 1.8rem; }
 .wx-dealers-row {
-  margin-top: 1.275rem;
+  margin-top: 1.1rem;
   display: grid;
   grid-template-columns: 75.4% 1fr;
   height: 12.947rem;
@@ -486,14 +509,14 @@
 /* -------------------------------------------------------------- 9 RANGE --
    Four cards across the whole window. These are the same four models the
    homepage viewer already carries. */
-.wx-range { margin-top: 2.545rem; }
+.wx-range { margin-top: 1.8rem; }
 /* THE SIDE GAPS ARE THE MAKERS ROW'S (1.941rem of padding, 0.568rem between).
    The first pass ran the cards edge to edge, with nothing between the first
    and last card and the window. Padding, not width, for the reason given on
    .wx-makers-row: this row is 100vw and a percentage would resolve against
    the wrong box. */
 .wx-range-row {
-  margin-top: 1.485rem;
+  margin-top: 1.1rem;
   padding-inline: 1.941rem;
   box-sizing: border-box;
   display: grid;
@@ -502,7 +525,7 @@
 }
 .wx-range-row .wx-ph { aspect-ratio: 1; }
 .wx-range-row figure { margin: 0; }
-.wx-range-row figcaption { margin-top: 0.70rem; }
+.wx-range-row figcaption { margin-top: 0.5rem; }
 .wx-range-row h3 {
   margin: 0; font-family: var(--gordita); font-weight: 500;
   font-size: 0.28rem; line-height: 1;
@@ -518,8 +541,8 @@
    styles.css and homepage.css, budget.js, and the select-chevron and pill
    behaviours from home.js. The grey ground is what home-order.css gives
    .home-contact on the home page (that sheet is not loaded here), and the
-   gap above is the one the Range section's own spacing calls for. */
-.wx-contact { margin-top: 2.545rem; background: #F8F8F7; }
+   gap above is the page rhythm's panel gap less the form's own padding. */
+.wx-contact { margin-top: 1.625rem; background: #F8F8F7; }
 
 
 /* --------------------------------------------------------------- phones --
