@@ -72,24 +72,49 @@
 
 
 /* --------------------------------------------------------------- 1 HERO --
-   y 1.491 – 17.277. A full screen of artboard, title and subtitle sitting
-   on the page margin near its foot. */
+   y 1.491 - 17.277. A full screen of artboard. The photograph is the one on
+   the live Wonderland Experience page (1920x755), so it is COVERED into a
+   taller slot and the sides are cropped: object-position 56% centres the
+   four vans, which sit between 35% and 77% of the frame.
+
+   WHITE TEXT NEEDS THE HOME HERO'S SCRIM. The caravans stand on bright
+   orange sand and the title sits over the sand, where bare white would
+   fail. The gradient is the one .home-hero-media::before uses -- same
+   stops, same --scrim governor -- so the two heroes darken their foot
+   identically. */
 .wx-hero {
   margin-top: 0.061rem;          /* the artboard clears the header by this */
   height: 15.786rem;
   position: relative;
+  overflow: hidden;
+  background: #2b2118;           /* shows only until the photograph arrives */
+}
+.wx-hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 56% 50%;
+  display: block;
+}
+.wx-hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(0,0,0,calc(0.55 * var(--scrim))) 0%,
+    rgba(0,0,0,calc(0.18 * var(--scrim))) 26%,
+    rgba(0,0,0,0) 52%);
 }
 .wx-hero-copy {
-  position: absolute;
+  position: absolute; z-index: 2;
   left: 50%; transform: translateX(-50%);
   bottom: 1.6rem;
   width: var(--col);
+  color: #fff;
 }
 .wx-hero-copy h1 { margin: 0; font-family: var(--aviano); font-weight: 900;
                    font-size: var(--t-heading); line-height: 1; }
 .wx-hero-copy p  { margin: 0.22rem 0 0; font-family: var(--aviano);
                    font-weight: 900; font-size: var(--t-sub); line-height: 1; }
-
 
 /* ---------------------------------------------------------------- 2 DNA --
    Heading baseline 19.491, paragraph 20.349 on a 0.421 leading, five lines
@@ -104,41 +129,69 @@
 
 
 /* -------------------------------------------------------------- 3 QUOTE --
-   Image bleeds off the left edge to 59.6% of the window; the quote sits to
-   its right and finishes on the column's right edge. */
+   THE HOME PAGE'S PULL QUOTE, rebuilt on this page's section. Every number
+   below is the one .pull / .pull-quote carry in homepage.css and
+   home-order.css, so the two read as one component:
+
+     picture   left 0, width 59.5% of the window
+     quote     left 61.7%, width 34%, orange-deep, 0.325rem on 0.453rem,
+               Gordita Regular upright (home-order.css drops the italic --
+               there is no Light in the licensed set)
+     mark      the AvianoSans-Black outline, 1.1968rem, anchored to the
+               paragraph by the shared .qmark rule in styles.css
+
+   Two differences, both forced by the content: this quote is three lines
+   where home's is eight, so it is centred in the section rather than set at
+   a fixed 2.55rem; and it carries a second line, set the way the service
+   reviews set a name (0.21rem, 700, caps). The section keeps the artboard's
+   11.013rem rather than home's 8.36rem. */
 .wx-quote { margin-top: 1.609rem; position: relative; height: 11.013rem; }
-.wx-quote .wx-ph { position: absolute; left: 0; top: 0; width: 59.6%; height: 100%; }
-.wx-quote-copy {
-  position: absolute;
-  left: 56.3%; right: 21.09%;
-  top: 2.6rem;
+.wx-quote-media {
+  position: absolute; left: 0; top: 0;
+  width: 59.5%; height: 100%;
+  overflow: hidden;
 }
-.wx-quote-mark {
-  display: block; margin: 0;
-  font-family: var(--aviano); font-weight: 900;
-  font-size: 1.6rem; line-height: 0.6;
+.wx-quote-media img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: 40% 50%;
+}
+.wx-quote-copy {
+  position: absolute; z-index: 4;
+  left: 61.7%; top: 50%; transform: translateY(-50%);
+  width: 34%; margin: 0;
   color: var(--orange-deep);
 }
-.wx-quote-copy blockquote {
-  margin: 0.3rem 0 0;
-  font-family: var(--gordita);
-  font-size: 0.30rem; line-height: 0.44rem;
+.wx-quote-copy p {
+  position: relative; margin: 0;
+  font-size: 0.325rem; font-style: normal; font-weight: 400;
+  line-height: 0.453rem; letter-spacing: -0.01em;
 }
+.wx-quote-copy .qmark { width: 1.1968rem; }
 .wx-quote-copy cite {
-  display: block; margin-top: 0.5rem;
-  font-style: normal;
-  font-family: var(--gordita); font-weight: 500;
-  font-size: 0.26rem; line-height: 0.38rem;
-  letter-spacing: .02em; text-transform: uppercase;
+  display: block; margin-top: 0.42rem;
+  font-style: normal; font-weight: 700;
+  font-size: 0.21rem; line-height: 0.28rem;
 }
-
 
 /* ------------------------------------------------------------ 4 JOURNEY --
-   A bordered band across the whole window, y 36.849 – 48.302, holding the
-   heading and five cards. The cards are a grid rather than five measured
-   boxes so the row cannot overflow the band the way the artboard's does
-   (its five cards add up to 101.6% of 1920). */
+   A bordered band across the whole window (y 36.849 - 48.302) holding the
+   heading and a SLIDING row of six steps. Four show at a time and one press
+   moves the row by one step; the live page has six steps and the artboard
+   drew five, so there is always something past the edge to slide to.
+
+   THE SPACE BETWEEN CARDS IS 0.72rem, NOT THE ARTBOARD'S 0.26. A chevron is
+   0.22rem across, so 0.26 would have left it touching both cards. 0.72
+   gives 0.25 clear on either side -- enough that the arrow reads as a
+   separate mark from the picture edges. The cards stay square-ish as a
+   result: four across inside the arrow margins is (100% - 3 gaps) / 4.
+
+   THE CHEVRONS BETWEEN CARDS ARE IN THE TRACK, so they slide with the
+   cards. The prev/next chevrons are the site's own: no disc, ink colour,
+   orange-deep on hover (see "No circles behind the chevrons" in styles.css),
+   sitting in the 1.2rem strips either side of the row. */
 .wx-journey {
+  --j-gap: 0.72rem;
+  --j-edge: 1.2rem;
   margin-top: 2.097rem;
   height: 11.453rem;
   border-top: 1px solid var(--ph-rule);
@@ -147,71 +200,146 @@
   padding-top: 1.3rem;
 }
 .wx-journey .wx-h { width: var(--col); margin-inline: auto; }
-.wx-journey-row {
-  margin: 0.55rem auto 0;
-  width: 96.2%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.26rem;
+.wx-journey-stage {
+  position: relative;
+  margin-top: 0.55rem;
+  padding-inline: var(--j-edge);
+}
+.wx-journey-viewport { overflow: hidden; }
+.wx-journey-track {
+  display: flex;
+  transition: transform .9s cubic-bezier(.45, .05, .15, 1);   /* the service slider's ease */
 }
 .wx-journey-card {
+  flex: 0 0 calc((100% - 3 * var(--j-gap)) / 4);
   height: 6.8rem;
   border: 0.5px solid var(--ph-rule);
   background: var(--ph-strip);
+  box-sizing: border-box;
   display: flex; flex-direction: column;
 }
 .wx-journey-card h3 {
   margin: 0; padding: 0.18rem 0.16rem;
+  min-height: 0.66rem; box-sizing: border-box;
   font-family: var(--gordita); font-weight: 500;
   font-size: var(--t-caption); line-height: var(--lh-caption);
   text-transform: uppercase; letter-spacing: .02em;
 }
-.wx-journey-card .wx-ph { flex: 1; border: 0; border-top: 0.5px solid var(--ph-rule); }
+.wx-journey-card img {
+  flex: 1; min-height: 0; width: 100%;
+  object-fit: cover; display: block;
+  border-top: 0.5px solid var(--ph-rule);
+}
+.wx-journey-chev {
+  flex: 0 0 var(--j-gap);
+  align-self: center;
+  display: grid; place-items: center;
+  color: var(--orange-deep);
+}
+/* The chevron path fills only 7 x 14 of its 24-unit box, so the box is about
+   twice the size of the mark it draws: 0.42rem gives a mark 0.12 wide and
+   0.245 tall, which is "small" without disappearing into the gap. */
+.wx-journey-chev svg { width: 0.42rem; height: 0.42rem; fill: none; stroke: currentColor; }
+.wx-journey-arrow {
+  position: absolute; top: 50%;
+  width: 0.56rem; height: 0.56rem; margin-top: -0.28rem;
+  display: grid; place-items: center;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--ink);
+  transition: color .2s ease, opacity .2s ease;
+}
+.wx-journey-arrow--prev { left:  calc((var(--j-edge) - 0.56rem) / 2); }
+.wx-journey-arrow--next { right: calc((var(--j-edge) - 0.56rem) / 2); }
+.wx-journey-arrow svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: currentColor; }
+.wx-journey-arrow:hover { color: var(--orange-deep); }
+.wx-journey-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.wx-journey-arrow:disabled { opacity: .22; cursor: default; color: var(--ink); }
 
+/* the site's chevron: butt caps, mitred point, one weight (--chev-w) */
+.wx-journey-chev path, .wx-journey-arrow path, .wx-opt path {
+  stroke-width: var(--chev-w);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
 
 /* ------------------------------------------------------------ 5 OPTIONS --
-   Inside the column: the list runs down the left, the image and its
-   description take the right from 5.693rem of 16.24rem across. */
+   Inside the column: the list runs down the left, the picture, heading and
+   copy take the right from 5.693rem of 16.24rem across.
+
+   A TAB LIST. Choosing an option shows its own picture, heading and copy.
+   The markers are the site's chevron, grey until chosen and orange once
+   chosen -- the triangles the artboard drew, replaced.
+
+   ALL SIX PANELS OCCUPY ONE GRID CELL and the inactive ones are only
+   hidden, never removed, so the cell is as tall as the tallest panel. The
+   section therefore keeps one height whichever option is chosen, and nothing
+   below it moves. */
 .wx-options { margin-top: 1.728rem; }
 .wx-options-grid {
   margin-top: 0.94rem;
   display: grid;
   grid-template-columns: 5.693rem 1fr;
 }
-.wx-options-list { margin: 0; padding: 0 0 0 0.463rem; list-style: none; }
-.wx-options-list li {
-  display: flex; align-items: baseline; gap: 0.14rem;
-  height: 1.3645rem;                      /* the artboard's step */
-  font-family: var(--gordita);
-  font-size: 0.30rem; line-height: 1;
+.wx-options-list { padding: 0 0 0 0.463rem; }
+.wx-opt {
+  display: flex; align-items: center; gap: 0.12rem;
+  width: 100%; height: 1.3645rem;          /* the artboard's step */
+  margin: 0; padding: 0; border: 0; background: none;
+  text-align: left; cursor: pointer;
+  font-family: var(--gordita); font-size: 0.30rem; line-height: 1;
+  color: var(--ink);
+  transition: color .2s ease;
 }
-.wx-options-list li::before { content: "\25B7"; color: #9a9a9a; font-size: 0.22rem; }
-.wx-options-list .is-on { font-weight: 500; color: var(--orange); }
-.wx-options-list .is-on::before { color: var(--orange); }
-.wx-options-media .wx-ph { height: 6.51rem; }
-.wx-options-media p {
+.wx-opt svg {
+  flex: none; width: 0.34rem; height: 0.34rem; margin-left: -0.08rem;
+  fill: none; stroke: currentColor;
+  color: #9a9a9a;
+  transition: color .2s ease;
+}
+.wx-opt:hover, .wx-opt:hover svg { color: var(--orange-deep); }
+.wx-opt.is-on { font-weight: 500; color: var(--orange); }
+.wx-opt.is-on svg { color: var(--orange); }
+.wx-opt:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+.wx-options-media { display: grid; }
+.wx-opt-panel {
+  grid-area: 1 / 1;
+  visibility: hidden; opacity: 0;
+  transition: opacity .35s ease, visibility 0s linear .35s;
+}
+.wx-opt-panel.is-on {
+  visibility: visible; opacity: 1;
+  transition: opacity .35s ease;
+}
+.wx-opt-panel img {
+  display: block; width: 100%; height: 6.51rem;
+  object-fit: cover; object-position: 50% 50%;
+}
+/* the crops: each picture is framed on its subject, not its middle */
+.wx-opt-panel[data-opt="chassis"]    img { object-position: 50% 62%; }
+.wx-opt-panel[data-opt="electrical"] img { object-position: 50% 18%; }
+.wx-opt-panel[data-opt="plumbing"]   img { object-position: 50% 58%; }
+.wx-opt-panel[data-opt="external"]   img { object-position: 50% 24%; }
+.wx-opt-panel h3 {
   margin: 0.33rem 0 0;
+  font-family: var(--gordita); font-weight: 500;
+  font-size: var(--t-sub); line-height: 1;
+}
+.wx-opt-panel p {
+  margin: 0.16rem 0 0;
   font-family: var(--gordita);
   font-size: var(--t-caption); line-height: 0.26rem;
+  text-wrap: pretty;
 }
-
 
 /* ------------------------------------------------------------ 6 SERVICE --
-   The image bleeds off the left to 59.6%; the panel runs 40.3% to the right
-   edge and sits behind it, so the two overlap across a fifth of the window.
-   Heading at 35% of the window, which is where the artboard puts it. */
-.wx-service { margin-top: 3.267rem; }
-.wx-service .wx-h { margin-left: 35%; }
-.wx-service-stack { position: relative; height: 10.354rem; margin-top: 1.306rem; }
-.wx-service-stack .wx-ph--panel {
-  position: absolute; left: 40.3%; right: 0;
-  top: 0.982rem; height: 8.364rem;
-}
-.wx-service-stack .wx-ph--photo {
-  position: absolute; left: 0; width: 59.6%;
-  top: 0; height: 100%;
-}
-
+   COPIED FROM THE HOME PAGE, not redrawn: the markup is home.html's, the
+   rules are the shared ones in styles.css, the slider is reviews.js. The
+   only thing set here is the gap above, which stands in for what the home
+   page gets from the section before it. .service already carries 0.55rem of
+   top padding, so 2.717 + 0.55 puts the heading where the artboard's
+   3.267 did. */
+.wx-service { margin-top: 2.717rem; }
 
 /* ------------------------------------------------------------- 7 MAKERS --
    Four squares, 6.9% to 92.6% of the window, captions beneath. */
@@ -308,20 +436,25 @@
    901 the measured composition is dropped and the blocks stack at their own
    height. This is a safety net so the page is not broken on a phone -- it
    is not a phone layout, and it should be replaced by one during the phone
-   pass rather than tidied here. */
+   pass rather than tidied here. The Legendary service block needs nothing
+   here: styles.css already carries its phone rules. */
 @media (max-width: 900px) {
-  .wx-hero { height: auto; padding: 2rem 0; }
-  .wx-hero-copy { position: static; transform: none; width: auto; }
-  .wx-quote, .wx-service-stack, .wx-dealers-row { height: auto; }
-  .wx-quote .wx-ph,
-  .wx-service-stack .wx-ph--panel,
-  .wx-service-stack .wx-ph--photo { position: static; width: auto; }
-  .wx-quote-copy { position: static; }
+  .wx-hero { height: auto; min-height: 62vw; display: flex; align-items: flex-end; }
+  .wx-hero-copy { position: static; transform: none; width: auto; padding: 0 24px 32px; }
+  .wx-quote, .wx-dealers-row { height: auto; }
+  .wx-quote-media { position: static; width: auto; height: 56vw; }
+  .wx-quote-copy { position: relative; left: auto; top: auto; transform: none;
+                   width: auto; padding: 24px; }
   .wx-journey { height: auto; padding-bottom: 1rem; }
-  .wx-journey-row,
+  .wx-journey-stage { padding-inline: 0; }
+  .wx-journey-viewport { overflow-x: auto; }
+  .wx-journey-track { transform: none !important; transition: none; }
+  .wx-journey-card { flex-basis: 70%; }
+  .wx-journey-arrow { display: none; }
   .wx-options-grid,
   .wx-makers-row,
   .wx-dealers-row,
   .wx-range-row { grid-template-columns: 1fr; }
-  .wx-service .wx-h { margin-left: 0; }
+  .wx-options-list { padding-left: 0; }
+  .wx-opt-panel img { height: auto; aspect-ratio: 3 / 2; }
 }

@@ -6,10 +6,10 @@
 <title>The Wonderland Experience &mdash; Wonderland RV</title>
 <meta name="description" content="How a Wonderland RV caravan is customised, built and backed &mdash; the journey, the options, the team and the dealers behind it.">
 <link rel="icon" href="assets/img/wonderland-rv-logo.png">
-<link rel="stylesheet" href="assets/css/styles.css?v=314">
-<link rel="stylesheet" href="assets/css/type-compact.css?v=314">
-<link rel="stylesheet" href="assets/css/homepage.css?v=314">
-<link rel="stylesheet" href="assets/css/wx-page.css?v=314">
+<link rel="stylesheet" href="assets/css/styles.css?v=315">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=315">
+<link rel="stylesheet" href="assets/css/homepage.css?v=315">
+<link rel="stylesheet" href="assets/css/wx-page.css?v=315">
 </head>
 <body class="home">
 <header class="site-header">
@@ -71,21 +71,17 @@
 </header>
 
 <!-- ================================================ THE WONDERLAND EXPERIENCE
-  SKELETON PASS. Ten sections at their measured heights and positions, with
-  the headings and the copy the artboard actually carries. Everything grey
-  is a labelled placeholder -- nothing in them is invented.
-
-  WHAT THE ARTBOARD GIVES US, verbatim: the hero title and subtitle, the DNA
-  paragraph, the pull-quote, the five journey step titles, the six option
-  names and one option description, the four team names, the dealer record
-  for Off-Grid Outfitters, and the four model names and taglines. Everything
-  else on this page is still to be written.
+  Sections 1-6 are filled: hero, DNA + quote, the customisation journey, the
+  options, and Legendary service. Sections 7-10 (dream makers, dealers, the
+  range, the closing call to action) are still the skeleton -- grey blocks
+  labelled with what goes in them.
   ======================================================================= -->
 <main class="wx">
 
   <!-- ---------------------------------------------------------- 1 HERO -->
   <section class="wx-hero wx-bleed">
-    <div class="wx-ph wx-ph--photo" style="position:absolute;inset:0">Hero image &mdash; full screen, 1920&times;1079</div>
+    <img class="wx-hero-img" src="assets/img/experience/hero.webp" width="1920" height="755"
+         alt="Four Wonderland caravans camped on a sandy lake shore at dusk">
     <div class="wx-hero-copy">
       <h1>The Wonderland Experience</h1>
       <p>Crafting your dream caravan, one detail at a time</p>
@@ -107,57 +103,184 @@
   </section>
 
   <!-- --------------------------------------------------------- 3 QUOTE -->
+  <!-- Built the way the home page's pull quote is: picture off the left edge
+       to 59.5%, quote on the right at 61.7%, the same opening-mark outline.
+       The picture is a still from the home slideshow (slide-1) for now. -->
   <section class="wx-quote wx-bleed">
-    <div class="wx-ph wx-ph--photo">Quote image</div>
-    <div class="wx-quote-copy">
-      <span class="wx-quote-mark" aria-hidden="true">&ldquo;</span>
-      <blockquote>Because no two travellers are the same, we believe no two
-        caravans should be either.</blockquote>
-      <cite>Your travels, your vision, your caravan journey, your rules.</cite>
+    <div class="wx-quote-media">
+      <img src="assets/img/home/slide-1.jpg" alt="A Wonderland caravan set up in a field of long grass" loading="lazy">
     </div>
+    <blockquote class="wx-quote-copy">
+      <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Because no two travellers are <br>
+        the same, we believe no two <br>
+        caravans should be either.&rdquo;</p>
+      <cite>Your travels, your vision, <br>
+        your caravan journey, your rules.</cite>
+    </blockquote>
   </section>
 
   <!-- ------------------------------------------------------- 4 JOURNEY -->
-  <section class="wx-journey wx-bleed">
+  <!-- Six steps; four show at a time and the row slides one step per press.
+       The chevrons between the cards are part of the track, so they travel
+       with the cards. -->
+  <section class="wx-journey wx-bleed" aria-roledescription="carousel" aria-label="Your Wonderland customisation journey">
     <h2 class="wx-h">Your Wonderland<br>customisation journey</h2>
-    <div class="wx-journey-row">
-      <div class="wx-journey-card"><h3>Your dream vision</h3><div class="wx-ph">Step 1</div></div>
-      <div class="wx-journey-card"><h3>The fundamental decisions</h3><div class="wx-ph">Step 2</div></div>
-      <div class="wx-journey-card"><h3>Make it your own</h3><div class="wx-ph">Step 3</div></div>
-      <div class="wx-journey-card"><h3>Designing your caravan</h3><div class="wx-ph">Step 4</div></div>
-      <div class="wx-journey-card"><h3>Watch your van coming to life</h3><div class="wx-ph">Step 5</div></div>
+    <div class="wx-journey-stage">
+      <button class="wx-journey-arrow wx-journey-arrow--prev" type="button" aria-label="Previous steps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="wx-journey-viewport">
+        <div class="wx-journey-track" id="wxJourneyTrack">
+        <article class="wx-journey-card">
+          <h3>Your dream vision</h3>
+          <img src="assets/img/experience/step-1.webp" alt="A Wonderland caravan being towed along a country road" loading="lazy">
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card">
+          <h3>The fundamental decisions</h3>
+          <img src="assets/img/experience/step-2.jpg" alt="A queen bed made up with cushions and a throw" loading="lazy">
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card">
+          <h3>Make it your own</h3>
+          <img src="assets/img/experience/step-3.webp" alt="A kitchen sink with a gold tap beneath a window" loading="lazy">
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card">
+          <h3>Designing your caravan</h3>
+          <img src="assets/img/experience/step-4.jpg" alt="A dinette seat with a bowl of fruit on the table" loading="lazy">
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card">
+          <h3>Watch your van coming to life</h3>
+          <img src="assets/img/experience/step-5.webp" alt="The underside of a Wonderland chassis in the factory" loading="lazy">
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card">
+          <h3>Your travel journey begins here</h3>
+          <img src="assets/img/experience/step-6.jpg" alt="An aerial view of a caravan on a dirt road through bushland" loading="lazy">
+        </article>
+        </div>
+      </div>
+      <button class="wx-journey-arrow wx-journey-arrow--next" type="button" aria-label="Next steps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </section>
 
   <!-- ------------------------------------------------------- 5 OPTIONS -->
+  <!-- A tab list: choosing an option shows its picture, heading and copy on
+       the right. All six panels share one grid cell, so the section keeps the
+       height of the tallest and nothing below it moves when you switch. -->
   <section class="wx-options">
     <div class="container">
       <h2 class="wx-h">The customisation options</h2>
       <div class="wx-options-grid">
-        <ul class="wx-options-list">
-          <li class="is-on">Layout</li>
-          <li>Chassis</li>
-          <li>Electrical</li>
-          <li>Internal Plan &amp; Colours</li>
-          <li>Plumbing &amp; Appliances</li>
-          <li>External Plan</li>
-        </ul>
+        <div class="wx-options-list" role="tablist" aria-orientation="vertical" aria-label="Customisation options">
+          <button class="wx-opt is-on" type="button" role="tab" id="wxo-layout" aria-controls="wxp-layout" aria-selected="true" tabindex="0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Layout</span></button>
+          <button class="wx-opt" type="button" role="tab" id="wxo-chassis" aria-controls="wxp-chassis" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Chassis</span></button>
+          <button class="wx-opt" type="button" role="tab" id="wxo-electrical" aria-controls="wxp-electrical" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Electrical</span></button>
+          <button class="wx-opt" type="button" role="tab" id="wxo-internal" aria-controls="wxp-internal" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Internal Plan &amp; Colours</span></button>
+          <button class="wx-opt" type="button" role="tab" id="wxo-plumbing" aria-controls="wxp-plumbing" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Plumbing &amp; Appliances</span></button>
+          <button class="wx-opt" type="button" role="tab" id="wxo-external" aria-controls="wxp-external" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>External Plan</span></button>
+        </div>
         <div class="wx-options-media">
-          <div class="wx-ph">Option image &mdash; changes with the selection</div>
-          <p>Select your desired caravan length, bed configuration, storage
-            solutions, and seating arrangements, whether you are a couple or a
-            family with kids.</p>
+          <div class="wx-opt-panel is-on" role="tabpanel" id="wxp-layout" aria-labelledby="wxo-layout" data-opt="layout">
+            <img src="assets/img/experience/opt-layout.jpg" alt="Dinette and queen bed inside a Wonderland caravan" loading="lazy">
+            <h3>Layout</h3>
+            <p>Select your desired caravan length, bed configuration, storage solutions, and seating arrangements, whether you are a couple or a family with kids.</p>
+          </div>
+          <div class="wx-opt-panel" role="tabpanel" id="wxp-chassis" aria-labelledby="wxo-chassis" data-opt="chassis">
+            <img src="assets/img/experience/opt-chassis.jpg" alt="The underside of a caravan showing suspension and all-terrain tyres" loading="lazy">
+            <h3>Chassis</h3>
+            <p>Pick your suspension and brakes, chassis finish, hitch, jockey wheel, stone guard, plus your choice of water tank, tunnel boot, and more.</p>
+          </div>
+          <div class="wx-opt-panel" role="tabpanel" id="wxp-electrical" aria-labelledby="wxo-electrical" data-opt="electrical">
+            <img src="assets/img/experience/opt-electrical.jpg" alt="Battery and power monitoring screens" loading="lazy">
+            <h3>Electrical</h3>
+            <p>Tech, luxury and convenience are the goals of our offgrid electrical systems. Enjoy air conditioning, audio-visual media, connectivity, GPS, anti-theft tracking, lighting, and enough power for all the appliances you want to run to enhance your journey.</p>
+          </div>
+          <div class="wx-opt-panel" role="tabpanel" id="wxp-internal" aria-labelledby="wxo-internal" data-opt="internal">
+            <img src="assets/img/experience/opt-internal.jpg" alt="Looking through the kitchen towards the bed of a Wonderland caravan" loading="lazy">
+            <h3>Internal Plan &amp; Colours</h3>
+            <p>Personalise your caravan space in order for it to be aesthetically pleasing to you by choosing from different colour themes of bathroom accessories, cupboard colours, handles, upholstery, flooring &ndash; plus decals and cladding colour for your exterior.</p>
+          </div>
+          <div class="wx-opt-panel" role="tabpanel" id="wxp-plumbing" aria-labelledby="wxo-plumbing" data-opt="plumbing">
+            <img src="assets/img/experience/opt-plumbing.jpg" alt="A caravan bathroom with a black vessel basin and tap" loading="lazy">
+            <h3>Plumbing &amp; Appliances</h3>
+            <p>Focus on functionality and comfort when you choose plumbing and appliance features for your home on wheels, like a heater, BBQ bayonet, fridge, hot water service, kitchen sink, and toilet.</p>
+          </div>
+          <div class="wx-opt-panel" role="tabpanel" id="wxp-external" aria-labelledby="wxo-external" data-opt="external">
+            <img src="assets/img/experience/opt-external.jpg" alt="A slide-out BBQ and bike rack on a Wonderland caravan" loading="lazy">
+            <h3>External Plan</h3>
+            <p>Customise your caravan&rsquo;s external features &ndash; choose key options like entry door size, external kitchen, bike rack and a convenient picnic table &ndash; to suit your outdoor adventures and personal lifestyle.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ------------------------------------------------------- 6 SERVICE -->
-  <section class="wx-service wx-bleed">
-    <h2 class="wx-h">Legendary service</h2>
-    <div class="wx-service-stack">
-      <div class="wx-ph wx-ph--panel">Service copy panel &mdash; TBC</div>
-      <div class="wx-ph wx-ph--photo">Service image</div>
+  <!-- Copied from home.html unchanged: same markup, same styles.css rules,
+       same reviews.js. -->
+  <section class="service wx-service">
+    <div class="container service-head">
+      <h2 class="service-title">LEGENDARY SERVICE</h2>
+      <p class="service-kicker">OUR HAPPY CUSTOMERS</p>
+    </div>
+
+    <div class="service-band">
+      <div class="service-viewport">
+        <div class="service-track" id="serviceTrack">
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-julian.jpg">
+          <img src="assets/img/home/review-julian.jpg" alt="Inside a Wonderland RV: kitchen, dinette and queen bed"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p>
+          <span class="service-name">JULIAN RANDALL</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-jasique.jpg">
+          <img src="assets/img/home/review-jasique.jpg" alt="The caf&eacute; dinette inside a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our Wonderland Amaroo has truly lived up to its reputation and exceeded our expectations while we&rsquo;ve explored Australia as a family.&rdquo;</p>
+          <span class="service-name">JASIQUE</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-mandi.jpg">
+          <img src="assets/img/home/review-mandi.jpg" alt="Queen bed and dinette inside a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our van is the ultimate family caravan and the finishes are absolute premium quality. We love hitting the road with our van any chance we get.&rdquo;</p>
+          <span class="service-name">MANDI DAVIES</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-sandro.jpg">
+          <img src="assets/img/home/review-sandro.jpg" alt="The queen bed at the front of a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The attention to detail and build quality is exceptional to say the least. This is our 5th caravan and I am sure we will be going back to Wonderland for our 6th.&rdquo;</p>
+          <span class="service-name">SANDRO CARBONI</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      </div>
+      </div>
+
+      <button class="service-arrow service-arrow--prev" type="button" aria-label="Previous review">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="service-arrow service-arrow--next" type="button" aria-label="Next review">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </section>
 
@@ -288,5 +411,7 @@
   </div>
 </footer>
 
+<script src="assets/js/reviews.js?v=315"></script>
+<script src="assets/js/wx-page.js?v=315"></script>
 </body>
 </html>
