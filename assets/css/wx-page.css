@@ -464,13 +464,36 @@
   gap: 0.568rem;          /* the artboard's gap, not a percentage of a
                              padding box that resolves against the wrong edge */
 }
-.wx-makers-row .wx-ph { aspect-ratio: 1; }
-.wx-makers-row figcaption {
-  margin-top: 0.45rem;
-  font-family: var(--gordita); font-weight: 500;
-  font-size: 0.28rem; line-height: 0.36rem;
+.wx-makers-intro {
+  margin: 0.4rem 0 0; max-width: 17rem;
+  font-size: var(--t-cta); line-height: var(--lh-body);
 }
-.wx-makers-row figure { margin: 0; }
+/* Each team is a card in the journey cards' language: grey photo square
+   (blank for now), orange-deep band at the foot carrying the team name;
+   on hover the photo lifts and the band opens to the description. */
+.wx-mk {
+  position: relative; margin: 0; overflow: hidden; outline: none;
+  border: 1px solid #e6e6e6; border-radius: 0.08rem; background: #fff;
+}
+.wx-mk-photo { aspect-ratio: 1; background: var(--ph-photo); transition: transform .30s ease; }
+.wx-mk-band {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 0.16rem 0.22rem 0.30rem; background: var(--orange-deep); color: #fff;
+}
+.wx-mk-name { margin: 0; min-height: 2.2em; font: 900 0.36rem/1.1 var(--aviano); text-wrap: balance; }
+.wx-mk-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .30s ease; }
+.wx-mk-inner { overflow: hidden; min-height: 0; }
+.wx-mk-text { margin: 0.10rem 0 0; font: 400 0.24rem/0.33rem var(--gordita); text-wrap: pretty; }
+.wx-mk:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+.wx-mk:focus-within .wx-mk-photo { transform: translateY(-0.34rem); }
+.wx-mk:focus-within .wx-mk-wrap { grid-template-rows: 1fr; }
+@media (hover: hover) {
+  .wx-mk:hover .wx-mk-photo { transform: translateY(-0.34rem); }
+  .wx-mk:hover .wx-mk-wrap { grid-template-rows: 1fr; }
+}
+@media (hover: none) {   /* no hover on touch: the description stays open */
+  .wx-mk-wrap { grid-template-rows: 1fr; }
+}
 
 
 /* ------------------------------------------------------------ 8 DEALERS --
