@@ -487,10 +487,10 @@
 .wx-mk:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
 .wx-mk:focus-within .wx-mk-photo { transform: translateY(-0.34rem); }
 .wx-mk:focus-within .wx-mk-wrap { grid-template-rows: 1fr; }
-@media (hover: hover) {
-  .wx-mk:hover .wx-mk-photo { transform: translateY(-0.34rem); }
-  .wx-mk:hover .wx-mk-wrap { grid-template-rows: 1fr; }
-}
+/* Not gated on (hover:hover): on touch a single tap sets :hover, so the card
+   opens on tap and closes when another is tapped. */
+.wx-mk:hover .wx-mk-photo { transform: translateY(-0.34rem); }
+.wx-mk:hover .wx-mk-wrap { grid-template-rows: 1fr; }
 @media (hover: none) {   /* no hover on touch: the description stays open */
   .wx-mk-wrap { grid-template-rows: 1fr; }
 }
