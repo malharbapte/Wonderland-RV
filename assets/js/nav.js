@@ -37,7 +37,9 @@
      Same reasoning as the Wonderlander rail in wonderlanders.js. */
   if (!window.matchMedia("(max-width: 900px)").matches) return;
 
-  var item = nav.querySelector(".nav-item");
+  /* .nav-item--desk (Buy) is a desktop-only dropdown: on a phone it stays the
+     plain link it always was, so About remains the one accordion row. */
+  var item = nav.querySelector(".nav-item:not(.nav-item--desk)");
   var dd   = item && item.querySelector(".nav-dropdown");
 
   if (item && dd) {

@@ -1215,6 +1215,11 @@ input:-webkit-autofill:focus {
   .nav-dropdown-inner { overflow: hidden; min-height: 0; }
   .nav-item.is-open .nav-chev { transform: rotate(180deg); }
 
+  /* Buy's dropdown exists on desktop only; here it is the plain link it was
+     before the dropdown, styled by the ".main-nav > a, .nav-item > a" rule. */
+  .nav-item--desk > a { display: flex; }
+  .nav-item--desk > .nav-dropdown { display: none; }
+
   /* the primary action, which the bar hides down here */
   .nav-cta { padding: 16px 24px 20px; }
   .nav-cta .btn-build {
