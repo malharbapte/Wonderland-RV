@@ -368,13 +368,109 @@
   letter-spacing: .12em; color: inherit;
 }
 
+/* phone-only parts: off everywhere above 900px, so the desktop page is exactly
+   as it was. The rules that switch them on are in the block below. */
+.fp-pick, .fp-scrim, .fp-sheet-close { display: none; }
+
 /* ---- phone ----------------------------------------------------------------
-   Held back rather than half-built: the rail has no margin to hang in below
-   901, so it is hidden and the grid stacks. */
+   Everything here is inside max-width 900px and in px, not rem: rem is a flat
+   16px on a phone (styles.css), so the artboard's 0.xx rem sizes collapse to
+   a few pixels and a thumb cannot hit them.
+
+   PICKING A LAYOUT. The desktop rail has no margin to hang in, so it becomes a
+   sheet. The same list, the same rows and the same script: .fp-pick opens it,
+   choosing a row or the scrim or Done closes it. Curves are kept small: 4px on
+   the button and rows, 8px on the sheet's top corners. */
 @media (max-width: 900px) {
-  .fp-rail-dock, .fp-rail-toggle { display: none; }
-  .fp-controls { flex-direction: column; gap: 0.3rem; }
-  .fp-kind { width: 100%; }
-  .fp-grid { grid-template-columns: 1fr; row-gap: 0.3rem; }
-  .fp-actions { grid-template-columns: 1fr; row-gap: 0.2rem; }
+  .fp { padding-top: 20px; padding-bottom: 48px; }
+  .fp-lede { margin-top: 10px; max-width: none; }
+  .fp-body { margin-top: 22px; }
+  .fp-rail-toggle { display: none; }
+
+  /* controls */
+  .fp-controls { flex-direction: column; gap: 18px; }
+  .fp-kind { --p: 4px; width: 100%; height: 48px; border-width: 1px; border-radius: 24px; }
+  .fp-kind-thumb { top: var(--p); bottom: auto; height: 38px; border-radius: 24px; }
+  .fp-kind label { font-size: 16px; }
+  .fp-kind label + label::before { display: none; }
+  .fp-size { width: 100%; }
+  .fp-size-head { gap: 10px; margin-bottom: 6px; }
+  .fp-size-head b { font-size: 12px; }
+  .fp-size-value { font-size: 20px; }
+  .fp-size-count { margin-left: auto; font-size: 12px; }
+  .fp-size-scale { height: 56px; }
+  .fp-size-track { top: 14px; height: 6px; border-radius: 3px; }
+  .fp-size-fill { border-radius: 3px; }
+  .fp-size input[type=range] { height: 34px; }
+  .fp-size input[type=range]::-webkit-slider-runnable-track { height: 34px; }
+  .fp-size input[type=range]::-moz-range-track { height: 34px; }
+  .fp-size input[type=range]::-webkit-slider-thumb { width: 28px; height: 28px; margin-top: 3px; border: 0; }
+  .fp-size input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border: 0; }
+  .fp-size-min, .fp-size-max { top: 38px; font-size: 12px; }
+
+  /* the chosen layout */
+  .fp-name { display: none; }          /* the button carries the name */
+  .fp-pick {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; height: 60px; margin-top: 24px; padding: 0 18px;
+    background: #F8F8F7; border: 1px solid var(--ink); border-radius: 4px;
+    font-family: var(--gordita); color: var(--ink); text-align: left; cursor: pointer;
+  }
+  .fp-pick-text { display: grid; gap: 6px; }
+  .fp-pick small { font-size: 12px; line-height: 1; color: var(--dim, #6b6158); }
+  .fp-pick b { font-weight: 500; font-size: 16px; line-height: 1; }
+  .fp-pick em {
+    font-style: normal; font-family: var(--aviano); font-weight: 900; font-size: 12px;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--orange-deep);
+  }
+
+  .fp-grid { grid-template-columns: 1fr; row-gap: 12px; margin-top: 12px; }
+  .fp-dims { padding: 16px; gap: 6px; }
+  .fp-actions { grid-template-columns: 48px 1fr; column-gap: 12px; row-gap: 16px; margin-top: 16px; }
+  .fp-icon { width: 48px; height: 48px; }
+  /* THINNER LINE, phone only. At 48px the desktop weight ran the two rings
+     together; this one keeps them apart. */
+  .fp-icon svg { stroke-width: 0.85; }
+  .fp-tour { height: 48px; font-size: 16px; }
+  .fp-actions .fp-fine { grid-column: 1 / -1; padding-left: 0; font-size: 12px; line-height: 18px; }
+
+  /* the sheet: the dock, restyled. !important only where the desktop
+     .is-in / .is-shut states would otherwise win on specificity. */
+  .fp-scrim {
+    display: block; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,.35); opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .fp-scrim.is-open { opacity: 1; pointer-events: auto; }
+  .fp-rail-dock {
+    display: flex; flex-direction: column;
+    position: fixed; left: 0; right: 0; top: auto; bottom: 0;
+    width: auto; max-width: none !important; max-height: 72vh;
+    z-index: 1000; overflow: hidden;
+    background: #fff; border: 0; border-radius: 8px 8px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,.18);
+    transform: translateY(105%); visibility: hidden;
+    transition: transform .32s cubic-bezier(.33,0,.18,1), visibility 0s linear .32s;
+  }
+  .fp-rail-dock.is-sheet-open {
+    transform: none; visibility: visible;
+    transition: transform .32s cubic-bezier(.33,0,.18,1), visibility 0s;
+  }
+  .fp-rail {
+    position: static; width: auto; padding: 0;
+    flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+  }
+  .fp-rail-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px 10px; }
+  .fp-rail-title { padding: 0; font-size: 16px; }
+  .fp-sheet-close {
+    display: block; background: none; border: 0; padding: 4px 0 4px 12px;
+    font-family: var(--gordita); font-size: 15px; color: var(--orange-deep); cursor: pointer;
+  }
+  .fp-rail-list { direction: ltr; margin-top: 0; padding: 4px 24px 28px; }
+  .fp-rail-list li + li { margin-top: 8px; }
+  .fp-row { height: 52px; padding: 0 16px; border-radius: 4px; }
+  .fp-row-name { font-size: 15px; }
+  .fp-row-size { font-size: 12px; }
+  .fp-rail-empty { padding: 4px 24px 28px; font-size: 12px; line-height: 18px; }
+  body.fp-sheet-lock { overflow: hidden; }
 }

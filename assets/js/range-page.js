@@ -99,7 +99,7 @@
        longer offers is the kind of thing nobody notices until a demo */
     var on = shown.filter(function (r) { return r.classList.contains("is-on"); })[0];
     if (!on && shown.length) select(shown[0]);
-    else if (!shown.length) { name.textContent = "—"; }
+    else if (!shown.length) { name.textContent = "—"; setPick("—"); }
 
     /* ---- the rail answers the filters ------------------------------------
        Shut, the rail is out of the way rather than switched off: a filter
@@ -130,9 +130,33 @@
     var text = row.querySelector(".fp-row-name").textContent.trim();
     name.textContent = text;
     if (plan) plan.setAttribute("data-ph", "FLOORPLAN — " + text);
+    setPick(text + "  ·  " + row.dataset.size);
   }
 
-  rows.forEach(function (r) { r.addEventListener("click", function () { select(r); }); });
+  /* ---- phone: the list is a sheet ----------------------------------------
+     The button, the scrim and Done are hidden above 900px by the stylesheet,
+     so none of this can be reached on desktop. */
+  var pick   = document.getElementById("fpPick");
+  var pickNm = document.getElementById("fpPickName");
+  var scrim  = document.getElementById("fpScrim");
+  var close  = document.getElementById("fpSheetClose");
+  var phone  = window.matchMedia("(max-width: 900px)");
+  function setPick(t) { if (pickNm) pickNm.textContent = t; }
+  function sheet(open) {
+    dock.classList.toggle("is-sheet-open", open);
+    if (scrim) scrim.classList.toggle("is-open", open);
+    document.body.classList.toggle("fp-sheet-lock", open);
+    if (pick) pick.setAttribute("aria-expanded", String(open));
+  }
+  if (pick) pick.addEventListener("click", function () { sheet(true); });
+  if (scrim) scrim.addEventListener("click", function () { sheet(false); });
+  if (close) close.addEventListener("click", function () { sheet(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") sheet(false); });
+  if (phone.addEventListener) phone.addEventListener("change", function () { sheet(false); });
+
+  rows.forEach(function (r) {
+    r.addEventListener("click", function () { select(r); if (phone.matches) sheet(false); });
+  });
   size.addEventListener("input", apply);
   [].forEach.call(document.querySelectorAll('.fp-kind input'), function (inp) {
     inp.addEventListener("change", function () {

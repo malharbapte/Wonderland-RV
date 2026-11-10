@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/css/styles.css?v=322">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=313">
 <link rel="stylesheet" href="assets/css/homepage.css?v=313">
-<link rel="stylesheet" href="assets/css/range-page.css?v=313">
+<link rel="stylesheet" href="assets/css/range-page.css?v=314">
 </head>
 <body class="home">
 
@@ -90,9 +90,14 @@
     <!-- THE DOCK IS THE BOX. It clips, it carries the ground and the
          outline, and its max-width is the whole animation; the panel inside
          never moves. -->
+    <!-- phone only: the dim behind the layout sheet -->
+    <div class="fp-scrim" id="fpScrim"></div>
     <div class="fp-rail-dock" id="fpRailDock">
       <aside class="fp-rail" id="fpRail" aria-label="Layout selection">
-        <h2 class="fp-rail-title">Layout selection</h2>
+        <div class="fp-rail-head">
+          <h2 class="fp-rail-title">Layout selection</h2>
+          <button type="button" class="fp-sheet-close" id="fpSheetClose">Done</button>
+        </div>
         <ul class="fp-rail-list">
           <li><button type="button" class="fp-row is-on" data-size="17&rsquo;09&rdquo;" data-ft="1709" data-kind="couples"><span class="fp-row-name">1709Q-R-L</span><span class="fp-row-size">17&rsquo;09&rdquo;</span></button></li>
           <li><button type="button" class="fp-row" data-size="18&rsquo;06&rdquo;" data-ft="1806" data-kind="couples"><span class="fp-row-name">1806Q-M-L</span><span class="fp-row-size">18&rsquo;06&rdquo;</span></button></li>
@@ -141,6 +146,13 @@
           </div>
         </div>
       </div>
+
+      <!-- PHONE ONLY. Opens the layout list as a sheet; hidden above 900px,
+           where the rail does this job. -->
+      <button class="fp-pick" id="fpPick" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="fpRailDock">
+        <span class="fp-pick-text"><small>Layout</small><b id="fpPickName"></b></span>
+        <em>Change</em>
+      </button>
 
       <h2 class="fp-name" id="fpName">1709Q-R-L</h2>
 
@@ -253,6 +265,6 @@
   </div>
 </footer>
 
-<script src="assets/js/range-page.js?v=313"></script>
+<script src="assets/js/range-page.js?v=314"></script>
 </body>
 </html>
