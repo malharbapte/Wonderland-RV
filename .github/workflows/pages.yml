@@ -25,12 +25,26 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deploy_first.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
           path: .
-      - id: deployment
+      # GitHub's own Pages service sometimes stalls after the upload, in its
+      # "syncing_files" or "queued" phase, for 4 minutes or more. The run logs
+      # show the pattern: a stalled deployment that was cancelled was followed
+      # by a deployment of the same files that finished in 25 to 65 seconds. So
+      # the first attempt gets 2 minutes (a normal deploy takes under one), and
+      # if it stalls it is cancelled and the same artifact is deployed again.
+      - id: deploy_first
         uses: actions/deploy-pages@v5
+        continue-on-error: true
+        with:
+          timeout: 120000
+      - id: deployment
+        if: steps.deploy_first.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 240000
