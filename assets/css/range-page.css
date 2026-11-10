@@ -474,3 +474,116 @@
   .fp-rail-empty { padding: 4px 24px 28px; font-size: 12px; line-height: 18px; }
   body.fp-sheet-lock { overflow: hidden; }
 }
+
+/* ==========================================================================
+   LAYOUT ENQUIRY POP-UP
+   Split card with the home page form's look: underlined name, email, phone
+   and post code, boxed State and Message, the two-way pill, a round tick box.
+   Corners are 3px: the card, the fields, the button.
+
+   Shared look first, then the desktop sizes (artboard rem) and the phone
+   sizes (px: rem is a flat 16px there) in their own blocks.
+   ========================================================================== */
+.eq-scrim { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center;
+            overflow: auto; background: rgba(0,0,0,.45); animation: eq-fade .28s ease; }
+.eq-scrim[hidden] { display: none; }
+@keyframes eq-fade { from { opacity: 0; } to { opacity: 1; } }
+body.eq-lock { overflow: hidden; }
+.eq { position: relative; background: #fff; border-radius: 3px; font-family: var(--gordita);
+      color: var(--ink); box-shadow: 0 10px 40px rgba(0,0,0,.25); outline: none; }
+.eq-x { position: absolute; z-index: 2; padding: 0; background: none; border: 0; color: var(--ink);
+        display: grid; place-items: center; cursor: pointer; transition: color .2s ease; }
+.eq-x:hover, .eq-x:focus-visible { color: var(--orange-deep); }
+.eq-x svg { stroke-width: 1.1; stroke-linecap: butt; }
+.eq-title { font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
+            line-height: 1.05; text-transform: uppercase; margin: 0; }
+.eq-left { background: #F8F8F7; border-radius: 3px 0 0 3px; display: flex; flex-direction: column; }
+.eq-name { margin: 0; font-weight: 500; font-size: var(--t-sub); line-height: 1; }
+.eq-size { margin: 0; font-size: var(--t-body); color: var(--dim, #6b6158); }
+.eq-plan { background: #fff; aspect-ratio: 739.28 / 408.77; }
+.eq-form { display: grid; align-content: start; }
+.eq-g2 { display: grid; grid-template-columns: 1fr 1fr; }
+.eq-f { display: block; position: relative; }
+.eq-f input, .eq-f select, .eq-f textarea {
+  display: block; width: 100%; background: none; color: var(--ink);
+  font-family: var(--gordita); border-radius: 0;
+}
+.eq-f input { border: 0; border-bottom: 1px solid var(--ink); }
+.eq-f input::placeholder, .eq-f textarea::placeholder { color: #6b6158; opacity: 1; }
+.eq-f input:focus { outline: none; border-bottom-color: var(--orange); box-shadow: 0 1px 0 var(--orange); }
+.eq-f select, .eq-f textarea { border: 1px solid var(--ink); border-radius: 3px; }
+.eq-f select:focus, .eq-f textarea:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
+.eq-sel select { -webkit-appearance: none; appearance: none; color: #6b6158; }
+.eq-sel select:valid { color: var(--ink); }
+.eq-sel svg { position: absolute; top: 50%; pointer-events: none; }
+.eq-area textarea { resize: vertical; }
+.eq-pill { position: relative; display: flex; border: 1px solid var(--ink); border-radius: 3px; }
+.eq-pill label { position: relative; z-index: 1; flex: 1 1 0; display: grid; place-items: center;
+                 text-align: center; cursor: pointer; transition: color .28s ease; }
+.eq-pill input { position: absolute; opacity: 0; pointer-events: none; }
+.eq-pill label:has(input:checked) { color: #fff; font-weight: 700; }
+.eq-pill label:has(input:focus-visible) { outline: 2px solid var(--orange-deep); outline-offset: -2px; }
+.eq-pill-t { position: absolute; background: var(--orange); border-radius: 2px;
+             transition: transform .4s cubic-bezier(.65,0,.35,1); }
+.eq-pill:has(label:last-of-type input:checked) .eq-pill-t { transform: translateX(100%); }
+.eq-ck { display: flex; align-items: flex-start; cursor: pointer; }
+.eq-ck input { flex: none; -webkit-appearance: none; appearance: none; border: 1px solid var(--ink);
+               border-radius: 50%; cursor: pointer; }
+.eq-ck input:checked {
+  background: var(--orange) center / 52% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-5.9' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  border-color: var(--orange);
+}
+.eq-submit { display: block; background: var(--orange); color: #fff; border: 0; border-radius: 3px;
+             font-family: var(--aviano); font-weight: 900; cursor: pointer;
+             box-shadow: inset 0 0 0 2px var(--orange);
+             transition: background .3s ease, color .3s ease; }
+.eq-submit:hover, .eq-submit:focus-visible { background: #fff; color: var(--orange); }
+
+@media (min-width: 901px) {
+  .eq-scrim { padding: 0.30rem; }
+  .eq { width: 14.4rem; display: grid; grid-template-columns: 40% 60%; margin: auto; }
+  .eq-x { top: 0.15rem; right: 0.15rem; width: 0.5rem; height: 0.5rem; }
+  .eq-x svg { width: 0.44rem; height: 0.44rem; }
+  .eq-left { padding: 0.6rem 0.5rem; }
+  .eq-name { margin-top: 0.5rem; }
+  .eq-size { margin-top: 0.1rem; }
+  .eq-plan { margin-top: 0.4rem; }
+  .eq-form { padding: 0.6rem 0.6rem 0.55rem 0.5rem; gap: 0.26rem; }
+  .eq-g2 { gap: 0.2rem; }
+  .eq-f input { height: 0.7rem; padding: 0 0.02rem; font-size: 0.24rem; }
+  .eq-f select { height: 0.7rem; padding: 0 0.26rem; font-size: 0.24rem; }
+  .eq-f textarea { height: 1.5rem; padding: 0.2rem 0.24rem; font-size: 0.24rem; }
+  .eq-sel svg { right: 0.22rem; width: 0.14rem; height: 0.08rem; margin-top: -0.04rem; }
+  .eq-pill { height: 0.84rem; padding: 0.08rem; }
+  .eq-pill label { font-size: 0.24rem; }
+  .eq-pill-t { top: 0.08rem; bottom: 0.08rem; left: 0.08rem; width: calc(50% - 0.08rem); }
+  .eq-ck { gap: 0.2rem; font-size: 0.17rem; line-height: 0.24rem; }
+  .eq-ck input { width: 0.26rem; height: 0.26rem; margin: 0; }
+  .eq-submit { width: 3.14rem; height: 0.70rem; font-size: 0.18rem; }
+}
+
+@media (max-width: 900px) {
+  .eq-scrim { padding: 12px; place-items: start center; }
+  .eq { width: 100%; margin: 0 auto; }
+  .eq-x { top: 6px; right: 6px; width: 44px; height: 44px; }
+  .eq-x svg { width: 28px; height: 28px; }
+  .eq-left { padding: 56px 20px 8px; border-radius: 3px 3px 0 0; }
+  .eq-title { padding-right: 44px; }
+  .eq-name { margin-top: 12px; font-size: 16px; }
+  .eq-size { margin-top: 4px; font-size: 15px; }
+  .eq-plan { display: none; }
+  .eq-form { padding: 20px 20px 24px; gap: 12px; }
+  .eq-g2 { grid-template-columns: 1fr; gap: 12px; }
+  .eq-f input, .eq-f select, .eq-f textarea { font-size: 16px; }
+  .eq-f input { height: 48px; padding: 0 2px; }
+  .eq-f select { height: 48px; padding: 0 14px; }
+  .eq-f textarea { height: 96px; padding: 14px; }
+  .eq-sel svg { right: 16px; width: 14px; height: 8px; margin-top: -4px; }
+  .eq-pill { height: 52px; padding: 4px; }
+  .eq-pill label { font-size: 15px; }
+  .eq-pill-t { top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); }
+  .eq-ck { gap: 12px; font-size: 14px; line-height: 20px; }
+  .eq-ck input { width: 22px; height: 22px; margin: 0; }
+  .eq-submit { width: 100%; height: 52px; font-size: 16px; }
+}

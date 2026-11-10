@@ -99,7 +99,7 @@
        longer offers is the kind of thing nobody notices until a demo */
     var on = shown.filter(function (r) { return r.classList.contains("is-on"); })[0];
     if (!on && shown.length) select(shown[0]);
-    else if (!shown.length) { name.textContent = "—"; setPick("—"); }
+    else if (!shown.length) { name.textContent = "—"; setPick("—"); setEnq("—", ""); }
 
     /* ---- the rail answers the filters ------------------------------------
        Shut, the rail is out of the way rather than switched off: a filter
@@ -131,6 +131,7 @@
     name.textContent = text;
     if (plan) plan.setAttribute("data-ph", "FLOORPLAN — " + text);
     setPick(text + "  ·  " + row.dataset.size);
+    setEnq(text, row.dataset.size);
   }
 
   /* ---- phone: the list is a sheet ----------------------------------------
@@ -142,6 +143,17 @@
   var close  = document.getElementById("fpSheetClose");
   var phone  = window.matchMedia("(max-width: 900px)");
   function setPick(t) { if (pickNm) pickNm.textContent = t; }
+  /* the pop-up names whichever layout is selected */
+  var eqName = document.getElementById("eqName");
+  var eqSize = document.getElementById("eqSize");
+  var eqLay  = document.getElementById("eqLayout");
+  var eqPlan = document.getElementById("eqPlan");
+  function setEnq(n, sz) {
+    if (eqName) eqName.textContent = n;
+    if (eqSize) eqSize.textContent = sz || "";
+    if (eqLay)  eqLay.value = n + (sz ? " " + sz : "");
+    if (eqPlan) eqPlan.setAttribute("data-ph", "FLOORPLAN — " + n);
+  }
   function sheet(open) {
     dock.classList.toggle("is-sheet-open", open);
     if (scrim) scrim.classList.toggle("is-open", open);
@@ -202,5 +214,82 @@
   apply();
   /* the first row is marked on in the markup, so select() has not run for it */
   var first = rows.filter(function (r) { return r.classList.contains("is-on"); })[0];
-  if (first) setPick(first.querySelector(".fp-row-name").textContent.trim() + "  ·  " + first.dataset.size);
+  if (first) {
+    var fn = first.querySelector(".fp-row-name").textContent.trim();
+    setPick(fn + "  ·  " + first.dataset.size);
+    setEnq(fn, first.dataset.size);
+  }
+
+  /* ---- the enquiry pop-up ------------------------------------------------
+     Opens after 10 seconds of time spent in the Layouts section: the clock
+     runs only while the section is in view (same band the rail uses) and the
+     tab is showing, and it keeps what it has counted if you scroll away and
+     come back. Once per visit; it waits if the phone's layout sheet is open. */
+  var eqScrim = document.getElementById("eqScrim");
+  var eqCard  = document.getElementById("eqCard");
+  var eqForm  = document.getElementById("eqForm");
+  var eqX     = document.getElementById("eqClose");
+  var EQ_KEY  = "wl-layout-enquiry-seen";
+  var EQ_MS   = 10000;
+  var eqSeen  = false, eqOpen = false, eqBack = null;
+  try { eqSeen = sessionStorage.getItem(EQ_KEY) === "1"; } catch (e) {}
+
+  function eqShow() {
+    eqOpen = true; eqSeen = true;
+    try { sessionStorage.setItem(EQ_KEY, "1"); } catch (e) {}
+    eqBack = document.activeElement;
+    eqScrim.hidden = false;
+    document.body.classList.add("eq-lock");
+    eqCard.focus();
+  }
+  function eqHide() {
+    if (!eqOpen) return;
+    eqOpen = false;
+    eqScrim.hidden = true;
+    document.body.classList.remove("eq-lock");
+    if (eqBack && eqBack.focus) { try { eqBack.focus(); } catch (e) {} }
+  }
+
+  if (eqScrim && eqCard && eqForm) {
+    eqX.addEventListener("click", eqHide);
+    eqScrim.addEventListener("click", function (e) { if (e.target === eqScrim) eqHide(); });
+    document.addEventListener("keydown", function (e) {
+      if (!eqOpen) return;
+      if (e.key === "Escape") { eqHide(); return; }
+      if (e.key === "Tab") {      /* keep the keyboard inside the card */
+        var f = [].slice.call(eqCard.querySelectorAll("button, input, select, textarea, a[href]"))
+                   .filter(function (n) { return !n.disabled && n.type !== "hidden" && n.offsetParent !== null; });
+        if (!f.length) return;
+        var a = f[0], z = f[f.length - 1];
+        if (e.shiftKey && (document.activeElement === a || document.activeElement === eqCard)) { e.preventDefault(); z.focus(); }
+        else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+      }
+    });
+    eqForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!eqForm.checkValidity()) { eqForm.reportValidity(); return; }
+      eqHide();                   /* not wired to a service yet, like the other forms */
+    });
+
+    if (!eqSeen && section && "IntersectionObserver" in window) {
+      var inView = false, counted = 0, since = 0, timer = null;
+      var tick = function () {
+        timer = null;
+        if (dock.classList.contains("is-sheet-open")) { timer = setTimeout(tick, 1000); return; }
+        eqShow();
+      };
+      var run = function () {
+        var want = inView && !document.hidden && !eqSeen;
+        if (want && !timer) { since = Date.now(); timer = setTimeout(tick, Math.max(0, EQ_MS - counted)); }
+        else if (!want && timer) { clearTimeout(timer); timer = null; counted += Date.now() - since; }
+      };
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { inView = en.isIntersecting; });
+        run();
+      }, { rootMargin: "-10% 0px -40% 0px" }).observe(section);
+      document.addEventListener("visibilitychange", run);
+    }
+
+    /* the pill's indicator is CSS only; nothing to measure */
+  }
 })();

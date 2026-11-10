@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/css/styles.css?v=322">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=313">
 <link rel="stylesheet" href="assets/css/homepage.css?v=313">
-<link rel="stylesheet" href="assets/css/range-page.css?v=314">
+<link rel="stylesheet" href="assets/css/range-page.css?v=315">
 </head>
 <body class="home">
 
@@ -265,6 +265,48 @@
   </div>
 </footer>
 
-<script src="assets/js/range-page.js?v=315"></script>
+<!-- ====================================================== LAYOUT ENQUIRY
+  Opens once per visit, after 10 seconds of time spent in the Layouts section
+  (range-page.js). Split card: the layout on the left, the form on the right,
+  in the home page form's own style. The form is not wired to anything yet,
+  like the other forms on the site. -->
+<div class="eq-scrim" id="eqScrim" hidden>
+  <div class="eq" id="eqCard" role="dialog" aria-modal="true" aria-labelledby="eqTitle" tabindex="-1">
+    <button class="eq-x" id="eqClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg>
+    </button>
+    <div class="eq-left">
+      <h2 class="eq-title" id="eqTitle">Enquire about this layout</h2>
+      <p class="eq-name" id="eqName"></p>
+      <p class="eq-size" id="eqSize"></p>
+      <div class="eq-plan" id="eqPlan"></div>
+    </div>
+    <form class="eq-form" id="eqForm" action="#" method="post" autocomplete="off" novalidate>
+      <input type="hidden" name="layout" id="eqLayout" value="">
+      <div class="eq-g2">
+        <label class="eq-f"><input name="first-name" type="text" placeholder="First Name" autocomplete="off"></label>
+        <label class="eq-f"><input name="last-name" type="text" placeholder="Last Name" autocomplete="off"></label>
+      </div>
+      <div class="eq-g2">
+        <label class="eq-f"><input name="email" type="email" placeholder="Email*" required autocomplete="off"></label>
+        <label class="eq-f"><input name="phone" type="tel" placeholder="Phone*" required autocomplete="off"></label>
+      </div>
+      <div class="eq-g2">
+        <label class="eq-f eq-sel"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
+        <label class="eq-f"><input name="postcode" type="text" inputmode="numeric" placeholder="Post Code" autocomplete="off"></label>
+      </div>
+      <div class="eq-pill" role="radiogroup" aria-label="What would you like to do?">
+        <span class="eq-pill-t" aria-hidden="true"></span>
+        <label><input type="radio" name="enquiry-type" value="Call back" checked><span>Call back</span></label>
+        <label><input type="radio" name="enquiry-type" value="Virtual consultation"><span>Virtual consultation</span></label>
+      </div>
+      <label class="eq-f eq-area"><textarea name="message" placeholder="Message" rows="4"></textarea></label>
+      <label class="eq-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>
+      <button class="eq-submit" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script src="assets/js/range-page.js?v=316"></script>
 </body>
 </html>
