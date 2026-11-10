@@ -941,3 +941,45 @@
   .rvp-note { margin: 6px 0 0; font-family: var(--gordita); font-size: 12px; line-height: 18px;
               color: #6b6158; text-align: center; }
 }
+
+
+/* ==========================================================================
+   WHY CHOOSE US, PHONE (option B of sample-phone-why.html) -- phones only.
+   The band becomes a portrait photo (3:4) under a dark overlay: the heading,
+   then the four points as a tap-to-open list, one open at a time. The open
+   one turns orange. The old phone list and its second picture (.why) go, as
+   they already do on desktop. Desktop is untouched.
+   ========================================================================== */
+.band--why .media picture { display: block; width: 100%; height: 100%; }
+@media (max-width: 900px) {
+  .why { display: none; }
+  .band--why { position: relative; height: 133.333vw; overflow: hidden; background: #0b2a55; }
+  .band--why .media { position: absolute; inset: 0; }
+  .band--why .media img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .why-scrim { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+               background: linear-gradient(to bottom, rgba(6,12,24,.80) 0%, rgba(6,12,24,.68) 52%, rgba(6,12,24,.34) 100%); }
+  .band--why .band-copy { position: relative; z-index: 2; left: auto; right: auto; top: auto; height: auto;
+                          display: block; padding: 30px 24px 0; }
+  .band--why .band-title { margin: 0; color: #fff; text-shadow: none; }
+  .band--why .why-points { display: block; margin-top: 14px; border-top: 1px solid rgba(255,255,255,.28); }
+  .band--why .why-points li { display: grid; grid-template-columns: 24px 1fr 24px; column-gap: 12px;
+                              align-items: center; min-height: 46px; margin: 0; cursor: pointer;
+                              border-bottom: 1px solid rgba(255,255,255,.28); }
+  .band--why .why-points li::after { content: "+"; grid-column: 3; grid-row: 1; text-align: right;
+                                     font-family: var(--gordita); font-weight: 300; font-size: 22px; line-height: 1; color: #fff; }
+  .band--why .why-points li.is-open::after { content: "\2212"; }
+  .band--why .why-points .why-icon { grid-column: 1; grid-row: 1; width: 24px; height: 24px; color: #fff;
+                                     transition: color .25s ease; }
+  .band--why .why-points .why-text { display: contents; }
+  .band--why .why-points h3 { grid-column: 2; grid-row: 1; margin: 0; white-space: normal;
+                              font-family: var(--aviano); font-weight: 900; font-size: 12px; line-height: 16px;
+                              letter-spacing: .06em; color: #fff; transition: color .25s ease; }
+  .band--why .why-points p { display: none; grid-column: 2 / 4; grid-row: 2; margin: 0; padding: 0 0 12px;
+                             max-width: none; font-family: var(--gordita); font-size: 13px; line-height: 18px;
+                             color: rgba(255,255,255,.86); }
+  .band--why .why-points br { display: none; }
+  .band--why .why-points li.is-open p { display: block; }
+  .band--why .why-points li.is-open h3,
+  .band--why .why-points li.is-open .why-icon { color: var(--orange); }
+  .band--why .why-points li:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
+}

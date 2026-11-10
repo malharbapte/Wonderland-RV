@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=342">
+<link rel="stylesheet" href="assets/css/home-order.css?v=343">
 </head>
 <body class="home">
 
@@ -346,8 +346,13 @@
 <!-- ==================================================== WHY CHOOSE US -->
 <section class="band band--why">
   <div class="media ph" data-ph="assets/img/home/why-band.jpg">
-    <img src="assets/img/home/why-band.jpg" alt=""
-         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    <!-- PHONE: a portrait photo (3:4) with the van framed low, under a dark
+         overlay; the four points become the tap-to-open list (why-phone.js). -->
+    <picture>
+      <source media="(max-width: 900px)" srcset="assets/img/home/why-phone.jpg">
+      <img src="assets/img/home/why-band.jpg" alt=""
+           onload="this.closest('.media').classList.remove('ph')" onerror="this.remove()">
+    </picture>
   </div>
   <div class="why-scrim" aria-hidden="true"></div>
   <div class="container band-copy">
@@ -1031,6 +1036,7 @@
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/range-viewer.js?v=324"></script>
 <script src="assets/js/range-phone.js?v=4"></script>
+<script src="assets/js/why-phone.js?v=2"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>
 <script src="assets/js/nav.js?v=322"></script>
 </body>
