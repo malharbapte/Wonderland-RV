@@ -634,7 +634,8 @@
 }
 
 /* ==========================================================================
-   BRANDS WE TRUST — two rows, running against each other   (variant C)
+   BRANDS WE TRUST — BACK TO ONE ROW (the two-row rules below were removed; the
+   notes are kept as history only)
 
    NOT GATED TO DESKTOP, and deliberately. Splitting one track into two is a
    markup change, so the phone takes the two rows whether or not this block
@@ -658,9 +659,6 @@
    OPPOSITE DIRECTIONS is animation-direction on the same keyframe, not a
    second set of numbers to keep in step with the first.
    ========================================================================== */
-.brand-marquee + .brand-marquee { margin-top: 0.40rem; }
-.brand-track--a { animation-duration: 34s; }
-.brand-track--b { animation-duration: 52s; animation-direction: reverse; }
 
 /* ---- COTY arrows: no disc ----------------------------------------------
    Overridden from here rather than edited in homepage.css, which this round
