@@ -892,6 +892,18 @@
   .rvp { display: block; padding: 48px 24px 0; overflow: hidden; }
   .rvp-title { margin: 0; font-family: var(--aviano); font-weight: 900;
                font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .rvp-view { position: relative; }
+  .rvp-arrow { position: absolute; z-index: 2; top: calc((100vw - 48px) / 5.344); transform: translateY(-50%);
+               width: 44px; height: 44px; padding: 0; background: none; border: 0; color: var(--orange-deep);
+               display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease; }
+  .rvp-arrow--prev { left: -16px; }
+  .rvp-arrow--next { right: -16px; }
+  .rvp-arrow.is-off { opacity: 0; pointer-events: none; }
+  .rvp-arrow svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2.6;
+                   stroke-linecap: butt; stroke-linejoin: miter; filter: drop-shadow(0 0 3px rgba(255,255,255,.9)); }
+  .rvp-view:not(.is-used) .rvp-arrow--next svg { animation: rvp-nudge 1.8s ease-in-out infinite; }
+  @keyframes rvp-nudge { 0%, 60%, 100% { transform: translateX(0); } 30% { transform: translateX(5px); } }
+  @media (prefers-reduced-motion: reduce) { .rvp-view:not(.is-used) .rvp-arrow--next svg { animation: none; } }
   .rvp-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 22px -24px 0;
                scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .rvp-track::-webkit-scrollbar { display: none; }

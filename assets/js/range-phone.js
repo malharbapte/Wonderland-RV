@@ -100,13 +100,16 @@
     if (built) return;
     built = true;
     mount.innerHTML =
+      '<div class="rvp-view">' +
+      '<button class="rvp-arrow rvp-arrow--prev" id="rvpPrev" type="button" aria-label="Previous model"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+      '<button class="rvp-arrow rvp-arrow--next" id="rvpNext" type="button" aria-label="Next model"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
       '<div class="rvp-track" id="rvpTrack" tabindex="0" role="region" aria-label="Range models, swipe sideways">' +
       MODELS.map(function (m, k) {
         return '<div class="rvp-slide"><img src="assets/img/home/range/' + m.id + '-side.webp?v=11" alt="' + m.name + '"' +
           (k ? ' loading="lazy"' : '') + '>' +
           '<h3 class="rvp-name">' + m.name + '</h3><p class="rvp-tag">' + m.tag + '</p>' +
           '<div class="rvp-badges">' + m.badges.map(function (b) { return '<span class="rvp-badge">' + b + '</span>'; }).join("") + '</div></div>';
-      }).join("") + '</div>' +
+      }).join("") + '</div></div>' +
       '<div class="rvp-dots" id="rvpDots">' + MODELS.map(function (m, k) {
         return '<button type="button" data-k="' + k + '" aria-label="Show ' + m.name + '"></button>';
       }).join("") + '<span class="rvp-count" id="rvpCount"></span></div>' +
@@ -115,7 +118,10 @@
     var track = document.getElementById("rvpTrack");
     var dots  = [].slice.call(document.querySelectorAll("#rvpDots button"));
 
+    var prev = document.getElementById("rvpPrev"), next = document.getElementById("rvpNext");
     function paint() {
+      prev.classList.toggle("is-off", at === 0);
+      next.classList.toggle("is-off", at === N - 1);
       dots.forEach(function (d, k) { d.classList.toggle("on", k === at); });
       document.getElementById("rvpCount").textContent = (at + 1) + " / " + N;
       document.getElementById("rvpSpec").innerHTML = cells(MODELS[at]);
@@ -130,6 +136,14 @@
         if (i !== at) { at = i; paint(); }
       }, 60);
     }, { passive: true });
+
+    /* the arrows hint that the row moves, and step it. Their nudge stops once the
+       row has been used, by arrow or by swipe. */
+    var view = track.parentNode;
+    function used() { view.classList.add("is-used"); }
+    prev.addEventListener("click", function () { used(); track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); });
+    next.addEventListener("click", function () { used(); track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); });
+    track.addEventListener("touchstart", used, { passive: true });
 
     dots.forEach(function (d) {
       d.addEventListener("click", function () {
