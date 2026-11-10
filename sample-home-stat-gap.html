@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: range to Caravans built gap</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=326">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=314">
+<link rel="stylesheet" href="assets/css/homepage.css?v=326">
+<link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
+<link rel="stylesheet" href="assets/css/home-order.css?v=335">
+<style>
+body{padding-top:64px}
+.bar{position:fixed;top:0;left:0;right:0;z-index:99;background:#fff;border-bottom:1px solid #ddd;padding:10px 20px;font:600 14px/1.3 system-ui,sans-serif;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar a{padding:6px 14px;border:1px solid #999;border-radius:4px;color:#111;text-decoration:none}
+.bar a.on{background:#111;color:#fff;border-color:#111}.bar span{font-weight:400;color:#555}
+.above{height:1.6rem;display:grid;place-items:center;font:600 13px/1 system-ui,sans-serif;color:#aaa}
+.sample .rvx{padding-top:0}
+/* gap from the note to the number = rvx-band bottom padding + stat-band top padding; the stat band keeps equal padding below */
+body.o-a .rvx-band{padding-bottom:.70rem} body.o-a .stat-band{height:auto;padding:.70rem 0}
+body.o-b .rvx-band{padding-bottom:.50rem} body.o-b .stat-band{height:auto;padding:.50rem 0}
+body.o-c .rvx-band{padding-bottom:.35rem} body.o-c .stat-band{height:auto;padding:.35rem 0}
+</style></head><body class="home sample">
+<div class="bar" id="bar"><a href="#now" data-o="now">Now</a><a href="#a" data-o="a">A &middot; 1.40rem</a><a href="#b" data-o="b">B &middot; 1.00rem</a><a href="#c" data-o="c">C &middot; 0.70rem</a><span id="d"></span></div>
+<div class="above">(range models and figures above)</div>
+<section class="rvx"><div class="rvx-band"><div class="container">
+<div class="rvx-act"><a class="btn-solid" href="#">Explore the range</a><a class="btn-solid rvx-ghost" href="#">Download brochure</a></div>
+<p class="rvx-note">Figures shown are for the standard build. Every model can be specified further &mdash; options change capacities and price.</p>
+</div></div></section>
+<section class="stat-band"><p class="stat-number">1,300<span aria-hidden="true">+</span></p><p class="stat-label">CARAVANS BUILT</p></section>
+<div class="above" style="height:2rem">(Your dream van awaits, below)</div>
+<script>
+(function(){
+var D={now:'Now: about 1.97rem (135px at 1920) from the note to the number.',
+a:'A: 1.40rem (about 96px at 1920) from the note to the number; the band keeps the same space below the label.',
+b:'B: 1.00rem (about 68px).',c:'C: 0.70rem (about 48px).'};
+function go(){var o=(location.hash||'#now').slice(1);if(!D[o])o='now';document.body.className='home sample o-'+o;
+[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
+document.getElementById('d').textContent=D[o]}
+window.addEventListener('hashchange',go);go();
+})();
+</script></body></html>
