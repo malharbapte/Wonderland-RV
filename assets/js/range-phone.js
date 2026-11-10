@@ -1,8 +1,7 @@
 /* ==========================================================================
    RANGE VIEWER, PHONE -- home.html, below 901 only.
-   The desktop viewer scaled down (option A of sample-phone-range.html): the
-   chosen van in the middle with its neighbours peeking in, arrows beside the
-   name, the figures in a 2 x 2 grid. Swipe, tap a neighbour or tap an arrow.
+   Swipe cards (option B of sample-phone-range.html): one van per screen on a
+   snapping row, dots and a count, the figures as a list under it.
 
    THE DATA AND THE ICONS ARE COPIED FROM range-viewer.js (the desktop viewer),
    which returns early on a phone and keeps them inside its own closure. If a
@@ -88,10 +87,6 @@
   function icon(key) { return key === "susp" ? SUSP : ICON[key]; }
 
   var built = false, at = 0, N = MODELS.length;
-  var CH = {
-    prev: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
-    next: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'
-  };
 
   function cells(m) {
     return m.spec.map(function (c) {
@@ -105,56 +100,47 @@
     if (built) return;
     built = true;
     mount.innerHTML =
-      '<div class="rvp-stage" id="rvpStage">' + MODELS.map(function (m, k) {
-        return '<div class="rvp-van" data-k="' + k + '"><img src="assets/img/home/range/' + m.id + '-side.webp?v=11" alt="' + m.name + '"' +
-          (k > 1 ? ' loading="lazy"' : '') + '></div>';
+      '<div class="rvp-track" id="rvpTrack" tabindex="0" role="region" aria-label="Range models, swipe sideways">' +
+      MODELS.map(function (m, k) {
+        return '<div class="rvp-slide"><img src="assets/img/home/range/' + m.id + '-side.webp?v=11" alt="' + m.name + '"' +
+          (k ? ' loading="lazy"' : '') + '>' +
+          '<h3 class="rvp-name">' + m.name + '</h3><p class="rvp-tag">' + m.tag + '</p>' +
+          '<div class="rvp-badges">' + m.badges.map(function (b) { return '<span class="rvp-badge">' + b + '</span>'; }).join("") + '</div></div>';
       }).join("") + '</div>' +
-      '<div class="rvp-head">' +
-        '<button class="rvp-arrow" id="rvpPrev" type="button" aria-label="Previous model">' + CH.prev + '</button>' +
-        '<div><h3 class="rvp-name" id="rvpName"></h3><p class="rvp-tag" id="rvpTag"></p></div>' +
-        '<button class="rvp-arrow" id="rvpNext" type="button" aria-label="Next model">' + CH.next + '</button>' +
-      '</div><div class="rvp-badges" id="rvpBadges"></div>' +
+      '<div class="rvp-dots" id="rvpDots">' + MODELS.map(function (m, k) {
+        return '<button type="button" data-k="' + k + '" aria-label="Show ' + m.name + '"></button>';
+      }).join("") + '<span class="rvp-count" id="rvpCount"></span></div>' +
       '<div class="rvp-spec" id="rvpSpec" aria-live="polite"></div>';
 
-    var stage = document.getElementById("rvpStage");
-    var vans = [].slice.call(stage.querySelectorAll(".rvp-van"));
+    var track = document.getElementById("rvpTrack");
+    var dots  = [].slice.call(document.querySelectorAll("#rvpDots button"));
 
     function paint() {
-      vans.forEach(function (v, k) {
-        var d = (k - at + N) % N;
-        if (d > N / 2) d -= N;
-        v.dataset.d = d;
-      });
-      var m = MODELS[at];
-      document.getElementById("rvpName").textContent = m.name;
-      document.getElementById("rvpTag").textContent = m.tag;
-      document.getElementById("rvpBadges").innerHTML = m.badges.map(function (b) {
-        return '<span class="rvp-badge">' + b + '</span>';
-      }).join("");
-      document.getElementById("rvpSpec").innerHTML = cells(m);
+      dots.forEach(function (d, k) { d.classList.toggle("on", k === at); });
+      document.getElementById("rvpCount").textContent = (at + 1) + " / " + N;
+      document.getElementById("rvpSpec").innerHTML = cells(MODELS[at]);
     }
-    function go(i) { at = (i + N) % N; paint(); }
 
-    document.getElementById("rvpPrev").addEventListener("click", function () { go(at - 1); });
-    document.getElementById("rvpNext").addEventListener("click", function () { go(at + 1); });
-    vans.forEach(function (v) {
-      v.addEventListener("click", function () {
-        var d = +v.dataset.d;
-        if (d === -1 || d === 1) go(at + d);
+    var t;
+    track.addEventListener("scroll", function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var i = Math.round(track.scrollLeft / track.clientWidth);
+        i = Math.max(0, Math.min(N - 1, i));
+        if (i !== at) { at = i; paint(); }
+      }, 60);
+    }, { passive: true });
+
+    dots.forEach(function (d) {
+      d.addEventListener("click", function () {
+        track.scrollTo({ left: +d.dataset.k * track.clientWidth, behavior: "smooth" });
       });
     });
 
-    /* a sideways swipe on the van steps once */
-    var fromX = null, fromY = null;
-    stage.addEventListener("pointerdown", function (e) { fromX = e.clientX; fromY = e.clientY; });
-    window.addEventListener("pointerup", function (e) {
-      if (fromX === null) return;
-      var dx = e.clientX - fromX, dy = e.clientY - fromY;
-      fromX = null;
-      if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
-      go(at + (dx < 0 ? 1 : -1));
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); }
+      if (e.key === "ArrowLeft")  { e.preventDefault(); track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); }
     });
-    window.addEventListener("pointercancel", function () { fromX = null; });
 
     paint();
   }

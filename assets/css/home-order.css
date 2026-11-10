@@ -881,10 +881,10 @@
 
 
 /* ==========================================================================
-   RANGE VIEWER, PHONE (option A of sample-phone-range.html: the desktop
-   viewer scaled down). Desktop has .rvx; the phone has this. Each is hidden
-   where the other shows, and the old phone range (.band--range and .range)
-   is hidden on the phone now. Sizes are px: rem is a flat 16px on a phone.
+   RANGE VIEWER, PHONE (swipe cards, option B of sample-phone-range.html; chosen over A on 2026-11-10)
+   Desktop has .rvx; the phone has this. Each is hidden where the other shows,
+   and the old phone range (.band--range and .range) is hidden on the phone now.
+   Sizes are px: rem is a flat 16px on a phone.
    ========================================================================== */
 .rvp { display: none; }
 @media (max-width: 900px) {
@@ -892,40 +892,34 @@
   .rvp { display: block; padding: 48px 24px 0; overflow: hidden; }
   .rvp-title { margin: 0; font-family: var(--aviano); font-weight: 900;
                font-size: var(--t-heading); line-height: var(--lh-heading); }
-  /* the stage bleeds to the screen edges so the neighbouring vans can peek in */
-  .rvp-stage { position: relative; height: 118px; margin: 22px -24px 0; overflow: hidden; touch-action: pan-y; }
-  .rvp-van { position: absolute; left: 50%; top: 0; width: 72%; opacity: 0;
-             transform: translateX(-50%) scale(.5);
-             transition: transform .6s cubic-bezier(.45,.05,.15,1), opacity .6s ease; }
-  .rvp-van img { display: block; width: 100%; height: auto; }
-  .rvp-van[data-d="0"]  { opacity: 1; transform: translateX(-50%); }
-  .rvp-van[data-d="-1"] { opacity: .55; transform: translateX(calc(-50% - 74%)) scale(.5); cursor: pointer; }
-  .rvp-van[data-d="1"]  { opacity: .55; transform: translateX(calc(-50% + 74%)) scale(.5); cursor: pointer; }
-  .rvp-van[data-d="2"]  { opacity: 0;   transform: translateX(calc(-50% + 140%)) scale(.5); }
-  .rvp-head { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; text-align: center; }
-  .rvp-name { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 26px;
+  .rvp-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 22px -24px 0;
+               scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .rvp-track::-webkit-scrollbar { display: none; }
+  .rvp-slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 24px; box-sizing: border-box; text-align: center; }
+  .rvp-slide img { display: block; width: 100%; height: auto; }
+  .rvp-name { margin: 12px 0 0; font-family: var(--aviano); font-weight: 900; font-size: 26px;
               line-height: 30px; text-transform: uppercase; letter-spacing: .01em; }
   .rvp-tag { margin: 2px 0 0; font-family: var(--gordita); font-style: italic; font-size: 15px;
              line-height: 22px; color: #6b6158; }
-  .rvp-arrow { flex: none; width: 44px; height: 44px; padding: 0; background: none; border: 0;
-               color: var(--orange-deep); display: grid; place-items: center; cursor: pointer; }
-  .rvp-arrow svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2.6;
-                   stroke-linecap: butt; stroke-linejoin: miter; }
   .rvp-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 8px; min-height: 24px; }
   .rvp-badge { font-family: var(--aviano); font-weight: 900; font-size: 11px; letter-spacing: .06em;
                text-transform: uppercase; color: var(--orange-deep); border: 1px solid var(--orange-deep);
                border-radius: 3px; padding: 3px 8px; }
-  .rvp-spec { display: grid; grid-template-columns: 1fr 1fr; margin-top: 18px; border-top: 1px solid #e4e2de; }
-  .rvp-cell { padding: 16px 0; border-bottom: 1px solid #e4e2de; }
-  .rvp-cell:nth-child(odd)  { padding-right: 14px; border-right: 1px solid #e4e2de; }
-  .rvp-cell:nth-child(even) { padding-left: 18px; }
-  .rvp-cellhead { display: flex; align-items: center; gap: 8px; }
+  .rvp-dots { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+  .rvp-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: #d9d6d0;
+                     cursor: pointer; transition: width .25s ease, background .25s ease; }
+  .rvp-dots button.on { width: 22px; border-radius: 4px; background: var(--orange); }
+  .rvp-count { margin-left: auto; font-family: var(--gordita); font-size: 13px; color: #6b6158; }
+  .rvp-spec { margin-top: 16px; border-top: 1px solid #e4e2de; }
+  .rvp-cell { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px;
+              padding: 14px 0; border-bottom: 1px solid #e4e2de; }
+  .rvp-cellhead { grid-row: 1 / 3; display: flex; align-items: center; gap: 8px; }
   .rvp-ico { display: block; width: 26px; height: 26px; color: var(--ink); }
   .rvp-ico svg { width: 100%; height: 100%; }
   .rvp-k { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
-  .rvp-v { margin: 6px 0 0; font-family: var(--gordita); font-weight: 500; font-size: 22px;
+  .rvp-v { margin: 0; text-align: right; font-family: var(--gordita); font-weight: 500; font-size: 22px;
            line-height: 26px; color: var(--orange-deep); }
-  .rvp-n { margin: 2px 0 0; font-family: var(--gordita); font-size: 11px; line-height: 16px;
+  .rvp-n { margin: 0; text-align: right; font-family: var(--gordita); font-size: 11px; line-height: 16px;
            letter-spacing: .03em; text-transform: uppercase; color: #6b6158; }
   .rvp-band { margin: 28px -24px 0; background: #F8F8F7; padding: 24px 24px 32px; display: grid; gap: 12px; }
   .rvp-btn { display: grid; place-items: center; height: 52px; border-radius: 3px; font-family: var(--aviano);
