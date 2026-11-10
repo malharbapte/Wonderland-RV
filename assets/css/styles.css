@@ -1858,6 +1858,34 @@ input:-webkit-autofill:focus {
 .service-arrow--next:hover { color: var(--orange-deep); }
 
 /* ==========================================================================
+   ARROWS AT SCALE (desktop)
+
+   Measured off the live site's video section at a 1910px window: the mark is
+   22 x 35 px, 0.32 x 0.52rem, with a stroke of about 0.09rem. This chevron
+   path fills 7 x 14 of its 24-unit box, so a 0.80rem box gives that mark and
+   a stroke of 2.8 units gives the weight. One token for the box, one for the
+   weight, one for the colour, so every arrow on the site is the same arrow:
+   the range viewer, the pull-quote slideshow, the video carousel and the
+   review band here.
+
+   Desktop only: these arrows are either hidden on a phone or, for the
+   pull-quote one, left exactly as the phone had it.
+
+   The review band's FIRST arrow sits on a photograph and stays white with its
+   shadow; orange on a picture that can be sky or sand would not read.
+   ========================================================================== */
+@media (min-width: 901px) {
+  :root { --arrow-box: 0.80rem; --arrow-w: 2.8; --arrow-ink: var(--orange-deep); --arrow-hover: #a9560c; }
+  .rvx-arrow path, .coty-arrow path, .service-arrow path, .pull-arrow path { stroke-width: var(--arrow-w); }
+  /* centres kept: each box grows 0.10rem each way from the old 0.70 / 0.56 */
+  .service-arrow { width: var(--arrow-box); height: var(--arrow-box); margin-top: calc(var(--arrow-box) / -2); }
+  .service-arrow svg { width: var(--arrow-box); height: var(--arrow-box); }
+  .service-arrow--prev { left: 0.82rem; }
+  .service-arrow--next { right: 0.78rem; color: var(--arrow-ink); }
+  .service-arrow--next:hover { color: var(--arrow-hover); }
+}
+
+/* ==========================================================================
    FULL BLEED FOR THE TWO BARS
 
    The header and the footer both paint a background but neither was ever

@@ -729,3 +729,27 @@
 .pull-arrow svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: currentColor; }
 .pull-arrow:hover { color: var(--orange-deep); }
 .pull-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* ==========================================================================
+   ARROWS AT SCALE (desktop) -- the range viewer, the pull-quote slideshow and
+   the video carousel. Size, weight and colour come from the tokens in
+   styles.css (--arrow-box / --arrow-w / --arrow-ink); this block only keeps
+   each arrow's CENTRE where it was, since each box grew from 0.56 / 0.70 to
+   0.80, and sets the video arrows 0.58rem clear of the video, as on the live
+   site. Desktop only: the phone keeps the pull-quote arrow it has.
+   ========================================================================== */
+@media (min-width: 901px) {
+  .rvx-arrow, .coty-arrow, .pull-arrow { width: var(--arrow-box); height: var(--arrow-box); color: var(--arrow-ink); }
+  .rvx-arrow svg, .coty-arrow svg, .pull-arrow svg { width: var(--arrow-box); height: var(--arrow-box); }
+  .rvx-arrow:hover, .coty-arrow:hover, .pull-arrow:hover { color: var(--arrow-hover); }
+
+  .rvx-arrow { top: -0.10rem; }
+  .rvx-arrow--prev { left:  calc(-1 * (var(--page-margin) / 2) - 0.40rem); }
+  .rvx-arrow--next { right: calc(-1 * (var(--page-margin) / 2) - 0.40rem); }
+
+  .pull-arrow { margin-top: -0.47rem; right: calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.40rem); }
+
+  .coty-arrow { margin-top: calc(var(--arrow-box) / -2); }
+  .coty-arrow--prev { left:  calc(50% - var(--coty-vid-w) / 2 - var(--arrow-box) * 4 / 3 - 0.58rem); }
+  .coty-arrow--next { right: calc(50% - var(--coty-vid-w) / 2 - var(--arrow-box) * 4 / 3 - 0.58rem); }
+}
