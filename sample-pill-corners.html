@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: pill corners</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=325">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=314">
+<link rel="stylesheet" href="assets/css/homepage.css?v=326">
+<link rel="stylesheet" href="assets/css/range-page.css?v=315">
+<style>
+body{padding-top:64px;background:#fff}
+.bar{position:fixed;top:0;left:0;right:0;z-index:99;background:#fff;border-bottom:1px solid #ddd;padding:10px 20px;font:600 14px/1.3 system-ui,sans-serif;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar a{padding:6px 14px;border:1px solid #999;border-radius:4px;color:#111;text-decoration:none}
+.bar a.on{background:#111;color:#fff;border-color:#111}
+.bar span{font-weight:400;color:#555}
+.blk{padding:0.5rem 0 0.4rem}
+.blk h3{font:700 14px/1.2 system-ui,sans-serif;margin:0 0 14px;color:#555}
+.blk .fp-kind{position:relative}
+/* the two pills as they stand on the site; options only change corner radius */
+body.o-a .fp-kind,body.o-a .chips{border-radius:.16rem}
+body.o-a .fp-kind-thumb,body.o-a .chips-thumb,body.o-a .chip>span{border-radius:.08rem}
+body.o-b .fp-kind,body.o-b .chips{border-radius:.10rem}
+body.o-b .fp-kind-thumb,body.o-b .chips-thumb,body.o-b .chip>span{border-radius:.04rem}
+body.o-c .fp-kind,body.o-c .chips{border-radius:.05rem}
+body.o-c .fp-kind-thumb,body.o-c .chips-thumb,body.o-c .chip>span{border-radius:.03rem}
+</style></head><body>
+<div class="bar" id="bar">
+<a href="#now" data-o="now">Now</a><a href="#a" data-o="a">A &middot; slightly squarish</a><a href="#b" data-o="b">B &middot; subtle</a><a href="#c" data-o="c">C &middot; very subtle</a>
+<span id="d"></span></div>
+
+<section class="fp" style="padding-top:.5rem"><div class="container">
+<div class="blk"><h3>1. Layouts page: Couples / Family pill (also the phone version)</h3>
+<fieldset class="fp-kind"><legend class="sr-only">Who is it for?</legend><span class="fp-kind-thumb" aria-hidden="true"></span>
+<label><input type="radio" name="fk" value="couples" checked><span>Couples</span></label>
+<label><input type="radio" name="fk" value="family"><span>Family</span></label></fieldset></div>
+<div class="blk" style="padding-top:1.4rem"><h3>2. Contact form: Call back / Book a factory tour pill</h3>
+<fieldset class="chips"><legend class="sr-only">What would you like to do?</legend><span class="chips-thumb" aria-hidden="true"></span>
+<label class="chip"><input type="radio" name="et" value="a" checked><span>Call back</span></label>
+<label class="chip"><input type="radio" name="et" value="b"><span>Book a factory tour</span></label></fieldset></div>
+<div style="height:1.4rem"></div>
+</div></section>
+<script>
+(function(){
+var D={now:'Now: Layouts pill fully round (0.46rem), contact pill 0.353rem.',
+a:'A: outer corners 0.16rem (about 11px at 1920), inner indicator 0.08rem.',
+b:'B: outer 0.10rem (about 7px), inner 0.04rem.',
+c:'C: outer 0.05rem (about 3px), inner 0.03rem.'};
+function thumb(){var c=document.querySelector('.chips'),t=c.querySelector('.chips-thumb'),on=c.querySelector('input:checked').parentNode;
+t.style.left=on.offsetLeft+'px';t.style.width=on.offsetWidth+'px'}
+function go(){var o=(location.hash||'#now').slice(1);if(!D[o])o='now';document.body.className='home o-'+o;
+[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
+document.getElementById('d').textContent=D[o];thumb()}
+window.addEventListener('hashchange',go);window.addEventListener('resize',thumb);
+[].forEach.call(document.querySelectorAll('.chips input'),function(i){i.addEventListener('change',thumb)});
+go();setTimeout(thumb,300);
+})();
+</script></body></html>
