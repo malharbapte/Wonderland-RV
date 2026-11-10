@@ -509,7 +509,7 @@ input:-webkit-autofill:focus {
   height: 1.10rem;                /* trimmed; two-line options set the floor */
   padding: 0.08rem 0;
   border: 0.0075rem solid var(--ink);
-  border-radius: 0.353rem;
+  border-radius: 0.16rem;          /* slightly squarish; was 0.353rem */
   display: flex;
   position: relative;
 }
@@ -520,7 +520,7 @@ input:-webkit-autofill:focus {
   position: absolute;
   top: 0.08rem; bottom: 0.08rem;
   left: 0; width: 0;
-  border-radius: 0.246rem;
+  border-radius: 0.08rem;          /* outer 0.16 less the 0.08 gap, so the gap is even all round */
   background: var(--orange);
   z-index: 0;
   pointer-events: none;
@@ -560,7 +560,7 @@ input:-webkit-autofill:focus {
   text-align: center;
   width: calc(100% - 0.16rem);    /* 8 clear on each side, matching top/bottom */
   height: 100%;
-  border-radius: 0.246rem;
+  border-radius: 0.08rem;
   font-size: 0.32rem;             /* +33% */
   line-height: 0.38rem;
   transition: color .28s ease, font-weight .28s;
