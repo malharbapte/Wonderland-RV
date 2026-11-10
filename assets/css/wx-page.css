@@ -571,7 +571,10 @@
 }
 .wx-d-state { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.17rem;
               line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
-.wx-d-photo { margin: 0.26rem 0 0; aspect-ratio: 4 / 3; width: 100%; }
+/* the dealer's own logo, no frame: it sits on the panel's white, left on the
+   text edge, in a band tall enough for the widest and the squarest of them */
+.wx-d-logo { margin: 0.30rem 0 0; height: 1.6rem; display: flex; align-items: center; }
+.wx-d-logo img { display: block; max-width: 100%; max-height: 100%; height: auto; object-fit: contain; }
 .wx-d-name { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;
              font-size: var(--t-sub); line-height: var(--lh-sub); }
 .wx-d-loc { margin-top: 0.38rem; }
@@ -672,6 +675,8 @@
   .wx-au { width: 100%; height: auto; margin-top: 0; }
   .wx-dealers-panel { padding: 24px; border-left: 0.5px solid var(--ph-rule); }
   .wx-d-state { font-size: 12px; }
+  .wx-d-logo { height: 96px; margin-top: 16px; }
+  .wx-d-logo img { width: auto !important; max-width: 70%; max-height: 80px; }
   .wx-d-name { font-size: 16px; line-height: 24px; }
   .wx-d-city { font-size: 20px; }
   .wx-d-addr, .wx-d-line, .wx-d-text { font-size: 15px; line-height: 23px; }
