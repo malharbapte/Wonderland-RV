@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: Explore our range, heading position</title>
+<style>
+  html, body { margin: 0; height: 100%; font: 500 13px/1.3 system-ui, sans-serif; color: #000; background: #fff; }
+  .bar { position: fixed; top: 0; left: 0; right: 0; z-index: 5; background: #fff; border-bottom: 1px solid #ddd;
+         padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+  .bar b { margin-right: 4px; }
+  .bar button { font: inherit; padding: 7px 12px; border: 1px solid #bbb; background: #fff; border-radius: 4px; cursor: pointer; }
+  .bar button.on { background: #D57114; border-color: #D57114; color: #fff; }
+  .bar span { color: #555; }
+  iframe { position: absolute; top: 52px; left: 0; width: 100%; height: calc(100% - 52px); border: 0; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>Explore our range: heading up, caravan stays put</b>
+  <button data-k="now">Now</button>
+  <button data-k="A" data-up="0.30">A &middot; up 0.30rem</button>
+  <button data-k="B" data-up="0.55">B &middot; up 0.55rem</button>
+  <button data-k="C" data-up="0.80">C &middot; up 0.80rem</button>
+  <span id="note"></span>
+</div>
+<iframe id="f" src="home.html" title="Home page"></iframe>
+<script>
+(function () {
+  /* The heading rises by X and the space under it grows by X, so the section
+     keeps its height and the caravan does not move: only the breathing room
+     between the two changes. The section's own top padding is 1.35rem now. */
+  var f = document.getElementById('f'), note = document.getElementById('note'), cur = 'now';
+  function rem(d) { return parseFloat(f.contentWindow.getComputedStyle(d.documentElement).fontSize); }
+  function apply(scroll) {
+    var d; try { d = f.contentDocument; } catch (e) { return; }
+    if (!d || !d.body) return;
+    var up = 0, btn = document.querySelector('.bar button[data-k="' + cur + '"]');
+    if (btn && btn.dataset.up) up = parseFloat(btn.dataset.up);
+    var s = d.getElementById('smp');
+    if (!s) { s = d.createElement('style'); s.id = 'smp'; d.head.appendChild(s); }
+    s.textContent = up ? '@media (min-width:901px){.rvx{padding-top:calc(1.35rem - ' + up + 'rem)!important}.rvx-title{margin-bottom:calc(0.30rem + ' + up + 'rem)!important}}' : '';
+    var t = d.querySelector('.rvx-title'), stage = d.querySelector('.rvx-stage'), body = d.querySelector('.lux-body');
+    var r = rem(d), sy = f.contentWindow.scrollY;
+    if (t && stage && body) {
+      var gv = (stage.getBoundingClientRect().top - t.getBoundingClientRect().bottom) / r;
+      var gl = (t.getBoundingClientRect().top - body.getBoundingClientRect().bottom) / r;
+      note.textContent = 'Heading to the caravan stage: ' + gv.toFixed(2) + 'rem.   Luxury text to heading: ' + gl.toFixed(2) + 'rem (the site’s usual gap between white sections is 1.2 to 1.6).';
+    }
+    [].forEach.call(document.querySelectorAll('.bar button'), function (b) { b.classList.toggle('on', b.dataset.k === cur); });
+    if (scroll && t) f.contentWindow.scrollTo(0, t.getBoundingClientRect().top + f.contentWindow.scrollY - 150);
+  }
+  f.addEventListener('load', function () {
+    f.contentDocument.documentElement.style.scrollBehavior = 'auto';
+    setTimeout(function () { apply(true); }, 600);
+  });
+  document.querySelector('.bar').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; cur = b.dataset.k;
+    var sy = f.contentWindow.scrollY; apply(false); f.contentWindow.scrollTo(0, sy);
+  });
+})();
+</script>
+</body>
+</html>
