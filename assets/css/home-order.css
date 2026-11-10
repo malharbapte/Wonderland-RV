@@ -815,9 +815,11 @@
   .coty { width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7; }   /* full bleed, as .lux */
   .coty-slide {
     display: grid; align-content: start;
-    grid-template-columns: 40% 32% 28%;
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas: "fig fig fig" "title note quote" "sub note quote";
+    /* hierarchy runs down the left: title, subheading, body text. The quote has
+       the right column to itself. */
+    grid-template-columns: 62% 38%;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas: "fig fig" "title quote" "sub quote" "note quote";
     padding-inline: calc((100% - var(--coty-vid-w)) / 2);
   }
   .coty-figure { grid-area: fig; width: 100%; margin: 0; }
@@ -825,13 +827,13 @@
     grid-area: title; margin-top: 0.50rem; font-size: var(--t-heading); line-height: 1.05;
     white-space: normal;
   }
-  .coty-sub { grid-area: sub; margin-top: 0.16rem; font-size: 0.26rem; line-height: 0.36rem; }
+  .coty-sub { grid-area: sub; margin-top: 0.16rem; font-size: var(--t-sub); line-height: var(--lh-sub); }
   .coty-note {
-    grid-area: note; width: auto; margin: 0.50rem 0 0; padding-right: 0.30rem;
+    grid-area: note; width: auto; margin: 0.22rem 0 0; padding-right: 0.60rem;
     font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink);
   }
   .coty-quote {
-    display: block; grid-area: quote; margin: 0.50rem 0 0;
+    display: block; grid-area: quote; margin: 0.50rem 0 0; padding-left: 0.50rem;
     font-size: var(--t-body); line-height: var(--lh-body); color: var(--orange-deep);
   }
   .coty-quote cite {
