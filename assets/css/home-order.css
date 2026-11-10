@@ -969,8 +969,11 @@
                           display: block; padding: 30px 24px 56vw; }
   .band--why .band-title { margin: 0; color: #fff; text-shadow: none; }
   .band--why .why-points { display: block; margin-top: 14px; border-top: 1px solid rgba(255,255,255,.28); }
-  .band--why .why-points li { display: grid; grid-template-columns: 24px 1fr 24px; grid-template-rows: auto auto; column-gap: 12px;
-                              align-items: center; min-height: 46px; margin: 0; cursor: pointer;
+  /* THE TEXT SIZES DO NOT MOVE: titles 12px, lines 13px, open or shut, and the
+     browser's own text scaling is switched off for this block. */
+  .band--why .why-points, .band--why .why-points * { -webkit-text-size-adjust: none; text-size-adjust: none; }
+  .band--why .why-points li { display: grid; grid-template-columns: 24px 1fr 24px; grid-template-rows: 46px auto; column-gap: 12px;
+                              align-items: center; margin: 0; cursor: pointer;
                               border-bottom: 1px solid rgba(255,255,255,.28); }
   .band--why .why-points li::after { content: "+"; grid-column: 3; grid-row: 1; text-align: right;
                                      font-family: var(--gordita); font-weight: 300; font-size: 22px; line-height: 1; color: #fff; }
@@ -978,12 +981,12 @@
   .band--why .why-points .why-icon { grid-column: 1; grid-row: 1; width: 24px; height: 24px; color: #fff;
                                      transition: color .25s ease; }
   .band--why .why-points .why-text { display: contents; }
-  .band--why .why-points h3 { grid-column: 2; grid-row: 1; margin: 0; white-space: normal;
-                              font-family: var(--aviano); font-weight: 900; font-size: 12px; line-height: 16px;
+  .band--why .why-points h3, .band--why .why-points li.is-open h3 { grid-column: 2; grid-row: 1; margin: 0; white-space: normal;
+                              font-family: var(--aviano); font-weight: 900; font-size: 12px !important; line-height: 16px !important;
                               letter-spacing: .06em; color: #fff; transition: color .25s ease; }
   .band--why .why-points p { display: block; grid-column: 2 / 4; grid-row: 2; margin: 0; padding: 0;
                              max-height: 0; overflow: hidden; opacity: 0; max-width: none;
-                             font-family: var(--gordita); font-size: 13px; line-height: 18px; color: rgba(255,255,255,.86);
+                             font-family: var(--gordita); font-size: 13px !important; line-height: 18px !important; color: rgba(255,255,255,.86);
                              transition: max-height .38s ease, opacity .28s ease, padding .38s ease; }
   .band--why .why-points br { display: none; }
   .band--why .why-points li.is-open p { max-height: 96px; opacity: 1; padding-bottom: 12px; }
