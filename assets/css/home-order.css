@@ -753,3 +753,68 @@
   .coty-arrow--prev { left:  calc(50% - var(--coty-vid-w) / 2 - var(--arrow-box) * 4 / 3 - 0.58rem); }
   .coty-arrow--next { right: calc(50% - var(--coty-vid-w) / 2 - var(--arrow-box) * 4 / 3 - 0.58rem); }
 }
+
+/* ==========================================================================
+   HOME PAGE REWORK, 2026-11-10 -- desktop only
+   Luxury off-road moves above the range and carries its paragraph on grey
+   that fades to white; "Explore our range" heads the range; the video section
+   takes the live site's layout (video first, title and links under it on the
+   left, description and quote beside them) on the same grey. Everything is
+   inside min-width: 901px or hidden outside it, so the phone is as it was.
+   ========================================================================== */
+.lux-body, .coty-quote { display: none; }
+@media (max-width: 900px) { .home-hero-cta { display: none; } }
+
+@media (min-width: 901px) {
+  /* LUXURY: small, the size of the live site's (heading ~0.32rem, text 0.28,
+     a block 8.9rem wide), grey for the first 55% then fading to white. The
+     bottom padding is the length of the fade. */
+  .lux {
+    padding-top: 0.90rem; padding-bottom: 1.30rem;
+    background: linear-gradient(to bottom, #F8F8F7 0, #F8F8F7 55%, #fff 100%);
+  }
+  .lux-title { font-size: var(--t-sub); line-height: 0.37rem; letter-spacing: 0; }
+  .lux-body {
+    display: block; max-width: 8.9rem; margin: 0.22rem 0 0;
+    font-size: var(--t-body); line-height: var(--lh-body); text-wrap: pretty;
+  }
+
+  /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
+  .rvx-title {
+    margin: 0 0 0.30rem; font-family: var(--aviano); font-weight: 900;
+    font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em;
+  }
+
+  /* VIDEOS: the grid puts the picture first without moving the markup (the
+     phone deck still finds .coty-title and .coty-sub where it expects them).
+     Columns follow the live site: title and links, description, quote. */
+  .coty { background: #F8F8F7; }
+  .coty-slide {
+    display: grid; align-content: start;
+    grid-template-columns: 36% 34% 30%;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "fig fig fig" "title note quote" "sub note quote";
+    padding-inline: calc((100% - var(--coty-vid-w)) / 2);
+  }
+  .coty-figure { grid-area: fig; width: 100%; margin: 0; }
+  .coty-title {
+    grid-area: title; margin-top: 0.50rem; font-size: 0.40rem; line-height: 1.1;
+    white-space: normal;
+  }
+  .coty-sub { grid-area: sub; margin-top: 0.16rem; font-size: 0.26rem; line-height: 0.36rem; }
+  .coty-note {
+    grid-area: note; width: auto; margin: 0.50rem 0 0; padding-right: 0.30rem;
+    font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink);
+  }
+  .coty-quote {
+    display: block; grid-area: quote; margin: 0.50rem 0 0;
+    font-size: var(--t-body); line-height: var(--lh-body); color: var(--orange-deep);
+  }
+  .coty-quote cite {
+    display: block; margin-top: 0.12rem; font-style: normal;
+    font-size: var(--t-caption); line-height: 0.28rem;
+  }
+  /* the arrows centre on the picture, which now starts at the top */
+  .coty-arrow { top: calc(var(--coty-vid-h) / 2); }
+}
+

@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="assets/css/styles.css?v=325">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=314">
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
-<link rel="stylesheet" href="assets/css/homepage.css?v=314">
+<link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=325">
+<link rel="stylesheet" href="assets/css/home-order.css?v=326">
 </head>
 <body class="home">
 
@@ -90,9 +90,10 @@
          positions it -- .home-hero-copy already justifies to flex-end with
          1.16rem under it, and home-order.css centres it. -->
     <h1><a href="#ready">Adventure your way</a></h1>
-    <!-- GET A QUOTE stays parked; only the title was asked for.
+    <!-- GET A QUOTE back 2026-11-10 at Malhar's request ("add get a quote in
+         the header video, similar to the current Wonderland website"). Desktop
+         only: styles hide it on the phone, whose hero is as it was. -->
     <p class="home-hero-cta"><a href="compact.html">get a quote</a></p>
-    -->
     <!-- PARKED 2026-11-04 at Malhar's request: "Remove the body text for now.
          Still keep it saved." Kept verbatim so it can be dropped straight
          back in. home-order.css styles .home-hero-body and is left in place. -->
@@ -105,9 +106,21 @@
   </div>
 </section>
 
+<!-- ================================================= LUXURY OFF-ROAD -->
+<!-- Moved above the range viewer 2026-11-10, and given the paragraph the live
+     site has under this heading. The paragraph is desktop-only (the phone keeps
+     its own copy of it in .intro); so is the grey that fades to white. -->
+<section class="lux">
+  <div class="container">
+    <h2 class="lux-title">Luxury off-road Caravans</h2>
+    <p class="lux-body">Wonderland RV&rsquo;s bespoke off-road caravans offer the ultimate luxury, combining the comforts of a boutique hotel with the freedom to explore Australia&rsquo;s rugged beauty. Perfectly custom-built for solos, couples, and families, these caravans are designed to elevate every adventure without compromising on style or&nbsp;comfort.</p>
+  </div>
+</section>
+
 <!-- ============================================ RANGE VIEWER (desktop) -->
 <section class="rvx">
   <div class="container">
+    <h2 class="rvx-title">Explore our range</h2>
   </div>
 
   <div class="rvx-stage" data-rvx-stage>
@@ -132,13 +145,6 @@
       <p class="rvx-note">Figures shown are for the standard build. Every model can be
         specified further &mdash; options change capacities and price.</p>
     </div>
-  </div>
-</section>
-
-<!-- ================================================= LUXURY OFF-ROAD -->
-<section class="lux">
-  <div class="container">
-    <h2 class="lux-title">Luxury off-road Caravans</h2>
   </div>
 </section>
 
@@ -632,6 +638,7 @@
         <div class="coty-figure video-frame ph" data-ph="VIDEO 6 — add the link in assets/js/home.js">
         </div>
         <p class="coty-note">The family caravan that won best overall, best family and best innovation at Caravan of the Year. Explore the layout and specification behind its three-title&nbsp;win.</p>
+        <p class="coty-quote">&lsquo;The chassis is a work of art both in its design and&nbsp;execution.&rsquo;<cite>Tim Van Duyl, Caravan World</cite></p>
       </div>
       </div>
     </div>
