@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: phone range viewer</title>
+<style>
+body{margin:0;padding:20px;background:#eceae6;font:14px/1.45 system-ui,sans-serif;color:#111}
+h1{font-size:18px;margin:0 0 4px}p.n{margin:0 0 18px;color:#555;max-width:980px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.ph{width:390px}.ph b{display:block;margin:0 0 8px;font-size:15px}
+.ph span{display:block;margin:8px 0 0;color:#444;font-size:13px;max-width:390px}
+.ph iframe{display:block;width:390px;height:780px;border:8px solid #111;border-radius:34px;background:#fff}
+</style></head><body>
+<h1>Range viewer for the phone (390 wide)</h1>
+<p class="n">The desktop viewer rebuilt for a thumb: the same four models, the same figures and the same two buttons. Swipe or tap inside a frame and scroll down to see the figures and buttons. Dealer, price and brochure links are as on desktop (the brochure link is still empty).</p>
+<div class="row">
+<div class="ph"><b>A &middot; The desktop viewer, scaled down</b><iframe src="sample-phone-range-frame.html?v=1#a" title="A"></iframe><span>The chosen van in the middle with its neighbours peeking in at the edges, arrows beside the name, figures in a 2 &times; 2 grid. Swipe, tap a neighbour or tap an arrow.</span></div>
+<div class="ph"><b>B &middot; Swipe cards</b><iframe src="sample-phone-range-frame.html?v=1#b" title="B"></iframe><span>One van per screen on a snapping row, dots and a count beneath. The figures are a list with the value on the right.</span></div>
+<div class="ph"><b>C &middot; Pick a model</b><iframe src="sample-phone-range-frame.html?v=1#c" title="C"></iframe><span>The four model names in a bar across the top, like the state bar on the dealers map. Tap a name, or swipe the van. The van is largest here.</span></div>
+</div></body></html>
