@@ -75,16 +75,12 @@
         panel.appendChild(box);
       });
     } else {
-      var p = el("p", "wx-d-none");
-      p.appendChild(el("b", null, "Wonderland is available in " + NAMES[k] + "."));
-      p.appendChild(document.createElement("br"));
-      p.appendChild(document.createTextNode("Our Melbourne team can assist you even if you\u2019re in " + NAMES[k] +
+      panel.appendChild(el("p", "wx-d-head", "Wonderland is available in " + NAMES[k] + "."));
+      panel.appendChild(el("p", "wx-d-text", "Our Melbourne team can assist you even if you\u2019re in " + NAMES[k] +
         ". While we do not currently have a dealer there, we can do seamless virtual meetings with future " +
-        "Wonderland owners \u2014 from concept to delivery. Just reach out to us for more information about the process."));
-      p.firstChild.style.fontWeight = "500";
-      panel.appendChild(p);
+        "Wonderland owners \u2014 from concept to delivery."));
+      panel.appendChild(el("p", "wx-d-text", "Just reach out to us for more information about the process."));
       panel.appendChild(link("compact.html", "Enquire now", "btn-solid wx-d-enq"));
-      panel.lastChild.style.cssText = "display:inline-grid;place-items:center;margin-top:0.3rem";
     }
   }
 

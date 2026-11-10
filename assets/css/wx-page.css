@@ -561,10 +561,13 @@
 .wx-d-line a:hover, .wx-d-line a:focus-visible { color: var(--orange-deep); }
 .wx-d-cta { margin-top: 0.22rem; display: inline-grid; place-items: center;
             height: 0.62rem; padding: 0 0.36rem; font-size: 0.22rem; }
-.wx-d-none { margin: 0.3rem 0 0; font-family: var(--gordita); font-size: var(--t-body);
-             line-height: var(--lh-body); }
-.wx-d-none .btn-solid { margin-top: 0.3rem; display: inline-grid; place-items: center;
-                        height: 0.62rem; padding: 0 0.4rem; font-size: 0.22rem; }
+.wx-d-head { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;
+             font-size: var(--t-sub); line-height: var(--lh-sub); }
+.wx-d-text { margin: 0.20rem 0 0; font-family: var(--gordita); font-size: var(--t-body);
+             line-height: var(--lh-body); color: var(--ink); }
+.wx-d-head + .wx-d-text { margin-top: 0.28rem; }
+.wx-d-enq { margin-top: 0.56rem; display: inline-grid; place-items: center;
+            height: 0.62rem; padding: 0 0.40rem; font-size: 0.22rem; }
 
 
 /* -------------------------------------------------------------- 9 RANGE --
@@ -642,7 +645,9 @@
   .wx-d-state { font-size: 12px; }
   .wx-d-name { font-size: 16px; line-height: 24px; }
   .wx-d-city { font-size: 20px; }
-  .wx-d-addr, .wx-d-line, .wx-d-none { font-size: 15px; line-height: 23px; }
-  .wx-d-cta, .wx-d-none .btn-solid { height: 48px; padding: 0 24px; font-size: 14px; margin-top: 16px; }
+  .wx-d-addr, .wx-d-line, .wx-d-text { font-size: 15px; line-height: 23px; }
+  .wx-d-head { font-size: 16px; line-height: 24px; }
+  .wx-d-cta, .wx-d-enq { height: 48px; padding: 0 24px; font-size: 14px; margin-top: 16px; }
+  .wx-d-enq { margin-top: 28px; }
   .wx-d-loc { margin-top: 24px; }
 }
