@@ -30,7 +30,10 @@
   /* The heading rises by X and the space under it grows by X, so the section
      keeps its height and the caravan does not move: only the breathing room
      between the two changes. The section's own top padding is 1.35rem now. */
-  var f = document.getElementById('f'), note = document.getElementById('note'), cur = 'now';
+  var f = document.getElementById('f'), note = document.getElementById('note');
+  /* the link decides the starting option: ...html#A, #B, #C (anything else is Now) */
+  var cur = (location.hash || '').replace('#', '').toUpperCase();
+  if (!/^[ABC]$/.test(cur)) cur = 'now';
   function rem(d) { return parseFloat(f.contentWindow.getComputedStyle(d.documentElement).fontSize); }
   function apply(scroll) {
     var d; try { d = f.contentDocument; } catch (e) { return; }
@@ -55,7 +58,7 @@
     setTimeout(function () { apply(true); }, 600);
   });
   document.querySelector('.bar').addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b) return; cur = b.dataset.k;
+    var b = e.target.closest('button'); if (!b) return; cur = b.dataset.k; history.replaceState(null, '', cur === 'now' ? location.pathname : '#' + cur);
     var sy = f.contentWindow.scrollY; apply(false); f.contentWindow.scrollTo(0, sy);
   });
 })();
