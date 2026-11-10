@@ -26,36 +26,34 @@ body{padding-top:64px}
 .dpill .oth{margin-left:auto;background:none;border:0;font:inherit;font-weight:400;color:#6b6158;cursor:pointer}
 .dpill .oth:hover{color:var(--orange-deep)}
 /* panel */
-.dpanel h3{margin:0;font-family:var(--gordita);font-weight:500;font-size:.28rem;line-height:1}
-.dpanel .wx-ph{margin-top:.36rem;height:2.639rem}
-.d-name{margin:.36rem 0 0;font-family:var(--gordita);font-weight:500;font-size:var(--t-sub);line-height:var(--lh-sub)}
-.d-loc{margin-top:.26rem;font-family:var(--gordita);font-size:var(--t-body);line-height:var(--lh-body)}
-.d-loc b{display:block;font-family:var(--aviano);font-weight:900;font-size:.17rem;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:.06rem}
-.d-loc a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent}.d-loc a:hover{color:var(--orange-deep)}
-.d-mail{margin-top:.26rem;font-family:var(--gordita);font-size:var(--t-body)}.d-mail a{color:var(--ink);text-decoration:none}.d-mail a:hover{color:var(--orange-deep)}
+.dpanel{padding:.6rem .5rem .5rem;overflow:hidden}
+.p-state{margin:0;font-family:var(--aviano);font-weight:900;font-size:.17rem;line-height:1;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-deep)}
+.p-name{margin:.14rem 0 0;font-family:var(--gordita);font-weight:500;font-size:var(--t-sub);line-height:var(--lh-sub)}
+.dpanel .ph34{aspect-ratio:3/4;height:auto;margin:0}
+.loc{margin-top:.38rem}
+.loc-city{margin:0;font-family:var(--aviano);font-weight:900;font-size:.30rem;line-height:1.05;text-transform:uppercase;letter-spacing:-.01em}
+.loc-addr{margin:.10rem 0 0;font-family:var(--gordita);font-size:var(--t-body);line-height:var(--lh-body)}
+.loc-line{margin:.06rem 0 0;font-family:var(--gordita);font-size:var(--t-body);line-height:var(--lh-body)}
+.loc-line a{color:var(--ink);text-decoration:none}.loc-line a:hover{color:var(--orange-deep)}
+.loc-cta{margin-top:.22rem;display:inline-grid;place-items:center;height:.62rem;padding:0 .36rem;font-size:.22rem}
 .d-none{margin-top:.3rem;font-family:var(--gordita);font-size:var(--t-body);line-height:var(--lh-body)}
-.d-none .btn-solid{margin-top:.3rem;display:inline-grid;place-items:center;padding:0 .4rem;height:.7rem}
+.d-none .btn-solid{margin-top:.3rem;display:inline-grid;place-items:center;padding:0 .4rem;height:.62rem;font-size:.22rem}
+/* P1: photo beside the name */
+.p1 .head{display:grid;grid-template-columns:2.4rem 1fr;gap:.34rem;align-items:start}
+.p1 .head .ph34{grid-row:1/3}
+.p1 .head .p-name{margin-top:.16rem}
+/* P2: photo on top, narrower than the column */
+.p2 .ph34{width:3.5rem;margin-top:.26rem}
+.p2 .p-name{margin-top:.30rem}
+/* P3: text first, photo last */
+.p3 .ph34{width:2.7rem;margin-top:.44rem}
 /* A: grey states, orange when chosen */
-body.o-a .dmap{background:#F8F8F7}
-body.o-a .st{fill:#E4E2DE;stroke:#fff;stroke-width:2.5}
-body.o-a .st:hover,body.o-a .st:focus-visible{fill:#D8D5CF}
-body.o-a .st.on{fill:var(--orange)}
-/* B: line map on white, city names on the map */
-body.o-b .dmap{background:#fff}
-body.o-b .st{fill:#fff;stroke:var(--ink);stroke-width:1.3}
-body.o-b .st:hover,body.o-b .st:focus-visible{fill:#FBF0E4}
-body.o-b .st.on{fill:rgba(224,123,42,.22);stroke:var(--orange-deep);stroke-width:2}
-body.o-b .mk text{display:block}
-/* C: states with a dealer are tinted orange so the coverage reads at a glance */
-body.o-c .dmap{background:#F8F8F7}
-body.o-c .st{fill:#E4E2DE;stroke:#fff;stroke-width:2.5}
-body.o-c .st.has{fill:#F6D9BC}
-body.o-c .st:hover,body.o-c .st:focus-visible{fill:#EEC49B}
-body.o-c .st.on{fill:var(--orange)}
-body.o-c .mk .dot{fill:#fff;stroke:var(--orange-deep);stroke-width:5}
-body.o-c .mk text{display:block}
+body .dmap{background:#F8F8F7}
+body .st{fill:#E4E2DE;stroke:#fff;stroke-width:2.5}
+body .st:hover,body .st:focus-visible{fill:#D8D5CF}
+body .st.on{fill:var(--orange)}
 </style></head><body class="home">
-<div class="bar" id="bar"><a href="#a" data-o="a">A &middot; grey states</a><a href="#b" data-o="b">B &middot; line map, named cities</a><a href="#c" data-o="c">C &middot; dealer states tinted</a><span id="d"></span></div>
+<div class="bar" id="bar"><a href="#p1" data-o="p1">1 &middot; photo beside the name</a><a href="#p2" data-o="p2">2 &middot; photo on top</a><a href="#p3" data-o="p3">3 &middot; photo last</a><span id="d"></span></div>
 <main class="wx"><section class="wx-dealers">
 <div class="container"><h2 class="wx-h">Meet our extended team<br>across the country</h2></div>
 <div class="wx-dealers-row wx-bleed">
@@ -69,29 +67,37 @@ body.o-c .mk text{display:block}
 (function(){
 var N={"wa": "Western Australia", "nt": "Northern Territory", "sa": "South Australia", "qld": "Queensland", "nsw": "New South Wales", "vic": "Victoria", "act": "Australian Capital Territory", "tas": "Tasmania"};
 var DL={
- nsw:{dealer:'Off Grid Outfitters',email:'sales@offgridoutfitters.com.au',locs:[{c:'Sydney',a:'23 Badgally Road, Campbelltown NSW 2560',t:'(02) 4648 4181'}]},
- qld:{dealer:'Aussie Escape Caravans',email:'wonderland@aussieescapecaravans.com.au',locs:[{c:'Brisbane',a:'118 South Pine Rd, Brendale QLD 4500',t:'(07) 3205 7738'},{c:'Mackay',a:'10/25 Transport Ave, Paget QLD 4740',t:'0439 009 148'}]},
- vic:{dealer:'Outbound RVs',email:'sales@outboundrvs.com.au',locs:[{c:'Melbourne',a:'58B Lara Way, Campbellfield VIC 3061',t:'(03) 9958 6708'}]}
+ nsw:{dealer:'Off Grid Outfitters',locs:[{c:'Sydney',a:'23 Badgally Road, Campbelltown NSW 2560',t:'(02) 4648 4181',e:'sales@offgridoutfitters.com.au'}]},
+ qld:{dealer:'Aussie Escape Caravans',locs:[{c:'Brisbane',a:'118 South Pine Rd, Brendale QLD 4500',t:'(07) 3205 7738',e:'wonderland@aussieescapecaravans.com.au'},{c:'Mackay',a:'10/25 Transport Ave, Paget QLD 4740',t:'0439 009 148',e:'wonderland@aussieescapecaravans.com.au'}]},
+ vic:{dealer:'Outbound RVs',locs:[{c:'Melbourne',a:'58B Lara Way, Campbellfield VIC 3061',t:'(03) 9958 6708',e:'sales@outboundrvs.com.au'}]}
 };
 var order=['nsw','qld','vic','wa','sa','nt','tas','act'];
-var sel=document.getElementById('sel'),panel=document.getElementById('panel');
+var sel=document.getElementById('sel'),panel=document.getElementById('panel'),cur='nsw';
 order.forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=N[k];sel.appendChild(o)});
 Object.keys(DL).forEach(function(k){document.getElementById('st-'+k).classList.add('has')});
-function esc(s){return s}
+function dir(a){return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(a)}
 function show(k){
- [].forEach.call(document.querySelectorAll('.st'),function(e){e.classList.toggle('on',e.dataset.s===k)});
- sel.value=k;var d=DL[k],h='<h3>'+N[k]+'</h3><div class="wx-ph">Dealer image</div>';
- if(d){h+='<p class="d-name">'+d.dealer+'</p>';d.locs.forEach(function(l){h+='<div class="d-loc"><b>'+l.c+'</b>'+l.a+'<br><a href="tel:'+l.t.replace(/[^0-9+]/g,'')+'">'+l.t+'</a></div>'});h+='<p class="d-mail"><a href="mailto:'+d.email+'">'+d.email+'</a></p>'}
- else{h+='<p class="d-none"><b style="font-weight:500">Wonderland is available in '+N[k]+'.</b><br>Our Melbourne team can assist you even if you&rsquo;re in '+N[k]+'. While we do not currently have a dealer there, we can do seamless virtual meetings with future Wonderland owners &mdash; from concept to delivery. Just reach out to us for more information about the process.</p><a class="btn-solid" href="compact.html">Enquire now</a>'}
+ cur=k;[].forEach.call(document.querySelectorAll('.st'),function(e){e.classList.toggle('on',e.dataset.s===k)});
+ sel.value=k;var d=DL[k],ph='<div class="wx-ph ph34">Dealer photo or logo</div>',h;
+ if(d){
+  var st='<h3 class="p-state">'+N[k]+'</h3>',nm='<p class="p-name">'+d.dealer+'</p>';
+  var locs=d.locs.map(function(l){return '<div class="loc"><h4 class="loc-city">'+l.c+'</h4><p class="loc-addr">'+l.a+'</p><p class="loc-line"><a href="tel:'+l.t.replace(/[^0-9+]/g,'')+'">'+l.t+'</a></p><p class="loc-line"><a href="mailto:'+l.e+'">'+l.e+'</a></p><a class="btn-solid loc-cta" href="'+dir(l.a)+'" target="_blank" rel="noopener">Get directions</a></div>'}).join('');
+  var m=(location.hash||'#p1').slice(1);
+  if(m==='p1')h='<div class="head">'+ph+'<div>'+st+nm+'</div></div>'+locs;
+  else if(m==='p2')h=st+ph+nm+locs;
+  else h=st+nm+locs+ph;
+ }else{
+  h='<h3 class="p-state">'+N[k]+'</h3><p class="d-none"><b style="font-weight:500">Wonderland is available in '+N[k]+'.</b><br>Our Melbourne team can assist you even if you&rsquo;re in '+N[k]+'. While we do not currently have a dealer there, we can do seamless virtual meetings with future Wonderland owners &mdash; from concept to delivery. Just reach out to us for more information about the process.</p><a class="btn-solid" href="compact.html">Enquire now</a>';
+ }
  panel.innerHTML=h}
 [].forEach.call(document.querySelectorAll('.st'),function(e){e.addEventListener('click',function(){show(e.dataset.s)});e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();show(e.dataset.s)}})});
 sel.addEventListener('change',function(){show(sel.value)});
 document.getElementById('oth').addEventListener('click',function(){show('wa')});
-var D={a:'A: grey states divided by white lines; the chosen state turns orange; orange markers at each dealer.',
-b:'B: a line map on white, the chosen state tinted orange, each marker named on the map.',
-c:'C: states that have a dealer are tinted orange so coverage reads at a glance; the chosen state is solid orange; named markers.'};
-function go(){var o=(location.hash||'#a').slice(1);if(!D[o])o='a';document.body.className='home o-'+o;
-[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});document.getElementById('d').textContent=D[o]}
-window.addEventListener('hashchange',go);go();show('nsw');
+var D={p1:'1: the photo (3:4) sits beside the state and dealer name; each location below it has its own city, address, phone, email and Get directions.',
+p2:'2: the photo (3:4) on top of the dealer name, narrower than the column.',
+p3:'3: the text comes first; the photo (3:4) closes the column.'};
+function go(){var o=(location.hash||'#p1').slice(1);if(!D[o])o='p1';document.body.className='home '+o;
+[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});document.getElementById('d').textContent=D[o];show(cur)}
+window.addEventListener('hashchange',go);go();
 })();
 </script></body></html>
