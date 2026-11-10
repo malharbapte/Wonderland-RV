@@ -507,7 +507,10 @@
   grid-template-columns: 75.4% 1fr;
   height: 12.947rem;
 }
-.wx-dealers-map { position: relative; display: grid; place-items: center; background: #F8F8F7; }
+.wx-dealers-map { position: relative; display: grid; place-items: center; background: #F8F8F7;
+  /* DEPTH: a soft dark-grey blend from every edge inward, wide and low in
+     strength so it reads as the map sitting in a shallow tray, not as a border */
+  box-shadow: inset 0 0 1.5rem rgba(40, 38, 34, 0.15), inset 0 0 0.35rem rgba(40, 38, 34, 0.05); }
 /* THE STATE BAR. Every state is named in a white pill with squarish corners
    (pill option A); the orange block slides to the one chosen. An arrow sits
    on each side and steps to the previous or next state. */
@@ -519,6 +522,9 @@
 .wx-dealers-pill {
   position: relative; flex: 1 1 auto; height: 100%; box-sizing: border-box; padding: 0.08rem;
   background: #fff; border-radius: 0.16rem; display: flex;
+  /* RAISED: a soft dark-grey blend behind the bar, a wide low one for height and a
+     tight one under the edge so it reads as lifted off the map */
+  box-shadow: 0 0.10rem 0.32rem rgba(40, 38, 34, 0.22), 0 0.02rem 0.06rem rgba(40, 38, 34, 0.14);
 }
 .wx-dealers-thumb {
   position: absolute; top: 0.08rem; bottom: 0.08rem; left: 0; width: 0;
