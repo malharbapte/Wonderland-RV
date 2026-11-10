@@ -769,15 +769,26 @@
   /* LUXURY: small, the size of the live site's (heading ~0.32rem, text 0.28,
      a block 8.9rem wide), grey for the first 55% then fading to white. The
      bottom padding is the length of the fade. */
+  /* FULL BLEED, like .stat-band and .rvx-band: the section sits inside a body
+     that stops growing, so a bare background ended in a visible edge on each
+     side once the window was wider than the page. The container inside keeps
+     the text on the column. */
   .lux {
+    width: 100vw; margin-left: calc(50% - 50vw);
     padding-top: 0.90rem; padding-bottom: 1.30rem;
     background: linear-gradient(to bottom, #F8F8F7 0, #F8F8F7 55%, #fff 100%);
   }
   .lux-title { font-size: var(--t-sub); line-height: 0.37rem; letter-spacing: 0; }
+  /* the whole column, inside the page margins: two or three lines */
   .lux-body {
-    display: block; max-width: 8.9rem; margin: 0.22rem 0 0;
+    display: block; max-width: none; margin: 0.22rem 0 0;
     font-size: var(--t-body); line-height: var(--lh-body); text-wrap: pretty;
   }
+
+  /* HERO TEXT: left on the column, at the size of the other section
+     headings (0.56rem) rather than the 0.84rem centred title it was. */
+  .home-hero-copy { align-items: flex-start; text-align: left; }
+  .home-hero h1 { font-size: var(--t-heading); line-height: 0.475rem; }
 
   /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
   .rvx-title {
@@ -788,7 +799,7 @@
   /* VIDEOS: the grid puts the picture first without moving the markup (the
      phone deck still finds .coty-title and .coty-sub where it expects them).
      Columns follow the live site: title and links, description, quote. */
-  .coty { background: #F8F8F7; }
+  .coty { width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7; }   /* full bleed, as .lux */
   .coty-slide {
     display: grid; align-content: start;
     grid-template-columns: 36% 34% 30%;
