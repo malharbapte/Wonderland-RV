@@ -972,9 +972,11 @@
   /* THE TEXT SIZES DO NOT MOVE: titles 12px, lines 13px, open or shut, and the
      browser's own text scaling is switched off for this block. */
   .band--why .why-points, .band--why .why-points * { -webkit-text-size-adjust: none; text-size-adjust: none; }
-  .band--why .why-points li { display: grid; grid-template-columns: 24px 1fr 24px; grid-template-rows: 46px auto; column-gap: 12px;
+  .band--why .why-points li { display: grid; grid-template-columns: 24px 1fr 24px; grid-template-rows: 46px 0fr; column-gap: 12px;
                               align-items: center; margin: 0; cursor: pointer;
-                              border-bottom: 1px solid rgba(255,255,255,.28); }
+                              border-bottom: 1px solid rgba(255,255,255,.28);
+                              transition: grid-template-rows .38s ease; }
+  .band--why .why-points li.is-open { grid-template-rows: 46px 1fr; }
   .band--why .why-points li::after { content: "+"; grid-column: 3; grid-row: 1; text-align: right;
                                      font-family: var(--gordita); font-weight: 300; font-size: 22px; line-height: 1; color: #fff; }
   .band--why .why-points li.is-open::after { content: "\2212"; }
@@ -984,13 +986,19 @@
   .band--why .why-points h3, .band--why .why-points li.is-open h3 { grid-column: 2; grid-row: 1; margin: 0; white-space: normal;
                               font-family: var(--aviano); font-weight: 900; font-size: 12px !important; line-height: 16px !important;
                               letter-spacing: .06em; color: #fff; transition: color .25s ease; }
+  /* OPENING AND CLOSING ARE THE SAME MOVEMENT. The row's second track runs 0fr to
+     1fr, so it opens to the line's real height and closes from it. (A max-height
+     closing from 96px started shrinking late, so switching from one point to
+     another overshot and jerked.) The 12px under the line is inside it, so it
+     goes with it. */
   .band--why .why-points p { display: block; grid-column: 2 / 4; grid-row: 2; margin: 0; padding: 0;
-                             max-height: 0; overflow: hidden; opacity: 0; max-width: none;
+                             min-height: 0; overflow: hidden; opacity: 0; max-width: none;
                              font-family: var(--gordita); font-size: 13px !important; line-height: 18px !important; color: rgba(255,255,255,.86);
-                             transition: max-height .38s ease, opacity .28s ease, padding .38s ease; }
+                             transition: opacity .3s ease; }
+  .band--why .why-points p::after { content: ""; display: block; height: 12px; }
   .band--why .why-points br { display: none; }
-  .band--why .why-points li.is-open p { max-height: 96px; opacity: 1; padding-bottom: 12px; }
-  @media (prefers-reduced-motion: reduce) { .band--why .why-points p { transition: none; } }
+  .band--why .why-points li.is-open p { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .band--why .why-points li, .band--why .why-points p { transition: none; } }
   .band--why .why-points li.is-open h3,
   .band--why .why-points li.is-open .why-icon { color: var(--orange); }
   .band--why .why-points li:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
