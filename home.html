@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=339">
+<link rel="stylesheet" href="assets/css/home-order.css?v=340">
 </head>
 <body class="home">
 
@@ -80,8 +80,13 @@
 -->
 <section class="home-hero">
   <div class="home-hero-media video-frame ph" data-ph="HERO VIDEO — add the link in assets/js/home.js">
-    <img class="video-poster" src="assets/img/home/hero-poster.jpg" alt=""
-         onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+    <!-- PHONE: a portrait photo (3:4) instead of the clip. Desktop keeps the
+         video and its poster. -->
+    <picture>
+      <source media="(max-width: 900px)" srcset="assets/img/home/hero-phone.jpg">
+      <img class="video-poster" src="assets/img/home/hero-poster.jpg" alt=""
+           onload="this.parentElement.parentElement.classList.remove('ph')" onerror="this.remove()">
+    </picture>
   </div>
   <div class="container home-hero-copy">
     <!-- Back 2026-11-05. One line rather than the artboard's two: the original
@@ -1025,7 +1030,7 @@
 <script src="assets/js/budget.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/range-viewer.js?v=324"></script>
-<script src="assets/js/range-phone.js?v=1"></script>
+<script src="assets/js/range-phone.js?v=2"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>
 <script src="assets/js/nav.js?v=322"></script>
 </body>
