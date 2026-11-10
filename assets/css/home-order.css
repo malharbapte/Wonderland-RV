@@ -778,7 +778,7 @@
      the text on the column. */
   .lux {
     width: 100vw; margin-left: calc(50% - 50vw);
-    padding-top: 0.90rem; padding-bottom: 1.30rem;
+    padding-top: 0.90rem; padding-bottom: 1.00rem;
     background: linear-gradient(to bottom, #F8F8F7 0, #F8F8F7 55%, #fff 100%);
   }
   /* the whole column, inside the page margins: two or three lines */
@@ -791,6 +791,11 @@
      headings (0.56rem) rather than the 0.84rem centred title it was. */
   .home-hero-copy { align-items: flex-start; text-align: left; }
   .home-hero h1 { font-size: var(--t-heading); line-height: 0.475rem; }
+
+  /* The note under the range buttons sat 0.4rem above the quote photo, which
+     had been separated from the range by the Luxury title. Its grey band now
+     carries the standard section gap (1.20rem) below the note. */
+  .rvx-band { padding-bottom: 1.20rem; }
 
   /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
   .band-title { font-size: var(--t-heading); }   /* was 0.84rem: one heading size */
