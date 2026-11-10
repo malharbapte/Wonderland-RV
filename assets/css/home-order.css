@@ -848,3 +848,13 @@
   .coty-arrow { top: calc(var(--coty-vid-h) / 2); }
 }
 
+
+/* ==========================================================================
+   REMOVED SECTIONS, ON THE PHONE TOO (2026-11-10)
+   "Whatever sections we have removed on the desktop version, ideally we'll
+   remove them for the phone version as well." These two were already off on
+   desktop (.solara in homepage.css line 1350, .testi above) and are now off at
+   every width: the Welcome Solara block and the three pink review bands.
+   The markup stays in home.html, hidden, as on desktop.
+   ========================================================================== */
+.solara, .testi { display: none; }
