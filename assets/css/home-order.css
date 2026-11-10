@@ -800,8 +800,12 @@
   /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
   .band-title { font-size: var(--t-heading); }   /* was 0.84rem: one heading size */
 
+  /* Option C from sample-home-range-heading.html: the heading rises 0.80rem and
+     the space under it grows by the same, so the caravan does not move and
+     only the breathing room between heading and caravan changes. */
+  .rvx { padding-top: 0.55rem; }
   .rvx-title {
-    margin: 0 0 0.30rem; font-family: var(--aviano); font-weight: 900;
+    margin: 0 0 1.10rem; font-family: var(--aviano); font-weight: 900;
     font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em;
   }
 
