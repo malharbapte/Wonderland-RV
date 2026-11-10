@@ -245,9 +245,10 @@
    3.03rem less 12% is 2.67rem. The band centres its contents with flex, so
    taking height off takes it off the top and the bottom equally without
    anything inside having to move: 0.18rem from each. */
-/* Option B of sample-home-stat-gap.html: 0.50rem above and below, so the note
-   to the number is 1.00rem (with .rvx-band's 0.50rem), from 1.97rem. */
-.stat-band { height: auto; padding: 0.50rem 0; }
+/* Gap between the range CTAs and Caravans built: 0.70rem from the note to the
+   number (0.35rem under the note + 0.35rem above the number), 1.00rem below
+   the label. Was 1.97rem above and 0.77rem below. */
+.stat-band { height: auto; padding: 0.35rem 0 1.00rem; }
 
 
 /* ---- QUEEN OF HEARTS ---------------------------------------------------
@@ -795,7 +796,7 @@
   /* The note under the range buttons sat 0.4rem above the quote photo, which
      had been separated from the range by the Luxury title. Its grey band now
      carries the standard section gap (1.20rem) below the note. */
-  .rvx-band { padding-bottom: 0.50rem; }   /* was 1.20rem: see .stat-band */
+  .rvx-band { padding-bottom: 0.35rem; }   /* was 1.20rem: see .stat-band */
 
   /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
   .band-title { font-size: var(--t-heading); }   /* was 0.84rem: one heading size */
