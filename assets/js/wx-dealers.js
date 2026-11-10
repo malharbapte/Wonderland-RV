@@ -6,16 +6,21 @@
    directions opens Google Maps directions to that dealer's street address.
    ========================================================================== */
 (function () {
-  var sel = document.getElementById("wxState");
+  var bar = document.getElementById("wxBar");
+  var thumb = bar && bar.querySelector(".wx-dealers-thumb");
+  var prev = document.getElementById("wxPrev");
+  var next = document.getElementById("wxNext");
   var panel = document.getElementById("wxDealerPanel");
-  var other = document.getElementById("wxOther");
   var states = [].slice.call(document.querySelectorAll(".wx-st"));
-  if (!sel || !panel || !states.length) return;
+  if (!bar || !thumb || !panel || !states.length) return;
 
   var NAMES = { nsw: "New South Wales", qld: "Queensland", vic: "Victoria", wa: "Western Australia",
                 sa: "South Australia", nt: "Northern Territory", tas: "Tasmania",
                 act: "Australian Capital Territory" };
+  /* the bar's names: dealer states first, then the rest */
   var ORDER = ["nsw", "qld", "vic", "wa", "sa", "nt", "tas", "act"];
+  var LABELS = { act: "ACT" };
+  var cur = "nsw", btns = {};
   var DEALERS = {
     nsw: { name: "Off Grid Outfitters", locs: [
       { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560",
@@ -48,14 +53,30 @@
   }
 
   ORDER.forEach(function (k) {
-    var o = document.createElement("option");
-    o.value = k; o.textContent = NAMES[k];
-    sel.appendChild(o);
+    var b = el("button", "", LABELS[k] || NAMES[k]);
+    b.type = "button"; b.setAttribute("role", "tab"); b.dataset.s = k;
+    b.addEventListener("click", function () { show(k); });
+    bar.appendChild(b); btns[k] = b;
   });
 
+  /* the orange block sits under whichever name is chosen */
+  function place(instant) {
+    var b = btns[cur];
+    if (instant) thumb.classList.add("is-init");
+    thumb.style.left = b.offsetLeft + "px";
+    thumb.style.width = b.offsetWidth + "px";
+    if (instant) { void thumb.offsetWidth; thumb.classList.remove("is-init"); }
+    var vis = b.offsetLeft - 8, end = b.offsetLeft + b.offsetWidth + 8;
+    if (vis < bar.scrollLeft) bar.scrollLeft = vis;
+    else if (end > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = end - bar.clientWidth;
+  }
+  function step(d) { show(ORDER[(ORDER.indexOf(cur) + d + ORDER.length) % ORDER.length]); }
+
   function show(k) {
+    cur = k;
     states.forEach(function (s) { s.classList.toggle("is-on", s.dataset.s === k); });
-    sel.value = k;
+    ORDER.forEach(function (n) { btns[n].setAttribute("aria-selected", String(n === k)); });
+    place(false);
     panel.textContent = "";
     panel.appendChild(el("h3", "wx-d-state", NAMES[k]));
     var d = DEALERS[k];
@@ -90,7 +111,14 @@
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(s.dataset.s); }
     });
   });
-  sel.addEventListener("change", function () { show(sel.value); });
-  if (other) other.addEventListener("click", function () { show("wa"); });
+  if (prev) prev.addEventListener("click", function () { step(-1); });
+  if (next) next.addEventListener("click", function () { step(1); });
+  bar.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { e.preventDefault(); step(1); btns[cur].focus(); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); step(-1); btns[cur].focus(); }
+  });
+  window.addEventListener("resize", function () { place(true); });
   show("nsw");
+  place(true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
 })();
