@@ -221,22 +221,19 @@
   }
 
   /* ---- the enquiry pop-up ------------------------------------------------
-     Opens after 10 seconds of time spent in the Layouts section: the clock
+     Opens after 5 seconds of time spent in the Layouts section: the clock
      runs only while the section is in view (same band the rail uses) and the
      tab is showing, and it keeps what it has counted if you scroll away and
-     come back. Once per visit; it waits if the phone's layout sheet is open. */
+     come back. Once per page view, and again on every revisit; it waits if the phone's layout sheet is open. */
   var eqScrim = document.getElementById("eqScrim");
   var eqCard  = document.getElementById("eqCard");
   var eqForm  = document.getElementById("eqForm");
   var eqX     = document.getElementById("eqClose");
-  var EQ_KEY  = "wl-layout-enquiry-seen";
-  var EQ_MS   = 10000;
-  var eqSeen  = false, eqOpen = false, eqBack = null;
-  try { eqSeen = sessionStorage.getItem(EQ_KEY) === "1"; } catch (e) {}
+  var EQ_MS   = 5000;
+  var eqSeen  = false, eqOpen = false, eqBack = null;   /* nothing is remembered: every visit opens it again */
 
   function eqShow() {
     eqOpen = true; eqSeen = true;
-    try { sessionStorage.setItem(EQ_KEY, "1"); } catch (e) {}
     eqBack = document.activeElement;
     eqScrim.hidden = false;
     document.body.classList.add("eq-lock");
