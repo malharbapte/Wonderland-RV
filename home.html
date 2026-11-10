@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=334">
+<link rel="stylesheet" href="assets/css/home-order.css?v=335">
 </head>
 <body class="home">
 
@@ -117,6 +117,31 @@
   </div>
 </section>
 
+<!-- ======================================================= PULL QUOTE -->
+<!--
+  SLIDESHOW — drop images in assets/img/home/ named slide-1.jpg, slide-2.jpg …
+  up to slide-6.jpg. The script loads whichever exist, in order, and turns
+  them like pages. Nothing else to change.
+-->
+<section class="pull">
+  <div class="pull-media" id="pullSlides" data-ph="SLIDESHOW — add slide-1.jpg … slide-6.jpg"></div>
+  <!-- Next only. hidden until home.js finds at least two slides, so it never
+       appears over the placeholder or over a single still. -->
+  <button class="pull-arrow" type="button" aria-label="Next picture" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <blockquote class="pull-quote">
+    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the <br>
+      beaten path and <br>
+      explore in style?<br>
+      Embark on exceptional <br>
+      adventures with loved <br>
+      ones and create <br>
+      memories that will <br>
+      last a lifetime.&rdquo;</p>
+  </blockquote>
+</section>
+
 <!-- ============================================ RANGE VIEWER (desktop) -->
 <section class="rvx">
   <div class="container">
@@ -146,31 +171,6 @@
         specified further &mdash; options change capacities and price.</p>
     </div>
   </div>
-</section>
-
-<!-- ======================================================= PULL QUOTE -->
-<!--
-  SLIDESHOW — drop images in assets/img/home/ named slide-1.jpg, slide-2.jpg …
-  up to slide-6.jpg. The script loads whichever exist, in order, and turns
-  them like pages. Nothing else to change.
--->
-<section class="pull">
-  <div class="pull-media" id="pullSlides" data-ph="SLIDESHOW — add slide-1.jpg … slide-6.jpg"></div>
-  <!-- Next only. hidden until home.js finds at least two slides, so it never
-       appears over the placeholder or over a single still. -->
-  <button class="pull-arrow" type="button" aria-label="Next picture" hidden>
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <blockquote class="pull-quote">
-    <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Ready to step off the <br>
-      beaten path and <br>
-      explore in style?<br>
-      Embark on exceptional <br>
-      adventures with loved <br>
-      ones and create <br>
-      memories that will <br>
-      last a lifetime.&rdquo;</p>
-  </blockquote>
 </section>
 
 <!-- =========================================================== INTRO -->

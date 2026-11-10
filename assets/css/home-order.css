@@ -801,7 +801,10 @@
   /* Option C from sample-home-range-heading.html: the heading rises 0.80rem and
      the space under it grows by the same, so the caravan does not move and
      only the breathing room between heading and caravan changes. */
-  .rvx { padding-top: 0.55rem; }
+  /* THE PICTURE NOW SITS ABOVE THIS SECTION (pull and range swapped), so the
+     heading opens on the standard section gap rather than the short 0.55rem
+     that followed the Luxury fade. */
+  .rvx { padding-top: 1.20rem; }
   .rvx-title {
     margin: 0 0 1.10rem; font-family: var(--aviano); font-weight: 900;
     font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em;
