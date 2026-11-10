@@ -1003,3 +1003,43 @@
   .band--why .why-points li.is-open .why-icon { color: var(--orange); }
   .band--why .why-points li:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
 }
+
+
+/* ==========================================================================
+   FEATURED VIDEOS, PHONE (option B of sample-phone-video.html) -- phones only.
+   The videos run on a row with the next one peeking in; arrows sit on the
+   picture; dots and a count follow; then a panel holds the chosen video's
+   title, subtitle, description and review. Built by phoneDeck() in home.js.
+   ========================================================================== */
+@media (max-width: 900px) {
+  .coty { background: #F8F8F7; }
+  .coty-shell { position: relative; }
+  .coty-viewport { width: 100vw; margin-left: calc(50% - 50vw); padding: 0 24px; box-sizing: border-box;
+                   scroll-padding: 0 24px; }
+  .coty-track { gap: 12px; }
+  .coty-slide { flex: 0 0 86%; }
+  .coty-slide:last-child { scroll-snap-align: end; }
+  .coty-parrow { position: absolute; z-index: 3; top: calc((100vw - 48px) * .86 * 9 / 32); transform: translateY(-50%);
+                 width: 44px; height: 44px; padding: 0; background: none; border: 0; color: #fff;
+                 display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease; }
+  .coty-parrow--prev { left: -8px; }
+  .coty-parrow--next { right: -8px; }
+  .coty-parrow.is-off { opacity: 0; pointer-events: none; }
+  .coty-parrow svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2.6;
+                     stroke-linecap: butt; stroke-linejoin: miter; filter: drop-shadow(0 0 4px rgba(0,0,0,.6)); }
+
+  .coty-rail { padding: 14px 0 18px; }
+  .coty-panel { display: grid; background: #fff; border-radius: 4px; padding: 22px 20px 24px; }
+  .coty-page { grid-area: 1 / 1; opacity: 0; pointer-events: none; transition: opacity .22s ease; }
+  .coty-page.is-on { opacity: 1; pointer-events: auto; }
+  .coty-page .coty-title { margin: 0; }
+  .coty-page .coty-sub { display: block; margin: 8px 0 0; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  .coty-page .coty-sub a { color: var(--orange-deep); text-decoration: none; border-bottom: 1.5px solid var(--orange-deep); }
+  .coty-page .coty-note { display: block; width: auto; margin: 14px 0 0; padding: 0; text-align: left;
+                          font-size: 15px; line-height: 23px; color: var(--ink); }
+  .coty-page .coty-quote { display: block; margin: 18px 0 0; padding: 0 0 0 14px; border-left: 3px solid var(--orange);
+                           font-style: italic; font-size: 15px; line-height: 23px; color: var(--orange-deep); }
+  .coty-page .coty-quote cite { display: block; margin-top: 8px; font-style: normal; font-size: 12px; line-height: 18px;
+                                letter-spacing: .04em; text-transform: uppercase; color: #6b6158; }
+  @media (prefers-reduced-motion: reduce) { .coty-page, .coty-parrow { transition: none; } }
+}

@@ -611,18 +611,43 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     const shell = viewport.parentElement;
     if (!shell || shell.querySelector(".coty-head")) return;
 
-    const head = document.createElement("div");
-    head.className = "coty-head";
-    const caps = slides.map(function (sl, k) {
-      const cap = document.createElement("div");
-      cap.className = "coty-cap" + (k ? "" : " is-on");
-      const t = sl.querySelector(".coty-title"), s = sl.querySelector(".coty-sub");
-      if (t) cap.appendChild(t.cloneNode(true));
-      if (s) cap.appendChild(s.cloneNode(true));
-      head.appendChild(cap);
-      return cap;
+    /* Option B (sample-phone-video.html): the words are not above the videos
+       any more. Each slide's title, subtitle, description and review (where it
+       has one) are copied into a panel under the dots. The six pages sit in one
+       grid cell, so the panel is as tall as the tallest and nothing jumps as the
+       wording changes -- the change is opacity only. */
+    const panel = document.createElement("div");
+    panel.className = "coty-panel";
+    const pages = slides.map(function (sl, k) {
+      const pg = document.createElement("div");
+      pg.className = "coty-page" + (k ? "" : " is-on");
+      [".coty-title", ".coty-sub", ".coty-note", ".coty-quote"].forEach(function (sel) {
+        const el = sl.querySelector(sel);
+        if (el) pg.appendChild(el.cloneNode(true));
+      });
+      panel.appendChild(pg);
+      return pg;
     });
-    shell.insertBefore(head, viewport);
+
+    /* arrows on the picture: they hint that the row moves, and step it */
+    const arrowPrev = document.createElement("button");
+    const arrowNext = document.createElement("button");
+    arrowPrev.className = "coty-parrow coty-parrow--prev";
+    arrowNext.className = "coty-parrow coty-parrow--next";
+    arrowPrev.type = arrowNext.type = "button";
+    arrowPrev.setAttribute("aria-label", "Previous video");
+    arrowNext.setAttribute("aria-label", "Next video");
+    arrowPrev.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+    arrowNext.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+    function step(d) {
+      const w = slides[0].getBoundingClientRect().width + 12;
+      viewport.scrollBy({ left: d * w, behavior: "smooth" });
+    }
+    arrowPrev.addEventListener("click", function () { step(-1); });
+    arrowNext.addEventListener("click", function () { step(1); });
+    shell.insertBefore(arrowPrev, viewport);
+    shell.insertBefore(arrowNext, viewport);
+    arrowPrev.classList.add("is-off");
 
     const rail = document.createElement("div");
     rail.className = "coty-rail";
@@ -637,6 +662,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     count.textContent = "01 / " + String(n).padStart(2, "0");
     rail.appendChild(count);
     shell.insertBefore(rail, viewport.nextSibling);
+    shell.insertBefore(panel, rail.nextSibling);
 
     let last = 0;
     setInterval(function () {
@@ -650,7 +676,9 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
         if (d < gap) { gap = d; best = k; }
       }
       if (best === last) return;
-      caps[last].classList.remove("is-on"); caps[best].classList.add("is-on");
+      pages[last].classList.remove("is-on"); pages[best].classList.add("is-on");
+      arrowPrev.classList.toggle("is-off", best === 0);
+      arrowNext.classList.toggle("is-off", best === n - 1);
       dots[last].classList.remove("is-on"); dots[best].classList.add("is-on");
       count.textContent = String(best + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
       last = best;
