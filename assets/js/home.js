@@ -24,9 +24,16 @@ const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
    still autoplays, muted, from the parameters in its own embed URL, and it does
    not need a YT.Player: only the Queen of Hearts deck reads frame.ytPlayer, to
    stop a video that has scrolled out of the deck. */
-mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
-  "Wonderland RV — adventure your way");
-mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara");
+/* PHONE: the hero is a photo, not the clip (his call, 2026-11-10). The still is
+   already in the markup (.video-poster), so on a phone nothing is mounted and
+   it simply stays. Desktop and tablets above 900 keep the video. */
+if (!window.matchMedia("(max-width: 900px)").matches) {
+  mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
+    "Wonderland RV — adventure your way");
+}
+/* Welcome Solara is hidden at every width now (see home-order.css), so its clip
+   is not loaded. The link and the markup stay for when the section returns.
+mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara"); */
 
 /* The mobile nav toggle used to live here. It now lives in nav.js, which
    every page loads — this copy would have bound a second listener on the

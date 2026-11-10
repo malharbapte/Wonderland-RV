@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=338">
+<link rel="stylesheet" href="assets/css/home-order.css?v=339">
 </head>
 <body class="home">
 
@@ -212,6 +212,21 @@
       <img class="video-poster" src="assets/img/home/solara-video-poster.jpg" alt=""
            onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
     </div>
+  </div>
+</section>
+
+<!-- ============================================ RANGE VIEWER (phone) -->
+<!-- Phone only: the desktop viewer rebuilt as swipe cards (option B of
+     sample-phone-range.html). range-phone.js fills #rvpMount. The old phone range
+     below (.band--range and .range) is hidden on the phone now. -->
+<section class="rvp" aria-labelledby="rvpTitle">
+  <h2 class="rvp-title" id="rvpTitle">Explore our range</h2>
+  <div id="rvpMount"></div>
+  <div class="rvp-band">
+    <a class="rvp-btn rvp-solid" href="#">Explore the range</a>
+    <a class="rvp-btn rvp-ghost" href="#">Download brochure</a>
+    <p class="rvp-note">Figures shown are for the standard build. Every model can be
+      specified further &mdash; options change capacities and price.</p>
   </div>
 </section>
 
@@ -1004,12 +1019,13 @@
 </footer>
 
 <script src="assets/js/video-embed.js?v=314"></script>
-<script src="assets/js/home.js?v=314"></script>
+<script src="assets/js/home.js?v=315"></script>
 <script src="assets/js/reviews.js?v=314"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/budget.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/range-viewer.js?v=324"></script>
+<script src="assets/js/range-phone.js?v=1"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>
 <script src="assets/js/nav.js?v=322"></script>
 </body>
