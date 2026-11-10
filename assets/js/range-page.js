@@ -200,4 +200,7 @@
 
   rebuildStops();
   apply();
+  /* the first row is marked on in the markup, so select() has not run for it */
+  var first = rows.filter(function (r) { return r.classList.contains("is-on"); })[0];
+  if (first) setPick(first.querySelector(".fp-row-name").textContent.trim() + "  ·  " + first.dataset.size);
 })();
