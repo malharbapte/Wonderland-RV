@@ -827,9 +827,9 @@
     grid-area: title; margin-top: 0.50rem; font-size: var(--t-heading); line-height: 1.05;
     white-space: normal;
   }
-  .coty-sub { grid-area: sub; margin-top: 0.16rem; font-size: var(--t-sub); line-height: var(--lh-sub); }
+  .coty-sub { grid-area: sub; margin-top: 0.10rem; font-size: var(--t-sub); line-height: var(--lh-sub); }
   .coty-note {
-    grid-area: note; width: auto; margin: 0.22rem 0 0; padding-right: 0.60rem;
+    grid-area: note; width: auto; margin: 0.12rem 0 0; padding-right: 0.60rem;
     font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink);
   }
   .coty-quote {

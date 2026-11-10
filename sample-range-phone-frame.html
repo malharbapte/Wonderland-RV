@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample frame: Layouts on a phone</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=325">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=314">
+<link rel="stylesheet" href="assets/css/homepage.css?v=326">
+<style>
+body{background:#fff}
+.pc{padding:20px 24px 48px}
+.pc .fp-title{font-size:30px;line-height:33px}
+.pc .fp-lede{margin-top:10px;max-width:none;font-size:15px;line-height:23px}
+.pc-controls{margin-top:22px;display:flex;flex-direction:column;gap:18px}
+.pc-kind{position:relative;display:flex;height:48px;margin:0;padding:0;border:1px solid var(--ink);border-radius:24px;--p:4px}
+.pc-kind input{position:absolute;opacity:0;pointer-events:none}
+.pc-kind-thumb{position:absolute;top:var(--p);bottom:var(--p);left:var(--p);width:calc(50% - var(--p)*1.5);border-radius:24px;background:var(--orange-deep);transition:transform .28s cubic-bezier(.33,0,.18,1)}
+.pc-kind:has(label:last-of-type input:checked) .pc-kind-thumb{transform:translateX(calc(100% + var(--p)))}
+.pc-kind label{position:relative;z-index:1;flex:1 1 0;display:grid;place-items:center;cursor:pointer;font-family:var(--gordita);font-size:16px;line-height:1;transition:color .28s}
+.pc-kind label:has(input:checked){color:#fff}
+.pc-size-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;font-family:var(--gordita)}
+.pc-size-head b{font-family:var(--aviano);font-weight:900;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.pc-size-head i{font-style:normal}
+.pc-size-value{font-size:20px;font-weight:500;color:var(--orange)}
+.pc-size-count{font-size:12px;color:#6b6158;margin-left:auto}
+.pc-scale{position:relative;height:56px}
+.pc-track{position:absolute;left:0;right:0;top:14px;height:6px;background:#E4E2DE;border-radius:3px}
+.pc-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--orange);border-radius:3px}
+.pc-scale input{position:absolute;left:0;right:0;top:0;width:100%;height:34px;margin:0;background:none;-webkit-appearance:none;appearance:none}
+.pc-scale input::-webkit-slider-runnable-track{background:none;height:34px}
+.pc-scale input::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:3px;border-radius:50%;background:var(--orange);border:0}
+.pc-scale input::-moz-range-track{background:none;height:34px}
+.pc-scale input::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--orange);border:0}
+.pc-min,.pc-max{position:absolute;top:38px;font-family:var(--gordita);font-size:12px;line-height:1;color:#6b6158}
+.pc-min{left:0}.pc-max{right:0}
+.pc-name{margin-top:22px;font-family:var(--gordita);font-weight:500;font-size:16px;line-height:1}
+.pc-plan{aspect-ratio:739.28/408.77;background:#F8F8F7;display:grid;place-items:center;font:600 11px/1 system-ui,sans-serif;color:#9a948c;letter-spacing:.06em;text-align:center;padding:0 10px}
+.pc-dims{margin-top:12px;border:1px solid var(--ink);padding:16px;text-align:center;font-family:var(--gordita);font-size:15px;line-height:22px}
+.pc-dims small{display:block;font-size:15px;color:#6b6158}
+.pc-act{margin-top:16px;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center}
+.pc-ico{width:48px;height:48px;display:grid;place-items:center;background:none;border:0;padding:0;color:var(--ink)}
+.pc-ico svg{width:100%;height:100%;stroke-width:1.4}
+.pc-act .btn-solid{width:100%;height:48px;display:grid;place-items:center;font-size:16px;padding:0}
+.pc-fine{margin-top:16px;font-family:var(--gordita);font-size:12px;line-height:18px;color:#6b6158}
+.pc-empty{margin:14px 0 0;font-family:var(--gordita);font-size:12px;color:#6b6158}
+.pc [hidden]{display:none!important}
+/* shared row look */
+.pc-row{display:flex;align-items:center;justify-content:space-between;width:100%;background:#fff;border:1px solid #e4e2de;font-family:var(--gordita);line-height:1;cursor:pointer;text-align:left;color:var(--ink)}
+.pc-row .n{font-size:15px}.pc-row .s{font-size:12px;color:#6b6158}
+.pc-row.is-on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pc-row.is-on .s{color:rgba(255,255,255,.72)}
+.pc-opt{display:none}
+/* ---------- A: swipe strip ---------- */
+.o-a .pc-strip-wrap{display:block;margin:24px -24px 0;position:relative}
+.o-a .pc-strip-hint{padding:0 24px;margin-bottom:10px;font-family:var(--aviano);font-weight:900;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.o-a .pc-strip{display:flex;gap:10px;overflow-x:auto;padding:0 24px 6px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.o-a .pc-strip::-webkit-scrollbar{display:none}
+.o-a .pc-strip li{flex:none;scroll-snap-align:start}
+.o-a .pc-strip .pc-row{flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;width:132px;height:68px;padding:0 14px;border-radius:10px}
+.o-a .pc-strip-wrap::after{content:"";position:absolute;right:0;top:28px;bottom:6px;width:36px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
+/* ---------- B: bottom sheet ---------- */
+.o-b .pc-pick{display:block;margin-top:24px}
+.o-b .pc-pickbtn{display:flex;align-items:center;justify-content:space-between;width:100%;height:60px;padding:0 18px;background:#F8F8F7;border:1px solid var(--ink);border-radius:10px;font-family:var(--gordita);color:var(--ink);text-align:left}
+.o-b .pc-pickbtn span{display:grid;gap:6px}.o-b .pc-pickbtn small{font-size:12px;color:#6b6158}.o-b .pc-pickbtn b{font-weight:500;font-size:16px;line-height:1}
+.o-b .pc-pickbtn em{font-style:normal;font-family:var(--aviano);font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-deep)}
+.o-b .pc-name{display:none}
+.pc-sheet{display:none}
+.o-b .pc-sheet{display:block;position:fixed;left:0;right:0;bottom:0;max-height:72%;z-index:60;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);transform:translateY(105%);transition:transform .32s cubic-bezier(.33,0,.18,1);display:flex;flex-direction:column}
+.o-b .pc-sheet.is-open{transform:none}
+.pc-scrim{display:none}
+.o-b .pc-scrim{display:block;position:fixed;inset:0;z-index:59;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .3s}
+.o-b .pc-scrim.is-open{opacity:1;pointer-events:auto}
+.o-b .pc-sheet-head{display:flex;justify-content:space-between;align-items:center;padding:18px 24px 10px;font-family:var(--aviano);font-weight:900;font-size:16px;text-transform:uppercase}
+.o-b .pc-sheet-head button{background:none;border:0;font-family:var(--gordita);font-size:15px;color:var(--orange-deep)}
+.o-b .pc-sheet-list{overflow-y:auto;padding:4px 24px 28px;display:grid;gap:8px}
+.o-b .pc-sheet-list .pc-row{height:52px;padding:0 16px;border-radius:10px}
+/* ---------- C: accordion ---------- */
+.o-c .pc-acc{display:grid;gap:8px;margin-top:24px;list-style:none;padding:0}
+.o-c .pc-acc .pc-row{height:52px;padding:0 16px;border-radius:10px}
+.o-c .pc-acc li.is-on .pc-row{border-radius:10px 10px 0 0}
+.o-c .pc-acc .pc-body{border:1px solid var(--ink);border-top:0;border-radius:0 0 10px 10px;padding:12px}
+.o-c .pc-name{display:none}
+.o-c .pc-detail-home{display:none}
+</style></head>
+<body class="home">
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="range.html" aria-current="page">Range</a>
+      <div class="nav-item nav-item--desk">
+        <a href="#" aria-haspopup="true">Buy</a>
+        <div class="nav-dropdown nav-dropdown--one">
+          <div class="dd-col">
+            <a href="#">Stock Vans</a>
+            <a href="wonderland-experience.html">Wonderland Experience</a>
+            <a href="#">Insurance</a>
+          </div>
+        </div>
+      </div>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<main class="pc">
+<h1 class="fp-title">Layouts</h1>
+<p class="fp-lede">Available in 20 different layouts from 17&rsquo;06&rdquo; to 24&rsquo;00&rdquo;. Designed for families, couples and solo adventurers who value comfort and capability in equal measure.</p>
+<div class="pc-controls">
+<fieldset class="pc-kind"><legend class="sr-only">Who is it for?</legend><span class="pc-kind-thumb" aria-hidden="true"></span>
+<label><input type="radio" name="k" value="couples" checked><span>Couples</span></label>
+<label><input type="radio" name="k" value="family"><span>Family</span></label></fieldset>
+<div class="pc-size"><div class="pc-size-head"><b>Up to</b><i class="pc-size-value"></i><i class="pc-size-count"></i></div>
+<div class="pc-scale"><div class="pc-track"><span class="pc-fill"></span></div><input type="range" id="sz" min="0" max="1" step="1" value="1" aria-label="Maximum layout length"><span class="pc-min"></span><span class="pc-max"></span></div></div>
+</div>
+
+<div class="pc-strip-wrap pc-opt-a" hidden><div class="pc-strip-hint"><span class="pc-hint"></span></div><ul class="pc-strip" id="strip" style="list-style:none;margin:0"></ul></div>
+<div class="pc-pick pc-opt-b" hidden><button class="pc-pickbtn" id="pickbtn" type="button"><span><small>Layout</small><b id="pickname"></b></span><em>Change</em></button></div>
+<ul class="pc-acc pc-opt-c" id="acc" hidden></ul>
+<p class="pc-empty" id="empty" hidden>No layouts at this length.</p>
+
+<h2 class="pc-name" id="nm"></h2>
+<div class="pc-detail" id="detail">
+<div class="pc-plan" id="plan"></div>
+<div class="pc-dims"><div>Dimension details</div><small>TBD</small></div>
+<div class="pc-act"><button class="pc-ico" type="button" aria-label="360 degree view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=" M13.912,3.595c2.041,1.779,3.161,6.125,2.677,10.396c-0.484,4.27-2.436,7.284-4.671,7.207c-2.234-0.076-4.132-3.221-4.539-7.522 C6.971,9.376,8.167,5.108,10.239,3.47"/><path d=" M3.47,13.761c-1.638-2.072-0.195-4.447,3.452-5.68c3.647-1.233,8.49-0.984,11.583,0.596s3.58,4.054,1.166,5.917 c-2.414,1.863-7.063,2.601-11.118,1.764"/><polyline points=" 9.633,5.376 10.239,3.47 8.245,3.621 "/><polyline points=" 10.403,15.598 8.554,16.358 9.951,17.788 "/></svg></button><a class="btn-solid" href="#">Virtual tour</a></div>
+</div>
+<div class="pc-detail-home" id="home"></div>
+<p class="pc-fine">*T&amp;C apply. Specifications may be subject to change without notice at the discretion of Wonderland RV Caravans. Floorplans &amp; images are for illustrative purposes only.</p>
+</main>
+<div class="pc-scrim" id="scrim"></div>
+<div class="pc-sheet" id="sheet" role="dialog" aria-label="Choose a layout"><div class="pc-sheet-head"><span>Choose a layout</span><button type="button" id="sclose">Done</button></div><ul class="pc-sheet-list" id="slist" style="list-style:none;margin:0"></ul></div>
+<script>
+(function(){
+var DATA=[{"ft": 1709, "kind": "couples", "name": "1709Q-R-L"}, {"ft": 1806, "kind": "couples", "name": "1806Q-M-L"}, {"ft": 1806, "kind": "couples", "name": "1806Q-R-L"}, {"ft": 1906, "kind": "couples", "name": "1906Q-RC"}, {"ft": 2006, "kind": "couples", "name": "2006Q-R-C"}, {"ft": 2100, "kind": "couples", "name": "2100Q-M-XLE"}, {"ft": 2100, "kind": "family", "name": "2100Q-F2.0"}, {"ft": 2100, "kind": "family", "name": "2100Q-F3.0"}, {"ft": 2106, "kind": "family", "name": "2106EW-F3.4"}, {"ft": 2107, "kind": "family", "name": "2107EW-F4.3"}, {"ft": 2200, "kind": "couples", "name": "2200Q-RC"}, {"ft": 2211, "kind": "family", "name": "2211Q2-F2.2"}, {"ft": 2300, "kind": "family", "name": "2300Q-F3.4"}, {"ft": 2304, "kind": "family", "name": "2304EW-F4.5"}, {"ft": 2311, "kind": "family", "name": "2311K-F4.3"}];
+var opt=(location.hash||'#a').slice(1);if('abc'.indexOf(opt)<0||!opt)opt='a';
+document.body.className='home o-'+opt;
+var q=function(s){return document.querySelector(s)};
+['a','b','c'].forEach(function(o){var e=q('.pc-opt-'+o);if(e)e.hidden=(o!==opt)});
+var sel=null,stops=[];
+function lab(n){return String(n).slice(0,2)+'\u2019'+String(n).slice(2)+'\u201d'}
+function kind(){return q('.pc-kind input:checked').value}
+var sz=q('#sz');
+function rebuild(keep){var k=kind();stops=DATA.filter(function(d){return d.kind===k}).map(function(d){return d.ft}).filter(function(v,i,a){return a.indexOf(v)===i}).sort(function(a,b){return a-b});
+sz.max=Math.max(0,stops.length-1);var i=stops.length-1;if(keep!=null)for(var j=0;j<stops.length;j++)if(stops[j]<=keep)i=j;sz.value=i}
+function row(d,cls){var b=document.createElement('button');b.type='button';b.className='pc-row'+(d===sel?' is-on':'');b.innerHTML='<span class="n">'+d.name+'</span><span class="s">'+lab(d.ft)+'</span>';b.onclick=function(){choose(d)};return b}
+function choose(d){sel=d;if(opt==='b')close();render()}
+function render(){
+var k=kind(),max=stops.length?stops[+sz.value]:0;
+var shown=DATA.filter(function(d){return d.kind===k&&d.ft<=max});
+if(sel&&shown.indexOf(sel)<0)sel=null;if(!sel&&shown.length)sel=shown[0];
+q('.pc-size-value').textContent=stops.length?lab(max):'\u2014';
+q('.pc-size-count').textContent=shown.length+(shown.length===1?' layout':' layouts');
+q('.pc-min').textContent=stops.length?lab(stops[0]):'';q('.pc-max').textContent=stops.length?lab(stops[stops.length-1]):'';
+q('.pc-fill').style.width=stops.length<2?'100%':(+sz.value/(stops.length-1)*100)+'%';
+q('#empty').hidden=shown.length>0;
+var nm=sel?sel.name:'\u2014';q('#nm').textContent=nm;q('#plan').textContent='FLOORPLAN \u2014 '+nm;q('#pickname').textContent=nm+(sel?'  \u00b7  '+lab(sel.ft):'');
+q('.pc-hint').textContent='Swipe for more \u00b7 '+shown.length+' layouts';
+q('main').insertBefore(q('#detail'),q('.pc-fine'));
+var s=q('#strip'),sl=q('#slist'),ac=q('#acc');s.innerHTML=sl.innerHTML=ac.innerHTML='';
+shown.forEach(function(d){
+var li=document.createElement('li');li.appendChild(row(d));s.appendChild(li);
+var l2=document.createElement('li');l2.appendChild(row(d));sl.appendChild(l2);
+var l3=document.createElement('li');if(d===sel)l3.className='is-on';l3.appendChild(row(d));ac.appendChild(l3);
+if(d===sel&&opt==='c'){var body=document.createElement('div');body.className='pc-body';body.appendChild(q('#detail'));l3.appendChild(body)}
+});
+}
+function open(){q('#sheet').classList.add('is-open');q('#scrim').classList.add('is-open')}
+function close(){q('#sheet').classList.remove('is-open');q('#scrim').classList.remove('is-open')}
+q('#pickbtn').onclick=open;q('#scrim').onclick=close;q('#sclose').onclick=close;
+sz.addEventListener('input',render);
+[].forEach.call(document.querySelectorAll('.pc-kind input'),function(i){i.addEventListener('change',function(){rebuild(stops.length?stops[+sz.value]:null);render()})});
+rebuild();render();
+})();
+</script></body></html>
