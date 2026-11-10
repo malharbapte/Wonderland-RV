@@ -573,8 +573,11 @@
               line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
 /* the dealer's own logo, no frame: it sits on the panel's white, left on the
    text edge, in a band tall enough for the widest and the squarest of them */
-.wx-d-logo { margin: 0.30rem 0 0; height: 1.6rem; display: flex; align-items: center; }
+.wx-d-logo { margin: 0.30rem 0 0; height: var(--logo-band, 1.6rem); display: flex; align-items: center; }
 .wx-d-logo img { display: block; max-width: 100%; max-height: 100%; height: auto; object-fit: contain; }
+.wx-d-logo img[data-s="nsw"] { width: var(--logo-nsw, 2.7rem); }
+.wx-d-logo img[data-s="qld"] { width: var(--logo-qld, 2.7rem); }
+.wx-d-logo img[data-s="vic"] { width: var(--logo-vic, 4.3rem); }
 .wx-d-name { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;
              font-size: var(--t-sub); line-height: var(--lh-sub); }
 .wx-d-loc { margin-top: 0.38rem; }

@@ -22,15 +22,15 @@
   var LABELS = { act: "ACT" };
   var cur = "nsw", btns = {};
   var DEALERS = {
-    nsw: { name: "Off Grid Outfitters", logo: "off-grid-outfitters.png", w: "2.7rem", locs: [
+    nsw: { name: "Off Grid Outfitters", logo: "off-grid-outfitters.png", locs: [
       { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560",
         tel: "(02) 4648 4181", mail: "sales@offgridoutfitters.com.au" } ] },
-    qld: { name: "Aussie Escape Caravans", logo: "aussie-escape-caravans.svg", w: "2.7rem", locs: [
+    qld: { name: "Aussie Escape Caravans", logo: "aussie-escape-caravans.svg", locs: [
       { city: "Brisbane", addr: "118 South Pine Rd, Brendale QLD 4500",
         tel: "(07) 3205 7738", mail: "wonderland@aussieescapecaravans.com.au" },
       { city: "Mackay", addr: "10/25 Transport Ave, Paget QLD 4740",
         tel: "0439 009 148", mail: "wonderland@aussieescapecaravans.com.au" } ] },
-    vic: { name: "Outbound RVs", logo: "outbound-rvs.png", w: "4.3rem", locs: [
+    vic: { name: "Outbound RVs", logo: "outbound-rvs.png", locs: [
       { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061",
         tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] }
   };
@@ -85,7 +85,7 @@
       var img = document.createElement("img");
       img.src = "assets/img/experience/dealers/" + d.logo;
       img.alt = d.name;
-      img.style.width = d.w;
+      img.dataset.s = k;       /* its width comes from --logo-nsw / --logo-qld / --logo-vic */
       logo.appendChild(img);
       panel.appendChild(logo);
       panel.appendChild(el("p", "wx-d-name", d.name));
