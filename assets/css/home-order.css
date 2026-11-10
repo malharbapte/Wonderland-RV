@@ -195,7 +195,9 @@
   height: 6.37rem;
 }
 .dream-head  { top: 6.28%; }
-.dream-title { font-size: 0.383rem; }
+/* .dream-title was shrunk to 0.383rem to fit this band; it is the heading size
+   (0.56rem, from homepage.css) again -- the band above the pictures is 1.32rem
+   and holds 0.40 + 0.56 with 0.36 to spare. */
 
 .dream-shot--a { top: 20.72%; height: 79.23%; }
 .dream-shot--b { top: 20.72%; height: 37.90%; }
@@ -766,9 +768,10 @@
 @media (max-width: 900px) { .home-hero-cta { display: none; } }
 
 @media (min-width: 901px) {
-  /* LUXURY: small, the size of the live site's (heading ~0.32rem, text 0.28,
-     a block 8.9rem wide), grey for the first 55% then fading to white. The
-     bottom padding is the length of the fade. */
+  /* LUXURY: a small section -- heading at the standard heading size (every
+     heading on the site is the same size), then two or three lines on the
+     column, on grey for the first 55% then fading to white. The bottom
+     padding is the length of the fade. */
   /* FULL BLEED, like .stat-band and .rvx-band: the section sits inside a body
      that stops growing, so a bare background ended in a visible edge on each
      side once the window was wider than the page. The container inside keeps
@@ -778,7 +781,6 @@
     padding-top: 0.90rem; padding-bottom: 1.30rem;
     background: linear-gradient(to bottom, #F8F8F7 0, #F8F8F7 55%, #fff 100%);
   }
-  .lux-title { font-size: var(--t-sub); line-height: 0.37rem; letter-spacing: 0; }
   /* the whole column, inside the page margins: two or three lines */
   .lux-body {
     display: block; max-width: none; margin: 0.22rem 0 0;
@@ -791,6 +793,8 @@
   .home-hero h1 { font-size: var(--t-heading); line-height: 0.475rem; }
 
   /* EXPLORE OUR RANGE: the section heading, as .lux-title was before */
+  .band-title { font-size: var(--t-heading); }   /* was 0.84rem: one heading size */
+
   .rvx-title {
     margin: 0 0 0.30rem; font-family: var(--aviano); font-weight: 900;
     font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em;
@@ -802,14 +806,14 @@
   .coty { width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7; }   /* full bleed, as .lux */
   .coty-slide {
     display: grid; align-content: start;
-    grid-template-columns: 36% 34% 30%;
+    grid-template-columns: 40% 32% 28%;
     grid-template-rows: auto auto 1fr;
     grid-template-areas: "fig fig fig" "title note quote" "sub note quote";
     padding-inline: calc((100% - var(--coty-vid-w)) / 2);
   }
   .coty-figure { grid-area: fig; width: 100%; margin: 0; }
   .coty-title {
-    grid-area: title; margin-top: 0.50rem; font-size: 0.40rem; line-height: 1.1;
+    grid-area: title; margin-top: 0.50rem; font-size: var(--t-heading); line-height: 1.05;
     white-space: normal;
   }
   .coty-sub { grid-area: sub; margin-top: 0.16rem; font-size: 0.26rem; line-height: 0.36rem; }
