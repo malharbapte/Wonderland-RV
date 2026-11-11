@@ -1135,7 +1135,7 @@ body.bro-lock { overflow: hidden; }
   /* the four together: each tile is a quarter of the area; minmax(0, 1fr) so a tile's
      picture cannot push its row taller than half */
   .bro-cover--all { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: .03rem; }
-  .bro-cover--all img { min-height: 0; max-height: 100%; }
+  .bro-cover--all img { height: auto; min-height: 0; align-self: stretch; justify-self: stretch; contain: size; }
   .bro-right { padding: .6rem .6rem .55rem .5rem; }
   .bro-x { top: .15rem; right: .15rem; width: .5rem; height: .5rem; }
   .bro-x svg { width: .44rem; height: .44rem; }
