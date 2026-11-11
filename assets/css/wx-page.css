@@ -640,33 +640,86 @@
 
 
 /* --------------------------------------------------------------- phones --
-   GATED, NOT BUILT. Nothing on this page has a phone design yet, so below
-   901 the measured composition is dropped and the blocks stack at their own
-   height. This is a safety net so the page is not broken on a phone -- it
-   is not a phone layout, and it should be replaced by one during the phone
-   pass rather than tidied here. The Legendary service block needs nothing
-   here: styles.css already carries its phone rules. */
+   THE PHONE LAYOUT (2026-11-11). Everything is in px: rem is a flat 16px on a
+   phone, so every artboard size written in rem collapsed to a few pixels (4px
+   body text, 7px line heights that printed the DNA paragraph over itself).
+   The patterns are the ones already chosen on the homepage: swipe cards with a
+   peek of the next, chips for choosing, plain stacks for text. The Legendary
+   service block needs nothing here: styles.css carries its phone rules. */
 @media (max-width: 900px) {
-  .wx-hero { height: auto; min-height: 62vw; display: flex; align-items: flex-end; }
-  .wx-hero-copy { position: static; transform: none; width: auto; padding: 0 24px 32px; }
-  .wx-quote, .wx-dealers-row { height: auto; }
-  .wx-quote-media { position: static; width: auto; height: 56vw; }
-  .wx-quote-copy { position: relative; left: auto; top: auto; transform: none;
-                   width: auto; padding: 24px; }
-  .wx-journey { height: auto; padding-bottom: 1rem; }
-  .wx-journey-stage { padding-inline: 0; }
-  .wx-journey-viewport { overflow-x: auto; }
-  .wx-journey-track { transform: none !important; transition: none; }
-  .wx-journey-card { flex-basis: 70%; }
-  .wx-journey-viewport { cursor: auto; }
-  .wx-contact { background: none; }
-  .wx-journey-arrow { display: none; }
-  .wx-options-grid,
-  .wx-makers-row,
-  .wx-dealers-row,
-  .wx-range-row { grid-template-columns: 1fr; }
-  .wx-options-list { padding-left: 0; }
-  .wx-opt-panel img { height: auto; aspect-ratio: 3 / 2; }
+  /* 1 hero */
+  .wx-hero { margin-top: 0; height: 112vw; display: block; }
+  .wx-hero-copy { position: absolute; left: 0; right: 0; bottom: 32px; transform: none; width: auto; padding: 0 24px; }
+  .wx-hero-copy h1 { font-size: var(--t-heading); line-height: var(--lh-heading); }
+  .wx-hero-copy p { margin-top: 8px; font-size: var(--t-sub); line-height: var(--lh-sub); }
+
+  /* 2 DNA */
+  .wx-dna { margin-top: 48px; }
+  .wx-dna p { margin: 14px 0 0; font-size: 15px; line-height: 23px; text-wrap: pretty; }
+
+  /* 3 quote: the picture, then the words, as the homepage's pull quote does */
+  .wx-quote { margin-top: 48px; height: auto; }
+  .wx-quote-media { position: static; width: 100%; height: auto; aspect-ratio: 4 / 3; }
+  .wx-quote-copy { position: relative; left: auto; top: auto; transform: none; width: auto;
+                   padding: calc(var(--t-sub) * 2.75) 24px 0 calc(var(--t-sub) * 3.419); }
+  .wx-quote-copy p { font-size: var(--t-sub); line-height: var(--lh-sub); letter-spacing: 0; }
+  .wx-quote-copy p br, .wx-quote-copy cite br { display: none; }
+  .wx-quote-copy .qmark { display: block; width: calc(var(--t-sub) * 3.1301);
+                          right: calc(100% - var(--t-sub) * 0.4615); bottom: 100%; }
+  .wx-quote-copy cite { margin-top: 14px; font-size: 14px; line-height: 20px; }
+
+  /* 4 journey: swipe cards, the next one peeking in. The words are always
+     showing -- on a phone there is no hover to open them. */
+  .wx-journey { margin-top: 48px; padding: 40px 0; }
+  .wx-journey .wx-h { width: auto; margin-inline: 0; padding-inline: 24px; box-sizing: border-box; }
+  .wx-journey-stage { margin-top: 20px; padding-inline: 0; }
+  .wx-journey-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+                         -webkit-overflow-scrolling: touch; touch-action: auto; cursor: auto; }
+  .wx-journey-viewport::-webkit-scrollbar { display: none; }
+  .wx-journey-track { transform: none !important; transition: none; gap: 12px; padding-inline: 24px; }
+  .wx-journey-chev, .wx-journey-arrow { display: none; }
+  .wx-journey-card { flex: 0 0 82%; height: auto; border-radius: 4px; scroll-snap-align: start; scroll-snap-stop: always; }
+  .wx-journey-card:last-of-type { scroll-snap-align: end; }
+  .wx-card-media, .wx-card-media img { transition: none; }
+  .wx-card-media { position: static; aspect-ratio: 4 / 3; }
+  .wx-card-band { position: static; padding: 16px 16px 20px; background: #fff; color: var(--ink); }
+  .wx-card-title { font-size: 18px; line-height: 22px; min-height: 0; color: var(--orange-deep); text-wrap: balance; }
+  .wx-card-bio-wrap { grid-template-rows: 1fr; }
+  .wx-card-bio { margin-top: 8px; font-size: 15px; line-height: 23px; color: var(--ink); }
+
+  /* 5 options: the six names as chips, then the chosen one's picture and words */
+  .wx-options { margin-top: 48px; }
+  .wx-options-grid { margin-top: 20px; display: block; }
+  .wx-options-list { display: flex; gap: 8px; overflow-x: auto; margin: 0 -24px; padding: 0 24px 4px;
+                     border-top: 0; scrollbar-width: none; scroll-padding: 0 24px; -webkit-overflow-scrolling: touch; }
+  .wx-options-list::-webkit-scrollbar { display: none; }
+  .wx-opt { flex: none; width: auto; height: 44px; padding: 0 16px; border: 1px solid #d9d6d0; border-radius: 6px;
+            background: #fff; font-size: 14px; white-space: nowrap; }
+  .wx-opt svg { display: none; }
+  .wx-opt.is-on { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 500; }
+  .wx-options-media { margin-top: 20px; }
+  .wx-opt-panel img { height: auto; aspect-ratio: 4 / 3; border-radius: 4px; }
+  .wx-opt-panel h3 { margin-top: 18px; font-size: 20px; line-height: 26px; }
+  .wx-opt-panel p { margin-top: 8px; font-size: 15px; line-height: 23px; }
+
+  /* 6 service: shared, nothing to set but the lead-in */
+  .wx-service { margin-top: 0; }
+
+  /* 7 makers: one card per team, the words always showing */
+  .wx-makers { margin-top: 48px; }
+  .wx-makers-intro { margin: 14px 0 0; max-width: none; font-size: 15px; line-height: 23px; }
+  .wx-makers-row { margin-top: 20px; padding-inline: 24px; grid-template-columns: 1fr; gap: 16px; }
+  .wx-mk { border-radius: 4px; }
+  .wx-mk-photo { aspect-ratio: 4 / 3; transition: none; }
+  .wx-mk:hover .wx-mk-photo, .wx-mk:focus-within .wx-mk-photo { transform: none; }
+  .wx-mk-band { position: static; padding: 16px 16px 20px; background: #fff; color: var(--ink); }
+  .wx-mk-name { min-height: 0; font-size: 18px; line-height: 22px; color: var(--orange-deep); }
+  .wx-mk-wrap { grid-template-rows: 1fr; }
+  .wx-mk-text { margin-top: 8px; font-size: 15px; line-height: 23px; }
+
+  /* 8 dealers: the bar, the map, then the dealer's details */
+  .wx-dealers { margin-top: 48px; }
+  .wx-dealers-row { margin-top: 20px; height: auto; grid-template-columns: 1fr; }
   .wx-dealers-map { padding: 16px; }
   .wx-dealers-bar { position: static; width: 100%; height: 56px; margin-bottom: 16px; gap: 8px; }
   .wx-dealers-pill { padding: 4px; border-radius: 4px; overflow-x: auto; scrollbar-width: none; }
@@ -687,4 +740,14 @@
   .wx-d-cta, .wx-d-enq { height: 48px; padding: 0 24px; font-size: 14px; margin-top: 16px; }
   .wx-d-enq { margin-top: 28px; }
   .wx-d-loc { margin-top: 24px; }
+
+
+  /* 9 range */
+  .wx-range { margin-top: 48px; }
+  .wx-range-row { margin-top: 20px; padding-inline: 24px; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+  .wx-range-row figcaption { margin-top: 10px; }
+  .wx-range-row h3 { font-size: 18px; line-height: 22px; }
+  .wx-range-row p { margin-top: 4px; font-size: 14px; line-height: 20px; }
+
+  .wx-contact { background: none; }
 }

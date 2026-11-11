@@ -121,7 +121,7 @@
       show(true);
     });
     /* focus can scroll an overflow:hidden box; the track, not the box, moves */
-    viewport.addEventListener("scroll", function () { viewport.scrollLeft = 0; });
+    viewport.addEventListener("scroll", function () { if (!PHONE.matches) viewport.scrollLeft = 0; });
 
     /* ---- every band the same height at rest ---------------------------
        The titles are display type and wrap differently at each size. Measure
