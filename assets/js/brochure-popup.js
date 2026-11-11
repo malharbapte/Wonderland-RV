@@ -117,9 +117,9 @@
     if (!form.checkValidity()) { form.reportValidity(); return; }
     close();                                    /* not wired to a service yet */
   });
-  /* sample hook: home.html#bro-blur-a|b|c opens the pop-up with that blur, for the sample page */
-  var hook = /^#bro-blur-([abc])$/.exec(location.hash);
-  if (hook) { scrim.dataset.blur = hook[1]; open(null, "XTR"); }
+  /* sample hook: home.html#bro-tabs-now|a|b|c opens the pop-up at that tab size, for the sample page */
+  var hook = /^#bro-tabs-(now|a|b|c)$/.exec(location.hash);
+  if (hook) { scrim.dataset.tabs = hook[1]; open(null, "XTR"); }
 
   window.addEventListener("resize", place);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);

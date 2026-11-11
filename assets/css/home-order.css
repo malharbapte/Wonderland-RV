@@ -1062,12 +1062,9 @@
    in px (rem is a flat 16px on a phone).
    ========================================================================== */
 .bro-scrim { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto;
-             background: rgba(0,0,0,.45); animation: bro-fade .28s ease;
-             -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-/* THE BLUR BEHIND THE POP-UP: three strengths to choose from (sample-brochure-blur.html) */
-.bro-scrim[data-blur="a"] { background: rgba(0,0,0,.35); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
-.bro-scrim[data-blur="b"] { background: rgba(0,0,0,.45); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-.bro-scrim[data-blur="c"] { background: rgba(10,10,12,.50); -webkit-backdrop-filter: blur(22px) saturate(.85); backdrop-filter: blur(22px) saturate(.85); }
+             background: rgba(0,0,0,.35); animation: bro-fade .28s ease;
+             /* the blur behind the pop-up: option A of sample-brochure-blur.html, 5px and a light dim */
+             -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
 .bro-scrim[hidden] { display: none; }
 @keyframes bro-fade { from { opacity: 0; } to { opacity: 1; } }
 body.bro-lock { overflow: hidden; }
@@ -1128,6 +1125,15 @@ body.bro-lock { overflow: hidden; }
 
 @media (min-width: 901px) {
   .bro-scrim { padding: .30rem; }
+  /* TAB SIZES to choose from (sample-brochure-tabs.html); "now" is the current size */
+  .bro-scrim[data-tabs="a"] .bro-tabs { gap: .46rem; }
+  .bro-scrim[data-tabs="a"] .bro-tabs button { font-size: .20rem; padding-bottom: .18rem; }
+  .bro-scrim[data-tabs="b"] .bro-tabs { gap: .50rem; }
+  .bro-scrim[data-tabs="b"] .bro-tabs button { font-size: .24rem; padding-bottom: .20rem; }
+  .bro-scrim[data-tabs="b"] .bro-tabs-i { height: 3px; }
+  .bro-scrim[data-tabs="c"] .bro-tabs { gap: .34rem; }
+  .bro-scrim[data-tabs="c"] .bro-tabs button { font-size: .27rem; padding-bottom: .22rem; }
+  .bro-scrim[data-tabs="c"] .bro-tabs-i { height: 3px; }
   /* the Layouts pop-up's card: a grey panel on the left (heading, line, the
      brochure cover) and the form on the right */
   /* RULE OF THIRDS: the left panel is a third of the card, the form two thirds */
