@@ -159,4 +159,7 @@
     e.preventDefault();
     show();
   });
+
+  /* a direct link: home.html#vip-appointment opens it on load (handy for sharing) */
+  if (location.hash === "#vip-appointment") show();
 })();
