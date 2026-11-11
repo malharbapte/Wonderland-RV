@@ -1022,8 +1022,10 @@
   .coty-parrow { position: absolute; z-index: 3; top: calc((100vw - 48px) * .86 * 9 / 32); transform: translateY(-50%);
                  width: 44px; height: 44px; padding: 0; background: none; border: 0; color: #fff;
                  display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease; }
-  .coty-parrow--prev { left: -8px; }
-  .coty-parrow--next { right: -8px; }
+  /* inside the picture, never past the screen edge: an arrow at right: -8px sat 8px
+     beyond the page and let it slide sideways. Both are placed from the left. */
+  .coty-parrow--prev { left: 28px; }
+  .coty-parrow--next { left: calc(24px + .86 * (100vw - 48px) - 48px); }
   .coty-parrow.is-off { opacity: 0; pointer-events: none; }
   .coty-parrow svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2.6;
                      stroke-linecap: butt; stroke-linejoin: miter; filter: drop-shadow(0 0 4px rgba(0,0,0,.6)); }
@@ -1043,3 +1045,10 @@
                                 letter-spacing: .04em; text-transform: uppercase; color: #6b6158; }
   @media (prefers-reduced-motion: reduce) { .coty-page, .coty-parrow { transition: none; } }
 }
+
+
+/* ==========================================================================
+   CONTACT FORM BACKGROUND, PHONE: grey like desktop (#F8F8F7), not the warm
+   off-white it kept on the phone.
+   ========================================================================== */
+@media (max-width: 900px) { .home-contact { background: #F8F8F7; } }

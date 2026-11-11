@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample &mdash; Our dream makers</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/styles.css?v=327">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=319">
+<link rel="stylesheet" href="assets/css/homepage.css?v=319">
+<link rel="stylesheet" href="assets/css/wx-page.css?v=319">
+<style>
+  .smp-bar { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #e4e2de;
+             padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center;
+             font: 500 13px/1.25 var(--gordita), sans-serif; color: #000; }
+  .smp-bar b { font-weight: 700; margin-right: 6px; }
+  .smp-bar button { font: inherit; padding: 8px 12px; border: 1px solid #cfcac2; background: #fff; border-radius: 4px; cursor: pointer; color: #000; margin-right: 6px; }
+  .smp-bar button.on { background: #D57114; border-color: #D57114; color: #fff; }
+  .smp-read { margin-left: auto; color: #555; font-weight: 400; }
+  .smp-pad { height: 50px; }  .smp-foot { height: 80px; }
+
+  /* ---- shared ---- */
+  .mk-row { padding-inline: 1.941rem; box-sizing: border-box; margin-top: 1.1rem; display: grid; gap: 0.568rem; }
+  .mk-item { margin: 0; outline: none; }
+  .mk-photo { background: var(--ph-photo); display: grid; place-items: center; aspect-ratio: 1;
+              font: 400 0.2rem/1 var(--gordita); color: #4a4a4a; }
+  .mk-name { margin: 0; }
+  .mk-text { margin: 0; }
+
+  /* ---- A: under the photo, always visible ---- */
+  .mk--A .mk-row { grid-template-columns: repeat(4, 1fr); align-items: start; }
+  .mk--A .mk-name { margin-top: 0.45rem; font: 500 0.32rem/1.15 var(--gordita); }
+  .mk--A .mk-text { margin-top: 0.14rem; font: 400 0.24rem/0.34rem var(--gordita); text-wrap: pretty; }
+  .mk--A .mk-wrap { display: block; }
+
+  /* ---- B: the journey card's band, opens on hover ---- */
+  .mk--B .mk-row { grid-template-columns: repeat(4, 1fr); }
+  .mk--B .mk-item { position: relative; overflow: hidden; border-radius: 0.08rem; border: 1px solid #e6e6e6; background: #fff; }
+  .mk--B .mk-photo { transition: transform .30s ease; border: 0; }
+  .mk--B .mk-band { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.16rem 0.22rem 0.30rem; background: var(--orange-deep); color: #fff; }
+  .mk--B .mk-name { font: 900 0.36rem/1.1 var(--aviano); min-height: 2.2em; text-wrap: balance; }
+  .mk--B .mk-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .30s ease; }
+  .mk--B .mk-inner { overflow: hidden; min-height: 0; }
+  .mk--B .mk-text { margin-top: 0.10rem; font: 400 0.24rem/0.33rem var(--gordita); color: #fff; text-wrap: pretty; }
+  .mk--B .mk-item:hover .mk-photo, .mk--B .mk-item:focus-within .mk-photo, .mk--B.smp-open .mk-photo { transform: translateY(-0.34rem); }
+  .mk--B .mk-item:hover .mk-wrap, .mk--B .mk-item:focus-within .mk-wrap, .mk--B.smp-open .mk-wrap { grid-template-rows: 1fr; }
+
+  /* ---- D: two by two, the text beside its photo ---- */
+  .mk--D .mk-row { grid-template-columns: repeat(2, 1fr); row-gap: 0.8rem; column-gap: 0.568rem; }
+  .mk--D .mk-item { display: grid; grid-template-columns: 5.2rem 1fr; gap: 0.5rem; align-items: start; }
+  .mk--D .mk-name { font: 500 0.40rem/1.1 var(--gordita); }
+  .mk--D .mk-text { margin-top: 0.20rem; font: 400 var(--t-body)/var(--lh-body) var(--gordita); text-wrap: pretty; }
+  .mk--D .mk-wrap { display: block; }
+  .smp-open-wrap { display: none; }  .smp-B .smp-open-wrap { display: inline; }
+</style>
+</head>
+<body class="home">
+<div class="smp-bar">
+  <span id="pick"><b>Fit the descriptions</b>
+    <button data-k="A" class="on">A &middot; Under the photo</button>
+    <button data-k="B">B &middot; Hover to read (as the journey cards)</button>
+    <button data-k="D">D &middot; Two by two, text beside</button>
+  </span>
+  <label class="smp-open-wrap"><input type="checkbox" id="open"> Show all open</label>
+  <span class="smp-read" id="read"></span>
+</div>
+<main class="wx">
+  <div class="smp-pad"></div>
+  <section class="mk mk--A" id="mk">
+    <div class="container"><h2 class="wx-h">Our dream makers</h2></div>
+    <div class="mk-row wx-bleed">
+      <figure class="mk-item" tabindex="0">
+        <div class="mk-photo"></div>
+        <div class="mk-band">
+          <h3 class="mk-name">Customer Relations Team</h3>
+          <div class="mk-wrap"><div class="mk-inner"><p class="mk-text">Making dream caravans a reality means learning about your unique story. We listen, guide, and support you so we can ensure a delightful Wonderland experience. We nurture relationships with Wonderlanders even after they drive off into their&nbsp;adventures.</p></div></div>
+        </div>
+      </figure>
+      <figure class="mk-item" tabindex="0">
+        <div class="mk-photo"></div>
+        <div class="mk-band">
+          <h3 class="mk-name">Design &amp; Innovation Team</h3>
+          <div class="mk-wrap"><div class="mk-inner"><p class="mk-text">We are responsible for translating your ideas into a design. We are behind the innovative and custom features that go into your caravan. Together, we will refine your layout, and improve the appearance and&nbsp;functionality.</p></div></div>
+        </div>
+      </figure>
+      <figure class="mk-item" tabindex="0">
+        <div class="mk-photo"></div>
+        <div class="mk-band">
+          <h3 class="mk-name">Manufacturing Team</h3>
+          <div class="mk-wrap"><div class="mk-inner"><p class="mk-text">Our role is to build your caravan exactly as ordered, with precision and care. From setting up the sturdy chassis to finalising the fit out, our skilled team work tirelessly to create a one-of-a-kind masterpiece. We meticulously transform the raw materials into seamless cabinetry, cutting edge electrical systems, and everything else that you will love in your&nbsp;caravan.</p></div></div>
+        </div>
+      </figure>
+      <figure class="mk-item" tabindex="0">
+        <div class="mk-photo"></div>
+        <div class="mk-band">
+          <h3 class="mk-name">Marketing &amp; Events Team</h3>
+          <div class="mk-wrap"><div class="mk-inner"><p class="mk-text">Marketing at Wonderland RV goes beyond showcasing why our caravans are trusted, tough and built to last. It&rsquo;s about bringing the Wonderland lifestyle to life and welcoming our customers into what it truly means to be a Wonderlander. We&rsquo;re proud of our strong, close-knit owner community and love creating opportunities for connection through owner meet-and-greets, events and experiences designed to bring our customers&nbsp;together.</p></div></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+  <div class="smp-foot"></div>
+</main>
+<script>
+(function () {
+  var sec = document.getElementById('mk'), read = document.getElementById('read');
+  var rem = function () { return parseFloat(getComputedStyle(document.documentElement).fontSize); };
+  function paint() {
+    var h = sec.getBoundingClientRect().height / rem();
+    read.textContent = 'Section height ' + h.toFixed(1) + 'rem (the skeleton\u2019s was 8.3)';
+  }
+  document.getElementById('pick').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    [].forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+    sec.className = 'mk mk--' + b.dataset.k + (document.getElementById('open').checked ? ' smp-open' : '');
+    document.body.classList.toggle('smp-B', b.dataset.k === 'B');
+    paint();
+  });
+  document.getElementById('open').addEventListener('change', function () { sec.classList.toggle('smp-open', this.checked); });
+  window.addEventListener('resize', paint); window.addEventListener('load', paint); paint();
+})();
+</script>
+</body>
+</html>
