@@ -7,10 +7,13 @@
 body{margin:0;background:#fff}
 .back{padding:1rem var(--page-margin,3.76rem)}.back h1{font-family:var(--aviano);font-weight:900;font-size:var(--t-heading)}
 .ev-sub{margin:.2rem 0 0;font-size:var(--t-body);line-height:1.35;color:#3a342e}
-.ev-show{margin-top:.5rem;background:#fff;border:1px solid var(--ink);border-radius:3px;padding:.26rem .28rem}
-.ev-show small{display:block;font-size:.17rem;line-height:.24rem;letter-spacing:.06em;text-transform:uppercase;color:var(--orange-deep);font-weight:700}
-.ev-show b{display:block;margin-top:.06rem;font-weight:700;font-size:.28rem;line-height:.36rem}
-.ev-show span{display:block;margin-top:.04rem;font-size:.21rem;line-height:.3rem;color:#6b6158}
+.ev-logo{display:block;width:100%;height:auto;margin-top:.5rem}
+.ev-show{margin-top:.24rem;background:#fff;border:1px solid var(--ink);border-radius:3px}
+.ev-row{padding:.2rem .28rem}
+.ev-row+.ev-row{border-top:1px solid #d9d5cf}
+.ev-row small{display:block;font-size:.16rem;line-height:.22rem;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-deep);font-weight:700}
+.ev-row b{display:block;margin-top:.05rem;font-weight:700;font-size:.28rem;line-height:.36rem}
+.ev-row span{display:block;margin-top:.02rem;font-size:.21rem;line-height:.3rem;color:#6b6158}
 .ev-priv{margin:0;font-size:.17rem;line-height:.24rem;color:#6b6158}
 .eq-sel select:has(option[value=""]:checked){color:#6b6158}
 /* three-day pill */
@@ -38,7 +41,8 @@ body{margin:0;background:#fff}
 @media (max-width:900px){
   .ev-left{padding:56px 20px 8px;border-radius:3px 3px 0 0}
   .ev-sub{font-size:15px;margin-top:8px}
-  .ev-show{margin:14px 0 8px;padding:12px 14px}.ev-show small{font-size:12px;line-height:16px}.ev-show b{font-size:16px;line-height:22px}.ev-show span{font-size:14px;line-height:20px}
+    .ev-logo{margin-top:16px}
+  .ev-show{margin:12px 0 8px}.ev-row{padding:12px 14px}.ev-row small{font-size:11px;line-height:16px}.ev-row b{font-size:17px;line-height:23px;margin-top:2px}.ev-row span{font-size:14px;line-height:20px}
   .eq-pill3{height:52px;padding:4px}.eq-pill3 label{font-size:14px}
   .eq-pill3 .eq-pill-t{top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3)}
   .ev-ms summary{height:48px;padding:0 14px;font-size:16px}.ev-ms summary svg{width:14px;height:8px}
@@ -53,7 +57,12 @@ body{margin:0;background:#fff}
   <div class="eq-left ev-left">
     <h2 class="eq-title" id="t">VIP appointment</h2>
     <p class="ev-sub">Pick a day and time and we will lock in a booking with our adventure experts.</p>
-    <div class="ev-show"><small>Your show</small><b>Bendigo Caravan &amp; Camping Leisurefest</b><span>Fri 13 to Sun 15 November, 9am to 4pm</span><span>Bendigo Racecourse, Heinz Street, Ascot VIC</span><span>With Outbound RVs, site to be confirmed</span></div>
+    <img class="ev-logo" src="assets/img/events/bendigo-leisurefest.png" alt="Bendigo Caravan &amp; Camping Leisurefest">
+    <div class="ev-show">
+      <div class="ev-row"><small>When</small><b>Fri 13 to Sun 15 November</b><span>9am to 4pm daily</span></div>
+      <div class="ev-row"><small>Where</small><b>Bendigo Racecourse</b><span>Heinz Street, Ascot VIC 3551</span></div>
+      <div class="ev-row"><small>Find us</small><b>With Outbound RVs</b><span>Site to be confirmed</span></div>
+    </div>
   </div>
   <form class="eq-form" action="#" method="post" autocomplete="off" novalidate>
     <input type="hidden" name="show" value="Bendigo Caravan &amp; Camping Leisurefest">
