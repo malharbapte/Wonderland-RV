@@ -29,10 +29,30 @@
     var on = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0];
     return on ? on.dataset.m : "All models";
   }
+  /* DESKTOP ONLY: the brochure photo for the model, in the grey panel. All models
+     shows all four. The phone has no photo and never fetches one. */
+  var cover = document.getElementById("broCover");
+  var WIDE  = window.matchMedia("(min-width: 901px)");
+  var PIC   = { "Solara": "solara", "XTR": "xtr", "Hornet": "hornet", "Amaroo": "amaroo" };
+  function showCover(m) {
+    if (!cover || !WIDE.matches) return;
+    var all = m === "All models";
+    cover.textContent = "";
+    cover.classList.toggle("bro-cover--all", all);
+    (all ? ["Solara", "XTR", "Hornet", "Amaroo"] : [m]).forEach(function (name) {
+      if (!PIC[name]) return;
+      var img = document.createElement("img");
+      img.src = "assets/img/home/brochure/" + PIC[name] + ".webp";
+      img.alt = "The Wonderland RV " + name + " brochure";
+      cover.appendChild(img);
+    });
+  }
+
   function setModel(m) {
     tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.m === m)); });
     model.value = m;
     title.textContent = m === "All models" ? "Download the brochure" : "Download the " + m + " brochure";
+    showCover(m);
     place();
   }
   /* the orange blocks sit under the chosen name / segment; they are measured, so

@@ -1127,9 +1127,14 @@ body.bro-lock { overflow: hidden; }
      brochure cover) and the form on the right */
   .bro { width: 14.4rem; margin: auto; padding: 0; display: grid; grid-template-columns: 40% 60%; overflow: hidden; }
   .bro-left { background: #F8F8F7; padding: .6rem .5rem; border-radius: 3px 0 0 3px; display: flex; flex-direction: column; }
-  .bro-cover { display: grid; margin-top: .4rem; width: 62%; aspect-ratio: 3 / 4; background: #fff; display: grid; place-items: center;
-               font: 600 .13rem/1 system-ui, sans-serif; letter-spacing: .06em; color: #9a948c; text-align: center;
-               box-shadow: 0 .08rem .22rem rgba(40,38,34,.18); }
+  /* the brochure photo for the chosen model (from the model's page on
+     wonderlandrv.com.au); All models shows the four together */
+  .bro-cover { display: block; margin-top: .4rem; width: 100%; aspect-ratio: 3 / 2; border-radius: 3px; overflow: hidden;
+               background: #fff; box-shadow: 0 .08rem .22rem rgba(40,38,34,.18); }
+  .bro-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .bro-cover--all { display: grid; grid-template-columns: 1fr 1fr; gap: .08rem; aspect-ratio: auto;
+                    background: none; box-shadow: none; overflow: visible; }
+  .bro-cover--all img { height: auto; aspect-ratio: 3 / 2; border-radius: 2px; box-shadow: 0 .05rem .14rem rgba(40,38,34,.16); }
   .bro-right { padding: .6rem .6rem .55rem .5rem; }
   .bro-x { top: .15rem; right: .15rem; width: .5rem; height: .5rem; }
   .bro-x svg { width: .44rem; height: .44rem; }
