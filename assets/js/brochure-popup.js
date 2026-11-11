@@ -1,6 +1,6 @@
 /* ==========================================================================
    BROCHURE DOWNLOAD POP-UP -- home.html
-   Opens from every [data-brochure] link (the Download brochure buttons in the
+   Opens from every [data-brochure] link, on the model the range viewer is showing, (the Download brochure buttons in the
    range section, desktop and phone). The model is chosen with the underlined
    tabs (desktop) or the dropdown (phone); the heading follows the choice. Closes
    with the cross, Escape or a click outside, and gives focus back to the button.
@@ -63,7 +63,13 @@
   }
 
   [].forEach.call(document.querySelectorAll("[data-brochure]"), function (a) {
-    a.addEventListener("click", function (e) { e.preventDefault(); open(a, a.dataset.model); });
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      /* a button can name its model (data-model); otherwise it is the van the
+         range viewer around it is showing right now */
+      var box = a.closest(".rvx, .rvp");
+      open(a, a.dataset.model || (box && box.dataset.model) || "All models");
+    });
   });
   closeBtn.addEventListener("click", close);
   scrim.addEventListener("click", function (e) { if (e.target === scrim) close(); });

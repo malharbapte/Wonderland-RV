@@ -125,6 +125,8 @@
       dots.forEach(function (d, k) { d.classList.toggle("on", k === at); });
       document.getElementById("rvpCount").textContent = (at + 1) + " / " + N;
       document.getElementById("rvpSpec").innerHTML = cells(MODELS[at]);
+      /* the model on screen, for the brochure pop-up to open on */
+      var box = mount.closest(".rvp"); if (box) box.dataset.model = MODELS[at].name;
     }
 
     var t;

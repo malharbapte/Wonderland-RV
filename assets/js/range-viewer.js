@@ -154,6 +154,8 @@
       if (bs[k]) { bs[k].classList.toggle("on", k === at); }
       if (ps[k]) { ps[k].classList.toggle("on", k === at); }
     }
+    /* the model on screen, for the brochure pop-up to open on */
+    sec.dataset.model = MODELS[at].name;
   }
 
   function go(i) { at = (i + N) % N; paint(); }
