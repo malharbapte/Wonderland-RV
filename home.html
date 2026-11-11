@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=314">
-<link rel="stylesheet" href="assets/css/home-order.css?v=349">
+<link rel="stylesheet" href="assets/css/home-order.css?v=350">
 </head>
 <body class="home">
 
@@ -1032,15 +1032,20 @@
   Opens from the Download brochure buttons in the range section (desktop and
   phone). Option C of sample-brochure-c.html: the model is underlined tabs on
   desktop and an orange-outlined dropdown on the phone; the follow-up is the
-  pill. brochure-popup.js drives it. The form is not wired to anything yet, like
+  pill. Desktop is the split card of the Layouts pop-up (heading and cover on the
+  left, form on the right); the phone is a single column. brochure-popup.js drives it. The form is not wired to anything yet, like
   the site's other forms, and the brochure files per model are still to come. -->
 <div class="bro-scrim" id="broScrim" hidden>
   <div class="bro" id="broCard" role="dialog" aria-modal="true" aria-labelledby="broTitle" tabindex="-1">
     <button class="bro-x" id="broClose" type="button" aria-label="Close">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg>
     </button>
-    <h2 class="bro-title" id="broTitle">Download the brochure</h2>
-    <p class="bro-intro">Choose the model,<br class="bro-phbr"> then tell us where to send it.</p>
+    <div class="bro-left">
+      <h2 class="bro-title" id="broTitle">Download the brochure</h2>
+      <p class="bro-intro">Choose the model,<br class="bro-phbr"> then tell us where to send it.</p>
+      <div class="bro-cover" aria-hidden="true">BROCHURE COVER</div>
+    </div>
+    <div class="bro-right">
     <div class="bro-tabs" id="broTabs" role="tablist" aria-label="Model"><span class="bro-tabs-i" aria-hidden="true"></span><button type="button" role="tab" data-m="All models" aria-selected="true">All models</button><button type="button" role="tab" data-m="Solara" aria-selected="false">Solara</button><button type="button" role="tab" data-m="XTR" aria-selected="false">XTR</button><button type="button" role="tab" data-m="Hornet" aria-selected="false">Hornet</button><button type="button" role="tab" data-m="Amaroo" aria-selected="false">Amaroo</button></div>
     <div class="bro-msel"><label class="bro-f bro-sel"><select id="broModel" aria-label="Model"><option value="All models" selected>All models</option><option value="Solara">Solara</option><option value="XTR">XTR</option><option value="Hornet">Hornet</option><option value="Amaroo">Amaroo</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label></div>
     <form class="bro-form" id="broForm" action="#" method="post" autocomplete="off" novalidate>
@@ -1062,6 +1067,7 @@
       <label class="bro-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>
       <button class="bro-submit" type="submit">Download</button>
     </form>
+    </div>
   </div>
 </div>
 

@@ -1076,6 +1076,7 @@ body.bro-lock { overflow: hidden; }
              line-height: 1.05; text-transform: uppercase; }
 .bro-intro { margin: 0; color: #6b6158; font-size: var(--t-body); }
 .bro-phbr { display: none; }
+.bro-cover { display: none; }
 .bro-form { display: grid; }
 .bro-g2 { display: grid; grid-template-columns: 1fr 1fr; }
 .bro-g2.bro-one { grid-template-columns: 1fr; }
@@ -1122,11 +1123,18 @@ body.bro-lock { overflow: hidden; }
 
 @media (min-width: 901px) {
   .bro-scrim { padding: .30rem; }
-  .bro { width: 10.6rem; margin: auto; padding: .6rem .6rem .55rem; }
+  /* the Layouts pop-up's card: a grey panel on the left (heading, line, the
+     brochure cover) and the form on the right */
+  .bro { width: 14.4rem; margin: auto; padding: 0; display: grid; grid-template-columns: 40% 60%; overflow: hidden; }
+  .bro-left { background: #F8F8F7; padding: .6rem .5rem; border-radius: 3px 0 0 3px; display: flex; flex-direction: column; }
+  .bro-cover { display: grid; margin-top: .4rem; width: 62%; aspect-ratio: 3 / 4; background: #fff; display: grid; place-items: center;
+               font: 600 .13rem/1 system-ui, sans-serif; letter-spacing: .06em; color: #9a948c; text-align: center;
+               box-shadow: 0 .08rem .22rem rgba(40,38,34,.18); }
+  .bro-right { padding: .6rem .6rem .55rem .5rem; }
   .bro-x { top: .15rem; right: .15rem; width: .5rem; height: .5rem; }
   .bro-x svg { width: .44rem; height: .44rem; }
   .bro-intro { margin-top: .14rem; line-height: var(--lh-body); }
-  .bro-tabs { gap: .42rem; margin-top: .3rem; }
+  .bro-tabs { gap: .42rem; margin-top: .52rem; }
   .bro-tabs button { padding: 0 0 .16rem; font-size: .17rem; }
   .bro-form { margin-top: .3rem; gap: .26rem; }
   .bro-g2 { gap: .2rem; }
@@ -1149,6 +1157,7 @@ body.bro-lock { overflow: hidden; }
   .bro-x svg { width: 28px; height: 28px; }
   .bro-title { padding-right: 44px; }
   .bro-phbr { display: inline; }
+  .bro-left { display: block; }
   .bro-intro { margin-top: 8px; font-size: 15px; line-height: 1.3; }
   .bro-tabs { display: none; }
   /* the model: a dropdown, white fill, a 3px orange outline, the name in orange Aviano Black */
