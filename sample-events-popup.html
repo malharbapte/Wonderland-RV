@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: events pop-up</title>
+<style>
+body{margin:0;padding:0 20px 30px;background:#eceae6;font:14px/1.45 system-ui,sans-serif;color:#111}
+.bar{position:sticky;top:0;z-index:9;background:#eceae6;padding:14px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar b{font-size:16px;margin-right:6px}.bar a{padding:6px 14px;border:1px solid #999;border-radius:4px;color:#111;text-decoration:none;background:#fff}
+.bar a.on{background:#111;color:#fff;border-color:#111}.note{margin:0 0 16px;color:#555;max-width:980px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}.cap{margin:0 0 8px;font-weight:700}
+.dk{width:960px;height:540px;overflow:hidden;border:8px solid #111;border-radius:8px;background:#fff;position:relative;box-sizing:content-box}
+.dk iframe{width:1920px;height:1080px;border:0;transform:scale(.5);transform-origin:0 0;position:absolute;left:0;top:0}
+.ph iframe{display:block;width:390px;height:780px;border:8px solid #111;border-radius:34px;background:#fff}
+</style></head><body>
+<div class="bar"><b>Events pop-up</b><a href="#a" data-o="a">A &middot; split card</a><a href="#b" data-o="b">B &middot; single column</a></div>
+<p class="note" id="d"></p>
+<div class="row">
+<div><p class="cap">Desktop (1920 &times; 1080, shown at half size)</p><div class="dk"><iframe id="fd" src="sample-events-popup-frame.html?v=1#a" title="Desktop"></iframe></div></div>
+<div class="ph"><p class="cap">iPhone (390 wide)</p><iframe id="fp" src="sample-events-popup-frame.html?v=1#a" title="Phone"></iframe></div>
+</div>
+<script>
+(function(){var D={a:'A: the show on the left (date, place, which dealer we are with), the form on the right. Same split card as the Layouts and brochure pop-ups. Request my appointment sends it.',
+b:'B: one short column. The show is a dropdown at the top, fewer fields. Quicker to fill, nothing beside the form.'};
+function go(){var o=(location.hash||'#a').slice(1);if(!D[o])o='a';
+[].forEach.call(document.querySelectorAll('.bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
+document.getElementById('d').textContent=D[o]+' The real one would open from the Events link in the menu. The show shown is the live site’s one still ahead (Bendigo, 13 to 15 Nov).';
+['fd','fp'].forEach(function(id){var f=document.getElementById(id);try{f.contentWindow.location.hash=o}catch(e){}})}
+window.addEventListener('hashchange',go);go();})();
+</script></body></html>
