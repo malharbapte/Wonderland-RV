@@ -1052,3 +1052,130 @@
    off-white it kept on the phone.
    ========================================================================== */
 @media (max-width: 900px) { .home-contact { background: #F8F8F7; } }
+
+
+/* ==========================================================================
+   BROCHURE DOWNLOAD POP-UP (option C of sample-brochure-c.html)
+   Opens from the Download brochure buttons. Desktop: the model is underlined
+   tabs. Phone: a dropdown with a 3px orange outline, a white fill and the model
+   in Aviano Black. The follow-up is the pill. Desktop sizes in rem, phone sizes
+   in px (rem is a flat 16px on a phone).
+   ========================================================================== */
+.bro-scrim { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto;
+             background: rgba(0,0,0,.45); animation: bro-fade .28s ease; }
+.bro-scrim[hidden] { display: none; }
+@keyframes bro-fade { from { opacity: 0; } to { opacity: 1; } }
+body.bro-lock { overflow: hidden; }
+.bro { position: relative; background: #fff; border-radius: 3px; box-shadow: 0 10px 40px rgba(0,0,0,.25);
+       font-family: var(--gordita); color: var(--ink); outline: none; }
+.bro-x { position: absolute; z-index: 2; padding: 0; background: none; border: 0; color: var(--ink);
+         display: grid; place-items: center; cursor: pointer; transition: color .2s ease; }
+.bro-x:hover, .bro-x:focus-visible { color: var(--orange-deep); }
+.bro-x svg { stroke-width: 1.1; stroke-linecap: butt; }
+.bro-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
+             line-height: 1.05; text-transform: uppercase; }
+.bro-intro { margin: 0; color: #6b6158; font-size: var(--t-body); }
+.bro-phbr { display: none; }
+.bro-form { display: grid; }
+.bro-g2 { display: grid; grid-template-columns: 1fr 1fr; }
+.bro-g2.bro-one { grid-template-columns: 1fr; }
+.bro-f { display: block; position: relative; }
+.bro-f input, .bro-f select { display: block; width: 100%; background: none; color: var(--ink);
+                              font-family: var(--gordita); border-radius: 0; }
+.bro-f input { border: 0; border-bottom: 1px solid var(--ink); }
+.bro-f input::placeholder { color: #6b6158; opacity: 1; }
+.bro-f input:focus { outline: none; border-bottom-color: var(--orange); box-shadow: 0 1px 0 var(--orange); }
+.bro-f select { border: 1px solid var(--ink); border-radius: 3px; -webkit-appearance: none; appearance: none; color: #6b6158; }
+.bro-f select:valid { color: var(--ink); }
+.bro-f select:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
+.bro-sel svg { position: absolute; top: 50%; pointer-events: none; }
+.bro-sv { display: none; }
+.bro-msel { display: none; }
+/* the model, as underlined tabs */
+.bro-tabs { position: relative; display: flex; border-bottom: 1px solid #d9d6d0; }
+.bro-tabs button { position: relative; flex: none; background: none; border: 0; cursor: pointer; white-space: nowrap;
+                   font-family: var(--aviano); font-weight: 900; letter-spacing: .08em; text-transform: uppercase;
+                   color: #9a948c; transition: color .25s ease; }
+.bro-tabs button:hover, .bro-tabs button[aria-selected="true"] { color: var(--orange-deep); }
+.bro-tabs button:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+.bro-tabs-i { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--orange-deep);
+              transition: left .35s cubic-bezier(.65,0,.35,1), width .35s cubic-bezier(.65,0,.35,1); }
+/* the follow-up pill */
+.bro-pill { position: relative; display: flex; border: 1px solid var(--ink); }
+.bro-pill label { position: relative; z-index: 1; flex: 1 1 0; display: grid; place-items: center; text-align: center;
+                  cursor: pointer; transition: color .28s ease; }
+.bro-pill input { position: absolute; opacity: 0; pointer-events: none; }
+.bro-pill label:has(input:checked) { color: #fff; font-weight: 700; }
+.bro-pill label:has(input:focus-visible) { outline: 2px solid var(--orange-deep); outline-offset: -2px; }
+.bro-pill-t { position: absolute; left: 0; width: 0; background: var(--orange);
+              transition: left .4s cubic-bezier(.65,0,.35,1), width .4s cubic-bezier(.65,0,.35,1); }
+.bro-ck { display: flex; align-items: flex-start; cursor: pointer; }
+.bro-ck input { flex: none; -webkit-appearance: none; appearance: none; border: 1px solid var(--ink);
+                border-radius: 50%; cursor: pointer; margin: 0; }
+.bro-ck input:checked { background: var(--orange) center / 52% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-5.9' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  border-color: var(--orange); }
+.bro-submit { display: block; background: var(--orange); color: #fff; border: 0; border-radius: 3px; cursor: pointer;
+              font-family: var(--aviano); font-weight: 900; box-shadow: inset 0 0 0 2px var(--orange);
+              transition: background .3s ease, color .3s ease; }
+.bro-submit:hover, .bro-submit:focus-visible { background: #fff; color: var(--orange); }
+
+@media (min-width: 901px) {
+  .bro-scrim { padding: .30rem; }
+  .bro { width: 10.6rem; margin: auto; padding: .6rem .6rem .55rem; }
+  .bro-x { top: .15rem; right: .15rem; width: .5rem; height: .5rem; }
+  .bro-x svg { width: .44rem; height: .44rem; }
+  .bro-intro { margin-top: .14rem; line-height: var(--lh-body); }
+  .bro-tabs { gap: .42rem; margin-top: .3rem; }
+  .bro-tabs button { padding: 0 0 .16rem; font-size: .17rem; }
+  .bro-form { margin-top: .3rem; gap: .26rem; }
+  .bro-g2 { gap: .2rem; }
+  .bro-f input, .bro-f select { height: .7rem; font-size: .21rem; }
+  .bro-f input { padding: 0 .02rem; }
+  .bro-f select { padding: 0 .26rem; }
+  .bro-sel svg { right: .22rem; width: .14rem; height: .08rem; margin-top: -.04rem; }
+  .bro-pill { height: .84rem; padding: .08rem; border-radius: .16rem; }
+  .bro-pill label { font-size: .24rem; }
+  .bro-pill-t { top: .08rem; bottom: .08rem; border-radius: .08rem; }
+  .bro-ck { gap: .2rem; font-size: .17rem; line-height: .24rem; }
+  .bro-ck input { width: .26rem; height: .26rem; }
+  .bro-submit { width: 3.14rem; height: .70rem; font-size: .18rem; }
+}
+
+@media (max-width: 900px) {
+  .bro-scrim { padding: 12px; place-items: start center; grid-template-columns: minmax(0, 1fr); }
+  .bro { width: 100%; margin: 0 auto; padding: 56px 20px 24px; }
+  .bro-x { top: 6px; right: 6px; width: 44px; height: 44px; }
+  .bro-x svg { width: 28px; height: 28px; }
+  .bro-title { padding-right: 44px; }
+  .bro-phbr { display: inline; }
+  .bro-intro { margin-top: 8px; font-size: 15px; line-height: 1.3; }
+  .bro-tabs { display: none; }
+  /* the model: a dropdown, white fill, a 3px orange outline, the name in orange Aviano Black */
+  .bro-msel { display: block; margin-top: 16px; }
+  .bro-msel .bro-f select { height: 52px; padding: 0 14px; border: 3px solid var(--orange-deep); background: #fff;
+      color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 17.25px;
+      letter-spacing: .06em; text-transform: uppercase; box-shadow: none; }
+  .bro-msel .bro-f select:valid, .bro-msel .bro-f select:focus { color: var(--orange-deep); border-color: var(--orange-deep); box-shadow: none; }
+  .bro-msel option { font-family: var(--aviano); font-weight: 900; color: var(--ink); }
+  .bro-msel .bro-sel svg { color: var(--orange-deep); width: 16px; height: 9px; margin-top: -4px; right: 18px; }
+  .bro-form { margin-top: 16px; gap: 14px; }
+  .bro-g2 { grid-template-columns: 1fr; gap: 12px; }
+  .bro-f input, .bro-f select { height: 48px; font-size: 16px; }
+  .bro-f select { padding: 0 14px; }
+  /* suggestive text 20% smaller (12.8px); typed text and the controls stay 16px so iPhones do not zoom in */
+  .bro-f input::placeholder { font-size: 12.8px; }
+  .bro-state select { color: transparent; }
+  .bro-state select option { color: var(--ink); }
+  .bro-state .bro-sv { display: flex; align-items: center; position: absolute; left: 14px; top: 0; bottom: 0; right: 44px;
+                       pointer-events: none; font-family: var(--gordita); font-size: 12.8px; color: #6b6158; }
+  .bro-state .bro-sv.on { color: var(--ink); }
+  .bro-sel svg { right: 16px; width: 14px; height: 8px; margin-top: -4px; }
+  .bro-pill { height: 52px; padding: 4px; border-radius: 8px; }
+  .bro-pill label { font-size: 13px; line-height: 1.15; padding: 0 4px; }
+  .bro-pill-t { top: 4px; bottom: 4px; border-radius: 4px; }
+  .bro-ck { gap: 10px; font-size: 12px; line-height: 17px; color: #6b6158; }
+  .bro-ck input { width: 16px; height: 16px; margin-top: 1px; }
+  .bro-submit { width: 100%; height: 52px; font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .bro-scrim { animation: none; } .bro-pill-t, .bro-tabs-i, .bro-tabs button { transition: none; } }
