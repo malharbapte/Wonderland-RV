@@ -19,9 +19,9 @@ body{margin:0;padding:0 20px 30px;background:#eceae6;font:14px/1.45 system-ui,sa
 </div>
 <script>
 (function(){
-var D={a:'A: the earlier pop-up\u2019s split card. Left: heading, one line and a brochure cover (grey placeholder). Right: the live site\u2019s brochure form fields in our form style: full name, email, phone, state, post code, budget, call back / virtual consultation, marketing.',
+var D={a:'A: the earlier pop-up\u2019s split card. Left: heading, one line and a brochure cover (grey placeholder). Right: the live site\u2019s brochure form fields in our form style, with the follow-up as a pill (Brochure only, Call back, Virtual consultation).',
 b:'B: the short form. Heading, one line, then only what is needed to send it: name, email, phone, state, post code and the marketing tick. Quickest to finish.',
-c:'C: pick the model first. The live site has one brochure per model, so a bar across the top chooses Solara, XTR, Hornet or Amaroo and the heading follows. Then the fields.'};
+c:'C: pick the model first. A row of underlined tabs (All models, Solara, XTR, Hornet, Amaroo) sits under the heading and the heading follows the choice. Then the fields, with the follow-up as a pill: Brochure only, Call back or Virtual consultation.'};
 function go(){var o=(location.hash||'#a').slice(1);if(!D[o])o='a';
 [].forEach.call(document.querySelectorAll('.bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
 document.getElementById('d').textContent=D[o]+' Close with the cross, Escape or a click outside. In use it would open from the Download brochure buttons in the range section.';
