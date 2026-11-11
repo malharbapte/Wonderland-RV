@@ -384,7 +384,11 @@
    in a VERTICAL list and in a horizontal grid it pushed items 2, 3 and 4
    down by 0.55rem while leaving the first alone. */
 .band--why { height: var(--band-h); overflow: hidden; }
-.band--why .media img { object-fit: fill; }
+/* the photo is wrapped in a <picture> now (the phone gets a portrait crop), so it no
+   longer matches the direct-child rule that sized it: say it here, or the image
+   stays at its own height and the grey placeholder shows under it */
+.band--why .media picture { display: block; width: 100%; height: 100%; }
+.band--why .media img { width: 100%; height: 100%; object-fit: fill; }
 
 .why-scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
