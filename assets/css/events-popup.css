@@ -118,9 +118,10 @@ body.evp-lock { overflow: hidden; }
 .evp-row{padding:.2rem 0}
 .evp-row:first-child{padding-top:0}
 .evp-row+.evp-row{border-top:1px solid #d9d5cf}
-.evp-row small{display:block;font-family:var(--aviano);font-weight:900;font-size:.16rem;line-height:.22rem;letter-spacing:.06em;text-transform:uppercase;color:var(--orange-deep)}
-.evp-row b{display:block;margin-top:.05rem;font-weight:700;font-size:.28rem;line-height:.36rem}
+.evp-row small{display:block;font-family:var(--aviano);font-weight:900;font-size:.16rem;line-height:.22rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.evp-row b{display:block;margin-top:.05rem;font-weight:700;font-size:.28rem;line-height:.36rem;color:var(--orange-deep)}
 .evp-row span{display:block;margin-top:.02rem;font-size:.21rem;line-height:.3rem;color:#6b6158}
+.evp-find span{color:var(--ink)}
 .evp-priv{margin:0;font-size:.17rem;line-height:.24rem;color:#6b6158}
 .evp-sel select:has(option[value=""]:checked){color:#6b6158}
 /* budget slider */
@@ -170,7 +171,7 @@ body.evp-lock { overflow: hidden; }
   .evp-left{padding:56px 20px 8px;border-radius:3px 3px 0 0}
   .evp-sub{font-size:15px;margin-top:8px}
     .evp-logo{margin-top:16px}
-  .evp-show{margin:14px 0 8px}.evp-row{padding:12px 0}.evp-row:first-child{padding-top:0}.evp-row small{font-size:11px;line-height:16px}.evp-find b{display:none}.evp-find span{margin-top:2px;font-size:17px;line-height:23px;font-weight:700;color:var(--ink)}.evp-row b{font-size:17px;line-height:23px;margin-top:2px}.evp-row span{font-size:14px;line-height:20px}
+  .evp-show{margin:14px 0 8px}.evp-row{padding:12px 0}.evp-row:first-child{padding-top:0}.evp-row small{font-size:11px;line-height:16px}.evp-find span{display:none}.evp-row b{font-size:17px;line-height:23px;margin-top:2px}.evp-row span{font-size:14px;line-height:20px}
   .evp-pill3{height:52px;padding:4px}.evp-pill3 label{font-size:14px}
   .evp-pill3 .evp-pill-t{top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3)}
   .evp-ms summary{height:48px;padding:0 14px;font-size:16px}.evp-ms summary svg{width:14px;height:8px}

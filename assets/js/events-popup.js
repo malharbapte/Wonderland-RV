@@ -19,7 +19,7 @@
     hours:  "9am to 4pm daily",
     venue:  "Bendigo Racecourse",
     addr:   "Heinz Street, Ascot VIC 3551",
-    dealer: "With Outbound RVs",          /* shown on desktop only */
+    dealer: "With Outbound RVs",          /* second line, desktop only */
     site:   "Site CO2",
     days:   ["Fri 13 Nov", "Sat 14 Nov", "Sun 15 Nov"]
   };
@@ -54,7 +54,7 @@
           '<div class="evp-show">' +
             '<div class="evp-row"><small>When</small><b>' + esc(SHOW.when) + "</b><span>" + esc(SHOW.hours) + "</span></div>" +
             '<div class="evp-row"><small>Where</small><b>' + esc(SHOW.venue) + "</b><span>" + esc(SHOW.addr) + "</span></div>" +
-            '<div class="evp-row evp-find"><small>Find us</small><b>' + esc(SHOW.dealer) + "</b><span>" + esc(SHOW.site) + "</span></div>" +
+            '<div class="evp-row evp-find"><small>Find us</small><b>' + esc(SHOW.site) + "</b><span>" + esc(SHOW.dealer) + "</span></div>" +
           "</div>" +
         "</div>" +
         '<form class="evp-form" action="#" method="post" autocomplete="off" novalidate>' +
