@@ -1225,5 +1225,9 @@ body.bro-lock { overflow: hidden; }
   .wy-num { display: block; font-family: var(--gordita); font-weight: 700; color: var(--orange-deep); font-size: .9rem; line-height: 1; }
   .wy-stat > span { display: block; margin-top: .12rem; font-family: var(--aviano); font-size: .2rem; letter-spacing: .3em; text-transform: uppercase; }
   .wy-q { margin: .6rem 0 0; max-width: 12rem; font-family: var(--gordita); font-weight: 500; font-size: .38rem; line-height: .5rem; letter-spacing: -.01em; }
-  .wy-q cite { display: block; margin-top: .2rem; font-style: normal; font-weight: 400; font-size: .2rem; line-height: .28rem; letter-spacing: 0; color: #6b6158; }
+  /* the name set as the reviewers' names are in Legendary service: capitals, the name in
+     bold (.service-name) and the role under it in regular (.service-role), 0.21rem on 0.28rem */
+  .wy-cite { display: block; margin-top: .42rem; font-style: normal; letter-spacing: 0; color: var(--ink); }
+  .wy-name, .wy-role { display: block; font-size: .21rem; line-height: .28rem; }
+  .wy-name { font-weight: 700; }
 }
