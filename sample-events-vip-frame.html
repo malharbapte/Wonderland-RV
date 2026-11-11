@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: VIP appointment pop-up</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=328">
+<link rel="stylesheet" href="assets/css/range-page.css?v=317">
+<style>
+body{margin:0;background:#fff}
+.back{padding:1rem var(--page-margin,3.76rem)}.back h1{font-family:var(--aviano);font-weight:900;font-size:var(--t-heading)}
+.ev-sub{margin:.2rem 0 0;font-size:var(--t-body);line-height:1.35;color:#3a342e}
+.ev-show{margin-top:.5rem;background:#fff;border:1px solid var(--ink);border-radius:3px;padding:.26rem .28rem}
+.ev-show small{display:block;font-size:.17rem;line-height:.24rem;letter-spacing:.06em;text-transform:uppercase;color:var(--orange-deep);font-weight:700}
+.ev-show b{display:block;margin-top:.06rem;font-weight:700;font-size:.28rem;line-height:.36rem}
+.ev-show span{display:block;margin-top:.04rem;font-size:.21rem;line-height:.3rem;color:#6b6158}
+.ev-priv{margin:0;font-size:.17rem;line-height:.24rem;color:#6b6158}
+.eq-sel select:has(option[value=""]:checked){color:#6b6158}
+/* three-day pill */
+.eq-pill3 .eq-pill-t{width:calc((100% - .16rem)/3)}
+.eq-pill3:has(label:nth-of-type(2) input:checked) .eq-pill-t{transform:translateX(100%)}
+.eq-pill3:has(label:nth-of-type(3) input:checked) .eq-pill-t{transform:translateX(200%)}
+.eq-pill3 .eq-pill-t{left:.08rem;top:.08rem;bottom:.08rem}
+.eq-pill3{height:.84rem;padding:.08rem}.eq-pill3 label{font-size:.22rem}
+/* multi-select dropdown */
+.ev-ms{position:relative}
+.ev-ms summary{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:1px solid var(--ink);border-radius:3px;font-family:var(--gordita);color:#6b6158;height:.7rem;padding:0 .26rem;font-size:.21rem}
+.ev-ms summary::-webkit-details-marker{display:none}
+.ev-ms.has summary{color:var(--ink)}
+.ev-ms[open] summary{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.ev-ms summary svg{width:.14rem;height:.08rem;flex:none;transition:transform .25s}
+.ev-ms[open] summary svg{transform:rotate(180deg)}
+.ev-ms .pan{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:5;background:#fff;border:1px solid var(--ink);border-radius:3px;padding:.14rem .26rem;display:grid;gap:.12rem;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.ev-ms .eq-ck{font-size:.21rem;line-height:.3rem;gap:.2rem;align-items:center}
+@media (min-width:901px){
+  .ev-left{padding:.6rem .5rem}
+  .ev-left .eq-title{padding-right:.2rem}
+  .eq-form{gap:.22rem}
+  .ev-ms .eq-ck input{width:.26rem;height:.26rem;margin:0}
+}
+@media (max-width:900px){
+  .ev-left{padding:56px 20px 8px;border-radius:3px 3px 0 0}
+  .ev-sub{font-size:15px;margin-top:8px}
+  .ev-show{margin:14px 0 8px;padding:12px 14px}.ev-show small{font-size:12px;line-height:16px}.ev-show b{font-size:16px;line-height:22px}.ev-show span{font-size:14px;line-height:20px}
+  .eq-pill3{height:52px;padding:4px}.eq-pill3 label{font-size:14px}
+  .eq-pill3 .eq-pill-t{top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3)}
+  .ev-ms summary{height:48px;padding:0 14px;font-size:16px}.ev-ms summary svg{width:14px;height:8px}
+  .ev-ms .pan{padding:12px 14px;gap:10px}.ev-ms .eq-ck{font-size:15px;line-height:22px;gap:12px;align-items:center}.ev-ms .eq-ck input{width:22px;height:22px;margin:0}
+  .ev-priv{font-size:12px;line-height:17px}
+}
+</style></head><body>
+<div class="back"><h1>Events page (placeholder)</h1><p>Opens from the Events link in the menu.</p></div>
+<div class="eq-scrim" id="scrim">
+<div class="eq" role="dialog" aria-modal="true" aria-labelledby="t">
+  <button class="eq-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button>
+  <div class="eq-left ev-left">
+    <h2 class="eq-title" id="t">VIP appointment</h2>
+    <p class="ev-sub">Pick a day and time and we will lock in a booking with our adventure experts.</p>
+    <div class="ev-show"><small>Your show</small><b>Bendigo Caravan &amp; Camping Leisurefest</b><span>Fri 13 to Sun 15 November, 9am to 4pm</span><span>Bendigo Racecourse, Heinz Street, Ascot VIC</span><span>With Outbound RVs, site to be confirmed</span></div>
+  </div>
+  <form class="eq-form" action="#" method="post" autocomplete="off" novalidate>
+    <input type="hidden" name="show" value="Bendigo Caravan &amp; Camping Leisurefest">
+    <div class="eq-g2"><label class="eq-f"><input name="first-name" type="text" placeholder="First Name*" required></label><label class="eq-f"><input name="last-name" type="text" placeholder="Last Name*" required></label></div>
+    <div class="eq-g2"><label class="eq-f"><input name="email" type="email" placeholder="Email*" required></label><label class="eq-f"><input name="mobile" type="tel" placeholder="Mobile*" required></label></div>
+    <div class="eq-g2">
+      <label class="eq-f eq-sel"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>NSW / ACT</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Northern Territory</option><option>Tasmania</option><option>New Zealand</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
+      <label class="eq-f eq-sel"><select name="time" required><option value="" selected disabled>Preferred time*</option><option>9am to 11am</option><option>11am to 1pm</option><option>1pm to 3pm</option><option>3pm to 4pm</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
+    </div>
+    <div class="eq-pill eq-pill3" role="radiogroup" aria-label="Preferred day">
+      <span class="eq-pill-t" aria-hidden="true"></span>
+      <label><input type="radio" name="day" value="Fri 13 Nov" checked><span>Fri 13 Nov</span></label>
+      <label><input type="radio" name="day" value="Sat 14 Nov"><span>Sat 14 Nov</span></label>
+      <label><input type="radio" name="day" value="Sun 15 Nov"><span>Sun 15 Nov</span></label>
+    </div>
+    <div class="eq-g2">
+      <label class="eq-f eq-sel"><select name="budget" required><option value="" selected disabled>Budget*</option><option>$100,000 - $120,000</option><option>$120,000 - $140,000</option><option>$140,000 - $160,000</option><option>$160,000+</option><option>Not sure yet</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
+      <label class="eq-f eq-sel"><select name="travelling"><option value="" selected disabled>Travelling as</option><option>Couple</option><option>Family</option><option>Not sure</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
+    </div>
+    <details class="ev-ms" id="ms"><summary><span id="msT">Models that interest you</span><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></summary>
+      <div class="pan">
+        <label class="eq-ck"><input type="checkbox" name="model" value="Solara"><span>Solara</span></label>
+        <label class="eq-ck"><input type="checkbox" name="model" value="XTR"><span>XTR</span></label>
+        <label class="eq-ck"><input type="checkbox" name="model" value="Hornet"><span>Hornet</span></label>
+        <label class="eq-ck"><input type="checkbox" name="model" value="Amaroo"><span>Amaroo</span></label>
+        <label class="eq-ck"><input type="checkbox" name="model" value="Not sure yet"><span>Not sure yet</span></label>
+      </div></details>
+    <label class="eq-f eq-area"><textarea name="message" placeholder="Anything we should know?" rows="3"></textarea></label>
+    <label class="eq-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>
+    <p class="ev-priv">We use your details to arrange your appointment and share them with our dealer for this show.</p>
+    <button class="eq-submit" type="submit">Request my appointment</button>
+  </form>
+</div></div>
+<script>
+(function(){var d=document.getElementById('ms'),t=document.getElementById('msT'),ph=t.textContent;
+function up(){var v=[].map.call(d.querySelectorAll('input:checked'),function(i){return i.value});t.textContent=v.length?v.join(', '):ph;d.classList.toggle('has',v.length>0)}
+d.addEventListener('change',up);document.addEventListener('click',function(e){if(!d.contains(e.target))d.open=false});})();
+</script>
+</body></html>
