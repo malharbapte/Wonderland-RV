@@ -1218,9 +1218,9 @@ body.bro-lock { overflow: hidden; }
   .wy-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; }
   .wy-hook { margin: .5rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
              line-height: 1.05; text-transform: uppercase; color: var(--orange-deep); }
-  .wy-lead { margin: .14rem 0 0; max-width: 13rem; font-family: var(--gordita); font-weight: 500; font-size: .34rem; line-height: .44rem; letter-spacing: -.01em; text-wrap: pretty; }
-  .wy-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-top: .6rem; padding: .5rem 0 .6rem;
-              border-top: 1px solid #e4e2de; border-bottom: 1px solid #e4e2de; }
+  .wy-lead { margin: .14rem 0 0; max-width: 13rem; font-family: var(--gordita); font-weight: 400; font-size: .34rem; line-height: .44rem; letter-spacing: -.01em; text-wrap: pretty; }
+  .wy-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-top: .6rem; padding: .1rem 0 .6rem;
+              border-bottom: 1px solid #e4e2de; }
   /* the figures: Gordita Bold */
   .wy-num { display: block; font-family: var(--gordita); font-weight: 700; color: var(--orange-deep); font-size: .9rem; line-height: 1; }
   .wy-stat > span { display: block; margin-top: .12rem; font-family: var(--aviano); font-size: .2rem; letter-spacing: .3em; text-transform: uppercase; }
