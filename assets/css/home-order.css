@@ -1125,15 +1125,6 @@ body.bro-lock { overflow: hidden; }
 
 @media (min-width: 901px) {
   .bro-scrim { padding: .30rem; }
-  /* TAB SIZES to choose from (sample-brochure-tabs.html); "now" is the current size */
-  .bro-scrim[data-tabs="a"] .bro-tabs { gap: .46rem; }
-  .bro-scrim[data-tabs="a"] .bro-tabs button { font-size: .20rem; padding-bottom: .18rem; }
-  .bro-scrim[data-tabs="b"] .bro-tabs { gap: .50rem; }
-  .bro-scrim[data-tabs="b"] .bro-tabs button { font-size: .24rem; padding-bottom: .20rem; }
-  .bro-scrim[data-tabs="b"] .bro-tabs-i { height: 3px; }
-  .bro-scrim[data-tabs="c"] .bro-tabs { gap: .34rem; }
-  .bro-scrim[data-tabs="c"] .bro-tabs button { font-size: .27rem; padding-bottom: .22rem; }
-  .bro-scrim[data-tabs="c"] .bro-tabs-i { height: 3px; }
   /* the Layouts pop-up's card: a grey panel on the left (heading, line, the
      brochure cover) and the form on the right */
   /* RULE OF THIRDS: the left panel is a third of the card, the form two thirds */
@@ -1152,8 +1143,10 @@ body.bro-lock { overflow: hidden; }
   .bro-x { top: .15rem; right: .15rem; width: .5rem; height: .5rem; }
   .bro-x svg { width: .44rem; height: .44rem; }
   .bro-intro { margin-top: .14rem; line-height: var(--lh-body); }
-  .bro-tabs { gap: .42rem; margin-top: .52rem; }
-  .bro-tabs button { padding: 0 0 .16rem; font-size: .17rem; }
+  /* tab size B of sample-brochure-tabs.html: 40% larger, a 3px underline */
+  .bro-tabs { gap: .50rem; margin-top: .52rem; }
+  .bro-tabs button { padding: 0 0 .20rem; font-size: .24rem; }
+  .bro-tabs-i { height: 3px; }
   .bro-form { margin-top: .3rem; gap: .26rem; }
   .bro-g2 { gap: .2rem; }
   .bro-f input, .bro-f select { height: .7rem; font-size: .21rem; }

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: Why choose us, reworked</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=328">
+<link rel="stylesheet" href="assets/css/homepage.css?v=326">
+<style>
+body{padding-top:64px;background:#fff}
+.bar{position:fixed;top:0;left:0;right:0;z-index:99;background:#fff;border-bottom:1px solid #ddd;padding:10px 20px;font:600 14px/1.3 system-ui,sans-serif;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar a{padding:6px 14px;border:1px solid #999;border-radius:4px;color:#111;text-decoration:none}.bar a.on{background:#111;color:#fff;border-color:#111}.bar span{font-weight:400;color:#555}
+.pad{height:1rem}
+.w3{width:100vw;margin-left:calc(50% - 50vw);position:relative;overflow:hidden}
+.w3 h2{margin:0;font-family:var(--aviano);font-weight:900;font-size:var(--t-heading);line-height:1}
+.w3 .container{position:relative;z-index:2}
+.story{font-family:var(--gordita);font-weight:500;font-size:.44rem;line-height:.56rem;letter-spacing:-.01em}
+.story em{font-style:normal;color:var(--orange)}
+.stat b{display:block;font-family:var(--gordita);font-weight:500;color:var(--orange);font-size:1.0rem;line-height:1}
+.stat span{display:block;margin-top:.12rem;font-family:var(--aviano);font-weight:400;font-size:.2rem;letter-spacing:.34em;text-transform:uppercase}
+.pt h3{margin:0;font-family:var(--aviano);font-weight:900;font-size:.2rem;line-height:1.2;letter-spacing:.04em;text-transform:uppercase}
+.pt p{margin:.08rem 0 0;font-family:var(--gordita);font-size:.2rem;line-height:.28rem}
+/* A */
+.a{height:9.2rem;background:#0b2a55 url(assets/img/home/why-features.jpg) center 62%/cover no-repeat;color:#fff}
+.a::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,12,24,.80),rgba(6,12,24,.62) 55%,rgba(6,12,24,.5))}
+.a .container{padding-top:1.1rem}.a .cols{display:grid;grid-template-columns:1fr 1.15fr;gap:1.0rem;margin-top:.7rem}
+.a .stat{margin-top:.6rem}.a .stat span{color:#fff}
+.a .grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .55rem}.a .pt p{color:rgba(255,255,255,.84)}.a .pt{border-top:1px solid rgba(255,255,255,.3);padding-top:.16rem}
+/* B */
+.b{background:#F8F8F7;padding:1.2rem 0 1.3rem}
+.b .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.7rem;padding-bottom:.6rem;border-bottom:1px solid #e4e2de}
+.b .stat b{font-size:.84rem}.b .stat span{color:var(--ink)}
+.b .stat.s2 b,.b .stat.s3 b{font-size:.84rem}
+.b .cols{display:grid;grid-template-columns:1fr 2fr;gap:.9rem;margin-top:.6rem}
+.b .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem .5rem}.b .pt{border-top:2px solid var(--orange);padding-top:.14rem}.b .pt p{color:#4a443d}
+/* C */
+.c{background:#fff;padding:0}
+.c .wrap{display:grid;grid-template-columns:42% 58%;min-height:9.4rem}
+.c .ph{position:relative;background:#0b2a55 url(assets/img/home/why-phone.jpg) center/cover no-repeat}
+.c .ph::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,12,24,.7),rgba(6,12,24,.2) 60%,rgba(6,12,24,.45))}
+.c .ph .stat{position:absolute;left:1.2rem;bottom:.9rem;color:#fff;z-index:2}.c .ph .stat span{color:#fff}
+.c .txt{padding:1.1rem 1.4rem 1.1rem 1.2rem;max-width:11.6rem}
+.c .story{margin-top:.5rem;font-size:.36rem;line-height:.46rem}
+.c ol{list-style:none;margin:.5rem 0 0;padding:0;counter-reset:n}
+.c li{display:grid;grid-template-columns:.7rem 1fr;gap:.1rem;padding:.16rem 0;border-top:1px solid #e4e2de}
+.c li::before{counter-increment:n;content:"0" counter(n);font-family:var(--aviano);font-weight:900;font-size:.2rem;color:var(--orange-deep);padding-top:.02rem}
+.c li h3{margin:0;font-family:var(--aviano);font-weight:900;font-size:.2rem;letter-spacing:.04em;text-transform:uppercase}
+.c li p{margin:.04rem 0 0;font-family:var(--gordita);font-size:.2rem;line-height:.28rem;color:#4a443d}
+</style></head><body class="home">
+<div class="bar" id="bar"><a href="#a" data-o="a">A &middot; story and proof over the photo</a><a href="#b" data-o="b">B &middot; numbers first</a><a href="#c" data-o="c">C &middot; chapters</a><span id="d"></span></div>
+<div class="pad"></div>
+<div id="root"></div>
+<script>
+(function(){
+var P=[["CNC-cut panels", "Computer-precise, interlocking assembly."], ["A PUR glue line", "Built not to delaminate in the heat of the top end, where most brands use a residential-grade EVA line."], ["Aluminium walls and frame", "Henrob self-piercing rivets, closer stud spacings, stud-to-stud bracing and full-height studs."], ["A true one-piece roof", "Wraps from the bottom corner all the way around, joined only at the back wall."], ["A 35mm composite back wall", "High-density foam perimeter, bonded, screwed and bolted with nylock nuts."], ["Hybrid construction", "Unlocks hundreds of layouts."]];
+var STORY='Wonderland has been making caravans since 2014. Nobody made caravans for us&hellip; <em>we built our own</em>&hellip;';
+var D={a:'A: the van-towing photo under a dark overlay. The story and the 1,300+ stat on the left, the six construction facts from the factory video on the right.',
+b:'B: grey panel. Three numbers across the top (1,300+ built, since 2014, 3-year warranty), the story beside the six construction facts.',
+c:'C: the video\u2019s chapter idea. A tall photo with the stat on it; on the right the story and the six facts as a numbered list.'};
+function pts(){return P.map(function(p){return '<div class="pt"><h3>'+p[0]+'</h3><p>'+p[1]+'</p></div>'}).join('')}
+var STAT='<div class="stat"><b>1,300+</b><span>Caravans built</span></div>';
+var R={
+a:'<section class="w3 a"><div class="container"><h2>Why choose us?</h2><div class="cols"><div><p class="story">'+STORY+'</p>'+STAT+'</div><div class="grid">'+pts()+'</div></div></div></section>',
+b:'<section class="w3 b"><div class="container"><h2>Why choose us?</h2><div class="stats"><div class="stat">'+'<b>1,300+</b><span>Caravans built</span></div><div class="stat s2"><b>2014</b><span>Making caravans since</span></div><div class="stat s3"><b>3 yr</b><span>Factory warranty</span></div></div><div class="cols"><p class="story" style="font-size:.38rem;line-height:.5rem">'+STORY+'</p><div class="grid">'+pts()+'</div></div></div></section>',
+c:'<section class="w3 c"><div class="wrap"><div class="ph">'+STAT+'</div><div class="txt"><h2>Why choose us?</h2><p class="story">'+STORY+'</p><ol>'+P.map(function(p){return '<li><div><h3>'+p[0]+'</h3><p>'+p[1]+'</p></div></li>'}).join('')+'</ol></div></div></section>'
+};
+function go(){var o=(location.hash||'#a').slice(1);if(!R[o])o='a';document.getElementById('root').innerHTML=R[o];
+[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});document.getElementById('d').textContent=D[o]}
+window.addEventListener('hashchange',go);go();
+})();
+</script></body></html>
