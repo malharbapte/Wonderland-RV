@@ -25,7 +25,7 @@ c:'C: pick the model first. The live site has one brochure per model, so a bar a
 function go(){var o=(location.hash||'#a').slice(1);if(!D[o])o='a';
 [].forEach.call(document.querySelectorAll('.bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
 document.getElementById('d').textContent=D[o]+' Close with the cross, Escape or a click outside. In use it would open from the Download brochure buttons in the range section.';
-['fd','fp'].forEach(function(id){var f=document.getElementById(id);try{if(f.contentWindow.location.hash!=='#'+o)f.contentWindow.location.hash=o}catch(e){}})}
+['fd','fp'].forEach(function(id){var f=document.getElementById(id);try{var L=f.contentWindow.location;if(L.href.indexOf('sample-brochure-popup-frame')<0)return;if(L.hash!=='#'+o)L.hash=o}catch(e){}})}
 window.addEventListener('hashchange',go);
 ['fd','fp'].forEach(function(id){document.getElementById(id).addEventListener('load',go)});go();
 })();
