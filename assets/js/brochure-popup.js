@@ -51,7 +51,9 @@
   function setModel(m) {
     tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.m === m)); });
     model.value = m;
-    title.textContent = m === "All models" ? "Download the brochure" : "Download the " + m + " brochure";
+    /* desktop: the heading never names the model (the tabs do that); phone: it follows */
+    title.textContent = WIDE.matches ? "Download the Brochure"
+      : (m === "All models" ? "Download the brochure" : "Download the " + m + " brochure");
     showCover(m);
     place();
   }
@@ -115,6 +117,10 @@
     if (!form.checkValidity()) { form.reportValidity(); return; }
     close();                                    /* not wired to a service yet */
   });
+  /* sample hook: home.html#bro-blur-a|b|c opens the pop-up with that blur, for the sample page */
+  var hook = /^#bro-blur-([abc])$/.exec(location.hash);
+  if (hook) { scrim.dataset.blur = hook[1]; open(null, "XTR"); }
+
   window.addEventListener("resize", place);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();

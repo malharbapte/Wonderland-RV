@@ -1062,7 +1062,12 @@
    in px (rem is a flat 16px on a phone).
    ========================================================================== */
 .bro-scrim { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto;
-             background: rgba(0,0,0,.45); animation: bro-fade .28s ease; }
+             background: rgba(0,0,0,.45); animation: bro-fade .28s ease;
+             -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+/* THE BLUR BEHIND THE POP-UP: three strengths to choose from (sample-brochure-blur.html) */
+.bro-scrim[data-blur="a"] { background: rgba(0,0,0,.35); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+.bro-scrim[data-blur="b"] { background: rgba(0,0,0,.45); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.bro-scrim[data-blur="c"] { background: rgba(10,10,12,.50); -webkit-backdrop-filter: blur(22px) saturate(.85); backdrop-filter: blur(22px) saturate(.85); }
 .bro-scrim[hidden] { display: none; }
 @keyframes bro-fade { from { opacity: 0; } to { opacity: 1; } }
 body.bro-lock { overflow: hidden; }
@@ -1125,7 +1130,8 @@ body.bro-lock { overflow: hidden; }
   .bro-scrim { padding: .30rem; }
   /* the Layouts pop-up's card: a grey panel on the left (heading, line, the
      brochure cover) and the form on the right */
-  .bro { width: 14.4rem; margin: auto; padding: 0; display: grid; grid-template-columns: 46% 54%; overflow: hidden; }
+  /* RULE OF THIRDS: the left panel is a third of the card, the form two thirds */
+  .bro { width: 14.4rem; margin: auto; padding: 0; display: grid; grid-template-columns: 1fr 2fr; overflow: hidden; }
   /* the left panel is a third of words above, two thirds of photo below, the photo
      running to both sides and the bottom of the card */
   .bro-left { background: #F8F8F7; display: flex; flex-direction: column; border-radius: 3px 0 0 3px; }

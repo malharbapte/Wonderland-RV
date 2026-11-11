@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: blur behind the brochure pop-up</title>
+<style>
+body{margin:0;padding:20px 20px 30px;background:#eceae6;font:14px/1.45 system-ui,sans-serif;color:#111}
+h1{font-size:18px;margin:0 0 6px}.note{margin:0 0 16px;color:#555;max-width:980px}
+.row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.cap{margin:0 0 6px;font-weight:700}.cap span{font-weight:400;color:#555}
+.dk{width:720px;height:410px;overflow:hidden;border:6px solid #111;border-radius:8px;background:#fff;position:relative;box-sizing:content-box}
+.dk iframe{width:1440px;height:820px;border:0;transform:scale(.5);transform-origin:0 0;position:absolute;left:0;top:0}
+</style></head><body>
+<h1>Blur behind the brochure pop-up</h1>
+<p class="note">The real homepage with the pop-up open, at three blur strengths. Each frame is the live page at 1440 wide, shown at half size.</p>
+<div class="row">
+<div><p class="cap">A &middot; Soft <span>(5px blur, light dim)</span></p><div class="dk"><iframe src="home.html?v=blur#bro-blur-a" title="A"></iframe></div></div>
+<div><p class="cap">B &middot; Medium <span>(12px blur)</span></p><div class="dk"><iframe src="home.html?v=blur#bro-blur-b" title="B"></iframe></div></div>
+<div><p class="cap">C &middot; Frosted <span>(22px blur, slightly desaturated, darker)</span></p><div class="dk"><iframe src="home.html?v=blur#bro-blur-c" title="C"></iframe></div></div>
+</div></body></html>
