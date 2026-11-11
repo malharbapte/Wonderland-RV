@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample frame: brochure download</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=328">
+<style>
+body{margin:0;background:#fff;padding-top:64px}
+.in body{padding-top:0}
+.bar{position:fixed;top:0;left:0;right:0;z-index:2000;background:#fff;border-bottom:1px solid #ddd;padding:10px 20px;font:600 14px/1.3 system-ui,sans-serif;display:flex;gap:10px;align-items:center}
+.in .bar{display:none}
+.scrim{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);display:grid;place-items:center;overflow:auto;padding:20px}
+.pm{position:relative;background:#fff;border-radius:3px;box-shadow:0 10px 40px rgba(0,0,0,.25);font-family:var(--gordita);color:var(--ink)}
+.px{position:absolute;top:.15rem;right:.15rem;width:.5rem;height:.5rem;padding:0;background:none;border:0;color:var(--ink);cursor:pointer;display:grid;place-items:center;z-index:2}
+.px svg{width:.44rem;height:.44rem;stroke-width:1.1;stroke-linecap:butt}.px:hover{color:var(--orange-deep)}
+.ph{font-family:var(--aviano);font-weight:900;font-size:var(--t-heading);line-height:1.05;text-transform:uppercase;margin:0}
+.intro{margin:.14rem 0 0;font-size:var(--t-body);line-height:var(--lh-body);color:#6b6158}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.2rem}.g2.one{grid-template-columns:1fr}
+.pf{display:block;position:relative}
+.pf input,.pf select{display:block;width:100%;font-family:var(--gordita);font-size:.21rem;color:var(--ink);background:none;height:.7rem;border-radius:0}
+.pf input{border:0;border-bottom:1px solid var(--ink);padding:0 .02rem}
+.pf input::placeholder{color:#6b6158;opacity:1}
+.pf input:focus{outline:none;border-bottom-color:var(--orange);box-shadow:0 1px 0 var(--orange)}
+.pf select{border:1px solid var(--ink);border-radius:3px;padding:0 .26rem;-webkit-appearance:none;appearance:none;color:#6b6158}
+.pf select:valid{color:var(--ink)}.pf select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.pf-sel svg{position:absolute;right:.22rem;top:50%;width:.14rem;height:.08rem;margin-top:-.04rem;pointer-events:none}
+.pk{display:flex;gap:.2rem;align-items:flex-start;font-size:.17rem;line-height:.24rem;cursor:pointer}
+.pk input{flex:none;-webkit-appearance:none;appearance:none;width:.26rem;height:.26rem;margin:0;border:1px solid var(--ink);border-radius:50%;cursor:pointer}
+.pk input:checked{background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-5.9' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/52% no-repeat;border-color:var(--orange)}
+.checks{display:grid;gap:.14rem}
+.psub{display:block;width:3.14rem;height:.70rem;background:var(--orange);color:#fff;font-family:var(--aviano);font-weight:900;font-size:.18rem;border:0;border-radius:3px;cursor:pointer;box-shadow:inset 0 0 0 2px var(--orange);transition:background .3s,color .3s}
+.psub:hover{background:#fff;color:var(--orange)}
+form{display:grid;gap:.26rem}
+.pm-a{width:14.4rem;display:grid;grid-template-columns:40% 60%;overflow:hidden}
+.pm-a .cl{background:#F8F8F7;padding:.6rem .5rem;border-radius:3px 0 0 3px;display:flex;flex-direction:column}
+.cover{margin-top:.4rem;aspect-ratio:3/4;width:62%;background:#fff;border:0;display:grid;place-items:center;font:600 .13rem/1 system-ui,sans-serif;color:#9a948c;letter-spacing:.06em;box-shadow:0 .08rem .22rem rgba(40,38,34,.18)}
+.pm-a .cr{padding:.6rem .6rem .55rem .5rem;align-content:start}
+.pm-b{width:10.6rem;padding:.6rem .6rem .55rem}.pm-b form{margin-top:.34rem}
+.pm-c{width:10.6rem;padding:.6rem .6rem .55rem}.pm-c form{margin-top:.3rem}
+.pchips{position:relative;display:flex;height:.84rem;padding:.08rem;margin-top:.3rem;border:1px solid var(--ink);border-radius:.16rem}
+.pchips label{position:relative;z-index:1;flex:1 1 0;display:grid;place-items:center;font-size:.24rem;cursor:pointer;transition:color .28s}
+.pchips input{position:absolute;opacity:0;pointer-events:none}
+.pchips label:has(input:checked){color:#fff;font-weight:700}
+.pchips .pchips-t{position:absolute;top:.08rem;bottom:.08rem;left:0;width:0;background:var(--orange);border-radius:.08rem;transition:left .4s cubic-bezier(.65,0,.35,1),width .4s cubic-bezier(.65,0,.35,1)}
+@media (max-width:900px){
+ .scrim{padding:12px;place-items:start center}
+ .pm{width:100%!important;margin:0 auto}
+ .px{top:6px;right:6px;width:44px;height:44px}.px svg{width:28px;height:28px}
+ .ph{padding-right:44px}.intro{margin-top:8px;font-size:15px;line-height:23px}
+ .g2{grid-template-columns:1fr;gap:12px}
+ .pf input,.pf select{height:48px;font-size:16px}.pf select{padding:0 14px}
+ .pf-sel svg{right:16px;width:14px;height:8px;margin-top:-4px}
+ .pk{font-size:14px;line-height:20px;gap:12px}.pk input{width:22px;height:22px}
+ .checks{gap:12px}form{gap:12px}
+ .psub{width:100%;height:52px;font-size:16px}
+ .pm-a{display:block}.pm-a .cl{padding:56px 20px 8px;border-radius:3px 3px 0 0}.cover{display:none}
+ .pm-a .cr{padding:20px 20px 24px}
+ .pm-b,.pm-c{padding:56px 20px 24px}.pm-b form,.pm-c form{margin-top:20px}
+ .pchips{height:52px;padding:4px;margin-top:16px;border-radius:8px}.pchips label{font-size:14px}
+ .pchips .pchips-t{top:4px;bottom:4px;border-radius:4px}
+}
+</style></head><body>
+<script>if(self!==top)document.documentElement.className="in";</script>
+<div class="bar" id="bar"><a data-o="a" href="#a">A</a><a data-o="b" href="#b">B</a><a data-o="c" href="#c">C</a></div>
+<div class="scrim" id="scrim"><div id="s-a" hidden><div class="pm pm-a" role="dialog" aria-modal="true" aria-label="Download the brochure"><button class="px" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button>
+<div class="cl"><h2 class="ph">Download the brochure</h2><p class="intro">Explore all the upgrade options.</p><div class="cover">BROCHURE COVER</div></div>
+<form class="cr" onsubmit="return false"><div class="g2 one"><label class="pf"><input name="name" type="text" placeholder="Full Name*" autocomplete="off"></label></div><div class="g2"><label class="pf"><input name="email" type="email" placeholder="Email*" autocomplete="off"></label><label class="pf"><input name="phone" type="tel" placeholder="Phone*" autocomplete="off"></label></div><div class="g2"><label class="pf pf-sel"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option><option>New Zealand</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label><label class="pf"><input name="pc" type="text" placeholder="Post Code" autocomplete="off"></label></div><label class="pf pf-sel"><select name="budget"><option value="" selected disabled>Budget</option><option>$120&ndash;140k</option><option>$140&ndash;180k</option><option>$180k +</option><option>Not sure yet</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label><div class="checks"><label class="pk"><input type="checkbox" name="cb"><span>I&rsquo;d like a call back</span></label><label class="pk"><input type="checkbox" name="vc"><span>I&rsquo;d like to book a virtual consultation</span></label><label class="pk"><input type="checkbox" name="mk"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label></div><button class="psub" type="submit">Download</button></form></div></div><div id="s-b" hidden><div class="pm pm-b" role="dialog" aria-modal="true" aria-label="Download the brochure"><button class="px" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button>
+<h2 class="ph">Download the brochure</h2><p class="intro">Explore all the upgrade options.</p>
+<form onsubmit="return false"><div class="g2 one"><label class="pf"><input name="name" type="text" placeholder="Full Name*" autocomplete="off"></label></div><div class="g2"><label class="pf"><input name="email" type="email" placeholder="Email*" autocomplete="off"></label><label class="pf"><input name="phone" type="tel" placeholder="Phone*" autocomplete="off"></label></div><div class="g2"><label class="pf pf-sel"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option><option>New Zealand</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label><label class="pf"><input name="pc" type="text" placeholder="Post Code" autocomplete="off"></label></div><div class="checks"><label class="pk"><input type="checkbox" name="mk"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label></div><button class="psub" type="submit">Download</button></form></div></div><div id="s-c" hidden><div class="pm pm-c" role="dialog" aria-modal="true" aria-label="Download the brochure"><button class="px" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button>
+<h2 class="ph" id="ct">Download the XTR brochure</h2><p class="intro">Choose the model, then tell us where to send it.</p>
+<div class="pchips" id="pc"><span class="pchips-t"></span><label><input type="radio" name="m" value="Solara"><span>Solara</span></label><label><input type="radio" name="m" value="XTR" checked><span>XTR</span></label><label><input type="radio" name="m" value="Hornet"><span>Hornet</span></label><label><input type="radio" name="m" value="Amaroo"><span>Amaroo</span></label></div>
+<form onsubmit="return false"><div class="g2 one"><label class="pf"><input name="name" type="text" placeholder="Full Name*" autocomplete="off"></label></div><div class="g2"><label class="pf"><input name="email" type="email" placeholder="Email*" autocomplete="off"></label><label class="pf"><input name="phone" type="tel" placeholder="Phone*" autocomplete="off"></label></div><div class="g2"><label class="pf pf-sel"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option><option>New Zealand</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label><label class="pf"><input name="pc" type="text" placeholder="Post Code" autocomplete="off"></label></div><div class="checks"><label class="pk"><input type="checkbox" name="cb"><span>I&rsquo;d like a call back</span></label><label class="pk"><input type="checkbox" name="vc"><span>I&rsquo;d like to book a virtual consultation</span></label><label class="pk"><input type="checkbox" name="mk"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label></div><button class="psub" type="submit">Download</button></form></div></div></div>
+<script>
+(function(){
+var o='a',sc=document.getElementById('scrim');
+function apply(){o=(location.hash||'#a').slice(1);if('abc'.indexOf(o)<0||!o)o='a';
+['a','b','c'].forEach(function(k){document.getElementById('s-'+k).hidden=(k!==o)});
+[].forEach.call(document.querySelectorAll('#bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
+sc.hidden=false;if(typeof place==='function'&&o==='c')setTimeout(place,50)}
+addEventListener('hashchange',apply);
+[].forEach.call(document.querySelectorAll('.px'),function(b){b.onclick=function(){sc.hidden=true}});
+sc.addEventListener('click',function(e){if(e.target===sc)sc.hidden=true});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')sc.hidden=true});
+var pc=document.getElementById('pc');
+function place(){var on=pc.querySelector('input:checked').parentNode,t=pc.querySelector('.pchips-t');t.style.left=on.offsetLeft+'px';t.style.width=on.offsetWidth+'px';document.getElementById('ct').textContent='Download the '+pc.querySelector('input:checked').value+' brochure'}
+[].forEach.call(pc.querySelectorAll('input'),function(i){i.addEventListener('change',place)});
+apply();addEventListener('load',function(){if(o==='c')place()});
+window.addEventListener('resize',function(){if(o==='c')place()});
+})();
+</script></body></html>
