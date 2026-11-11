@@ -28,8 +28,8 @@ body{padding-top:64px;background:#fff}
 .a::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,12,24,.84),rgba(6,12,24,.66) 55%,rgba(6,12,24,.58))}
 .a .cols{display:grid;grid-template-columns:1.25fr 1fr;gap:1.0rem;margin-top:.6rem;align-items:end}
 .a .q{margin-top:.5rem}.a .stat span{color:#fff}.a .kick{color:var(--orange)}
-.a .strip{margin-top:.8rem;background:rgba(255,255,255,.1);border-top:1px solid rgba(255,255,255,.25);padding:.35rem 0}
-.a .logos img{filter:brightness(0) invert(1);opacity:.85}.a .parts-p{color:rgba(255,255,255,.88)}
+.a .strip{margin-top:.8rem;background:rgba(255,255,255,.95);color:var(--ink);padding:.4rem .4rem .35rem;border-radius:3px}
+.a .logos img{filter:grayscale(1);opacity:.75}
 /* B */
 .b{background:#F8F8F7;padding:1.2rem 0 1.2rem}
 .b .cols{display:grid;grid-template-columns:5.6rem 1fr;gap:1.1rem;margin-top:.6rem;align-items:center}
@@ -37,7 +37,7 @@ body{padding-top:64px;background:#fff}
 .b .au path{fill:#E4E2DE;stroke:#fff;stroke-width:2.5}
 .b .dot{fill:var(--orange-deep);stroke:#fff;stroke-width:4}.b .pulse{fill:var(--orange);opacity:.35;transform-box:fill-box;transform-origin:center;animation:pl 2.4s ease-out infinite}
 @keyframes pl{from{transform:scale(1);opacity:.45}to{transform:scale(3);opacity:0}}
-.b .tag{position:absolute;left:55%;top:76%;font:600 .2rem/1.25 var(--gordita);background:#fff;padding:.08rem .16rem;border-radius:3px;box-shadow:0 .04rem .14rem rgba(0,0,0,.15);transform:translate(-50%,.2rem)}
+.b .tag{position:absolute;left:0;top:86%;font:600 .2rem/1.25 var(--gordita);background:#fff;padding:.08rem .16rem;border-radius:3px;box-shadow:0 .04rem .14rem rgba(0,0,0,.15)}
 .b .stat{margin-top:.5rem}.b .stat span{color:var(--ink)}
 .b .parts{margin-top:.8rem;padding-top:.5rem;border-top:1px solid #e4e2de}
 .b .logos img{filter:grayscale(1);opacity:.6}
@@ -64,7 +64,7 @@ var D={a:'A: the van-towing photo under a dark overlay. Australian made as the b
 b:'B: a map of Australia with our factory in Melbourne marked, beside the statement, the quote, the stat and the supplier brands.',
 c:'C: three columns: Built here (factory and the stat), Made by us (Kevin\u2019s words), Sourced from the best (the parts and their brands).'};
 var R={
-a:'<section class="w3 a"><div class="container"><h2>Why choose us?</h2><div class="cols"><div><p class="kick">Australian made</p><p class="big">Built in Melbourne.<br>By us.</p><p class="q">&ldquo;'+QUOTE+'&rdquo;<cite>'+CITE+'</cite></p></div><div>'+STAT+'</div></div><div class="strip"><p class="parts-h" style="color:#fff">Where our parts come from</p><p class="parts-p">'+PARTS_P+'</p>'+LOGOS+TBC+'</div></div></section>',
+a:'<section class="w3 a"><div class="container"><h2>Why choose us?</h2><div class="cols"><div><p class="kick">Australian made</p><p class="big">Built in Melbourne.<br>By us.</p><p class="q">&ldquo;'+QUOTE+'&rdquo;<cite>'+CITE+'</cite></p></div><div>'+STAT+'</div></div><div class="strip"><p class="parts-h">Where our parts come from</p><p class="parts-p">'+PARTS_P+'</p>'+LOGOS+TBC+'</div></div></section>',
 b:'<section class="w3 b"><div class="container"><h2>Why choose us?</h2><div class="cols"><div class="map">'+MAP+'<span class="tag">Our factory<br>Campbellfield, Victoria</span></div><div><p class="kick">Australian made</p><p class="big" style="font-size:.7rem">Built in Melbourne.<br>By us.</p><p class="q" style="margin-top:.4rem">&ldquo;'+QUOTE+'&rdquo;<cite>'+CITE+'</cite></p>'+STAT+'<div class="parts"><p class="parts-h">Where our parts come from</p><p class="parts-p">'+PARTS_P+'</p>'+LOGOS+TBC+'</div></div></div></div></section>',
 c:'<section class="w3 c"><div class="container"><h2>Why choose us?</h2><div class="cols"><div class="col"><p class="kick">Built here</p><p class="big">Australian made</p><p class="lead">At our own factory in Campbellfield, Victoria.</p>'+STAT+'</div><div class="col"><p class="kick">Made by us</p><p class="q">&ldquo;'+QUOTE+'&rdquo;<cite>'+CITE+'</cite></p></div><div class="col"><p class="kick">Sourced from the best</p><p class="lead">'+PARTS_P+'</p>'+LOGOS+TBC+'</div></div></div></section>'
 };
