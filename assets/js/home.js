@@ -181,9 +181,10 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
 
 /* ------------------------------------------- caravans-built count-up ------
    Runs once, when the band first scrolls into view.                       */
-(function () {
-  const el = document.querySelector(".stat-number");
-  if (!el) return;
+/* Two counters share this: the old strip (.stat-number, phone) and the desktop Why
+   section (.wy-num). Each runs when it is on screen; the one that is display:none
+   never is, so only the visible one ever counts. */
+[].forEach.call(document.querySelectorAll(".stat-number, .wy-num[data-count-to]"), function (el) {
   const target = parseInt(el.dataset.countTo, 10) || 0;
   const plus = el.querySelector("span");
   let done = false;
@@ -216,7 +217,7 @@ mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderlan
       run();
     }
   }, 200);
-})();
+});
 
 /* ------------------------------------------ Queen of Hearts: video slider --
    Heading, subheading and video sit on one slide, so they change together.
