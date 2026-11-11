@@ -37,13 +37,15 @@
      Same reasoning as the Wonderlander rail in wonderlanders.js. */
   if (!window.matchMedia("(max-width: 900px)").matches) return;
 
-  /* .nav-item--desk (Buy) is a desktop-only dropdown: on a phone it stays the
-     plain link it always was, so About remains the one accordion row. */
-  var item = nav.querySelector(".nav-item:not(.nav-item--desk)");
-  var dd   = item && item.querySelector(".nav-dropdown");
-
-  if (item && dd) {
-    var label = item.querySelector("a") ? item.querySelector("a").textContent.trim() : "About";
+  /* Every dropdown in the nav -- Buy (Stock Vans, Wonderland Experience,
+     Insurance) and About -- becomes an accordion row on the phone. Buy was
+     left as a plain link when it was added, which meant a phone could not
+     reach the Wonderland Experience page from the menu. */
+  [].slice.call(nav.querySelectorAll(".nav-item")).forEach(function (item) {
+    var dd = item.querySelector(".nav-dropdown");
+    if (!dd) return;
+    var anchor = item.querySelector("a");
+    var label = anchor ? anchor.textContent.trim() : "Menu";
 
     var row = document.createElement("button");
     row.type = "button";
@@ -69,7 +71,7 @@
       var open = item.classList.toggle("is-open");
       row.setAttribute("aria-expanded", String(open));
     });
-  }
+  });
 
   /* The primary action, which is display:none on the phone in the bar — so
      the one thing the header most wants you to do was the one thing the
