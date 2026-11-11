@@ -14,8 +14,8 @@ body{margin:0;padding:0 20px 30px;background:#eceae6;font:14px/1.45 system-ui,sa
 <div class="bar"><b>When / Where / Find us as lines</b><a href="#a" data-o="a">A &middot; grey lines (current colour)</a><a href="#b" data-o="b">B &middot; orange lines</a></div>
 <p class="note" id="d"></p>
 <div class="row">
-<div><p class="cap">Desktop (1920 wide, shown at half size)</p><div class="dk"><iframe id="fd" src="sample-events-lines-frame.html?v=1#a" title="Desktop"></iframe></div></div>
-<div class="ph"><p class="cap">iPhone (390 wide)</p><iframe id="fp" src="sample-events-lines-frame.html?v=1#a" title="Phone"></iframe></div>
+<div><p class="cap">Desktop (1920 wide, shown at half size)</p><div class="dk"><iframe id="fd" src="sample-events-lines-frame.html?v=2#a" title="Desktop"></iframe></div></div>
+<div class="ph"><p class="cap">iPhone (390 wide)</p><iframe id="fp" src="sample-events-lines-frame.html?v=2#a" title="Phone"></iframe></div>
 </div>
 <script>
 (function(){var D={a:'A: the box is gone; thin grey lines (the colour the dividers have now) separate When, Where and Find us.',
@@ -23,6 +23,7 @@ b:'B: the box is gone; the same thin lines in brand orange.'};
 function go(){var o=(location.hash||'#a').slice(1);if(!D[o])o='a';
 [].forEach.call(document.querySelectorAll('.bar a'),function(a){a.classList.toggle('on',a.dataset.o===o)});
 document.getElementById('d').textContent=D[o];
-['fd','fp'].forEach(function(id){var f=document.getElementById(id);try{f.contentWindow.location.hash=o}catch(e){}})}
-window.addEventListener('hashchange',go);go();})();
+['fd','fp'].forEach(function(id){var f=document.getElementById(id);try{if(f.contentWindow.location.href!=='about:blank')f.contentWindow.location.hash=o}catch(e){}})}
+window.addEventListener('hashchange',go);
+['fd','fp'].forEach(function(id){document.getElementById(id).addEventListener('load',go)});go();})();
 </script></body></html>
