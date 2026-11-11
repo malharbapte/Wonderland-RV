@@ -114,8 +114,9 @@ body.evp-lock { overflow: hidden; }
 /* ---- VIP appointment additions ---- */
 .evp-sub{margin:.2rem 0 0;font-size:var(--t-body);line-height:1.35;color:#3a342e}
 .evp-logo{display:block;width:100%;height:auto;margin-top:.5rem}
-.evp-show{margin-top:.24rem;background:#fff;border:1px solid var(--ink);border-radius:3px}
-.evp-row{padding:.2rem .28rem}
+.evp-show{margin-top:.3rem}
+.evp-row{padding:.2rem 0}
+.evp-row:first-child{padding-top:0}
 .evp-row+.evp-row{border-top:1px solid #d9d5cf}
 .evp-row small{display:block;font-family:var(--aviano);font-weight:900;font-size:.16rem;line-height:.22rem;letter-spacing:.06em;text-transform:uppercase;color:var(--orange-deep)}
 .evp-row b{display:block;margin-top:.05rem;font-weight:700;font-size:.28rem;line-height:.36rem}
@@ -169,7 +170,7 @@ body.evp-lock { overflow: hidden; }
   .evp-left{padding:56px 20px 8px;border-radius:3px 3px 0 0}
   .evp-sub{font-size:15px;margin-top:8px}
     .evp-logo{margin-top:16px}
-  .evp-show{margin:12px 0 8px}.evp-row{padding:12px 14px}.evp-row small{font-size:11px;line-height:16px}.evp-find b{display:none}.evp-find span{margin-top:2px;font-size:17px;line-height:23px;font-weight:700;color:var(--ink)}.evp-row b{font-size:17px;line-height:23px;margin-top:2px}.evp-row span{font-size:14px;line-height:20px}
+  .evp-show{margin:14px 0 8px}.evp-row{padding:12px 0}.evp-row:first-child{padding-top:0}.evp-row small{font-size:11px;line-height:16px}.evp-find b{display:none}.evp-find span{margin-top:2px;font-size:17px;line-height:23px;font-weight:700;color:var(--ink)}.evp-row b{font-size:17px;line-height:23px;margin-top:2px}.evp-row span{font-size:14px;line-height:20px}
   .evp-pill3{height:52px;padding:4px}.evp-pill3 label{font-size:14px}
   .evp-pill3 .evp-pill-t{top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3)}
   .evp-ms summary{height:48px;padding:0 14px;font-size:16px}.evp-ms summary svg{width:14px;height:8px}
