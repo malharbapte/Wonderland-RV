@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: event details as lines</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<link rel="stylesheet" href="assets/css/events-popup.css?v=5">
+<style>
+body{margin:0;background:#fff}
+/* both options: no box, rows separated by a line only */
+.evp-show{border:0;background:none;border-radius:0;margin-top:.3rem}
+.evp-row{padding:.2rem 0}
+.evp-row:first-child{padding-top:0}
+.evp-row+.evp-row{border-top:1px solid #d9d5cf}
+[data-o="b"] .evp-row+.evp-row{border-top-color:var(--orange)}
+@media (max-width:900px){
+  .evp-show{margin:14px 0 8px}
+  .evp-row{padding:12px 0}.evp-row:first-child{padding-top:0}
+}
+</style></head><body>
+<div style="padding:1rem 3rem"><h1 style="font-family:var(--aviano)">Events page (placeholder)</h1></div>
+<a href="#" id="go" style="position:absolute;left:-999px">Events</a>
+<script src="assets/js/events-popup.js?v=6"></script>
+<script>
+function o(){document.documentElement.dataset.o=(location.hash||'#a').slice(1)}
+window.addEventListener('hashchange',o);o();
+setTimeout(function(){document.getElementById('go').click()},50);
+</script>
+</body></html>

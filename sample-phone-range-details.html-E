@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: phone range features with details chevron</title><meta name="robots" content="noindex">
+<style>
+body{margin:0;padding:20px;background:#eceae6;font:14px/1.45 system-ui,sans-serif;color:#111}
+h1{font-size:18px;margin:0 0 4px}p.n{margin:0 0 18px;color:#555;max-width:980px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.ph{width:390px}.ph b{display:block;margin:0 0 8px;font-size:15px}
+.ph span{display:block;margin:8px 0 0;color:#444;font-size:13px;max-width:390px}
+.ph iframe{display:block;width:390px;height:700px;border:8px solid #111;border-radius:34px;background:#fff}
+</style></head><body>
+<h1>Phone range features: option A with a details chevron (390 wide)</h1>
+<p class="n">Option A, one row of four with no icons, plus a chevron under it. Tap the chevron in each frame to open the details; swipe the van and the details follow the model.</p>
+<div class="row">
+<div class="ph"><b>A &middot; as chosen</b><iframe data-v="a" title="A"></iframe><span>No chevron, no details.</span></div>
+<div class="ph"><b>X &middot; Chevron, notes under each figure</b><iframe data-v="x" title="X"></iframe><span>A small orange chevron centred under the row. It opens the notes directly beneath their own figure, so the row grows by a line.</span></div>
+<div class="ph"><b>Y &middot; &ldquo;Details&rdquo; chevron, notes as a list</b><iframe data-v="y" title="Y"></iframe><span>A chevron with the word Details. It opens a short list under the row, one line per feature, label on the left and note on the right.</span></div>
+</div>
+<script>
+var A=".rvp-ico{display:none!important}.rvp-cellhead{display:block!important;grid-row:auto!important}"+
+ ".rvp-spec{display:flex!important;justify-content:space-between;gap:6px;border-top:1px solid #e4e2de;padding:18px 0 4px}"+
+ ".rvp-cell{display:block!important;flex:1 1 0;min-width:0;padding:0!important;border:0!important;text-align:center}"+
+ ".rvp-k{font-size:9px!important;letter-spacing:.04em!important;font-weight:400!important}"+
+ ".rvp-v{text-align:center!important;margin-top:10px!important;font-size:17px!important;line-height:22px!important;font-weight:400!important}";
+var MORE=".rvp-more{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:0;padding:8px 0 10px;border:0;border-bottom:1px solid #e4e2de;background:none;color:var(--orange-deep,#D57114);font:900 10px/1 var(--aviano,sans-serif);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}"+
+ ".rvp-more svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s ease}"+
+ ".rvp-more[aria-expanded=true] svg{transform:rotate(180deg)}";
+var CSS={
+ a:A+".rvp-n{display:none!important}.rvp-spec{border-bottom:1px solid #e4e2de;padding-bottom:18px}",
+ x:A+MORE+".rvp-spec{padding-bottom:0}.rvp-n{display:block!important;max-height:0;opacity:0;overflow:hidden;margin:0!important;text-align:center!important;font-size:9px!important;line-height:13px!important;letter-spacing:.02em!important;transition:max-height .35s ease,opacity .3s ease,margin .3s ease}"+
+   ".rvp-spec.open .rvp-n{max-height:40px;opacity:1;margin-top:6px!important}.rvp-spec.open{padding-bottom:6px}.rvp-more{border-top:0}",
+ y:A+MORE+".rvp-n{display:none!important}.rvp-spec{padding-bottom:0}"+
+   ".rvp-det{border-bottom:1px solid #e4e2de;overflow:hidden;max-height:0;transition:max-height .35s ease}.rvp-det.open{max-height:200px}"+
+   ".rvp-det div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #efede9;font:400 11px/16px var(--gordita,sans-serif);letter-spacing:.03em;text-transform:uppercase}"+
+   ".rvp-det div:first-child{border-top:0;padding-top:12px}.rvp-det b{font:400 9px/16px var(--aviano,sans-serif);letter-spacing:.04em}.rvp-det span{color:#6b6158;text-align:right}.rvp-more{border-bottom:0}.rvp-spec{border-bottom:0}"
+};
+var CHEV='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>';
+function wire(d,v){
+  var spec=d.getElementById("rvpSpec");if(!spec||spec._w)return;spec._w=1;
+  var btn=d.createElement("button");btn.type="button";btn.className="rvp-more";btn.setAttribute("aria-expanded","false");btn.setAttribute("aria-label","Show details");
+  btn.innerHTML=(v==="y"?"Details":"")+CHEV;spec.insertAdjacentElement("afterend",btn);
+  var det=null;
+  if(v==="y"){det=d.createElement("div");det.className="rvp-det";btn.insertAdjacentElement("afterend",det);
+    var fill=function(){det.innerHTML=[].map.call(spec.querySelectorAll(".rvp-cell"),function(c){var n=c.querySelector(".rvp-n");return n?"<div><b>"+c.querySelector(".rvp-k").textContent+"</b><span>"+n.textContent+"</span></div>":""}).join("")};
+    fill();new MutationObserver(fill).observe(spec,{childList:true});}
+  btn.addEventListener("click",function(){var o=btn.getAttribute("aria-expanded")!=="true";btn.setAttribute("aria-expanded",String(o));btn.setAttribute("aria-label",o?"Hide details":"Show details");spec.classList.toggle("open",o);if(det)det.classList.toggle("open",o)});
+}
+document.querySelectorAll("iframe[data-v]").forEach(function(f){
+  f.addEventListener("load",function(){
+    var d=f.contentDocument,w=f.contentWindow,s=d.createElement("style");s.textContent="@media (max-width:900px){"+CSS[f.dataset.v]+"}";d.head.appendChild(s);
+    var n=0,t=setInterval(function(){
+      if(f.dataset.v!=="a")wire(d,f.dataset.v);
+      var sec=d.querySelector(".rvp");if(sec&&!f._s)w.scrollTo(0,sec.getBoundingClientRect().top+w.scrollY-70);
+      var dot=d.querySelectorAll("#rvpDots button")[2];if(dot&&!f._d){dot.click();f._d=1}
+      if(++n>45)clearInterval(t)},400);
+  });
+  f.src="home.html?v=pd"+f.dataset.v;
+});
+</script></body></html>

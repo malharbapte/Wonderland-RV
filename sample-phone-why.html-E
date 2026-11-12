@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: phone Why choose us</title>
+<style>
+body{margin:0;padding:20px;background:#eceae6;font:14px/1.45 system-ui,sans-serif;color:#111}
+h1{font-size:18px;margin:0 0 4px}p.n{margin:0 0 18px;color:#555;max-width:980px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.ph{width:390px}.ph b{display:block;margin:0 0 8px;font-size:15px}
+.ph span{display:block;margin:8px 0 0;color:#444;font-size:13px;max-width:390px}
+.ph iframe{display:block;width:390px;height:700px;border:8px solid #111;border-radius:34px;background:#fff}
+</style></head><body>
+<h1>Why choose us, on the phone (390 wide)</h1>
+<p class="n">The section is a portrait photo, 3 wide by 4 tall, under a dark overlay. The photo is the van-towing shot with the van framed in the lower half, and the sky above it extended so the words have clean room above the van. The same four points in all three: Built tough, Custom made, Luxury finish, Peace of mind. This replaces the photo banner, the list and the second picture the phone has today.</p>
+<div class="row">
+<div class="ph"><b>A &middot; All four showing</b><iframe src="sample-phone-why-frame.html?v=1#a" title="A"></iframe><span>The four points in a 2 &times; 2 grid across the sky, each with its icon, name and line. Nothing to tap.</span></div>
+<div class="ph"><b>B &middot; Tap to open</b><iframe src="sample-phone-why-frame.html?v=1#b" title="B"></iframe><span>The four names in a list, one open at a time. The open one shows its line. Keeps the most of the van clear.</span></div>
+<div class="ph"><b>C &middot; One at a time</b><iframe src="sample-phone-why-frame.html?v=1#c" title="C"></iframe><span>One point at a time with arrows and dots, and a swipe on the photo. Gives the van the most room.</span></div>
+</div></body></html>

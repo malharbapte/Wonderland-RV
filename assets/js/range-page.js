@@ -265,6 +265,7 @@
     eqForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!eqForm.checkValidity()) { eqForm.reportValidity(); return; }
+      try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "layouts" })); } catch (err) {}
       location.href = "thank-you.html";   /* not wired to a service yet, like the other forms */
     });
 

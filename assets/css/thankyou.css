@@ -7,6 +7,8 @@
 .ty-top { padding-top: 0.7rem; padding-bottom: 0.45rem; text-align: center; }
 .ty-top-k { display: block; margin-bottom: 0.16rem; color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
 .ty-top-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
+.ty-top-msg { margin: 0.16rem auto 0; max-width: 11rem; color: var(--orange-deep); font-size: calc(var(--t-body) * 1.15); line-height: var(--lh-body); font-weight: 700; }
+.ty-top-msg[hidden] { display: none; }
 .ty-top-lead { margin: 0.2rem auto 0; max-width: 9rem; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-top-lead b { font-weight: 700; }
 .ty-tl { list-style: none; margin: 0.55rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 11rem; position: relative; }
@@ -105,6 +107,7 @@
   .ty-top { padding-top: 40px; padding-bottom: 8px; }
   .ty-top-k { font-size: 13px; margin-bottom: 12px; }
   .ty-top-h { font-size: 30px; }
+  .ty-top-msg { font-size: 17px; line-height: 25px; margin-top: 12px; }
   .ty-top-lead { font-size: 16px; line-height: 24px; margin-top: 14px; }
   .ty-tl { width: 100%; margin-top: 32px; }
   .ty-tl::before { top: 13px; height: 2px; }

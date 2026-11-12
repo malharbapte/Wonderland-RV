@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home page audit, 1920 x 1080</title>
+<style>
+  body { margin: 0; padding: 14px 18px; font: 13px/1.35 ui-monospace, Menlo, monospace; color: #111; background: #fff; }
+  h1 { font: 700 15px/1.2 system-ui, sans-serif; margin: 0 0 6px; }
+  pre { margin: 0; white-space: pre; }
+  iframe { position: absolute; left: -10000px; top: 0; width: 1920px; height: 1080px; border: 0; }
+  .bad { color: #b00020; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1 id="t">Auditing the home page at 1920 x 1080 ... (wait ~6 s)</h1>
+<pre id="out"></pre>
+<iframe id="f" src="home.html?audit=1" title="home"></iframe>
+<script>
+(function () {
+  var VH = 1080;
+  var f = document.getElementById('f');
+  function px(n) { return Math.round(n); }
+  function vis(el, w) {
+    var cs = w.getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity === 0) return false;
+    var r = el.getBoundingClientRect();
+    return r.width > 1 && r.height > 1;
+  }
+  function run() {
+    var w = f.contentWindow, d = f.contentDocument;
+    var rem = parseFloat(w.getComputedStyle(d.documentElement).fontSize);
+    var sy = w.scrollY || 0;
+    var header = d.querySelector('.site-header');
+    var hh = header ? header.getBoundingClientRect().height : 0;
+    var els = [].slice.call(d.body.children).filter(function (e) {
+      return /^(HEADER|SECTION|FOOTER|DIV|NAV|MAIN)$/.test(e.tagName) && vis(e, w) && e.getBoundingClientRect().height > 4;
+    });
+    var rows = [], prevBottom = null, prevContentBottom = null;
+    var leafSel = 'img,video,iframe,h1,h2,h3,h4,p,a,button,li,blockquote,cite,figcaption,.stat-number,.stat-label';
+    els.forEach(function (e, i) {
+      var r = e.getBoundingClientRect();
+      var top = r.top + sy, bot = r.bottom + sy;
+      // content extent (vertical), visible leaves only
+      var cmin = Infinity, cmax = -Infinity;
+      [].forEach.call(e.querySelectorAll(leafSel), function (n) {
+        if (!vis(n, w)) return;
+        var rr = n.getBoundingClientRect();
+        if (rr.width > 3000) return;
+        cmin = Math.min(cmin, rr.top + sy); cmax = Math.max(cmax, rr.bottom + sy);
+      });
+      if (!isFinite(cmin)) { cmin = top; cmax = bot; }
+      var name = e.tagName.toLowerCase() + (e.className ? '.' + String(e.className).trim().split(/\s+/)[0] : '');
+      var heads = [].slice.call(e.querySelectorAll('h1,h2')).filter(function (h) { return vis(h, w); }).map(function (h) {
+        var fs = parseFloat(w.getComputedStyle(h).fontSize);
+        return { t: h.textContent.trim().replace(/\s+/g, ' ').slice(0, 26), fs: fs, x: h.getBoundingClientRect().left };
+      });
+      rows.push({
+        i: i + 1, name: name, top: top, h: r.height, fits: r.height <= VH - hh,
+        gapSec: prevBottom === null ? 0 : top - prevBottom,
+        gapContent: prevContentBottom === null ? 0 : cmin - prevContentBottom,
+        cMin: cmin, cMax: cmax, heads: heads,
+        full: Math.abs(r.width - 1920) < 2
+      });
+      prevBottom = bot; prevContentBottom = cmax;
+    });
+    var headPx = 0.56 * rem;
+    var L = [];
+    L.push('rem = ' + rem.toFixed(2) + 'px   standard heading 0.56rem = ' + headPx.toFixed(1) + 'px   header = ' + px(hh) + 'px   usable window = ' + px(VH - hh) + 'px');
+    L.push('page width ' + d.documentElement.scrollWidth + ' (window 1920)   page height ' + px(d.documentElement.scrollHeight) + 'px = ' + (d.documentElement.scrollHeight / VH).toFixed(1) + ' screens');
+    L.push('');
+    L.push(('#').padEnd(3) + 'section'.padEnd(24) + 'top'.padStart(6) + 'height'.padStart(8) + ' screens'.padStart(9) + '  fit'.padEnd(6) + 'gap(sec)'.padStart(9) + 'gap(content)'.padStart(13) + '   headings (px, left x)');
+    rows.forEach(function (r) {
+      var hs = r.heads.map(function (h) {
+        var flag = Math.abs(h.fs - headPx) > 1 ? ' <<OFF' : '';
+        return '"' + h.t + '" ' + h.fs.toFixed(0) + 'px x' + px(h.x) + flag;
+      }).join(' | ');
+      L.push(String(r.i).padEnd(3) + r.name.slice(0, 23).padEnd(24) + String(px(r.top)).padStart(6) + String(px(r.h)).padStart(8) +
+             (' ' + (r.h / VH).toFixed(2)).padStart(9) + ('  ' + (r.fits ? 'yes' : 'NO')).padEnd(6) +
+             String(px(r.gapSec)).padStart(9) + String(px(r.gapContent)).padStart(13) + '   ' + hs);
+    });
+    L.push('');
+    L.push('gap(sec) = pixels between one section box and the next; gap(content) = pixels between the last visible content of one section and the first of the next.');
+    L.push('fit = section height <= window minus header.  1rem = ' + rem.toFixed(1) + 'px, so 1.20rem = ' + (1.2 * rem).toFixed(0) + 'px, 2.4rem = ' + (2.4 * rem).toFixed(0) + 'px.');
+    document.getElementById('out').textContent = L.join('\n');
+    document.getElementById('t').textContent = 'Home page audit, 1920 x 1080  (live files)';
+  }
+  f.addEventListener('load', function () { setTimeout(run, 5000); });
+})();
+</script>
+</body>
+</html>

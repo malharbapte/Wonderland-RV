@@ -10,6 +10,21 @@ var TESTIMONIALS = [
   /* , { name: "...", role: "Wonderlanders", url: "https://youtu.be/..." } */
 ];
 
+/* Route-specific message under "Thank you". The form the visitor used leaves a
+   note in sessionStorage ("wlThanks") before it redirects here. No note (a
+   direct visit) means the page stays generic. Add a route by adding a case. */
+(function () {
+  var info = null;
+  try { info = JSON.parse(sessionStorage.getItem("wlThanks") || "null"); } catch (e) {}
+  var el = document.getElementById("tyMsg");
+  if (!info || !el) return;
+  var text = "";
+  if (info.route === "event" && info.show) {
+    text = "We look forward to seeing you at " + info.show + (info.venue ? ", " + info.venue : "") + (info.day ? " on " + info.day : "") + ".";
+  }
+  if (text) { el.textContent = text; el.hidden = false; }
+})();
+
 (function () {
   var frame = document.getElementById("tyVideo");
   if (frame && typeof mountVideo === "function") {

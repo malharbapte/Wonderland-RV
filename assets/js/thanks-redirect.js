@@ -6,5 +6,6 @@ document.addEventListener("submit", function (e) {
   if (!f.matches || !f.matches(".enquiry-form, .home-form")) return;
   e.preventDefault();
   if (!f.checkValidity()) { f.reportValidity(); return; }
+  try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "enquiry" })); } catch (err) {}
   location.href = "thank-you.html";
 });

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample &mdash; journey card headings</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=316">
+<link rel="stylesheet" href="assets/css/homepage.css?v=316">
+<link rel="stylesheet" href="assets/css/wx-page.css?v=316">
+<style>
+  /* the control bar is the sample's own and uses no site type scale */
+  .smp-bar { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #e4e2de;
+             padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 14px 34px; align-items: center;
+             font: 500 13px/1.2 var(--gordita), sans-serif; color: #000; }
+  .smp-group { display: flex; align-items: center; gap: 8px; }
+  .smp-group > b { font-weight: 700; margin-right: 4px; }
+  .smp-bar button { font: inherit; padding: 8px 12px; border: 1px solid #cfcac2; background: #fff; border-radius: 4px; cursor: pointer; color: #000; }
+  .smp-bar button.on { background: #D57114; border-color: #D57114; color: #fff; }
+  .smp-bar label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .smp-read { margin-left: auto; color: #555; font-weight: 400; }
+  .smp-pad { height: 60px; }
+  .smp-note { width: var(--col); margin: 0 auto; padding: 24px 0 60px; font: 400 14px/1.5 var(--gordita), sans-serif; color: #555; }
+  /* "show expanded": holds every card open so the sizes can be compared at rest */
+  .smp-open .wx-card-bio-wrap { grid-template-rows: 1fr; }
+  .smp-open:not(.wx-journey--top) .wx-card-media { transform: translateY(-0.34rem); }
+  .smp-open .wx-card-media img { transform: scale(1.06); }
+  .smp-open.wx-journey--top .wx-card-media { transform: none; }
+</style>
+</head>
+<body class="home">
+<div class="smp-bar">
+  <div class="smp-group" id="sizes"><b>Heading size</b>
+    <button data-s="0.32">0.32</button>
+    <button data-s="0.40" class="on">0.40</button>
+    <button data-s="0.48">0.48</button>
+    <button data-s="0.56">0.56</button>
+  </div>
+  <div class="smp-group" id="bios"><b>Paragraph</b>
+    <button data-b="0.24">0.24</button>
+    <button data-b="0.26" class="on">0.26</button>
+    <button data-b="0.28">0.28</button>
+  </div>
+  <div class="smp-group" id="place"><b>Band</b>
+    <button data-p="foot" class="on">Foot (as Wonderlanders)</button>
+    <button data-p="top">Top (as the artboard)</button>
+  </div>
+  <label><input type="checkbox" id="open"> Show all expanded</label>
+  <span class="smp-read" id="read"></span>
+</div>
+<main class="wx">
+  <div class="smp-pad"></div>
+  <section class="wx-journey wx-bleed" aria-roledescription="carousel" aria-label="Your Wonderland customisation journey">
+    <h2 class="wx-h">Your Wonderland<br>customisation journey</h2>
+    <div class="wx-journey-stage">
+      <button class="wx-journey-arrow wx-journey-arrow--prev" type="button" aria-label="Previous steps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="wx-journey-viewport">
+        <div class="wx-journey-track" id="wxJourneyTrack">
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-1.webp" alt="A Wonderland caravan being towed along a country road" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Your dream vision</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Envision your dream caravan. What kind of trips would you take? How many companions will travel with you? What features and amenities are essential for your comfort? Get inspired by fellow Wonderlanders, caravan shows, and ideas shared on social&nbsp;media.</p>
+            </div></div>
+          </div>
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-2.jpg" alt="A queen bed made up with cushions and a throw" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">The fundamental decisions</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Select the model that best matches your needs and preferences, and chose from over 60 pre-defined layouts for couples and family configurations. Add your specifications, length, chassis, suspension, wheels, insulation, and&nbsp;more.</p>
+            </div></div>
+          </div>
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-3.webp" alt="A kitchen sink with a gold tap beneath a window" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Make it your own</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Personalise your caravan with a wide range of upgrades. Choose from electrical system, to cladding, privacy options and appliances. You can also select your preferred interior finishes, fabrics, and colours. We&rsquo;re excited to create a space that&rsquo;s truly your&nbsp;own!</p>
+            </div></div>
+          </div>
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-4.jpg" alt="A dinette seat with a bowl of fruit on the table" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Designing your caravan</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Our creative team will take your inputs to come up with the perfect van design. They&rsquo;ll prepare floor plans and elevations, and make sure all your requests work perfectly together so there isn&rsquo;t any surprises at a later&nbsp;stage.</p>
+            </div></div>
+          </div>
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-5.webp" alt="The underside of a Wonderland chassis in the factory" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Watch your van coming to life</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">Our unmatched craftsmanship uses a unique jigsaw wall construction method for strength, durability, and precision. We build only with premium materials from reputable suppliers. Watch your van come to life with progress updates and&nbsp;images!</p>
+            </div></div>
+          </div>
+        </article>
+        <span class="wx-journey-chev" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <article class="wx-journey-card" tabindex="0">
+          <div class="wx-card-media"><img src="assets/img/experience/step-6.jpg" alt="An aerial view of a caravan on a dirt road through bushland" loading="lazy" draggable="false"></div>
+          <div class="wx-card-band">
+            <h3 class="wx-card-title">Your travel journey begins here</h3>
+            <div class="wx-card-bio-wrap"><div class="wx-card-bio-inner">
+              <p class="wx-card-bio">After a thorough inspection, we will hand over the keys to your new caravan. In our comprehensive handover session, we will explain how to use and maintain it. It will come with a 3-year factory-backed warranty and premium after-sales service for your peace of mind and&nbsp;satisfaction.</p>
+            </div></div>
+          </div>
+        </article>
+        </div>
+      </div>
+      <button class="wx-journey-arrow wx-journey-arrow--next" type="button" aria-label="Next steps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+  <div class="smp-note">
+    Paragraph: 0.24rem is what a Wonderlander bio uses; 0.28rem is the site&rsquo;s body size. 0.32rem (heading) is the site&rsquo;s sub-heading size. 0.40rem is what a Wonderlander card name is set at.
+    0.48rem is 20% over that. 0.56rem is the size of a section heading, so the card title would equal
+    the heading above it. All are Aviano Black, white on brand orange. Hover a card to see it open.
+  </div>
+</main>
+<script src="assets/js/wx-page.js?v=316"></script>
+<script>
+(function () {
+  var sec = document.querySelector('.wx-journey');
+  var read = document.getElementById('read');
+  function px(rem) { return Math.round(rem * parseFloat(getComputedStyle(document.documentElement).fontSize)); }
+  function size(v) {
+    sec.style.setProperty('--wxc-size', v + 'rem');
+    window.wxJourneyFit();
+    var lines = getComputedStyle(sec).getPropertyValue('--wxc-lines').trim();
+    read.textContent = v + 'rem = ' + px(parseFloat(v)) + 'px at this window; longest title ' + lines + ' line' + (lines === '1' ? '' : 's');
+  }
+  document.getElementById('sizes').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    [].forEach.call(this.children, function (x) { x.classList.toggle('on', x === b); });
+    size(b.dataset.s);
+  });
+  document.getElementById('bios').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    [].forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+    sec.style.setProperty('--wxc-bio', b.dataset.b + 'rem');
+  });
+  document.getElementById('place').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    [].forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+    sec.classList.toggle('wx-journey--top', b.dataset.p === 'top');
+  });
+  document.getElementById('open').addEventListener('change', function () { sec.classList.toggle('smp-open', this.checked); });
+  window.addEventListener('resize', function () { size(document.querySelector('#sizes .on').dataset.s); });
+  size('0.40');
+})();
+</script>
+</body>
+</html>

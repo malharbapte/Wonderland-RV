@@ -130,6 +130,11 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
+      /* tell the thank-you page which route the visitor came from */
+      try {
+        var day = form.querySelector('input[name="day"]:checked');
+        sessionStorage.setItem("wlThanks", JSON.stringify({ route: "event", show: SHOW.name, venue: SHOW.venue, day: day ? day.value : "" }));
+      } catch (err) {}
       location.href = "thank-you.html";   /* not wired to a service yet */
     });
   }

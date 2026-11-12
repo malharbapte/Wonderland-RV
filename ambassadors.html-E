@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wonderlanders: living in a caravan full time | Wonderland RV</title>
+<meta name="description" content="Meet the Wonderlanders, families living in a caravan full time or taking a big lap of Australia, in off-road caravans that Wonderland RV builds to order.">
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<link rel="stylesheet" href="assets/css/events-popup.css?v=5">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=313">
+<link rel="stylesheet" href="assets/css/ambassador-page.css?v=313">
+<link rel="stylesheet" href="assets/css/ambassadors.css?v=313">
+<script type="application/ld+json" id="faq-schema">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is a Wonderlander?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A Wonderlander is a Wonderland RV owner, part of the community of people who travel in Wonderland RV caravans. The families on these pages are Wonderlanders who share their vans and their tips for life on the road, from caravan storage ideas to their favourite camping recipes."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do families live in a caravan full time with kids?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Several of the Wonderlander families homeschool on the road and work from wherever they are parked. The Feel Good Family run their business as they travel, Sandy Van Travels work remotely on their photography, and both rely on Starlink to stay connected. The Kiwi Van Life homeschool too, and say the kids learn so much more out there."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where are Wonderland RV caravans built?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Wonderland RV caravans are built in Campbellfield, Melbourne, where the family-owned company has its factory and showroom. Every van is Australian made and built to order, and Wonderland RV has been building off-road caravans since 2014. Each one comes with a 3 year factory-backed warranty and premium aftersales service."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does a big lap of Australia take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "There's no set length for a big lap of Australia, and for two of the Wonderlander families the plan changed on the road. The Feel Good Family set out on a two-year lap in 2019 and are still going seven years later. The Kiwi Van Life planned a year, then made it their long-term lifestyle after fourteen months."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What caravans do the Wonderlanders travel in?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The Wonderlanders travel in all kinds of Wonderland RV caravans. The Feel Good Family have a Solara, The Kiwi Van Life a Hornet, the Wheatland Wanderers and Livin In Sanity each have an XTR, and Sandy Van Travels have a three-bunk layout for their family of five. Compare the Wonderland RV range."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<!-- ============================================================ HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="home.html" aria-label="Wonderland RV — home">
+      <img src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      <a href="range.html">Range</a>
+      <div class="nav-item nav-item--desk">
+        <a href="#" aria-haspopup="true">Buy</a>
+        <div class="nav-dropdown nav-dropdown--one">
+          <div class="dd-col">
+            <a href="#">Stock Vans</a>
+            <a href="wonderland-experience.html">Wonderland Experience</a>
+            <a href="#">Insurance</a>
+          </div>
+        </div>
+      </div>
+      <a href="#">Events</a>
+      <div class="nav-item">
+        <a href="#" aria-haspopup="true" aria-current="page">About</a>
+        <div class="nav-dropdown">
+          <div class="dd-col">
+            <a href="#">Meet the Team</a>
+            <a href="#">Our Partners</a>
+          </div>
+          <div class="dd-col">
+            <a href="ambassadors.html" aria-current="page">Wonderlanders</a>
+            <div class="dd-item"><a href="feel-good-family.html">The Feel Good Family</a></div>
+            <div class="dd-item"><a href="wheatland-wanderers.html">Wheatland Wanderers</a></div>
+            <div class="dd-item"><a href="sandy-van-travels.html">Sandy Van Travels</a></div>
+          </div>
+          <div class="dd-col dd-col--cont">
+            <div class="dd-item"><a href="livin-in-sanity.html">Livin In Sanity</a></div>
+            <div class="dd-item"><a href="kiwi-van-life.html">The Kiwi Van Life</a></div>
+            <div class="dd-item"><a href="8-feet-travels.html">8 Feet Travels</a></div>
+          </div>
+        </div>
+      </div>
+      <a href="#">Media</a>
+      <a href="compact.html">Contact</a>
+    </nav>
+
+    <button class="search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <circle cx="9.5" cy="9.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="15.61" y1="14.2" x2="18.8" y2="17.38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="btn-build" href="build-your-caravan.html">Build your Caravan</a>
+
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================== HERO -->
+<section class="hero wl-hero">
+  <!-- Real file, taken from the live wonderlandrv.com.au ambassadors page,
+       where it sits as the hero's CSS background (1920 × 1080). The .ph
+       scaffolding stays as the fallback label if it ever fails to load. -->
+  <div class="media ph" data-ph="HERO IMAGE — assets/img/hero-ambassadors.jpg">
+    <img src="assets/img/hero-ambassadors.jpg" alt="The Wonderlanders and their caravans gathered on a beach" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="hero-copy container">
+    <h1>Meet our<br>Wonderlanders</h1>
+  </div>
+</section>
+
+<!-- =================================================== VOICES TO OUR INSPIRATION -->
+<section class="wl-intro">
+  <div class="container">
+    <h2 class="wl-intro-title">Voices to our inspiration</h2>
+    <p class="wl-intro-kicker">Real families on the road in Wonderland RV caravans</p>
+    <p class="wl-intro-body">The Wonderlanders are families who travel Australia in Wonderland RV caravans, and most of them are living in a caravan full time. Meet The Feel Good Family, the Wheatland Wanderers, Sandy Van Travels, Livin In Sanity and The Kiwi Van Life. The Feel Good Family planned a two-year lap that turned into seven years, and The Kiwi Van Life sold their house in seven days, then made van life their long-term lifestyle. Each family has a page of their own.</p>
+  </div>
+</section>
+
+<!-- ============================================================ WONDERLANDER GRID -->
+<section class="wl-cards">
+  <div class="wl-cards-inner">
+
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Feel Good Family">
+        <img src="assets/img/ambassadors/feel-good-family.jpg?v=207" alt="Katie, Paul and Jasper of The Feel Good Family with their Wonderland RV Solara" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="feel-good-family.html">The Feel Good Family</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show The Feel Good Family&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">What began as a two-year lap of Australia has somehow turned into seven years of full-time travel. We&rsquo;ve explored some incredible places, met amazing people and shared plenty of stories along the&nbsp;way.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Wheatland Wanderers">
+        <img src="assets/img/ambassadors/wheatland-wanderers.jpg" alt="The Wheatland Wanderers&rsquo; Wonderland RV XTR set up at a bush camp" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="wheatland-wanderers.html">Wheatland Wanderers</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show Wheatland Wanderers&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">The Wheatland Wanderers are Cam, Sharyn, and their sons Jye and Cruz. They started
+            out their journey inside of tents, pop-up caravans, and expanders.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Sandy Van Travels">
+        <img src="assets/img/ambassadors/sandy-van-travels.jpg?v=196" alt="Jess, Doug and their three children with their caravan at the Coober Pedy sign" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="sandy-van-travels.html">Sandy Van Travels</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show Sandy Van Travels&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Jess and Doug sold everything in Brisbane to travel Australia full-time with
+            their three kids, documenting the journey through photography, video and honest storytelling.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — Livin In Sanity">
+        <img src="assets/img/ambassadors/livin-in-sanity.jpg" alt="Livin In Sanity&rsquo;s Wonderland RV XTR at a paddock camp at sunset" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="livin-in-sanity.html">Livin In Sanity</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show Livin In Sanity&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Since February 2023, this beautiful family has been full-time travelling,
+            capturing awesome moments and sharing epic memories.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — The Kiwi Van Life">
+        <img src="assets/img/ambassadors/kiwi-van-life.jpg?v=207" alt="Rorden, Cass, Jed and Lexi of The Kiwi Van Life" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="kiwi-van-life.html">The Kiwi Van Life</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show The Kiwi Van Life&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio">Rorden, Cass, Jed and Lexi sold their house in seven days and hit the road in their Hornet. A year was never going to be enough, so van life became the long-term&nbsp;plan.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-media ph" data-ph="AMBASSADOR PHOTO — 8 Feet Travels">
+        <img src="assets/img/ambassadors/8-feet-travels.jpg" alt="8 Feet Travels, Wonderland RV ambassadors" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+      </div>
+      <div class="wl-card-name">
+        <div class="wl-card-head">
+          <a class="wl-card-title" href="8-feet-travels.html">8 Feet Travels</a>
+          <button class="wl-card-toggle" type="button" aria-expanded="false" aria-label="Show 8 Feet Travels&rsquo;s story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="wl-card-bio-wrap"><div class="wl-card-bio-inner">
+          <p class="wl-card-bio wl-card-bio--tbc">Placeholder: bio and photo still to come from Adam and Jessy.</p>
+        </div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================ LEGENDARY SERVICE -->
+<section class="service">
+  <div class="container service-head">
+    <h2 class="service-title">LEGENDARY SERVICE</h2>
+    <p class="service-kicker">OUR HAPPY CUSTOMERS</p>
+  </div>
+
+  <div class="service-band">
+    <div class="service-viewport">
+      <div class="service-track" id="serviceTrack">
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-julian.jpg">
+          <img src="assets/img/home/review-julian.jpg" alt="Inside a Wonderland RV: kitchen, dinette and queen bed"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The quality, craftsmanship, and attention to detail are absolutely outstanding you can really see the pride that&rsquo;s gone into this build.&rdquo;</p>
+          <span class="service-name">JULIAN RANDALL</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-jasique.jpg">
+          <img src="assets/img/home/review-jasique.jpg" alt="The caf&eacute; dinette inside a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our Wonderland Amaroo has truly lived up to its reputation and exceeded our expectations while we&rsquo;ve explored Australia as a family.&rdquo;</p>
+          <span class="service-name">JASIQUE</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-mandi.jpg">
+          <img src="assets/img/home/review-mandi.jpg" alt="Queen bed and dinette inside a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Our van is the ultimate family caravan and the finishes are absolute premium quality. We love hitting the road with our van any chance we get.&rdquo;</p>
+          <span class="service-name">MANDI DAVIES</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      <div class="service-slide">
+        <div class="service-media ph" data-ph="assets/img/home/review-sandro.jpg">
+          <img src="assets/img/home/review-sandro.jpg" alt="The queen bed at the front of a Wonderland RV"
+               onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+        </div>
+        <blockquote class="service-quote">
+          <p><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>The attention to detail and build quality is exceptional to say the least. This is our 5th caravan and I am sure we will be going back to Wonderland for our 6th.&rdquo;</p>
+          <span class="service-name">SANDRO CARBONI</span>
+          <span class="service-role">WONDERLANDER</span>
+        </blockquote>
+      </div>
+      </div>
+    </div>
+
+    <button class="service-arrow service-arrow--prev" type="button" aria-label="Previous review">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="service-arrow service-arrow--next" type="button" aria-label="Next review">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ======================================================== EXPERIENCE -->
+<section class="experience">
+  <!-- IMAGE PLACEHOLDER — drop file at assets/img/experience-band.jpg (2389 × 769) -->
+  <div class="media ph" data-ph="BAND IMAGE — assets/img/experience-band.jpg — 2389 × 769">
+    <img src="assets/img/experience-band-tall.jpg" alt="Wonderland RV caravans parked on a beach by the ocean" style="object-position:center 23%" onload="this.parentElement.classList.remove('ph')" onerror="this.remove()">
+  </div>
+  <div class="container experience-copy">
+    <h2 class="experience-title"><a href="#">the wonderland experience</a></h2>
+    <p class="experience-body">Because no two travellers are the same, we believe<br>
+      no two caravans should be either.</p>
+  </div>
+</section>
+
+<!-- ========================================================= PINK BAND -->
+<section class="rules-band">
+  <p>YOUR TRAVELS, YOUR VISION,<br>
+    YOUR CARAVAN JOURNEY, YOUR RULES.</p>
+</section>
+
+<!-- ================================================================ FAQ -->
+<section class="amb-faq">
+  <div class="container">
+    <h2 class="wl-intro-title">Questions about the Wonderlanders</h2>
+    <div class="amb-faq-list">
+      <details>
+        <summary>What is a Wonderlander? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="amb-faq-body"><p>A Wonderlander is a Wonderland RV owner, part of the community of people who travel in <a href="https://wonderlandrv.com.au/range/">Wonderland RV caravans</a>. The families on these pages are Wonderlanders who share their vans and their tips for life on the road, from <a href="https://wonderlandrv.com.au/blog/ways-to-maximise-space-in-your-family-caravan/">caravan storage ideas</a> to their favourite <a href="https://wonderlandrv.com.au/blog/caravan-cooking-recipes-and-tips-for-cooking-on-the-road/">camping recipes</a>.</p></div>
+      </details>
+      <details>
+        <summary>How do families live in a caravan full time with kids? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="amb-faq-body"><p>Several of the Wonderlander families homeschool on the road and work from wherever they are parked. <a href="https://wonderlandrv.com.au/about/ambassadors/the-feel-good-family/">The Feel Good Family</a> run their business as they travel, <a href="https://wonderlandrv.com.au/about/ambassadors/sandy-van-travels/">Sandy Van Travels</a> work remotely on their photography, and both rely on Starlink to stay connected. <a href="https://wonderlandrv.com.au/about/ambassadors/the-kiwi-van-life/">The Kiwi Van Life</a> homeschool too, and say the kids learn so much more out there.</p></div>
+      </details>
+      <details>
+        <summary>Where are Wonderland RV caravans built? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="amb-faq-body"><p>Wonderland RV caravans are built in Campbellfield, Melbourne, where the family-owned company has its factory and showroom. Every van is Australian made and <a href="https://wonderlandrv.com.au/layout/custom-made/">built to order</a>, and Wonderland RV has been building <a href="https://wonderlandrv.com.au/range/">off-road caravans</a> since 2014. Each one comes with a 3 year factory-backed warranty and premium aftersales service.</p></div>
+      </details>
+      <details>
+        <summary>How long does a big lap of Australia take? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="amb-faq-body"><p>There&rsquo;s no set length for a <a href="https://wonderlandrv.com.au/blog/the-big-lap-australia/">big lap of Australia</a>, and for two of the Wonderlander families the plan changed on the road. <a href="https://wonderlandrv.com.au/about/ambassadors/the-feel-good-family/">The Feel Good Family</a> set out on a two-year lap in 2019 and are still going seven years later. <a href="https://wonderlandrv.com.au/about/ambassadors/the-kiwi-van-life/">The Kiwi Van Life</a> planned a year, then made it their long-term lifestyle after fourteen months.</p></div>
+      </details>
+      <details>
+        <summary>What caravans do the Wonderlanders travel in? <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="amb-faq-body"><p>The Wonderlanders travel in all kinds of Wonderland RV caravans. The Feel Good Family have a Solara, The Kiwi Van Life a Hornet, the Wheatland Wanderers and Livin In Sanity each have an XTR, and Sandy Van Travels have a three-bunk layout for their family of five. <a href="https://wonderlandrv.com.au/range/">Compare the Wonderland RV range</a>.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== WHERE TO NEXT -->
+<!-- The same band that closes the Contact Us page, markup unchanged. Its
+     styles are already in styles.css, which every page loads, so nothing
+     new is needed to render it here. -->
+<section class="next-band">
+  <div class="media ph" data-ph="BAND VIDEO — assets/img/home/Where to next_section-vid.mp4 — 2389 × 1070">
+    <video src="assets/img/home/Where%20to%20next_section-vid.mp4" aria-label="A Wonderland RV caravan towed along a coastal dirt track" title="A Wonderland RV caravan towed along a coastal dirt track"
+           poster="assets/img/where-to-next.jpg"
+           autoplay muted loop playsinline
+           onloadeddata="this.parentElement.classList.remove('ph')" onerror="this.remove()"></video>
+  </div>
+  <div class="next-copy container">
+    <h2 class="next-title">WHERE TO NEXT?</h2>
+    <div class="next-actions">
+      <a class="btn-next" href="#">explore the range</a>
+      <a class="btn-next" href="#">meet the team</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img class="footer-logo" src="assets/img/wonderland-rv-logo.png" alt="Wonderland RV">
+      <p class="footer-blurb">Join the Facebook group where Wonderland
+        owners share their adventures, photos,
+        stories, comments, reviews and advice about
+        travels in their Wonderland RV.</p>
+      <p><a class="footer-strong" href="#">Find out more</a></p>
+
+      <h3 class="footer-head">LET'S CHAT</h3>
+      <p class="footer-contact">
+        <a class="footer-strong" href="tel:+61386920032">(03) 8692 0032</a><br>
+        <a class="footer-strong" href="mailto:sales@wonderlandrv.com.au">sales@wonderlandrv.com.au</a><br>
+        <span>46 Lara Way, Campbellfield, Victoria 3061</span>
+      </p>
+
+      <ul class="socials">
+        <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 8.5V6.9c0-.8.2-1.2 1.4-1.2h1.5V2.8h-2.5c-3 0-4 1.4-4 3.8v1.9H9v3h1.9V21h3.6v-9.7h2.5l.3-3h-2.8z"/></svg></a></li>
+        <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a></li>
+        <li><a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.7 19.3c-.1-.8-.2-2 0-2.9l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.9 1.6 1.9 1.9 0 3.3-2 3.3-4.9 0-2.6-1.8-4.4-4.4-4.4-3 0-4.8 2.2-4.8 4.6 0 .9.3 1.9.8 2.4.1.1.1.2.1.3l-.3 1.1c0 .2-.1.2-.3.1-1.3-.6-2-2.4-2-3.9 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.3-5.2 6.3-1 0-2-.5-2.3-1.2l-.6 2.4c-.2.9-.8 2-1.2 2.6A10 10 0 1 0 12 2z"/></svg></a></li>
+        <li><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2C1 8.9 1 12 1 12s0 3.1.5 4.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.7.5-4.8.5-4.8s0-3.1-.5-4.8zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg></a></li>
+        <li><a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3v13.1a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.5a5.7 5.7 0 1 0 4.8 5.6V8.6a6.6 6.6 0 0 0 3.9 1.3V6.8a3.6 3.6 0 0 1-3.9-3.6V2z"/></svg></a></li>
+      </ul>
+
+      <img class="made-in" src="assets/img/made-in-australia.png"
+           alt="Wonderland — proudly made in Australia" width="1000" height="148">
+    </div>
+
+    <div class="footer-links">
+      <div class="newsletter">
+        <h3 class="footer-head">SUBSCRIBE TO OUR NEWSLETTER</h3>
+        <form class="newsletter-form" action="#" method="post" autocomplete="off">
+          <div class="field field--line">
+            <label class="sr-only" for="nl-email">Email</label>
+            <input id="nl-email" name="email" type="email" placeholder="Email*" required autocomplete="off">
+          </div>
+          <button class="btn-subscribe" type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="link-cols">
+        <div class="link-col">
+          <h4 class="footer-head">RANGE</h4>
+          <ul><li><a href="#">Solara</a></li><li><a href="#">XTR</a></li><li><a href="#">Hornet</a></li><li><a href="#">Amaroo</a></li></ul>
+          <h4 class="footer-head footer-head--gap">OWNERS SUPPORT</h4>
+          <ul><li><a href="#">Owners manual</a></li><li><a href="#">Warranty &amp; repairs</a></li><li><a href="#">Contact us</a></li></ul>
+        </div>
+
+        <div class="link-col">
+          <h4 class="footer-head">EXPLORE</h4>
+          <ul><li><a href="#">Blog</a></li><li><a href="#">Media features</a></li><li><a href="#">Partners</a></li><li><a href="ambassadors.html" aria-current="page">Wonderlanders</a></li></ul>
+          <h4 class="footer-head footer-head--gap">WHERE TO BUY</h4>
+          <ul><li><a href="#">Find a dealer</a></li><li><a href="#">Book a factory tour</a></li><li><a href="#">Request a quote</a></li><li><a href="#">Get in touch</a></li></ul>
+        </div>
+
+        <div class="link-col">
+          <h4 class="footer-head">LOCATIONS</h4>
+          <ul><li><a href="#">Melbourne</a></li><li><a href="#">Sydney</a></li><li><a href="#">Port Stephens</a></li><li><a href="#">Brisbane</a></li><li><a href="#">Mackay</a></li><li><a href="#">Perth</a></li><li><a href="#">Tasmania</a></li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal-left">
+      <p><a href="#">Privacy Policy</a></p>
+      <p><a href="#">Terms &amp; Conditions</a></p>
+      <p>&copy; 2026 Wonderland RV Caravans. All Rights Reserved.</p>
+    </div>
+
+    <div class="footer-legal-right">
+      <p>Disclaimer: Images shown may have optional extras fitted. Wonderland RV reserves the right to discontinue or change the
+        models, features, specifications, or designs of the caravans referred to herein, at their discretion without prior notice.</p>
+      <p>Photo credit: We would like to thank many of our Wonderlanders for their great photography used across our site.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script src="assets/js/wonderlanders.js?v=313"></script>
+<script src="assets/js/video.js?v=99"></script>
+<script src="assets/js/reviews.js?v=313"></script>
+<script src="assets/js/footer.js?v=313"></script>
+<script src="assets/js/nav.js?v=323"></script>
+<script src="assets/js/events-popup.js?v=6"></script>
+</body>
+</html>

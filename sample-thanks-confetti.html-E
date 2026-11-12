@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confetti options — Wonderland RV</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<style>
+body{background:#fff}
+.cf{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 16px;gap:28px}
+.cf h1{font-family:var(--aviano);font-weight:900;font-size:var(--t-heading);margin:0;text-transform:uppercase}
+.cf p{margin:0;font-size:var(--t-body);max-width:8rem}
+.cf-row{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.cf button{font-family:var(--aviano);font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:15px;padding:16px 26px;border:2px solid var(--orange);background:#fff;color:var(--orange-deep);cursor:pointer;transition:background .2s,color .2s}
+.cf button:hover,.cf button:focus-visible{background:var(--orange);color:#fff}
+.cf small{display:block;margin-top:6px;font-family:var(--gordita);font-weight:400;text-transform:none;letter-spacing:0;font-size:13px;color:#555}
+.cf button:hover small,.cf button:focus-visible small{color:#fff}
+</style></head><body>
+<main class="cf">
+  <h1>Confetti options</h1>
+  <p>Press each one. They fire on the thank-you page the moment it loads, once.</p>
+  <div class="cf-row">
+    <button data-m="burst">A &middot; Burst<small>One cannon from the top centre</small></button>
+    <button data-m="cannons">B &middot; Cannons<small>Two cannons, bottom corners</small></button>
+    <button data-m="rain">C &middot; Rain<small>Gentle fall, with the logo&rsquo;s mountain shape</small></button>
+  </div>
+</main>
+<script src="assets/js/confetti.js?v=2"></script>
+<script>
+document.querySelectorAll("button[data-m]").forEach(function(b){b.addEventListener("click",function(){wlConfetti(b.dataset.m)})});
+if(location.hash.slice(1))setTimeout(function(){wlConfetti(location.hash.slice(1))},400);
+</script></body></html>
