@@ -63,8 +63,8 @@ var TESTIMONIALS = [
     if (i === current) return;
     current = i;
     var t = TESTIMONIALS[i];
-    [].slice.call(media.querySelectorAll("iframe, video, .video-controls, .video-nudge")).forEach(function (n) { n.remove(); });
-    mountVideo(media, t.url, t.name + " testimonial", { captions: true, nudge: true });
+    [].slice.call(media.querySelectorAll("iframe, video, .video-controls, .video-nudge, .kk-play")).forEach(function (n) { n.remove(); });
+    mountVideo(media, t.url, t.name + " testimonial", { popup: true });
     now.innerHTML = "<b></b><span></span>";
     now.firstChild.textContent = t.name; now.lastChild.textContent = t.role || "";
     [].forEach.call(tabs.children, function (b, k) { b.setAttribute("aria-selected", String(k === i)); b.tabIndex = k === i ? 0 : -1; });

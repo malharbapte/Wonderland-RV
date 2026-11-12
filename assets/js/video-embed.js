@@ -98,7 +98,7 @@ function addPopupPlay(frame, id, title) {
   play.setAttribute("aria-label", "Play video: " + title);
   play.innerHTML = VP_ICON.play;
   frame.appendChild(play);
-  const poster = frame.querySelector(".video-poster");
+  const poster = frame.querySelector(".video-poster, .ty-tv-poster");
   play.addEventListener("click", function () {
     openVideoPopup(id, title, poster ? poster.getAttribute("src") : "", play);
   });
