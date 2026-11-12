@@ -49,7 +49,7 @@
 
 /* build quality ------------------------------------------------------------- */
 .ty-build, .ty-awards { width: 100vw; margin-left: calc(50% - 50vw); }
-.ty-build { background: #FFF2DC; }
+.ty-build { background: #F8F8F7; }   /* the homepage grey */
 .ty-bq-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
 .ty-bq-img { aspect-ratio: 4 / 3; border-radius: 0.1rem; overflow: hidden; }
 .ty-bq-n { display: block; margin-top: 0.22rem; color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1; }
