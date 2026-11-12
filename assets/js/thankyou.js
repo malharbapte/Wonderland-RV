@@ -42,7 +42,7 @@ var TESTIMONIALS = [
 (function () {
   var frame = document.getElementById("tyVideo");
   if (frame && typeof mountVideo === "function") {
-    mountVideo(frame, frame.getAttribute("data-video"), frame.getAttribute("data-title"), { captions: true, popup: true });
+    mountVideo(frame, frame.getAttribute("data-video"), frame.getAttribute("data-title"), { popup: true });
   }
   if (typeof wlConfetti === "function") {
     setTimeout(function () { wlConfetti(document.body.getAttribute("data-confetti") || "burst"); }, 350);

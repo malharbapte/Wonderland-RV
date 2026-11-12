@@ -32,7 +32,7 @@
 
 /* brand partners under the video --------------------------------------------- */
 .ty-hb-k { margin: 0.4rem 0 0; color: #555; font-size: var(--t-caption); letter-spacing: .08em; text-transform: uppercase; line-height: 1; }
-.ty-hb { list-style: none; margin: 0.3rem auto 0; padding: 0; max-width: 11.6rem; display: flex; align-items: center; justify-content: center; }
+.ty-hb { list-style: none; margin: 0.3rem auto 0; padding: 0; max-width: 9.2rem; display: flex; align-items: center; justify-content: center; }
 .ty-hb--2 { margin-top: 0.26rem; }
 .ty-hb li { flex: 0 0 25%; display: flex; justify-content: center; align-items: center; min-height: 0.5rem; }   /* same cell width in both rows, so the three sit under the gaps of the four's grid */
 /* full colour, heights tuned like the brands strip further down the site */

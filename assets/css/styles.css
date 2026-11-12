@@ -717,19 +717,48 @@ input:-webkit-autofill:focus {
 .video-poster { width: 100%; height: 100%; object-fit: cover; }
 
 /* ------------------------------------------ separate player pop-up --------
-   .video-frame--pop: the loop is only a backdrop, so the pointer passes over
-   it to the frame (no YouTube hover bar), and the frame itself is the target. */
-.video-frame--pop iframe { pointer-events: none; }
+   The page holds a poster and the big play button. Play opens .vpop: the
+   video with our own bar, YouTube's own controls off and out of reach (the
+   iframe takes no pointer; .vpop-hit catches the click). The poster covers the
+   player until the video is playing, and again when paused, so YouTube's
+   title strip and "More videos" never show. */
 .vpop {
   position: fixed; inset: 0; z-index: 10000;
-  background: rgba(0, 0, 0, 0.86);
+  background: rgba(0, 0, 0, 0.88);
   display: grid; place-items: center;
   padding: clamp(16px, 4vw, 64px);
   animation: vpop-in .25s ease both;
 }
 @keyframes vpop-in { from { opacity: 0; } }
-.vpop-box { width: min(100%, calc((100vh - 8vw) * 16 / 9), 1280px); aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 80px rgba(0, 0, 0, .6); }
-.vpop-box iframe { display: block; width: 100%; height: 100%; border: 0; }
+.vpop-box { position: relative; width: min(100%, calc((100vh - 8vw) * 16 / 9), 1280px); aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 80px rgba(0, 0, 0, .6); }
+.vpop-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+.vpop-box.is-plain iframe { pointer-events: auto; }
+.vpop-box.is-plain .vpop-cover, .vpop-box.is-plain .vpop-hit, .vpop-box.is-plain .vpop-bar { display: none; }
+.vpop-cover { position: absolute; inset: 0; background: #000; pointer-events: none; transition: opacity .25s ease; }
+.vpop-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .7; }
+.vpop-box.is-playing .vpop-cover { opacity: 0; }
+.vpop-hit { position: absolute; inset: 0 0 clamp(44px, 5vw, 64px) 0; border: 0; background: transparent; cursor: pointer; padding: 0; }
+.vpop-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; align-items: center; gap: clamp(8px, 1.2vw, 16px);
+  padding: clamp(8px, 1vw, 14px) clamp(12px, 1.6vw, 24px);
+  background: linear-gradient(to top, rgba(0, 0, 0, .72), rgba(0, 0, 0, 0));
+  color: #fff; font: 600 clamp(11px, 1vw, 14px)/1 var(--gordita);
+  transition: opacity .3s ease;
+}
+.vpop-box.is-idle .vpop-bar { opacity: 0; }
+.vpop-box.is-idle { cursor: none; }
+.vpop-b { flex: none; width: clamp(30px, 2.8vw, 40px); height: clamp(30px, 2.8vw, 40px); display: grid; place-items: center; background: none; border: 0; padding: 0; color: #fff; cursor: pointer; border-radius: 50%; }
+.vpop-b:hover { background: rgba(255, 255, 255, .16); }
+.vpop-b svg { width: 52%; height: 52%; }
+.vpop-time { flex: none; min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; }
+.vpop-seek { --p: 0%; flex: 1 1 auto; height: 18px; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+.vpop-seek::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--orange) var(--p), rgba(255, 255, 255, .35) var(--p)); }
+.vpop-seek::-moz-range-track { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .35); }
+.vpop-seek::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--orange); }
+.vpop-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -4px; border-radius: 50%; background: #fff; border: 0; }
+.vpop-seek::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 0; }
+.vpop-b:focus-visible, .vpop-seek:focus-visible, .vpop-x:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .vpop-x { position: absolute; top: clamp(12px, 1.6vw, 24px); right: clamp(12px, 1.6vw, 24px); border: 0; cursor: pointer; }
 html.vpop-open { overflow: hidden; }
 

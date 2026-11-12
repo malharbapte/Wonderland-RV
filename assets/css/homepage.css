@@ -589,7 +589,7 @@
   display: flex;
   align-items: center;
   width: max-content;
-  animation: brand-scroll 68s linear infinite;   /* medium pace, held */
+  animation: brand-scroll 85s linear infinite;   /* 20% slower than the old 68s */
   /* Already moving before the visitor gets here: it starts a third of the way
      round rather than at the seam, and sits on its own compositor layer so
      it does not stall and then kick in as the section scrolls into view. */
