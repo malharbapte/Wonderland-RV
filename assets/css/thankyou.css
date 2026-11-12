@@ -56,6 +56,25 @@
 .ty-bq h3 { margin: 0.1rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.3rem; line-height: 0.36rem; text-transform: uppercase; }
 .ty-bq p { margin: 0.1rem 0 0; font-size: 0.24rem; line-height: 0.36rem; }
 
+/* testimonial videos: a hero that covers the screen -------------------------- */
+.ty-tv { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100vh - 1.42rem); min-height: 5.6rem; background: #111; color: #fff; overflow: hidden; }   /* 1.42rem = the sticky header, so the hero fills exactly what is left of the screen */
+.ty-tv-media { position: absolute; inset: 0; aspect-ratio: auto; background: #111; }
+.ty-tv-media iframe, .ty-tv-media video { top: 0; left: 0; transform: none; width: 100%; height: 100%; min-height: 0; object-fit: cover; }
+.ty-tv-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ty-tv-shade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.55) 0, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 58%, rgba(0,0,0,.78) 100%); }
+.ty-tv-head { position: absolute; z-index: 4; top: 0.7rem; left: 50%; transform: translateX(-50%); pointer-events: none; }
+.ty-tv-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
+.ty-tv-lede { margin: 0.14rem 0 0; font-size: var(--t-body); line-height: var(--lh-body); }
+.ty-tv-foot { position: absolute; z-index: 5; bottom: 0.5rem; left: 50%; transform: translateX(-50%); }
+.ty-tv-now { margin: 0 0 0.22rem; display: flex; flex-direction: column; gap: 0.04rem; }
+.ty-tv-now b { font-family: var(--aviano); font-weight: 900; font-size: 0.4rem; line-height: 0.46rem; text-transform: uppercase; }
+.ty-tv-now span { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .12em; text-transform: uppercase; }
+.ty-tv-tabs { display: flex; gap: 0.5rem; overflow-x: auto; border-top: 0.01rem solid rgba(255,255,255,.35); scrollbar-width: none; }
+.ty-tv-tabs::-webkit-scrollbar { display: none; }
+.ty-tv-tabs button { flex: none; margin: 0; padding: 0.18rem 0 0.14rem; border: 0; border-top: 0.03rem solid transparent; margin-top: -0.02rem; background: none; color: rgba(255,255,255,.65); font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: color .2s, border-color .2s; }
+.ty-tv-tabs button:hover, .ty-tv-tabs button:focus-visible { color: #fff; }
+.ty-tv-tabs button[aria-selected="true"] { color: #fff; border-top-color: var(--orange); }
+
 /* awards -------------------------------------------------------------------- */
 .ty-aw-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.3rem; }
 .ty-aw { display: grid; grid-template-columns: 2.1rem 1fr; align-items: center; gap: 0.4rem; padding: 0.3rem 0.4rem 0.3rem 0.3rem; border-radius: 0.1rem; background: #1b1b1b; color: #fff; }
@@ -116,5 +135,14 @@
   .ty-aw b { font-size: 22px; line-height: 28px; }
   .ty-aw-s { font-size: 15px; line-height: 21px; }
   .ty-gr { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
+  .ty-tv { height: auto; min-height: 0; background: #111; padding-bottom: 28px; }
+  .ty-tv-media { position: relative; inset: auto; aspect-ratio: 16 / 9; }
+  .ty-tv-shade { display: none; }
+  .ty-tv-head { position: static; transform: none; padding-top: 36px; padding-bottom: 20px; }
+  .ty-tv-lede { font-size: 16px; line-height: 24px; margin-top: 8px; }
+  .ty-tv-foot { position: static; transform: none; margin-top: 18px; }
+  .ty-tv-now b { font-size: 20px; line-height: 26px; }
+  .ty-tv-tabs { gap: 24px; }
+  .ty-tv-tabs button { font-size: 13px; padding: 14px 0 10px; }
   .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
 }
