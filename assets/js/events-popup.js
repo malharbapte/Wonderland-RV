@@ -80,7 +80,7 @@
           '<label class="evp-f evp-area"><textarea name="message" placeholder="Anything we should know?" rows="3"></textarea></label>' +
           '<label class="evp-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>' +
           '<p class="evp-priv">We use your details to arrange your appointment and share them with our dealer for this show. <a href="#" style="color:inherit;text-decoration:underline">See our privacy policy.</a></p>' +
-          '<button class="evp-submit" type="submit">Request my appointment</button>' +
+          '<button class="evp-submit" type="submit">Submit</button>' +
         "</form>" +
       "</div>";
     document.body.appendChild(wrap);
