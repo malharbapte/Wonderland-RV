@@ -590,6 +590,11 @@
   align-items: center;
   width: max-content;
   animation: brand-scroll 68s linear infinite;   /* medium pace, held */
+  /* Already moving before the visitor gets here: it starts a third of the way
+     round rather than at the seam, and sits on its own compositor layer so
+     it does not stall and then kick in as the section scrolls into view. */
+  animation-delay: -23s;
+  will-change: transform;
 }
 .brand-marquee:hover .brand-track { animation-play-state: paused; }
 @keyframes brand-scroll { to { transform: translateX(-50%); } }

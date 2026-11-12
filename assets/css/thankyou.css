@@ -61,7 +61,8 @@
 .ty-aw { display: grid; grid-template-columns: 2.1rem 1fr; align-items: center; gap: 0.4rem; padding: 0.3rem 0.4rem 0.3rem 0.3rem; border-radius: 0.1rem; background: #1b1b1b; color: #fff; }
 .ty-aw-badge { height: 3.1rem; border-radius: 0.08rem; background: #FFF2DC; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 0.2rem; }
 .ty-aw-badge svg { width: 0.9rem; height: 0.9rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ty-aw-badge--cw img { width: 1.5rem; mix-blend-mode: multiply; }
+.ty-aw-badge--cw { background: #fff; }
+.ty-aw-badge--cw img { height: 100%; width: auto; object-fit: contain; }
 .ty-aw-badge--rb { background: #fff; }
 .ty-aw-badge--rb img { height: 100%; width: auto; object-fit: contain; }
 .ty-aw-txt { display: flex; flex-direction: column; gap: 0.12rem; text-align: left; }
@@ -112,7 +113,6 @@
   .ty-aw { grid-template-columns: 110px 1fr; gap: 18px; padding: 16px; }
   .ty-aw-badge { height: 190px; padding: 10px; }
   .ty-aw-badge svg { width: 48px; height: 48px; }
-  .ty-aw-badge--cw img { width: 84px; }
   .ty-aw b { font-size: 22px; line-height: 28px; }
   .ty-aw-s { font-size: 15px; line-height: 21px; }
   .ty-gr { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
