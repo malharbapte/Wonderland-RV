@@ -23,7 +23,7 @@
 .ty-tl b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
 .ty-tl span { font-size: 0.2rem; line-height: 0.28rem; color: #555; }
 
-.ty-hero { padding-top: 0.25rem; padding-bottom: var(--section-gap); text-align: center; }   /* the thank-you block above supplies the rest of the gap */
+.ty-hero { padding-top: 0.25rem; padding-bottom: 0; text-align: center; }   /* the thank-you block above supplies the rest of the gap */
 .ty-title { margin: 0.34rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-sub { max-width: 8.4rem; margin: 0.22rem auto 0; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-video { width: 100%; max-width: 11.6rem; aspect-ratio: 16 / 9; margin: 0.5rem auto 0; border-radius: 0.13rem; box-shadow: 0 0.18rem 0.5rem -0.2rem rgba(0,0,0,.45); }
@@ -32,11 +32,12 @@
 
 /* brand partners under the video --------------------------------------------- */
 .ty-hb-k { margin: 0.4rem 0 0; color: #555; font-size: var(--t-caption); letter-spacing: .08em; text-transform: uppercase; line-height: 1; }
-.ty-hb { list-style: none; margin: 0.3rem auto 0; padding: 0; max-width: 11.6rem; display: flex; align-items: center; justify-content: space-between; }
-.ty-hb li { flex: none; display: flex; align-items: center; }
+.ty-hb { list-style: none; margin: 0.3rem auto 0; padding: 0; max-width: 11.6rem; display: flex; align-items: center; justify-content: center; }
+.ty-hb--2 { margin-top: 0.26rem; }
+.ty-hb li { flex: 0 0 25%; display: flex; justify-content: center; align-items: center; min-height: 0.5rem; }   /* same cell width in both rows, so the three sit under the gaps of the four's grid */
 /* same treatment and heights as the brands strip further down the site */
-.ty-hb img { display: block; height: 0.27rem; width: auto; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter .28s ease, opacity .28s ease; }
-.ty-hb li.sm img { height: 0.4rem; }
+.ty-hb img { display: block; height: 0.34rem; width: auto; max-width: 88%; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter .28s ease, opacity .28s ease; }
+.ty-hb li.sm img { height: 0.5rem; }
 .ty-hb li:hover img { filter: grayscale(0); opacity: 1; }
 
 /* section chrome ------------------------------------------------------------- */
