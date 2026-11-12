@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=326">
 <link rel="stylesheet" href="assets/css/home-order.css?v=365">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=4">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=5">
 </head>
-<body class="home thanks">
+<body class="home thanks" data-confetti="burst">
 
 <!-- ============================================================ HEADER -->
 <header class="site-header">
@@ -90,10 +90,9 @@
     </ol>
     <p class="ty-pill"><em aria-hidden="true"></em><b>Thank you!</b><span>Our experts will reach out within 24 hours on business days.</span></p>
     <h1 class="ty-title">Your next steps</h1>
-    <p class="ty-sub">Watch this short video while you wait. It shows what makes a Wonderland different, so you get the most out of your call.</p>
-    <div class="ty-video video-frame" id="tyVideo" data-video="https://youtu.be/mZVHIMStpF4" data-title="Wonderland RV — 2026 range">
-      <img class="video-poster" src="assets/img/thanks/next-steps-poster.jpg" alt="A Wonderland RV on a country road">
-      <button class="kk-play" type="button" aria-label="Play the video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.4 12z"/></svg></button>
+    <p class="ty-sub">Watch how a Wonderland is built while you wait. It shows what makes one different, so you get the most out of your call.</p>
+    <div class="ty-video video-frame" id="tyVideo" data-video="https://youtu.be/thFwJAod6Ng" data-title="How a Wonderland is built">
+      <img class="video-poster" src="assets/img/thanks/next-steps-poster.jpg" alt="">
     </div>
   </div>
 </section>
@@ -101,9 +100,12 @@
 <!-- ============================================================ REVIEWS -->
 <section class="ty-sec ty-reviews">
   <div class="container">
-    <p class="ty-kick">★★★★★</p>
-    <h2 class="ty-h">Real Wonderlanders.<br>Real words.</h2>
+    <h2 class="ty-h">What Wonderland<br>Owners say</h2>
     <p class="ty-lede">Not slides. Real owners, telling you exactly how it went.</p>
+    <ul class="ty-gr" aria-label="Google reviews">
+      <li><span class="ty-st" aria-hidden="true">★★★★★</span><b>4.9</b><span>Wonderland RV &middot; 61 Google reviews</span></li>
+      <li><span class="ty-st" aria-hidden="true">★★★★★</span><b>5.0</b><span>Outbound RV &middot; 9 Google reviews</span></li>
+    </ul>
     <div class="ty-rc-grid">
       <div class="ty-rc-col">
         <figure class="ty-rc ty-rc--img">
@@ -227,15 +229,25 @@
   <div class="container">
     <h2 class="ty-h">Award-winning.<br>On the record.</h2>
     <div class="ty-aw-grid">
-      <div class="ty-aw">
-        <span class="ty-aw-k">2024</span><b>Caravan of the Year</b><span class="ty-aw-s">Overall winner</span><span class="ty-aw-m">XTR 2211</span>
-      </div>
-      <div class="ty-aw">
-        <span class="ty-aw-k">Solara</span><b>Caravan of the Year</b><span class="ty-aw-s">Best overall. Best family. Best innovation.</span><span class="ty-aw-m">Three titles, one van</span>
-      </div>
-      <div class="ty-aw">
-        <span class="ty-aw-k">2026</span><b>Queen of Hearts</b><span class="ty-aw-s">Judge&rsquo;s Choice</span><span class="ty-aw-m">Solara</span>
-      </div>
+      <article class="ty-aw">
+        <div class="ty-aw-badge ty-aw-badge--cw">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0V6z"/><path d="M14 10H7v3a7 7 0 0 0 7 7M34 10h7v3a7 7 0 0 1-7 7M24 28v8M16 42h16M19 36h10"/></svg>
+          <img src="assets/img/awards/cw-logo.jpg" alt="Caravan World" loading="lazy">
+        </div>
+        <div class="ty-aw-txt">
+          <span class="ty-aw-k">Caravan of the Year 2024</span>
+          <b>XTR 2211</b>
+          <span class="ty-aw-s">Overall winner. Best family caravan. Best innovation.</span>
+        </div>
+      </article>
+      <article class="ty-aw">
+        <div class="ty-aw-badge ty-aw-badge--rb"><img src="assets/img/awards/coty-2026-judges-choice.png" alt="Caravan of the Year 2026 Judges Choice Award" loading="lazy"></div>
+        <div class="ty-aw-txt">
+          <span class="ty-aw-k">Caravan of the Year 2026</span>
+          <b>Solara 20&rsquo;06&rdquo;</b>
+          <span class="ty-aw-s">Judges Choice Award. The Queen of Hearts.</span>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -580,7 +592,8 @@
 </footer>
 
 <script src="assets/js/video-embed.js?v=315"></script>
-<script src="assets/js/thankyou.js?v=1"></script>
+<script src="assets/js/confetti.js?v=1"></script>
+<script src="assets/js/thankyou.js?v=2"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>

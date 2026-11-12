@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank-you top section — options</title><meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<style>
+.lab{position:sticky;top:0;z-index:5;background:#111;color:#fff;font:700 13px/1 var(--gordita);letter-spacing:.08em;text-transform:uppercase;padding:12px 20px}
+.lab span{color:var(--orange);margin-right:10px}
+.h1{margin:0;font-family:var(--aviano);font-weight:900;font-size:var(--t-heading);line-height:1;text-transform:uppercase}
+.mark{display:inline-block;width:.62rem;height:.62rem;background:var(--orange);-webkit-mask:url(assets/img/wonderland-icon-white.png) center/contain no-repeat;mask:url(assets/img/wonderland-icon-white.png) center/contain no-repeat}
+.lead{margin:.2rem auto 0;max-width:9rem;font-size:var(--t-body);line-height:var(--lh-body)}
+.lead b{font-weight:700}
+
+/* A -- timeline: what happens next, as a line with three stops ------------ */
+.A{padding:.7rem 0 .9rem;text-align:center}
+.A .mark{margin-bottom:.22rem}
+.A .tl{list-style:none;margin:.55rem auto 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);width:11rem;position:relative}
+.A .tl::before{content:"";position:absolute;left:16.6%;right:16.6%;top:.16rem;height:.025rem;background:linear-gradient(90deg,var(--orange) 0,var(--orange) 50%,#d9d5cf 50%)}
+.A .tl li{position:relative;display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:0 .12rem}
+.A .tl i{width:.34rem;height:.34rem;border-radius:50%;background:#fff;border:.03rem solid #d9d5cf;position:relative;z-index:1}
+.A .tl li.done i{background:var(--orange);border-color:var(--orange)}
+.A .tl li.done i::after{content:"";position:absolute;left:50%;top:46%;width:.09rem;height:.17rem;border:solid #fff;border-width:0 .03rem .03rem 0;transform:translate(-50%,-55%) rotate(45deg)}
+.A .tl li.now i{border-color:var(--orange);box-shadow:0 0 0 .07rem rgba(227,121,33,.22);animation:pu 1.8s ease-in-out infinite}
+@keyframes pu{50%{box-shadow:0 0 0 .13rem rgba(227,121,33,.06)}}
+.A .tl b{font-family:var(--aviano);font-weight:900;font-size:.2rem;line-height:.26rem;text-transform:uppercase}
+.A .tl span{font-size:.2rem;line-height:.28rem;color:#555}
+.A .tl li.done b,.A .tl li.now b{color:var(--ink)}
+
+/* B -- cream band, left aligned like the other sections ------------------- */
+.B{width:100vw;margin-left:calc(50% - 50vw);background:#FFF2DC;padding:.9rem 0}
+.B .in{width:min(100% - 2*var(--page-margin),var(--col));margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:center}
+.B .kick{display:block;margin-bottom:.16rem;color:var(--orange-deep);font-family:var(--aviano);font-weight:900;font-size:.2rem;letter-spacing:.12em;text-transform:uppercase}
+.B .h1{font-size:calc(var(--t-heading)*1.5);line-height:.95}
+.B .lead{margin:.28rem 0 0;max-width:6rem}
+.B ol{list-style:none;margin:0;padding:0}
+.B li{display:grid;grid-template-columns:.8rem 1fr auto;align-items:center;gap:.14rem;padding:.22rem 0;border-top:.01rem solid #d9c9ab}
+.B li:last-child{border-bottom:.01rem solid #d9c9ab}
+.B li em{font-style:normal;font-family:var(--aviano);font-weight:900;font-size:var(--t-sub);color:var(--orange)}
+.B li b{display:block;font-family:var(--aviano);font-weight:900;font-size:.24rem;line-height:.32rem;text-transform:uppercase}
+.B li span{font-size:.2rem;line-height:.28rem}
+.B li u{text-decoration:none;font-family:var(--aviano);font-weight:900;font-size:.17rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-deep)}
+
+/* C -- dark, quiet, brand mark centred ------------------------------------ */
+.C{width:100vw;margin-left:calc(50% - 50vw);background:#1b1b1b;color:#fff;text-align:center;padding:.85rem 0 .7rem}
+.C .mark{margin-bottom:.2rem}
+.C .h1{font-size:calc(var(--t-heading)*1.25)}
+.C .h1::after{content:"";display:block;width:.8rem;height:.03rem;background:var(--orange);margin:.24rem auto 0}
+.C .lead{color:#e8e2d8}
+.C .row{display:flex;justify-content:center;margin:.5rem auto 0;width:max-content}
+.C .row div{padding:0 .42rem;border-left:.01rem solid #444;display:flex;flex-direction:column;gap:.06rem;text-align:left}
+.C .row div:first-child{border-left:0}
+.C .row b{font-family:var(--aviano);font-weight:900;font-size:.2rem;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+.C .row span{font-size:.2rem;line-height:.28rem}
+</style></head>
+<body>
+
+<div class="lab"><span>A</span>Timeline &mdash; confirmation, then what happens next</div>
+<section class="A">
+  <i class="mark" aria-hidden="true"></i>
+  <h1 class="h1">Thank you</h1>
+  <p class="lead">We&rsquo;ve got your details. <b>Our experts will reach out within 24 hours</b> on business days.</p>
+  <ol class="tl">
+    <li class="done"><i></i><b>Enquiry received</b><span>Just now</span></li>
+    <li class="now"><i></i><b>An expert reaches out</b><span>Within 24 hours</span></li>
+    <li><i></i><b>Your dream begins</b><span>Designed around how you travel</span></li>
+  </ol>
+</section>
+
+<div class="lab"><span>B</span>Cream band &mdash; left aligned, numbered next steps</div>
+<section class="B"><div class="in">
+  <div>
+    <span class="kick">Enquiry received</span>
+    <h1 class="h1">Thank<br>you.</h1>
+    <p class="lead">Our experts will guide you through your caravan customisation. We&rsquo;ll listen to how you&rsquo;ll use your van, then bring your dream to life.</p>
+  </div>
+  <ol>
+    <li><em>01</em><div><b>Enquiry received</b><span>Your details are with our team.</span></div><u>Done</u></li>
+    <li><em>02</em><div><b>An expert reaches out</b><span>Within 24 hours on business days.</span></div></li>
+    <li><em>03</em><div><b>Your dream begins</b><span>We shape the van around how you travel.</span></div></li>
+  </ol>
+</div></section>
+
+<div class="lab"><span>C</span>Dark band &mdash; brand mark, quiet three-part strip</div>
+<section class="C">
+  <i class="mark" aria-hidden="true"></i>
+  <h1 class="h1">Thank you</h1>
+  <p class="lead">We&rsquo;ve got your details. Our experts will reach out within 24 hours on business days.</p>
+  <div class="row">
+    <div><b>Done</b><span>Enquiry received</span></div>
+    <div><b>Next</b><span>An expert reaches out</span></div>
+    <div><b>Then</b><span>Your dream begins</span></div>
+  </div>
+</section>
+</body></html>

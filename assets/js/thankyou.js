@@ -1,13 +1,12 @@
-/* Thank-you page: the "next steps" video plays when the visitor presses play,
-   as a normal player with its own controls and sound. */
+/* Thank-you page: the construction video starts on its own (muted, as browsers
+   require) with the sound and CC buttons top right, and the confetti fires once
+   as the page loads. */
 (function () {
   var frame = document.getElementById("tyVideo");
-  if (!frame) return;
-  var btn = frame.querySelector(".kk-play");
-  btn.addEventListener("click", function () {
-    var poster = frame.querySelector(".video-poster");
-    btn.remove();
-    if (poster) poster.remove();
-    mountVideo(frame, frame.getAttribute("data-video"), frame.getAttribute("data-title"), { player: true });
-  });
+  if (frame && typeof mountVideo === "function") {
+    mountVideo(frame, frame.getAttribute("data-video"), frame.getAttribute("data-title"), { captions: true, nudge: true });
+  }
+  if (typeof wlConfetti === "function") {
+    setTimeout(function () { wlConfetti(document.body.getAttribute("data-confetti") || "burst"); }, 350);
+  }
 })();
