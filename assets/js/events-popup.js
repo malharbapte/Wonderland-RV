@@ -23,9 +23,9 @@
     site:   "Site CO2",
     days:   ["Fri 13 Nov", "Sat 14 Nov", "Sun 15 Nov"]
   };
-  var TIMES = ["9am to 10am", "10am to 11am", "11am to 12pm", "12pm to 1pm", "1pm to 2pm", "2pm to 3pm", "3pm to 4pm"];
   var STATES = ["Victoria", "NSW / ACT", "Queensland", "South Australia", "Western Australia", "Northern Territory", "Tasmania", "New Zealand"];
-  var BUDGETS = ["$100,000 - $120,000", "$120,000 - $140,000", "$140,000 - $160,000", "$160,000+"];
+  /* same three ranges as the homepage contact form */
+  var BUDGETS = ["$120,000 \u2013 $140,000", "$140,000 \u2013 $180,000", "$180,000 +"];
   var MODELS = ["Solara", "XTR", "Hornet", "Amaroo", "Not sure yet"];
   var TRAVEL = ["Couple", "Family", "Not sure"];
 
@@ -49,7 +49,7 @@
         '<button class="evp-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button>' +
         '<div class="evp-left evp-left-in">' +
           '<h2 class="evp-title" id="evpTitle">VIP appointment</h2>' +
-          '<p class="evp-sub">Pick a day and time and we will lock in a booking with our adventure experts.</p>' +
+          '<p class="evp-sub">Pick a day and we will lock in a booking with our adventure experts.</p>' +
           '<img class="evp-logo" src="' + esc(SHOW.logo) + '" alt="' + esc(SHOW.name) + '">' +
           '<div class="evp-show">' +
             '<div class="evp-row"><small>When</small><b>' + esc(SHOW.when) + "</b><span>" + esc(SHOW.hours) + "</span></div>" +
@@ -61,7 +61,7 @@
           '<input type="hidden" name="show" value="' + esc(SHOW.name + ", " + SHOW.site) + '">' +
           '<div class="evp-g2">' + inp("first-name", "text", "First Name*", true) + inp("last-name", "text", "Last Name*", true) + "</div>" +
           '<div class="evp-g2">' + inp("email", "email", "Email*", true) + inp("mobile", "tel", "Mobile*", true) + "</div>" +
-          '<div class="evp-g2">' + sel("state", "State*", STATES, true) + sel("time", "Preferred time*", TIMES, true) + "</div>" +
+          '<div class="evp-g2 evp-g2--one">' + sel("state", "State*", STATES, true) + "</div>" +
           '<div class="evp-pill evp-pill3" role="radiogroup" aria-label="Preferred day"><span class="evp-pill-t" aria-hidden="true"></span>' +
             SHOW.days.map(function (d, i) {
               return '<label><input type="radio" name="day" value="' + esc(d) + '"' + (i === 0 ? " checked" : "") + "><span>" + esc(d) + "</span></label>";
@@ -69,8 +69,8 @@
           '<div class="evp-bud">' +
             '<div class="evp-bud-h"><span class="evp-bud-l">Budget*</span><b class="evp-bud-v"></b>' +
               '<label class="evp-bud-ns"><input type="checkbox" name="budget-unsure"><span>Not sure yet</span></label></div>' +
-            '<input class="evp-bud-r" type="range" min="0" max="3" step="1" value="1" aria-label="Budget">' +
-            '<div class="evp-bud-s" aria-hidden="true">' + ["$100,000", "$120,000", "$140,000", "$160,000+"].map(function (t) { return "<span>" + t + "</span>"; }).join("") + "</div>" +
+            '<input class="evp-bud-r" type="range" min="0" max="2" step="1" value="0" aria-label="Budget">' +
+            '<div class="evp-bud-s" aria-hidden="true">' + ["$120,000", "$140,000", "$180,000 +"].map(function (t) { return "<span>" + t + "</span>"; }).join("") + "</div>" +
             '<input type="hidden" name="budget" value="">' +
           "</div>" +
           '<div class="evp-g2">' + sel("travelling", "Travelling as", TRAVEL, false) +
@@ -99,7 +99,7 @@
     function budUp() {
       var t = ns.checked ? "Not sure yet" : BUDGETS[+rng.value];
       val.textContent = t; hid.value = t;
-      bud.style.setProperty("--p", (rng.value / 3 * 100) + "%");
+      bud.style.setProperty("--p", (rng.value / 2 * 100) + "%");
       bud.classList.toggle("off", ns.checked);
     }
     rng.addEventListener("input", budUp); ns.addEventListener("change", budUp); budUp();

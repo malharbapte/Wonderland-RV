@@ -26,6 +26,7 @@ body.evp-lock { overflow: hidden; }
 .evp-plan { background: #fff; aspect-ratio: 739.28 / 408.77; }
 .evp-form { display: grid; align-content: start; }
 .evp-g2 { display: grid; grid-template-columns: 1fr 1fr; }
+.evp-g2--one { grid-template-columns: 1fr; }
 .evp-f { display: block; position: relative; }
 .evp-f input, .evp-f select, .evp-f textarea {
   display: block; width: 100%; background: none; color: var(--ink);
@@ -125,7 +126,7 @@ body.evp-lock { overflow: hidden; }
 .evp-priv{margin:0;font-size:.17rem;line-height:.24rem;color:#6b6158}
 .evp-sel select:has(option[value=""]:checked){color:#6b6158}
 /* budget slider */
-.evp-bud{border:0;padding:.04rem .02rem 0;--p:33.333%}
+.evp-bud{border:0;padding:.04rem .02rem 0;--p:0%}
 .evp-bud-h{display:flex;align-items:center;gap:.2rem;font-size:.21rem;line-height:.3rem}
 .evp-bud-l{color:#6b6158}
 .evp-bud-h b{font-weight:700;color:var(--ink)}
