@@ -55,7 +55,7 @@
 
 /* reviews wall -------------------------------------------------------------- */
 .ty-reviews { text-align: center; }
-.ty-rc-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.24rem; text-align: left; align-items: start; }
+.ty-rc-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; text-align: left; align-items: start; }
 .ty-rc-col { display: flex; flex-direction: column; gap: 0.24rem; }
 .ty-rc { margin: 0; background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; overflow: hidden; }
 .ty-rc-img img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -162,6 +162,14 @@
   .ty-next { padding: 32px 0 48px; }
   .ty-next .container { flex-direction: column; align-items: stretch; gap: 12px; }
   .ty-btn { text-align: center; padding: 16px 20px; font-size: 13px; }
+  .ty-rc .gm { width: 20px; height: 20px; }
+  .ty-av { width: 36px; height: 36px; }
+  .ty-av--l { font-size: 15px; }
+  .ty-rc figcaption { gap: 12px; }
+  .sk i { height: 9px; }
+  .ty-more { margin-top: 28px; }
+  .ty-more button { padding: 14px 26px; font-size: 13px; }
+  .ty-more svg { width: 14px; height: 9px; }
   .ty-bq-grid, .ty-aw-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
   .ty-bq h3 { font-size: 20px; line-height: 26px; }
   .ty-bq p { font-size: 16px; line-height: 24px; }
@@ -210,3 +218,30 @@
 .ty-next .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem; }
 .ty-btn { display: inline-block; padding: 0.17rem 0.34rem; background: var(--orange); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .06em; line-height: 1; text-transform: uppercase; text-decoration: none; border-radius: 0.04rem; transition: background .2s; }
 .ty-btn:hover { background: var(--orange-deep); }
+
+/* reviews wall (reviews-wall.js): Google mark on each card, grey bars for an empty entry, Load more */
+.ty-rc .top { display: flex; align-items: center; justify-content: space-between; }
+.ty-rc .top .ty-st { margin: 0; }
+.ty-rc .gm { width: 0.22rem; height: 0.22rem; flex: none; }
+.ty-rc-col .ty-rc { display: block; }
+.ty-rc--in { animation: tyRin .5s ease both; }
+@keyframes tyRin { from { opacity: 0; transform: translateY(0.16rem); } }
+.ty-rc--sk blockquote { display: none; }
+.ty-rc--sk figcaption b { color: #b9b4ac; }
+.sk { margin-top: 0.16rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.sk i { display: block; height: 0.1rem; border-radius: 0.05rem; background: #ece9e4; }
+.ty-more { display: flex; justify-content: center; margin-top: 0.5rem; }
+.ty-more[hidden] { display: none; }
+.ty-more button { display: inline-flex; align-items: center; gap: 0.12rem; background: none; border: 0.015rem solid var(--ink); border-radius: 999px; padding: 0.14rem 0.3rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.ty-more button:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ty-more svg { width: 0.18rem; height: 0.11rem; }
+
+/* review cards: reviewer picture (or initial) beside the name, review text keeps its line breaks */
+.ty-rc blockquote { white-space: pre-line; }
+.ty-rc figcaption { display: flex; align-items: center; gap: 0.14rem; }
+.ty-who b { display: block; }
+.ty-who a, .ty-who span { color: var(--orange-deep); text-decoration: none; }
+.ty-who a:hover { text-decoration: underline; }
+.ty-av { flex: none; width: 0.44rem; height: 0.44rem; border-radius: 50%; object-fit: cover; background: #eee; }
+.ty-av--l { display: grid; place-items: center; background: var(--orange-deep); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: 0.18rem; line-height: 1; }
+.ty-rc figcaption .ty-av--l { color: #fff; }
