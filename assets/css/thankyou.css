@@ -44,12 +44,10 @@
 
 /* Moving banner under the testimonials */
 .ty-tick { width: 100vw; margin-left: calc(50% - 50vw); background: var(--orange); color: #fff; overflow: hidden; white-space: nowrap; padding: 0.2rem 0; }
-.ty-tick-track { display: flex; width: max-content; animation: ty-tick 100s linear infinite; }
+.ty-tick-track { display: flex; width: max-content; animation: ty-tick 90s linear infinite; }
 .ty-tick ul { display: flex; margin: 0; padding: 0; list-style: none; flex: none; }
 .ty-tick li { display: flex; align-items: center; font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .1em; text-transform: uppercase; }
 .ty-tick li::after { content: ""; width: 0.09rem; height: 0.09rem; margin: 0 0.4rem; background: #fff; transform: rotate(45deg); }
-.ty-tick .ty-tick-k { padding: 0.06rem 0.2rem; margin-right: 0.4rem; background: #111; color: #fff; border-radius: 0.03rem; }
-.ty-tick .ty-tick-k::after { display: none; }
 .ty-tick:hover .ty-tick-track { animation-play-state: paused; }
 @keyframes ty-tick { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ty-tick-track { animation: none; } }
