@@ -716,6 +716,23 @@ input:-webkit-autofill:focus {
 .kk-play:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .video-poster { width: 100%; height: 100%; object-fit: cover; }
 
+/* ------------------------------------------ separate player pop-up --------
+   .video-frame--pop: the loop is only a backdrop, so the pointer passes over
+   it to the frame (no YouTube hover bar), and the frame itself is the target. */
+.video-frame--pop iframe { pointer-events: none; }
+.vpop {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0, 0, 0, 0.86);
+  display: grid; place-items: center;
+  padding: clamp(16px, 4vw, 64px);
+  animation: vpop-in .25s ease both;
+}
+@keyframes vpop-in { from { opacity: 0; } }
+.vpop-box { width: min(100%, calc((100vh - 8vw) * 16 / 9), 1280px); aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 80px rgba(0, 0, 0, .6); }
+.vpop-box iframe { display: block; width: 100%; height: 100%; border: 0; }
+.vpop-x { position: absolute; top: clamp(12px, 1.6vw, 24px); right: clamp(12px, 1.6vw, 24px); border: 0; cursor: pointer; }
+html.vpop-open { overflow: hidden; }
+
 /* --------------------------------------------------- "Tap for sound" ------
    Appears three seconds after the video has been on screen and only while it
    is still muted, sitting just under the sound button it points at. */

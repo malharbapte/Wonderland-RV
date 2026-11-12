@@ -13,7 +13,10 @@
        url    YouTube, Vimeo, a direct .mp4/.webm, or a local path; "" no-ops
        opts   omit for a clean autoplaying clip with no controls;
               {} or {captions:true} adds the sound button (and CC);
-              {nudge:true} adds the "Tap for sound" prompt
+              {nudge:true} adds the "Tap for sound" prompt;
+              {popup:true} keeps the muted loop as a backdrop (YouTube's own
+              hover controls are switched off) and puts the big play button on
+              it; pressing play opens the video in a separate player pop-up
    ========================================================================== */
 
 /* -------------------------------------------------------------------------- */
@@ -61,7 +64,61 @@ function mountVideo(frame, url, title, opts) {
   frame.classList.remove("ph");
   frame.removeAttribute("data-ph");
   frame.appendChild(node);
-  return (node.id && opts && !opts.player) ? buildControls(frame, node.id, opts) : node;
+  const ctl = (node.id && opts && !opts.player) ? buildControls(frame, node.id, opts) : node;
+  if (yt && opts && opts.popup && !opts.player) addPopupPlay(frame, yt[1], title);
+  return ctl;
+}
+
+/* ---------------------------------------------- separate player pop-up -----
+   The loop behind stays muted and untouched by the pointer (so YouTube's hover
+   bar, title and "More videos" never show). The big play button opens a
+   full player over the page: sound on, YouTube's own controls, fullscreen.
+   Closing removes the player, which stops it; the loop picks up again.     */
+function addPopupPlay(frame, id, title) {
+  frame.classList.add("video-frame--pop");
+  const play = document.createElement("button");
+  play.type = "button";
+  play.className = "kk-play";
+  play.setAttribute("aria-label", "Play video: " + title);
+  play.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  frame.appendChild(play);
+  play.addEventListener("click", function () { openVideoPopup(id, title, frame, play); });
+}
+
+function openVideoPopup(id, title, frame, opener) {
+  if (document.getElementById("vpop")) return;
+  const wrap = document.createElement("div");
+  wrap.id = "vpop";
+  wrap.className = "vpop";
+  wrap.setAttribute("role", "dialog");
+  wrap.setAttribute("aria-modal", "true");
+  wrap.setAttribute("aria-label", title);
+  wrap.innerHTML =
+    '<div class="vpop-box">' +
+      '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&playsinline=1&rel=0&modestbranding=1&cc_lang_pref=en&iv_load_policy=3" ' +
+        'title="' + String(title).replace(/"/g, "&quot;") + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>' +
+    "</div>" +
+    '<button type="button" class="vpop-x video-ctl" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+  document.body.appendChild(wrap);
+  document.documentElement.classList.add("vpop-open");
+  try { if (frame.ytPlayer) frame.ytPlayer.pauseVideo(); } catch (e) {}
+  const x = wrap.querySelector(".vpop-x");
+  x.focus();
+
+  function close() {
+    document.removeEventListener("keydown", onKey, true);
+    wrap.remove();
+    document.documentElement.classList.remove("vpop-open");
+    try { if (frame.ytPlayer) frame.ytPlayer.playVideo(); } catch (e) {}
+    if (opener) opener.focus();
+  }
+  function onKey(e) {
+    if (e.key === "Escape") { e.preventDefault(); close(); }
+    else if (e.key === "Tab") { e.preventDefault(); x.focus(); }   /* the only control outside the player */
+  }
+  document.addEventListener("keydown", onKey, true);
+  x.addEventListener("click", close);
+  wrap.addEventListener("click", function (e) { if (e.target === wrap) close(); });
 }
 
 /* ------------------------------------------- sound + caption controls -----
