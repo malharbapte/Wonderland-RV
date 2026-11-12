@@ -738,9 +738,9 @@ input:-webkit-autofill:focus {
 .vpop-box iframe { position: absolute; left: -10.25%; top: -10.84%; width: 120.5%; height: 120.5%; border: 0; pointer-events: none; }
 .vpop-box.is-plain iframe { pointer-events: auto; left: 0; top: 0; width: 100%; height: 100%; }
 .vpop-box.is-plain .vpop-cover, .vpop-box.is-plain .vpop-hit, .vpop-box.is-plain .vpop-bar { display: none; }
-.vpop-cover { position: absolute; inset: 0; background: #000; pointer-events: none; transition: opacity .25s ease; }
+.vpop-cover { position: absolute; inset: 0; background: #000; pointer-events: none; }   /* appears instantly, so nothing of YouTube's paused strip shows through */
 .vpop-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .7; }
-.vpop-box.is-playing .vpop-cover { opacity: 0; }
+.vpop-box.is-playing .vpop-cover { opacity: 0; transition: opacity .35s ease; }   /* only the way out fades */
 .vpop-hit { position: absolute; inset: 0 0 clamp(44px, 5vw, 64px) 0; border: 0; background: transparent; cursor: pointer; padding: 0; }
 .vpop-bar {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;

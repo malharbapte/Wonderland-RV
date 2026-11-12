@@ -153,7 +153,9 @@ function openVideoPopup(id, title, poster, opener) {
   }
   function toggle() {
     if (!player || !ready) return;
-    try { if (playing) player.pauseVideo(); else player.playVideo(); } catch (e) {}
+    /* Cover first, then pause: the poster must already be up when YouTube
+       paints its paused-state strip, or the strip flashes through. */
+    try { if (playing) { setPlaying(false); player.pauseVideo(); } else player.playVideo(); } catch (e) {}
   }
 
   withYouTubeApi(function () {
