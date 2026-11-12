@@ -731,8 +731,12 @@ input:-webkit-autofill:focus {
 }
 @keyframes vpop-in { from { opacity: 0; } }
 .vpop-box { position: relative; width: min(100%, calc((100vh - 8vw) * 16 / 9), 1280px); aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 80px rgba(0, 0, 0, .6); }
-.vpop-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
-.vpop-box.is-plain iframe { pointer-events: auto; }
+/* The player is drawn larger than its window so the strips YouTube paints on
+   the edge (title and channel at the top, the link and logo at the bottom
+   corners) sit outside the box and are cropped away. 9% off the top, 8% off
+   the bottom, the same scale across, so the picture is not stretched. */
+.vpop-box iframe { position: absolute; left: -10.25%; top: -10.84%; width: 120.5%; height: 120.5%; border: 0; pointer-events: none; }
+.vpop-box.is-plain iframe { pointer-events: auto; left: 0; top: 0; width: 100%; height: 100%; }
 .vpop-box.is-plain .vpop-cover, .vpop-box.is-plain .vpop-hit, .vpop-box.is-plain .vpop-bar { display: none; }
 .vpop-cover { position: absolute; inset: 0; background: #000; pointer-events: none; transition: opacity .25s ease; }
 .vpop-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .7; }
