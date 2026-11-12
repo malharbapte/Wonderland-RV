@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=328">
 <link rel="stylesheet" href="assets/css/home-order.css?v=367">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=30">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=32">
 </head>
 <body class="home thanks" data-confetti="cannons">
 
@@ -181,23 +181,35 @@
 </section>
 
 <!-- ====================================================== TESTIMONIAL VIDEOS
-     Hero: the player covers the screen, heading top left, tabs along the foot.
-     The videos live in TESTIMONIALS at the top of assets/js/thankyou.js; the
-     tabs are built from that list, so adding one is one line. -->
+     King Kong style: a still from the video behind the quote, the play button
+     opens the pop-up player, and a row of thumbnails along the foot switches
+     between videos. The videos live in TESTIMONIALS at the top of
+     assets/js/thankyou.js; the thumbnails are built from that list. -->
 <div class="ty-tv-top">
   <div class="container">
-    <h2 class="ty-h">Ambassadors, in their<br>own words.</h2>
+    <h2 class="ty-h">Wonderlanders, in their<br>own words.</h2>
     <p class="ty-lede">Testimonial videos</p>
   </div>
 </div>
 <section class="ty-tv" id="tyTv" aria-label="Testimonial videos">
-  <div class="ty-tv-media video-frame" id="tyTvMedia"><img class="ty-tv-poster" src="assets/img/thanks/tv-8-feet.jpg" alt=""></div>
+  <div class="ty-tv-media" id="tyTvMedia"><img class="ty-tv-poster" id="tyTvPoster" src="assets/img/thanks/tv-brett.jpg" alt=""></div>
   <div class="ty-tv-shade" aria-hidden="true"></div>
-  <div class="ty-tv-foot container">
+  <div class="ty-tv-body">
+    <blockquote class="ty-tv-q" id="tyTvQ"></blockquote>
     <p class="ty-tv-now" id="tyTvNow" aria-live="polite"></p>
-    <div class="ty-tv-tabs" id="tyTvTabs" role="tablist" aria-label="Testimonial videos"></div>
+    <p class="ty-tv-desc" id="tyTvDesc"></p>
+    <button type="button" class="ty-tv-play" id="tyTvPlay" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
   </div>
+  <div class="ty-tv-strip" id="tyTvTabs" role="tablist" aria-label="Testimonial videos"></div>
 </section>
+
+<!-- ====================================================== MOVING BANNER -->
+<div class="ty-tick" aria-label="Built at our Campbellfield factory, 5 year structural warranty, 3 year factory-backed warranty, Caravan of the Year winners, premium aftersales service">
+  <div class="ty-tick-track" aria-hidden="true">
+    <ul><li>Built at our Campbellfield factory</li><li>5 year structural warranty</li><li>3 year factory-backed warranty</li><li>Caravan of the Year 2024: Best Overall Caravan</li><li>Caravan of the Year 2026: Judges&rsquo; Choice Award</li><li>Premium aftersales service</li></ul>
+    <ul><li>Built at our Campbellfield factory</li><li>5 year structural warranty</li><li>3 year factory-backed warranty</li><li>Caravan of the Year 2024: Best Overall Caravan</li><li>Caravan of the Year 2026: Judges&rsquo; Choice Award</li><li>Premium aftersales service</li></ul>
+  </div>
+</div>
 
 <!-- ============================================================== AWARDS -->
 <section class="ty-sec ty-awards">
@@ -578,7 +590,7 @@
 <script src="assets/js/confetti.js?v=3"></script>
 <script src="assets/js/reviews-data.js?v=2"></script>
 <script src="assets/js/reviews-wall.js?v=3"></script>
-<script src="assets/js/thankyou.js?v=9"></script>
+<script src="assets/js/thankyou.js?v=10"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>

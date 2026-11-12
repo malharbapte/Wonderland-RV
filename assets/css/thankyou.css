@@ -19,6 +19,39 @@
 .ty-tl li.done i::after { content: ""; position: absolute; left: 50%; top: 46%; width: 0.09rem; height: 0.17rem; border: solid #fff; border-width: 0 0.03rem 0.03rem 0; transform: translate(-50%, -55%) rotate(45deg); }
 .ty-tl li.now i { border-color: var(--orange); box-shadow: 0 0 0 0.07rem rgba(227,121,33,.22); animation: tyPulse 1.8s ease-in-out infinite; }
 @keyframes tyPulse { 50% { box-shadow: 0 0 0 0.13rem rgba(227,121,33,.06); } }
+/* Testimonial hero: still + quote + play + thumbnail strip (King Kong layout) */
+.ty-tv { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100vh - 1.42rem); min-height: 7rem; background: #111; color: #fff; overflow: hidden; display: flex; flex-direction: column; }
+.ty-tv-media { position: absolute; inset: 0; background: #111; }
+.ty-tv-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ty-tv-shade { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.38) 0, rgba(0,0,0,.5) 35%, rgba(0,0,0,.86) 100%); }
+.ty-tv-body { position: relative; z-index: 3; margin: auto auto 0.5rem; width: 10rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.ty-tv-q { margin: 0; font-size: 0.4rem; line-height: 0.58rem; font-weight: 400; }
+.ty-tv-now { margin: 0.3rem 0 0; display: flex; flex-direction: column; gap: 0.06rem; }
+.ty-tv-now b { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; line-height: 0.34rem; letter-spacing: .04em; text-transform: uppercase; }
+.ty-tv-now span { font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+.ty-tv-desc { margin: 0.12rem 0 0; font-size: 0.22rem; line-height: 0.32rem; color: rgba(255,255,255,.88); }
+.ty-tv-play { margin: 0.3rem 0 0; width: 1.05rem; height: 0.68rem; padding: 0; border: 0; border-radius: 0.03rem; background: var(--orange); color: #111; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease, background .2s ease; }
+.ty-tv-play svg { width: 0.34rem; height: 0.34rem; fill: currentColor; }
+.ty-tv-play:hover, .ty-tv-play:focus-visible { transform: scale(1.05); background: var(--orange-deep); }
+.ty-tv-play:focus-visible { outline: 0.03rem solid #fff; outline-offset: 0.03rem; }
+.ty-tv-strip { position: relative; z-index: 4; flex: none; display: flex; justify-content: center; gap: 0.12rem; padding: 0 0.12rem; }
+.ty-tv-card { position: relative; flex: 0 0 3.6rem; margin: 0; padding: 0; border: 0; border-top: 0.04rem solid transparent; background: #000; cursor: pointer; opacity: .7; transition: opacity .2s, border-color .2s; }
+.ty-tv-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.ty-tv-card:hover, .ty-tv-card:focus-visible { opacity: 1; }
+.ty-tv-card[aria-selected="true"] { opacity: 1; border-top-color: var(--orange); }
+.ty-tv-card i { position: absolute; right: 0.1rem; bottom: 0.1rem; width: 0.34rem; height: 0.34rem; border-radius: 50%; background: #111; display: grid; place-items: center; }
+.ty-tv-card i svg { width: 0.14rem; height: 0.14rem; fill: #fff; margin-left: 0.01rem; }
+
+/* Moving banner under the testimonials */
+.ty-tick { width: 100vw; margin-left: calc(50% - 50vw); background: var(--orange); color: #111; overflow: hidden; white-space: nowrap; padding: 0.2rem 0; }
+.ty-tick-track { display: flex; width: max-content; animation: ty-tick 60s linear infinite; }
+.ty-tick ul { display: flex; margin: 0; padding: 0; list-style: none; flex: none; }
+.ty-tick li { display: flex; align-items: center; font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .1em; text-transform: uppercase; }
+.ty-tick li::after { content: ""; width: 0.09rem; height: 0.09rem; margin: 0 0.4rem; background: #111; transform: rotate(45deg); }
+.ty-tick:hover .ty-tick-track { animation-play-state: paused; }
+@keyframes ty-tick { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ty-tick-track { animation: none; } }
+
 @media (prefers-reduced-motion: reduce) { .ty-tl li.now i { animation: none; } }
 .ty-tl b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
 .ty-tl span { font-size: 0.2rem; line-height: 0.28rem; color: #555; }
@@ -76,23 +109,8 @@
 .ty-bq p { margin: 0.1rem 0 0; font-size: 0.24rem; line-height: 0.36rem; }
 
 /* testimonial videos: a hero that covers the screen -------------------------- */
-.ty-tv { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100vh - 1.42rem); min-height: 5.6rem; background: #111; color: #fff; overflow: hidden; }   /* 1.42rem = the sticky header, so the hero fills exactly what is left of the screen */
-.ty-tv-media { position: absolute; inset: 0; aspect-ratio: auto; background: #111; }
-.ty-tv-media iframe, .ty-tv-media video { top: 0; left: 0; transform: none; width: 100%; height: 100%; min-height: 0; object-fit: cover; }
 /* YouTube draws its own title bar across the top until playback settles; the player is pulled up so that bar sits outside the frame */
-.ty-tv-media iframe { top: -1.2rem; height: calc(100% + 1.2rem); }
-.ty-tv-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ty-tv-shade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 62%, rgba(0,0,0,.78) 100%); }
 .ty-tv-top { padding-top: var(--section-gap); padding-bottom: 0.5rem; }
-.ty-tv-foot { position: absolute; z-index: 5; bottom: 0.5rem; left: 50%; transform: translateX(-50%); }
-.ty-tv-now { margin: 0 0 0.22rem; display: flex; flex-direction: column; gap: 0.04rem; }
-.ty-tv-now b { font-family: var(--aviano); font-weight: 900; font-size: 0.4rem; line-height: 0.46rem; text-transform: uppercase; }
-.ty-tv-now span { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .12em; text-transform: uppercase; }
-.ty-tv-tabs { display: flex; gap: 0.5rem; overflow-x: auto; border-top: 0.01rem solid rgba(255,255,255,.35); scrollbar-width: none; }
-.ty-tv-tabs::-webkit-scrollbar { display: none; }
-.ty-tv-tabs button { flex: none; margin: 0; padding: 0.18rem 0 0.14rem; border: 0; border-top: 0.03rem solid transparent; margin-top: -0.02rem; background: none; color: rgba(255,255,255,.65); font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: color .2s, border-color .2s; }
-.ty-tv-tabs button:hover, .ty-tv-tabs button:focus-visible { color: #fff; }
-.ty-tv-tabs button[aria-selected="true"] { color: #fff; border-top-color: var(--orange); }
 
 /* awards -------------------------------------------------------------------- */
 .ty-aw-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.3rem; }
@@ -180,15 +198,7 @@
   .ty-aw b { font-size: 22px; line-height: 28px; }
   .ty-aw-s { font-size: 15px; line-height: 21px; }
   .ty-gr { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
-  .ty-tv { height: auto; min-height: 0; background: #111; padding-bottom: 28px; }
-  .ty-tv-media { position: relative; inset: auto; aspect-ratio: 16 / 9; }
-  .ty-tv-media iframe { top: 0; height: 100%; }
-  .ty-tv-shade { display: none; }
   .ty-tv-top { padding-top: 56px; padding-bottom: 24px; }
-  .ty-tv-foot { position: static; transform: none; margin-top: 18px; }
-  .ty-tv-now b { font-size: 20px; line-height: 26px; }
-  .ty-tv-tabs { gap: 24px; }
-  .ty-tv-tabs button { font-size: 13px; padding: 14px 0 10px; }
   .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
 }
 

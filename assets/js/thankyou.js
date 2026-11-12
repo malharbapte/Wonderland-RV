@@ -3,11 +3,17 @@
      the sound and CC buttons top right.
    - The confetti fires once as the page loads.
    - Testimonial videos: the hero player plus one tab per video. Add a video by
-     adding a line to TESTIMONIALS; the tabs rebuild themselves. */
+     adding an entry to TESTIMONIALS; the thumbnail strip rebuilds itself. */
 
 var TESTIMONIALS = [
-  { name: "8 Feet Travels", role: "Ambassadors", url: "https://youtu.be/amfJS4mC4ZQ" }
-  /* , { name: "...", role: "Ambassadors", url: "https://youtu.be/..." } */
+  { names: "Adam, Jessy, Charlotte and Noah", role: "Wonderlanders",
+    desc: "The Brett family travels full time on the road in their 21ft Amaroo, a 2 bunk van, with their dog.",
+    quote: "Dealing with Wonderland RV for us has been an amazing experience. You can\u2019t beat the sales, the support and the reliability of the van.",
+    url: "https://youtu.be/amfJS4mC4ZQ", poster: "assets/img/thanks/tv-brett.jpg", thumb: "assets/img/thanks/tv-brett-thumb.jpg" },
+  { names: "Jess and Doug", role: "Wonderlanders",
+    desc: "Jess and Doug travel Australia full time with their three children in their XTR.",
+    quote: "Every little tiny detail has been thought of. It was faultless from the get-go, and the whole process was seamless.",
+    url: "https://youtu.be/yz8DaA1Q4hE", poster: "assets/img/thanks/tv-sandy.jpg", thumb: "assets/img/thanks/tv-sandy-thumb.jpg" }
 ];
 
 /* Route-specific line under the heading. The form the visitor used leaves a
@@ -55,33 +61,39 @@ var TESTIMONIALS = [
   }
 
   /* ----------------------------------------------- testimonial video hero -- */
-  var media = document.getElementById("tyTvMedia"), tabs = document.getElementById("tyTvTabs"), now = document.getElementById("tyTvNow");
-  if (!media || !tabs || !TESTIMONIALS.length || typeof mountVideo !== "function") return;
-  var started = false, current = -1;
+  var poster = document.getElementById("tyTvPoster"), tabs = document.getElementById("tyTvTabs"),
+      q = document.getElementById("tyTvQ"), now = document.getElementById("tyTvNow"),
+      desc = document.getElementById("tyTvDesc"), playBtn = document.getElementById("tyTvPlay");
+  if (!poster || !tabs || !TESTIMONIALS.length) return;
+  var current = -1;
 
-  function play(i) {
-    if (i === current) return;
+  function show(i) {
     current = i;
     var t = TESTIMONIALS[i];
-    [].slice.call(media.querySelectorAll("iframe, video, .video-controls, .video-nudge, .kk-play")).forEach(function (n) { n.remove(); });
-    mountVideo(media, t.url, t.name + " testimonial", { popup: true });
+    poster.src = t.poster;
+    q.textContent = "\u201c" + t.quote + "\u201d";
     now.innerHTML = "<b></b><span></span>";
-    now.firstChild.textContent = t.name; now.lastChild.textContent = t.role || "";
+    now.firstChild.textContent = t.names; now.lastChild.textContent = t.role || "";
+    desc.textContent = t.desc || "";
+    playBtn.setAttribute("aria-label", "Play video: " + t.names);
     [].forEach.call(tabs.children, function (b, k) { b.setAttribute("aria-selected", String(k === i)); b.tabIndex = k === i ? 0 : -1; });
   }
 
-  TESTIMONIALS.forEach(function (t, i) {
-    var b = document.createElement("button");
-    b.type = "button"; b.setAttribute("role", "tab"); b.textContent = t.name;
-    b.addEventListener("click", function () { started = true; play(i); });
-    tabs.appendChild(b);
+  function ytId(u) { var m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/); return m && m[1]; }
+
+  playBtn.addEventListener("click", function () {
+    var t = TESTIMONIALS[current], id = ytId(t.url);
+    if (id && typeof openVideoPopup === "function") openVideoPopup(id, t.names + " testimonial", t.poster, playBtn);
   });
 
-  /* Load the player when the hero is nearly in view, so it is already playing
-     when the visitor gets there and the page does not start two videos at once. */
-  function go() { if (!started) { started = true; play(0); } }
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" });
-    io.observe(document.getElementById("tyTv"));
-  } else { go(); }
+  TESTIMONIALS.forEach(function (t, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ty-tv-card"; b.setAttribute("role", "tab");
+    b.setAttribute("aria-label", t.names);
+    b.innerHTML = '<img alt="" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></i>';
+    b.firstChild.src = t.thumb || t.poster;
+    b.addEventListener("click", function () { if (i !== current) show(i); });
+    tabs.appendChild(b);
+  });
+  show(0);
 })();
