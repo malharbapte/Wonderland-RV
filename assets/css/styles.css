@@ -666,26 +666,27 @@ input:-webkit-autofill:focus {
   z-index: 2;
 }
 
-/* --- video controls: mute and captions, top right, on hover --------------- */
+/* --- video overlay: sound + captions top right, play centred ----------------
+   Follows the King Kong demo page: a round black sound button in the top right
+   corner (the CC button sits just left of it), always visible, and a black
+   rounded-rectangle play button dead centre on anything that waits to be
+   played. Sized off the viewport so the same rule works on a hero band and on a
+   small card. Desktop only for now; the phone keeps its own sizes below. */
 .video-controls {
   position: absolute;
-  top: 88%; left: 50%;
-  transform: translate(-50%, -50%);   /* centred across, low in the frame */
+  top: clamp(12px, 1.6vw, 24px); right: clamp(12px, 1.6vw, 24px);
   /* Above .home-hero-copy, which is also 4. Tied z-indexes fall back to DOM
      order and the copy comes second, so at 4 the hero's controls painted (and
      clicked) underneath it. */
   z-index: 6;
   display: flex;
-  gap: 0.12rem;
-  opacity: 0;
-  transition: opacity .25s ease;
+  flex-direction: row-reverse;      /* sound stays at the corner, CC beside it */
+  gap: clamp(8px, 1vw, 14px);
 }
-.video-frame:hover .video-controls,
-.video-controls:focus-within { opacity: 1; }
 .video-ctl {
-  width: 0.46rem; height: 0.46rem;
+  width: clamp(36px, 4.2vw, 60px); height: clamp(36px, 4.2vw, 60px);
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
   display: grid;
   place-items: center;
@@ -693,11 +694,26 @@ input:-webkit-autofill:focus {
   font-size: 0.14rem;
   font-weight: 700;
   line-height: 1;
-  transition: background .2s;
+  transition: background .2s, transform .2s;
 }
-.video-ctl:hover { background: var(--orange-deep); }
-.video-ctl svg { width: 0.22rem; height: 0.22rem; }
-.video-ctl[aria-pressed="true"] { background: var(--orange-deep); }
+.video-ctl:hover { background: #000; transform: scale(1.06); }
+.video-ctl svg { width: 46%; height: 46%; }
+.video-ctl .cc-box { display: block; padding: 0.12em 0.3em; border: 0.14em solid currentColor; border-radius: 0.3em; font-size: clamp(10px, 1.05vw, 15px); font-weight: 800; letter-spacing: .02em; }
+.video-ctl[aria-pressed="true"] .cc-box { background: #fff; color: #000; }
+
+/* big play: black, rounded rectangle, white triangle, centred */
+.kk-play {
+  position: absolute; top: 50%; left: 50%; z-index: 6;
+  transform: translate(-50%, -50%);
+  width: clamp(72px, 9.5vw, 137px); aspect-ratio: 137 / 88;
+  padding: 0; border: 0; border-radius: 4px;
+  background: #000; color: #fff; cursor: pointer;
+  display: grid; place-items: center;
+  transition: transform .2s ease;
+}
+.kk-play svg { width: 40%; height: 40%; fill: currentColor; }
+.kk-play:hover, .kk-play:focus-visible { transform: translate(-50%, -50%) scale(1.06); }
+.kk-play:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .video-poster { width: 100%; height: 100%; object-fit: cover; }
 
 /* --------------------------------------------------- "Tap for sound" ------
@@ -723,8 +739,6 @@ input:-webkit-autofill:focus {
   transition: opacity .45s ease, transform .45s ease;
 }
 .video-nudge.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-/* the buttons fade in on hover, but the prompt has to be able to stand alone */
-.video-frame:has(.video-nudge.is-on) .video-controls { opacity: 1; }
 
 /* ==========================================================================
    THINGS YOU CAN'T SEE   (y 3477 – 4187)

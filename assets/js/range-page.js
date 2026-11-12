@@ -265,7 +265,7 @@
     eqForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!eqForm.checkValidity()) { eqForm.reportValidity(); return; }
-      eqHide();                   /* not wired to a service yet, like the other forms */
+      location.href = "thank-you.html";   /* not wired to a service yet, like the other forms */
     });
 
     if (!eqSeen && section && "IntersectionObserver" in window) {

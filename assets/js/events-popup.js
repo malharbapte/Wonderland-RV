@@ -130,7 +130,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      hide();                        /* not wired to a service yet */
+      location.href = "thank-you.html";   /* not wired to a service yet */
     });
   }
 

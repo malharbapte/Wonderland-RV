@@ -71,8 +71,10 @@ function buildControls(frame) {
   const bar = document.createElement("div");
   bar.className = "video-controls";
 
-  const SPEAKER_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>';
-  const SPEAKER_ON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  /* King Kong style: while muted the button shows the sound waves (press for
+     sound); once unmuted it shows the slash (press to mute). */
+  const SPEAKER_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  const SPEAKER_ON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>';
 
   const sound = document.createElement("button");
   sound.type = "button";
@@ -84,7 +86,7 @@ function buildControls(frame) {
   const cc = document.createElement("button");
   cc.type = "button";
   cc.className = "video-ctl";
-  cc.textContent = "CC";
+  cc.innerHTML = '<span class="cc-box">CC</span>';
   cc.setAttribute("aria-label", "Show captions");
   cc.setAttribute("aria-pressed", "false");
 
