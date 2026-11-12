@@ -26,15 +26,15 @@
 .ty-tv-shade { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.38) 0, rgba(0,0,0,.5) 35%, rgba(0,0,0,.86) 100%); }
 .ty-tv-body { position: relative; z-index: 3; margin: auto auto 0.5rem; width: 10rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
 .ty-tv-q { margin: 0; font-size: 0.4rem; line-height: 0.58rem; font-weight: 400; }
-.ty-tv-now { margin: 0.3rem 0 0; display: flex; flex-direction: column; gap: 0.06rem; }
-.ty-tv-now b { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; line-height: 0.34rem; letter-spacing: .04em; text-transform: uppercase; }
+.ty-tv-now { margin: 0.3rem 0 0; display: flex; flex-direction: column; gap: 0; }
+.ty-tv-now b { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: 0.26rem; line-height: 0.3rem; letter-spacing: .04em; text-transform: uppercase; }
 .ty-tv-now span { font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.8); }
 .ty-tv-desc { margin: 0.12rem 0 0; font-size: 0.22rem; line-height: 0.32rem; color: rgba(255,255,255,.88); }
 .ty-tv-play { margin: 0.3rem 0 0; width: 1.05rem; height: 0.68rem; padding: 0; border: 0; border-radius: 0.03rem; background: var(--orange); color: #111; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease, background .2s ease; }
 .ty-tv-play svg { width: 0.34rem; height: 0.34rem; fill: currentColor; }
 .ty-tv-play:hover, .ty-tv-play:focus-visible { transform: scale(1.05); background: var(--orange-deep); }
 .ty-tv-play:focus-visible { outline: 0.03rem solid #fff; outline-offset: 0.03rem; }
-.ty-tv-strip { position: relative; z-index: 4; flex: none; display: flex; justify-content: center; gap: 0.12rem; padding: 0 0.12rem; }
+.ty-tv-strip { position: relative; z-index: 4; flex: none; display: flex; justify-content: flex-start; gap: 0.12rem; padding: 0 0 0 calc((100% - var(--col)) / 2); }   /* left edge lines up with the page content */
 .ty-tv-card { position: relative; flex: 0 0 3.6rem; margin: 0; padding: 0; border: 0; border-top: 0.04rem solid transparent; background: #000; cursor: pointer; opacity: .7; transition: opacity .2s, border-color .2s; }
 .ty-tv-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .ty-tv-card:hover, .ty-tv-card:focus-visible { opacity: 1; }
