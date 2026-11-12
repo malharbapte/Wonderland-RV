@@ -36,8 +36,15 @@
 .ty-hb--2 { margin-top: 0.26rem; }
 .ty-hb li { flex: 0 0 25%; display: flex; justify-content: center; align-items: center; min-height: 0.5rem; }   /* same cell width in both rows, so the three sit under the gaps of the four's grid */
 /* full colour, heights tuned like the brands strip further down the site */
-.ty-hb img { display: block; height: 0.34rem; width: auto; max-width: 88%; object-fit: contain; transition: transform .28s ease; }
-.ty-hb li.sm img { height: 0.5rem; }
+.ty-hb img { display: block; height: auto; max-width: 92%; transition: transform .28s ease; }
+/* widths picked so every logo carries about the same visual weight */
+.ty-hb img[alt="Dometic"] { width: 2rem; }
+.ty-hb img[alt="Cruisemaster"] { width: 0.78rem; }
+.ty-hb img[alt="REDARC"] { width: 1.7rem; }
+.ty-hb img[alt="Truma"] { width: 1.4rem; }
+.ty-hb img[alt="Webasto"] { width: 1.5rem; }
+.ty-hb img[alt="Victron Energy and Arizon"] { width: 2.3rem; }
+.ty-hb img[alt="Fusion"] { width: 1.4rem; }
 .ty-hb li:hover img { transform: scale(1.06); }
 
 /* section chrome ------------------------------------------------------------- */
@@ -133,8 +140,10 @@
   .ty-hb-k { margin-top: 28px; font-size: 12px; }
   .ty-hb { flex-wrap: wrap; justify-content: center; gap: 18px 26px; margin-top: 16px; }
   .ty-hb li { flex: 0 0 auto; }
-  .ty-hb img { height: 26px; }
-  .ty-hb li.sm img { height: 34px; }
+  .ty-hb img[alt] { width: auto; max-width: none; }
+  .ty-hb img[alt="Dometic"], .ty-hb img[alt="REDARC"], .ty-hb img[alt="Webasto"], .ty-hb img[alt="Victron Energy and Arizon"] { height: 22px; }
+  .ty-hb img[alt="Truma"], .ty-hb img[alt="Fusion"] { height: 28px; }
+  .ty-hb img[alt="Cruisemaster"] { height: 38px; }
   .ty-sec { padding-top: 56px; padding-bottom: 56px; }
   .ty-h { font-size: 28px; }
   .ty-lede { font-size: 16px; line-height: 24px; margin-top: 12px; }
