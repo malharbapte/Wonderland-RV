@@ -43,55 +43,15 @@
              ["brake", "Brakes", "DISC", ""]] }
   ];
 
-  var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
-
-  /* Suspension: the coil-over from set A, tilted 30 degrees to the right.
-     The tilt is one transform on a group rather than re-plotted path data --
-     the drawing is unchanged, so it can be straightened or re-angled by
-     editing one number.
-
-     It stays inside the box. Rotating the extremes about (12,12) puts the
-     art at x 5.5..18.5 and y 3.4..20.6, and the widest half-stroke at this
-     weight is 0.84, so the furthest ink reaches x 19.4 and y 21.5 against a
-     24-unit viewBox. Nothing clips at any size. */
-  var SUSP =
-    S + '<g transform="rotate(30 12 12)">' +
-        '<path d="M9.3 3.6h5.4M9.3 20.4h5.4"/><path d="M12 3.6v2.1M12 20.4v-2.1"/>' +
-        '<path d="M9 8.2 15 6.8a1.2 1.2 0 0 1 0 2.4L9 10.6a1.2 1.2 0 0 0 0 2.4' +
-        'l6-1.4a1.2 1.2 0 0 1 0 2.4L9 15.4a1.2 1.2 0 0 0 0 2.4l6-1.4"/>' +
-        '</g></svg>';
-
-  /* Set A. Each one is the part itself, drawn flat on. The brake is the
-     exception and is left exactly as it was -- it was the drawing preferred
-     over all three alternatives, so it is not touched. */
-  var ICON = {
-    /* panel, cells, stand. The old drawing was in perspective, which cost
-       three segments and bought nothing at 27px. */
-    solar: S + '<rect x="3.3" y="5.8" width="17.4" height="9.8" rx="1.1"/>' +
-               '<path d="M3.3 10.7h17.4M9.1 5.8v9.8M14.9 5.8v9.8"/>' +
-               '<path d="M12 15.6v3.5M9 19.1h6"/></svg>',
-    /* a droplet with a water line. The old inner arc read as a crack. */
-    water: S + '<path d="M12 3.4c3.7 4 5.7 6.9 5.7 9.4a5.7 5.7 0 1 1-11.4 0' +
-               'c0-2.5 2-5.4 5.7-9.4Z"/>' +
-               '<path d="M7.1 14.3c1.2-.9 2.3-.9 3.5 0s2.3.9 3.5 0 2.3-.9 3.5 0"/></svg>',
-    /* unchanged: the disc with its hub and four ticks */
-    brake: S + '<circle cx="12" cy="12" r="7.8"/><circle cx="12" cy="12" r="2.6"/>' +
-               '<path d="M12 4.2v2.4M12 17.4v2.4M4.2 12h2.4M17.4 12h2.4"/></svg>',
-    /* charge bars rather than a bolt: the cell under it reads 400AH, which
-       is a capacity, not a current. */
-    batt:  S + '<rect x="2.8" y="7.3" width="15.3" height="9.4" rx="1.3"/>' +
-               '<path d="M18.1 10.5h2.8v3h-2.8"/>' +
-               '<path d="M6.1 10.3v3.4M9.3 10.3v3.4M12.5 10.3v3.4"/></svg>'
-  };
-
-  function icon(key) { return key === "susp" ? SUSP : ICON[key]; }
+  /* The spec icons were dropped for the Lotus-style row, and with them the drawings. */
 
   var built = false, at = 0, N = MODELS.length;
 
+  /* Phone layout, Lotus-style: label over value, four across, no icons. The
+     small note under each figure sits behind the chevron (see .rvp-more). */
   function cells(m) {
     return m.spec.map(function (c) {
-      return '<div class="rvp-cell"><div class="rvp-cellhead"><i class="rvp-ico">' + icon(c[0]) + '</i>' +
-        '<p class="rvp-k">' + c[1] + '</p></div><p class="rvp-v">' + c[2] + '</p>' +
+      return '<div class="rvp-cell"><p class="rvp-k">' + c[1] + '</p><p class="rvp-v">' + c[2] + '</p>' +
         (c[3] ? '<p class="rvp-n">' + c[3] + '</p>' : '') + '</div>';
     }).join("");
   }
@@ -113,7 +73,19 @@
       '<div class="rvp-dots" id="rvpDots">' + MODELS.map(function (m, k) {
         return '<button type="button" data-k="' + k + '" aria-label="Show ' + m.name + '"></button>';
       }).join("") + '<span class="rvp-count" id="rvpCount"></span></div>' +
-      '<div class="rvp-spec" id="rvpSpec" aria-live="polite"></div>';
+      '<div class="rvp-spec" id="rvpSpec" aria-live="polite"></div>' +
+      '<button class="rvp-more" id="rvpMore" type="button" aria-expanded="false" aria-controls="rvpSpec" aria-label="Show details">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>';
+
+    /* the chevron opens the notes under each figure; the state belongs to the
+       spec row, so it survives swiping to another model */
+    var more = document.getElementById("rvpMore");
+    more.addEventListener("click", function () {
+      var open = more.getAttribute("aria-expanded") !== "true";
+      more.setAttribute("aria-expanded", String(open));
+      more.setAttribute("aria-label", open ? "Hide details" : "Show details");
+      document.getElementById("rvpSpec").classList.toggle("open", open);
+    });
 
     var track = document.getElementById("rvpTrack");
     var dots  = [].slice.call(document.querySelectorAll("#rvpDots button"));
