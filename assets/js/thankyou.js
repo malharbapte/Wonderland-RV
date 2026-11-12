@@ -19,8 +19,22 @@ var TESTIMONIALS = [
   var el = document.getElementById("tyMsg");
   if (!info || !el) return;
   var text = "";
+  var type = (info.type || "").toLowerCase();
+  var ENQUIRY = {                     /* Contact page and homepage forms */
+    "call back":           "Your call back request is in. One of our experts will ring you.",
+    "book a factory tour": "We look forward to showing you around the Wonderland factory.",
+    "get a quote":         "Your quote request is with our team. We will build it around how you travel.",
+    "virtual consult":     "We look forward to your virtual consult. We will confirm a time with you shortly."
+  };
   if (info.route === "event" && info.show) {
     text = "We look forward to seeing you at " + info.show + (info.venue ? ", " + info.venue : "") + (info.day ? " on " + info.day : "") + ".";
+  } else if (info.route === "layouts") {          /* layout enquiry pop-up on the Range page */
+    var L = info.layout ? "the " + info.layout : "your layout";
+    text = type.indexOf("virtual") === 0
+      ? "We look forward to talking you through " + L + " in your virtual consultation."
+      : "Your enquiry about " + L + " is in. One of our experts will ring you to talk it through.";
+  } else if (info.route === "enquiry") {
+    text = ENQUIRY[type] || "We look forward to helping you design your Wonderland.";
   }
   if (text) { el.textContent = text; el.hidden = false; }
 })();

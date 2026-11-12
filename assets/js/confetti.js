@@ -48,7 +48,7 @@
     var W = cv.width = innerWidth * dpr, H = cv.height = innerHeight * dpr;
     var ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
     var w = innerWidth, h = innerHeight, parts = [], t = 0, spawnUntil = 0;
-    var big = w < 700 ? 0.8 : 1;
+    var big = w < 700 ? 1 : 1.4;
 
     function cannon(x, y, ang, spread, n, speed) {
       for (var i = 0; i < n; i++) {
@@ -57,11 +57,27 @@
       }
     }
     var GRAV = 0.32, DRAG = 0.985, FADE_AT = 9999;
+    /* Launch speed that carries the fastest pieces up to the bottom of the nav
+       bar, whatever the screen height: the rise is simulated frame by frame
+       with the same gravity and drag the pieces use. */
+    var nav = document.querySelector("header");
+    var navB = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
+    function speedFor(angle, rise) {
+      var lo = 5, hi = 90;
+      for (var n = 0; n < 24; n++) {
+        var mid = (lo + hi) / 2, v = Math.sin(angle) * mid, y = 0;
+        while (v < 0) { v = v * DRAG + GRAV; y += v; }
+        if (Math.abs(y) < rise) lo = mid; else hi = mid;
+      }
+      return hi;
+    }
+    var RISE = Math.max(200, h - navB - 10);
     var TOTAL = 2500, FADE_MS = 700;           /* everything is gone 2.5 seconds after the start */
 
     if (mode === "cannons") {
-      cannon(0, h, -1.15, 0.38, 90, 24); cannon(w, h, -Math.PI + 1.15, 0.38, 90, 24);
-      setTimeout(function () { cannon(0, h, -1.0, 0.4, 60, 20); cannon(w, h, -Math.PI + 1.0, 0.4, 60, 20); }, 380);
+      var s1 = speedFor(1.15, RISE), s2 = speedFor(1.0, RISE * 0.85);
+      cannon(0, h, -1.15, 0.38, 130, s1); cannon(w, h, -Math.PI + 1.15, 0.38, 130, s1);
+      setTimeout(function () { cannon(0, h, -1.0, 0.4, 80, s2); cannon(w, h, -Math.PI + 1.0, 0.4, 80, s2); }, 380);
     } else if (mode === "rain") {
       spawnUntil = 1300; GRAV = 0.1; DRAG = 0.995; FADE_AT = 9999;
     } else {                                                        /* burst */
