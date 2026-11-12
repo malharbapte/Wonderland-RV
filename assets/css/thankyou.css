@@ -35,10 +35,10 @@
 .ty-hb { list-style: none; margin: 0.3rem auto 0; padding: 0; max-width: 11.6rem; display: flex; align-items: center; justify-content: center; }
 .ty-hb--2 { margin-top: 0.26rem; }
 .ty-hb li { flex: 0 0 25%; display: flex; justify-content: center; align-items: center; min-height: 0.5rem; }   /* same cell width in both rows, so the three sit under the gaps of the four's grid */
-/* same treatment and heights as the brands strip further down the site */
-.ty-hb img { display: block; height: 0.34rem; width: auto; max-width: 88%; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter .28s ease, opacity .28s ease; }
+/* full colour, heights tuned like the brands strip further down the site */
+.ty-hb img { display: block; height: 0.34rem; width: auto; max-width: 88%; object-fit: contain; transition: transform .28s ease; }
 .ty-hb li.sm img { height: 0.5rem; }
-.ty-hb li:hover img { filter: grayscale(0); opacity: 1; }
+.ty-hb li:hover img { transform: scale(1.06); }
 
 /* section chrome ------------------------------------------------------------- */
 .ty-sec { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
