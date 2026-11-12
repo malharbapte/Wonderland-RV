@@ -56,13 +56,14 @@
         parts.push(piece(x, y, Math.cos(a) * s, Math.sin(a) * s, big));
       }
     }
-    var GRAV = 0.32, DRAG = 0.985, FADE_AT = 150;
+    var GRAV = 0.32, DRAG = 0.985, FADE_AT = 9999;
+    var TOTAL = 2500, FADE_MS = 700;           /* everything is gone 2.5 seconds after the start */
 
     if (mode === "cannons") {
       cannon(0, h, -1.15, 0.38, 90, 24); cannon(w, h, -Math.PI + 1.15, 0.38, 90, 24);
       setTimeout(function () { cannon(0, h, -1.0, 0.4, 60, 20); cannon(w, h, -Math.PI + 1.0, 0.4, 60, 20); }, 380);
     } else if (mode === "rain") {
-      spawnUntil = 3800; GRAV = 0.06; DRAG = 0.995; FADE_AT = 330;
+      spawnUntil = 1300; GRAV = 0.1; DRAG = 0.995; FADE_AT = 9999;
     } else {                                                        /* burst */
       cannon(w / 2, h * 0.34, -Math.PI / 2, 1.2, 150, 21);
       setTimeout(function () { cannon(w / 2, h * 0.34, -Math.PI / 2, 1.3, 70, 16); }, 300);
@@ -82,12 +83,12 @@
         p.vx *= DRAG; p.vy = p.vy * DRAG + GRAV;
         p.x += p.vx + (mode === "rain" ? Math.sin(p.sway + p.life * p.swaySpd) * 0.9 : 0);
         p.y += p.vy; p.r += p.vr;
-        var a = p.life > FADE_AT ? Math.max(0, 1 - (p.life - FADE_AT) / 60) : 1;
+        var a = el > TOTAL - FADE_MS ? Math.max(0, (TOTAL - el) / FADE_MS) : 1;
         if (a <= 0 || p.y > h + 40) { parts.splice(i, 1); continue; }
         ctx.globalAlpha = a; draw(ctx, p);
       }
       ctx.globalAlpha = 1;
-      if (parts.length || el < spawnUntil || el < 500) requestAnimationFrame(frame);
+      if (el < TOTAL) requestAnimationFrame(frame);
       else cv.remove();
     })(start);
   };

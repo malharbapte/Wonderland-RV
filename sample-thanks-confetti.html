@@ -22,7 +22,7 @@ body{background:#fff}
     <button data-m="rain">C &middot; Rain<small>Gentle fall, with the logo&rsquo;s mountain shape</small></button>
   </div>
 </main>
-<script src="assets/js/confetti.js?v=1"></script>
+<script src="assets/js/confetti.js?v=2"></script>
 <script>
 document.querySelectorAll("button[data-m]").forEach(function(b){b.addEventListener("click",function(){wlConfetti(b.dataset.m)})});
 if(location.hash.slice(1))setTimeout(function(){wlConfetti(location.hash.slice(1))},400);
