@@ -2,21 +2,26 @@
    Thank-you page. Desktop first; the phone pass comes after sign-off, so below
    900 this only stacks things so nothing breaks.
    ========================================================================== */
-.ty-hero { padding-top: 0.62rem; padding-bottom: var(--section-gap); text-align: center; }
 
-/* progress steps ------------------------------------------------------------ */
-.ty-steps { list-style: none; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; position: relative; width: 7.4rem; }
-.ty-steps::before { content: ""; position: absolute; left: 0.5rem; right: 0.5rem; top: 0.2rem; height: 0.03rem; background: var(--orange); }
-.ty-steps li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.12rem; width: 1.4rem; font-size: var(--t-caption); line-height: 1; }
-.ty-steps i { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--orange); position: relative; box-shadow: 0 0 0 0.07rem rgba(227,121,33,.2); }
-.ty-steps i::after { content: ""; position: absolute; left: 50%; top: 46%; width: 0.11rem; height: 0.2rem; border: solid #fff; border-width: 0 0.035rem 0.035rem 0; transform: translate(-50%, -55%) rotate(45deg); }
+/* top: thank you + what happens next ---------------------------------------- */
+.ty-top { padding-top: 0.7rem; padding-bottom: 0.3rem; text-align: center; }
+.ty-top-k { display: block; margin-bottom: 0.16rem; color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
+.ty-top-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
+.ty-top-lead { margin: 0.2rem auto 0; max-width: 9rem; font-size: var(--t-body); line-height: var(--lh-body); }
+.ty-top-lead b { font-weight: 700; }
+.ty-tl { list-style: none; margin: 0.55rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 11rem; position: relative; }
+.ty-tl::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: 0.16rem; height: 0.025rem; background: linear-gradient(90deg, var(--orange) 0, var(--orange) 50%, #d9d5cf 50%); }
+.ty-tl li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0 0.12rem; }
+.ty-tl i { width: 0.34rem; height: 0.34rem; border-radius: 50%; background: #fff; border: 0.03rem solid #d9d5cf; position: relative; z-index: 1; }
+.ty-tl li.done i { background: var(--orange); border-color: var(--orange); }
+.ty-tl li.done i::after { content: ""; position: absolute; left: 50%; top: 46%; width: 0.09rem; height: 0.17rem; border: solid #fff; border-width: 0 0.03rem 0.03rem 0; transform: translate(-50%, -55%) rotate(45deg); }
+.ty-tl li.now i { border-color: var(--orange); box-shadow: 0 0 0 0.07rem rgba(227,121,33,.22); animation: tyPulse 1.8s ease-in-out infinite; }
+@keyframes tyPulse { 50% { box-shadow: 0 0 0 0.13rem rgba(227,121,33,.06); } }
+@media (prefers-reduced-motion: reduce) { .ty-tl li.now i { animation: none; } }
+.ty-tl b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
+.ty-tl span { font-size: 0.2rem; line-height: 0.28rem; color: #555; }
 
-/* thank-you pill ------------------------------------------------------------ */
-.ty-pill { display: inline-flex; align-items: center; gap: 0.14rem; margin: 0.5rem 0 0; padding: 0.09rem 0.2rem 0.09rem 0.14rem; border-radius: 99rem; background: #2b2b2b; color: #fff; font-size: var(--t-caption); line-height: 1; }
-.ty-pill em { width: 0.09rem; height: 0.09rem; border-radius: 50%; background: var(--orange); }
-.ty-pill b { padding: 0.1rem 0.16rem; border-radius: 99rem; background: var(--orange); color: #fff; font-family: var(--aviano); font-weight: 900; letter-spacing: .02em; text-transform: uppercase; }
-.ty-pill span { opacity: .92; }
-
+.ty-hero { padding-top: var(--section-gap); padding-bottom: var(--section-gap); text-align: center; }
 .ty-title { margin: 0.34rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-sub { max-width: 8.4rem; margin: 0.22rem auto 0; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-video { width: 100%; max-width: 11.6rem; aspect-ratio: 16 / 9; margin: 0.5rem auto 0; border-radius: 0.13rem; box-shadow: 0 0.18rem 0.5rem -0.2rem rgba(0,0,0,.45); }
@@ -77,14 +82,18 @@
 .ty-cm img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 @media (max-width: 900px) {
-  .ty-hero { padding-top: 28px; padding-bottom: 48px; }
-  .ty-steps { width: 100%; }
-  .ty-steps::before { left: 40px; right: 40px; top: 14px; height: 2px; }
-  .ty-steps li { width: 90px; font-size: 12px; gap: 8px; }
-  .ty-steps i { width: 30px; height: 30px; box-shadow: 0 0 0 5px rgba(227,121,33,.2); }
-  .ty-steps i::after { width: 8px; height: 14px; border-width: 0 2px 2px 0; }
-  .ty-pill { flex-wrap: wrap; justify-content: center; margin-top: 32px; padding: 8px 14px; font-size: 13px; gap: 8px; }
-  .ty-pill b { padding: 6px 10px; }
+  .ty-top { padding-top: 40px; padding-bottom: 8px; }
+  .ty-top-k { font-size: 13px; margin-bottom: 12px; }
+  .ty-top-h { font-size: 30px; }
+  .ty-top-lead { font-size: 16px; line-height: 24px; margin-top: 14px; }
+  .ty-tl { width: 100%; margin-top: 32px; }
+  .ty-tl::before { top: 13px; height: 2px; }
+  .ty-tl i { width: 28px; height: 28px; border-width: 2px; }
+  .ty-tl li.done i::after { width: 7px; height: 13px; border-width: 0 2px 2px 0; }
+  .ty-tl li { padding: 0 4px; gap: 8px; }
+  .ty-tl b { font-size: 12px; line-height: 16px; }
+  .ty-tl span { font-size: 12px; line-height: 16px; }
+  .ty-hero { padding-top: 48px; padding-bottom: 48px; }
   .ty-title { margin-top: 24px; font-size: 30px; }
   .ty-sub { margin-top: 14px; font-size: 16px; line-height: 24px; }
   .ty-video { margin-top: 28px; border-radius: 8px; }
