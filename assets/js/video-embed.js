@@ -107,7 +107,7 @@ function addPopupPlay(frame, id, title) {
 function openVideoPopup(id, title, poster, opener) {
   if (document.getElementById("vpop")) return;
   const q = String(title).replace(/"/g, "&quot;");
-  const base = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0&disablekb=1&fs=0&enablejsapi=1&origin=" + encodeURIComponent(location.origin);
+  const base = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0&disablekb=1&fs=0&enablejsapi=1&origin=" + encodeURIComponent(location.origin);
   const wrap = document.createElement("div");
   wrap.id = "vpop";
   wrap.className = "vpop";
@@ -141,7 +141,7 @@ function openVideoPopup(id, title, poster, opener) {
   const x = wrap.querySelector(".vpop-x");
   x.focus();
 
-  let player = null, ready = false, playing = false, muted = false, dragging = false, idle = null, tick = null;
+  let player = null, ready = false, playing = false, muted = true, started = false, dragging = false, idle = null, tick = null;
   const fmt = function (t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
 
   function setPlaying(on) {
@@ -164,10 +164,20 @@ function openVideoPopup(id, title, poster, opener) {
       events: {
         onReady: function () {
           ready = true;
-          try { player.unMute(); player.setVolume(100); player.playVideo(); } catch (e) {}
+          try { player.playVideo(); } catch (e) {}
         },
         onStateChange: function (e) {
-          if (e.data === 1) setPlaying(true);                 /* playing */
+          if (e.data === 1) {                                 /* playing */
+            setPlaying(true);
+            if (!started) {
+              /* It starts muted, which browsers always allow, so the first press
+                 of play really plays. Sound goes on as soon as it is running;
+                 the button then shows what the browser actually allowed. */
+              started = true;
+              try { player.unMute(); player.setVolume(100); } catch (er) {}
+              setTimeout(function () { try { setMutedUi(player.isMuted()); } catch (er) {} }, 400);
+            }
+          }
           else if (e.data === 2) setPlaying(false);           /* paused */
           else if (e.data === 0) close();                     /* ended: skip YouTube's end screen */
         }
@@ -181,7 +191,7 @@ function openVideoPopup(id, title, poster, opener) {
     if (ready) return;
     const f = document.getElementById("vpopYt");
     if (!f) return;
-    f.src = base + "&controls=1";
+    f.src = base.replace("mute=1", "mute=0") + "&controls=1";
     box.classList.add("is-plain");
   }, 6000);
 
@@ -205,12 +215,17 @@ function openVideoPopup(id, title, poster, opener) {
   });
   hit.addEventListener("click", toggle);
   bPlay.addEventListener("click", toggle);
-  bVol.addEventListener("click", function () {
-    if (!player) return;
-    muted = !muted;
-    try { if (muted) player.mute(); else { player.unMute(); player.setVolume(100); } } catch (e) {}
+  function setMutedUi(m) {
+    muted = m;
     bVol.innerHTML = muted ? VP_ICON.mute : VP_ICON.vol;
     bVol.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+  }
+  bVol.innerHTML = VP_ICON.mute;                 /* it starts muted until sound is confirmed */
+  bVol.setAttribute("aria-label", "Unmute");
+  bVol.addEventListener("click", function () {
+    if (!player) return;
+    try { if (!muted) player.mute(); else { player.unMute(); player.setVolume(100); } } catch (e) {}
+    setMutedUi(!muted);
   });
   bFull.addEventListener("click", function () {
     const fs = document.fullscreenElement || document.webkitFullscreenElement;
