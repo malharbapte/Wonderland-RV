@@ -9,7 +9,7 @@
 .ty-top-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-top-msg { margin: 0.16rem auto 0; max-width: 11rem; color: var(--orange-deep); font-size: calc(var(--t-body) * 1.15); line-height: var(--lh-body); font-weight: 700; }
 .ty-top-msg[hidden] { display: none; }
-.ty-top-lead { margin: 0.2rem auto 0; max-width: 9rem; font-size: var(--t-body); line-height: var(--lh-body); }
+.ty-top-lead { margin: 0.2rem auto 0; max-width: 10.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-top-lead b { font-weight: 700; }
 .ty-tl { list-style: none; margin: 0.55rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 11rem; position: relative; }
 .ty-tl::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: 0.16rem; height: 0.025rem; background: linear-gradient(90deg, var(--orange) 0, var(--orange) 50%, #d9d5cf 50%); }
@@ -152,6 +152,16 @@
   .ty-rc blockquote { font-size: 16px; line-height: 24px; }
   .ty-rc-body { padding: 18px; }
   .ty-rc figcaption { font-size: 14px; line-height: 20px; }
+  .ty-ready { margin-top: 18px; font-size: 16px; line-height: 24px; }
+  .ty-path-list { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
+  .ty-path-list li { padding: 18px; }
+  .ty-path-list h3 { font-size: 16px; margin-top: 10px; }
+  .ty-path-list p { font-size: 16px; line-height: 24px; margin-top: 8px; }
+  .ty-rc figcaption .ty-glab .gm { width: 15px; height: 15px; }
+  .ty-amb-line { font-size: 16px; line-height: 24px; margin-top: 12px; }
+  .ty-next { padding: 32px 0 48px; }
+  .ty-next .container { flex-direction: column; align-items: stretch; gap: 12px; }
+  .ty-btn { text-align: center; padding: 16px 20px; font-size: 13px; }
   .ty-bq-grid, .ty-aw-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
   .ty-bq h3 { font-size: 20px; line-height: 26px; }
   .ty-bq p { font-size: 16px; line-height: 24px; }
@@ -173,3 +183,30 @@
   .ty-tv-tabs button { font-size: 13px; padding: 14px 0 10px; }
   .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
 }
+
+/* "Before we call": the two things to have ready ------------------------------ */
+.ty-ready { max-width: 8.4rem; margin: 0.24rem auto 0; text-align: left; font-size: var(--t-body); line-height: var(--lh-body); }
+.ty-ready p { margin: 0 0 0.06rem; font-weight: 700; }
+.ty-ready ol { margin: 0; padding-left: 0.3rem; }
+.ty-ready li { margin: 0.03rem 0; }
+
+/* what happens after the call ---------------------------------------------------- */
+.ty-path { text-align: center; }
+.ty-path-list { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.24rem; text-align: left; }
+.ty-path-list li { background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.26rem; }
+.ty-path-n { display: block; color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 0.22rem; letter-spacing: .08em; line-height: 1; }
+.ty-path-list h3 { margin: 0.14rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 1.15; text-transform: uppercase; }
+.ty-path-list p { margin: 0.1rem 0 0; font-size: 0.19rem; line-height: 0.29rem; }
+
+/* review cards: Google label with the G -------------------------------------------- */
+.ty-rc figcaption .ty-glab { display: inline-flex; align-items: center; gap: 0.08rem; }
+.ty-rc figcaption .ty-glab .gm { width: 0.17rem; height: 0.17rem; flex: none; }
+
+/* ambassadors line under the heading ----------------------------------------------- */
+.ty-amb-line { margin: 0.2rem 0 0; max-width: 8.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
+
+/* next-step buttons before the footer ---------------------------------------------- */
+.ty-next { padding: 0.5rem 0 0.7rem; }
+.ty-next .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem; }
+.ty-btn { display: inline-block; padding: 0.17rem 0.34rem; background: var(--orange); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .06em; line-height: 1; text-transform: uppercase; text-decoration: none; border-radius: 0.04rem; transition: background .2s; }
+.ty-btn:hover { background: var(--orange-deep); }

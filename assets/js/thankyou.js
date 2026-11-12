@@ -6,37 +6,43 @@
      adding a line to TESTIMONIALS; the tabs rebuild themselves. */
 
 var TESTIMONIALS = [
-  { name: "8 Feet Travels", role: "Wonderlanders", url: "https://youtu.be/amfJS4mC4ZQ" }
-  /* , { name: "...", role: "Wonderlanders", url: "https://youtu.be/..." } */
+  { name: "8 Feet Travels", role: "Ambassadors", url: "https://youtu.be/amfJS4mC4ZQ" }
+  /* , { name: "...", role: "Ambassadors", url: "https://youtu.be/..." } */
 ];
 
-/* Route-specific message under "Thank you". The form the visitor used leaves a
+/* Route-specific line under the heading. The form the visitor used leaves a
    note in sessionStorage ("wlThanks") before it redirects here. No note (a
-   direct visit) means the page stays generic. Add a route by adding a case. */
+   direct visit) gives the general line. Copy: THANK-YOU-PAGE-COPY.md, block 1.
+   {layout}, {show}, {van} and {model} come from the form; if one is missing the
+   line falls back to a neutral wording. Add a route by adding a case. */
 (function () {
+  var el = document.getElementById("tyMsg");
+  if (!el) return;
   var info = null;
   try { info = JSON.parse(sessionStorage.getItem("wlThanks") || "null"); } catch (e) {}
-  var el = document.getElementById("tyMsg");
-  if (!info || !el) return;
-  var text = "";
+  info = info || {};
+  var CALL = "within one business day from 03\u00a09958\u00a06708";
   var type = (info.type || "").toLowerCase();
-  var ENQUIRY = {                     /* Contact page and homepage forms */
-    "call back":           "Your call back request is in. One of our experts will ring you.",
-    "book a factory tour": "We look forward to showing you around the Wonderland factory.",
-    "get a quote":         "Your quote request is with our team. We will build it around how you travel.",
-    "virtual consult":     "We look forward to your virtual consult. We will confirm a time with you shortly."
-  };
-  if (info.route === "event" && info.show) {
-    text = "We look forward to seeing you at " + info.show + (info.venue ? ", " + info.venue : "") + (info.day ? " on " + info.day : "") + ".";
-  } else if (info.route === "layouts") {          /* layout enquiry pop-up on the Range page */
-    var L = info.layout ? "the " + info.layout : "your layout";
-    text = type.indexOf("virtual") === 0
-      ? "We look forward to talking you through " + L + " in your virtual consultation."
-      : "Your enquiry about " + L + " is in. One of our experts will ring you to talk it through.";
+  var text = "";
+
+  if (info.route === "event") {
+    text = "Your VIP appointment at " + (info.show || "the show") + " is in. Our team will call you " + CALL + " to lock in a time with you at the show.";
+  } else if (info.route === "layouts") {
+    text = "Your enquiry about " + (info.layout ? "the " + info.layout : "your layout") + " is in. Our team will call you " + CALL + " to talk it through and answer anything the floor plan can\u2019t.";
+  } else if (info.route === "stock") {
+    text = "Your enquiry about " + (info.van || "the van") + " is in. Our team will call you " + CALL + " to talk about the van and when you can come and see it.";
+  } else if (info.route === "brochure") {
+    text = "Your " + (info.model ? info.model + " " : "") + "brochure is on its way to your inbox. Our team will also give you a call " + CALL + " in case you have questions.";
+  } else if (info.route === "build") {
+    text = "Your quote request is in. Our team will go through the layout and options you picked and call you " + CALL + " to talk it over. Your quote is also on its way to your inbox.";
   } else if (info.route === "enquiry") {
-    text = ENQUIRY[type] || "We look forward to helping you design your Wonderland.";
+    if (type === "call back") text = "Your call back request is in. Our team will ring you " + CALL + ", so pick up when you see that number.";
+    else if (type === "book a factory tour") text = "Your factory tour request is in. Our team will call you " + CALL + " to lock in a day that suits you, then we\u2019ll walk you through how your van gets built at Campbellfield.";
+    else if (type === "get a quote") text = "Your quote request is in. Our team will go through the layout and options you picked and call you " + CALL + " to talk it over.";
+    else if (type.indexOf("virtual") === 0) text = "Your virtual consult request is in. Our team will call you " + CALL + " to find a time that suits you, then walk you through the vans on screen from wherever you are.";
   }
-  if (text) { el.textContent = text; el.hidden = false; }
+  if (!text) text = "Our team will give you a call " + CALL + ", so if that number pops up, it\u2019s us.";
+  el.textContent = text;
 })();
 
 (function () {
