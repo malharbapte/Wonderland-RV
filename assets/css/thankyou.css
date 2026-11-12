@@ -255,3 +255,33 @@
 .ty-av { flex: none; width: 0.44rem; height: 0.44rem; border-radius: 50%; object-fit: cover; background: #eee; }
 .ty-av--l { display: grid; place-items: center; background: var(--orange-deep); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: 0.18rem; line-height: 1; }
 .ty-rc figcaption .ty-av--l { color: #fff; }
+
+/* Reviewer photos inside a review card, and the lightbox */
+.ty-gal { display: grid; gap: 0.06rem; margin-top: 0.18rem; }
+.ty-gal--1 { grid-template-columns: 1fr; }
+.ty-gal--2 { grid-template-columns: repeat(2, 1fr); }
+.ty-gal--3 { grid-template-columns: repeat(3, 1fr); }
+.ty-gal-b { position: relative; display: block; margin: 0; padding: 0; border: 0; background: #eee; border-radius: 0.05rem; overflow: hidden; cursor: zoom-in; aspect-ratio: 1; }
+.ty-gal--1 .ty-gal-b { aspect-ratio: 4 / 3; }
+.ty-gal-b img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+.ty-gal-b:hover img, .ty-gal-b:focus-visible img { transform: scale(1.05); }
+.ty-gal-b:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.02rem; }
+.ty-gal-more { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.55); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: 0.24rem; }
+.ty-lb { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.9); display: flex; align-items: center; justify-content: center; padding: 0.4rem; }
+.ty-lb[hidden] { display: none; }
+.ty-lb img { max-width: 100%; max-height: 100%; border-radius: 0.04rem; box-shadow: 0 0.1rem 0.6rem rgba(0,0,0,.5); }
+.ty-lb button { position: absolute; width: 0.56rem; height: 0.56rem; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 0.34rem; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.ty-lb button:hover, .ty-lb button:focus-visible { background: var(--orange); outline: none; }
+.ty-lb-x { top: 0.24rem; right: 0.24rem; }
+.ty-lb-p { left: 0.24rem; top: 50%; transform: translateY(-50%); }
+.ty-lb-n { right: 0.24rem; top: 50%; transform: translateY(-50%); }
+.ty-lb--one .ty-lb-p, .ty-lb--one .ty-lb-n { display: none; }
+html.ty-lb-open { overflow: hidden; }
+@media (max-width: 900px) {
+  .ty-gal { gap: 4px; margin-top: 14px; }
+  .ty-gal-more { font-size: 18px; }
+  .ty-lb { padding: 16px; }
+  .ty-lb button { width: 44px; height: 44px; font-size: 26px; }
+  .ty-lb-x { top: 12px; right: 12px; }
+  .ty-lb-p { left: 8px; } .ty-lb-n { right: 8px; }
+}

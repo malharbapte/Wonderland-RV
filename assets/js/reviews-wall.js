@@ -3,7 +3,8 @@
    next BATCH until none are left. Each new card goes into the shortest column,
    so cards already on screen never jump.
 
-   Data: window.WL_REVIEWS = [{ name, text, stars?, url?, photo?, img?, alt? }, ...]
+   Data: window.WL_REVIEWS = [{ name, text, stars?, url?, photo?, images?[], img?, alt? }, ...]
+   images = the photos the reviewer posted: shown under the text, click opens a lightbox.
    A review with no text draws grey bars (sample only). Mount point: #tyWall. */
 (function () {
   "use strict";
@@ -16,6 +17,16 @@
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
 
   function stars(n) { n = Math.max(1, Math.min(5, n || 5)); return "\u2605".repeat(n) + "\u2606".repeat(5 - n); }
+  var MAXTHUMBS = 6;
+  function gallery(r, idx) {
+    var im = r.images; if (!im || !im.length) return "";
+    var n = Math.min(im.length, MAXTHUMBS), h = '<div class="ty-gal ty-gal--' + Math.min(n, 3) + '">';
+    for (var k = 0; k < n; k++) {
+      var more = (k === n - 1 && im.length > n) ? '<span class="ty-gal-more">+' + (im.length - n) + "</span>" : "";
+      h += '<button type="button" class="ty-gal-b" data-r="' + idx + '" data-i="' + k + '" aria-label="Open photo ' + (k + 1) + " of " + im.length + '"><img src="' + esc(im[k]) + '" alt="" loading="lazy">' + more + "</button>";
+    }
+    return h + "</div>";
+  }
   function card(r, i) {
     var el = document.createElement("figure");
     el.className = "ty-rc" + (r.img ? " ty-rc--img" : "") + (r.text ? "" : " ty-rc--sk");
@@ -36,7 +47,7 @@
     el.innerHTML =
       (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy"></div>' : "") +
       '<div class="ty-rc-body"><div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span>" + G + "</div>" +
-      body + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
+      body + gallery(r, i) + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
     return el;
   }
 
@@ -58,6 +69,36 @@
     }
     if (btn) btn.hidden = shown >= data.length;
   }
+
+  /* Lightbox for reviewer photos */
+  var lb, lbImg, lbSet = [], lbPos = 0, lbOpener;
+  function lbShow(k) {
+    lbPos = (k + lbSet.length) % lbSet.length; lbImg.src = lbSet[lbPos];
+    lb.classList.toggle("ty-lb--one", lbSet.length < 2);
+  }
+  function lbClose() { if (!lb) return; lb.hidden = true; lbImg.removeAttribute("src"); document.documentElement.classList.remove("ty-lb-open"); if (lbOpener) lbOpener.focus(); }
+  function lbOpen(r, k, opener) {
+    if (!lb) {
+      lb = document.createElement("div"); lb.className = "ty-lb"; lb.hidden = true; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-label", "Review photo");
+      lb.innerHTML = '<button type="button" class="ty-lb-x" aria-label="Close">&times;</button><button type="button" class="ty-lb-p" aria-label="Previous photo">&#8249;</button><img alt=""><button type="button" class="ty-lb-n" aria-label="Next photo">&#8250;</button>';
+      lbImg = lb.querySelector("img"); document.body.appendChild(lb);
+      lb.addEventListener("click", function (e) {
+        if (e.target.classList.contains("ty-lb-p")) lbShow(lbPos - 1);
+        else if (e.target.classList.contains("ty-lb-n")) lbShow(lbPos + 1);
+        else if (e.target !== lbImg) lbClose();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (lb.hidden) return;
+        if (e.key === "Escape") lbClose(); else if (e.key === "ArrowLeft") lbShow(lbPos - 1); else if (e.key === "ArrowRight") lbShow(lbPos + 1);
+      });
+    }
+    lbSet = data[r].images; lbOpener = opener; lb.hidden = false; document.documentElement.classList.add("ty-lb-open"); lbShow(k);
+    lb.querySelector(".ty-lb-x").focus();
+  }
+  wall.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest(".ty-gal-b");
+    if (b) lbOpen(+b.getAttribute("data-r"), +b.getAttribute("data-i"), b);
+  });
 
   btn = document.getElementById("tyMore");
   if (btn) btn.addEventListener("click", function () { add(BATCH); });
