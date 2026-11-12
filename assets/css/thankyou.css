@@ -4,7 +4,7 @@
    ========================================================================== */
 
 /* top: thank you + what happens next ---------------------------------------- */
-.ty-top { padding-top: 0.7rem; padding-bottom: 0.3rem; text-align: center; }
+.ty-top { padding-top: 0.7rem; padding-bottom: 0.45rem; text-align: center; }
 .ty-top-k { display: block; margin-bottom: 0.16rem; color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
 .ty-top-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-top-lead { margin: 0.2rem auto 0; max-width: 9rem; font-size: var(--t-body); line-height: var(--lh-body); }
@@ -21,7 +21,7 @@
 .ty-tl b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
 .ty-tl span { font-size: 0.2rem; line-height: 0.28rem; color: #555; }
 
-.ty-hero { padding-top: var(--section-gap); padding-bottom: var(--section-gap); text-align: center; }
+.ty-hero { padding-top: 0.25rem; padding-bottom: var(--section-gap); text-align: center; }   /* the thank-you block above supplies the rest of the gap */
 .ty-title { margin: 0.34rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-sub { max-width: 8.4rem; margin: 0.22rem auto 0; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-video { width: 100%; max-width: 11.6rem; aspect-ratio: 16 / 9; margin: 0.5rem auto 0; border-radius: 0.13rem; box-shadow: 0 0.18rem 0.5rem -0.2rem rgba(0,0,0,.45); }
@@ -113,7 +113,7 @@
   .ty-tl li { padding: 0 4px; gap: 8px; }
   .ty-tl b { font-size: 12px; line-height: 16px; }
   .ty-tl span { font-size: 12px; line-height: 16px; }
-  .ty-hero { padding-top: 48px; padding-bottom: 48px; }
+  .ty-hero { padding-top: 8px; padding-bottom: 48px; }
   .ty-title { margin-top: 24px; font-size: 30px; }
   .ty-sub { margin-top: 14px; font-size: 16px; line-height: 24px; }
   .ty-video { margin-top: 28px; border-radius: 8px; }
