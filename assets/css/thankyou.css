@@ -43,10 +43,10 @@
 .ty-tv-card i svg { width: 0.14rem; height: 0.14rem; fill: #fff; margin-left: 0.01rem; }
 
 /* Moving banner under the testimonials */
-.ty-tick { width: 100vw; margin-left: calc(50% - 50vw); background: var(--orange); color: #fff; overflow: hidden; white-space: nowrap; padding: 0.2rem 0; }
-.ty-tick-track { display: flex; width: 400vw; animation: ty-tick 110s linear infinite; }
-.ty-tick ul { display: flex; width: 200vw; margin: 0; padding: 0; list-style: none; flex: none; }
-.ty-tick li { position: relative; flex: 0 0 calc(100vw / 3); display: flex; align-items: center; justify-content: center; font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; letter-spacing: .1em; text-transform: uppercase; }   /* three to a line */
+.ty-tick { --slot: calc(100vw / 3); width: 100vw; margin-left: calc(50% - 50vw); background: var(--orange); color: #fff; overflow: hidden; white-space: nowrap; padding: 0.2rem 0; }
+.ty-tick-track { display: flex; width: calc(var(--slot) * 12); animation: ty-tick 110s linear infinite; }
+.ty-tick ul { display: flex; width: calc(var(--slot) * 6); margin: 0; padding: 0; list-style: none; flex: none; }
+.ty-tick li { position: relative; flex: 0 0 var(--slot); display: flex; align-items: center; justify-content: center; font-family: var(--aviano); font-weight: 900; font-size: 0.3rem; letter-spacing: .1em; text-transform: uppercase; }   /* three to a line */
 .ty-tick li::after { content: ""; position: absolute; right: 0; top: 50%; width: 0.09rem; height: 0.09rem; background: #fff; transform: translate(50%, -50%) rotate(45deg); }
 .ty-tick:hover .ty-tick-track { animation-play-state: paused; }
 @keyframes ty-tick { to { transform: translateX(-50%); } }
