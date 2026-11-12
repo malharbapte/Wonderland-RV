@@ -30,6 +30,12 @@
 .ty-video iframe { top: 0; left: 0; transform: none; height: 100%; min-height: 0; }
 .ty-video .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
+/* brand partners under the video --------------------------------------------- */
+.ty-hb-k { margin: 0.4rem 0 0; color: #555; font-size: var(--t-caption); letter-spacing: .08em; text-transform: uppercase; line-height: 1; }
+.ty-hb { list-style: none; margin: 0.22rem auto 0; padding: 0; max-width: 11.6rem; display: flex; align-items: center; justify-content: space-between; gap: 0.2rem; }
+.ty-hb li { flex: 1 1 0; display: flex; justify-content: center; }
+.ty-hb img { display: block; height: 0.42rem; width: auto; max-width: 100%; object-fit: contain; }
+
 /* section chrome ------------------------------------------------------------- */
 .ty-sec { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 .ty-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.05; text-transform: uppercase; }
@@ -120,6 +126,10 @@
   .ty-title { margin-top: 24px; font-size: 30px; }
   .ty-sub { margin-top: 14px; font-size: 16px; line-height: 24px; }
   .ty-video { margin-top: 28px; border-radius: 8px; }
+  .ty-hb-k { margin-top: 28px; font-size: 12px; }
+  .ty-hb { flex-wrap: wrap; justify-content: center; gap: 18px 26px; margin-top: 16px; }
+  .ty-hb li { flex: 0 0 auto; }
+  .ty-hb img { height: 28px; }
   .ty-sec { padding-top: 56px; padding-bottom: 56px; }
   .ty-h { font-size: 28px; }
   .ty-lede { font-size: 16px; line-height: 24px; margin-top: 12px; }
@@ -149,3 +159,4 @@
   .ty-tv-tabs button { font-size: 13px; padding: 14px 0 10px; }
   .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
 }
+.ty-hb li:nth-child(6) img { height: 0.6rem; }
