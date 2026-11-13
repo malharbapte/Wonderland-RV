@@ -66,14 +66,16 @@ var TESTIMONIALS = [
       desc = document.getElementById("tyTvDesc"), playBtn = document.getElementById("tyTvPlay");
   if (!poster || !tabs || !TESTIMONIALS.length) return;
   var current = -1;
+  var QMARK = '<svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>';
 
   function show(i) {
     current = i;
     var t = TESTIMONIALS[i];
     poster.src = t.poster;
-    q.textContent = "\u201c" + t.quote + "\u201d";
-    now.innerHTML = "<b></b><span></span>";
-    now.firstChild.textContent = t.names; now.lastChild.textContent = t.role || "";
+    q.innerHTML = QMARK;
+    q.appendChild(document.createTextNode(t.quote + "\u201d"));
+    now.innerHTML = "<span></span><b></b>";
+    now.lastChild.textContent = t.names; now.firstChild.textContent = t.role || "";
     desc.textContent = t.desc || "";
     playBtn.setAttribute("aria-label", "Play video: " + t.names);
     [].forEach.call(tabs.children, function (b, k) { b.setAttribute("aria-selected", String(k === i)); b.tabIndex = k === i ? 0 : -1; });

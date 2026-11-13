@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=328">
 <link rel="stylesheet" href="assets/css/home-order.css?v=367">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=42">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=43">
 </head>
 <body class="home thanks" data-confetti="cannons">
 
@@ -190,12 +190,16 @@
 <section class="ty-tv" id="tyTv" aria-label="Testimonial videos">
   <div class="ty-tv-media" id="tyTvMedia"><img class="ty-tv-poster" id="tyTvPoster" src="assets/img/thanks/tv-brett.jpg" alt=""></div>
   <div class="ty-tv-shade" aria-hidden="true"></div>
-  <div class="ty-tv-body">
+  <div class="ty-tv-body"><div class="ty-tv-in">
     <blockquote class="ty-tv-q" id="tyTvQ"></blockquote>
-    <p class="ty-tv-now" id="tyTvNow" aria-live="polite"></p>
-    <p class="ty-tv-desc" id="tyTvDesc"></p>
-    <button type="button" class="ty-tv-play" id="tyTvPlay" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-  </div>
+    <div class="ty-tv-row">
+      <button type="button" class="ty-tv-play" id="tyTvPlay" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="ty-tv-who">
+        <p class="ty-tv-now" id="tyTvNow" aria-live="polite"></p>
+        <p class="ty-tv-desc" id="tyTvDesc"></p>
+      </div>
+    </div>
+  </div></div>
   <div class="ty-tv-strip" id="tyTvTabs" role="tablist" aria-label="Testimonial videos"></div>
 </section>
 
@@ -586,7 +590,7 @@
 <script src="assets/js/confetti.js?v=3"></script>
 <script src="assets/js/reviews-data.js?v=3"></script>
 <script src="assets/js/reviews-wall.js?v=4"></script>
-<script src="assets/js/thankyou.js?v=11"></script>
+<script src="assets/js/thankyou.js?v=12"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>

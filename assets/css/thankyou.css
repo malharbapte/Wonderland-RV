@@ -24,14 +24,17 @@
 .ty-tv-media { position: absolute; inset: 0; background: #111; }
 .ty-tv-poster { position: absolute; left: 0; bottom: 0; width: 100%; height: 130%; object-fit: cover; object-position: center bottom; }   /* sits the people high, so the quote falls below their faces */
 .ty-tv-shade { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.38) 0, rgba(0,0,0,.5) 35%, rgba(0,0,0,.86) 100%); }
-.ty-tv-body { position: relative; z-index: 3; margin: auto auto 0.6rem; width: 10.4rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.ty-tv-q { margin: 0; font-size: 0.44rem; line-height: 0.64rem; font-weight: 400; text-wrap: balance; }   /* 1: the quote */
-.ty-tv-now { margin: 0.42rem 0 0; display: flex; flex-direction: column; gap: 0.02rem; }   /* 2: who */
+.ty-tv-body { position: relative; z-index: 3; margin: auto 0 0.6rem; padding-left: calc((100% - var(--col)) / 2); width: 100%; }   /* left edge on the page margin */
+.ty-tv-in { width: 8.4rem; }
+.ty-tv-q { position: relative; margin: 0.5rem 0 0; font-size: 0.5rem; line-height: 0.68rem; font-weight: 400; text-align: left; text-wrap: pretty; }   /* 1: the quote */
+.ty-tv-q .qmark { width: 1rem; max-width: none; fill: #fff; }   /* the site mark, hung top-left as on the homepage */
+.ty-tv-row { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.4rem; }
+.ty-tv-now { margin: 0; display: flex; flex-direction: column; gap: 0.04rem; }   /* 2: who, role above names */
 .ty-tv-now b { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: 0.24rem; line-height: 0.32rem; letter-spacing: .06em; text-transform: uppercase; }
 .ty-tv-now span { font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; line-height: 0.24rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.72); }
-.ty-tv-desc { margin: 0.22rem 0 0; max-width: 8.6rem; font-size: 0.2rem; line-height: 0.3rem; color: rgba(255,255,255,.78); text-wrap: balance; }   /* 3: context */
-.ty-tv-play { margin: 0.46rem 0 0; width: 1.05rem; height: 0.68rem; padding: 0; border: 0; border-radius: 0.03rem; background: var(--orange); color: #111; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease, background .2s ease; }
-.ty-tv-play svg { width: 0.34rem; height: 0.34rem; fill: currentColor; }
+.ty-tv-desc { margin: 0.04rem 0 0; max-width: 7.4rem; font-size: 0.2rem; line-height: 0.3rem; color: rgba(255,255,255,.8); text-wrap: balance; }   /* 3: context */
+.ty-tv-play { flex: none; width: 1.45rem; height: 0.92rem; padding: 0; border: 0; border-radius: 0.03rem; background: var(--orange); color: #111; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease, background .2s ease; }
+.ty-tv-play svg { width: 0.5rem; height: 0.5rem; fill: currentColor; }
 .ty-tv-play:hover, .ty-tv-play:focus-visible { transform: scale(1.05); background: var(--orange-deep); }
 .ty-tv-play:focus-visible { outline: 0.03rem solid #fff; outline-offset: 0.03rem; }
 .ty-tv-strip { position: relative; z-index: 4; flex: none; display: flex; justify-content: flex-start; gap: 0.12rem; padding: 0 0 0.45rem calc((100% - var(--col)) / 2); }   /* left edge lines up with the page content */
