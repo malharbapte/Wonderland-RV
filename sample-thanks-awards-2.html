@@ -41,8 +41,6 @@ body{background:#fff}
 /* the homepage chevron, in brand orange */
 .mv{position:absolute;inset:0;z-index:30;pointer-events:none}
 .mv button{position:absolute;top:calc(var(--bh)*.5);appearance:none;border:0;background:none;padding:0;width:.56rem;height:.56rem;display:grid;place-items:center;cursor:pointer;transform:translateY(-50%);pointer-events:auto}
-.mv .mv-p{left:calc(-1*(var(--page-margin)/2) - .28rem)}   /* out in the page margin, where the homepage chevrons sit */
-.mv .mv-n{left:calc(100% + .04rem)}
 .mv button:focus{outline:none}.mv button:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 .mv svg{width:.42rem;height:.42rem;fill:none;stroke:var(--orange);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
 .mv button:hover svg{stroke:var(--orange-hover)}
@@ -111,7 +109,11 @@ body{background:#fff}
     wrap.classList.toggle('rail',document.getElementById('rail').checked);
     [['o1',Math.round(ov*100)+'%'],['o2',bh+'rem'],['o3',pd+'rem'],['o4',ex+'x'],['o5',ol+'rem'],['o6',Math.round(oa*100)+'%']].forEach(function(x){document.getElementById(x[0]).textContent=x[1]});
   }
-  function park(){}
+  function park(){           // both arrows the same distance from the set's visible ends
+    var k=rem(),box=.56*k,gap=.1*k,A=wrap.clientWidth,rw=parseFloat(aw.style.getPropertyValue('--rw'))*k,un=parseFloat(aw.style.getPropertyValue('--un')),
+        lo=rw*(1-un)/2;
+    mp.style.left=(lo-gap-box)+'px';mn.style.left=(A-lo+gap)+'px';
+  }
   function show(i,first){
     cur=(i+items.length)%items.length;
     items.forEach(function(c,k){c.classList.toggle('is-open',k===cur);c.setAttribute('aria-pressed',String(k===cur))});
