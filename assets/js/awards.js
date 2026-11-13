@@ -10,7 +10,7 @@
       mv = document.getElementById("tyAwMv"), info = document.getElementById("tyAwInfo");
   if (!aw || !wrap || !box || !mv || !info) return;
   var items = [].slice.call(box.children), mp = mv.querySelector(".ty-aw-p"), mn = mv.querySelector(".ty-aw-n"),
-      cta = info.querySelector(".ty-aw-cta"), cur = 1, OV = 0.25, UN = 0.85, GAP = 0.32;
+      cta = info.querySelector(".ty-aw-cta"), cur = 1, OV = 0.4, UN = 0.85, GAP = 0.4, OV0 = 0.25;   // OV0: the overlap the ribbon width was first sized for
 
   /* newest first. a = there is an article to link to (hrefs are placeholders in this mock) */
   var DATA = [
@@ -22,12 +22,15 @@
 
   function rem() { return parseFloat(getComputedStyle(document.documentElement).fontSize); }
   function size() {
-    var k = rem(), A = wrap.clientWidth, rw = A / (1 + 3 * (1 - OV)), bh = rw * 2.366;
+    var k = rem(), A = wrap.clientWidth, rw = A / (1 + 3 * (1 - OV0)), bh = rw * 2.366,
+        total = rw * (1 + 3 * (1 - OV)), off = (A - total) / 2;               // a tighter set, centred in its column
+    aw.style.setProperty("--ov", OV);
     aw.style.setProperty("--rw", (rw / k).toFixed(3) + "rem");
     aw.style.setProperty("--bh", (bh / k).toFixed(3) + "rem");
     aw.style.setProperty("--pad", (rw * 0.0757 / k).toFixed(3) + "rem");
-    var lo = rw * (1 - UN) / 2, bw = mp.offsetWidth, gap = GAP * k;       // arrows: same distance from the set's visible ends
-    mp.style.left = (lo - gap - bw) + "px"; mn.style.left = (A - lo + gap) + "px";
+    box.style.marginLeft = off + "px";
+    var lo = rw * (1 - UN) / 2, bw = mp.offsetWidth, gap = GAP * k;           // arrows: same distance from the set's visible ends
+    mp.style.left = (off + lo - gap - bw) + "px"; mn.style.left = (off + total - lo + gap) + "px";
   }
   function show(i) {
     cur = (i + items.length) % items.length;
