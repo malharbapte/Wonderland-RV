@@ -81,10 +81,11 @@ var TESTIMONIALS = [
 
   function ytId(u) { var m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/); return m && m[1]; }
 
-  playBtn.addEventListener("click", function () {
+  function play(opener) {
     var t = TESTIMONIALS[current], id = ytId(t.url);
-    if (id && typeof openVideoPopup === "function") openVideoPopup(id, t.names + " testimonial", t.poster, playBtn);
-  });
+    if (id && typeof openVideoPopup === "function") openVideoPopup(id, t.names + " testimonial", t.poster, opener);
+  }
+  playBtn.addEventListener("click", function () { play(playBtn); });
 
   TESTIMONIALS.forEach(function (t, i) {
     var b = document.createElement("button");
@@ -92,7 +93,7 @@ var TESTIMONIALS = [
     b.setAttribute("aria-label", t.names);
     b.innerHTML = '<img alt="" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></i>';
     b.firstChild.src = t.thumb || t.poster;
-    b.addEventListener("click", function () { if (i !== current) show(i); });
+    b.addEventListener("click", function () { if (i !== current) show(i); play(b); });
     tabs.appendChild(b);
   });
   show(0);
