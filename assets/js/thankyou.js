@@ -1,7 +1,7 @@
 /* Thank-you page.
    - The construction video starts on its own (muted, as browsers require) with
      the sound and CC buttons top right.
-   - The confetti fires once as the page loads.
+   - The confetti fires once, when the tick at the top has finished drawing.
    - Testimonial videos: the hero player plus one tab per video. Add a video by
      adding an entry to TESTIMONIALS; the thumbnail strip rebuilds itself. */
 
@@ -56,8 +56,13 @@ var TESTIMONIALS = [
   if (frame && typeof mountVideo === "function") {
     mountVideo(frame, frame.getAttribute("data-video"), frame.getAttribute("data-title"), { popup: true });
   }
+  /* the confetti waits for the tick to finish drawing (the animation ends on .tk), with a fallback in case it never reports */
   if (typeof wlConfetti === "function") {
-    setTimeout(function () { wlConfetti(document.body.getAttribute("data-confetti") || "burst"); }, 350);
+    var fired = false, tk = document.querySelector(".ty-top-ck .tk");
+    var fire = function () { if (fired) return; fired = true; wlConfetti(document.body.getAttribute("data-confetti") || "burst"); };
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (tk && !still) { tk.addEventListener("animationend", fire); setTimeout(fire, 2200); }
+    else setTimeout(fire, 350);
   }
 
   /* ----------------------------------------------- testimonial video hero -- */

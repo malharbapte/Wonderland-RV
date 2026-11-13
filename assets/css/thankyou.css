@@ -9,6 +9,19 @@
 .ty-top-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .ty-top-msg { margin: 0.16rem auto 0; max-width: 11rem; color: var(--orange-deep); font-size: calc(var(--t-body) * 1.15); line-height: var(--lh-body); font-weight: 700; }
 .ty-top-msg[hidden] { display: none; }
+/* the tick that replaces the "Enquiry received" label: circle, then tick, drawn in orange; the confetti waits for it (thankyou.js) */
+.ty-top-ck { display: block; width: 0.86rem; height: 0.86rem; margin: 0 auto 0.2rem; }
+.ty-top-ck svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ty-top-ck circle { fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); transform-origin: center; transform-box: fill-box; animation: ty-draw .7s cubic-bezier(.4, 0, .2, 1) .15s forwards; }
+.ty-top-ck .tk { fill: none; stroke: var(--orange); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ty-draw .45s cubic-bezier(.4, 0, .2, 1) .85s forwards; }
+@keyframes ty-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .ty-top-ck circle, .ty-top-ck .tk { animation: none; stroke-dashoffset: 0; } }
+/* the thank-you bar, as on the King Kong confirmation page */
+.ty-pill-w { margin: 0.31rem 0 0.1rem; text-align: center; }
+.ty-pill { --fs: 0.19rem; --pv: 0.15rem; display: inline-flex; align-items: center; gap: 0.18rem; max-width: 100%; box-sizing: border-box; padding: var(--pv) calc(var(--pv) * 1.7) var(--pv) calc(var(--pv) * 1.5); border-radius: 999px; background: #111; color: #fff; font-family: var(--gordita); font-size: var(--fs); line-height: 1; text-align: left; }
+.ty-pill-dot { flex: none; width: calc(var(--fs) * .55); height: calc(var(--fs) * .55); border-radius: 50%; background: var(--orange); }
+.ty-pill-chip { flex: none; background: var(--orange); color: #111; border-radius: 999px; padding: calc(var(--fs) * .62) calc(var(--fs) * 1.05); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.ty-pill-msg { text-transform: uppercase; letter-spacing: .08em; font-weight: 500; white-space: nowrap; }
 .ty-top-lead { margin: 0.2rem auto 0; max-width: 10.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-top-lead b { font-weight: 700; }
 .ty-tl { list-style: none; margin: 0.55rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 11rem; position: relative; }
@@ -132,6 +145,10 @@
 @media (max-width: 900px) {
   .ty-top { padding-top: 40px; padding-bottom: 8px; }
   .ty-top-k { font-size: 13px; margin-bottom: 12px; }
+  .ty-top-ck { width: 56px; height: 56px; margin-bottom: 14px; }
+  .ty-pill-w { margin: 20px 0 8px; }
+  .ty-pill { --fs: 12px; --pv: 8px; gap: 10px; }
+  .ty-pill-msg { white-space: normal; line-height: 1.35; }
   .ty-top-h { font-size: 30px; }
   .ty-top-msg { font-size: 17px; line-height: 25px; margin-top: 12px; }
   .ty-top-lead { font-size: 16px; line-height: 24px; margin-top: 14px; }
