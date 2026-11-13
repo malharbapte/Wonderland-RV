@@ -92,7 +92,15 @@ var TESTIMONIALS = [
     var t = TESTIMONIALS[current], id = ytId(t.url);
     if (id && typeof openVideoPopup === "function") openVideoPopup(id, t.names + " testimonial", t.poster, opener);
   }
-  playBtn.addEventListener("click", function () { play(playBtn); });
+  playBtn.addEventListener("click", function (e) { e.stopPropagation(); play(playBtn); });
+  /* the faded picture behind the text plays it too; the thumbnail strip does not, and neither does a click that is selecting text */
+  var hero = document.getElementById("tyTv");
+  if (hero) hero.addEventListener("click", function (e) {
+    if (e.target.closest(".ty-tv-strip")) return;
+    var sel = window.getSelection && window.getSelection().toString();
+    if (sel) return;
+    play(playBtn);
+  });
 
   TESTIMONIALS.forEach(function (t, i) {
     var b = document.createElement("button");
@@ -100,7 +108,7 @@ var TESTIMONIALS = [
     b.setAttribute("aria-label", t.names);
     b.innerHTML = '<img alt="" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></i>';
     b.firstChild.src = t.thumb || t.poster;
-    b.addEventListener("click", function () { if (i !== current) show(i); play(b); });
+    b.addEventListener("click", function () { if (i !== current) show(i); });   /* a thumbnail only selects */
     tabs.appendChild(b);
   });
   show(0);
