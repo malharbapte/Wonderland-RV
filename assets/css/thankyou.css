@@ -246,8 +246,8 @@
 .sk i { display: block; height: 0.1rem; border-radius: 0.05rem; background: #ece9e4; }
 .ty-more { display: flex; justify-content: center; margin-top: 0.5rem; }
 .ty-more[hidden] { display: none; }
-.ty-more button { display: inline-flex; align-items: center; gap: 0.12rem; background: none; border: 0.015rem solid var(--ink); border-radius: 999px; padding: 0.14rem 0.3rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
-.ty-more button:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ty-more button { display: inline-flex; align-items: center; gap: 0.14rem; background: var(--orange); border: 0; border-radius: 999px; padding: 0.17rem 0.4rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; color: #fff; cursor: pointer; transition: background .2s; }   /* a CTA: orange, white text and chevron */
+.ty-more button:hover, .ty-more button:focus-visible { background: var(--orange-hover); }
 .ty-more svg { width: 0.18rem; height: 0.11rem; }
 
 /* review cards: reviewer picture (or initial) beside the name, review text keeps its line breaks */
@@ -291,3 +291,7 @@ html.ty-lb-open { overflow: hidden; }
   .ty-lb-x { top: 12px; right: 12px; }
   .ty-lb-p { left: 8px; } .ty-lb-n { right: 8px; }
 }
+
+/* the wall is cut level and fades into the section grey while more reviews remain */
+.ty-wall--fade { position: relative; overflow: hidden; }
+.ty-wall--fade::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2.4rem; background: linear-gradient(to bottom, rgba(248,248,247,0), #F8F8F7 92%); pointer-events: none; }

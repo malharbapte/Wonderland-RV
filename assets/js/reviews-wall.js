@@ -96,7 +96,20 @@
       low.appendChild(el);
     }
     if (btn) btn.hidden = shown >= data.length;
+    fit();
   }
+  /* While more reviews are waiting, every column is cut at the same line (the
+     end of the shortest one) and the bottom fades into the page grey, so the
+     wall never ends in ragged stubs. Once everything is loaded the cut goes. */
+  function fit() {
+    var more = shown < data.length;
+    wall.classList.toggle("ty-wall--fade", more);
+    if (!more) { wall.style.maxHeight = ""; return; }
+    var low = Infinity; cols.forEach(function (c) { low = Math.min(low, c.offsetHeight); });
+    wall.style.maxHeight = low + "px";
+  }
+  window.addEventListener("load", fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 
   /* Lightbox for reviewer photos */
   var lb, lbImg, lbSet = [], lbPos = 0, lbOpener;
