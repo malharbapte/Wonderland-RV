@@ -318,9 +318,9 @@ html.ty-lb-open { overflow: hidden; }
 .ty-aw-k { display: block; font: 900 var(--t-caption)/1.3 var(--aviano); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
 .ty-aw-t { display: block; margin-top: 0.14rem; font: 900 0.56rem/0.62rem var(--aviano); text-transform: uppercase; color: #111; }
 .ty-aw-d { margin: 0.22rem 0 0.34rem; font-size: 0.24rem; line-height: 0.36rem; color: #333; }
-.ty-aw-cta { display: inline-flex; align-items: center; gap: 0.14rem; margin-top: auto; background: var(--orange); color: #fff; border-radius: 999px; padding: 0.17rem 0.4rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+.ty-aw-cta { display: inline-flex; align-items: center; gap: 0.14rem; margin-top: auto; padding: 0.17rem 0.34rem; background: var(--orange); color: #fff; font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .06em; line-height: 1; text-transform: uppercase; text-decoration: none; border-radius: 0.04rem; transition: background .2s; }   /* same rectangle as .ty-btn */
 .ty-aw-cta:hover, .ty-aw-cta:focus-visible { background: var(--orange-hover); }
-.ty-aw-cta svg { width: 0.18rem; height: 0.11rem; fill: none; stroke: currentColor; stroke-width: 1.6; transform: rotate(-90deg); }
+.ty-aw-cta svg { width: 0.11rem; height: 0.18rem; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .ty-aw-cta[hidden] { display: none; }
 .ty-aw-info.swap > * { animation: ty-aw-in .45s cubic-bezier(.22, 1, .36, 1) both; }
 .ty-aw-info.swap > :nth-child(2) { animation-delay: .05s; } .ty-aw-info.swap > :nth-child(3) { animation-delay: .1s; } .ty-aw-info.swap > :nth-child(4) { animation-delay: .15s; }
