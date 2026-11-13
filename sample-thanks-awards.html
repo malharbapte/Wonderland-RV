@@ -23,29 +23,34 @@ body{background:#fff}
 
 .lab{text-align:center;padding:.1rem;font:700 12px var(--gordita);background:#f2f2f2;letter-spacing:.06em;text-transform:uppercase;color:#555}
 .sec{padding:1.2rem 0 1.6rem}
-.stage{--bh:3.6rem;--ov:.55;--tilt:0deg;--in:.35rem;--top:.35rem;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
+.stage{--bh:4rem;--rw:1.76rem;--ov:.61;--tilt:0deg;--in:.28rem;--top:0rem;--clip:none;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
 .stage .vid{position:absolute;inset:0;border-radius:.1rem;overflow:hidden}
 .stage video{width:100%;height:100%;object-fit:cover;transform:scale(1.3);display:block}
 .medals{position:absolute;right:var(--in);top:var(--top);display:flex;align-items:flex-start;justify-content:flex-end;z-index:3}
-.medals img{display:block;height:var(--bh);width:auto;background:#fff;border-radius:.03rem;margin-left:calc(var(--bh)*-.5*var(--ov));box-shadow:var(--sh);transform-origin:50% 0;}
-.medals img:first-child{margin-left:0}
-.medals.fan img:nth-child(1){transform:rotate(calc(var(--tilt)*-1.5))}
-.medals.fan img:nth-child(2){transform:rotate(calc(var(--tilt)*-.5))}
-.medals.fan img:nth-child(3){transform:rotate(calc(var(--tilt)*.5))}
-.medals.fan img:nth-child(4){transform:rotate(calc(var(--tilt)*1.5))}
-.medals.z-l img:nth-child(1){z-index:1}.medals.z-l img:nth-child(2){z-index:2}.medals.z-l img:nth-child(3){z-index:3}.medals.z-l img:nth-child(4){z-index:4}
-.medals.z-r img:nth-child(1){z-index:4}.medals.z-r img:nth-child(2){z-index:3}.medals.z-r img:nth-child(3){z-index:2}.medals.z-r img:nth-child(4){z-index:1}
+/* every ribbon is the same size, so the step between them is the same too */
+.rbw{display:block;width:var(--rw);margin-left:calc(var(--rw)*-1*var(--ov));filter:var(--sh);transform-origin:50% 0}
+.rbw:first-child{margin-left:0}
+.rb{display:block;width:100%;height:var(--bh);background:#fff;clip-path:var(--clip);overflow:hidden}
+.rb--k{background:#000}
+.rb img{display:block;width:100%;height:auto}
+.rb--k img{width:auto;height:100%;margin:0 auto}
+.medals.fan .rbw:nth-child(1){transform:rotate(calc(var(--tilt)*-1.5))}
+.medals.fan .rbw:nth-child(2){transform:rotate(calc(var(--tilt)*-.5))}
+.medals.fan .rbw:nth-child(3){transform:rotate(calc(var(--tilt)*.5))}
+.medals.fan .rbw:nth-child(4){transform:rotate(calc(var(--tilt)*1.5))}
+.medals.z-l .rbw:nth-child(1){z-index:1}.medals.z-l .rbw:nth-child(2){z-index:2}.medals.z-l .rbw:nth-child(3){z-index:3}.medals.z-l .rbw:nth-child(4){z-index:4}
+.medals.z-r .rbw:nth-child(1){z-index:4}.medals.z-r .rbw:nth-child(2){z-index:3}.medals.z-r .rbw:nth-child(3){z-index:2}.medals.z-r .rbw:nth-child(4){z-index:1}
 </style></head><body class="home thanks">
 <div class="lab">Sample: Awards &amp; achievements — vans loop with overlapping award banners, top right. Use the panel (bottom right).</div>
 <section class="sec"><div class="container">
   <h2 class="ty-h" style="text-align:center">Awards &amp; achievements</h2>
   <div class="stage" id="stage">
     <div class="vid"><video src="assets/video/vans-loop.mp4" poster="assets/img/thanks/vans-poster.jpg" autoplay muted loop playsinline></video></div>
-    <div class="medals z-l" id="medals">
-      <img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist">
-      <img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Finalist, XTR 1906">
-      <img src="assets/img/awards/coty-2024-best-overall.jpg" alt="Caravan of the Year 2024 Best Overall, XTR 2211">
-      <img src="assets/img/awards/coty-2026-judges-choice.png" alt="Caravan of the Year 2026 Judges Choice, Solara 20'06">
+    <div class="medals z-r" id="medals">
+      <span class="rbw"><span class="rb"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist"></span></span>
+      <span class="rbw"><span class="rb"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Finalist, XTR 1906"></span></span>
+      <span class="rbw"><span class="rb"><img src="assets/img/awards/coty-2024-best-overall.jpg" alt="Caravan of the Year 2024 Best Overall, XTR 2211"></span></span>
+      <span class="rbw"><span class="rb rb--k"><img src="assets/img/awards/coty-2026-judges-choice.png" alt="Caravan of the Year 2026 Judges Choice, Solara 20'06"></span></span>
     </div>
   </div>
 </div></section>
@@ -53,35 +58,43 @@ body{background:#fff}
 <div class="ctl">
   <h4>Award banners</h4>
   <fieldset><legend>Arrangement</legend>
-    <label><input type="radio" name="ar" value="" checked> 1 · Straight medal row</label>
+    <label><input type="radio" name="ar" value="" checked> 1 · Straight row</label>
     <label><input type="radio" name="ar" value="fan"> 2 · Slight fan, like pinned medals</label>
   </fieldset>
   <fieldset><legend>Position</legend>
-    <label><input type="radio" name="po" value="in" checked> Inside the top right corner</label>
+    <label><input type="radio" name="po" value="top" checked> Attached to the top edge</label>
+    <label><input type="radio" name="po" value="in"> Inset, floating below the edge</label>
     <label><input type="radio" name="po" value="hang"> Hanging over the top edge</label>
   </fieldset>
   <fieldset><legend>Which sits in front</legend>
-    <label><input type="radio" name="zz" value="z-l" checked> Newest (right) in front</label>
-    <label><input type="radio" name="zz" value="z-r"> Oldest (left) in front</label>
+    <label><input type="radio" name="zz" value="z-r" checked> Oldest (left) in front</label>
+    <label><input type="radio" name="zz" value="z-l"> Newest (right) in front</label>
   </fieldset>
-  <div class="rng"><span>Banner size</span><output id="o1"></output><input id="bh" type="range" min="24" max="55" value="36"></div>
-  <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="55"></div>
+  <fieldset><legend>Ribbon end</legend>
+    <label><input type="radio" name="nt" value="v" checked> V notch, like a ribbon</label>
+    <label><input type="radio" name="nt" value="s"> Straight cut</label>
+  </fieldset>
+  <div class="rng"><span>Ribbon length</span><output id="o1"></output><input id="bh" type="range" min="24" max="55" value="40"></div>
+  <div class="rng"><span>Ribbon width</span><output id="o6"></output><input id="wr" type="range" min="30" max="60" value="44"></div>
+  <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="61"></div>
   <div class="rng"><span>Fan angle</span><output id="o3"></output><input id="tl" type="range" min="0" max="10" value="4"></div>
-  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="35"></div>
-  <div class="rng"><span>Video height</span><output id="o5"></output><input id="vh" type="range" min="50" max="100" value="74"></div>
+  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="28"></div>
+  <div class="rng"><span>Video height</span><output id="o5"></output><input id="vh" type="range" min="50" max="100" value="76"></div>
   <label><input type="checkbox" id="sh" checked> Shadow under each banner</label>
 </div>
 <script>
 (function(){
   var st=document.getElementById('stage'),md=document.getElementById('medals');
   function go(){
-    var ar=document.querySelector('[name=ar]:checked').value,po=document.querySelector('[name=po]:checked').value,zz=document.querySelector('[name=zz]:checked').value;
+    var ar=document.querySelector('[name=ar]:checked').value,po=document.querySelector('[name=po]:checked').value,zz=document.querySelector('[name=zz]:checked').value,nt=document.querySelector('[name=nt]:checked').value;
     md.className='medals '+zz+(ar?' '+ar:'');
-    var bh=document.getElementById('bh').value/10,ov=document.getElementById('ov').value/100,tl=document.getElementById('tl').value,ri=document.getElementById('ri').value/100,vh=document.getElementById('vh').value/10;
-    st.style.setProperty('--bh',bh+'rem');st.style.setProperty('--ov',ov);st.style.setProperty('--tilt',tl+'deg');st.style.setProperty('--in',ri+'rem');
-    st.style.setProperty('--top',po==='hang'?'-0.9rem':'.35rem');st.style.height=vh+'rem';
-    st.style.setProperty('--sh',document.getElementById('sh').checked?'0 .03rem .14rem rgba(0,0,0,.45)':'none');
-    document.getElementById('o1').textContent=bh+'rem';document.getElementById('o2').textContent=Math.round(ov*100)+'%';document.getElementById('o3').textContent=tl+'°';document.getElementById('o4').textContent=ri+'rem';document.getElementById('o5').textContent=vh+'rem';
+    var bh=document.getElementById('bh').value/10,wr=document.getElementById('wr').value/100,ov=document.getElementById('ov').value/100,tl=document.getElementById('tl').value,ri=document.getElementById('ri').value/100,vh=document.getElementById('vh').value/10;
+    var rw=(bh*wr).toFixed(3), n=(bh*0.07).toFixed(3);
+    st.style.setProperty('--bh',bh+'rem');st.style.setProperty('--rw',rw+'rem');st.style.setProperty('--ov',ov);st.style.setProperty('--tilt',tl+'deg');st.style.setProperty('--in',ri+'rem');
+    st.style.setProperty('--top',po==='hang'?'-0.9rem':(po==='in'?'.35rem':'0rem'));st.style.height=vh+'rem';
+    st.style.setProperty('--clip',nt==='v'?'polygon(0 0,100% 0,100% 100%,50% calc(100% - '+n+'rem),0 100%)':'none');
+    st.style.setProperty('--sh',document.getElementById('sh').checked?'drop-shadow(0 .03rem .08rem rgba(0,0,0,.5))':'none');
+    document.getElementById('o1').textContent=bh+'rem';document.getElementById('o6').textContent=rw+'rem';document.getElementById('o2').textContent=Math.round(ov*100)+'%';document.getElementById('o3').textContent=tl+'°';document.getElementById('o4').textContent=ri+'rem';document.getElementById('o5').textContent=vh+'rem';
   }
   document.querySelector('.ctl').addEventListener('input',go);go();
 })();
