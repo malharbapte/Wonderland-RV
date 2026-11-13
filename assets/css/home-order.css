@@ -682,7 +682,7 @@
   color: var(--ink);
   transition: color .2s ease;
 }
-.coty-arrow:hover { background: none; color: var(--orange-deep); }
+.coty-arrow:hover { background: none; color: var(--orange-hover); }
 
 /* ==========================================================================
    LUXURY OFF-ROAD — a next arrow on the slideshow
@@ -734,7 +734,7 @@
 }
 .pull-arrow[hidden] { display: none; }
 .pull-arrow svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: currentColor; }
-.pull-arrow:hover { color: var(--orange-deep); }
+.pull-arrow:hover { color: var(--orange-hover); }
 .pull-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
 /* ==========================================================================
@@ -1085,7 +1085,7 @@ body.bro-lock { overflow: hidden; }
        font-family: var(--gordita); color: var(--ink); outline: none; }
 .bro-x { position: absolute; z-index: 2; padding: 0; background: none; border: 0; color: var(--ink);
          display: grid; place-items: center; cursor: pointer; transition: color .2s ease; }
-.bro-x:hover, .bro-x:focus-visible { color: var(--orange-deep); }
+.bro-x:hover, .bro-x:focus-visible { color: var(--orange-hover); }
 .bro-x svg { stroke-width: 1.1; stroke-linecap: butt; }
 .bro-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
              line-height: 1.05; text-transform: uppercase; }
@@ -1112,7 +1112,7 @@ body.bro-lock { overflow: hidden; }
 .bro-tabs button { position: relative; flex: none; background: none; border: 0; cursor: pointer; white-space: nowrap;
                    font-family: var(--aviano); font-weight: 900; letter-spacing: .08em; text-transform: uppercase;
                    color: #9a948c; transition: color .25s ease; }
-.bro-tabs button:hover, .bro-tabs button[aria-selected="true"] { color: var(--orange-deep); }
+.bro-tabs button:hover, .bro-tabs button[aria-selected="true"] { color: var(--orange-hover); }
 .bro-tabs button:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
 .bro-tabs-i { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--orange-deep);
               transition: left .35s cubic-bezier(.65,0,.35,1), width .35s cubic-bezier(.65,0,.35,1); }

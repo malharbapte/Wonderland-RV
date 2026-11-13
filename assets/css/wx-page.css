@@ -350,7 +350,7 @@
 .wx-journey-arrow--prev { left:  calc((var(--j-edge) - 0.56rem) / 2); }
 .wx-journey-arrow--next { right: calc((var(--j-edge) - 0.56rem) / 2); }
 .wx-journey-arrow svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: currentColor; }
-.wx-journey-arrow:hover { color: var(--orange-deep); }
+.wx-journey-arrow:hover { color: var(--orange-hover); }
 .wx-journey-arrow:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 .wx-journey-arrow:disabled { opacity: .22; cursor: default; color: var(--ink); }
 
@@ -399,7 +399,7 @@
   color: #9a9a9a;
   transition: color .2s ease;
 }
-.wx-opt:hover, .wx-opt:hover svg { color: var(--orange-deep); }
+.wx-opt:hover, .wx-opt:hover svg { color: var(--orange-hover); }
 .wx-opt.is-on { font-weight: 500; color: var(--orange); }
 .wx-opt.is-on svg { color: var(--orange); }
 .wx-opt:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
@@ -538,7 +538,7 @@
   font-family: var(--gordita); font-weight: 400; font-size: 0.24rem; color: var(--ink);
   transition: color .28s ease;
 }
-.wx-dealers-pill button:hover { color: var(--orange-deep); }
+.wx-dealers-pill button:hover { color: var(--orange-hover); }
 .wx-dealers-pill button[aria-selected="true"] { color: #fff; font-weight: 700; }
 .wx-dealers-pill button:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: -2px; border-radius: 0.08rem; }
 .wx-dealers-arrow {
@@ -588,7 +588,7 @@
                          font-size: var(--t-body); line-height: var(--lh-body); }
 .wx-d-addr { margin-top: 0.10rem; }
 .wx-d-line a { color: var(--ink); text-decoration: none; }
-.wx-d-line a:hover, .wx-d-line a:focus-visible { color: var(--orange-deep); }
+.wx-d-line a:hover, .wx-d-line a:focus-visible { color: var(--orange-hover); }
 .wx-d-cta { margin-top: 0.22rem; display: inline-grid; place-items: center;
             height: 0.62rem; padding: 0 0.36rem; font-size: 0.22rem; }
 .wx-d-head { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;

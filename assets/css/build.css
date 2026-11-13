@@ -9,8 +9,8 @@
 @font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 
 :root {
-  --orange: #E37921;
-  --orange-deep: #D57114;
+  --orange: #DB7627;
+  --orange-deep: #DB7627; --orange-hover: #C4681E;
   --sand: #EFE5DB;
   --ink: #000;
   --line: #E6E6E6;

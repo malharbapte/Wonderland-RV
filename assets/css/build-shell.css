@@ -14,12 +14,12 @@
 @font-face { font-family: "Gordita"; src: url("../fonts/Gordita-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 
 :root {
-  --orange: #E37921; --orange-deep: #D57114; --o: var(--orange-deep);
+  --orange: #DB7627; --orange-deep: #DB7627; --o: var(--orange-deep);
   --line: #E6E6E6; --ink: #000;
   --m: 24px; --head: 64px; --mb: 40px; --clear: 96px;
   /* THE gradient ("Dusk"). One set of stops, used by every circle, path and track in the configurator.
      --grad runs top to bottom (circles); --grad-h runs left to right (the covered path, the size scale). Change it here only. */
-  --g0: #FFC47F; --g1: #E37921; --g2: #B04C07;
+  --g0: #FFC47F; --g1: #DB7627; --g2: #B04C07;
   --grad:   linear-gradient(180deg, var(--g0) 0%, var(--g1) 52%, var(--g2) 100%);
   --grad-h: linear-gradient(90deg,  var(--g0) 0%, var(--g1) 52%, var(--g2) 100%);
   --aviano: "Aviano Sans", "Trebuchet MS", sans-serif;
@@ -60,7 +60,7 @@ h1 { flex: none; font-family: var(--aviano); font-weight: 900; font-size: 30px; 
    the bottom edge, so it is inside the page frame, not on its line. */
 .back { position: absolute; left: calc(var(--m) - 14px); bottom: calc(var(--mb) - 11px + env(safe-area-inset-bottom)); width: 52px; height: 52px; display: grid; place-items: center; color: var(--ink); transition: color .42s ease; }
 .back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.back:hover, .back:focus-visible { color: var(--orange-deep); }
+.back:hover, .back:focus-visible { color: var(--orange-hover); }
 .back:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
 
 /* margin guides: add ?guides to the page address */

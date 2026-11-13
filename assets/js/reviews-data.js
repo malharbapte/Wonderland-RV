@@ -3,7 +3,7 @@
    with the photos reviewers posted and their profile pictures), 13 Nov 2026.
    Merged, newest first. The wall (reviews-wall.js) shows the first 30, then
    "Load more" adds 30 at a time. Each card links to its review.
-     { name, text, stars, date, url, photo (profile picture), images (review photos) } */
+     { name, text, stars, date, url, photo (profile picture file), pic (true when that file is a real picture, not Google's coloured-letter default), images (review photos) } */
 window.WL_REVIEWS = [
  {
   "name": "Oriana Miculi",
@@ -23,7 +23,8 @@ window.WL_REVIEWS = [
   "images": [
    "assets/img/reviews/ph-02-8feettravels-1.jpg",
    "assets/img/reviews/ph-02-8feettravels-2.jpg"
-  ]
+  ],
+  "pic": true
  },
  {
   "name": "Sean Bartlett",
@@ -83,7 +84,8 @@ window.WL_REVIEWS = [
   "photo": "assets/img/reviews/av-07-nick-barnett.jpg",
   "images": [
    "assets/img/reviews/ph-07-nick-barnett-1.jpg"
-  ]
+  ],
+  "pic": true
  },
  {
   "name": "julian Randall",
@@ -176,7 +178,8 @@ window.WL_REVIEWS = [
   "photo": "assets/img/reviews/av-17-wastin-time-wisely.jpg",
   "images": [
    "assets/img/reviews/ph-17-wastin-time-wisely-1.jpg"
-  ]
+  ],
+  "pic": true
  },
  {
   "name": "Jamie Culph",
@@ -221,7 +224,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-08-11",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21WTmRGaFJZbVJuY3pFMWJtazJiakV5YkZabE5tYxAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CAIQACodChtycF9oOmVNdFhRYmRnczE1bmk2bjEybFZlNmc%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-21-jill-de-vos.jpg"
+  "photo": "assets/img/reviews/av-21-jill-de-vos.jpg",
+  "pic": true
  },
  {
   "name": "Phillip Bromham",
@@ -248,7 +252,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-05-16",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNVzJvSm1Vay1Tb3BnRRAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEMW2oJmUk-SopgE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-24-michael-kelly.jpg"
+  "photo": "assets/img/reviews/av-24-michael-kelly.jpg",
+  "pic": true
  },
  {
   "name": "Lesley Gregory",
@@ -264,7 +269,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-04-06",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNJXzdlZURREAE!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CIHM0ogKEICAgMCI_7eeDQ%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-26-jarred-bissett.jpg"
+  "photo": "assets/img/reviews/av-26-jarred-bissett.jpg",
+  "pic": true
  },
  {
   "name": "Aaron Morrison",
@@ -272,7 +278,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-03-05",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNRc2F2VGNnEAE!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CIHM0ogKEICAgMCQsavTcg%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-27-aaron-morrison.jpg"
+  "photo": "assets/img/reviews/av-27-aaron-morrison.jpg",
+  "pic": true
  },
  {
   "name": "Mark Bates",
@@ -296,7 +303,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-01-22",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURfaktxVU5REAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgID_jKqUNQ%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-30-brad-gaskell.jpg"
+  "photo": "assets/img/reviews/av-30-brad-gaskell.jpg",
+  "pic": true
  },
  {
   "name": "Sonia M",
@@ -320,7 +328,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2024-07-24",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNibk5qaldBEAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgICbnNjjWA%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-33-outbackandabout-4wd-camp.jpg"
+  "photo": "assets/img/reviews/av-33-outbackandabout-4wd-camp.jpg",
+  "pic": true
  },
  {
   "name": "Jason Moreschini",
@@ -344,7 +353,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2024-05-24",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURUNnBic3JRRRAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDT6pbsrQE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-36-leigh-dufty.jpg"
+  "photo": "assets/img/reviews/av-36-leigh-dufty.jpg",
+  "pic": true
  },
  {
   "name": "Colleen Blundy",
@@ -379,7 +389,8 @@ window.WL_REVIEWS = [
   "photo": "assets/img/reviews/av-40-sharni-miller.jpg",
   "images": [
    "assets/img/reviews/ph-40-sharni-miller-1.jpg"
-  ]
+  ],
+  "pic": true
  },
  {
   "name": "Anthony Barr",
@@ -423,7 +434,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2023-06-19",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUR4cjRyalRREAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDxr4rjTQ%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-45-john-g.jpg"
+  "photo": "assets/img/reviews/av-45-john-g.jpg",
+  "pic": true
  },
  {
   "name": "Alice Petrie",
@@ -485,7 +497,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2023-04-28",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURSeWNEMjNRRRAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDRycD23QE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-52-kerstin-stringer.jpg"
+  "photo": "assets/img/reviews/av-52-kerstin-stringer.jpg",
+  "pic": true
  },
  {
   "name": "eduardo olmedo",
@@ -493,7 +506,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2023-01-22",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURCc2YyV1RREAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDBsf2WTQ%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-53-eduardo-olmedo.jpg"
+  "photo": "assets/img/reviews/av-53-eduardo-olmedo.jpg",
+  "pic": true
  },
  {
   "name": "Jason Cornwall",
@@ -501,7 +515,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2022-08-19",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUR1eHJ5N3hnRRAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDuxry7xgE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-54-jason-cornwall.jpg"
+  "photo": "assets/img/reviews/av-54-jason-cornwall.jpg",
+  "pic": true
  },
  {
   "name": "WASTIN TIME WISELY",
@@ -520,7 +535,8 @@ window.WL_REVIEWS = [
    "assets/img/reviews/ph-55-wastin-time-wisely-7.jpg",
    "assets/img/reviews/ph-55-wastin-time-wisely-8.jpg",
    "assets/img/reviews/ph-55-wastin-time-wisely-9.jpg"
-  ]
+  ],
+  "pic": true
  },
  {
   "name": "Ann Dare",
@@ -536,7 +552,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2020-10-27",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUNpMHVtam1nRRAB!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgICi0umjmgE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-57-ralph-watson.jpg"
+  "photo": "assets/img/reviews/av-57-ralph-watson.jpg",
+  "pic": true
  },
  {
   "name": "Fabio Andrade",
@@ -544,7 +561,8 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2020-06-15",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURjOGNqVktREAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgIDc8cjVKQ%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-58-fabio-andrade.jpg"
+  "photo": "assets/img/reviews/av-58-fabio-andrade.jpg",
+  "pic": true
  },
  {
   "name": "Gary Humphrey",

@@ -7,7 +7,7 @@
    motion. The canvas ignores the pointer and removes itself when done.
    ========================================================================== */
 (function () {
-  var COLOURS = ["#E37921", "#D57114", "#D99B88", "#F3B676", "#1B1B1B", "#8C4A12"];
+  var COLOURS = ["#DB7627", "#D99B88", "#F3B676", "#1B1B1B", "#8C4A12"];
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function rnd(a, b) { return a + Math.random() * (b - a); }

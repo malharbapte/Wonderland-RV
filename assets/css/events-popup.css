@@ -16,7 +16,7 @@ body.evp-lock { overflow: hidden; }
       color: var(--ink); box-shadow: 0 10px 40px rgba(0,0,0,.25); outline: none; }
 .evp-x { position: absolute; z-index: 2; padding: 0; background: none; border: 0; color: var(--ink);
         display: grid; place-items: center; cursor: pointer; transition: color .2s ease; }
-.evp-x:hover, .evp-x:focus-visible { color: var(--orange-deep); }
+.evp-x:hover, .evp-x:focus-visible { color: var(--orange-hover); }
 .evp-x svg { stroke-width: 1.1; stroke-linecap: butt; }
 .evp-title { font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
             line-height: 1.05; text-transform: uppercase; margin: 0; }

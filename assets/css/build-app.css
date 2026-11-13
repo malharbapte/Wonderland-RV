@@ -783,7 +783,7 @@ html.tab-land .s5 .d5hero { height: clamp(140px, calc(100vh - 531px), 420px); he
 @media (min-height: 761px) { html:not(.tab) .s5.d5 { padding-bottom: 112px; } html:not(.tab) .s5 .d5hero { flex: 0 1 auto; min-height: 74px; } }
 
 /* header gradient runs the same way as the progress line: light on the left, dark on the right */
-.phone .bar { background: linear-gradient(90deg, #FFC47F, #E37921 52%, #B04C07); }
+.phone .bar { background: linear-gradient(90deg, #FFC47F, #DB7627 52%, #B04C07); }
 
 /* ===== all phones: Steps 1 to 3 scale to the screen (tighter on short phones, larger on long and wide ones); every step keeps ~20px clear of the back and Next controls ===== */
 .s1 .wrap { --c: clamp(120px, min(calc(100vw - 48px), calc(100dvh - 490px)), 400px); }
@@ -806,7 +806,7 @@ html:not(.tab) { --clear: 104px; }
    2. Gradient: narrower on the big selection circles only.
    3. Type: Aviano for short headings, the header title, option names and prices; supporting text in Gordita.
    4. Step 2: three equal circles in one row, one measurement under each. */
-.phone .bar, .phone.d5mode .bar { background: #D57114; box-shadow: none; }
+.phone .bar, .phone.d5mode .bar { background: #DB7627; box-shadow: none; }
 .bar::after { display: none; }
 :root { --gc: linear-gradient(180deg, #F29A45 0%, #DD7C28 52%, #C8630F 100%); }
 .s1 .half::before, .s2 .cta::before, .s3 .disc::before { background: var(--gc); }

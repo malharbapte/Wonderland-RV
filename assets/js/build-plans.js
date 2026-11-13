@@ -20,7 +20,7 @@
 (function () {
   var U = 13, WFT = 7.5, PAD = 6, MAXFT = 24;
   var VBW = MAXFT * U + PAD * 2, VBH = WFT * U + PAD * 2;
-  var C = { wall: "#2B2B2B", floor: "#FBF8F4", bed: "#F3D5B8", runner: "#E3C7A4", pillow: "#FFFFFF", furn: "#DDD3C8", furnEdge: "#B5AA9D", table: "#F1E7DA", dark: "#3D3D3D", ens: "#E7EFF2", ensEdge: "#A8BEC7", fixture: "#6A6A6A", accent: "#D57114", fridge: "#3D3D3D" };
+  var C = { wall: "#2B2B2B", floor: "#FBF8F4", bed: "#F3D5B8", runner: "#E3C7A4", pillow: "#FFFFFF", furn: "#DDD3C8", furnEdge: "#B5AA9D", table: "#F1E7DA", dark: "#3D3D3D", ens: "#E7EFF2", ensEdge: "#A8BEC7", fixture: "#6A6A6A", accent: "#DB7627", fridge: "#3D3D3D" };
 
   var BED = {
     "king-table":        { len: 6.5,  w: 6.0, near: "table", far: null },

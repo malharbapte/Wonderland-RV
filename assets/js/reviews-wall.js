@@ -10,7 +10,33 @@
   "use strict";
   var BATCH = 30;
   var wall = document.getElementById("tyWall");
-  var data = window.WL_REVIEWS || [];
+  var data = arrange(window.WL_REVIEWS || []);
+
+  /* Order: reviews with photos first, newest first within each group. Each row
+     of three also gets one real profile picture where there are enough of them
+     (r.pic marks a real picture, not Google's coloured-letter default): at most
+     one per row, and when a row has none one is pulled forward from later. */
+  function arrange(list) {
+    function byDate(a, b) { return (b.date || "").localeCompare(a.date || ""); }
+    var pool = list.filter(function (r) { return r.images && r.images.length; }).sort(byDate)
+      .concat(list.filter(function (r) { return !(r.images && r.images.length); }).sort(byDate));
+    var out = [];
+    while (pool.length) {
+      var row = [], hasPic = false, k = 0;
+      while (row.length < 3 && k < pool.length) {
+        var r = pool[k];
+        if (r.pic && hasPic) { k++; continue; }
+        row.push(pool.splice(k, 1)[0]); if (r.pic) hasPic = true;
+      }
+      if (!hasPic && row.length) {
+        var j = -1; for (var m = 0; m < pool.length; m++) if (pool[m].pic) { j = m; break; }
+        if (j > -1) row[row.length - 1] = pool.splice(j, 1, row[row.length - 1])[0];
+      }
+      while (row.length < 3 && pool.length) row.push(pool.shift());
+      out = out.concat(row);
+    }
+    return out;
+  }
   if (!wall || !data.length) return;
 
   var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1A73E8"/><path d="M7 12.4l3.3 3.3L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';

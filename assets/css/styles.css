@@ -44,8 +44,9 @@
 
 /* ----------------------------------------------------------------- tokens */
 :root {
-  --orange:       #E37921;   /* accent / buttons                */
-  --orange-deep:  #D57114;   /* header CTA, quote, headings     */
+  --orange:       #DB7627;   /* accent / buttons                */
+  --orange-deep:  #DB7627;   /* brand orange (one colour now) */
+  --orange-hover: #C4681E;   /* hover / pressed: brand orange, 10% deeper */
   --blush:        #D99B88;   /* "your rules" band               */
   --grey:         #B7B7B7;   /* form placeholders               */
   --red:          #E61010;   /* required asterisk               */
@@ -979,7 +980,7 @@ html.vpop-open { overflow: hidden; }
 .footer-logo { width: 4.00rem; height: auto; margin-bottom: 0.16rem; }
 .footer-blurb { width: 4.79rem; }
 .footer-strong { font-weight: 700; }
-.footer-strong:hover { color: var(--orange-deep); }
+.footer-strong:hover { color: var(--orange-hover); }
 
 .footer-head {
   font-family: var(--aviano);
@@ -1001,7 +1002,7 @@ html.vpop-open { overflow: hidden; }
   color: #3f3f3f;
 }
 .socials svg { width: 0.24rem; height: 0.24rem; }
-.socials a:hover { color: var(--orange-deep); }
+.socials a:hover { color: var(--orange-hover); }
 
 .made-in { width: 3.12rem; height: auto; margin-top: 0.67rem; }
 
@@ -1044,11 +1045,11 @@ html.vpop-open { overflow: hidden; }
 .link-col .footer-head { margin-bottom: 0.16rem; }
 .link-col .footer-head--gap { margin-top: 0.57rem; }
 .link-col li { line-height: 0.27rem; margin-bottom: 0.19rem; }
-.link-col a:hover { color: var(--orange-deep); }
+.link-col a:hover { color: var(--orange-hover); }
 
 /* ------------------------------------------------------------- legal ---- */
 .footer-legal-left { font-size: 0.16rem; line-height: 0.315rem; color: #444; }
-.footer-legal-left a:hover { color: var(--orange-deep); }
+.footer-legal-left a:hover { color: var(--orange-hover); }
 .footer-legal-right { font-size: 0.156rem; line-height: 0.265rem; color: #444; }
 .footer-legal-right p + p { margin-top: 0.13rem; }
 
@@ -1144,13 +1145,13 @@ html.vpop-open { overflow: hidden; }
   width: 0.70rem; height: 0.70rem;
   margin-top: -0.35rem;
   border-radius: 50%;
-  background: rgba(213, 113, 20, 0.35);
+  background: rgba(219,118,39, 0.35);
   color: #fff;
   display: grid;
   place-items: center;
   transition: background .2s;
 }
-.service-arrow:hover { background: rgba(213, 113, 20, 0.75); }
+.service-arrow:hover { background: rgba(219,118,39, 0.75); }
 .service-arrow svg { width: 0.30rem; height: 0.30rem; }
 .service-arrow--prev { left: 0.87rem; }
 .service-arrow--next { right: 0.83rem; }
@@ -1583,7 +1584,7 @@ html.vpop-open { overflow: hidden; }
                   stroke-linecap: round; stroke-linejoin: round; }
   .foot-row .t { line-height: 21px; }
   a.foot-row .t { font-weight: 700; }
-  a.foot-row:hover .t { color: var(--orange-deep); }
+  a.foot-row:hover .t { color: var(--orange-hover); }
 
   /* No discs. The boxes stay 44 so the target holds, the glyph sits 35 inside,
      and space-between pins the row to both edges of the same 327 the rules
@@ -1917,7 +1918,7 @@ html.vpop-open { overflow: hidden; }
   color: var(--ink);
   filter: none;
 }
-.service-arrow--next:hover { color: var(--orange-deep); }
+.service-arrow--next:hover { color: var(--orange-hover); }
 
 /* ==========================================================================
    ARROWS AT SCALE (desktop)

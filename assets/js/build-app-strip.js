@@ -260,7 +260,7 @@
   /* ============================== Step 4: your bed ============================== */
   var BEDLINE = { "king-table": "King, side table on the door side", "king-chest": "King, storage chest on the door side", "king-lift": "King, electric lift-up", "queen-dual-table": "Queen, a table each side", "queen-dual-chest": "Queen, a storage chest each side", "queen-chest-table": "Queen, chest on the road side, table on the door side", "queen-ew": "Queen, east–west, storage at the bed head" };
   /* ---------- geometry, in feet. Head of the bed at the front, road side at the back right, door side open towards us. ---------- */
-var U = 13, WFT = 7.5, PADD = 6, O = "#D57114";
+var U = 13, WFT = 7.5, PADD = 6, O = "#DB7627";
 var DIM = { "king-table": { l: 6.5, w: 6.0, near: "t" }, "king-chest": { l: 6.5, w: 6.0, near: "c" }, "king-lift": { l: 6.5, w: 6.0, up: 1 },
   "queen-dual-table": { l: 6.25, w: 5.0, near: "t", far: "t" }, "queen-dual-chest": { l: 6.5, w: 5.0, near: "c", far: "c" }, "queen-chest-table": { l: 6.5, w: 5.0, near: "t", far: "c" }, "queen-ew": { ew: 1 } };
 function geo(k) {
@@ -276,7 +276,7 @@ var uidN = 0, uid = function () { return "g" + (++uidN); };
 var n2 = function (v) { return (+v).toFixed(2); };
 
 /* colours: tables are orange, chests are teal, in both versions. Everything else is warm (colour) or neutral grey (monotone). */
-var TABLE = ["#F29A4B", "#D57114", "#A8560A"], CHEST = ["#5DB0BE", "#2F7C8A", "#1E5963"];
+var TABLE = ["#F29A4B", "#DB7627", "#A8560A"], CHEST = ["#5DB0BE", "#2F7C8A", "#1E5963"];
 var PAL = { floor: "#CFC6BA", plank: "#BFB5A8", wall: ["#FFFFFF", "#EEE9E2", "#D2CABF"], bed: ["#EDE4D6", "#D9CCB9", "#C4B49D"], linen: ["#F8F4EC", "#EFE8DD", "#DFD5C6"], pillow: ["#FFFFFF", "#E7DFD3", "#D2C8B8"], runner: "#CDC1AD", glass: "#CFE0E8", shadow: "rgba(40,25,10,.30)" };
 
 /* ---------- the cutaway, true isometric (30 degree axes, right angles) ---------- */
@@ -722,7 +722,7 @@ function drawIso(k, o) {
   /* confetti: plain canvas, brand colours, two corner cannons, about 2.5 seconds, nothing to load */
   function confetti() {
     if (reduce) return;
-    var cv = document.createElement("canvas"), cx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight, P = [], COL = ["#FFC47F", "#E37921", "#B04C07", "#FFE8C2", "#D57114", "#ffffff"];
+    var cv = document.createElement("canvas"), cx = cv.getContext("2d"), dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight, P = [], COL = ["#FFC47F", "#DB7627", "#B04C07", "#FFE8C2", "#DB7627", "#ffffff"];
     cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80"; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); document.body.appendChild(cv);
     /* two cannons, one in each bottom corner, firing up and across */
     var bit = function (x, y, vx, vy) { return { x: x, y: y, vx: vx, vy: vy, w: 6 + Math.random() * 6, h: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .35, c: COL[Math.random() * COL.length | 0], life: 0, max: 130 + Math.random() * 60 }; };

@@ -119,7 +119,7 @@
   font-family: var(--aviano);
   font-size: var(--t-sub);          /* 36/64 of the heading, held proportional */
   line-height: 1;
-  color: #E88426;
+  color: #DB7627;
 }
 .home-hero-cta a { transition: font-weight .12s; pointer-events: auto; }
 .home-hero-cta a:hover,
@@ -556,13 +556,13 @@
   width: 0.70rem; height: 0.70rem;
   margin-top: -0.35rem;
   border-radius: 50%;
-  background: rgba(213, 113, 20, 0.35);
+  background: rgba(219,118,39, 0.35);
   color: #fff;
   display: grid;
   place-items: center;
   transition: background .2s;
 }
-.coty-arrow:hover { background: rgba(213, 113, 20, 0.75); }
+.coty-arrow:hover { background: rgba(219,118,39, 0.75); }
 .coty-arrow svg { width: 0.30rem; height: 0.30rem; }
 .coty-arrow--prev { left: -1.10rem; }
 .coty-arrow--next { right: -1.10rem; }
@@ -1134,7 +1134,7 @@
   font-size: 0.26rem; line-height: 0.34rem; color: var(--ink);
   transition: color .22s ease;
 }
-.faq-q:hover { color: var(--orange-deep); }
+.faq-q:hover { color: var(--orange-hover); }
 .faq-q:focus-visible { outline: 0.02rem solid var(--orange-deep); outline-offset: 0.06rem; }
 
 /* The open question carries the orange, so the heading itself says which
