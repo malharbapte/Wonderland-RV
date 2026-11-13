@@ -1,5 +1,5 @@
 /* Reviews wall: one stream of review cards in 3 columns (1 on phones).
-   Shows the first BATCH, then a "Load more" button with a chevron adds the
+   Shows the first BATCH (12), then a "Load more" button with a chevron adds the
    next BATCH until none are left. Each new card goes into the shortest column,
    so cards already on screen never jump.
 
@@ -8,7 +8,7 @@
    A review with no text draws grey bars (sample only). Mount point: #tyWall. */
 (function () {
   "use strict";
-  var BATCH = 30;
+  var BATCH = 12;
   var wall = document.getElementById("tyWall");
   var data = arrange(window.WL_REVIEWS || []);
 

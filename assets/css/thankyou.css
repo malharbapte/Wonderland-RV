@@ -295,3 +295,4 @@ html.ty-lb-open { overflow: hidden; }
 /* the wall is cut level and fades into the section grey while more reviews remain */
 .ty-wall--fade { position: relative; overflow: hidden; }
 .ty-wall--fade::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2.4rem; background: linear-gradient(to bottom, rgba(248,248,247,0), #F8F8F7 92%); pointer-events: none; }
+.ty-or { color: var(--orange); }   /* highlighted word in a heading */
