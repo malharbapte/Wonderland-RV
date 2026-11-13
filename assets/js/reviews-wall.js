@@ -13,7 +13,9 @@
   var data = window.WL_REVIEWS || [];
   if (!wall || !data.length) return;
 
-  var G = '<svg class="gm" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a11.5 11.5 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.2a6.9 6.9 0 0 1 0-4.4v-3H1.8a11.5 11.5 0 0 0 0 10.4l3.8-3z"/><path fill="#EA4335" d="M12 5.4c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.8 6.8l3.8 3C6.5 7.4 9 5.4 12 5.4z"/></svg>';
+  var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1A73E8"/><path d="M7 12.4l3.3 3.3L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function when(d) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ""); return m ? (+m[3]) + " " + MONTHS[+m[2] - 1] + " " + m[1] : ""; }
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
 
   function stars(n) { n = Math.max(1, Math.min(5, n || 5)); return "\u2605".repeat(n) + "\u2606".repeat(5 - n); }
@@ -41,12 +43,12 @@
     var avatar = r.photo
       ? '<img class="ty-av" src="' + esc(r.photo) + '" alt="" loading="lazy">'
       : '<span class="ty-av ty-av--l" aria-hidden="true">' + esc(nm.charAt(0).toUpperCase()) + "</span>";
-    var label = r.url
-      ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">Google review</a>'
-      : "<span>Google review</span>";
+    var dt = when(r.date), label = !dt ? "" : r.url
+      ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + dt + "</a>"
+      : "<span>" + dt + "</span>";
     el.innerHTML =
       (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy"></div>' : "") +
-      '<div class="ty-rc-body"><div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span>" + G + "</div>" +
+      '<div class="ty-rc-body"><div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" +
       body + gallery(r, i) + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
     return el;
   }
