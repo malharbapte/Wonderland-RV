@@ -116,18 +116,6 @@
 .ty-tv-top { padding-top: var(--section-gap); padding-bottom: 0.5rem; }
 
 /* awards -------------------------------------------------------------------- */
-.ty-aw-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.3rem; }
-.ty-aw { display: grid; grid-template-columns: 2.1rem 1fr; align-items: center; gap: 0.4rem; padding: 0.3rem 0.4rem 0.3rem 0.3rem; border-radius: 0.1rem; background: #1b1b1b; color: #fff; }
-.ty-aw-badge { height: 3.1rem; border-radius: 0.08rem; background: #FFF2DC; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 0.2rem; }
-.ty-aw-badge svg { width: 0.9rem; height: 0.9rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ty-aw-badge--cw { background: #fff; }
-.ty-aw-badge--cw img { height: 100%; width: auto; object-fit: contain; }
-.ty-aw-badge--rb { background: #fff; }
-.ty-aw-badge--rb img { height: 100%; width: auto; object-fit: contain; }
-.ty-aw-txt { display: flex; flex-direction: column; gap: 0.12rem; text-align: left; }
-.ty-aw-k { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: var(--t-caption); letter-spacing: .1em; text-transform: uppercase; }
-.ty-aw b { font-family: var(--aviano); font-weight: 900; font-size: 0.4rem; line-height: 0.46rem; text-transform: uppercase; }
-.ty-aw-s { font-size: 0.24rem; line-height: 0.34rem; }
 
 /* google rating chips ---------------------------------------------------------- */
 .ty-gr { list-style: none; margin: 0.3rem 0 0; padding: 0; display: flex; justify-content: center; gap: 0.5rem; font-size: var(--t-caption); line-height: 1.2; }
@@ -191,15 +179,10 @@
   .ty-more { margin-top: 28px; }
   .ty-more button { padding: 14px 26px; font-size: 13px; }
   .ty-more svg { width: 14px; height: 9px; }
-  .ty-bq-grid, .ty-aw-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
+  .ty-bq-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
   .ty-bq h3 { font-size: 20px; line-height: 26px; }
   .ty-bq p { font-size: 16px; line-height: 24px; }
   .ty-bq-n { font-size: 20px; margin-top: 14px; }
-  .ty-aw { grid-template-columns: 110px 1fr; gap: 18px; padding: 16px; }
-  .ty-aw-badge { height: 190px; padding: 10px; }
-  .ty-aw-badge svg { width: 48px; height: 48px; }
-  .ty-aw b { font-size: 22px; line-height: 28px; }
-  .ty-aw-s { font-size: 15px; line-height: 21px; }
   .ty-gr { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
   .ty-tv-top { padding-top: 56px; padding-bottom: 24px; }
   .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
@@ -296,3 +279,37 @@ html.ty-lb-open { overflow: hidden; }
 .ty-wall--fade { position: relative; overflow: hidden; }
 .ty-wall--fade::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2.4rem; background: linear-gradient(to bottom, rgba(248,248,247,0), #F8F8F7 92%); pointer-events: none; }
 .ty-or { color: var(--orange); }   /* highlighted word in a heading */
+
+/* ============================================================== AWARDS (ty-aw)
+   A looping clip of the vans with the four Caravan of the Year banners hung
+   from its top edge like ribbons: same size, same overlap. Click one and it
+   springs forward to 1.4x with the rest behind it; arrows either side step on.
+   awards.js does the clicking. */
+.ty-aw-stage { --bh: 4.6rem; --rw: 2.024rem; --ov: .7; --pad: .11rem; --ex: 1.4; --in: .65rem; --nt: calc(var(--bh) * .07);
+  position: relative; width: 100%; height: 6.9rem; margin-top: 0.5rem; border-radius: 0.1rem; background: #111; }
+.ty-aw-vid { position: absolute; inset: 0; border-radius: 0.1rem; overflow: hidden; }
+.ty-aw-vid video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); }   /* scaled to lose the black bars baked into the clip */
+.ty-aw-rbs { position: absolute; left: var(--in); top: 0; z-index: 3; display: flex; align-items: flex-start; }
+.ty-aw-rb { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; display: block; width: var(--rw); margin-left: calc(var(--rw) * -1 * var(--ov));
+  filter: drop-shadow(0 .03rem .08rem rgba(0,0,0,.5)); transform-origin: 50% 0; transition: transform .55s cubic-bezier(.34, 1.56, .64, 1); }
+.ty-aw-rb:first-child { margin-left: 0; }
+.ty-aw-rb > span { display: block; width: 100%; height: var(--bh); background: #fff; box-sizing: border-box; padding: var(--pad) var(--pad) 0; overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--nt)), 0 100%); }
+.ty-aw-rb--k > span { background: #000; padding: 0; }
+.ty-aw-rb img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
+.ty-aw-rb--k img { width: auto; height: 100%; margin: 0 auto; }
+.ty-aw-rb:nth-child(1) { z-index: 4; } .ty-aw-rb:nth-child(2) { z-index: 3; } .ty-aw-rb:nth-child(3) { z-index: 2; } .ty-aw-rb:nth-child(4) { z-index: 1; }   /* oldest in front */
+.ty-aw-rb.is-open { z-index: 20 !important; transform: scale(var(--ex)); }
+.ty-aw-rbs, .ty-aw-rbs *, .ty-aw-mv, .ty-aw-mv * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+.ty-aw-rb:focus { outline: none; }
+.ty-aw-rb:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
+/* the homepage chevron, in brand orange */
+.ty-aw-mv { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 30; opacity: 0; pointer-events: none; transition: opacity .25s; }
+.ty-aw-mv.on { opacity: 1; }
+.ty-aw-mv.on button { pointer-events: auto; }
+.ty-aw-mv button { position: absolute; top: 0; appearance: none; border: 0; background: none; padding: 0; width: 0.56rem; height: 0.56rem; display: grid; place-items: center; cursor: pointer; transform: translateY(-50%); }
+.ty-aw-mv button:focus { outline: none; }
+.ty-aw-mv button:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
+.ty-aw-mv svg { width: 0.42rem; height: 0.42rem; fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+.ty-aw-mv button:hover svg { stroke: var(--orange-hover); }
+@media (prefers-reduced-motion: reduce) { .ty-aw-rb { transition: none; } }

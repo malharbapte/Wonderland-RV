@@ -49,12 +49,11 @@ body{background:#fff}
 .mv{position:absolute;left:0;top:0;width:0;height:0;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
 .mv.on{opacity:1}
 .mv.on button{pointer-events:auto}
-/* the homepage chevron, in brand orange: no circle, no box, a thin line that goes orange on hover. A pale outline under the line keeps it readable over both the video and the white ribbons */
+/* the homepage chevron, in brand orange: no circle, no box, a thin line that goes orange on hover. */
 .mv button{position:absolute;top:0;appearance:none;border:0;background:none;padding:0;width:.56rem;height:.56rem;display:grid;place-items:center;cursor:pointer;transform:translateY(-50%)}
 .mv button:focus{outline:none}
 .mv button:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 .mv svg{width:.42rem;height:.42rem;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.mv .o{stroke:#fff;stroke-width:5}
 .mv .i{stroke:var(--orange);stroke-width:2.2;transition:stroke .2s}
 .mv button:hover .i{stroke:var(--orange-hover)}
 .mv.one .mv-p{display:none}
@@ -75,7 +74,7 @@ body{background:#fff}
   <h2 class="ty-h" style="text-align:center">Awards &amp; achievements</h2>
   <div class="stage" id="stage">
     <div class="vid"><video src="assets/video/vans-loop.mp4" poster="assets/img/thanks/vans-poster.jpg" autoplay muted loop playsinline></video></div>
-    <div class="mv" id="mv" aria-label="Move between awards"><button type="button" class="mv-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M15 5l-7 7 7 7"/><path class="i" d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="mv-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M9 5l7 7-7 7"/><path class="i" d="M9 5l7 7-7 7"/></svg></button></div>
+    <div class="mv" id="mv" aria-label="Move between awards"><button type="button" class="mv-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i" d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="mv-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i" d="M9 5l7 7-7 7"/></svg></button></div>
     <div class="medals z-r side-l" id="medals">
       <button type="button" class="rbw" aria-pressed="false"><span class="rb"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist"></span></button>
       <button type="button" class="rbw" aria-pressed="false"><span class="rb"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Finalist, XTR 1906"></span></button>
