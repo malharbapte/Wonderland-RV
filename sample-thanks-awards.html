@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Awards &amp; achievements — samples</title><meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=333">
+<link rel="stylesheet" href="assets/css/type-compact.css?v=314">
+<link rel="stylesheet" href="assets/css/homepage.css?v=328">
+<link rel="stylesheet" href="assets/css/home-order.css?v=367">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=49">
+<style>
+body{background:#fff}
+
+.ctl{position:fixed;right:14px;bottom:14px;z-index:99;width:300px;max-height:calc(100vh - 28px);overflow:auto;background:#111;color:#fff;border-radius:12px;padding:14px 16px;font:500 13px/1.3 var(--gordita);box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.ctl h4{margin:0 0 8px;font:900 12px/1 var(--aviano);letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+.ctl fieldset{border:0;margin:0 0 10px;padding:0}
+.ctl legend{font-weight:700;margin-bottom:4px;color:#bbb;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.ctl label{display:flex;align-items:center;gap:8px;padding:2px 0;cursor:pointer}
+.ctl .rng{display:grid;grid-template-columns:1fr auto;gap:2px 8px;margin-bottom:6px}
+.ctl .rng input{grid-column:1/3;width:100%;accent-color:var(--orange)}
+.ctl input[type=radio],.ctl input[type=checkbox]{accent-color:var(--orange)}
+.ctl select{width:100%;padding:5px;border-radius:6px;border:0;font:inherit}
+.ctl output{color:#bbb}
+
+.lab{text-align:center;padding:.1rem;font:700 12px var(--gordita);background:#f2f2f2;letter-spacing:.06em;text-transform:uppercase;color:#555}
+.sec{padding:1.2rem 0 1.6rem}
+.stage{--bh:3.6rem;--ov:.55;--tilt:0deg;--in:.35rem;--top:.35rem;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
+.stage .vid{position:absolute;inset:0;border-radius:.1rem;overflow:hidden}
+.stage video{width:100%;height:100%;object-fit:cover;transform:scale(1.3);display:block}
+.medals{position:absolute;right:var(--in);top:var(--top);display:flex;align-items:flex-start;justify-content:flex-end;z-index:3}
+.medals img{display:block;height:var(--bh);width:auto;background:#fff;border-radius:.03rem;margin-left:calc(var(--bh)*-.5*var(--ov));box-shadow:var(--sh);transform-origin:50% 0;}
+.medals img:first-child{margin-left:0}
+.medals.fan img:nth-child(1){transform:rotate(calc(var(--tilt)*-1.5))}
+.medals.fan img:nth-child(2){transform:rotate(calc(var(--tilt)*-.5))}
+.medals.fan img:nth-child(3){transform:rotate(calc(var(--tilt)*.5))}
+.medals.fan img:nth-child(4){transform:rotate(calc(var(--tilt)*1.5))}
+.medals.z-l img:nth-child(1){z-index:1}.medals.z-l img:nth-child(2){z-index:2}.medals.z-l img:nth-child(3){z-index:3}.medals.z-l img:nth-child(4){z-index:4}
+.medals.z-r img:nth-child(1){z-index:4}.medals.z-r img:nth-child(2){z-index:3}.medals.z-r img:nth-child(3){z-index:2}.medals.z-r img:nth-child(4){z-index:1}
+</style></head><body class="home thanks">
+<div class="lab">Sample: Awards &amp; achievements — vans loop with overlapping award banners, top right. Use the panel (bottom right).</div>
+<section class="sec"><div class="container">
+  <h2 class="ty-h" style="text-align:center">Awards &amp; achievements</h2>
+  <div class="stage" id="stage">
+    <div class="vid"><video src="assets/video/vans-loop.mp4" poster="assets/img/thanks/vans-poster.jpg" autoplay muted loop playsinline></video></div>
+    <div class="medals z-l" id="medals">
+      <img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist">
+      <img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Finalist, XTR 1906">
+      <img src="assets/img/awards/coty-2024-best-overall.jpg" alt="Caravan of the Year 2024 Best Overall, XTR 2211">
+      <img src="assets/img/awards/coty-2026-judges-choice.png" alt="Caravan of the Year 2026 Judges Choice, Solara 20'06">
+    </div>
+  </div>
+</div></section>
+
+<div class="ctl">
+  <h4>Award banners</h4>
+  <fieldset><legend>Arrangement</legend>
+    <label><input type="radio" name="ar" value="" checked> 1 · Straight medal row</label>
+    <label><input type="radio" name="ar" value="fan"> 2 · Slight fan, like pinned medals</label>
+  </fieldset>
+  <fieldset><legend>Position</legend>
+    <label><input type="radio" name="po" value="in" checked> Inside the top right corner</label>
+    <label><input type="radio" name="po" value="hang"> Hanging over the top edge</label>
+  </fieldset>
+  <fieldset><legend>Which sits in front</legend>
+    <label><input type="radio" name="zz" value="z-l" checked> Newest (right) in front</label>
+    <label><input type="radio" name="zz" value="z-r"> Oldest (left) in front</label>
+  </fieldset>
+  <div class="rng"><span>Banner size</span><output id="o1"></output><input id="bh" type="range" min="24" max="55" value="36"></div>
+  <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="55"></div>
+  <div class="rng"><span>Fan angle</span><output id="o3"></output><input id="tl" type="range" min="0" max="10" value="4"></div>
+  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="35"></div>
+  <div class="rng"><span>Video height</span><output id="o5"></output><input id="vh" type="range" min="50" max="100" value="74"></div>
+  <label><input type="checkbox" id="sh" checked> Shadow under each banner</label>
+</div>
+<script>
+(function(){
+  var st=document.getElementById('stage'),md=document.getElementById('medals');
+  function go(){
+    var ar=document.querySelector('[name=ar]:checked').value,po=document.querySelector('[name=po]:checked').value,zz=document.querySelector('[name=zz]:checked').value;
+    md.className='medals '+zz+(ar?' '+ar:'');
+    var bh=document.getElementById('bh').value/10,ov=document.getElementById('ov').value/100,tl=document.getElementById('tl').value,ri=document.getElementById('ri').value/100,vh=document.getElementById('vh').value/10;
+    st.style.setProperty('--bh',bh+'rem');st.style.setProperty('--ov',ov);st.style.setProperty('--tilt',tl+'deg');st.style.setProperty('--in',ri+'rem');
+    st.style.setProperty('--top',po==='hang'?'-0.9rem':'.35rem');st.style.height=vh+'rem';
+    st.style.setProperty('--sh',document.getElementById('sh').checked?'0 .03rem .14rem rgba(0,0,0,.45)':'none');
+    document.getElementById('o1').textContent=bh+'rem';document.getElementById('o2').textContent=Math.round(ov*100)+'%';document.getElementById('o3').textContent=tl+'°';document.getElementById('o4').textContent=ri+'rem';document.getElementById('o5').textContent=vh+'rem';
+  }
+  document.querySelector('.ctl').addEventListener('input',go);go();
+})();
+</script>
+</body></html>
