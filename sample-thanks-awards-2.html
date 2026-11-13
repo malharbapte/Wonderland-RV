@@ -21,12 +21,12 @@ body{background:#fff}
 .ctl output{color:#bbb}
 .lab{text-align:center;padding:.1rem;font:700 12px var(--gordita);background:#f2f2f2;letter-spacing:.06em;text-transform:uppercase;color:#555}
 .sec{padding:1.2rem 0 1.6rem}
-.aw{--bh:7.4rem;--rw:3.4rem;--ov:.25;--pad:.16rem;--ex:1.15;--ol:.02rem;--ola:.45;--nt:calc(var(--bh)*.07);
+.aw{--bh:7.4rem;--rw:3.4rem;--ov:.25;--pad:.16rem;--ex:1.15;--ol:.015rem;--ola:1;--un:.85;--shd:.4;--nt:calc(var(--bh)*.07);
   display:grid;grid-template-columns:2fr 1fr;column-gap:.8rem;align-items:center;margin-top:.5rem}
 .rbs-wrap{position:relative;min-height:calc(var(--bh)*1.15 + .3rem);padding-top:.12rem}
 .rbs-wrap.rail::before{content:"";position:absolute;left:0;right:0;top:0;height:.02rem;background:#111}
 .medals{display:flex;align-items:flex-start;position:relative;z-index:3}
-.rbw{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:block;width:var(--rw);margin-left:calc(var(--rw)*-1*var(--ov));transform-origin:50% 0;transition:transform .55s cubic-bezier(.34,1.56,.64,1);}
+.rbw{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:block;width:var(--rw);margin-left:calc(var(--rw)*-1*var(--ov));transform-origin:50% 0;transform:scale(var(--un));filter:drop-shadow(0 .03rem .1rem rgba(0,0,0,var(--shd)));transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
 .rbw:first-child{margin-left:0}
 /* the outline: a pale-black ribbon, with the white ribbon laid on it inset by the line weight */
 .rb{display:block;width:100%;height:var(--bh);box-sizing:border-box;padding:var(--ol) var(--ol) 0;background:rgba(0,0,0,var(--ola));clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - var(--nt)),0 100%)}
@@ -39,9 +39,10 @@ body{background:#fff}
 .medals,.medals *,.mv,.mv *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 .rbw:focus{outline:none}.rbw:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 /* the homepage chevron, in brand orange */
-.mv{position:absolute;left:0;top:0;width:0;height:0;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
-.mv.on{opacity:1}.mv.on button{pointer-events:auto}
-.mv button{position:absolute;top:0;appearance:none;border:0;background:none;padding:0;width:.56rem;height:.56rem;display:grid;place-items:center;cursor:pointer;transform:translateY(-50%)}
+.mv{position:absolute;inset:0;z-index:30;pointer-events:none}
+.mv button{position:absolute;top:calc(var(--bh)*.5);appearance:none;border:0;background:none;padding:0;width:.56rem;height:.56rem;display:grid;place-items:center;cursor:pointer;transform:translateY(-50%);pointer-events:auto}
+.mv .mv-p{left:calc(-1*(var(--page-margin)/2) - .28rem)}   /* out in the page margin, where the homepage chevrons sit */
+.mv .mv-n{left:calc(100% + .04rem)}
 .mv button:focus{outline:none}.mv button:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 .mv svg{width:.42rem;height:.42rem;fill:none;stroke:var(--orange);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
 .mv button:hover svg{stroke:var(--orange-hover)}
@@ -78,14 +79,16 @@ body{background:#fff}
 <div class="ctl">
   <h4>Awards, two thirds + one third</h4>
   <div class="rng"><span>Overlap</span><output id="o1"></output><input id="ov" type="range" min="0" max="70" value="25"></div>
-  <div class="rng"><span>Ribbon length</span><output id="o2"></output><input id="bh" type="range" min="50" max="110" value="74"></div>
-  <div class="rng"><span>White margin (left, right, top)</span><output id="o3"></output><input id="pd" type="range" min="0" max="40" value="16"></div>
+  <div class="rng"><span>Ribbon length</span><output id="o2"></output><input id="bh" type="range" min="50" max="110" value="75"></div>
+  <div class="rng"><span>Unselected ribbon size</span><output id="o7"></output><input id="un" type="range" min="60" max="100" value="85"></div>
+  <div class="rng"><span>Shadow</span><output id="o8"></output><input id="sd" type="range" min="0" max="80" value="40"></div>
+  <div class="rng"><span>White margin (left, right, top)</span><output id="o3"></output><input id="pd" type="range" min="0" max="40" value="24"></div>
   <div class="rng"><span>Size when opened</span><output id="o4"></output><input id="ex" type="range" min="100" max="160" value="115"></div>
-  <div class="rng"><span>Outline weight</span><output id="o5"></output><input id="ol" type="range" min="0" max="50" value="20"></div>
-  <div class="rng"><span>Outline strength</span><output id="o6"></output><input id="oa" type="range" min="0" max="100" value="45"></div>
+  <div class="rng"><span>Outline weight</span><output id="o5"></output><input id="ol" type="range" min="0" max="50" value="15"></div>
+  <div class="rng"><span>Outline strength</span><output id="o6"></output><input id="oa" type="range" min="0" max="100" value="100"></div>
   <fieldset><legend>Text column</legend>
-    <label><input type="radio" name="va" value="center" checked> Centred beside the ribbons</label>
-    <label><input type="radio" name="va" value="start"> Aligned to the top</label>
+    <label><input type="radio" name="va" value="center"> Centred beside the ribbons</label>
+    <label><input type="radio" name="va" value="start" checked> Aligned to the top</label>
   </fieldset>
   <label><input type="checkbox" id="rail"> A thin rail the ribbons hang from</label>
 </div>
@@ -102,19 +105,13 @@ body{background:#fff}
   function size(){
     var ov=document.getElementById('ov').value/100,bh=document.getElementById('bh').value/10,pd=document.getElementById('pd').value/100,ex=document.getElementById('ex').value/100,ol=document.getElementById('ol').value/1000,oa=document.getElementById('oa').value/100;
     var A=wrap.clientWidth/rem(),rw=A/(1+3*(1-ov));
-    aw.style.setProperty('--ov',ov);aw.style.setProperty('--bh',bh+'rem');aw.style.setProperty('--rw',rw.toFixed(3)+'rem');aw.style.setProperty('--pad',pd+'rem');aw.style.setProperty('--ex',ex);aw.style.setProperty('--ol',ol+'rem');aw.style.setProperty('--ola',oa);
+    aw.style.setProperty('--ov',ov);aw.style.setProperty('--bh',bh+'rem');aw.style.setProperty('--rw',rw.toFixed(3)+'rem');aw.style.setProperty('--pad',pd+'rem');aw.style.setProperty('--ex',ex);aw.style.setProperty('--ol',ol+'rem');aw.style.setProperty('--ola',oa);var un=document.getElementById('un').value/100,sd=document.getElementById('sd').value/100;aw.style.setProperty('--un',un);aw.style.setProperty('--shd',sd);document.getElementById('o7').textContent=un+'x';document.getElementById('o8').textContent=Math.round(sd*100)+'%';
     wrap.style.minHeight='calc('+bh+'rem * '+Math.max(ex,1)+' + .3rem)';
     aw.style.alignItems=document.querySelector('[name=va]:checked').value;
     wrap.classList.toggle('rail',document.getElementById('rail').checked);
     [['o1',Math.round(ov*100)+'%'],['o2',bh+'rem'],['o3',pd+'rem'],['o4',ex+'x'],['o5',ol+'rem'],['o6',Math.round(oa*100)+'%']].forEach(function(x){document.getElementById(x[0]).textContent=x[1]});
   }
-  function park(){
-    clearTimeout(tm);mv.classList.remove('on');
-    tm=setTimeout(function(){
-      var r=items[cur].getBoundingClientRect(),sr=wrap.getBoundingClientRect(),k=rem(),bw=.56*k,y=r.top-sr.top+r.height*.5;
-      mp.style.left=(r.left-sr.left-bw-.04*k)+'px';mn.style.left=(r.right-sr.left+.04*k)+'px';mp.style.top=mn.style.top=y+'px';mv.classList.add('on');
-    },640);
-  }
+  function park(){}
   function show(i,first){
     cur=(i+items.length)%items.length;
     items.forEach(function(c,k){c.classList.toggle('is-open',k===cur);c.setAttribute('aria-pressed',String(k===cur))});
