@@ -23,7 +23,7 @@ body{background:#fff}
 
 .lab{text-align:center;padding:.1rem;font:700 12px var(--gordita);background:#f2f2f2;letter-spacing:.06em;text-transform:uppercase;color:#555}
 .sec{padding:1.2rem 0 1.6rem}
-.stage{--bh:4.7rem;--rw:1.88rem;--ov:.64;--pad:.08rem;--ex:1.35;--tilt:0deg;--in:.28rem;--top:0rem;--clip:none;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
+.stage{--bh:4.7rem;--rw:2.068rem;--ov:.7;--pad:.11rem;--ex:1.4;--tilt:0deg;--in:.28rem;--top:0rem;--clip:none;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
 .stage .vid{position:absolute;inset:0;border-radius:.1rem;overflow:hidden}
 .stage video{width:100%;height:100%;object-fit:cover;transform:scale(1.3);display:block}
 .medals{position:absolute;right:var(--in);top:var(--top);display:flex;align-items:flex-start;justify-content:flex-end;z-index:3}
@@ -39,10 +39,6 @@ body{background:#fff}
 .medals.fan .rbw:nth-child(3){transform:rotate(calc(var(--tilt)*.5))}
 .medals.fan .rbw:nth-child(4){transform:rotate(calc(var(--tilt)*1.5))}
 .medals .rbw.is-open{z-index:20 !important;transform:scale(var(--ex)) !important}
-/* opened: the ribbon drops to the length of its own artwork, so no blank tail shows */
-.rbw.is-open .rb{height:auto;padding-bottom:calc(var(--bh)*.07)}
-.rbw.is-open .rb--k{padding:0}
-.rbw.is-open .rb--k img{width:100%;height:auto}
 .rbw:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 .medals.z-l .rbw:nth-child(1){z-index:1}.medals.z-l .rbw:nth-child(2){z-index:2}.medals.z-l .rbw:nth-child(3){z-index:3}.medals.z-l .rbw:nth-child(4){z-index:4}
 .medals.z-r .rbw:nth-child(1){z-index:4}.medals.z-r .rbw:nth-child(2){z-index:3}.medals.z-r .rbw:nth-child(3){z-index:2}.medals.z-r .rbw:nth-child(4){z-index:1}
@@ -81,12 +77,12 @@ body{background:#fff}
     <label><input type="radio" name="nt" value="s"> Straight cut</label>
   </fieldset>
   <div class="rng"><span>Ribbon length</span><output id="o1"></output><input id="bh" type="range" min="24" max="60" value="47"></div>
-  <div class="rng"><span>Ribbon width</span><output id="o6"></output><input id="wr" type="range" min="30" max="60" value="40"></div>
-  <div class="rng"><span>White margin (left, right, top)</span><output id="o7"></output><input id="pd" type="range" min="0" max="30" value="8"></div>
-  <div class="rng"><span>Size when opened</span><output id="o8"></output><input id="ex" type="range" min="100" max="200" value="135"></div>
-  <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="64"></div>
-  <div class="rng"><span>Fan angle</span><output id="o3"></output><input id="tl" type="range" min="0" max="10" value="1"></div>
-  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="59"></div>
+  <div class="rng"><span>Ribbon width</span><output id="o6"></output><input id="wr" type="range" min="30" max="60" value="44"></div>
+  <div class="rng"><span>White margin (left, right, top)</span><output id="o7"></output><input id="pd" type="range" min="0" max="30" value="11"></div>
+  <div class="rng"><span>Size when opened</span><output id="o8"></output><input id="ex" type="range" min="100" max="200" value="140"></div>
+  <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="70"></div>
+  <div class="rng"><span>Fan angle</span><output id="o3"></output><input id="tl" type="range" min="0" max="10" value="0"></div>
+  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="65"></div>
   <div class="rng"><span>Video height</span><output id="o5"></output><input id="vh" type="range" min="50" max="100" value="69"></div>
   <label><input type="checkbox" id="sh" checked> Shadow under each banner</label>
 </div>
