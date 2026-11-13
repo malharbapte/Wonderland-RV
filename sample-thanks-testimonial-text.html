@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testimonial text — 3 layouts</title><meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/wonderland-rv-logo.png">
+<link rel="stylesheet" href="assets/css/styles.css?v=333">
+<style>
+body{background:#fff}
+.lab{width:100vw;margin-left:calc(50% - 50vw);position:sticky;top:0;z-index:20;background:#111;color:#fff;font:700 13px/1 var(--gordita);letter-spacing:.08em;text-transform:uppercase;padding:12px 20px}
+.lab span{color:var(--orange);margin-right:10px}
+.S{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:15rem;background:#111 url(assets/img/thanks/tv-brett.jpg) center bottom/auto 130% no-repeat;color:#fff;overflow:hidden;display:flex;flex-direction:column;margin-bottom:.3rem}
+.S::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0,rgba(0,0,0,.45) 35%,rgba(0,0,0,.88) 100%);pointer-events:none}
+.S>*{position:relative}
+.q{margin:0;font-weight:400;text-wrap:balance}
+.nm{font-family:var(--aviano);font-weight:900;text-transform:uppercase;color:var(--orange)}
+.rl{font-family:var(--aviano);font-weight:900;text-transform:uppercase;letter-spacing:.14em;font-size:.16rem;line-height:.24rem;color:rgba(255,255,255,.72)}
+.ds{margin:0;color:rgba(255,255,255,.8);text-wrap:balance}
+.pl{border:0;background:var(--orange);color:#111;display:grid;place-items:center;border-radius:.03rem;cursor:pointer}
+.pl svg{width:.34rem;height:.34rem;fill:currentColor}
+.strip{display:flex;gap:.12rem;padding:0 0 .45rem calc((100% - var(--col))/2);margin-top:0}
+.strip i{flex:0 0 3.6rem;aspect-ratio:16/9;background:#000 center/cover;border-top:.04rem solid transparent;opacity:.7}
+.strip i:first-child{background-image:url(assets/img/thanks/tv-brett-thumb.jpg);border-top-color:var(--orange);opacity:1}
+.strip i+i{background-image:url(assets/img/thanks/tv-sandy-thumb.jpg)}
+
+/* A: centred, with a short rule and one line for who */
+.A .body{margin:auto auto .6rem;width:10.4rem;text-align:center;display:flex;flex-direction:column;align-items:center}
+.A .q{font-size:.46rem;line-height:.66rem}
+.A .bar{width:.6rem;height:.03rem;background:var(--orange);margin:.44rem 0 .26rem}
+.A .who{display:flex;align-items:baseline;gap:.2rem}
+.A .nm{font-size:.24rem;line-height:.32rem;letter-spacing:.06em}
+.A .ds{margin-top:.18rem;font-size:.2rem;line-height:.3rem;max-width:8.6rem}
+.A .pl{margin-top:.4rem;width:1.05rem;height:.68rem}
+
+/* B: left, editorial, on the page margin */
+.B .body{margin:auto 0 .6rem;padding-left:calc((100% - var(--col))/2);width:100%}
+.B .in{width:8.4rem}
+.B .rl{display:flex;align-items:center;gap:.16rem;color:var(--orange)}
+.B .rl::before{content:"";width:.5rem;height:.03rem;background:var(--orange)}
+.B .q{margin-top:.2rem;font-size:.5rem;line-height:.68rem;text-align:left;text-wrap:pretty}
+.B .row{display:flex;align-items:center;gap:.4rem;margin-top:.4rem}
+.B .pl{flex:none;width:1.05rem;height:.68rem}
+.B .nm{font-size:.24rem;line-height:.32rem;letter-spacing:.06em}
+.B .ds{margin-top:.04rem;font-size:.2rem;line-height:.3rem;max-width:7.4rem}
+
+/* C: big quote, caption bar underneath */
+.C .body{margin:auto 0 .55rem;width:100%}
+.C .q{font-size:.56rem;line-height:.76rem;text-align:center;width:11.6rem;margin:0 auto}
+.C .cap{width:var(--col);margin:.5rem auto 0;border-top:.01rem solid rgba(255,255,255,.35);padding-top:.26rem;display:grid;grid-template-columns:1fr 1.3fr auto;align-items:center;gap:.4rem}
+.C .nm{font-size:.22rem;line-height:.3rem;letter-spacing:.06em}
+.C .ds{font-size:.2rem;line-height:.3rem;text-align:left}
+.C .pl{width:.9rem;height:.58rem}
+.C .pl svg{width:.28rem;height:.28rem}
+</style></head><body>
+<div class="lab"><span>A</span>Centred, with a short rule. Names and role on one line</div>
+<section class="S A"><div class="body">
+  <p class="q">&ldquo;Dealing with Wonderland RV for us has been an amazing experience. You can&rsquo;t beat the sales, the support and the reliability of the van.&rdquo;</p>
+  <span class="bar"></span>
+  <div class="who"><span class="nm">Adam, Jessy, Charlotte and Noah</span><span class="rl">Wonderlanders</span></div>
+  <p class="ds">The Brett family travels full time on the road in their 21ft Amaroo, a 2 bunk van, with their dog.</p>
+  <button class="pl" type="button" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+</div><div class="strip"><i></i><i></i></div></section>
+
+<div class="lab"><span>B</span>Left aligned to the page margin, bigger quote, play beside the names</div>
+<section class="S B"><div class="body"><div class="in">
+  <span class="rl">Wonderlanders</span>
+  <p class="q">&ldquo;Dealing with Wonderland RV for us has been an amazing experience. You can&rsquo;t beat the sales, the support and the reliability of the van.&rdquo;</p>
+  <div class="row"><button class="pl" type="button" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <div><span class="nm">Adam, Jessy, Charlotte and Noah</span><p class="ds">The Brett family travels full time on the road in their 21ft Amaroo, a 2 bunk van, with their dog.</p></div></div>
+</div></div><div class="strip"><i></i><i></i></div></section>
+
+<div class="lab"><span>C</span>Large centred quote, caption bar: names | family line | play</div>
+<section class="S C"><div class="body">
+  <p class="q">&ldquo;Dealing with Wonderland RV for us has been an amazing experience. You can&rsquo;t beat the sales, the support and the reliability of the van.&rdquo;</p>
+  <div class="cap">
+    <div><div class="nm">Adam, Jessy, Charlotte and Noah</div><div class="rl">Wonderlanders</div></div>
+    <p class="ds">The Brett family travels full time on the road in their 21ft Amaroo, a 2 bunk van, with their dog.</p>
+    <button class="pl" type="button" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+  </div>
+</div><div class="strip"><i></i><i></i></div></section>
+</body></html>
