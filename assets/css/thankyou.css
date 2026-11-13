@@ -146,9 +146,14 @@
 
 /* community ----------------------------------------------------------------- */
 .ty-community { text-align: center; }
-.ty-cm-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.2rem; }
-.ty-cm { aspect-ratio: 9 / 16; border-radius: 0.1rem; overflow: hidden; }
-.ty-cm img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* community wall (community-wall.js): the real screenshots in three columns, a click opens one large */
+.ty-cmw { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; align-items: start; text-align: left; }
+.ty-cmw-col { display: flex; flex-direction: column; gap: 0.24rem; }
+.ty-cmc { position: relative; display: block; width: 100%; margin: 0; padding: 0; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; background: #fff; overflow: hidden; cursor: zoom-in; }
+.ty-cmc img { display: block; width: 100%; height: auto; }
+.ty-cmc-a { position: absolute; left: 0.12rem; top: 0.12rem; padding: 0.06rem 0.14rem; border-radius: 999px; background: #111; color: #fff; font: 900 0.13rem/1 var(--aviano); letter-spacing: .1em; text-transform: uppercase; pointer-events: none; }
+.ty-cmc:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
+.ty-wall--fade.ty-wall--w::after { background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 92%); }
 
 @media (max-width: 900px) {
   .ty-top { padding-top: 40px; padding-bottom: 8px; }
@@ -209,7 +214,9 @@
   .ty-bq-n { font-size: 20px; margin-top: 14px; }
   .ty-gr { flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
   .ty-tv-top { padding-top: 56px; padding-bottom: 24px; }
-  .ty-cm-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
+  .ty-cmw { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .ty-cmw-col { gap: 12px; }
+  .ty-cmc-a { font-size: 10px; padding: 5px 10px; left: 8px; top: 8px; }
 }
 
 /* "Before we call": the two things to have ready ------------------------------ */
