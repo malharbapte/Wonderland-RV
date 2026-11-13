@@ -33,8 +33,8 @@ body{background:#fff}
 /* B: left, editorial, on the page margin */
 .B .body{margin:auto 0 .6rem;padding-left:calc((100% - var(--col))/2);width:100%}
 .B .in{width:8.4rem}
-.B .qmark{position:static;display:block;width:.8rem;height:auto;fill:var(--orange);max-width:none}
-.B .q{margin-top:.24rem;font-size:.5rem;line-height:.68rem;text-align:left;text-wrap:pretty}
+.B .q{position:relative;margin-top:.5rem;font-size:.5rem;line-height:.68rem;text-align:left;text-wrap:pretty}
+.B .qmark{width:1rem;max-width:none;fill:#fff}
 .B .row{display:flex;align-items:center;gap:.4rem;margin-top:.4rem}
 .B .pl{flex:none;width:1.05rem;height:.68rem}
 .B .nm{font-size:.24rem;line-height:.32rem;letter-spacing:.06em}
@@ -58,10 +58,9 @@ body{background:#fff}
   <button class="pl" type="button" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
 </div><div class="strip"><i></i><i></i></div></section>
 
-<div class="lab"><span>B</span>Left aligned to the page margin, site quote mark above the quote, play beside the names</div>
+<div class="lab"><span>B</span>Left aligned to the page margin, white site quote mark hanging top left of the quote, play beside the names</div>
 <section class="S B"><div class="body"><div class="in">
-  <svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>
-  <p class="q">Dealing with Wonderland RV for us has been an amazing experience. You can&rsquo;t beat the sales, the support and the reliability of the van.&rdquo;</p>
+  <p class="q"><svg class="qmark" viewBox="0 0 352 208" aria-hidden="true"><path d="M159 208H289L352 0H249ZM0 208H130L193 0H90Z"/></svg>Dealing with Wonderland RV for us has been an amazing experience. You can&rsquo;t beat the sales, the support and the reliability of the van.&rdquo;</p>
   <div class="row"><button class="pl" type="button" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <div><span class="nm">Adam, Jessy, Charlotte and Noah</span><p class="ds">The Brett family travels full time on the road in their 21ft Amaroo, a 2 bunk van, with their dog.</p></div></div>
 </div></div><div class="strip"><i></i><i></i></div></section>
