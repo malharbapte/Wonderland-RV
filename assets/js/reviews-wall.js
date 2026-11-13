@@ -48,8 +48,8 @@
       : "<span>" + dt + "</span>";
     el.innerHTML =
       (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy"></div>' : "") +
-      '<div class="ty-rc-body"><div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" +
-      body + gallery(r, i) + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
+      '<div class="ty-rc-body">' + gallery(r, i) + '<div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" +
+      body + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
     return el;
   }
 

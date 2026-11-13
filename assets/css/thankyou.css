@@ -235,7 +235,7 @@
 /* reviews wall (reviews-wall.js): Google mark on each card, grey bars for an empty entry, Load more */
 .ty-rc .top { display: flex; align-items: center; justify-content: space-between; }
 .ty-rc .top .ty-st { margin: 0; }
-.ty-vr { display: inline-flex; align-items: center; gap: 0.07rem; font-size: var(--t-caption); line-height: 0.22rem; color: #444; }
+.ty-vr { display: inline-flex; align-items: center; gap: 0.07rem; font-size: var(--t-caption); line-height: 0.22rem; color: #1A73E8; }
 .ty-vr svg { width: 0.2rem; height: 0.2rem; flex: none; }
 .ty-rc-col .ty-rc { display: block; }
 .ty-rc--in { animation: tyRin .5s ease both; }
@@ -261,7 +261,8 @@
 .ty-rc figcaption .ty-av--l { color: #fff; }
 
 /* Reviewer photos inside a review card, and the lightbox */
-.ty-gal { display: grid; gap: 0.06rem; margin-top: 0.18rem; }
+.ty-gal { display: grid; gap: 0.06rem; }
+.ty-gal + .top { margin-top: 0.2rem; }   /* photos first, then stars + verified, text, name */
 .ty-gal--1 { grid-template-columns: 1fr; }
 .ty-gal--2 { grid-template-columns: repeat(2, 1fr); }
 .ty-gal--3 { grid-template-columns: repeat(3, 1fr); }
@@ -282,7 +283,8 @@
 .ty-lb--one .ty-lb-p, .ty-lb--one .ty-lb-n { display: none; }
 html.ty-lb-open { overflow: hidden; }
 @media (max-width: 900px) {
-  .ty-gal { gap: 4px; margin-top: 14px; }
+  .ty-gal { gap: 4px; }
+  .ty-gal + .top { margin-top: 14px; }
   .ty-gal-more { font-size: 18px; }
   .ty-lb { padding: 16px; }
   .ty-lb button { width: 44px; height: 44px; font-size: 26px; }
