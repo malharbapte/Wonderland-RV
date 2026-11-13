@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=328">
 <link rel="stylesheet" href="assets/css/home-order.css?v=367">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=50">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=51">
 </head>
 <body class="home thanks" data-confetti="cannons">
 
@@ -210,15 +210,17 @@
 <section class="ty-sec ty-awards">
   <div class="container">
     <h2 class="ty-h">Awards &amp; achievements</h2>
-    <div class="ty-aw-stage" id="tyAw">
-      <div class="ty-aw-vid"><video src="assets/video/vans-loop.mp4" poster="assets/img/thanks/vans-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video></div>
-      <div class="ty-aw-mv" id="tyAwMv"><button type="button" class="ty-aw-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="ty-aw-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-      <div class="ty-aw-rbs" id="tyAwRbs" role="group" aria-label="Caravan of the Year awards">
-        <button type="button" class="ty-aw-rb" aria-pressed="false"><span><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist: XTR 2200"></span></button>
-        <button type="button" class="ty-aw-rb" aria-pressed="false"><span><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Second place, couples category: XTR 1906"></span></button>
-        <button type="button" class="ty-aw-rb" aria-pressed="false"><span><img src="assets/img/awards/coty-2024-best-overall.jpg" alt="Caravan of the Year 2024 Best Overall, Best Family Caravan, Best Innovation: XTR 2211"></span></button>
-        <button type="button" class="ty-aw-rb ty-aw-rb--k" aria-pressed="false"><span><img src="assets/img/awards/coty-2026-judges-choice.png" alt="Caravan of the Year 2026 Judges Choice Award: Solara 20'06"></span></button>
+    <div class="ty-aw" id="tyAw">
+      <div class="ty-aw-wrap" id="tyAwWrap">
+        <div class="ty-aw-mv" id="tyAwMv"><button type="button" class="ty-aw-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="ty-aw-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+        <div class="ty-aw-rbs" id="tyAwRbs" role="group" aria-label="Caravan of the Year awards">
+          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2026, Judges Choice Award: Solara 20'06"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2026-judges-choice.png" alt=""></span></span></button>
+          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2024, Best Overall, Best Family and Most Innovative: XTR 2211"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2024-best-overall.jpg" alt=""></span></span></button>
+          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2024, second place in the couples category: XTR 1906"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt=""></span></span></button>
+          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2023, Finalist: XTR 2200"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt=""></span></span></button>
+        </div>
       </div>
+      <div class="ty-aw-info" id="tyAwInfo" aria-live="polite"><span class="ty-aw-k"></span><span class="ty-aw-t"></span><p class="ty-aw-d"></p><a class="ty-aw-cta" href="#">Read the article <svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0"/></svg></a></div>
     </div>
   </div>
 </section>
@@ -562,7 +564,7 @@
 <script src="assets/js/reviews-data.js?v=4"></script>
 <script src="assets/js/reviews-wall.js?v=9"></script>
 <script src="assets/js/thankyou.js?v=12"></script>
-<script src="assets/js/awards.js?v=1"></script>
+<script src="assets/js/awards.js?v=2"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>

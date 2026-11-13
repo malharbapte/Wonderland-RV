@@ -281,35 +281,48 @@ html.ty-lb-open { overflow: hidden; }
 .ty-or { color: var(--orange); }   /* highlighted word in a heading */
 
 /* ============================================================== AWARDS (ty-aw)
-   A looping clip of the vans with the four Caravan of the Year banners hung
-   from its top edge like ribbons: same size, same overlap. Click one and it
-   springs forward to 1.4x with the rest behind it; arrows either side step on.
-   awards.js does the clicking. */
-.ty-aw-stage { --bh: 4.6rem; --rw: 2.024rem; --ov: .7; --pad: .11rem; --ex: 1.4; --in: .65rem; --nt: calc(var(--bh) * .07);
-  position: relative; width: 100%; height: 6.9rem; margin-top: 0.5rem; border-radius: 0.1rem; background: #111; }
-.ty-aw-vid { position: absolute; inset: 0; border-radius: 0.1rem; overflow: hidden; }
-.ty-aw-vid video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); }   /* scaled to lose the black bars baked into the clip */
-.ty-aw-rbs { position: absolute; left: var(--in); top: 0; z-index: 3; display: flex; align-items: flex-start; }
+   The four Caravan of the Year banners hang as ribbons across the left two
+   thirds, newest on the left; the last third is a card for the selected award.
+   Selected = 1.15x and in front, the rest sit smaller behind it. Light from
+   above: shadows fall down and to the sides, never on top. awards.js sizes the
+   ribbons to fill the column and does the selecting. */
+.ty-aw { --ov: .25; --ex: 1.15; --un: .85; --pad: .24rem; --ol: .015rem; --ola: 0; --shd: .4; --bh: 7.5rem; --rw: 3.17rem; --nt: calc(var(--bh) * .07);
+  display: grid; grid-template-columns: 2fr 1fr; column-gap: 0.8rem; align-items: start; margin-top: 0.5rem; }
+.ty-aw-wrap { position: relative; min-height: calc(var(--bh) * var(--ex) + 0.3rem); }
+.ty-aw-rbs { display: flex; align-items: flex-start; position: relative; z-index: 3; }
 .ty-aw-rb { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; display: block; width: var(--rw); margin-left: calc(var(--rw) * -1 * var(--ov));
-  filter: drop-shadow(0 .03rem .08rem rgba(0,0,0,.5)); transform-origin: 50% 0; transition: transform .55s cubic-bezier(.34, 1.56, .64, 1); }
+  transform-origin: 50% 0; transform: scale(var(--un)); filter: drop-shadow(0 .09rem .08rem rgba(0,0,0,var(--shd)));
+  transition: transform .55s cubic-bezier(.34, 1.56, .64, 1); }
 .ty-aw-rb:first-child { margin-left: 0; }
-.ty-aw-rb > span { display: block; width: 100%; height: var(--bh); background: #fff; box-sizing: border-box; padding: var(--pad) var(--pad) 0; overflow: hidden;
+.ty-aw-o { display: block; width: 100%; height: var(--bh); box-sizing: border-box; padding: var(--ol) var(--ol) 0; background: rgba(0,0,0,var(--ola));
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--nt)), 0 100%); }
-.ty-aw-rb--k > span { background: #000; padding: 0; }
+.ty-aw-i { display: block; width: 100%; height: 100%; box-sizing: border-box; padding: var(--pad) var(--pad) 0; background: #fff; overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--nt)), 0 100%); }
+.ty-aw-rb:first-child .ty-aw-i { background: #000; padding: 0; }                       /* the 2026 ribbon is black */
 .ty-aw-rb img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
-.ty-aw-rb--k img { width: auto; height: 100%; margin: 0 auto; }
-.ty-aw-rb:nth-child(1) { z-index: 4; } .ty-aw-rb:nth-child(2) { z-index: 3; } .ty-aw-rb:nth-child(3) { z-index: 2; } .ty-aw-rb:nth-child(4) { z-index: 1; }   /* oldest in front */
+.ty-aw-rb:first-child img { width: auto; height: 100%; margin: 0 auto; }
+.ty-aw-rb:nth-child(1) { z-index: 4; } .ty-aw-rb:nth-child(2) { z-index: 3; } .ty-aw-rb:nth-child(3) { z-index: 2; } .ty-aw-rb:nth-child(4) { z-index: 1; }   /* newest in front */
 .ty-aw-rb.is-open { z-index: 20 !important; transform: scale(var(--ex)); }
 .ty-aw-rbs, .ty-aw-rbs *, .ty-aw-mv, .ty-aw-mv * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
 .ty-aw-rb:focus { outline: none; }
 .ty-aw-rb:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
-/* the homepage chevron, in brand orange */
-.ty-aw-mv { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 30; opacity: 0; pointer-events: none; transition: opacity .25s; }
-.ty-aw-mv.on { opacity: 1; }
-.ty-aw-mv.on button { pointer-events: auto; }
-.ty-aw-mv button { position: absolute; top: 0; appearance: none; border: 0; background: none; padding: 0; width: 0.56rem; height: 0.56rem; display: grid; place-items: center; cursor: pointer; transform: translateY(-50%); }
+/* the homepage chevron, in brand orange, one at each end of the set */
+.ty-aw-mv { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+.ty-aw-mv button { position: absolute; top: calc(var(--bh) * .5); appearance: none; border: 0; background: none; padding: 0; width: 0.56rem; height: 0.56rem; display: grid; place-items: center; cursor: pointer; transform: translateY(-50%); pointer-events: auto; }
 .ty-aw-mv button:focus { outline: none; }
 .ty-aw-mv button:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
 .ty-aw-mv svg { width: 0.42rem; height: 0.42rem; fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
 .ty-aw-mv button:hover svg { stroke: var(--orange-hover); }
-@media (prefers-reduced-motion: reduce) { .ty-aw-rb { transition: none; } }
+/* the card for the selected award, as tall as the selected ribbon */
+.ty-aw-info { box-sizing: border-box; min-height: calc(var(--bh) * var(--ex)); background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.38rem 0.38rem 0.4rem; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.ty-aw-k { display: block; font: 900 var(--t-caption)/1.3 var(--aviano); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+.ty-aw-t { display: block; margin-top: 0.14rem; font: 900 0.56rem/0.62rem var(--aviano); text-transform: uppercase; color: #111; }
+.ty-aw-d { margin: 0.22rem 0 0.34rem; font-size: 0.24rem; line-height: 0.36rem; color: #333; }
+.ty-aw-cta { display: inline-flex; align-items: center; gap: 0.14rem; margin-top: auto; background: var(--orange); color: #fff; border-radius: 999px; padding: 0.17rem 0.4rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+.ty-aw-cta:hover, .ty-aw-cta:focus-visible { background: var(--orange-hover); }
+.ty-aw-cta svg { width: 0.18rem; height: 0.11rem; fill: none; stroke: currentColor; stroke-width: 1.6; transform: rotate(-90deg); }
+.ty-aw-cta[hidden] { display: none; }
+.ty-aw-info.swap > * { animation: ty-aw-in .45s cubic-bezier(.22, 1, .36, 1) both; }
+.ty-aw-info.swap > :nth-child(2) { animation-delay: .05s; } .ty-aw-info.swap > :nth-child(3) { animation-delay: .1s; } .ty-aw-info.swap > :nth-child(4) { animation-delay: .15s; }
+@keyframes ty-aw-in { from { opacity: 0; transform: translateY(.14rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ty-aw-rb { transition: none; } .ty-aw-info.swap > * { animation: none; } }
