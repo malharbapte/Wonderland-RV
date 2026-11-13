@@ -23,7 +23,7 @@ body{background:#fff}
 
 .lab{text-align:center;padding:.1rem;font:700 12px var(--gordita);background:#f2f2f2;letter-spacing:.06em;text-transform:uppercase;color:#555}
 .sec{padding:1.2rem 0 1.6rem}
-.stage{--bh:4.7rem;--rw:2.068rem;--ov:.7;--pad:.11rem;--ex:1.4;--tilt:0deg;--in:.28rem;--top:0rem;--clip:none;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
+.stage{--bh:4.6rem;--rw:2.024rem;--ov:.7;--pad:.11rem;--ex:1.4;--tilt:0deg;--in:.28rem;--top:0rem;--clip:none;position:relative;width:100%;height:7.4rem;margin-top:.5rem;border-radius:.1rem;overflow:visible;background:#111}
 .stage .vid{position:absolute;inset:0;border-radius:.1rem;overflow:hidden}
 .stage video{width:100%;height:100%;object-fit:cover;transform:scale(1.3);display:block}
 .medals{position:absolute;right:var(--in);top:var(--top);display:flex;align-items:flex-start;justify-content:flex-end;z-index:3}
@@ -34,6 +34,7 @@ body{background:#fff}
 .rb--k{background:#000;padding:0}
 .rb img{display:block;width:100%;height:auto}
 .rb--k img{width:auto;height:100%;margin:0 auto}
+.medals.side-l{right:auto;left:var(--in);justify-content:flex-start}
 .medals.fan .rbw:nth-child(1){transform:rotate(calc(var(--tilt)*-1.5))}
 .medals.fan .rbw:nth-child(2){transform:rotate(calc(var(--tilt)*-.5))}
 .medals.fan .rbw:nth-child(3){transform:rotate(calc(var(--tilt)*.5))}
@@ -48,13 +49,13 @@ body{background:#fff}
 .mv{position:absolute;left:0;top:0;width:0;height:0;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
 .mv.on{opacity:1}
 .mv.on button{pointer-events:auto}
-/* the homepage chevron: no circle, no box, a thin line that goes orange on hover. A pale outline under the line keeps it readable over both the video and the white ribbons */
+/* the homepage chevron, in brand orange: no circle, no box, a thin line that goes orange on hover. A pale outline under the line keeps it readable over both the video and the white ribbons */
 .mv button{position:absolute;top:0;appearance:none;border:0;background:none;padding:0;width:.56rem;height:.56rem;display:grid;place-items:center;cursor:pointer;transform:translateY(-50%)}
 .mv button:focus{outline:none}
 .mv button:focus-visible{outline:.03rem solid var(--orange);outline-offset:.03rem}
 .mv svg{width:.42rem;height:.42rem;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .mv .o{stroke:#fff;stroke-width:5}
-.mv .i{stroke:#111;stroke-width:2.2;transition:stroke .2s}
+.mv .i{stroke:var(--orange);stroke-width:2.2;transition:stroke .2s}
 .mv button:hover .i{stroke:var(--orange-hover)}
 .mv.one .mv-p{display:none}
 /* opening / switching animations */
@@ -75,7 +76,7 @@ body{background:#fff}
   <div class="stage" id="stage">
     <div class="vid"><video src="assets/video/vans-loop.mp4" poster="assets/img/thanks/vans-poster.jpg" autoplay muted loop playsinline></video></div>
     <div class="mv" id="mv" aria-label="Move between awards"><button type="button" class="mv-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M15 5l-7 7 7 7"/><path class="i" d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="mv-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M9 5l7 7-7 7"/><path class="i" d="M9 5l7 7-7 7"/></svg></button></div>
-    <div class="medals z-r" id="medals">
+    <div class="medals z-r side-l" id="medals">
       <button type="button" class="rbw" aria-pressed="false"><span class="rb"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt="Caravan of the Year 2023 Finalist"></span></button>
       <button type="button" class="rbw" aria-pressed="false"><span class="rb"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt="Caravan of the Year 2024 Finalist, XTR 1906"></span></button>
       <button type="button" class="rbw" aria-pressed="false"><span class="rb"><img src="assets/img/awards/coty-2024-best-overall.jpg" alt="Caravan of the Year 2024 Best Overall, XTR 2211"></span></button>
@@ -90,6 +91,10 @@ body{background:#fff}
     <label><input type="radio" name="ar" value="" checked> 1 · Straight row</label>
     <label><input type="radio" name="ar" value="fan"> 2 · Slight fan, like pinned medals</label>
   </fieldset>
+  <fieldset><legend>Side of the video</legend>
+    <label><input type="radio" name="sd" value="side-l" checked> Left</label>
+    <label><input type="radio" name="sd" value=""> Right</label>
+  </fieldset>
   <fieldset><legend>Position</legend>
     <label><input type="radio" name="po" value="top" checked> Attached to the top edge</label>
     <label><input type="radio" name="po" value="in"> Inset, floating below the edge</label>
@@ -103,13 +108,13 @@ body{background:#fff}
     <label><input type="radio" name="nt" value="v" checked> V notch, like a ribbon</label>
     <label><input type="radio" name="nt" value="s"> Straight cut</label>
   </fieldset>
-  <div class="rng"><span>Ribbon length</span><output id="o1"></output><input id="bh" type="range" min="24" max="60" value="47"></div>
+  <div class="rng"><span>Ribbon length</span><output id="o1"></output><input id="bh" type="range" min="24" max="60" value="46"></div>
   <div class="rng"><span>Ribbon width</span><output id="o6"></output><input id="wr" type="range" min="30" max="60" value="44"></div>
   <div class="rng"><span>White margin (left, right, top)</span><output id="o7"></output><input id="pd" type="range" min="0" max="30" value="11"></div>
   <div class="rng"><span>Size when opened</span><output id="o8"></output><input id="ex" type="range" min="100" max="200" value="140"></div>
   <div class="rng"><span>Overlap</span><output id="o2"></output><input id="ov" type="range" min="0" max="90" value="70"></div>
   <div class="rng"><span>Fan angle</span><output id="o3"></output><input id="tl" type="range" min="0" max="10" value="0"></div>
-  <div class="rng"><span>Space from the right edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="65"></div>
+  <div class="rng"><span>Space from the edge</span><output id="o4"></output><input id="ri" type="range" min="0" max="120" value="65"></div>
   <div class="rng"><span>Video height</span><output id="o5"></output><input id="vh" type="range" min="50" max="100" value="69"></div>
   <fieldset><legend>Opening animation</legend>
     <label><input type="radio" name="an" value="an-pop" checked> 1 · Pop: springs forward</label>
@@ -128,7 +133,7 @@ body{background:#fff}
   var st=document.getElementById('stage'),md=document.getElementById('medals');
   function go(){
     var ar=document.querySelector('[name=ar]:checked').value,po=document.querySelector('[name=po]:checked').value,zz=document.querySelector('[name=zz]:checked').value,nt=document.querySelector('[name=nt]:checked').value;
-    md.className='medals '+zz+(ar?' '+ar:'')+' '+document.querySelector('[name=an]:checked').value;
+    md.className='medals '+zz+(ar?' '+ar:'')+' '+document.querySelector('[name=an]:checked').value+' '+document.querySelector('[name=sd]:checked').value;
     var bh=document.getElementById('bh').value/10,wr=document.getElementById('wr').value/100,ov=document.getElementById('ov').value/100,tl=document.getElementById('tl').value,ri=document.getElementById('ri').value/100,vh=document.getElementById('vh').value/10;
     var rw=(bh*wr).toFixed(3), n=(bh*0.07).toFixed(3);
     st.style.setProperty('--bh',bh+'rem');st.style.setProperty('--rw',rw+'rem');st.style.setProperty('--ov',ov);var pd=document.getElementById('pd').value/100,ex=document.getElementById('ex').value/100;st.style.setProperty('--pad',pd+'rem');st.style.setProperty('--ex',ex);document.getElementById('o7').textContent=pd+'rem';document.getElementById('o8').textContent=ex+'x';st.style.setProperty('--tilt',tl+'deg');st.style.setProperty('--in',ri+'rem');
