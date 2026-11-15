@@ -191,10 +191,15 @@
   .ty-rc-body { padding: 18px; }
   .ty-rc figcaption { font-size: 14px; line-height: 20px; }
   .ty-ready { margin-top: 18px; font-size: 16px; line-height: 24px; }
-  .ty-path-list { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
-  .ty-path-list li { padding: 18px; }
-  .ty-path-list h3 { font-size: 16px; margin-top: 10px; }
-  .ty-path-list p { font-size: 16px; line-height: 24px; margin-top: 8px; }
+  .ty-path-g { grid-template-columns: 1fr; row-gap: 28px; }
+  .ty-path-h { position: static; }
+  .ty-path-list::before { left: 22px; top: 22px; bottom: 22px; width: 2px; }
+  .ty-path-list li { grid-template-columns: 44px 1fr; column-gap: 16px; padding-bottom: 28px; }
+  .ty-path-node { width: 44px; height: 44px; border-width: 2px; }
+  .ty-path-node svg { width: 20px; height: 20px; }
+  .ty-path-n { font-size: 11px; padding-top: 2px; }
+  .ty-path-list h3 { font-size: 18px; margin-top: 6px; }
+  .ty-path-list p { font-size: 16px; line-height: 24px; margin-top: 6px; }
   .ty-rc figcaption .ty-glab .gm { width: 15px; height: 15px; }
   .ty-amb-line { font-size: 16px; line-height: 24px; margin-top: 12px; }
   .ty-btn { text-align: center; padding: 16px 20px; font-size: 13px; }
@@ -224,12 +229,19 @@
 .ty-ready li { margin: 0.03rem 0; }
 
 /* what happens after the call ---------------------------------------------------- */
-.ty-path { text-align: center; }
-.ty-path-list { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.24rem; text-align: left; }
-.ty-path-list li { background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.26rem; }
-.ty-path-n { display: block; color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 0.22rem; letter-spacing: .08em; line-height: 1; }
-.ty-path-list h3 { margin: 0.14rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 1.15; text-transform: uppercase; }
-.ty-path-list p { margin: 0.1rem 0 0; font-size: 0.19rem; line-height: 0.29rem; }
+.ty-path-g { display: grid; grid-template-columns: 1.9fr 2fr; column-gap: 0.6rem; align-items: start; }
+.ty-path-h { position: sticky; top: 1.2rem; text-align: left; }
+.ty-path-h .ty-lede { margin-left: 0; }
+.ty-path-list { list-style: none; margin: 0.1rem 0 0; padding: 0; position: relative; }
+.ty-path-list::before { content: ""; position: absolute; left: 0.34rem; top: 0.34rem; bottom: 0.34rem; width: 0.025rem; background: linear-gradient(var(--orange), var(--orange) 80%, #d9d5cf); }   /* the road down the page */
+.ty-path-list li { position: relative; display: grid; grid-template-columns: 0.68rem 1fr; column-gap: 0.34rem; padding-bottom: 0.42rem; }
+.ty-path-list li:last-child { padding-bottom: 0; }
+.ty-path-node { position: relative; z-index: 1; width: 0.68rem; height: 0.68rem; border-radius: 50%; background: #fff; border: 0.03rem solid var(--orange); color: var(--orange); display: grid; place-items: center; }
+.ty-path-node svg { width: 0.3rem; height: 0.3rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ty-path-end .ty-path-node { background: var(--orange); color: #fff; }
+.ty-path-n { display: block; padding-top: 0.04rem; font: 900 0.16rem/1 var(--aviano); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+.ty-path-list h3 { margin: 0.1rem 0 0; font: 900 0.3rem/1.1 var(--aviano); text-transform: uppercase; }
+.ty-path-list p { margin: 0.1rem 0 0; font-size: 0.21rem; line-height: 0.32rem; max-width: 7rem; }
 
 /* review cards: Google label with the G -------------------------------------------- */
 .ty-rc figcaption .ty-glab { display: inline-flex; align-items: center; gap: 0.08rem; }
