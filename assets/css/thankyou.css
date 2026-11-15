@@ -24,14 +24,20 @@
 .ty-pill-msg { text-transform: uppercase; letter-spacing: .08em; font-weight: 500; white-space: nowrap; }
 .ty-top-lead { margin: 0.2rem auto 0; max-width: 10.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-top-lead b { font-weight: 700; }
-.ty-tl { list-style: none; margin: 0.55rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 11rem; position: relative; }
-.ty-tl::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: 0.16rem; height: 0.025rem; background: linear-gradient(90deg, var(--orange) 0, var(--orange) 50%, #d9d5cf 50%); }
-.ty-tl li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0 0.12rem; }
-.ty-tl i { width: 0.34rem; height: 0.34rem; border-radius: 50%; background: #fff; border: 0.03rem solid #d9d5cf; position: relative; z-index: 1; }
-.ty-tl li.done i { background: var(--orange); border-color: var(--orange); }
-.ty-tl li.done i::after { content: ""; position: absolute; left: 50%; top: 46%; width: 0.09rem; height: 0.17rem; border: solid #fff; border-width: 0 0.03rem 0.03rem 0; transform: translate(-50%, -55%) rotate(45deg); }
-.ty-tl li.now i { border-color: var(--orange); box-shadow: 0 0 0 0.07rem rgba(219,118,39,.22); animation: tyPulse 1.8s ease-in-out infinite; }
 @keyframes tyPulse { 50% { box-shadow: 0 0 0 0.13rem rgba(219,118,39,.06); } }
+/* the three steps: cards on thirds with a chevron between, the current one outlined */
+.ty-steps { --g: 0.6rem; list-style: none; margin: 0.6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--g); text-align: left; }
+.ty-steps li { position: relative; background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.3rem 0.3rem 0.32rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.ty-steps-i { width: 0.56rem; height: 0.56rem; margin-bottom: 0.06rem; box-sizing: border-box; border-radius: 50%; background: #fff; border: 0.03rem solid #d9d5cf; color: #9b968e; display: grid; place-items: center; }
+.ty-steps-i svg { width: 0.28rem; height: 0.28rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ty-steps .done .ty-steps-i { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ty-steps .now { border-color: var(--orange); }
+.ty-steps .now .ty-steps-i { border-color: var(--orange); color: var(--orange); box-shadow: 0 0 0 0.07rem rgba(219,118,39,.22); animation: tyPulse 1.8s ease-in-out infinite; }
+.ty-steps b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
+.ty-steps li > span:last-child { font-size: 0.2rem; line-height: 0.28rem; color: #555; text-wrap: balance; }
+.ty-steps li:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: calc(var(--g) / -2); width: 0.3rem; height: 0.3rem; transform: translate(50%, -50%); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d9d5cf' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }   /* the homepage chevron, centred on the card height */
+.ty-steps li.done::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23DB7627' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E"); }
+@media (prefers-reduced-motion: reduce) { .ty-steps .now .ty-steps-i { animation: none; } }
 /* Testimonial hero: still + quote + play + thumbnail strip (King Kong layout) */
 .ty-tv { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100vh - 1.42rem); min-height: 7rem; background: #111; color: #fff; overflow: hidden; display: flex; flex-direction: column; }
 .ty-tv-media { position: absolute; inset: 0; background: #111; }
@@ -76,9 +82,6 @@
 @keyframes ty-tick { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ty-tick-track { animation: none; } }
 
-@media (prefers-reduced-motion: reduce) { .ty-tl li.now i { animation: none; } }
-.ty-tl b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
-.ty-tl span { font-size: 0.2rem; line-height: 0.28rem; color: #555; }
 
 .ty-hero { padding-top: 0.25rem; padding-bottom: 0; text-align: center; }   /* the thank-you block above supplies the rest of the gap */
 .ty-title { margin: 0.34rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
@@ -155,6 +158,13 @@
 .ty-cmc:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
 
 @media (max-width: 900px) {
+  .ty-steps { --g: 28px; grid-template-columns: 1fr; row-gap: var(--g); margin-top: 32px; }
+  .ty-steps li { padding: 18px; }
+  .ty-steps-i { width: 44px; height: 44px; border-width: 2px; }
+  .ty-steps-i svg { width: 20px; height: 20px; }
+  .ty-steps b { font-size: 14px; line-height: 18px; }
+  .ty-steps li > span:last-child { font-size: 16px; line-height: 24px; }
+  .ty-steps li:not(:last-child)::after { top: auto; bottom: calc(var(--g) / -2); right: 50%; width: 22px; height: 22px; transform: translate(50%, 50%) rotate(90deg); }
   .ty-top { padding-top: 40px; padding-bottom: 8px; }
   .ty-top-k { font-size: 13px; margin-bottom: 12px; }
   .ty-top-ck { width: 56px; height: 56px; margin-bottom: 14px; }
@@ -164,13 +174,6 @@
   .ty-top-h { font-size: 30px; }
   .ty-top-msg { font-size: 17px; line-height: 25px; margin-top: 12px; }
   .ty-top-lead { font-size: 16px; line-height: 24px; margin-top: 14px; }
-  .ty-tl { width: 100%; margin-top: 32px; }
-  .ty-tl::before { top: 13px; height: 2px; }
-  .ty-tl i { width: 28px; height: 28px; border-width: 2px; }
-  .ty-tl li.done i::after { width: 7px; height: 13px; border-width: 0 2px 2px 0; }
-  .ty-tl li { padding: 0 4px; gap: 8px; }
-  .ty-tl b { font-size: 12px; line-height: 16px; }
-  .ty-tl span { font-size: 12px; line-height: 16px; }
   .ty-hero { padding-top: 8px; padding-bottom: 48px; }
   .ty-title { margin-top: 24px; font-size: 30px; }
   .ty-sub { margin-top: 14px; font-size: 16px; line-height: 24px; }
