@@ -145,7 +145,7 @@
 .ty-gr .ty-st { display: inline; font-size: 0.2rem; }
 
 /* community ----------------------------------------------------------------- */
-.ty-community { text-align: center; width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7; }   /* homepage light grey, full width, like the reviews */
+.ty-community { text-align: center; width: 100vw; margin-left: calc(50% - 50vw); background: linear-gradient(to bottom, #F8F8F7 0, #F8F8F7 calc(100% - 2.4rem), #fff 100%); }   /* homepage light grey, full width; the last stretch fades to white so it blends into the section below */
 /* community wall (community-wall.js): the real screenshots in three columns, a click opens one large */
 .ty-cmw { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; align-items: start; text-align: left; }
 .ty-cmw-col { display: flex; flex-direction: column; gap: 0.24rem; }
