@@ -29,8 +29,8 @@
     aw.style.setProperty("--bh", (bh / k).toFixed(3) + "rem");
     aw.style.setProperty("--pad", (rw * 0.0757 / k).toFixed(3) + "rem");
     box.style.marginLeft = off + "px";
-    var lo = rw * (1 - UN) / 2, bw = mp.offsetWidth, gap = GAP * k;           // arrows: same distance from the set's visible ends
-    mp.style.left = (off + lo - gap - bw) + "px"; mn.style.left = (off + total - lo + gap) + "px";
+    var bw = mp.offsetWidth;                                                   // arrows: left one on the column's left margin, right one against the description card
+    mp.style.left = "0px"; mn.style.left = (A - bw) + "px";
   }
   function show(i) {
     cur = (i + items.length) % items.length;
