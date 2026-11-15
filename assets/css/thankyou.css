@@ -27,11 +27,11 @@
 @keyframes tyPulse { 50% { box-shadow: 0 0 0 0.13rem rgba(219,118,39,.06); } }
 /* the three steps: cards on thirds with a chevron between, the current one outlined */
 .ty-steps { --g: 0.6rem; list-style: none; margin: 0.6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--g); text-align: left; }
-.ty-steps li { position: relative; background: #fff; border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.3rem 0.3rem 0.32rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.ty-steps li { position: relative; background: #F8F8F7; border: 0.02rem solid transparent; border-radius: 0.1rem; padding: 0.3rem 0.3rem 0.32rem; display: flex; flex-direction: column; gap: 0.1rem; }
 .ty-steps-i { width: 0.56rem; height: 0.56rem; margin-bottom: 0.06rem; box-sizing: border-box; border-radius: 50%; background: #fff; border: 0.03rem solid #d9d5cf; color: #9b968e; display: grid; place-items: center; }
 .ty-steps-i svg { width: 0.28rem; height: 0.28rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .ty-steps .done .ty-steps-i { background: var(--orange); border-color: var(--orange); color: #fff; }
-.ty-steps .now { border-color: var(--orange); }
+.ty-steps .done { border-color: var(--orange); }   /* only the finished step is outlined */
 .ty-steps .now .ty-steps-i { border-color: var(--orange); color: var(--orange); box-shadow: 0 0 0 0.07rem rgba(219,118,39,.22); animation: tyPulse 1.8s ease-in-out infinite; }
 .ty-steps b { font-family: var(--aviano); font-weight: 900; font-size: 0.2rem; line-height: 0.26rem; text-transform: uppercase; }
 .ty-steps li > span:last-child { font-size: 0.2rem; line-height: 0.28rem; color: #555; text-wrap: balance; }
