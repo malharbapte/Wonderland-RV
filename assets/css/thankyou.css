@@ -145,7 +145,7 @@
 .ty-gr .ty-st { display: inline; font-size: 0.2rem; }
 
 /* community ----------------------------------------------------------------- */
-.ty-community { text-align: center; }
+.ty-community { text-align: center; width: 100vw; margin-left: calc(50% - 50vw); background: #F8F8F7; }   /* homepage light grey, full width, like the reviews */
 /* community wall (community-wall.js): the real screenshots in three columns, a click opens one large */
 .ty-cmw { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; align-items: start; text-align: left; }
 .ty-cmw-col { display: flex; flex-direction: column; gap: 0.24rem; }
@@ -153,7 +153,6 @@
 .ty-cmc img { display: block; width: 100%; height: auto; }
 .ty-cmc-a { position: absolute; left: 0.12rem; top: 0.12rem; padding: 0.06rem 0.14rem; border-radius: 999px; background: #111; color: #fff; font: 900 0.13rem/1 var(--aviano); letter-spacing: .1em; text-transform: uppercase; pointer-events: none; }
 .ty-cmc:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.03rem; }
-.ty-wall--fade.ty-wall--w::after { background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 92%); }
 
 @media (max-width: 900px) {
   .ty-top { padding-top: 40px; padding-bottom: 8px; }
