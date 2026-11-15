@@ -354,3 +354,6 @@ html.ty-lb-open { overflow: hidden; }
 .ty-aw-info.swap > :nth-child(2) { animation-delay: .05s; } .ty-aw-info.swap > :nth-child(3) { animation-delay: .1s; } .ty-aw-info.swap > :nth-child(4) { animation-delay: .15s; }
 @keyframes ty-aw-in { from { opacity: 0; transform: translateY(.14rem); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .ty-aw-rb { transition: none; } .ty-aw-info.swap > * { animation: none; } }
+.next-band .next-actions { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; width: max-content; }   /* both CTAs as wide as the wider one */
+.next-band .btn-next { text-align: center; white-space: nowrap; }
+@media (max-width: 900px) { .next-band .next-actions { display: flex; width: 100%; } .next-band .btn-next { white-space: normal; flex: 1; } }   /* phone keeps the site's own band layout */
