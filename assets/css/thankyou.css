@@ -230,7 +230,7 @@
 
 /* what happens after the call ---------------------------------------------------- */
 .ty-path-g { display: grid; grid-template-columns: 1.9fr 2fr; column-gap: 0.6rem; align-items: start; }
-.ty-path-h { position: sticky; top: 1.2rem; text-align: left; }
+.ty-path-h { position: sticky; top: 1.9rem; text-align: left; }
 .ty-path-h .ty-lede { margin-left: 0; }
 .ty-path-list { list-style: none; margin: 0.1rem 0 0; padding: 0; position: relative; }
 .ty-path-list::before { content: ""; position: absolute; left: 0.34rem; top: 0.34rem; bottom: 0.34rem; width: 0.025rem; background: linear-gradient(var(--orange), var(--orange) 80%, #d9d5cf); }   /* the road down the page */
