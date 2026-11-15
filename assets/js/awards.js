@@ -10,7 +10,7 @@
       mv = document.getElementById("tyAwMv"), info = document.getElementById("tyAwInfo");
   if (!aw || !wrap || !box || !mv || !info) return;
   var items = [].slice.call(box.children), mp = mv.querySelector(".ty-aw-p"), mn = mv.querySelector(".ty-aw-n"),
-      cta = info.querySelector(".ty-aw-cta"), cur = 1, OV = 0.4, UN = 0.85, GAP = 0.4, OV0 = 0.25;   // OV0: the overlap the ribbon width was first sized for
+      cta = info.querySelector(".ty-aw-cta"), cur = 1, OV = 0.4, UN = 0.85, GAP = 0.4, OV0 = 0.25, S = 0.72;   // S: ribbon scale (0.72 = 28% shorter than the original full-column size). OV0: the overlap the ribbon width was first sized for
 
   /* newest first. a = there is an article to link to (hrefs are placeholders in this mock) */
   var DATA = [
@@ -22,7 +22,7 @@
 
   function rem() { return parseFloat(getComputedStyle(document.documentElement).fontSize); }
   function size() {
-    var k = rem(), A = wrap.clientWidth, rw = A / (1 + 3 * (1 - OV0)), bh = rw * 2.366,
+    var k = rem(), A = wrap.clientWidth, rw = S * A / (1 + 3 * (1 - OV0)), bh = rw * 2.366,
         total = rw * (1 + 3 * (1 - OV)), off = (A - total) / 2;               // a tighter set, centred in its column
     aw.style.setProperty("--ov", OV);
     aw.style.setProperty("--rw", (rw / k).toFixed(3) + "rem");
