@@ -2,7 +2,7 @@
    (one on phones), 12 to start, then "Load more" adds 12 at a time. Each new card goes
    into the shortest column. While more are waiting the columns are cut level and the
    bottom fades into the page. A click opens the screenshot large (arrows or the left and
-   right keys move on). Ambassador comments carry an "Ambassador" label. */
+   right keys move on). No visible Ambassador label on the cards (Piyush, 17 Nov 2026). */
 (function () {
   "use strict";
   var BATCH = 12, wall = document.getElementById("tyCm"), btn = document.getElementById("tyCmMore"), data = window.WL_COMMUNITY || [];
@@ -14,7 +14,7 @@
   function card(d, i) {
     var b = document.createElement("button");
     b.type = "button"; b.className = "ty-cmc"; b.setAttribute("data-i", i); b.setAttribute("aria-label", alt(d) + ": open large");
-    b.innerHTML = '<img src="' + esc(d.src) + '" width="' + d.w + '" height="' + d.h + '" alt="' + esc(alt(d)) + '" loading="lazy">' + (d.type === "ambassador" ? '<span class="ty-cmc-a">Ambassador</span>' : "");
+    b.innerHTML = '<img src="' + esc(d.src) + '" width="' + d.w + '" height="' + d.h + '" alt="' + esc(alt(d)) + '" loading="lazy">';
     return b;
   }
   function build() {
