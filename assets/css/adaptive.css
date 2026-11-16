@@ -12,10 +12,29 @@
    that point, so the body is held to the window width; the content column
    (16.24rem) is what carries the margin.  Same type ratios, same crops.
    Below 1440px nothing changes. */
+/* v3: every section has to fit the screen as well as the width.
+   The tallest one-screen sections (range viewer, video carousel, pull-quote
+   band, contact video) are 13.3 to 14.6rem tall, so the scale is also held to
+   100vh / 14.8: they can never be taller than the window. The heroes already
+   size themselves to the window. The baseline (window / 28.09) is the floor, so
+   nothing is ever smaller than it is today. On a window about as tall as it is
+   wide (16:10 and taller) the full half-margin applies; on a wide, short window
+   the height limit holds the margin back (about 18.6% at 16:9). */
 html {
   font-size: max(
     calc(100vw / 28.09),
-    min(calc(51.26px + (100vw - 1440px) * 0.0652), calc(100vw / 20.58))
+    min(calc(51.26px + (100vw - 1440px) * 0.0652), calc(100vw / 20.58), calc(100vh / 14.8))
   );
 }
 body { max-width: min(23.76rem, 100vw); }
+
+/* Arrows that sit out in the side margin: keep them inside it. The design puts
+   them on the line half a page-margin outside the column; with the narrower
+   adaptive margin that line can fall off the screen, so the outer edge of the
+   arrow is held 0.1rem inside the window. Where there is room (today's widths)
+   the rule changes nothing. */
+@media (min-width: 901px) {
+  .rvx-arrow--prev { left:  calc(-1 * min(var(--page-margin) / 2 + 0.40rem, (100vw - var(--col)) / 2 - 0.10rem)); }
+  .rvx-arrow--next { right: calc(-1 * min(var(--page-margin) / 2 + 0.40rem, (100vw - var(--col)) / 2 - 0.10rem)); }
+  .pull-arrow { right: max(0.10rem, calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.40rem)); }
+}
