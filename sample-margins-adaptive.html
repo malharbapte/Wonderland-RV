@@ -28,7 +28,7 @@ body{margin:0;background:#eceae6;font:14px/1.4 system-ui,sans-serif;color:#111;h
 </div>
 <script>
 var W=+(location.hash.slice(1))||2560, PAGE='thank-you.html';
-var WIDTHS=[1440,1920,2560,3440], PAGES={'Thank-you':'thank-you.html','Home':'index.html'};
+var WIDTHS=[1440,1920,2560,3440], PAGES={'Thank-you':'thank-you.html','Home':'home.html','Contact':'index.html'};
 function mk(id,items,cur,fn){var g=document.getElementById(id);items.forEach(function(it){var b=document.createElement('button');b.textContent=it[0];b.onclick=function(){fn(it[1]);[].forEach.call(g.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)})};if(it[1]===cur)b.className='on';g.appendChild(b)})}
 mk('w',WIDTHS.map(function(x){return [x+'px',x]}),W,function(v){W=v;build()});
 mk('p',Object.keys(PAGES).map(function(k){return [k,PAGES[k]]}),PAGE,function(v){PAGE=v;build()});
@@ -42,7 +42,7 @@ function build(){
     f.style.width=W+'px';f.style.height=(v.clientHeight/sc)+'px';f.style.transform='scale('+sc+')';
     f.onload=function(){
       var doc=f.contentDocument;
-      if(d[1]){var l=doc.createElement('link');l.rel='stylesheet';l.href='assets/css/adaptive.css?v=1';doc.head.appendChild(l)}
+      if(d[1]){var l=doc.createElement('link');l.rel='stylesheet';l.href='assets/css/adaptive.css?v=2';doc.head.appendChild(l)}
       setTimeout(function(){
         var c=doc.querySelector('.container');
         if(c){var x=c.getBoundingClientRect().left;document.getElementById(d[2]).textContent=Math.round(x)+'px · '+(x/W*100).toFixed(1)+'% each side'}
