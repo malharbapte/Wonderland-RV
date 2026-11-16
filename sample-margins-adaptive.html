@@ -23,8 +23,8 @@ body{margin:0;background:#eceae6;font:14px/1.4 system-ui,sans-serif;color:#111;h
   <span style="color:#555">Both panes scroll together. Margin = distance from the window edge to the content column.</span>
 </div>
 <div class="panes">
-  <div class="pane"><h2>Now (fixed share) <span id="ma"></span></h2><div class="view" id="va"></div></div>
-  <div class="pane"><h2>Adaptive <span id="mb"></span></h2><div class="view" id="vb"></div></div>
+  <div class="pane"><h2>Switch off (--adaptive: 0) <span id="ma"></span></h2><div class="view" id="va"></div></div>
+  <div class="pane"><h2>Switch on (--adaptive: 1, live) <span id="mb"></span></h2><div class="view" id="vb"></div></div>
 </div>
 <script>
 var W=+(location.hash.slice(1))||2560, PAGE='thank-you.html';
@@ -42,7 +42,7 @@ function build(){
     f.style.width=W+'px';f.style.height=(v.clientHeight/sc)+'px';f.style.transform='scale('+sc+')';
     f.onload=function(){
       var doc=f.contentDocument;
-      if(d[1]){var l=doc.createElement('link');l.rel='stylesheet';l.href='assets/css/adaptive.css?v=3';doc.head.appendChild(l)}
+      if(!d[1]){var l=doc.createElement('style');l.textContent=':root{--adaptive:0}';doc.head.appendChild(l)}
       setTimeout(function(){
         var c=doc.querySelector('.container');
         if(c){var x=c.getBoundingClientRect().left;document.getElementById(d[2]).textContent=Math.round(x)+'px · '+(x/W*100).toFixed(1)+'% each side'}

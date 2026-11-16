@@ -66,6 +66,14 @@
 
   /* Page margins cut to 3/4 of the original 501.5, so the content column
      grows 1373 -> 1624. Everything inside keeps its own size. */
+  /* ADAPTIVE MARGINS: 1 = on, 0 = off (back to the fixed 21.1% margins).
+     This one number is the whole switch. On, the page scale is unchanged up to
+     1440px, then grows faster than the window so the side margins shrink
+     (21.1% -> 15.7% on a 16:10 window, 19.1% on 16:9), held back by the window
+     HEIGHT so the range viewer, video carousel and pull-quote band always fit
+     the screen. The window/28.09 baseline is the floor, so it is never smaller
+     than the old page. Off, the rule below reduces to the old one exactly. */
+  --adaptive: 1;
   --page-margin: 3.76rem;
   --col: 16.24rem;
   --gutter: 5.015rem;
@@ -114,13 +122,20 @@ html {
      The 100px cap now bites at 2809px rather than 2376px; past it the artboard
      is fixed at 2376px and the margins keep growing, which is the behaviour
      that was already there. */
-  font-size: min(calc(100vw / 28.09), 100px);
+  font-size: max(
+    min(calc(100vw / 28.09), 100px),
+    calc(min(
+      calc(51.26px + (100vw - 1440px) * 0.0652),   /* margins shrink from 1440px ... */
+      calc(100vw / 20.58),                         /* ... to half the baseline, then hold */
+      calc(100vh / 14.8)                           /* every one-screen section fits the window */
+    ) * var(--adaptive))
+  );
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0 auto;
-  max-width: 23.76rem;
+  max-width: min(23.76rem, 100vw);   /* adaptive: the artboard can outgrow the window */
   background: #fff;
   color: var(--ink);
   font-family: var(--gordita);

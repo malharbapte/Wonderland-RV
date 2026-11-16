@@ -751,10 +751,11 @@
   .rvx-arrow:hover, .coty-arrow:hover, .pull-arrow:hover { color: var(--arrow-hover); }
 
   .rvx-arrow { top: -0.10rem; }
-  .rvx-arrow--prev { left:  calc(-1 * (var(--page-margin) / 2) - 0.40rem); }
-  .rvx-arrow--next { right: calc(-1 * (var(--page-margin) / 2) - 0.40rem); }
+  /* held inside the window: the line half a page-margin out can fall off the screen when the adaptive margin is narrow */
+  .rvx-arrow--prev { left:  calc(-1 * min(var(--page-margin) / 2 + 0.40rem, (100vw - var(--col)) / 2 - 0.10rem)); }
+  .rvx-arrow--next { right: calc(-1 * min(var(--page-margin) / 2 + 0.40rem, (100vw - var(--col)) / 2 - 0.10rem)); }
 
-  .pull-arrow { margin-top: -0.47rem; right: calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.40rem); }
+  .pull-arrow { margin-top: -0.47rem; right: max(0.10rem, calc((100vw - var(--col)) / 2 - var(--page-margin) / 2 - 0.40rem)); }
 
   .coty-arrow { margin-top: calc(var(--arrow-box) / -2); }
   .coty-arrow--prev { left:  calc(50% - var(--coty-vid-w) / 2 - var(--arrow-box) * 4 / 3 - 0.58rem); }
