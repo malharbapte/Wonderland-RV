@@ -1,0 +1,18 @@
+/* ADAPTIVE MARGINS (sample).
+   The page is one artboard scaled by html's font-size, so every proportion is
+   locked. Today that scale is window/28.09, which pins the side margins at
+   21.09% of the window at every width (and stops growing at 2809px).
+
+   Here the scale is unchanged up to 1440px, then grows a little faster than
+   the window, so the side margins shrink as the window widens:
+       1440px  ->  21.1% each side   (identical to now)
+       2560px  ->  16.9% each side   (divisor 24.5; the scale stops gaining here)
+   Past 2560px the margin share stays at 16.9% and the whole artboard simply
+   grows with the window (no 100px cap).  Nothing inside is re-laid out: same
+   type, same ratios, same crops.  Below 1440px nothing changes. */
+html {
+  font-size: max(
+    calc(100vw / 28.09),
+    min(calc(51.26px + (100vw - 1440px) * 0.0475), calc(100vw / 24.5))
+  );
+}
