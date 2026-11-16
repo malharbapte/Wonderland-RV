@@ -74,6 +74,9 @@
      the screen. The window/28.09 baseline is the floor, so it is never smaller
      than the old page. Off, the rule below reduces to the old one exactly. */
   --adaptive: 1;
+  /* height, in rem, of the tallest section on the page that has to fit the window.
+     A page with a taller one-screen section sets its own (wx-page.css, ambassador-page.css). */
+  --fit: 14.8;
   --page-margin: 3.76rem;
   --col: 16.24rem;
   --gutter: 5.015rem;
@@ -122,13 +125,16 @@ html {
      The 100px cap now bites at 2809px rather than 2376px; past it the artboard
      is fixed at 2376px and the margins keep growing, which is the behaviour
      that was already there. */
-  font-size: max(
-    min(calc(100vw / 28.09), 100px),
-    calc(min(
-      calc(51.26px + (100vw - 1440px) * 0.0652),   /* margins shrink from 1440px ... */
-      calc(100vw / 20.58),                         /* ... to half the baseline, then hold */
-      calc(100vh / 14.8)                           /* every one-screen section fits the window */
-    ) * var(--adaptive))
+  font-size: calc(
+    (1 - var(--adaptive)) * min(100vw / 28.09, 100px)          /* switch off: the old fixed scale */
+    + var(--adaptive) * max(
+        100vw / 46.8,                                           /* floor: never below 0.6 of the old scale */
+        min(
+          max(100vw / 28.09, 51.26px + (100vw - 1440px) * 0.0652),  /* margins shrink from 1440px ... */
+          100vw / 20.58,                                        /* ... to half the baseline, then hold */
+          100vh / var(--fit)                                    /* the tallest one-screen section fits the window */
+        )
+      )
   );
   -webkit-text-size-adjust: 100%;
 }
@@ -667,6 +673,12 @@ input:-webkit-autofill:focus {
   aspect-ratio: 2389 / 1184;
   overflow: hidden;
   background-color: #111;
+}
+/* Adaptive margins: on a very wide window the full-width band grows taller than
+   the screen. Held to the window height (the clip is already cropped to fill,
+   so it just loses a little more top and bottom). No effect on normal windows. */
+@media (min-width: 901px) {
+  .video-band .video-frame { max-height: calc(100vh - 1.4rem); }
 }
 .video-frame iframe,
 .video-frame video {

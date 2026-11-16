@@ -1,3 +1,6 @@
+/* Adaptive margins: the hero (15.8rem) is the tallest section that has to fit the window. */
+:root { --fit: 15.9; }
+
 /* ==========================================================================
    THE WONDERLAND EXPERIENCE — wonderland-experience.html
 
