@@ -1,0 +1,69 @@
+/* SAMPLE ONLY — the reviewer's notes applied to the thank-you page. */
+
+/* 1 · top: tick, then the steps, then the congratulations pill */
+.ty-top .ty-steps { margin-top: 0.1rem; }
+.ty-top .ty-pill-w { margin: 0.4rem 0 0; }
+
+/* 2 · "Important next steps" + its sentence */
+.ty-hero-lede { max-width: 9.4rem; margin: 0.22rem auto 0; text-wrap: balance; }
+
+/* 7 · reviews intro */
+.ty-rev-lede { max-width: 9.8rem; margin: 0.22rem auto 0; text-wrap: balance; }
+
+/* 6 · From our first chat to your first trip — two layouts */
+.ty-pw-top { text-align: left; }
+.ty-pw-top .ty-lede { margin-left: 0; max-width: 8.4rem; text-wrap: balance; }
+.ty-pl { list-style: none; margin: 0; padding: 0; position: relative; }
+.ty-pl li { position: relative; display: grid; align-items: center; padding-bottom: 0.42rem; }
+.ty-pw--b .ty-pl li { padding-bottom: 0.3rem; }
+.ty-pl li:last-child { padding-bottom: 0; }
+.ty-pl .ty-path-node { position: relative; z-index: 1; }
+.ty-pl::before { content: ""; position: absolute; top: 0.34rem; bottom: 0.34rem; width: 0.025rem; background: linear-gradient(var(--orange), var(--orange) 80%, #d9d5cf); }
+.ty-pl h3 { margin: 0.1rem 0 0; font: 900 0.3rem/1.1 var(--aviano); text-transform: uppercase; }
+.ty-pl p { margin: 0.1rem 0 0; font-size: 0.21rem; line-height: 0.32rem; max-width: 7rem; }
+.ty-pl-ph { display: block; width: 3.4rem; height: 1.7rem; object-fit: cover; border-radius: 0.1rem; }
+.ty-pw-photo { position: relative; overflow: hidden; border-radius: 0.1rem; }
+.ty-pw-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 60%; }
+
+/* A — the left column is filled by one tall photo under the heading; the road stays on the right */
+.ty-pw--a .container { display: grid; grid-template-columns: 1.9fr 2fr; column-gap: 0.6rem; grid-template-rows: auto 1fr; grid-template-areas: "head list" "photo list"; }
+.ty-pw--a .ty-pw-top { grid-area: head; }
+.ty-pw--a .ty-pw-photo { grid-area: photo; margin-top: 0.45rem; min-height: 2.6rem; }
+.ty-pw--a .ty-pl { grid-area: list; margin-top: 0.1rem; }
+.ty-pw--a .ty-pl::before { left: 0.34rem; }
+.ty-pw--a .ty-pl li { grid-template-columns: 0.68rem 1fr; column-gap: 0.34rem; }
+.ty-pw--a .ty-pl-ph { display: none; }
+
+/* B — a road down the middle, text one side and a photo the other, swapping each stop */
+.ty-pw--b .ty-pw-top { text-align: center; }
+.ty-pw--b .ty-pw-top .ty-lede { margin-left: auto; margin-right: auto; }
+.ty-pw--b .ty-pw-photo { display: none; }
+.ty-pw--b .ty-pl { margin-top: 0.5rem; }
+.ty-pw--b .ty-pl::before { left: calc(50% - 0.0125rem); }
+.ty-pw--b .ty-pl li { grid-template-columns: 1fr 0.68rem 1fr; column-gap: 0.5rem; }
+.ty-pw--b .ty-pl li > .ty-path-node { grid-column: 2; grid-row: 1; }
+.ty-pw--b .ty-pl li > .ty-pl-txt { grid-row: 1; }
+.ty-pw--b .ty-pl li > .ty-pl-ph { grid-row: 1; }
+.ty-pw--b .ty-pl li:nth-child(odd) > .ty-pl-txt { grid-column: 1; text-align: right; }
+.ty-pw--b .ty-pl li:nth-child(odd) > .ty-pl-txt p { margin-left: auto; }
+.ty-pw--b .ty-pl li:nth-child(odd) > .ty-pl-ph { grid-column: 3; justify-self: start; }
+.ty-pw--b .ty-pl li:nth-child(even) > .ty-pl-txt { grid-column: 3; text-align: left; }
+.ty-pw--b .ty-pl li:nth-child(even) > .ty-pl-ph { grid-column: 1; justify-self: end; }
+
+/* sample switch */
+.smp-bar { position: fixed; z-index: 9999; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; padding: 8px 10px 8px 14px; background: #111; color: #fff; border-radius: 999px; font: 600 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+.smp-bar button { font: inherit; color: #fff; background: transparent; border: 1px solid #555; border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+.smp-bar button.on { background: #DB7627; border-color: #DB7627; color: #111; }
+
+@media (max-width: 900px) {
+  .ty-pw--a .container, .ty-pw--b .container { display: block; }
+  .ty-pw--a .ty-pw-photo { height: 60vw; margin: 24px 0; }
+  .ty-pw--b .ty-pw-photo { display: none; }
+  .ty-pw--b .ty-pw-top { text-align: left; }
+  .ty-pw--b .ty-pl::before { left: 22px; }
+  .ty-pw--b .ty-pl li { grid-template-columns: 44px 1fr; column-gap: 16px; }
+  .ty-pw--b .ty-pl li > .ty-path-node, .ty-pw--b .ty-pl li:nth-child(n) > .ty-pl-txt { grid-column: auto; text-align: left; }
+  .ty-pw--b .ty-pl li:nth-child(n) > .ty-pl-txt { grid-column: 2; }
+  .ty-pw--b .ty-pl li > .ty-path-node { grid-column: 1; }
+  .ty-pw--b .ty-pl-ph { display: none; }
+}
