@@ -162,3 +162,28 @@ var TESTIMONIALS = [
   if (window.MutationObserver) new MutationObserver(scan).observe(wall, { childList: true, subtree: true });
   window.addEventListener("load", scan); scan();
 })();
+
+
+/* Phones: "How a Wonderland RV is built" is a row of swipe cards (CSS, inside the 900px query). The three dots
+   follow the swipe and the cards also move on by themselves every 4 s while the section is on screen; a touch or
+   a tap on a dot holds them for 8 s. Desktop keeps the plain three columns and never runs any of this. */
+(function () {
+  var grid = document.querySelector(".ty-bq-grid"), dots = document.getElementById("tyBqDots");
+  if (!grid || !dots || !window.matchMedia) return;
+  var mq = window.matchMedia("(max-width: 900px)"), cards = grid.children, n = cards.length, cur = 0, hold = 0, visible = false;
+  for (var i = 0; i < n; i++) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", "Show step " + (i + 1)); dots.appendChild(b); }
+  function padL() { return parseFloat(getComputedStyle(grid).scrollPaddingLeft) || 0; }
+  function idx() { var best = 0, bd = 1e9; for (var k = 0; k < n; k++) { var d = Math.abs(cards[k].offsetLeft - padL() - grid.scrollLeft); if (d < bd) { bd = d; best = k; } } return best; }
+  function mark(k) { cur = k; for (var m = 0; m < n; m++) dots.children[m].classList.toggle("on", m === k); }
+  function go(k) { grid.scrollTo({ left: cards[k].offsetLeft - padL(), behavior: "smooth" }); }
+  var raf; grid.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(function () { mark(idx()); }); }, { passive: true });
+  ["touchstart", "pointerdown"].forEach(function (t) { grid.addEventListener(t, function () { hold = Date.now(); }, { passive: true }); });
+  Array.prototype.forEach.call(dots.children, function (d, k) { d.addEventListener("click", function () { hold = Date.now(); go(k); }); });
+  mark(0);
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!still) {
+    setInterval(function () { if (mq.matches && visible && !document.hidden && Date.now() - hold > 8000) go((cur + 1) % n); }, 4000);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.5 }).observe(grid);
+    else visible = true;
+  }
+})();

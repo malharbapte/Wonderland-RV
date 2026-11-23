@@ -584,3 +584,48 @@ html.ty-lb-open { overflow: hidden; }
   .thanks .brands .brand-track li.sm img { height: 48px; }
   .thanks .brands .brand-track li { margin-right: 44px; }
 }
+
+
+/* =====================================================================================================
+   PHONE, round 3 (Malhar, 24 Nov 2026): each section fits one phone screen.
+   Build = swipe cards (1C) that also move on their own every 4 s; step picker = picture on top, numbered
+   chips, caption below (2A). Community = two-column tiles (2E) is in community-wall.js. Desktop untouched.
+   ===================================================================================================== */
+.ty-bq-dots { display: none; }
+@media (max-width: 900px) {
+  /* ---- build: swipe cards, next card peeks ---- */
+  .ty-build.ty-sec { padding-top: 44px; padding-bottom: 36px; }
+  .ty-build .ty-bq-grid { display: flex; gap: 12px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; margin: 24px -24px 0; padding: 0 24px; scroll-padding-left: 24px; }
+  .ty-build .ty-bq-grid::-webkit-scrollbar { display: none; }
+  .ty-build .ty-bq-grid::after { content: ""; flex: 0 0 12px; }
+  .ty-build .ty-bq { flex: 0 0 292px; scroll-snap-align: start; background: #fff; border: 1px solid #e4e2de; border-radius: 10px; overflow: hidden; padding-bottom: 20px; }
+  .ty-build .ty-bq-img { border-radius: 0; aspect-ratio: 16 / 10; }
+  .ty-build .ty-bq-n, .ty-build .ty-bq h3, .ty-build .ty-bq p { margin-left: 18px; margin-right: 18px; }
+  .ty-build .ty-bq-n { margin-top: 16px; font-size: 16px; }
+  .ty-build .ty-bq h3 { margin-top: 8px; font-size: 18px; line-height: 24px; }
+  .ty-build .ty-bq p { margin-top: 8px; font-size: 15px; line-height: 22px; }
+  .ty-bq-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+  .ty-bq-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: #c9c8c5; transition: width .25s ease, background .25s ease; cursor: pointer; }
+  .ty-bq-dots button.on { width: 24px; background: var(--orange); }
+
+  /* ---- step picker: picture on top, numbered chips, caption below ---- */
+  .ty-pk.ty-sec { padding-top: 40px; padding-bottom: 36px; }
+  .ty-pk .ty-pk-wrap { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .ty-pk .ty-pk-left, .ty-pk .ty-pk-pic { display: contents; }
+  .ty-pk .ty-pk-left .ty-h { grid-row: 1; }
+  .ty-pk .ty-pk-left .ty-lede { grid-row: 2; margin-top: 10px; }
+  .ty-pk .ty-pk-pic::after { display: none; }
+  .ty-pk .ty-pk-pic img { position: static; grid-row: 3; grid-column: 1; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; margin-top: 18px; }
+  .ty-pk .ty-pk-list { grid-row: 4; --row: 44px; margin-top: 14px; flex-direction: row; justify-content: space-between; }
+  .ty-pk .ty-pk-list::before { left: 22px; right: 22px; top: 21px; bottom: auto; width: auto; height: 2px; }
+  .ty-pk .ty-pk-list::after { left: 22px; top: 21px; height: 2px; width: calc((100% - 44px) * var(--i) / 4); transition: width .5s ease; }
+  .ty-pk .ty-pk-list button { display: block; width: 44px; height: 44px; flex: none; grid-template-columns: none; }
+  .ty-pk .ty-pk-list button > span:not(.ty-pk-node) { display: none; }
+  .ty-pk .ty-pk-list button.on .ty-pk-node { transform: scale(1.1); }
+  .ty-pk .ty-pk-cap { position: static; grid-row: 5; grid-column: 1; margin-top: 16px; min-height: 148px; color: #000; text-shadow: none; }
+  .ty-pk .ty-pk-cap .ty-pk-n { font-size: 11px; color: var(--orange); }
+  .ty-pk .ty-pk-cap h3 { color: #000; font-size: 18px; line-height: 24px; margin-top: 6px; }
+  .ty-pk .ty-pk-cap p { color: #414042; font-size: 15px; line-height: 22px; margin-top: 6px; max-width: none; }
+}
+}
