@@ -3,7 +3,8 @@
    with the photos reviewers posted and their profile pictures), 13 Nov 2026.
    Merged, newest first. The wall (reviews-wall.js) shows the first 30, then
    "Load more" adds 30 at a time. Each card links to its review.
-     { name, text, stars, date, url, photo (profile picture file), pic (true when that file is a real picture, not Google's coloured-letter default), images (review photos) } */
+     { name, text, stars, date, url, photo (profile picture file), pic (true when that file is a real picture, not Google's coloured-letter default), images (review photos),
+       source (dealer name, only on reviews of a dealer's own Google listing: Off Grid Outfitters, Outbound RVs), sourceLogo (that dealer's logo file; the card shows it under "Verified review" and links it to the review) } */
 window.WL_REVIEWS = [
  {
   "name": "Josh Lowe",
@@ -14,7 +15,9 @@ window.WL_REVIEWS = [
   "photo": "assets/img/reviews/av-62-josh-lowe.jpg",
   "images": [
    "assets/img/reviews/ph-62-josh-lowe-1.jpg"
-  ]
+  ],
+  "source": "Off Grid Outfitters",
+  "sourceLogo": "assets/img/dealers/off-grid-outfitters.png"
  },
  {
   "name": "Oriana Miculi",
@@ -104,7 +107,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2026-07-09",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21jNFVsZDZRa2RJVURBM2RFRkpUUzB4YkRVd2MyYxAB!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CAIQACodChtycF9oOmc4Uld6QkdIUDA3dEFJTS0xbDUwc2c%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-63-kate-riley.jpg"
+  "photo": "assets/img/reviews/av-63-kate-riley.jpg",
+  "source": "Off Grid Outfitters",
+  "sourceLogo": "assets/img/dealers/off-grid-outfitters.png"
  },
  {
   "name": "julian Randall",
@@ -132,7 +137,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2026-05-19",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2w5YVN6WlhhMEZUUzNnMFJHODRhbmc1WjJOQk4xRRAB!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CAIQACodChtycF9oOl9aSzZXa0FTS3g0RG84ang5Z2NBN1E%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-64-michelle-wilkes.jpg"
+  "photo": "assets/img/reviews/av-64-michelle-wilkes.jpg",
+  "source": "Off Grid Outfitters",
+  "sourceLogo": "assets/img/dealers/off-grid-outfitters.png"
  },
  {
   "name": "Keenan Elliott",
@@ -159,7 +166,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2026-04-07",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2psNVRWbHpOakpyT1cxdlgwMDJSelpKTW5CYVpGRRAB!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CAIQACodChtycF9oOjl5TVlzNjJrOW1vX002RzZJMnBaZFE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-12-jeff-dee.jpg"
+  "photo": "assets/img/reviews/av-12-jeff-dee.jpg",
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Lisa Westmore",
@@ -167,7 +176,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2026-04-01",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tSU1gxVmlZMUJ3WVdkak0xQmFaRmQ2T1RaNVluYxAB!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CAIQACodChtycF9oOkRSX1ViY1BwYWdjM1BaZFd6OTZ5Ync%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-13-lisa-westmore.jpg"
+  "photo": "assets/img/reviews/av-13-lisa-westmore.jpg",
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Gjon gjolaj",
@@ -206,7 +217,9 @@ window.WL_REVIEWS = [
   "images": [
    "assets/img/reviews/ph-17-wastin-time-wisely-1.jpg"
   ],
-  "pic": true
+  "pic": true,
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Jamie Culph",
@@ -271,7 +284,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-06-20",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2w5Q1kwUnFjMUpKVjBGcVdWbDJWVzFyV0hobWQyYxAB!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CAIQACodChtycF9oOl9CY0Rqc1JJV0FqWVl2VW1rWHhmd2c%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-23-peter-caruana.jpg"
+  "photo": "assets/img/reviews/av-23-peter-caruana.jpg",
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Michael Kelly",
@@ -288,7 +303,9 @@ window.WL_REVIEWS = [
   "stars": 5,
   "date": "2025-05-14",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNZkp5TFRzbjZxUzV3RRAB!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CIHM0ogKEMfJyLTsn6qS5wE%7C%7C?hl=en-US",
-  "photo": "assets/img/reviews/av-25-lesley-gregory.jpg"
+  "photo": "assets/img/reviews/av-25-lesley-gregory.jpg",
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Jarred Bissett",
@@ -297,7 +314,9 @@ window.WL_REVIEWS = [
   "date": "2025-04-06",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNJXzdlZURREAE!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CIHM0ogKEICAgMCI_7eeDQ%7C%7C?hl=en-US",
   "photo": "assets/img/reviews/av-26-jarred-bissett.jpg",
-  "pic": true
+  "pic": true,
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Aaron Morrison",
@@ -306,7 +325,9 @@ window.WL_REVIEWS = [
   "date": "2025-03-05",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNRc2F2VGNnEAE!2m1!1s0x0:0xfc01e49349f71d19!3m1!1s2@1:CIHM0ogKEICAgMCQsavTcg%7C%7C?hl=en-US",
   "photo": "assets/img/reviews/av-27-aaron-morrison.jpg",
-  "pic": true
+  "pic": true,
+  "source": "Outbound RVs",
+  "sourceLogo": "assets/img/dealers/outbound-rvs.png"
  },
  {
   "name": "Mark Bates",
@@ -333,7 +354,9 @@ window.WL_REVIEWS = [
   "photo": "assets/img/reviews/av-65-office-jasique.jpg",
   "images": [
    "assets/img/reviews/ph-65-office-jasique-1.jpg"
-  ]
+  ],
+  "source": "Off Grid Outfitters",
+  "sourceLogo": "assets/img/dealers/off-grid-outfitters.png"
  },
  {
   "name": "Brad Gaskell",

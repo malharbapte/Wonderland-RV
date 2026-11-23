@@ -39,6 +39,11 @@
   }
   if (!wall || !data.length) return;
 
+  /* dealer logo row (Piyush, 23 Nov 2026): scoped styles for .tysrc-row only */
+  var st = document.createElement("style");
+  st.textContent = ".tysrc-row{display:flex;justify-content:flex-end;margin-top:6px}.tysrc-row a{display:inline-flex;line-height:0}.tysrc-row img{display:block;height:22px;width:auto}.tysrc-row a:focus-visible{outline:2px solid #DB7627;outline-offset:3px}";
+  document.head.appendChild(st);
+
   var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1A73E8"/><path d="M7 12.4l3.3 3.3L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   function when(d) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ""); return m ? (+m[3]) + " " + MONTHS[+m[2] - 1] + " " + m[1] : ""; }
@@ -66,6 +71,12 @@
       body = '<div class="sk">' + bars + "</div>";
     }
     var nm = r.name || "Reviewer name";
+    /* a review from a dealer's own listing: that dealer's logo under "Verified review", right-aligned, linked to the review */
+    var src = "";
+    if (r.source && r.sourceLogo) {
+      var lg = '<img src="' + esc(r.sourceLogo) + '" alt="' + esc(r.source) + ' review" loading="lazy">';
+      src = '<div class="tysrc-row">' + (r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + lg + "</a>" : lg) + "</div>";
+    }
     var avatar = r.photo
       ? '<img class="ty-av" src="' + esc(r.photo) + '" alt="" loading="lazy">'
       : '<span class="ty-av ty-av--l" aria-hidden="true">' + esc(nm.charAt(0).toUpperCase()) + "</span>";
@@ -74,7 +85,7 @@
       : "<span>" + dt + "</span>";
     el.innerHTML =
       (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy"></div>' : "") +
-      '<div class="ty-rc-body">' + gallery(r, i) + '<div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" +
+      '<div class="ty-rc-body">' + gallery(r, i) + '<div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" + src +
       body + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
     return el;
   }
