@@ -445,3 +445,24 @@ html.ty-lb-open { overflow: hidden; }
   .thanks .brands .brand-track { animation: none; transform: none; }
   .thanks .brands .brand-marquee { overflow-x: auto; }
 }
+
+/* =====================================================================================================
+   PHONE PASS (390px wide and up to 900px), done section by section. Desktop rules above are untouched.
+   On phones rem is a fixed 16px, so any rem width in a desktop rule above is tiny here: reset those first.
+   ===================================================================================================== */
+@media (max-width: 900px) {
+  /* 1 · top block: pill, call line, three steps */
+  .ty-top { padding-top: 28px; padding-bottom: 4px; }
+  .ty-pill-w { margin: 0; }
+  .ty-pill { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 340px; margin: 0 auto; padding: 14px 18px 15px; border-radius: 22px; text-align: center; }
+  .ty-pill-dot { display: none; }
+  .ty-pill-chip { padding: 8px 16px; font-size: 13px; }
+  .ty-pill-msg { white-space: normal; font-size: 12.5px; line-height: 1.4; letter-spacing: .07em; }
+  .ty-top-lead { max-width: none; margin: 18px 0 0; font-size: 16px; line-height: 24px; }
+  .ty-steps { margin-top: 26px; row-gap: 22px; }
+  .ty-steps li { display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; row-gap: 2px; align-items: center; padding: 14px 16px; }
+  .ty-steps-i { grid-row: 1 / span 2; margin: 0; }
+  .ty-steps b { align-self: end; font-size: 13px; line-height: 17px; }
+  .ty-steps li > span:last-child { align-self: start; font-size: 14px; line-height: 20px; text-wrap: pretty; }
+  .ty-steps li:not(:last-child)::after { width: 20px; height: 20px; }
+}
