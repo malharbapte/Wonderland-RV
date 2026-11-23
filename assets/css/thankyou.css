@@ -276,6 +276,14 @@
 .ty-more button { display: inline-flex; align-items: center; gap: 0.14rem; background: var(--orange); border: 0; border-radius: 999px; padding: 0.17rem 0.4rem; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; color: #fff; cursor: pointer; transition: background .2s; }   /* a CTA: orange, white text and chevron */
 .ty-more button:hover, .ty-more button:focus-visible { background: var(--orange-hover); }
 .ty-more svg { width: 0.18rem; height: 0.11rem; }
+/* the ring spreads out from the pill and the chevron dips, then it rests: "there is more below, press me" */
+.ty-more button { animation: ty-more-ring 2.2s ease-out infinite; }
+.ty-more svg { animation: ty-more-dip 2.2s ease-in-out infinite; }
+.ty-more button:hover, .ty-more button:focus-visible { animation: none; }
+.ty-more button:hover svg, .ty-more button:focus-visible svg { animation: none; transform: translateY(0.03rem); }
+@keyframes ty-more-ring { 0% { box-shadow: 0 0 0 0 rgba(219,118,39,.55); } 55%, 100% { box-shadow: 0 0 0 0.16rem rgba(219,118,39,0); } }
+@keyframes ty-more-dip { 0%, 40%, 100% { transform: translateY(0); } 55% { transform: translateY(0.06rem); } 70% { transform: translateY(0); } 80% { transform: translateY(0.035rem); } 90% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .ty-more button, .ty-more svg { animation: none; } }
 
 /* review cards: reviewer picture (or initial) beside the name, review text keeps its line breaks */
 .ty-rc blockquote { white-space: pre-line; }
