@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=328">
 <link rel="stylesheet" href="assets/css/home-order.css?v=900">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=78">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=79">
 </head>
 <body class="home thanks" data-confetti="kk">
 
@@ -216,22 +216,28 @@
   </div>
 </div>
 
-<!-- ============================================================== AWARDS -->
-<section class="ty-sec ty-awards">
+<!-- ============================================================== AWARDS
+     The four Caravan of the Year ribbons hang from a rail, newest on the left, with
+     the year above each and an arrow at either end (time carries on both ways).
+     Click a ribbon (or use the left and right arrow keys) and the grey strip below
+     shows what it won. The text comes from the data-* attributes on each button;
+     awards.js does the selecting. data-a="1" shows the Read the article button
+     (hrefs are placeholders). -->
+<section class="ty-sec ty-awards ty-awd">
   <div class="container">
     <h2 class="ty-h">Awards &amp; achievements</h2>
     <p class="ty-lede">Recognised by the Caravan of the Year judges. Pick a ribbon to see what each one won.</p>
-    <div class="ty-aw" id="tyAw">
-      <div class="ty-aw-wrap" id="tyAwWrap">
-        <div class="ty-aw-mv" id="tyAwMv"><button type="button" class="ty-aw-p" aria-label="Previous award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="ty-aw-n" aria-label="Next award"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-        <div class="ty-aw-rbs" id="tyAwRbs" role="group" aria-label="Caravan of the Year awards">
-          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2026, Judges Choice Award: Solara 20'06"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2026-judges-choice.png" alt=""></span></span></button>
-          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2024, Best Overall, Best Family and Most Innovative: XTR 2211"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2024-best-overall.jpg" alt=""></span></span></button>
-          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2024, second place in the couples category: XTR 1906"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt=""></span></span></button>
-          <button type="button" class="ty-aw-rb" aria-pressed="false" aria-label="Caravan of the Year 2023, Finalist: XTR 2200"><span class="ty-aw-o"><span class="ty-aw-i"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt=""></span></span></button>
-        </div>
-      </div>
-      <div class="ty-aw-info" id="tyAwInfo" aria-live="polite"><span class="ty-aw-k"></span><span class="ty-aw-t"></span><p class="ty-aw-d"></p><a class="ty-aw-cta" href="#">Read the article <svg viewBox="0 0 8 14" aria-hidden="true"><path d="M0 0L7 7L0 14"/></svg></a></div>
+    <div class="ty-awd-rail" id="tyAwdRail" role="group" aria-label="Caravan of the Year awards">
+      <span class="ty-awd-end ty-awd-end--l" aria-hidden="true"><svg viewBox="0 0 12 18"><path d="M10 2L3 9l7 7"/></svg></span>
+      <span class="ty-awd-end ty-awd-end--r" aria-hidden="true"><svg viewBox="0 0 12 18"><path d="M2 2l7 7-7 7"/></svg></span>
+        <button type="button" class="" aria-pressed="false" aria-label="Caravan of the Year 2026, Judges Choice Award: Solara 20'06" data-k="Caravan of the Year 2026" data-t="Solara 20&rsquo;06" data-d="Judges&rsquo; Choice Award, The Queen of Hearts." data-a="1"><span class="ty-awd-yr">2026</span><span class="ty-rb ty-rb-k"><span class="ty-rb-i"><img src="assets/img/awards/coty-2026-judges-choice.png" alt=""></span></span></button>
+        <button type="button" class="is-sel" aria-pressed="true" aria-label="Caravan of the Year 2024, Best Overall, Best Family and Most Innovative: XTR 2211" data-k="Caravan of the Year 2024" data-t="XTR 2211" data-d="Best Overall Caravan, Best Family Caravan and Most Innovative Build." data-a="1"><span class="ty-awd-yr">2024</span><span class="ty-rb"><span class="ty-rb-i"><img src="assets/img/awards/coty-2024-best-overall.jpg" alt=""></span></span></button>
+        <button type="button" class="" aria-pressed="false" aria-label="Caravan of the Year 2024, second place in the couples category: XTR 1906" data-k="Caravan of the Year 2024" data-t="XTR 1906" data-d="Second place in the couples category." data-a="1"><span class="ty-awd-yr">2024</span><span class="ty-rb"><span class="ty-rb-i"><img src="assets/img/awards/coty-2024-finalist-xtr-1906.jpg" alt=""></span></span></button>
+        <button type="button" class="" aria-pressed="false" aria-label="Caravan of the Year 2023, Finalist: XTR 2200" data-k="Caravan of the Year 2023" data-t="XTR 2200" data-d="Finalist." data-a="0"><span class="ty-awd-yr">2023</span><span class="ty-rb"><span class="ty-rb-i"><img src="assets/img/awards/coty-2023-finalist-xtr-2200.jpg" alt=""></span></span></button>
+    </div>
+    <div class="ty-awd-strip" id="tyAwdInfo" aria-live="polite">
+      <div><span class="ty-awd-k"></span><span class="ty-awd-t"></span><p class="ty-awd-d"></p></div>
+      <a class="ty-awd-cta" href="#">Read the article <svg viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -578,7 +584,7 @@
 <script src="assets/js/reviews-data.js?v=4"></script>
 <script src="assets/js/reviews-wall.js?v=9"></script>
 <script src="assets/js/thankyou.js?v=15"></script>
-<script src="assets/js/awards.js?v=5"></script>
+<script src="assets/js/awards.js?v=6"></script>
 <script src="assets/js/community-data.js?v=1"></script>
 <script src="assets/js/community-wall.js?v=1"></script>
 <script src="assets/js/footer.js?v=314"></script>

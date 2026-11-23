@@ -1,49 +1,26 @@
-/* Awards & achievements. Four Caravan of the Year ribbons across the left two
-   thirds (newest left); click one, use the arrows, or press left/right with a
-   ribbon focused, and it comes to the front at 1.15x while the card on the right
-   shows its title, line and (where there is an article) a button. Sizes are set
-   here so the ribbons always fill the column: width from the overlap, length from
-   the artwork's proportions, white margin as a share of the width. */
+/* Awards & achievements. Four Caravan of the Year ribbons hang from a rail, newest on the left.
+   Click one (or press left / right with a ribbon focused) and the grey strip below shows its title,
+   line and, where there is an article, the button. The text lives in the data-* attributes on each
+   ribbon button in thank-you.html: data-k (kicker), data-t (title), data-d (line), data-a ("1" shows
+   Read the article). */
 (function () {
   "use strict";
-  var aw = document.getElementById("tyAw"), wrap = document.getElementById("tyAwWrap"), box = document.getElementById("tyAwRbs"),
-      mv = document.getElementById("tyAwMv"), info = document.getElementById("tyAwInfo");
-  if (!aw || !wrap || !box || !mv || !info) return;
-  var items = [].slice.call(box.children), mp = mv.querySelector(".ty-aw-p"), mn = mv.querySelector(".ty-aw-n"),
-      cta = info.querySelector(".ty-aw-cta"), cur = 1, OV = 0.4, UN = 0.85, GAP = 0.4, OV0 = 0.25, S = 0.72;   // S: ribbon scale (0.72 = 28% shorter than the original full-column size). OV0: the overlap the ribbon width was first sized for
-
-  /* newest first. a = there is an article to link to (hrefs are placeholders in this mock) */
-  var DATA = [
-    { k: "Caravan of the Year 2026", t: "Solara 20\u201906", d: "Judges\u2019 Choice Award, The Queen of Hearts.", a: true },
-    { k: "Caravan of the Year 2024", t: "XTR 2211", d: "Best Overall Caravan, Best Family Caravan and Most Innovative Build.", a: true },
-    { k: "Caravan of the Year 2024", t: "XTR 1906", d: "Second place in the couples category.", a: true },
-    { k: "Caravan of the Year 2023", t: "XTR 2200", d: "Finalist.", a: false }
-  ];
-
-  function rem() { return parseFloat(getComputedStyle(document.documentElement).fontSize); }
-  function size() {
-    var k = rem(), A = wrap.clientWidth, rw = S * A / (1 + 3 * (1 - OV0)), bh = rw * 2.366,
-        total = rw * (1 + 3 * (1 - OV)), off = (A - total) / 2;               // a tighter set, centred in its column
-    aw.style.setProperty("--ov", OV);
-    aw.style.setProperty("--rw", (rw / k).toFixed(3) + "rem");
-    aw.style.setProperty("--bh", (bh / k).toFixed(3) + "rem");
-    aw.style.setProperty("--pad", (rw * 0.0757 / k).toFixed(3) + "rem");
-    box.style.marginLeft = off + "px";
-    var bw = mp.offsetWidth;                                                   // arrows: left one on the column's left margin, right one against the description card
-    mp.style.left = "0px"; mn.style.left = (A - bw) + "px";
-  }
+  var rail = document.getElementById("tyAwdRail"), info = document.getElementById("tyAwdInfo");
+  if (!rail || !info) return;
+  var btns = [].slice.call(rail.querySelectorAll("button")), cta = info.querySelector(".ty-awd-cta"),
+      k = info.querySelector(".ty-awd-k"), t = info.querySelector(".ty-awd-t"), d = info.querySelector(".ty-awd-d"), cur = 1;
   function show(i) {
-    cur = (i + items.length) % items.length;
-    items.forEach(function (c, n) { c.classList.toggle("is-open", n === cur); c.setAttribute("aria-pressed", String(n === cur)); });
-    var d = DATA[cur];
-    info.querySelector(".ty-aw-k").textContent = d.k; info.querySelector(".ty-aw-t").textContent = d.t; info.querySelector(".ty-aw-d").textContent = d.d;
-    cta.hidden = !d.a;
+    cur = (i + btns.length) % btns.length;
+    btns.forEach(function (b, n) { b.classList.toggle("is-sel", n === cur); b.setAttribute("aria-pressed", String(n === cur)); });
+    var b = btns[cur];
+    k.textContent = b.getAttribute("data-k"); t.innerHTML = b.getAttribute("data-t"); d.innerHTML = b.getAttribute("data-d");
+    cta.hidden = b.getAttribute("data-a") !== "1";
     info.classList.remove("swap"); void info.offsetWidth; info.classList.add("swap");
   }
-  box.addEventListener("click", function (e) { var b = e.target.closest(".ty-aw-rb"); if (b) show(items.indexOf(b)); });
-  mv.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) show(cur + (b.classList.contains("ty-aw-p") ? -1 : 1)); });
-  aw.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") { show(cur - 1); items[cur].focus(); } else if (e.key === "ArrowRight") { show(cur + 1); items[cur].focus(); } });
-  window.addEventListener("resize", size);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
-  size(); show(1);
+  btns.forEach(function (b, n) { b.addEventListener("click", function () { show(n); }); });
+  rail.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") { show(cur - 1); btns[cur].focus(); }
+    else if (e.key === "ArrowRight") { show(cur + 1); btns[cur].focus(); }
+  });
+  show(1);
 })();
