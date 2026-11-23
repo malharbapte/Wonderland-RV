@@ -90,6 +90,7 @@
 .ty-reviews .ty-rev-lede { max-width: 9.8rem; margin: 0.22rem auto 0; text-wrap: balance; }
 .ty-video { width: 100%; max-width: 11.6rem; aspect-ratio: 16 / 9; margin: 0.5rem auto 0; border-radius: 0.13rem; box-shadow: 0 0.18rem 0.5rem -0.2rem rgba(0,0,0,.45); }
 .ty-video iframe { top: 0; left: 0; transform: none; height: 100%; min-height: 0; }
+.ty-video .kk-play { width: clamp(54px, 7.2vw, 104px); }   /* a touch smaller than the site-wide play button */
 .ty-video .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* brand partners under the video --------------------------------------------- */
