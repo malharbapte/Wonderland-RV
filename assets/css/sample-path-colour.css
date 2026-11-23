@@ -1,0 +1,59 @@
+/* Samples: colour separation for "From our first chat to your first trip". Sample only. */
+.pv { position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden; isolation: isolate;
+      --pv-left: calc(50% - var(--col) / 2 + (var(--col) - 0.6rem) * 1.9 / 3.9 + 0.3rem); }   /* x of the middle of the gap between the two columns */
+.pv > .container { position: relative; z-index: 1; }
+.pv::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--pv-left); z-index: 0; }
+
+/* label bars + jump nav */
+.pvl { width: 100vw; margin-left: calc(50% - 50vw); background: #111; color: #fff; padding: 0.16rem 0; }
+.pvl .container { display: flex; align-items: baseline; gap: 0.2rem; }
+.pvl b { font: 900 0.2rem/1 var(--aviano); letter-spacing: .08em; text-transform: uppercase; color: var(--orange); }
+.pvl span { font-size: 0.17rem; line-height: 1.3; color: rgba(255,255,255,.8); }
+.pvnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; display: flex; justify-content: center; gap: 0.1rem; padding: 0.12rem; background: rgba(17,17,17,.94); }
+.pvnav a { color: #fff; text-decoration: none; font: 900 0.15rem/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; padding: 0.11rem 0.2rem; border: 0.015rem solid rgba(255,255,255,.35); border-radius: 999px; }
+.pvnav a:hover { background: var(--orange); border-color: var(--orange); }
+
+/* 1 · cream split panel */
+.pv1 { background: #fff; }
+.pv1::before { background: #F6EEE4; border-right: 0.02rem solid rgba(219,118,39,.28); box-sizing: border-box; }
+
+/* 2 · orange panel */
+.pv2 { background: #fff; }
+.pv2::before { background: var(--orange); }
+.pv2 .ty-path-h .ty-h, .pv2 .ty-path-h .ty-lede { color: #fff; }
+.pv2 .ty-path-h .ty-lede { color: rgba(255,255,255,.92); }
+
+/* 3 · dark section */
+.pv3 { background: #111; }
+.pv3::before { display: none; }
+.pv3 .ty-h, .pv3 .ty-path-list h3 { color: #fff; }
+.pv3 .ty-lede, .pv3 .ty-path-list p { color: rgba(255,255,255,.78); }
+.pv3 .ty-path-node { background: #111; }
+.pv3 .ty-path-end .ty-path-node { background: var(--orange); }
+.pv3 .ty-path-list::before { background: linear-gradient(var(--orange), var(--orange) 80%, #4a4a4a); }
+
+/* 4 · warm section, white step cards */
+.pv4 { background: #F4F0EA; }
+.pv4::before { display: none; }
+.pv4 .ty-path-list::before { display: none; }
+.pv4 .ty-path-list li { background: #fff; border-radius: 0.1rem; padding: 0.26rem 0.34rem 0.28rem 0.26rem; margin-bottom: 0.16rem; box-shadow: 0 0.05rem 0.18rem -0.1rem rgba(0,0,0,.22); border-left: 0.04rem solid var(--orange); }
+.pv4 .ty-path-list li:last-child { margin-bottom: 0; }
+.pv4 .ty-path-list li, .pv4 .ty-path-list li:last-child { padding-bottom: 0.28rem; }
+
+/* 5 · black panel left, tonal rows right */
+.pv5 { background: #fff; }
+.pv5::before { background: #111; }
+.pv5 .ty-path-h .ty-h { color: #fff; }
+.pv5 .ty-path-h .ty-lede { color: rgba(255,255,255,.78); }
+.pv5 .ty-path-list { margin-top: 0; }
+.pv5 .ty-path-list li { padding: 0.3rem 0; }
+.pv5 .ty-path-list li:last-child { padding-bottom: 0.3rem; }
+.pv5 .ty-path-list li::after { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -0.3rem; right: calc(-1 * (100vw - var(--col)) / 2); background: #F6EEE4; }
+.pv5 .ty-path-list li:nth-child(even)::after { background: #fff; }
+.pv5 .ty-path-list li > * { position: relative; }
+.pv5 .ty-path-list::before { top: 0.64rem; bottom: 0.64rem; z-index: 0; }
+.pv5 .ty-path-node { background: #fff; }
+.pv5 .ty-path-end .ty-path-node { background: var(--orange); }
+.pv5 .ty-path-g { padding-top: 0; padding-bottom: 0; }
+.pv5.ty-sec { padding-top: 0; padding-bottom: 0; }
+.pv5 .ty-path-h { padding: 1.2rem 0; top: 0.4rem; }
