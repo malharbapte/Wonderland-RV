@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=328">
 <link rel="stylesheet" href="assets/css/home-order.css?v=900">
-<link rel="stylesheet" href="assets/css/thankyou.css?v=77">
+<link rel="stylesheet" href="assets/css/thankyou.css?v=78">
 </head>
 <body class="home thanks" data-confetti="kk">
 
@@ -106,20 +106,33 @@
   </div>
 </section>
 
-<!-- ====================================================== AFTER THE CALL -->
-<section class="ty-sec ty-path">
-  <div class="container ty-path-g">
-    <div class="ty-path-h">
-      <h2 class="ty-h">From our first chat<br>to your first trip</h2>
+<!-- ====================================================== AFTER THE CALL
+     Step picker: heading, intro and the five steps on the left (1/3), a picture
+     on the right (2/3) that changes with the step. Each step's photo is the
+     matching <img> in .ty-pk-pic (same order); swap the src to change it. The
+     text over the picture comes from the step button. It moves on by itself
+     until a step is clicked (thankyou.js). -->
+<section class="ty-sec ty-pk" id="tyPath">
+  <div class="container ty-pk-wrap">
+    <div class="ty-pk-left">
+      <h2 class="ty-h">From our first chat to your first trip</h2>
       <p class="ty-lede">We understand buying a caravan is a big decision, so here is the whole path, so nothing comes as a surprise.</p>
+      <div class="ty-pk-list" id="tyPkList" role="tablist" aria-label="From our first chat to your first trip">
+        <button type="button" role="tab" class="on" aria-selected="true" data-p="We put together a quote around the layout and options you want."><span class="ty-pk-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h5"/></svg></span><span><span class="ty-pk-n">Step 01</span><h3>Your quote</h3></span></button>
+        <button type="button" role="tab" class="" aria-selected="false" data-p="Pick the layout you have been picturing, or let us help you find the one that suits how your family or the two of you travel."><span class="ty-pk-node"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M9 5v6h12"/><path d="M9 15v4"/></svg></span><span><span class="ty-pk-n">Step 02</span><h3>Your layout</h3></span></button>
+        <button type="button" role="tab" class="" aria-selected="false" data-p="Your van is built at our own factory in Campbellfield."><span class="ty-pk-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V10l6 4v-4l6 4V4h5v16z"/><path d="M3 20h18"/></svg></span><span><span class="ty-pk-n">Step 03</span><h3>Your build</h3></span></button>
+        <button type="button" role="tab" class="" aria-selected="false" data-p="Delivery isn&rsquo;t the end of our care. Every van comes with a 5 year structural warranty, a 3 year factory-backed warranty and premium aftersales service."><span class="ty-pk-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><span><span class="ty-pk-n">Step 04</span><h3>After handover</h3></span></button>
+        <button type="button" role="tab" class="" aria-selected="false" data-p="Hitch up and go."><span class="ty-pk-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span><span><span class="ty-pk-n">Then</span><h3>Your first trip</h3></span></button>
+      </div>
     </div>
-    <ol class="ty-path-list">
-      <li><span class="ty-path-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h5"/></svg></span><div><span class="ty-path-n">Step 01</span><h3>Your quote</h3><p>We put together a quote around the layout and options you want.</p></div></li>
-      <li><span class="ty-path-node"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M9 5v6h12"/><path d="M9 15v4"/></svg></span><div><span class="ty-path-n">Step 02</span><h3>Your layout</h3><p>Pick the layout you have been picturing, or let us help you find the one that suits how your family or the two of you travel.</p></div></li>
-      <li><span class="ty-path-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V10l6 4v-4l6 4V4h5v16z"/><path d="M3 20h18"/></svg></span><div><span class="ty-path-n">Step 03</span><h3>Your build</h3><p>Your van is built at our own factory in Campbellfield.</p></div></li>
-      <li><span class="ty-path-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><div><span class="ty-path-n">Step 04</span><h3>After handover</h3><p>Delivery isn&rsquo;t the end of our care. Every van comes with a 5 year structural warranty, a 3 year factory-backed warranty and premium aftersales service.</p></div></li>
-      <li class="ty-path-end"><span class="ty-path-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span><div><span class="ty-path-n">Then</span><h3>Your first trip</h3><p>Hitch up and go.</p></div></li>
-    </ol>
+    <div class="ty-pk-pic" id="tyPkPic">
+      <img src="assets/img/experience/step-4.jpg" alt="" class="on">
+      <img src="assets/img/experience/opt-layout.jpg" alt="" loading="lazy" class="">
+      <img src="assets/img/experience/step-5.webp" alt="" loading="lazy" class="">
+      <img src="assets/img/experience/step-1.webp" alt="" loading="lazy" class="">
+      <img src="assets/img/experience/step-6.jpg" alt="" loading="lazy" class="">
+      <div class="ty-pk-cap" id="tyPkCap" aria-live="polite"></div>
+    </div>
   </div>
 </section>
 
@@ -330,7 +343,7 @@
 <!-- ===================================================================== BRANDS -->
 <section class="brands">
   <div class="container">
-    <h2 class="brands-title">Brands we trust</h2>
+    <h2 class="brands-title">Premium brand partners</h2>
     <div class="brand-marquee">
       <ul class="brand-track">
         <li><img src="assets/img/home/brands-colour/bos.webp" alt=""></li>
@@ -564,7 +577,7 @@
 <script src="assets/js/confetti.js?v=4"></script>
 <script src="assets/js/reviews-data.js?v=4"></script>
 <script src="assets/js/reviews-wall.js?v=9"></script>
-<script src="assets/js/thankyou.js?v=14"></script>
+<script src="assets/js/thankyou.js?v=15"></script>
 <script src="assets/js/awards.js?v=5"></script>
 <script src="assets/js/community-data.js?v=1"></script>
 <script src="assets/js/community-wall.js?v=1"></script>

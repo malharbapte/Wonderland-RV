@@ -113,3 +113,29 @@ var TESTIMONIALS = [
   });
   show(0);
 })();
+
+/* ----------------------------------------------- first chat to first trip -- */
+(function () {
+  var list = document.getElementById("tyPkList"), pic = document.getElementById("tyPkPic"), cap = document.getElementById("tyPkCap");
+  if (!list || !pic || !cap) return;
+  var btns = list.querySelectorAll("button"), imgs = pic.querySelectorAll("img"), cur = 0, timer = null, visible = false, stopped = false;
+  function show(i) {
+    cur = i;
+    for (var k = 0; k < btns.length; k++) { btns[k].classList.toggle("on", k === i); btns[k].setAttribute("aria-selected", k === i ? "true" : "false"); }
+    for (var m = 0; m < imgs.length; m++) imgs[m].classList.toggle("on", m === i);
+    list.style.setProperty("--i", i);
+    var b = btns[i];
+    cap.classList.remove("in"); void cap.offsetWidth; cap.classList.add("in");
+    cap.innerHTML = '<span class="ty-pk-n">' + b.querySelector(".ty-pk-n").textContent + "</span><h3>" + b.querySelector("h3").textContent + "</h3><p>" + b.getAttribute("data-p") + "</p>";
+  }
+  Array.prototype.forEach.call(btns, function (b, k) { b.addEventListener("click", function () { stopped = true; clearInterval(timer); show(k); }); });
+  show(0);
+  /* moves on by itself, only while it is on screen, and stops for good at the first click */
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tick() { if (!stopped && visible && !document.hidden) show((cur + 1) % btns.length); }
+  if (!still) {
+    timer = setInterval(tick, 5000);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.4 }).observe(pic);
+    else visible = true;
+  }
+})();
