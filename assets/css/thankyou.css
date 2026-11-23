@@ -539,3 +539,9 @@ html.ty-lb-open { overflow: hidden; }
   .ty-tick li { font-size: 14px; letter-spacing: .08em; }
   .ty-tick li::after { width: 6px; height: 6px; }
 }
+
+@media (max-width: 900px) {
+  /* "Where to next": the two buttons stack, so neither runs under the side strip */
+  .next-band .next-actions { flex-direction: column; align-items: stretch; gap: 12px; padding-right: 8px; }
+  .next-band .btn-next { flex: none; width: 100%; text-align: center; }
+}
