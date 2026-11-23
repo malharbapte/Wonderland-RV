@@ -3,6 +3,7 @@
      "burst"    one cannon from the top centre, falls with gravity
      "cannons"  two cannons, bottom left and bottom right, firing inwards
      "rain"     a gentle fall from the top edge, with the brand's mountain shape
+     "kk"       two big cannons in the bottom corners, as on the King Kong confirmation page
    Plain canvas, no library. Skipped entirely for visitors who ask for reduced
    motion. The canvas ignores the pointer and removes itself when done.
    ========================================================================== */
@@ -38,8 +39,63 @@
     ctx.restore();
   }
 
+  /* "kk": the King Kong confirmation-page confetti, rebuilt here from how it behaves.
+     Two cannons in the bottom corners (left at 65 degrees, right at 115), 250 flat
+     pieces each, fanned +/-32 degrees. Launch speed is 5.2 x the window height per
+     second, so it always reaches about the same height. Gravity 1700 px/s2 and air
+     drag 3.5/s; every piece tumbles (squashes as it spins) and wobbles a little
+     sideways. No fixed end: the canvas goes when the last piece has landed.
+     Colours: the Wonderland palette. Swap in KK_COLOURS to try their rainbow. */
+  var KK_COLOURS = ["#DB7627", "#F3B676", "#D99B88", "#1B1B1B", "#8C4A12", "#FFFFFF", "#F08A3C"];
+  /* var KK_COLOURS = ["#26ccff", "#a25afd", "#ff5e7e", "#88ff5a", "#fcff42", "#ffa62d", "#ff36ff"];   their rainbow */
+  function kingKongConfetti() {
+    var cv = document.createElement("canvas");
+    cv.setAttribute("aria-hidden", "true");
+    cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;z-index:9999;pointer-events:none";
+    document.body.appendChild(cv);
+    var ctx = cv.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2), W, H;
+    function size() { W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; }
+    size(); window.addEventListener("resize", size);
+    var parts = [];
+    [[0, 65], [1, 115]].forEach(function (c) {
+      for (var n = 0; n < 250; n++) {
+        var a = (c[1] + 65 * (Math.random() - 0.5)) * Math.PI / 180;
+        var sp = 5.2 * H * (0.55 + 0.55 * Math.random());
+        parts.push({
+          x: c[0] * W, y: H, vx: Math.cos(a) * sp, vy: -Math.sin(a) * sp,
+          size: 12 + 8 * Math.random(), round: Math.random() < 0.3,
+          spin: Math.random() * Math.PI * 2, spinSpeed: 6 + 8 * Math.random(),
+          colour: KK_COLOURS[n % KK_COLOURS.length]
+        });
+      }
+    });
+    var last = performance.now();
+    function frame(now) {
+      var dt = Math.min((now - last) / 1000, 0.05); last = now;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      parts = parts.filter(function (p) {
+        p.vx -= 3.5 * p.vx * dt;
+        p.vy += (1700 - 3.5 * p.vy) * dt;
+        p.spin += p.spinSpeed * dt;
+        p.x += (p.vx + 40 * Math.sin(p.spin)) * dt;
+        p.y += p.vy * dt;
+        ctx.setTransform(dpr, 0, 0, dpr * Math.cos(p.spin), p.x * dpr, p.y * dpr);
+        ctx.rotate(0.5 * p.spin);
+        ctx.fillStyle = p.colour;
+        if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.size / 2.5, 0, 6.2832); ctx.fill(); }
+        else ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+        return p.y < H + 20 || p.vy < 0;
+      });
+      if (parts.length) requestAnimationFrame(frame);
+      else { window.removeEventListener("resize", size); cv.remove(); }
+    }
+    requestAnimationFrame(frame);
+  }
+
   window.wlConfetti = function (mode) {
     if (reduce) return;
+    if (mode === "kk") return kingKongConfetti();
     var cv = document.createElement("canvas");
     cv.setAttribute("aria-hidden", "true");
     cv.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999";
