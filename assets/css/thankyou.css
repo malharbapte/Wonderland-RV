@@ -52,11 +52,11 @@
 .ty-tv-now b { color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: 0.24rem; line-height: 0.32rem; letter-spacing: .06em; text-transform: uppercase; }
 .ty-tv-now span { font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; line-height: 0.24rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.72); }
 .ty-tv-desc { margin: 0.04rem 0 0; max-width: 7.4rem; font-size: 0.2rem; line-height: 0.3rem; color: rgba(255,255,255,.8); text-wrap: balance; }   /* 3: context */
-/* the play button matches the one on the construction video: black rounded rectangle, white triangle, same size */
-.ty-tv-play { flex: none; width: clamp(54px, 7.2vw, 104px); aspect-ratio: 137 / 88; padding: 0; border: 0; border-radius: 4px; background: #000; color: #fff; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease; }
+/* the play button has the construction video button's shape and size, in inverted colours (white, black triangle) so it shows on the dark photo */
+.ty-tv-play { flex: none; width: clamp(54px, 7.2vw, 104px); aspect-ratio: 137 / 88; padding: 0; border: 0; border-radius: 4px; background: #fff; color: #000; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease; }
 .ty-tv-play svg { width: 40%; height: 40%; fill: currentColor; }
 .ty-tv-play:hover, .ty-tv-play:focus-visible { transform: scale(1.06); }
-.ty-tv-play:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.ty-tv-play:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 .ty-tv { cursor: pointer; }   /* the picture itself plays the video */
 .ty-tv-strip { cursor: default; }
 .ty-tv-strip { position: relative; z-index: 4; flex: none; display: flex; justify-content: flex-start; gap: 0.12rem; padding: 0 0 0.45rem calc((100% - var(--col)) / 2); }   /* left edge lines up with the page content */
