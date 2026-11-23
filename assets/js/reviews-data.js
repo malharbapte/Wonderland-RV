@@ -1,10 +1,21 @@
 /* Google reviews for the thank-you page. Source: the team's compiled reviews
-   (Wonderland RV Caravans + Outbound RVs, 4 and 5 star, text word for word,
+   (Wonderland RV Caravans + Outbound RVs + Off Grid Outfitters (reviews that name Wonderland RV), 4 and 5 star, text word for word,
    with the photos reviewers posted and their profile pictures), 13 Nov 2026.
    Merged, newest first. The wall (reviews-wall.js) shows the first 30, then
    "Load more" adds 30 at a time. Each card links to its review.
      { name, text, stars, date, url, photo (profile picture file), pic (true when that file is a real picture, not Google's coloured-letter default), images (review photos) } */
 window.WL_REVIEWS = [
+ {
+  "name": "Josh Lowe",
+  "text": "A massive thank you to the team at Off Grid Outfitters. From the moment we placed our original order, they were generous with their time, answered all our questions and helped us work through the options.\n\nWhat really stood out was how they looked after us when we changed plans late in the piece. They’d already spent a fair bit of time helping us with our original order, and when we decided the Wonderland RV Solara double bunk was a better fit for our growing family, they took the change in their stride. They gave us just as much time and attention as they had from day one, and we never felt rushed or pressured.\n\nWe’re rapt with our Solara and really appreciate the patience, guidance and care the team showed us right through to handover. If you’re looking for a caravan and want to deal with people who’ll take the time to help you find the right one for your family, we’d happily recommend Off Grid Outfitters.",
+  "stars": 5,
+  "date": "2026-11-14",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SdlFtNVRTVjh3ZEVsNWQxbzJWMmxpTVdaa1NHYxAB!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CAIQACodChtycF9oOnRvQm5TSV8wdEl5d1o2V2liMWZkSGc%7C%7C?hl=en-US",
+  "photo": "assets/img/reviews/av-62-josh-lowe.jpg",
+  "images": [
+   "assets/img/reviews/ph-62-josh-lowe-1.jpg"
+  ]
+ },
  {
   "name": "Oriana Miculi",
   "text": "We couldn’t be happier with our experience purchasing our caravan from Wonderland RV Caravans! From the first moment to the final handover, everything was absolutely fantastic. The team went above and beyond to make sure we felt welcomed, supported and confident with our purchase. Their professionalism, outstanding customer service and attention to detail truly made the difference. We are so excited to start making beautiful memories with our new caravan. A huge thank you to the entire team for such a wonderful experience. We highly recommend Wonderland RV Caravans to anyone looking for quality, reliability and exceptional service!",
@@ -88,6 +99,14 @@ window.WL_REVIEWS = [
   "pic": true
  },
  {
+  "name": "Kate Riley",
+  "text": "We couldn't be happier with our new Wonderland caravan! A huge thank you to Darren and the entire team at Off Grid Outfitters for making the whole experience so enjoyable from start to finish.\n\nDarren was incredibly knowledgeable, patient, and always happy to answer our questions, making sure we felt confident every step of the way. The team's customer service was outstanding, and nothing was too much trouble.\n\nWe absolutely love our new caravan and can't wait to start making amazing memories in it. We highly recommend Off Grid Outfitters to anyone looking for exceptional service and a fantastic buying experience. Thanks again, Darren and the team!\nJay and Kate Riley",
+  "stars": 5,
+  "date": "2026-07-09",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21jNFVsZDZRa2RJVURBM2RFRkpUUzB4YkRVd2MyYxAB!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CAIQACodChtycF9oOmc4Uld6QkdIUDA3dEFJTS0xbDUwc2c%7C%7C?hl=en-US",
+  "photo": "assets/img/reviews/av-63-kate-riley.jpg"
+ },
+ {
   "name": "julian Randall",
   "text": "🚐🎉 We finally picked up our incredible Wonderland Hornet 2300 today… and wow, it has exceeded every expectation!\n\nThis isn’t just a caravan—it’s our home for the next two years as we set off to explore everything this amazing country has to offer. 🇳🇿🇦🇺\n\nOf course, we didn’t exactly keep it “standard” 😄 We went all out with the customisation: 💧 Extra water tanks ☀️ Loads of solar 🍳 An extra foot in the kitchen 📦 The huge front storage box …and plenty more thoughtful upgrades to make life on the road even better.\n\nThe quality, craftsmanship, and attention to detail are absolutely outstanding—you can really see the pride that’s gone into this build.\n\nA massive thank you to Joy Carbonilla Enso and the entire Wonderland team for working with us through all our additions and getting everything finished on time. We truly appreciate all your effort and advice along the way.\n\nAnd a special shout-out to Rob Penesse for an incredibly detailed and reassuring handover—we left feeling confident, excited, and ready to roll.\n\nTomorrow the adventure begins.\n\nTwo Kiwis and one adventure-loving Vizsla named Leo… Australia, here we come! 🇳🇿🐾🇦🇺\n\nIf you see us out on the road, come and say hello—we’d love to meet fellow travellers and members of the Wonderland community along the way.\n\nHere’s to the open road, new friendships, and the adventure of a lifetime! 🚐✨",
   "stars": 5,
@@ -106,6 +125,14 @@ window.WL_REVIEWS = [
    "assets/img/reviews/ph-09-brent-harvey-1.jpg",
    "assets/img/reviews/ph-09-brent-harvey-2.jpg"
   ]
+ },
+ {
+  "name": "Michelle Wilkes",
+  "text": "OffGrid Outfitters made ordering our new Wonderland Amaroo caravan an outstanding experience. From the first conversation, Darren's depth of knowledge stood out, he guided us through the features, layout options, & practical considerations with clear, no-nonsense advice. He anticipated our questions, explained the differences that actually matter on the road, & helped us feel confident in every decision. A special shoutout to Sylvia for her expert eye with colours & finishes. She helped us pull together a cohesive interior palette that feels both modern & durable, suggesting combinations we wouldn't have considered but now absolutely love. The whole process was smooth, professional, & genuinely enjoyable. We are excited to see our new caravan in a few months. The hardest part is the wait! If you are considering a Wonderland Amaroo or any van-OffGrid Outfitters is a fantastic team to work with. Knowledgeable, responsive, & truely customer focused. Highly recommended.",
+  "stars": 5,
+  "date": "2026-05-19",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2w5YVN6WlhhMEZUUzNnMFJHODRhbmc1WjJOQk4xRRAB!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CAIQACodChtycF9oOl9aSzZXa0FTS3g0RG84ang5Z2NBN1E%7C%7C?hl=en-US",
+  "photo": "assets/img/reviews/av-64-michelle-wilkes.jpg"
  },
  {
   "name": "Keenan Elliott",
@@ -296,6 +323,17 @@ window.WL_REVIEWS = [
   "date": "2025-02-12",
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURBbDlUVVJREAE!2m1!1s0x0:0x334656952947021a!3m1!1s2@1:CIHM0ogKEICAgMDAl9TURQ%7C%7C?hl=en-US",
   "photo": "assets/img/reviews/av-29-mel.jpg"
+ },
+ {
+  "name": "office jasique",
+  "text": "My husband and I were in the market for a new caravan, we came across Off Grid at a caravan show. The service from the get go was awesome, the sales reps were not pushy - just informative and down to earth. After about 6 months of weighing up options we purchased a Wonderland Caravan through them, the whole process from the ordering, the build and handover was smooth.\nWe have had to contact them since the purchase to iron out a few small things and they have been prompt and helpful. Would definitely recommend them to anyone wanting a new caravan. We dealt directly with Stephen who was incredibly good at his job. Thanks Off Grid!",
+  "stars": 5,
+  "date": "2025-01-29",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNBaU9MZE1REAE!2m1!1s0x0:0x9bd37addc927c4b3!3m1!1s2@1:CIHM0ogKEICAgMCAiOLdMQ%7C%7C?hl=en-US",
+  "photo": "assets/img/reviews/av-65-office-jasique.jpg",
+  "images": [
+   "assets/img/reviews/ph-65-office-jasique-1.jpg"
+  ]
  },
  {
   "name": "Brad Gaskell",
