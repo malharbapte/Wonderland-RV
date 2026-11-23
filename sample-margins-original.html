@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample: margins like the original site</title><meta name="robots" content="noindex">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eceae6;font:14px/1.4 system-ui,sans-serif;color:#111;height:100vh;display:flex;flex-direction:column}
+.bar{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:10px 16px;background:#fff;border-bottom:1px solid #d8d4cd}
+.bar b{font-size:15px}
+.grp{display:flex;gap:6px;align-items:center}
+.grp button{font:inherit;padding:5px 11px;border:1px solid #bbb;background:#fff;border-radius:4px;cursor:pointer}
+.grp button.on{background:#DB7627;border-color:#DB7627;color:#fff}
+.panes{flex:1;display:flex;gap:12px;padding:12px;min-height:0;overflow:auto;align-items:flex-start}
+.pane{flex:1;display:flex;flex-direction:column;min-width:0}
+.pane h2{margin:0 0 4px;font-size:14px}
+.pane .m{font-size:12.5px;color:#444;margin:0 0 6px;min-height:34px}
+.view{position:relative;overflow:hidden;background:#fff;border:1px solid #c9c5be;width:100%}
+.view iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#fff}
+.view img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.note{padding:8px 16px 10px;background:#fff;border-top:1px solid #d8d4cd;font-size:12.5px;color:#333}
+</style></head><body>
+<div class="bar">
+  <b>Margins: original site vs ours</b>
+  <div class="grp" id="w"><span>Window</span></div>
+  <div class="grp" id="p"><span>Our page</span></div>
+  <span style="color:#555">The window sizes are real: each pane is that many pixels wide, shown shrunk. 1728 is the 16-inch MacBook Pro default.</span>
+</div>
+<div class="panes">
+  <div class="pane"><h2>1 · Original site (wonderlandrv.com.au)</h2><p class="m" id="m0"></p><div class="view" id="v0"></div></div>
+  <div class="pane"><h2>2 · Our page today (adaptive on)</h2><p class="m" id="m1"></p><div class="view" id="v1"></div></div>
+  <div class="pane"><h2>3 · Our page with the original's margins</h2><p class="m" id="m2"></p><div class="view" id="v2"></div></div>
+</div>
+<div class="note"><b>Original's rule:</b> content is 1,280px wide, centred, with at least 60px of padding each side; text sizes are fixed (heading 40px, body 14px) and only change at the tablet (1024) and phone (767) breakpoints. <b>Pane 3</b> makes our column the same width as the original (min of 1,280px and the window minus 120px) and lets everything scale with it. Scroll panes 2 and 3 together.</div>
+<script>
+var W=+(location.hash.slice(1))||1728, PAGE=new URLSearchParams(location.search).get('p')||'home.html';
+var H={1440:900,1728:1117,1920:1080,2560:1300};
+function mk(id,items,cur,fn){var g=document.getElementById(id);items.forEach(function(it){var b=document.createElement('button');b.textContent=it[0];if(it[1]==cur)b.className='on';b.onclick=function(){fn(it[1]);[].forEach.call(g.querySelectorAll('button'),function(x){x.className=''});b.className='on'};g.appendChild(b)})}
+mk('w',[1440,1728,1920,2560].map(function(x){return [x+(x==1728?' (16" MBP)':''),x]}),W,function(v){W=v;build()});
+mk('p',[['Home','home.html'],['Thank-you','thank-you.html'],['Contact','index.html']],PAGE,function(v){PAGE=v;build()});
+var ifs=[],sync=0;
+function build(){
+  var v0=document.getElementById('v0');v0.style.aspectRatio=W+'/'+H[W];v0.innerHTML='<img src="assets/img/sample/orig-'+W+'.jpg" alt="">';
+  var c=Math.min(1280,W-120); document.getElementById('m0').textContent='content '+c+'px wide · margin '+Math.round((W-c)/2)+'px ('+((W-c)/2/W*100).toFixed(1)+'% each side) · heading 40px';
+  ifs=[];
+  [[1,0],[2,1]].forEach(function(d){
+    var v=document.getElementById('v'+d[0]);v.innerHTML='';v.style.aspectRatio=W+'/'+H[W];
+    var f=document.createElement('iframe'),sc=v.clientWidth/W;
+    f.style.width=W+'px';f.style.height=H[W]+'px';f.style.transform='scale('+sc+')';
+    f.onload=function(){
+      var doc=f.contentDocument;
+      if(d[1]){var l=doc.createElement('style');l.textContent='html{font-size:calc(min(1280px, 100vw - 120px) / 16.24) !important}';doc.head.appendChild(l)}
+      setTimeout(function(){
+        var ct=doc.querySelector('.container'),b=ct.getBoundingClientRect(),h=doc.querySelector('.brands-title,.ty-h,h2'),fs=parseFloat(f.contentWindow.getComputedStyle(h).fontSize),root=parseFloat(f.contentWindow.getComputedStyle(doc.documentElement).fontSize);
+        document.getElementById('m'+d[0]).textContent='content '+Math.round(b.width)+'px wide · margin '+Math.round(b.left)+'px ('+(b.left/W*100).toFixed(1)+'% each side) · heading '+fs.toFixed(0)+'px';
+      },400);
+      f.contentWindow.addEventListener('scroll',function(){
+        var o=ifs[1-d[1]];if(!o||!o.contentWindow||sync)return;sync=1;
+        o.contentWindow.scrollTo(0,f.contentWindow.scrollY*(o.contentDocument.documentElement.scrollHeight/doc.documentElement.scrollHeight));
+        setTimeout(function(){sync=0},30)
+      })
+    };
+    f.src=PAGE+'?s='+Date.now();
+    v.appendChild(f);ifs[d[1]]=f;
+  });
+}
+build();window.addEventListener('resize',build);
+</script></body></html>
