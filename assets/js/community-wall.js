@@ -6,9 +6,13 @@
 
    Mix (Piyush, 23 Nov 2026: "mix it up a bit ... give it a good mix"; "comments from the same
    people dont have them recurring next to each other, mix it up and move them"):
-   - Big cards: a tall screenshot (a post, a photo, a long comment: natural height 520 px or
-     more at 900 wide) spans two columns (the whole row on tablet and phone). Short plain
-     comments stay one column wide, so the rhythm changes as you scroll.
+   - Card width follows how big the text renders (Boss QC, 23 Nov 2026): every screenshot has a
+     measured body-text size (TEXT below: the height in px of its body lines at the 900 px
+     width, read with macOS Vision OCR). A card takes the narrowest span (1, 2 or on desktop 3
+     columns; 1 or 2 on tablet; 1 on phone) at which that text renders at TEXT_MIN px or more;
+     where even the widest span falls short it takes the widest. Short comments with large text
+     stay one column, small-text screenshots (a Facebook review, a dark strip) get wider, so the
+     rhythm changes as you scroll and the small print is as readable as the file allows.
    - Order: each person's items are spread evenly through the list, owners and ambassadors are woven evenly (owners stay the majority), then every card is placed one at a time at a computed position. A card is
      never put next to (above, below or beside, diagonals included) another card from the same
      person, and a person's cards are kept as far apart as the list allows. Because positions
@@ -18,7 +22,7 @@
    The CSS for this wall is injected below and is scoped to #tyCm (class tycx-). */
 (function () {
   "use strict";
-  var BATCH = 12, BIG_H = 520, WINDOW = 14;
+  var BATCH = 12, TEXT_MIN = 11, WINDOW = 14;
   var wall = document.getElementById("tyCm"), btn = document.getElementById("tyCmMore"), src = window.WL_COMMUNITY || [];
   if (!wall || !src.length) return;
 
@@ -36,8 +40,15 @@
     "@media (prefers-reduced-motion:reduce){#tyCm .tycx-card{animation:none;transition:none}}" +
     ".ty-lb.tycx-lb-tall{overflow-y:auto;align-items:flex-start;justify-content:center}" +
     ".ty-lb.tycx-lb-tall img{max-height:none;width:min(900px,100%);height:auto;margin:0 auto}" +
-    ".ty-lb.tycx-lb-tall button{position:fixed}";
+    ".ty-lb.tycx-lb-tall button{position:fixed}" +
+    /* small print on a narrow screen: the lightbox shows the screenshot at its natural width and you pan */
+    ".ty-lb.tycx-lb-pan{overflow:auto;align-items:flex-start;justify-content:flex-start}" +
+    ".ty-lb.tycx-lb-pan img{max-width:none;max-height:none;width:var(--tycx-w);height:auto;margin:auto}" +
+    ".ty-lb.tycx-lb-pan button{position:fixed}";
   document.head.appendChild(css);
+
+  /* body-text size per screenshot: height in px of its body lines at 900 px wide (macOS Vision OCR, 23 Nov 2026) */
+  var TEXT = {"cm-01":18,"cm-02":49,"cm-03":24,"cm-04":45,"cm-05":39,"cm-06":47,"cm-07":42,"cm-08":38,"cm-09":39,"cm-10":36,"cm-11":41,"cm-12":42,"cm-13":43,"cm-14":19,"cm-15":42,"cm-16":45,"cm-17":56,"cm-18":16,"cm-19":39,"cm-20":49,"cm-21":27,"cm-22":22,"cm-23":38,"cm-24":22,"cm-25":49,"cm-26":40,"cm-27":18,"cm-28":48,"cm-29":42,"cm-30":40,"cm-31":52,"cm-32":42,"cm-34":16,"cm-35":18,"cm-36":44,"cm-37":48,"cm-38":61,"cm-39":39,"cm-40":41,"cm-41":37,"cm-42":44,"cm-43":42,"cm-44":45,"cm-45":43,"cm-46":42,"cm-47":45,"cm-48":40,"cm-49":43,"cm-50":39,"cm-51":47,"cm-52":51,"cm-53":37,"cm-54":21};
 
   /* ---------------------------------------------------------------- helpers */
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
@@ -48,7 +59,9 @@
     return (m ? m[1] : n).toLowerCase().replace(/[^a-z0-9]/g, "");
   }
   var items = src.map(function (d, i) {
-    return { d: d, i: i, key: keyOf(d), amb: d.type === "ambassador", big: d.h >= BIG_H };
+    var f = String(d.src).replace(/^.*\//, "").replace(/\.webp$/, "");
+    /* body-text size; a screenshot not in the table yet is judged by its shape (tall = a post with small print) */
+    return { d: d, i: i, key: keyOf(d), amb: d.type === "ambassador", text: TEXT[f] || (d.h >= 520 ? 24 : 44) };
   });
 
   /* spread each person evenly through a list: item j of n goes at (j + 0.5) / n */
@@ -97,6 +110,15 @@
     for (c = 0; c < n; c++) bottoms.push(0);
     var prev = null, lastBig = -9;
 
+    /* narrowest span at which the body text renders at TEXT_MIN px or more (widest if none does) */
+    function spanOf(it) {
+      for (var sp = 1; sp <= Math.min(n, 3); sp++) {
+        var slotW = sp * cw + (sp - 1) * gap, w = Math.min(slotW, it.d.w + 2);
+        if (it.text * (w - 2) / it.d.w >= TEXT_MIN) return sp;
+      }
+      return Math.min(n, 3);
+    }
+
     function slot(it, col, span) {
       var slotW = span * cw + (span - 1) * gap, w = Math.min(slotW, it.d.w + 2), h = (w - 2) * it.d.h / it.d.w + 2;
       var y = 0;
@@ -111,7 +133,7 @@
       var best = null, wq = queue.slice(0, win), minB = Math.min.apply(null, bottoms);
       for (var pass = 0; pass < 2 && !best; pass++) {      /* pass 1 keeps the columns level; pass 2 only if nothing fits */
         wq.forEach(function (it, qi) {
-          var span = it.big && n > 1 ? 2 : 1, opts = [];
+          var span = spanOf(it), opts = [];
           for (var col = 0; col + span <= n; col++) opts.push(slot(it, col, span));
           opts.forEach(function (p) {
             var top = Math.min.apply(null, bottoms.slice(p.col, p.col + span));
@@ -128,9 +150,9 @@
               if (seq.length - j < 6) score += 8;
             }
             if (prev && prev.amb === it.amb && it.amb) score += 3;
-            if (prev && prev.big === it.big) score += 2;
-            if (it.big && seq.length - lastBig < 5) score += 8;
-            if (it.big && !seq.length) score += 6;
+            if (prev && spanOf(prev) === span) score += 2;
+            if (span > 1 && seq.length - lastBig < 4) score += 6;
+            if (span > 1 && !seq.length) score += 6;
             if (!best || score < best.score) best = { score: score, it: it, p: p, qi: qi };
           });
         });
@@ -139,7 +161,7 @@
       var p = best.p; p.it = best.it;
       if (best.score >= 10000) viol++; else soft += best.score || 0;
       for (c = p.col; c < p.col + p.span; c++) bottoms[c] = p.y + p.h;
-      if (best.it.big) lastBig = seq.length;
+      if (p.span > 1) lastBig = seq.length;
       seq.push(best.it); pos.push(p); prev = best.it;
     }
     return { seq: seq, pos: pos, viol: viol, soft: soft };
@@ -151,10 +173,10 @@
     var gap = parseFloat(getComputedStyle(wall).columnGap) || 12;
     var cw = (W - gap * (n - 1)) / n, best = null;
     colInfo = { n: n, w: cw, gap: gap };
-    for (var seed = 0; seed < 200; seed++) {
+    for (var seed = 0; seed < 400; seed++) {
       var a = attempt(seed, n, cw, gap);
       if (!best || a.viol < best.viol || (a.viol === best.viol && a.soft < best.soft)) best = a;
-      if (!a.viol && a.soft < 40) break;   /* clean and tidy enough */
+      if (!a.viol && (a.soft < 40 || seed >= 60)) break;   /* clean and tidy enough */
     }
     seq = best.seq; pos = best.pos;
   }
@@ -196,7 +218,9 @@
     at = (k + seq.length) % seq.length; var d = seq[at].d;
     lbImg.src = d.src; lbImg.alt = alt(d);
     var tall = d.h / d.w > 1.6;
-    lb.classList.toggle("tycx-lb-tall", tall); lb.scrollTop = 0;
+    var fit = Math.min(1, (window.innerWidth - 32) / d.w), pan = seq[at].text * fit < TEXT_MIN;
+    lb.classList.toggle("tycx-lb-tall", tall); lb.classList.toggle("tycx-lb-pan", pan);
+    lb.style.setProperty("--tycx-w", d.w + "px"); lb.scrollTop = 0; lb.scrollLeft = 0;
   }
   function lbClose() { if (!lb) return; lb.hidden = true; lbImg.removeAttribute("src"); document.documentElement.classList.remove("ty-lb-open"); if (opener) opener.focus(); }
   function lbOpen(k, o) {
