@@ -566,3 +566,21 @@ html.ty-lb-open { overflow: hidden; }
   .ty-more { display: block; }
   .ty-more button { width: 100%; justify-content: center; }
 }
+
+
+/* =====================================================================================================
+   PHONE, round 2 (Malhar, 23 Nov 2026): review profile picture bigger with the name beside it,
+   and a bigger brand-partners band. All inside the phone query; desktop untouched.
+   ===================================================================================================== */
+@media (max-width: 900px) {
+  /* the desktop .ty-av rule sits later in the file and was shrinking the picture to 7px: match its weight here */
+  .ty-rc figcaption .ty-av, .ty-rc figcaption img.ty-av { width: 52px; height: 52px; flex: none; }
+  .ty-rc figcaption .ty-av--l { font-size: 22px; }
+  .ty-rc figcaption { gap: 14px; margin-top: 16px; align-items: center; }
+  .ty-rc figcaption .ty-who b { font-size: 16px; line-height: 22px; }
+  .ty-rc figcaption .ty-who a, .ty-rc figcaption .ty-who span { font-size: 14px; line-height: 20px; }
+  .thanks .brands { padding-top: 56px; padding-bottom: 56px; }
+  .thanks .brands .brand-track img { height: 38px; }
+  .thanks .brands .brand-track li.sm img { height: 48px; }
+  .thanks .brands .brand-track li { margin-right: 44px; }
+}

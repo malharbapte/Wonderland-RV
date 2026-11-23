@@ -1,5 +1,5 @@
 /* Reviews wall: one stream of review cards in 3 columns (1 on phones).
-   Shows the first BATCH (12), then a "Load more" button with a chevron adds the
+   Shows the first BATCH (12; 4 on phones), then a "Load more" button with a chevron adds the
    next BATCH until none are left. Each new card goes into the shortest column,
    so cards already on screen never jump.
 
@@ -8,7 +8,8 @@
    A review with no text draws grey bars (sample only). Mount point: #tyWall. */
 (function () {
   "use strict";
-  var BATCH = 12;
+  var BATCH = 12, PHONE_BATCH = 4;   /* phones start with 4 reviews and Load more adds 4 at a time */
+  function batch() { return window.matchMedia("(max-width:900px)").matches ? PHONE_BATCH : BATCH; }
   var wall = document.getElementById("tyWall");
   var data = arrange(window.WL_REVIEWS || []);
 
@@ -95,7 +96,7 @@
     var n = window.matchMedia("(max-width:900px)").matches ? 1 : 3;
     wall.innerHTML = ""; cols = [];
     for (var c = 0; c < n; c++) { var d = document.createElement("div"); d.className = "ty-rc-col"; wall.appendChild(d); cols.push(d); }
-    var upto = shown; shown = 0; add(upto || BATCH, true);
+    var upto = shown; shown = 0; add(upto || batch(), true);
   }
   function add(count, quiet) {
     var end = Math.min(data.length, shown + count);
@@ -153,7 +154,7 @@
   });
 
   btn = document.getElementById("tyMore");
-  if (btn) btn.addEventListener("click", function () { add(BATCH); });
+  if (btn) btn.addEventListener("click", function () { add(batch()); });
   build();
   var mq = window.matchMedia("(max-width:900px)");
   (mq.addEventListener ? mq.addEventListener.bind(mq, "change") : mq.addListener.bind(mq))(build);
