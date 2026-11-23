@@ -1,0 +1,98 @@
+/* Samples: clean, non-overlapping layouts for Awards & achievements. Sample only. */
+.pvl { width: 100vw; margin-left: calc(50% - 50vw); background: #111; color: #fff; padding: 0.16rem 0; }
+.pvl .container { display: flex; align-items: baseline; gap: 0.2rem; }
+.pvl b { font: 900 0.2rem/1 var(--aviano); letter-spacing: .08em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
+.pvl span { font-size: 0.17rem; line-height: 1.3; color: rgba(255,255,255,.8); }
+.pvnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; display: flex; justify-content: center; gap: 0.1rem; padding: 0.12rem; background: rgba(17,17,17,.94); }
+.pvnav a { color: #fff; text-decoration: none; font: 900 0.15rem/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; padding: 0.11rem 0.2rem; border: 0.015rem solid rgba(255,255,255,.35); border-radius: 999px; }
+.pvnav a:hover { background: var(--orange); border-color: var(--orange); }
+
+.saw .ty-h { text-align: left; margin: 0; }
+.saw .ty-lede { margin: 0.22rem 0 0; text-align: left; max-width: none; }
+.saw button { appearance: none; border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: inherit; }
+.saw button:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.04rem; }
+
+/* the ribbon: same shape as the live one (square top, notched foot), sized by --rw */
+.rb { display: block; width: var(--rw, 2.3rem); aspect-ratio: 1 / 2.366; filter: drop-shadow(0 0.05rem 0.1rem rgba(0,0,0,.22)); transition: transform .35s ease, opacity .3s ease; }
+.rb-i { display: block; width: 100%; height: 100%; box-sizing: border-box; padding: 7.57% 7.57% 0; background: #fff; overflow: hidden; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 93%, 0 100%); }
+.rb-i img { display: block; width: 100%; height: auto; }
+.rb.k .rb-i { background: #000; padding: 0; }
+.rb.k .rb-i img { width: auto; height: 100%; margin: 0 auto; }
+
+.aw-k { display: block; font: 900 var(--t-caption)/1.3 var(--aviano); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+.aw-t { display: block; margin-top: 0.12rem; font: 900 0.56rem/0.62rem var(--aviano); text-transform: uppercase; color: #111; }
+.aw-d { margin: 0.2rem 0 0.3rem; font-size: 0.24rem; line-height: 0.36rem; color: #333; }
+.aw-cta { display: inline-flex; align-items: center; gap: 0.14rem; padding: 0.17rem 0.34rem; background: var(--orange); color: #fff; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+.aw-cta:hover { background: var(--orange-hover); }
+.aw-cta svg { width: 0.11rem; height: 0.18rem; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.aw-cta[hidden] { display: none; }
+.saw .swap > * { animation: awIn .4s ease both; }
+@keyframes awIn { from { opacity: 0; transform: translateY(0.1rem); } }
+
+/* A · even row, selected lifts */
+.saw-a .awa { display: grid; grid-template-columns: 2fr 1fr; column-gap: 0.8rem; margin-top: 0.5rem; align-items: start; }
+.saw-a .awa-row { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 0.3rem; }
+.saw-a .awa-row button { display: block; text-align: center; }
+.saw-a .awa-row .rb { --rw: 100%; margin: 0 auto; }
+.saw-a .awa-row button::after { content: ""; display: block; height: 0.045rem; margin: 0.26rem auto 0; width: 60%; background: var(--orange); transform: scaleX(0); transition: transform .3s ease; }
+.saw-a .awa-row button.sel .rb { opacity: 1; transform: translateY(-0.14rem); }
+.saw-a .awa-row button.sel::after { transform: scaleX(1); }
+.saw-a .awa-card { border: 0.01rem solid #e4e2de; border-radius: 0.1rem; padding: 0.38rem; min-height: 5.8rem; display: flex; flex-direction: column; }
+.saw-a .awa-card .aw-cta { margin-top: auto; align-self: flex-start; }
+
+/* B · four tiles, everything visible */
+.saw-b .awb { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 0.26rem; margin-top: 0.5rem; }
+.saw-b .awb-tile { background: #F6F2EC; border-radius: 0.1rem; padding: 0.4rem 0.3rem 0.34rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.saw-b .awb-tile .rb { --rw: 2rem; }
+.saw-b .awb-tile .aw-k { margin-top: 0.34rem; }
+.saw-b .awb-tile .aw-t { font-size: 0.38rem; line-height: 0.44rem; }
+.saw-b .awb-tile .aw-d { font-size: 0.2rem; line-height: 0.3rem; margin: 0.14rem 0 0.24rem; }
+.saw-b .awb-tile .aw-cta { margin-top: auto; }
+.saw-b .awb-tile .aw-none { margin-top: auto; height: 0.5rem; }
+
+/* C · featured ribbon on a panel, small ribbons to switch */
+.saw-c .awc { display: grid; grid-template-columns: 1fr 2fr; column-gap: 0.6rem; margin-top: 0.5rem; align-items: stretch; }
+.saw-c .awc-stage { background: #F6F2EC; border-radius: 0.12rem; display: grid; place-items: center; padding: 0.5rem 0.3rem; }
+.saw-c .awc-stage .rb { --rw: 2.9rem; display: none; }
+.saw-c .awc-stage .rb.on { display: block; animation: awIn .4s ease both; }
+.saw-c .awc-right { display: flex; flex-direction: column; }
+.saw-c .awc-info { padding-top: 0.1rem; }
+.saw-c .awc-info .aw-t { font-size: 0.7rem; line-height: 0.76rem; }
+.saw-c .awc-info .aw-d { font-size: 0.28rem; line-height: 0.42rem; max-width: 8rem; }
+.saw-c .awc-thumbs { margin-top: auto; display: flex; gap: 0.26rem; align-items: flex-end; padding-top: 0.4rem; border-top: 0.01rem solid #e4e2de; }
+.saw-c .awc-thumbs button { display: block; text-align: center; }
+.saw-c .awc-thumbs .rb { --rw: 0.95rem; opacity: .5; }
+.saw-c .awc-thumbs button::after { content: ""; display: block; height: 0.04rem; margin-top: 0.14rem; background: var(--orange); transform: scaleX(0); transition: transform .3s; }
+.saw-c .awc-thumbs button.sel .rb { opacity: 1; }
+.saw-c .awc-thumbs button.sel::after { transform: scaleX(1); }
+.saw-c .awc-thumbs button:hover .rb { opacity: .85; }
+
+/* D · ribbons hang from a rail, details in a strip below */
+.saw-d .awd-rail { position: relative; margin-top: 0.5rem; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 0.3rem; padding-top: 0.5rem; }
+.saw-d .awd-rail::before { content: ""; position: absolute; left: 0; right: 0; top: 0.5rem; height: 0.03rem; background: var(--orange); border-radius: 0.02rem; }
+.saw-d .awd-rail button { position: relative; display: block; text-align: center; padding-top: 0.34rem; }
+.saw-d .awd-rail button::before { content: ""; position: absolute; left: 50%; top: -0.07rem; width: 0.16rem; height: 0.16rem; margin-left: -0.08rem; border-radius: 50%; background: #fff; border: 0.03rem solid var(--orange); z-index: 1; transition: background .3s; }
+.saw-d .awd-rail button.sel::before { background: var(--orange); }
+.saw-d .awd-yr { position: absolute; left: 0; right: 0; top: -0.42rem; font: 900 0.2rem/1 var(--aviano); letter-spacing: .1em; color: #999; transition: color .3s; }
+.saw-d .awd-rail button.sel .awd-yr { color: var(--orange); }
+.saw-d .awd-rail .rb { --rw: 2.2rem; margin: 0 auto; opacity: .72; }
+.saw-d .awd-rail button.sel .rb { opacity: 1; }
+.saw-d .awd-rail button:hover .rb { opacity: .85; }
+.saw-d .awd-strip { margin-top: 0.5rem; display: grid; grid-template-columns: 1fr auto; column-gap: 0.6rem; align-items: center; background: #F6F2EC; border-radius: 0.1rem; padding: 0.34rem 0.44rem; }
+.saw-d .awd-strip .aw-t { font-size: 0.46rem; line-height: 0.52rem; }
+.saw-d .awd-strip .aw-d { margin: 0.12rem 0 0; }
+
+/* E · dark showcase */
+.saw-e { background: #111; width: 100vw; margin-left: calc(50% - 50vw); }
+.saw-e .ty-h { color: #fff; }
+.saw-e .ty-lede { color: rgba(255,255,255,.75); }
+.saw-e .awe { display: grid; grid-template-columns: 2fr 1fr; column-gap: 0.8rem; margin-top: 0.5rem; align-items: center; }
+.saw-e .awe-row { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 0.3rem; }
+.saw-e .awe-row button { display: block; text-align: center; }
+.saw-e .awe-row .rb { --rw: 100%; margin: 0 auto; opacity: .55; filter: drop-shadow(0 0.08rem 0.16rem rgba(0,0,0,.6)); }
+.saw-e .awe-row button.sel .rb { opacity: 1; transform: translateY(-0.1rem); box-shadow: none; }
+.saw-e .awe-row button:hover .rb { opacity: .8; }
+.saw-e .awe-row button::after { content: ""; display: block; height: 0.045rem; margin: 0.26rem auto 0; width: 60%; background: var(--orange); transform: scaleX(0); transition: transform .3s; }
+.saw-e .awe-row button.sel::after { transform: scaleX(1); }
+.saw-e .awe-info .aw-t { color: #fff; font-size: 0.62rem; line-height: 0.68rem; }
+.saw-e .awe-info .aw-d { color: rgba(255,255,255,.85); }
