@@ -466,3 +466,76 @@ html.ty-lb-open { overflow: hidden; }
   .ty-steps li > span:last-child { align-self: start; font-size: 14px; line-height: 20px; text-wrap: pretty; }
   .ty-steps li:not(:last-child)::after { width: 20px; height: 20px; }
 }
+
+@media (max-width: 900px) {
+  /* 2 · next steps: intro line, video and supplier logos run the full width (the rem widths above are tiny on a phone) */
+  .ty-hero { padding-bottom: 40px; }
+  .ty-title { margin-top: 28px; }
+  .ty-hero .ty-hero-lede { max-width: none; margin: 12px 0 0; text-wrap: pretty; }
+  .ty-video { max-width: none; margin-top: 22px; }
+  .ty-video .kk-play { width: 64px; }
+  .ty-hb { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 12px; max-width: none; margin-top: 18px; justify-items: center; align-items: center; }
+  .ty-hb--2 { margin-top: 20px; }
+  .ty-hb li { min-height: 0; justify-content: center; }
+  .ty-hb--2 li:last-child { grid-column: 1 / -1; }
+
+  /* 3 · first chat to first trip: the caption runs the full width of the picture */
+  .ty-pk-cap p { max-width: none; font-size: 15px; line-height: 22px; margin-top: 8px; }
+  .ty-pk-cap h3 { font-size: 24px; line-height: 28px; margin-top: 6px; }
+  .ty-pk-pic::after { background: linear-gradient(to top, rgba(0,0,0,.93) 0%, rgba(0,0,0,.86) 32%, rgba(0,0,0,.5) 55%, rgba(0,0,0,0) 80%); }
+
+  /* 4 · reviews */
+  .ty-reviews .ty-rev-lede { max-width: none; margin: 12px 0 0; text-wrap: pretty; }
+
+  /* 6 · testimonial: the photo behind, quote, play and the who, thumbnails scroll along the foot */
+  .ty-tv { height: auto; min-height: 660px; }
+  .ty-tv-poster { height: 100%; object-position: center top; }
+  .ty-tv-shade { background: linear-gradient(to bottom, rgba(0,0,0,.25) 0, rgba(0,0,0,.35) 30%, rgba(0,0,0,.9) 72%, rgba(0,0,0,.95) 100%); }
+  .ty-tv-body { margin: auto 0 18px; padding: 0 20px; }
+  .ty-tv-in { width: auto; }
+  .ty-tv-q { max-width: none; margin-top: 22px; font-size: 20px; line-height: 29px; }
+  .ty-tv-q .qmark { width: 36px; }
+  .ty-tv-row { gap: 16px; margin-top: 20px; align-items: center; }
+  .ty-tv-play { width: 64px; }
+  .ty-tv-now b { font-size: 14px; line-height: 19px; }
+  .ty-tv-now span { font-size: 10px; line-height: 15px; }
+  .ty-tv-desc { max-width: none; margin-top: 4px; font-size: 13px; line-height: 19px; }
+  .ty-tv-strip { padding: 0 20px 22px; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+  .ty-tv-strip::-webkit-scrollbar { display: none; }
+  .ty-tv-card { flex: 0 0 148px; border-top-width: 3px; }
+  .ty-tv-card i { right: 6px; bottom: 6px; width: 24px; height: 24px; }
+  .ty-tv-card i svg { width: 10px; height: 10px; }
+
+  /* 7 · awards: the rail keeps four ribbons across, scaled to the phone; the grey strip stacks */
+  .ty-awd-rail { margin-top: 38px; column-gap: 8px; padding-top: 34px; }
+  .ty-awd-rail::before { left: 6px; right: 6px; top: 34px; height: 2px; margin-top: -1px; }
+  .ty-awd-end { top: 34px; width: 11px; height: 17px; margin-top: -8px; }
+  .ty-awd-rail button { padding-top: 22px; }
+  .ty-awd-rail button::before { top: -5px; width: 11px; height: 11px; margin-left: -5.5px; border-width: 2px; }
+  .ty-awd-yr { top: -28px; font-size: 12px; }
+  .ty-rb { width: 100%; max-width: 78px; }
+  .ty-awd-strip { grid-template-columns: 1fr; row-gap: 16px; margin-top: 24px; padding: 20px; }
+  .ty-awd-k { font-size: 11px; }
+  .ty-awd-t { font-size: 24px; line-height: 28px; margin-top: 6px; }
+  .ty-awd-d { font-size: 15px; line-height: 22px; margin-top: 6px; }
+  .ty-awd-cta { justify-content: center; padding: 15px 20px; font-size: 12px; }
+}
+
+@media (max-width: 900px) {
+  /* leftovers from the first phone look */
+  .ty-hb img[alt] { height: auto; max-width: 100%; }
+  .ty-hb img[alt="Dometic"] { width: 138px; }
+  .ty-hb img[alt="Cruisemaster"] { width: 58px; }
+  .ty-hb img[alt="REDARC"] { width: 116px; }
+  .ty-hb img[alt="Truma"] { width: 104px; }
+  .ty-hb img[alt="Webasto"] { width: 108px; }
+  .ty-hb img[alt="Victron Energy and Arizon"] { width: 150px; }
+  .ty-hb img[alt="Fusion"] { width: 100px; }
+  .ty-pk-cap .ty-pk-n { font-size: 11px; }
+  .ty-tv-q .qmark { position: static; display: block; width: 34px; margin: 0 0 12px; transform: none; }
+  .ty-tv-who, .ty-tv-now { min-width: 0; }
+  .ty-tv-now b { white-space: normal; overflow-wrap: anywhere; }
+  .ty-tick { padding: 12px 0; --slot: calc(100vw / 2); }
+  .ty-tick li { font-size: 14px; letter-spacing: .08em; }
+  .ty-tick li::after { width: 6px; height: 6px; }
+}
