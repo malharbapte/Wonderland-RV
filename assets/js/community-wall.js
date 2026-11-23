@@ -6,18 +6,20 @@
 
    Mix (Piyush, 23 Nov 2026: "mix it up a bit ... give it a good mix"; "comments from the same
    people dont have them recurring next to each other, mix it up and move them"):
+   - One grid (Piyush, 23 Nov 2026: "need to be aligned the way it was"): the wall is a CSS grid
+     in Malhar's own container, 3 equal columns with the original gutter on desktop, 2 on tablet,
+     1 on phone. Every card sits on the column lines, 1 column or 2 whole columns wide, nothing
+     is offset or wider than the container.
    - Card width follows how big the text renders (Boss QC, 23 Nov 2026): every screenshot has a
      measured body-text size (TEXT below: the height in px of its body lines at the 900 px
-     width, read with macOS Vision OCR). A card takes the narrowest span (1, 2 or on desktop 3
-     columns; 1 or 2 on tablet; 1 on phone) at which that text renders at TEXT_MIN px or more;
-     where even the widest span falls short it takes the widest. Short comments with large text
-     stay one column, small-text screenshots (a Facebook review, a dark strip) get wider, so the
-     rhythm changes as you scroll and the small print is as readable as the file allows.
+     width, read with macOS Vision OCR). A card takes 1 column if its text renders at TEXT_MIN px
+     or more there, otherwise 2 columns (the lightbox covers what 2 columns cannot).
    - Order: each person's items are spread evenly through the list, owners and ambassadors are woven evenly (owners stay the majority), then every card is placed one at a time at a computed position. A card is
      never put next to (above, below or beside, diagonals included) another card from the same
      person, and a person's cards are kept as far apart as the list allows. Because positions
-     are computed (not left to the browser), the order and the neighbours are exact, and they
-     hold after "Load more".
+     are computed here and handed to the grid as column and row lines, the order and the
+     neighbours are exact, and they hold after "Load more". A 2-column card is only placed
+     where it leaves no hole beside it.
    - Images are only placed and scaled down, never upscaled past their natural width, never cropped.
    The CSS for this wall is injected below and is scoped to #tyCm (class tycx-). */
 (function () {
@@ -30,12 +32,12 @@
   var css = document.createElement("style");
   css.id = "tycx-css";
   css.textContent =
-    "#tyCm.tycx-wall{display:block;position:relative}" +
+    "#tyCm.tycx-wall{display:grid;position:relative;grid-template-columns:repeat(var(--tycx-n,3),minmax(0,1fr));grid-auto-rows:1px;row-gap:0;align-items:start}" +
     "#tyCm.tycx-wall.tycx-part{overflow:hidden}" +
     "#tyCm.tycx-wall.tycx-part::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2.4rem;background:linear-gradient(to bottom,rgba(248,248,247,0),#F8F8F7 92%);pointer-events:none;z-index:2}" +
-    "#tyCm .tycx-card{position:absolute;box-sizing:border-box;margin:0;animation:tycx-in .45s ease both;transition:box-shadow .25s ease}" +
+    "#tyCm .tycx-card{box-sizing:border-box;margin:0;min-width:0;justify-self:start;animation:tycx-in .45s ease both;transition:box-shadow .25s ease}" +
     "#tyCm .tycx-card:hover{box-shadow:0 .05rem .22rem rgba(17,17,17,.1)}" +
-    "#tyCm .tycx-card img{display:block;width:100%;height:100%}" +
+    "#tyCm .tycx-card img{display:block;width:100%;height:auto}" +
     "@keyframes tycx-in{from{opacity:0;transform:translate3d(0,.1rem,0)}to{opacity:1;transform:none}}" +
     "@media (prefers-reduced-motion:reduce){#tyCm .tycx-card{animation:none;transition:none}}" +
     ".ty-lb.tycx-lb-tall{overflow-y:auto;align-items:flex-start;justify-content:center}" +
@@ -85,13 +87,23 @@
     mix.sort(function (x, y) { return x.f - y.f || y.o - x.o; });
     mix.forEach(function (m) { q.push(m.it); });
     if (rnd) for (var k = 0, nSwap = 2 + Math.floor(rnd() * 10); k < nSwap; k++) {   /* a few short hops, so another run can end differently */
-      var i = Math.floor(rnd() * q.length), j = Math.min(q.length - 1, i + 1 + Math.floor(rnd() * 8)), t = q[i]; q[i] = q[j]; q[j] = t;
+      var i = Math.floor(rnd() * q.length), j = Math.min(q.length - 1, i + 1 + Math.floor(rnd() * (nSwap > 7 ? 30 : 8))), t = q[i]; q[i] = q[j]; q[j] = t;
+    }
+    /* the tail has little room left to move cards apart: make its last 12 cards different people */
+    var L = q.length, K = Math.min(12, L), used = {}, ti, tj;
+    for (ti = L - K; ti < L; ti++) {
+      if (used[q[ti].key]) {
+        for (tj = Math.max(0, L - K - 40); tj < L - K; tj++) {
+          if (!used[q[tj].key] && (tj < 1 || q[tj - 1].key !== q[ti].key) && (tj + 1 >= L - K || q[tj + 1].key !== q[ti].key)) { var tt = q[ti]; q[ti] = q[tj]; q[tj] = tt; break; }
+        }
+      }
+      used[q[ti].key] = 1;
     }
     return q;
   }
 
   /* ---------------------------------------------------------------- layout */
-  var seq = [], pos = [], shown = 0, colInfo = { n: 3, w: 0, gap: 12 };
+  var seq = [], pos = [], shown = 0, colInfo = { n: 3, w: 0, gap: 12 }, BW = 2, BH = 2;
 
   function near(a, b, gap) {
     var hx = Math.max(a.x - (b.x + b.w), b.x - (a.x + a.w)), vy = Math.max(a.y - (b.y + b.h), b.y - (a.y + a.h));
@@ -104,40 +116,51 @@
   function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
   /* one placement run; seed 0 is the plain run, other seeds shake the order a little */
-  function attempt(seed, n, cw, gap) {
+  function attempt(seed, n, cw, gap, fixed) {
+    var HOLE = n === 2 ? 6 : 24;   /* a 2-column card may leave at most this many px beside it */
     var r = seed ? rng(seed) : null, win = WINDOW + (seed ? Math.floor(r() * 12) : 0), shake = seed % 3 === 0 ? 9 : 2.5;
-    var queue = baseQueue(r), bottoms = [], c, seq = [], pos = [], viol = 0, soft = 0;
+    var queue = fixed ? fixed.slice() : baseQueue(r), bottoms = [], c, seq = [], pos = [], viol = 0, soft = 0;
     for (c = 0; c < n; c++) bottoms.push(0);
-    var prev = null, lastBig = -9;
+    var prev = null, prevSpan = 0, lastBig = -9, remShort = 0;
+    function h1of(it) { return (cw - BW) * it.d.h / it.d.w + BH + gap; }
+    queue.forEach(function (q_) { if (spanOf(q_) === 1) remShort += h1of(q_); });
 
     /* narrowest span at which the body text renders at TEXT_MIN px or more (widest if none does) */
     function spanOf(it) {
-      for (var sp = 1; sp <= Math.min(n, 3); sp++) {
-        var slotW = sp * cw + (sp - 1) * gap, w = Math.min(slotW, it.d.w + 2);
-        if (it.text * (w - 2) / it.d.w >= TEXT_MIN) return sp;
+      for (var sp = 1; sp < Math.min(n, 2); sp++) {
+        var slotW = sp * cw + (sp - 1) * gap, w = Math.min(slotW, it.d.w + BW);
+        if (it.text * (w - BW) / it.d.w >= TEXT_MIN) return sp;
       }
-      return Math.min(n, 3);
+      return Math.min(n, 2);
+    }
+
+    /* a card that needs 2 columns takes the whole row (3) when too few 1-column cards remain to fill the lane beside it: no empty strip, no hole */
+    function spanNow(it) {
+      var sp = spanOf(it);
+      if (sp === 2 && n === 3 && remShort < 1.3 * ((2 * cw + gap - BW) * it.d.h / it.d.w + BH + gap)) return 3;
+      return sp;
     }
 
     function slot(it, col, span) {
-      var slotW = span * cw + (span - 1) * gap, w = Math.min(slotW, it.d.w + 2), h = (w - 2) * it.d.h / it.d.w + 2;
+      var slotW = span * cw + (span - 1) * gap, w = Math.min(slotW, it.d.w + BW), h = (w - BW) * it.d.h / it.d.w + BH;
       var y = 0;
       for (var k = col; k < col + span; k++) y = Math.max(y, bottoms[k]);
-      if (y > 0) y += gap;
       var waste = 0;
-      for (k = col; k < col + span; k++) waste += y - (bottoms[k] > 0 ? bottoms[k] + gap : 0);
-      return { x: col * (cw + gap) + (slotW - w) / 2, y: y, w: w, h: Math.round(h), col: col, span: span, waste: waste };
+      for (k = col; k < col + span; k++) waste += y - bottoms[k];
+      /* x and w are the column lines; y and rows are grid rows of 1 px (the gutter is part of the rows) */
+      return { x: col * (cw + gap), y: y, w: w, h: h, rows: Math.ceil(h + gap), col: col, span: span, waste: waste, slotW: slotW };
     }
 
     while (queue.length) {
       var best = null, wq = queue.slice(0, win), minB = Math.min.apply(null, bottoms);
-      for (var pass = 0; pass < 2 && !best; pass++) {      /* pass 1 keeps the columns level; pass 2 only if nothing fits */
-        wq.forEach(function (it, qi) {
-          var span = spanOf(it), opts = [];
+      for (var pass = 0; pass < 3 && !best; pass++) {      /* pass 0: the next few cards, columns level, no hole; pass 1: the whole queue, no hole; pass 2: anything */
+        (pass === 0 ? wq : queue.slice(0, 100)).forEach(function (it, qi) {
+          var span = spanNow(it), opts = [];
           for (var col = 0; col + span <= n; col++) opts.push(slot(it, col, span));
           opts.forEach(function (p) {
             var top = Math.min.apply(null, bottoms.slice(p.col, p.col + span));
-            if (pass === 0 && span === 1 && top - minB > 220) return;
+            if (pass < 2 && p.y - minB > 120) return;   /* no column lags more than a card behind: shorts fill beside a wide card before the next one starts */
+            if (pass < 2 && span >= 2 && n > 1 && p.waste > HOLE * (span - 1)) return;   /* no hole beside a wide card */
             var score = (r ? r() * shake : 0) + qi * 2 + p.waste / (span === 1 ? 3 : 5) + (span === 1 ? (top - minB) / 6 : 0), cx = p.x + p.w / 2, cy = p.y + p.h / 2;
             for (var j = 0; j < pos.length; j++) {
               var o = pos[j];
@@ -150,7 +173,7 @@
               if (seq.length - j < 6) score += 8;
             }
             if (prev && prev.amb === it.amb && it.amb) score += 3;
-            if (prev && spanOf(prev) === span) score += 2;
+            if (prev && prevSpan === span) score += 2;
             if (span > 1 && seq.length - lastBig < 4) score += 6;
             if (span > 1 && !seq.length) score += 6;
             if (!best || score < best.score) best = { score: score, it: it, p: p, qi: qi };
@@ -158,11 +181,12 @@
         });
       }
       queue.splice(queue.indexOf(best.it), 1);
+      if (spanOf(best.it) === 1) remShort -= h1of(best.it);
       var p = best.p; p.it = best.it;
       if (best.score >= 10000) viol++; else soft += best.score || 0;
-      for (c = p.col; c < p.col + p.span; c++) bottoms[c] = p.y + p.h;
+      for (c = p.col; c < p.col + p.span; c++) bottoms[c] = p.y + p.rows;
       if (p.span > 1) lastBig = seq.length;
-      seq.push(best.it); pos.push(p); prev = best.it;
+      seq.push(best.it); pos.push(p); prev = best.it; prevSpan = p.span;
     }
     return { seq: seq, pos: pos, viol: viol, soft: soft };
   }
@@ -173,10 +197,28 @@
     var gap = parseFloat(getComputedStyle(wall).columnGap) || 12;
     var cw = (W - gap * (n - 1)) / n, best = null;
     colInfo = { n: n, w: cw, gap: gap };
-    for (var seed = 0; seed < 400; seed++) {
+    wall.style.setProperty("--tycx-n", n);
+    var pr = document.createElement("button"), cs;
+    pr.className = "ty-cmc tycx-card"; pr.style.visibility = "hidden"; wall.appendChild(pr);   /* the real border width, so heights are exact */
+    cs = getComputedStyle(pr); BW = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth); BH = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    wall.removeChild(pr);
+    var t0 = Date.now();
+    for (var seed = 0; seed < 250; seed++) {
       var a = attempt(seed, n, cw, gap);
+      if (Date.now() - t0 > 600 && best) break;   /* a time budget: the best layout found so far */
       if (!best || a.viol < best.viol || (a.viol === best.viol && a.soft < best.soft)) best = a;
-      if (!a.viol && (a.soft < 40 || seed >= 60)) break;   /* clean and tidy enough */
+      if (!a.viol && a.soft < 40) break;   /* clean and tidy enough */
+    }
+    /* repair: if two cards of one person still touch, move the later one earlier in the order and place again */
+    var tries = 0, rr = rng(7);
+    while (best.viol && tries++ < 80 && Date.now() - t0 < 700) {
+      var bad = -1, i, j;
+      for (i = 0; i < best.pos.length && bad < 0; i++) for (j = i + 1; j < best.pos.length; j++) if (best.pos[i].it.key === best.pos[j].it.key && near(best.pos[i], best.pos[j], gap)) { bad = j; break; }
+      if (bad < 0) break;
+      var order = best.seq.slice(), mv = order.splice(bad, 1)[0], to = Math.max(0, Math.floor(rr() * Math.max(1, bad - 8)));
+      order.splice(to, 0, mv);
+      var b2 = attempt(1, n, cw, gap, order);
+      if (b2.viol < best.viol || (b2.viol === best.viol && b2.soft < best.soft)) best = b2;
     }
     seq = best.seq; pos = best.pos;
   }
@@ -185,7 +227,8 @@
   function card(it, k) {
     var d = it.d, p = pos[k], b = document.createElement("button");
     b.type = "button"; b.className = "ty-cmc tycx-card"; b.setAttribute("data-i", k); b.setAttribute("aria-label", alt(d) + ": open large");
-    b.style.cssText = "left:" + p.x.toFixed(1) + "px;top:" + p.y + "px;width:" + p.w.toFixed(1) + "px;height:" + p.h + "px";
+    b.style.gridColumn = (p.col + 1) + " / span " + p.span; b.style.gridRow = (p.y + 1) + " / span " + p.rows;
+    if (p.w < p.slotW) b.style.maxWidth = p.w + "px";   /* never wider than the screenshot itself */
     b.innerHTML = '<img src="' + esc(d.src) + '" width="' + d.w + '" height="' + d.h + '" alt="' + esc(alt(d)) + '" loading="lazy">';
     return b;
   }
@@ -200,9 +243,9 @@
   function fit() {
     var more = shown < seq.length, n = colInfo.n, bottoms = [], c, k;
     for (c = 0; c < n; c++) bottoms.push(0);
-    for (k = 0; k < shown; k++) for (c = pos[k].col; c < pos[k].col + pos[k].span; c++) bottoms[c] = Math.max(bottoms[c], pos[k].y + pos[k].h);
+    for (k = 0; k < shown; k++) for (c = pos[k].col; c < pos[k].col + pos[k].span; c++) bottoms[c] = Math.max(bottoms[c], pos[k].y + pos[k].rows);
     wall.classList.toggle("tycx-part", more);
-    wall.style.height = (more ? Math.min.apply(null, bottoms) : Math.max.apply(null, bottoms)) + "px";
+    wall.style.height = more ? (Math.min.apply(null, bottoms) - colInfo.gap) + "px" : "";
     if (btn) btn.parentNode.hidden = !more;
   }
   function more() {
