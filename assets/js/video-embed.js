@@ -100,7 +100,7 @@ function addPopupPlay(frame, id, title) {
   frame.appendChild(play);
   const poster = frame.querySelector(".video-poster, .ty-tv-poster");
   play.addEventListener("click", function () {
-    openVideoPopup(id, title, poster ? poster.getAttribute("src") : "", play);
+    openVideoPopup(id, title, poster ? (poster.getAttribute("data-still") || poster.getAttribute("src")) : "", play);   /* a moving thumbnail keeps a still for the pop-up cover */
   });
 }
 
