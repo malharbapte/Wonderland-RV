@@ -134,6 +134,7 @@
 .ty-build { background: #F8F8F7; }   /* the homepage grey */
 .ty-bq-grid { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
 .ty-bq-img { aspect-ratio: 4 / 3; border-radius: 0.1rem; overflow: hidden; }
+.ty-bq-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ty-bq-n { display: block; margin-top: 0.22rem; color: var(--orange); font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1; }
 .ty-bq h3 { margin: 0.1rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: 0.3rem; line-height: 0.36rem; text-transform: uppercase; }
 .ty-bq p { margin: 0.1rem 0 0; font-size: 0.24rem; line-height: 0.36rem; }
