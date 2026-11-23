@@ -139,3 +139,26 @@ var TESTIMONIALS = [
     else visible = true;
   }
 })();
+
+
+/* ------------------------------------------------ phone: long reviews fold up -- */
+(function () {
+  var mq = window.matchMedia && window.matchMedia("(max-width: 900px)"), wall = document.getElementById("tyWall");
+  if (!mq || !wall) return;
+  function prep(card) {
+    if (card.__tyRead) return; card.__tyRead = true;
+    var q = card.querySelector("blockquote"); if (!q) return;
+    q.classList.add("ty-clamp");
+    if (q.scrollHeight <= q.clientHeight + 2) { q.classList.remove("ty-clamp"); return; }
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ty-rc-more"; b.textContent = "Read more"; b.setAttribute("aria-expanded", "false");
+    b.addEventListener("click", function () {
+      var folded = q.classList.toggle("ty-clamp");
+      b.textContent = folded ? "Read more" : "Show less"; b.setAttribute("aria-expanded", String(!folded));
+    });
+    q.parentNode.insertBefore(b, q.nextSibling);
+  }
+  function scan() { if (!mq.matches) return; [].forEach.call(wall.querySelectorAll(".ty-rc"), prep); }
+  if (window.MutationObserver) new MutationObserver(scan).observe(wall, { childList: true, subtree: true });
+  window.addEventListener("load", scan); scan();
+})();
