@@ -1,11 +1,29 @@
 /* Community comments for the thank-you page: real screenshots, highlighted versions, from
    Marketing - Documents/USER GENERATED CONTENT/Community comments - Nov 2026/Wall-ready/3 Highlighted
    (resized to 900 px wide, WebP). Never retype or redraw a comment, only place and scale it.
-   Order follows the folder: owners first, then ambassadors, then others. type "ambassador" must be
+   Order follows the folder: owners first, then ambassadors, then others (23 Nov 2026: 30 owners-group Facebook posts added, cm-55 and up, surnames blurred, staff names left readable; 8 very tall posts held for Piyush). type "ambassador" must be
    labelled on the page (Australian Consumer Law). Consent is "not asked" for every comment so far:
    get written OK before this goes live.
      { src, w, h, name (first name or handle), platform, date, type } */
 window.WL_COMMUNITY = [
+ {
+  "src": "assets/img/community/cm-55.webp",
+  "w": 900,
+  "h": 1990,
+  "name": "Jessica",
+  "platform": "Facebook group",
+  "date": "2026-11-12",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-56.webp",
+  "w": 900,
+  "h": 1652,
+  "name": "Michelle",
+  "platform": "Facebook group",
+  "date": "2026-11-06",
+  "type": "owner"
+ },
  {
   "src": "assets/img/community/cm-01.webp",
   "w": 900,
@@ -43,6 +61,15 @@ window.WL_COMMUNITY = [
   "type": "owner"
  },
  {
+  "src": "assets/img/community/cm-58.webp",
+  "w": 900,
+  "h": 2233,
+  "name": "Ann",
+  "platform": "Facebook group",
+  "date": "2026-10-19",
+  "type": "owner"
+ },
+ {
   "src": "assets/img/community/cm-05.webp",
   "w": 900,
   "h": 544,
@@ -58,6 +85,15 @@ window.WL_COMMUNITY = [
   "name": "glendacroxford",
   "platform": "Instagram",
   "date": "2026-10-07",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-59.webp",
+  "w": 900,
+  "h": 963,
+  "name": "Dean",
+  "platform": "Facebook group",
+  "date": "2026-10-06",
   "type": "owner"
  },
  {
@@ -84,6 +120,15 @@ window.WL_COMMUNITY = [
   "h": 229,
   "name": "Matt",
   "platform": "Instagram",
+  "date": "2026-09-25",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-60.webp",
+  "w": 900,
+  "h": 1794,
+  "name": "Steve",
+  "platform": "Facebook group",
   "date": "2026-09-25",
   "type": "owner"
  },
@@ -124,6 +169,24 @@ window.WL_COMMUNITY = [
   "type": "owner"
  },
  {
+  "src": "assets/img/community/cm-61.webp",
+  "w": 900,
+  "h": 2462,
+  "name": "Jill",
+  "platform": "Facebook group",
+  "date": "2026-09-20",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-62.webp",
+  "w": 900,
+  "h": 2346,
+  "name": "Dean",
+  "platform": "Facebook group",
+  "date": "2026-09-16",
+  "type": "owner"
+ },
+ {
   "src": "assets/img/community/cm-14.webp",
   "w": 900,
   "h": 191,
@@ -151,6 +214,15 @@ window.WL_COMMUNITY = [
   "type": "owner"
  },
  {
+  "src": "assets/img/community/cm-64.webp",
+  "w": 900,
+  "h": 2003,
+  "name": "Frank",
+  "platform": "Facebook group",
+  "date": "2026-08-19",
+  "type": "owner"
+ },
+ {
   "src": "assets/img/community/cm-17.webp",
   "w": 900,
   "h": 196,
@@ -166,6 +238,15 @@ window.WL_COMMUNITY = [
   "name": "outbackoffroadoffgrid",
   "platform": "YouTube",
   "date": "2026-08-08",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-66.webp",
+  "w": 900,
+  "h": 2589,
+  "name": "Nick",
+  "platform": "Facebook group",
+  "date": "2026-07-30",
   "type": "owner"
  },
  {
@@ -232,6 +313,33 @@ window.WL_COMMUNITY = [
   "type": "owner"
  },
  {
+  "src": "assets/img/community/cm-69.webp",
+  "w": 900,
+  "h": 1065,
+  "name": "Kylie",
+  "platform": "Facebook group",
+  "date": "2026-06-22",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-70.webp",
+  "w": 900,
+  "h": 2320,
+  "name": "Jessica",
+  "platform": "Facebook group",
+  "date": "2026-06-21",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-72.webp",
+  "w": 900,
+  "h": 1897,
+  "name": "Nicole",
+  "platform": "Facebook group",
+  "date": "2026-06-11",
+  "type": "owner"
+ },
+ {
   "src": "assets/img/community/cm-26.webp",
   "w": 900,
   "h": 232,
@@ -247,6 +355,15 @@ window.WL_COMMUNITY = [
   "name": "Pete",
   "platform": "Facebook",
   "date": "2026-06-01",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-73.webp",
+  "w": 900,
+  "h": 1189,
+  "name": "Brenton",
+  "platform": "Facebook group",
+  "date": "2026-05-30",
   "type": "owner"
  },
  {
@@ -268,12 +385,48 @@ window.WL_COMMUNITY = [
   "type": "owner"
  },
  {
+  "src": "assets/img/community/cm-74.webp",
+  "w": 900,
+  "h": 1600,
+  "name": "Brent",
+  "platform": "Facebook group",
+  "date": "2026-05-21",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-75.webp",
+  "w": 900,
+  "h": 1382,
+  "name": "Janine",
+  "platform": "Facebook group",
+  "date": "2026-05-18",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-76.webp",
+  "w": 900,
+  "h": 2673,
+  "name": "Cassandra",
+  "platform": "Facebook group",
+  "date": "2026-05-18",
+  "type": "owner"
+ },
+ {
   "src": "assets/img/community/cm-30.webp",
   "w": 900,
   "h": 302,
   "name": "Rene",
   "platform": "Instagram",
   "date": "2026-05-17",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-77.webp",
+  "w": 900,
+  "h": 1855,
+  "name": "Andrew",
+  "platform": "Facebook group",
+  "date": "2026-05-15",
   "type": "owner"
  },
  {
@@ -284,6 +437,114 @@ window.WL_COMMUNITY = [
   "platform": "Facebook",
   "date": "2026-05-11",
   "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-78.webp",
+  "w": 900,
+  "h": 1876,
+  "name": "Nat",
+  "platform": "Facebook group",
+  "date": "2026-04-29",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-79.webp",
+  "w": 900,
+  "h": 700,
+  "name": "Jodi",
+  "platform": "Facebook group",
+  "date": "2026-04-25",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-80.webp",
+  "w": 900,
+  "h": 1990,
+  "name": "Grant",
+  "platform": "Facebook group",
+  "date": "2026-04-24",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-81.webp",
+  "w": 900,
+  "h": 2107,
+  "name": "Sally",
+  "platform": "Facebook group",
+  "date": "2026-04-11",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-82.webp",
+  "w": 900,
+  "h": 1658,
+  "name": "Teresa",
+  "platform": "Facebook group",
+  "date": "2026-04-02",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-83.webp",
+  "w": 900,
+  "h": 1550,
+  "name": "Jenni",
+  "platform": "Facebook group",
+  "date": "2026-03-25",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-84.webp",
+  "w": 900,
+  "h": 2685,
+  "name": "Sean",
+  "platform": "Facebook group",
+  "date": "2026-03-04",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-85.webp",
+  "w": 900,
+  "h": 1357,
+  "name": "Sue",
+  "platform": "Facebook group",
+  "date": "2026-02-22",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-87.webp",
+  "w": 900,
+  "h": 700,
+  "name": "Lisa",
+  "platform": "Facebook group",
+  "date": "2026-02-13",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-88.webp",
+  "w": 900,
+  "h": 1447,
+  "name": "Jenni",
+  "platform": "Facebook group",
+  "date": "2026-02-04",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-89.webp",
+  "w": 900,
+  "h": 1726,
+  "name": "Kylie",
+  "platform": "Facebook group",
+  "date": "2026-01-05",
+  "type": "owner"
+ },
+ {
+  "src": "assets/img/community/cm-90.webp",
+  "w": 900,
+  "h": 1640,
+  "name": "Adam",
+  "platform": "Facebook group",
+  "date": "2026-09-12",
+  "type": "ambassador"
  },
  {
   "src": "assets/img/community/cm-32.webp",
@@ -463,6 +724,15 @@ window.WL_COMMUNITY = [
   "name": "Kiwi Van Life",
   "platform": "Instagram",
   "date": "2026-03-21",
+  "type": "ambassador"
+ },
+ {
+  "src": "assets/img/community/cm-91.webp",
+  "w": 900,
+  "h": 1647,
+  "name": "Michael",
+  "platform": "Facebook group",
+  "date": "2026-03-19",
   "type": "ambassador"
  },
  {
