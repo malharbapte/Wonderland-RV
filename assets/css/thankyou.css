@@ -17,12 +17,12 @@
 @keyframes ty-draw { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .ty-top-ck circle, .ty-top-ck .tk { animation: none; stroke-dashoffset: 0; } }
 /* the thank-you bar, as on the King Kong confirmation page */
-.ty-pill-w { margin: 0.31rem 0 0.1rem; text-align: center; }
+.ty-pill-w { margin: 0.3rem 0 0.2rem; text-align: center; }
 .ty-pill { --fs: 0.19rem; --pv: 0.15rem; display: inline-flex; align-items: center; gap: 0.18rem; max-width: 100%; box-sizing: border-box; padding: var(--pv) calc(var(--pv) * 1.7) var(--pv) calc(var(--pv) * 1.5); border-radius: 999px; background: #111; color: #fff; font-family: var(--gordita); font-size: var(--fs); line-height: 1; text-align: left; }
 .ty-pill-dot { flex: none; width: calc(var(--fs) * .55); height: calc(var(--fs) * .55); border-radius: 50%; background: var(--orange); }
 .ty-pill-chip { flex: none; background: var(--orange); color: #111; border-radius: 999px; padding: calc(var(--fs) * .62) calc(var(--fs) * 1.05); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .ty-pill-msg { text-transform: uppercase; letter-spacing: .08em; font-weight: 500; white-space: nowrap; }
-.ty-top-lead { margin: 0.2rem auto 0; max-width: 10.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
+.ty-top-lead { margin: 0.3rem auto 0; max-width: 10.4rem; font-size: var(--t-body); line-height: var(--lh-body); }
 .ty-top-lead b { font-weight: 700; }
 @keyframes tyPulse { 50% { box-shadow: 0 0 0 0.13rem rgba(219,118,39,.06); } }
 /* the three steps: cards on thirds with a chevron between, the current one outlined */
