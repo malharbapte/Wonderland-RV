@@ -1,0 +1,45 @@
+/* Sample v8: only the progress bar under the Why choose us slider, five ways. Sample only. */
+.wy8 { padding: 0.9rem 0 0.5rem; }
+.wy8 .wy-bar { display: flex; align-items: center; gap: 0.3rem; margin-top: 0.3rem; }
+.wy8 .wy-prog { display: flex; height: auto; background: none; flex: none; position: static; }
+.wy8 .wy-prog button { all: unset; box-sizing: border-box; cursor: pointer; font-size: 0; transition: background .4s, width .4s, color .4s, border-color .4s; }
+.wy8 .wy-prog button:focus-visible { outline: 0.02rem solid var(--orange); outline-offset: 0.03rem; }
+.wy8 .wy-ctl { margin-left: auto; }
+/* A */
+.bA .wy-prog { gap: 0.07rem; }
+.bA .wy-prog button { width: 0.11rem; height: 0.11rem; border-radius: 0.06rem; background: #d6d2cb; }
+.bA .wy-prog button.on { width: 0.3rem; background: var(--orange); }
+/* B */
+.bB .wy-prog { flex: 1; gap: 0; align-self: center; }
+.bB .wy-prog button { flex: 1; height: 0.04rem; background: #dedbd6; }
+.bB .wy-prog button.on { background: var(--orange); }
+.bB .wy-count { min-width: 1rem; margin: 0; text-align: left; }
+/* C */
+.bC .wy-bar { justify-content: center; }
+.bC .wy-prog { gap: 0.09rem; }
+.bC .wy-prog button { width: 0.12rem; height: 0.12rem; border-radius: 50%; background: #d6d2cb; }
+.bC .wy-prog button.on { background: var(--orange); }
+.bC .wy-seam.wy-prev { left: 0.12rem; margin-left: 0; } .bC .wy-seam.wy-next { right: 0.12rem; margin-left: 0; }
+.bC .wy-seam { z-index: 6; }
+/* D */
+.bD .wy-prog { gap: 0.34rem; flex: 1; }
+.bD .wy-prog button { padding: 0 0 0.06rem; border-bottom: 0.025rem solid transparent; font: 700 var(--t-caption)/var(--lh-caption) var(--aviano); letter-spacing: .1em; text-transform: uppercase; color: #8a857d; }
+.bD .wy-prog button.on { color: #1D1D1B; border-bottom-color: var(--orange); }
+.bD .wy-prog button:hover { color: var(--orange); }
+/* E */
+.bE .wy-bar { justify-content: center; }
+.bE .cap { display: flex; align-items: center; gap: 0.2rem; padding: 0.06rem; border: 0.015rem solid #d9d5cf; border-radius: 999px; background: #fff; }
+.bE .cap .wy-btn { width: 0.46rem; height: 0.46rem; }
+.bE .wy-prog { gap: 0.08rem; }
+.bE .wy-prog button { width: 0.11rem; height: 0.11rem; border-radius: 50%; background: #d6d2cb; }
+.bE .wy-prog button.on { background: var(--orange); width: 0.11rem; }
+/* shared with v7: photos outside the page column are dimmed and click to slide in */
+.wy8 { overflow: visible; }
+.wy8 .wd { transition: opacity .6s cubic-bezier(.22,1,.36,1); }
+.wy8 .wd.is-out { opacity: .38; cursor: pointer; }
+.wy8 .wd.is-out .wd-c { opacity: 0; }
+.wy8 .wd-c { transition: opacity .4s; }
+/* C: arrows sitting on the first and last lit photo */
+.wy-seam { position: absolute; top: 50%; width: 0.56rem; height: 0.56rem; margin-top: -0.28rem; border: 0; padding: 0; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0.05rem 0.18rem -0.04rem rgba(0,0,0,.55); transition: background .2s; }
+.wy-seam svg { width: 0.26rem; height: 0.26rem; }
+.wy-seam:hover, .wy-seam:focus-visible { background: #c4651e; outline: none; }
