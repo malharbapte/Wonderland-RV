@@ -643,28 +643,48 @@ html.ty-lb-open { overflow: hidden; }
   .ty-more button, .ty-more.ty-more button { padding: 15px 26px; font-size: 13px; line-height: 1; min-height: 52px; letter-spacing: .06em; }
   .ty-more svg { width: 14px; height: 9px; }
 }
+/* ---- 24 Nov 2026: one-screen top block (Malhar, option A refined; the sample is sample-thanks-top.html) ----
+   DESKTOP: pill, line, steps, heading, sub-heading and video fill exactly the screen under the header; the video takes
+   whatever height is left (never wider than the margins), spare height is shared between the gaps, and the supplier
+   logos sit in one row just below the first screen. Phones keep their own layout (the helpers below are inert there). */
+.ty-sp { display: none; }
+.ty-screen { display: block; }
+.ty-vw { display: block; }
+@media (max-width: 900px) {
+  .ty-hero { padding-bottom: 0; }
+  .ty-sup { padding-bottom: 48px; }
+}
 @media (min-width: 901px) {
-  :root { --fit: 15.4; }
-  .ty-first .ty-top { padding-top: 0.3rem; padding-bottom: 0; }
-  .ty-first .ty-pill-w { margin: 0.1rem 0 0.1rem; }
-  .ty-first .ty-pill { --fs: 0.17rem; --pv: 0.11rem; }
-  .ty-first .ty-top-lead { margin-top: 0.16rem; max-width: 12rem; font-size: 0.25rem; line-height: 0.35rem; text-wrap: balance; }
-  .ty-first .ty-steps { --g: 0; margin: 0.26rem auto 0; max-width: 8.8rem; column-gap: 0; }
-  .ty-first .ty-steps li { align-items: center; text-align: center; gap: 0.09rem; padding: 0 0.05rem; background: none; border: 0; border-radius: 0; }
+  .ty-first { --gmin: clamp(0.12rem, 1.5vh, 0.28rem); }
+  .ty-screen { display: flex; flex-direction: column; align-items: center; text-align: center; height: calc(100vh - var(--hdr, 1.4rem)); min-height: 560px; }
+  @supports (height: 100svh) { .ty-screen { height: calc(100svh - var(--hdr, 1.4rem)); } }
+  .ty-top, .ty-hero { display: contents; }
+  .ty-sp { display: block; flex: var(--k, 1) 1 0; min-height: calc(var(--gmin) * var(--k, 1)); }
+  .ty-first .ty-pill-w { margin: 0; flex: none; }
+  .ty-first .ty-top-lead { flex: none; margin: 0; width: 100%; max-width: none; font-size: calc(var(--t-caption) * 0.8); line-height: calc(var(--lh-caption) * 0.8); text-wrap: pretty; }
+  .ty-first .ty-title { flex: none; margin: 0; }
+  .ty-first .ty-hero .ty-hero-lede { flex: none; margin: 0; width: 100%; max-width: none; text-wrap: pretty; }
+  /* the three steps: circles on a line, label under each (the phone look) */
+  .ty-first .ty-steps { flex: none; --g: 0; margin: 0; width: 100%; max-width: 8.8rem; column-gap: 0; grid-template-columns: repeat(3, 1fr); }
+  .ty-first .ty-steps li { align-items: center; text-align: center; gap: 0.08rem; padding: 0 0.05rem; background: none; border: 0; border-radius: 0; }
   .ty-first .ty-steps .done { border-color: transparent; }
   .ty-first .ty-steps-i { width: 0.5rem; height: 0.5rem; margin: 0; position: relative; z-index: 1; }
   .ty-first .ty-steps-i svg { width: 0.25rem; height: 0.25rem; }
-  .ty-first .ty-steps b { font-size: 0.16rem; line-height: 0.22rem; letter-spacing: .04em; }
+  .ty-first .ty-steps b { font-size: var(--t-caption); line-height: 1.1; letter-spacing: .02em; }
   .ty-first .ty-steps li > span:last-child { display: none; }
   .ty-first .ty-steps li:not(:last-child)::after, .ty-first .ty-steps li.done:not(:last-child)::after { top: 0.25rem; right: calc(-50% + 0.34rem); left: calc(50% + 0.34rem); width: auto; height: 0.02rem; transform: none; background-image: none; background-color: #d9d5cf; }
   .ty-first .ty-steps li.done:not(:last-child)::after { background-color: var(--orange); }
-  .ty-first .ty-hero { padding-top: 0; }
-  .ty-first .ty-title { margin-top: 0.36rem; }
-  .ty-first .ty-hero .ty-hero-lede { margin-top: 0.1rem; max-width: 12.4rem; font-size: 0.25rem; line-height: 0.35rem; }
-  .ty-first .ty-video { margin-top: 0.2rem; max-width: 12.2rem; }
-  .ty-first .ty-hb-k { margin-top: 0.22rem; }
-  .ty-first .ty-hb { margin-top: 0.14rem; }
-  .ty-first .ty-hb--2 { margin-top: 0.06rem; }
-  .ty-first .ty-hb li { min-height: 0.42rem; }
-  .ty-first { padding-bottom: 0.3rem; }
+  /* the video: the flexible piece */
+  .ty-vw { flex: 100 1 0; min-height: 0; max-height: 9.14rem; width: 100%; container-type: size; display: grid; place-items: center; }
+  .ty-vw .ty-video { width: min(100cqw, 100cqh * 16 / 9); max-width: none; aspect-ratio: 16 / 9; margin: 0; }
+  /* suppliers: one row, label then logos, just below the first screen */
+  .ty-sup { display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.5rem 0 0.6rem; }
+  .ty-sup .ty-hb-k { margin: 0; flex: none; max-width: 2.2rem; text-align: left; line-height: 1.2; }
+  .ty-sup .ty-hb { display: contents; }
+  .ty-sup .ty-hb li { flex: none; min-height: 0; display: flex; align-items: center; margin-left: 0.38rem; }
+  .ty-sup .ty-hb li:first-child { margin-left: 0; }
+  .ty-sup .ty-hb--2 li:first-child { margin-left: 0.38rem; }
+  .ty-sup .ty-hb img { max-width: none; height: auto; }
+  .ty-sup .ty-hb img[alt="Dometic"] { width: 1.5rem; } .ty-sup .ty-hb img[alt="Cruisemaster"] { width: 0.6rem; } .ty-sup .ty-hb img[alt="REDARC"] { width: 1.3rem; }
+  .ty-sup .ty-hb img[alt="Truma"] { width: 1.1rem; } .ty-sup .ty-hb img[alt="Webasto"] { width: 1.15rem; } .ty-sup .ty-hb img[alt="Victron Energy and Arizon"] { width: 1.75rem; } .ty-sup .ty-hb img[alt="Fusion"] { width: 1.1rem; }
 }

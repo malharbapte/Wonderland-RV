@@ -10,7 +10,7 @@
 .tyx-sp { display: block; flex: var(--k, 1) 1 0; min-height: calc(var(--gmin) * var(--k, 1)); }
 .tyx-in { height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0; }
 .tyx .ty-pill-w { margin: 0; flex: none; }
-.tyx-lead { flex: none; margin: 0; width: 100%; max-width: none; font-size: var(--t-caption); line-height: var(--lh-caption); }   /* the page's caption size (Malhar, 24 Nov) */
+.tyx-lead { flex: none; margin: 0; width: 100%; max-width: none; font-size: calc(var(--t-caption) * 0.8); line-height: calc(var(--lh-caption) * 0.8); }   /* caption size less 20% (Malhar, 24 Nov) */
 .tyx-title { flex: none; margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
 .tyx-lede { flex: none; margin: 0; width: 100%; max-width: none; font-size: var(--t-body); line-height: var(--lh-body); }
 

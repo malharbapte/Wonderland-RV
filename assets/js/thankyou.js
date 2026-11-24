@@ -187,3 +187,12 @@ var TESTIMONIALS = [
     else visible = true;
   }
 })();
+
+
+/* Desktop one-screen top block: tell the CSS how tall the header is, so the block ends exactly on the screen's edge. */
+(function () {
+  var hdr = document.querySelector(".site-header");
+  if (!hdr) return;
+  function set() { document.documentElement.style.setProperty("--hdr", Math.ceil(hdr.getBoundingClientRect().bottom) + "px"); }
+  set(); window.addEventListener("resize", set); window.addEventListener("load", set);
+})();
