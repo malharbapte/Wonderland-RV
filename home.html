@@ -12,8 +12,9 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=329">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=315">
-<link rel="stylesheet" href="assets/css/home-order.css?v=900">
+<link rel="stylesheet" href="assets/css/home-order.css?v=901">
 <link rel="stylesheet" href="assets/css/home-dream.css?v=1">
+<link rel="stylesheet" href="assets/css/home-why.css?v=1">
 </head>
 <body class="home">
 
@@ -377,22 +378,32 @@
   </div>
 </section>
 
-<!-- ====================================== WHY CHOOSE US, DESKTOP (numbers first)
-  Desktop only: the phone keeps its portrait accordion above (.band--why). The
-  Caravans built figure lives here now, not under the range. The quote is Kevin
-  Dani's, from the factory video "How a Wonderland RV Is Built". -->
-<section class="wy" aria-labelledby="wyTitle">
+<!-- ====================================== WHY CHOOSE US, DESKTOP (detail slider)
+  Desktop only: the phone keeps its portrait accordion above (.band--why). A looping three-up slider of factory
+  details that runs off both screen edges (assets/css/home-why.css, assets/js/home-why.js). The Caravans built
+  count-up still runs from home.js through .wy-num[data-count-to]. The Kevin Dani quote that used to sit here
+  was dropped with the redesign; it is in git history if it comes back. -->
+<section class="wyc" aria-labelledby="wyTitle">
   <div class="container">
-    <h2 class="wy-title" id="wyTitle">Why choose us?</h2>
-    <p class="wy-hook">Made in Australia. Refined for the Outback.</p>
-    <p class="wy-lead">Thoughtfully crafted, beautifully finished and made for the way you travel, with every part built in and sourced from Australia.</p>
-    <div class="wy-stats">
-      <div class="wy-stat"><b class="wy-num" data-count-to="1300">0<span aria-hidden="true">+</span></b><span>Caravans built</span></div>
-      <div class="wy-stat"><b class="wy-num">2014</b><span>Making caravans since</span></div>
-      <div class="wy-stat"><b class="wy-num">3 yr</b><span>Factory-backed warranty</span></div>
+    <div class="wyc-top">
+      <div>
+        <h2 class="wyc-h" id="wyTitle">Why choose us?</h2>
+        <p class="wyc-s">Made in Australia. Refined for the Outback.</p>
+      </div>
+      <dl class="wyc-st">
+        <div><dt><b class="wy-num" data-count-to="1300">0<span aria-hidden="true">+</span></b></dt><dd>Caravans built</dd></div>
+        <div><dt>2014</dt><dd>Building since</dd></div>
+        <div><dt>3 yr</dt><dd>Factory warranty</dd></div>
+      </dl>
     </div>
-    <p class="wy-q">&ldquo;Wonderland RV was started in 2014. We&rsquo;ve only ever built Wonderland&nbsp;RV.<br>No one else has ever built for us. We&rsquo;ve always built our own vans.&rdquo;<cite class="wy-cite"><span class="wy-name">KEVIN DANI</span><span class="wy-role">MANAGING DIRECTOR</span></cite></p>
   </div>
+  <div class="container">
+    <div class="wyc-slider" data-wyc>
+      <div class="wyc-vp"><div class="wyc-tr"><button type="button" class="wd" data-tab="Chassis"><img src="assets/img/home/why/chassis.jpg" alt="" loading="lazy" style="object-position:50% 55%"><span class="wd-c"><b>Chassis</b><span>Every chassis is made here in Australia. Every van starts with its own chassis.</span></span></button><button type="button" class="wd" data-tab="Jigsaw"><img src="assets/img/home/why/jigsaw.jpg" alt="" loading="lazy" style="object-position:50% 38%"><span class="wd-c"><b>Jigsaw construction</b><span>Interlocking panels for strength that lasts.</span></span></button><button type="button" class="wd" data-tab="Wiring"><img src="assets/img/home/why/wiring.jpg" alt="" loading="lazy" style="object-position:60% 45%"><span class="wd-c"><b>Wiring and insulation</b><span>Wiring and insulation go in before the panels.</span></span></button><button type="button" class="wd" data-tab="Panels"><img src="assets/img/home/why/panels.jpg" alt="" loading="lazy" style="object-position:50% 50%"><span class="wd-c"><b>Composite panels</b><span>One-piece front, roof and back wall.</span></span></button><button type="button" class="wd" data-tab="Custom"><img src="assets/img/home/why/custom.jpg" alt="" loading="lazy" style="object-position:45% 55%"><span class="wd-c"><b>Custom made</b><span>Laid out around your family and your trips.</span></span></button><button type="button" class="wd" data-tab="Factory"><img src="assets/img/home/why/factory.jpg" alt="" loading="lazy" style="object-position:45% 55%"><span class="wd-c"><b>Our own factory</b><span>Cut and fitted in Campbellfield, Victoria.</span></span></button></div></div>
+    </div>
+    <div class="wyc-bar"><div class="wyc-dots" role="group" aria-label="Photos"></div><div class="wyc-ctl"><button type="button" class="wy-btn wy-prev" aria-label="Previous photos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="wy-btn wy-next" aria-label="Next photos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+  </div>
+  <div class="wyc-lb" hidden role="dialog" aria-label="Photo"><button type="button" class="wyc-x" aria-label="Close">&times;</button><button type="button" class="wyc-pv" aria-label="Previous">&#8249;</button><figure><img alt=""><figcaption></figcaption></figure><button type="button" class="wyc-nx" aria-label="Next">&#8250;</button></div>
 </section>
 
 <section class="why">
@@ -1013,8 +1024,9 @@
 <script src="assets/js/range-phone.js?v=6"></script>
 <script src="assets/js/why-phone.js?v=2"></script>
 <script src="assets/js/home-dream.js?v=1"></script>
+<script src="assets/js/home-why.js?v=1"></script>
 <script src="assets/js/brand-marquee.js?v=1"></script>
-<script src="assets/js/side-bar.js?v=7"></script>
+<script src="assets/js/side-bar.js?v=8"></script>
 <script src="assets/js/brochure-popup.js?v=6"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>
 <script src="assets/js/nav.js?v=323"></script>

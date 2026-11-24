@@ -1216,28 +1216,10 @@ body.bro-lock { overflow: hidden; }
 
 
 /* ==========================================================================
-   WHY CHOOSE US, DESKTOP: numbers first (sample-home-why.html), white, no photo.
-   The phone keeps its portrait accordion (.band--why); desktop swaps it for this.
-   The Caravans built figure moved in here from its own grey strip.
+   WHY CHOOSE US, DESKTOP: the detail slider lives in home-why.css. This only hides what it replaces:
+   the phone keeps its portrait accordion (.band--why), and the Caravans built figure now sits in the slider's heading row.
    ========================================================================== */
-.wy { display: none; }
 @media (min-width: 901px) {
   .band--why { display: none; }
   .stat-band { display: none; }
-  .wy { display: block; width: 100vw; margin-left: calc(50% - 50vw); background: #fff; padding: 1.2rem 0 1.3rem; }
-  .wy-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; }
-  .wy-hook { margin: .5rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
-             line-height: 1.05; text-transform: uppercase; color: var(--orange-deep); }
-  .wy-lead { margin: .14rem 0 0; max-width: 13rem; font-family: var(--gordita); font-weight: 400; font-size: .34rem; line-height: .44rem; letter-spacing: -.01em; text-wrap: pretty; }
-  .wy-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-top: .6rem; padding: .1rem 0 .6rem;
-              border-bottom: 1px solid #e4e2de; }
-  /* the figures: Gordita Bold */
-  .wy-num { display: block; font-family: var(--gordita); font-weight: 700; color: var(--orange-deep); font-size: .9rem; line-height: 1; }
-  .wy-stat > span { display: block; margin-top: .12rem; font-family: var(--aviano); font-size: .2rem; letter-spacing: .3em; text-transform: uppercase; }
-  .wy-q { margin: .6rem 0 0; max-width: none; text-wrap: balance; font-family: var(--gordita); font-weight: 500; font-size: .38rem; line-height: .5rem; letter-spacing: -.01em; }
-  /* the name set as the reviewers' names are in Legendary service: capitals, the name in
-     bold (.service-name) and the role under it in regular (.service-role), 0.21rem on 0.28rem */
-  .wy-cite { display: block; margin-top: .42rem; font-style: normal; letter-spacing: 0; color: var(--ink); }
-  .wy-name, .wy-role { display: block; font-size: .21rem; line-height: .28rem; }
-  .wy-name { font-weight: 700; }
 }
