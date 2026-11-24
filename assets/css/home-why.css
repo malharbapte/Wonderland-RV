@@ -2,6 +2,7 @@
    The middle three photos are the page column; the photo either side is dimmed and waiting.
    On phones the same section runs one photo at a time with its neighbours peeking in (block at the end). */
 .wyc { display: none; }
+.wyc-pb { display: none; }   /* a line break the phone uses to set each figure label on two lines */
 @media (min-width: 901px) {
   .wyc { display: block; position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow-x: clip; background: #fff; padding: 0.9rem 0 1rem; }
   .wyc-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.64rem; }
@@ -84,7 +85,8 @@
   .wd.is-out { opacity: .4; }
   .wd.is-out .wd-c { opacity: 0; }
 
-  .wyc-bar { display: flex; justify-content: center; margin-top: 18px; }
+  .wyc-pb { display: inline; }
+  .wyc-bar { display: flex; justify-content: flex-start; margin-top: 18px; }
   .wyc-dots { display: flex; gap: 8px; }
   .wyc-dots button { all: unset; box-sizing: border-box; cursor: pointer; font-size: 0; width: 8px; height: 8px; border-radius: 4px; background: #d6d2cb; transition: width .4s, background .4s; }
   .wyc-dots button.on { width: 24px; background: var(--orange); }
