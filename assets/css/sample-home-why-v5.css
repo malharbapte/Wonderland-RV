@@ -1,0 +1,93 @@
+/* Sample v5: "Why choose us", four ways to make "there are more photos ahead" obvious and to give the proof a better home. Sample only.
+   Shared: six detail photos at standard size, captions on a slight black fade from the bottom. */
+.wy5 { position: relative; background: #fff; padding: 0.8rem 0 0.9rem; border-bottom: 1px solid #e4e2de; }
+.wy5-tag { position: absolute; left: 14px; top: 12px; z-index: 5; font: 700 10px/1 var(--aviano); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+.wy5-nav { position: fixed; z-index: 400; left: 14px; top: 120px; display: flex; flex-direction: column; gap: 6px; align-items: center; background: #1D1D1B; padding: 10px 8px; border-radius: 12px; color: #fff; box-shadow: 0 10px 24px -10px rgba(0,0,0,.5); }
+.wy5-nav b { font: 700 9px/1 var(--aviano); letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-bottom: 2px; }
+.wy5-nav a { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4); color: #fff; display: grid; place-items: center; font: 900 14px/1 var(--aviano); text-decoration: none; }
+.wy5-nav a:hover { background: var(--orange); border-color: var(--orange); }
+.wy-top { margin-bottom: 0.4rem; }
+.wy-top--row { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.6rem; }
+.wy-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.05; text-transform: uppercase; white-space: nowrap; }
+.wy-s { margin: 0.16rem 0 0; font-size: var(--t-body); line-height: var(--lh-body); }
+
+/* the slider: the track runs on past the right margin to the edge of the screen, so the next photo is always visibly waiting */
+.wy-slider { --gap: 0.24rem; position: relative; }
+.wy-vp { overflow: hidden; margin-right: calc(50% - 50vw); touch-action: pan-y; }
+.wy-tr { display: flex; gap: var(--gap); transition: transform .6s cubic-bezier(.22,1,.36,1); will-change: transform; }
+.wy-slider .wy-tr > * { flex: 0 0 calc((var(--col) - 2 * var(--gap)) / 3); }   /* a third of the page column each; the column is --col wide */
+.wy-slider .wd { aspect-ratio: 4 / 3; }
+
+/* controls */
+.wy-ctl { display: flex; align-items: center; gap: 0.12rem; }
+.wy-count { min-width: 1.5rem; margin-right: 0.08rem; text-align: right; font: 900 var(--t-caption)/1 var(--aviano); letter-spacing: .08em; color: var(--ink, #111); }
+.wy-btn, .wy-seam { border: 0; padding: 0; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; cursor: pointer; transition: background .2s, opacity .2s; }
+.wy-btn { width: 0.56rem; height: 0.56rem; }
+.wy-btn svg { width: 0.26rem; height: 0.26rem; }
+.wy-btn:hover:not(:disabled), .wy-seam:hover:not(:disabled), .wy-btn:focus-visible, .wy-seam:focus-visible { background: #c4651e; outline: none; }
+.wy-btn:disabled, .wy-seam:disabled { opacity: .3; cursor: default; }
+.wy-bar { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; }
+.wy-bar--solo { margin-top: 0.3rem; }
+.wy-prog { position: relative; flex: 1; height: 0.03rem; background: #dedbd6; }
+.wy-prog i { position: absolute; left: 0; top: -0.005rem; height: 0.04rem; width: 50%; background: var(--orange); transition: left .6s cubic-bezier(.22,1,.36,1), width .6s; }
+
+/* A: the proof as one line under the sub-heading */
+.wyA .wy-line { margin: 0.2rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.16rem; font-size: var(--t-caption); line-height: var(--lh-caption); letter-spacing: .08em; text-transform: uppercase; color: #555; }
+.wyA .wy-line b { color: var(--orange); font-family: var(--aviano); font-weight: 900; letter-spacing: .04em; }
+.wyA .wy-line i { width: 0.04rem; height: 0.04rem; border-radius: 50%; background: #bdb8b0; }
+
+/* B: counter and arrows up top, proof on a dark band */
+.wyB { padding-bottom: 0; }
+.wy-band { margin-top: 0.5rem; background: #1D1D1B; padding: 0.4rem 0; }
+.wy-p { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; }
+.wy-p dt { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; color: var(--orange); }
+.wy-p dd { margin: 0.1rem 0 0; font-size: var(--t-caption); line-height: var(--lh-caption); text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.75); }
+
+/* C: white fade at the edge, an arrow on the seam, a quiet proof row */
+.wyC .wy-slider.has-fade::after { content: ""; position: absolute; top: 0; bottom: 0; right: calc(50% - 50vw); width: 1.6rem; background: linear-gradient(to right, rgba(255,255,255,0), #fff 92%); pointer-events: none; z-index: 2; }
+.wy-seam { position: absolute; top: 50%; z-index: 4; width: 0.64rem; height: 0.64rem; margin-top: -0.32rem; box-shadow: 0 0.06rem 0.2rem -0.04rem rgba(0,0,0,.5); }
+.wy-seam svg { width: 0.28rem; height: 0.28rem; }
+.wy-seam.wy-next { right: -0.32rem; } .wy-seam.wy-prev { left: -0.32rem; }
+.wyC .wy-p--quiet { margin-top: 0.4rem; padding-top: 0.2rem; border-top: 0.01rem solid #d9d5cf; }
+.wyC .wy-p--quiet dt { font-size: var(--t-sub); color: var(--ink, #111); }
+.wyC .wy-p--quiet dd { color: #666; }
+
+/* D: the proof is the last three slides */
+.wst { display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 4 / 3; padding: 0.24rem; background: #1D1D1B; color: #fff; }
+.wst b { font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; color: var(--orange); }
+.wst span { font-size: var(--t-caption); line-height: var(--lh-caption); text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.8); }
+
+.wd { flex: 0 0 calc((100% - 2 * var(--gap)) / 3); }
+.wy-arrow { position: absolute; top: 50%; z-index: 3; width: 0.70rem; height: 0.70rem; margin-top: -0.35rem; border: 0; padding: 0; border-radius: 50%; background: rgba(219,118,39,.35); color: #fff; display: grid; place-items: center; cursor: pointer; transition: background .2s, opacity .2s; }
+.wy-arrow:hover:not(:disabled), .wy-arrow:focus-visible { background: rgba(219,118,39,.75); outline: none; }
+.wy-arrow:disabled { opacity: .35; cursor: default; }
+.wy-arrow svg { width: 0.30rem; height: 0.30rem; }
+.wy-arrow--prev { left: -1.10rem; } .wy-arrow--next { right: -1.10rem; }
+
+/* the proof, one number under each third */
+.wy-p { margin: 0.34rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.24rem; }
+.wy-p div { padding: 0.16rem 0 0; border-top: 0.02rem solid var(--orange); }
+.wy-p dt { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; color: var(--orange); }
+.wy-p dd { margin: 0.1rem 0 0; font-size: var(--t-caption); line-height: var(--lh-caption); text-transform: uppercase; letter-spacing: .08em; color: #555; }
+
+.wd { position: relative; display: block; padding: 0; border: 0; background: #222; overflow: hidden; aspect-ratio: 4 / 3; cursor: zoom-in; text-align: left; color: #fff; }
+.wd img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.wd:hover img, .wd:focus-visible img { transform: scale(1.04); }
+.wd::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(to top, rgba(0,0,0,.84), rgba(0,0,0,.4) 55%, rgba(0,0,0,0)); pointer-events: none; }
+.wd:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.02rem; }
+.wd-n { position: absolute; z-index: 2; left: 0.14rem; top: 0.14rem; min-width: 0.34rem; height: 0.34rem; padding: 0 0.08rem; display: grid; place-items: center; border-radius: 999px; background: var(--orange); color: #fff; font: 900 0.15rem/1 var(--aviano); letter-spacing: .04em; }
+.wd-c { position: absolute; z-index: 2; left: 0.16rem; right: 0.16rem; bottom: 0.14rem; display: block; }
+.wd-c b { display: block; font-family: var(--aviano); font-weight: 700; font-size: 0.18rem; line-height: 1.15; letter-spacing: .06em; text-transform: uppercase; }
+.wd-c span { display: block; margin-top: 0.05rem; font-size: 0.17rem; line-height: 0.24rem; color: rgba(255,255,255,.92); }
+
+/* lightbox for looking at a detail close up */
+.wy-lb { position: fixed; z-index: 500; inset: 0; background: rgba(12,12,12,.92); display: grid; place-items: center; }
+.wy-lb[hidden] { display: none; }
+.wy-lb figure { margin: 0; max-width: min(1400px, 86vw); max-height: 88vh; display: grid; gap: 12px; justify-items: center; }
+.wy-lb img { max-width: 100%; max-height: 78vh; width: auto; height: auto; object-fit: contain; display: block; }
+.wy-lb figcaption { color: #fff; text-align: center; font: 500 15px/22px var(--gordita); }
+.wy-lb figcaption b { display: block; font: 700 13px/1 var(--aviano); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.wy-lb button { position: absolute; border: 0; background: rgba(255,255,255,.14); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 28px; line-height: 1; cursor: pointer; }
+.wy-lb button:hover, .wy-lb button:focus-visible { background: var(--orange); outline: none; }
+.wy-x { top: 18px; right: 18px; } .wy-pv { left: 18px; top: 50%; transform: translateY(-50%); } .wy-nx { right: 18px; top: 50%; transform: translateY(-50%); }
+@media (prefers-reduced-motion: reduce) { .wd img, .wy-tr, .wy-arrow { transition: none; } }
