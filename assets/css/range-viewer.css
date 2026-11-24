@@ -199,7 +199,7 @@
   margin-top: var(--gap); }
 .rvx-cell { position: relative; padding: 0 0.20rem; text-align: center; }
 .rvx-cell + .rvx-cell::before { content: ""; position: absolute;
-  left: 0; top: 0.02rem; width: 0.0075rem; height: 1.26rem;
+  left: 0; top: 0.02rem; width: max(1px, 0.0075rem); height: 1.26rem;
   background: var(--rule); }
 
 /* the icon stays beside its title, as drawn; the pair is what gets centred */
