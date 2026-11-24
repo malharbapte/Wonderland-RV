@@ -1,4 +1,4 @@
-/* Community wall: the real comment screenshots (community-data.js) as a mixed masonry wall.
+/* Community wall: the real comment screenshots (community-data.js) as three clean columns (24 Nov 2026: no spanning cards).
    Desktop 3 columns, tablet 2, phone 1. 12 to start, then "Load more" adds 12 at a time.
    While more are waiting the columns are cut level and the bottom fades into the page.
    A click opens the screenshot large (arrows or the left and right keys move on).
@@ -25,7 +25,7 @@
 (function () {
   "use strict";
   var BATCH = 12, PHONE_BATCH = 6, TEXT_MIN = 11, WINDOW = 14;
-  function phone() { return window.matchMedia("(max-width:900px)").matches; }   /* phones: two-column tiles, 6 to start, 6 more per tap */
+  function phone() { return window.matchMedia("(max-width:600px)").matches; }   /* phones: one column, 6 to start, 6 more per tap */
   function batch() { return phone() ? PHONE_BATCH : BATCH; }
   var wall = document.getElementById("tyCm"), btn = document.getElementById("tyCmMore"), src = window.WL_COMMUNITY || [];
   if (!wall || !src.length) return;
@@ -37,15 +37,10 @@
     "#tyCm.tycx-wall{display:grid;position:relative;grid-template-columns:repeat(var(--tycx-n,3),minmax(0,1fr));grid-auto-rows:1px;row-gap:0;align-items:start}" +
     "#tyCm.tycx-wall.tycx-part{overflow:hidden}" +
     "#tyCm.tycx-wall.tycx-part::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2.4rem;background:linear-gradient(to bottom,rgba(248,248,247,0),#F8F8F7 92%);pointer-events:none;z-index:2}" +
-    "#tyCm .tycx-card{box-sizing:border-box;margin:0;min-width:0;justify-self:start;animation:tycx-in .45s ease both;transition:box-shadow .25s ease}" +
+    "#tyCm .tycx-card{box-sizing:border-box;margin:0;min-width:0;justify-self:stretch;animation:tycx-in .45s ease both;transition:box-shadow .25s ease}" +
     "#tyCm .tycx-card:hover{box-shadow:0 .05rem .22rem rgba(17,17,17,.1)}" +
     "#tyCm .tycx-card img{display:block;width:100%;height:auto}" +
-    "#tyCm.tycx-flat{grid-auto-rows:auto;gap:10px;align-items:stretch}" +
-    "#tyCm.tycx-flat .tycx-card{position:relative;aspect-ratio:4/3;justify-self:stretch;border-radius:8px;overflow:hidden}" +
-    "#tyCm.tycx-flat .tycx-card img{width:100%;height:100%;object-fit:contain;object-position:center;padding:4px;box-sizing:border-box}" +
     "#tyCm .tycx-tag{display:none}" +
-    "#tyCm.tycx-flat .tycx-tag{display:block;position:absolute;left:6px;bottom:6px;padding:3px 8px;border-radius:10px;background:rgba(29,29,27,.82);color:#fff;font:500 10.5px/14px sans-serif;pointer-events:none}" +
-    "#tyCm.tycx-flat .tycx-card::after{content:'';position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.92) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M6 9V6h3M16 9V6h-3M6 13v3h3M16 13v3h-3' fill='none' stroke='%231D1D1B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\") center/22px no-repeat;pointer-events:none}" +
     "@keyframes tycx-in{from{opacity:0;transform:translate3d(0,.1rem,0)}to{opacity:1;transform:none}}" +
     "@media (prefers-reduced-motion:reduce){#tyCm .tycx-card{animation:none;transition:none}}" +
     ".ty-lb.tycx-lb-tall{overflow-y:auto;align-items:flex-start;justify-content:center}" +
@@ -133,21 +128,10 @@
     function h1of(it) { return (cw - BW) * it.d.h / it.d.w + BH + gap; }
     queue.forEach(function (q_) { if (spanOf(q_) === 1) remShort += h1of(q_); });
 
-    /* narrowest span at which the body text renders at TEXT_MIN px or more (widest if none does) */
-    function spanOf(it) {
-      for (var sp = 1; sp < Math.min(n, 2); sp++) {
-        var slotW = sp * cw + (sp - 1) * gap, w = Math.min(slotW, it.d.w + BW);
-        if (it.text * (w - BW) / it.d.w >= TEXT_MIN) return sp;
-      }
-      return Math.min(n, 2);
-    }
+    /* three clean columns (Piyush, 24 Nov 2026): every card is one column wide, none spans */
+    function spanOf() { return 1; }
 
-    /* a card that needs 2 columns takes the whole row (3) when too few 1-column cards remain to fill the lane beside it: no empty strip, no hole */
-    function spanNow(it) {
-      var sp = spanOf(it);
-      if (sp === 2 && n === 3 && remShort < 1.3 * ((2 * cw + gap - BW) * it.d.h / it.d.w + BH + gap)) return 3;
-      return sp;
-    }
+    function spanNow() { return 1; }
 
     function slot(it, col, span) {
       var slotW = span * cw + (span - 1) * gap, w = Math.min(slotW, it.d.w + BW), h = (w - BW) * it.d.h / it.d.w + BH;
@@ -200,11 +184,6 @@
   }
 
   function compute() {
-    if (phone()) {   /* flat grid: wide screenshots first (they read at tile size), woven owners and ambassadors kept within each group */
-      var q = baseQueue(null), wide = q.filter(function (it) { return it.d.h / it.d.w <= 1.05; }), tall = q.filter(function (it) { return it.d.h / it.d.w > 1.05; });
-      seq = wide.concat(tall); pos = []; colInfo = { n: 2, w: 0, gap: 10 }; wall.style.setProperty("--tycx-n", 2);
-      return;
-    }
     var W = wall.clientWidth || 800;
     var n = window.matchMedia("(max-width:600px)").matches ? 1 : window.matchMedia("(max-width:900px)").matches ? 2 : 3;
     var gap = parseFloat(getComputedStyle(wall).columnGap) || 12;
@@ -250,7 +229,6 @@
   function render(count) {
     compute();
     wall.classList.add("tycx-wall");
-    wall.classList.toggle("tycx-flat", phone());
     wall.innerHTML = "";
     shown = Math.min(seq.length, count);
     for (var k = 0; k < shown; k++) wall.appendChild(card(seq[k], k));
@@ -258,7 +236,6 @@
   }
   function fit() {
     var more = shown < seq.length, n = colInfo.n, bottoms = [], c, k;
-    if (phone()) { wall.classList.remove("tycx-part"); wall.style.height = ""; if (btn) btn.parentNode.hidden = !more; return; }
     for (c = 0; c < n; c++) bottoms.push(0);
     for (k = 0; k < shown; k++) for (c = pos[k].col; c < pos[k].col + pos[k].span; c++) bottoms[c] = Math.max(bottoms[c], pos[k].y + pos[k].rows);
     wall.classList.toggle("tycx-part", more);
