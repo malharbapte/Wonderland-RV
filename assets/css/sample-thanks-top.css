@@ -1,17 +1,16 @@
-/* SAMPLE ONLY: four ways to fit the thank-you top block into one screen.
+/* SAMPLE ONLY: the thank-you top block fitted into one screen (option A, refined).
    Same tokens as the real page (heading 0.56rem, body 0.28rem, caption 0.20rem), same container margins, same
    components. Nothing is shrunk to make it fit: the VIDEO is the flexible piece. It takes whatever height the
    screen has left, at 16:9, so it grows and shrinks with the window and the block always ends on the screen's edge. */
 .tyx-page { --hdr: 1.4rem; }
-.tyx { display: none; height: calc(100vh - var(--hdr)); min-height: 560px; }
+.tyx { display: block; height: calc(100vh - var(--hdr)); min-height: 560px; }
 @supports (height: 100svh) { .tyx { height: calc(100svh - var(--hdr)); } }
-.tyx.on { display: block; }
 .tyx .container { height: 100%; }
 .tyx-in { height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0.22rem 0 0.2rem; }
 .tyx .ty-pill-w { margin: 0; flex: none; }
-.tyx-lead { flex: none; margin: 0.14rem 0 0; max-width: 13.6rem; font-size: var(--t-body); line-height: var(--lh-body); text-wrap: balance; }
+.tyx-lead { flex: none; margin: 0.14rem 0 0; width: 100%; max-width: none; font-size: var(--t-body); line-height: var(--lh-body); }
 .tyx-title { flex: none; margin: 0.26rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; text-transform: uppercase; }
-.tyx-lede { flex: none; margin: 0.12rem 0 0; max-width: 13.6rem; font-size: var(--t-body); line-height: var(--lh-body); text-wrap: balance; }
+.tyx-lede { flex: none; margin: 0.12rem 0 0; width: 100%; max-width: none; font-size: var(--t-body); line-height: var(--lh-body); }
 
 /* the three steps, as on the phone: circles on a line, label under each */
 .tyx-steps { flex: none; list-style: none; margin: 0.22rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; max-width: 8.8rem; }
@@ -37,31 +36,7 @@
 .tyx-logos img[alt="Dometic"] { width: 1.5rem; } .tyx-logos img[alt="Cruisemaster"] { width: 0.6rem; } .tyx-logos img[alt="REDARC"] { width: 1.3rem; }
 .tyx-logos img[alt="Truma"] { width: 1.1rem; } .tyx-logos img[alt="Webasto"] { width: 1.15rem; } .tyx-logos img[alt="Victron Energy and Arizon"] { width: 1.75rem; } .tyx-logos img[alt="Fusion"] { width: 1.1rem; }
 
-/* B: one band for pill, line and steps */
-.tyx-band { flex: none; width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 0.7rem; text-align: left; }
-.tyx-band .ty-pill-w { text-align: left; }
-.tyx-band .tyx-lead { margin-top: 0.12rem; max-width: none; text-wrap: pretty; }
-.tyx-band .tyx-steps { margin: 0; width: 6.6rem; max-width: none; }
-.tyx[data-v="B"] .tyx-title { margin-top: 0.2rem; }
-
-/* C: two bands: (pill, line, steps) then (heading beside its line), then the video */
-.tyx-row2 { flex: none; width: 100%; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 0.6rem; margin-top: 0.22rem; text-align: left; }
-.tyx-row2 .tyx-title { margin: 0; text-align: left; }
-.tyx-row2 .tyx-lede { margin: 0; max-width: none; text-wrap: pretty; }
-.tyx[data-v="C"] .tyx-band .tyx-lead { max-width: none; }
-
-/* D: heading and line sit on the video */
-.tyx-vw--ov .ty-video { position: relative; }
-.tyx-ovt { position: absolute; z-index: 3; left: 0; right: 0; top: 0; padding: 0.3rem 0.5rem 0.9rem; pointer-events: none; color: #fff; background: linear-gradient(to bottom, rgba(0,0,0,.78), rgba(0,0,0,.45) 55%, rgba(0,0,0,0)); width: min(100cqw, 100cqh * 16 / 9); left: 50%; transform: translateX(-50%); border-radius: 0.13rem 0.13rem 0 0; text-align: center; }
-.tyx-ovt .tyx-title { margin: 0; color: #fff; }
-.tyx-ovt .tyx-lede { margin: 0.1rem auto 0; color: #fff; }
-
 /* sample chrome */
-.tyx-bar { position: fixed; z-index: 400; left: 14px; top: 120px; display: flex; flex-direction: column; gap: 6px; align-items: center; background: #1D1D1B; padding: 10px 8px; border-radius: 12px; color: #fff; box-shadow: 0 10px 24px -10px rgba(0,0,0,.5); }
-.tyx-bar b { font: 700 9px/1 var(--aviano); letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-bottom: 2px; }
-.tyx-bar button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4); background: none; color: #fff; font: 900 14px/1 var(--aviano); cursor: pointer; }
-.tyx-bar button.on { background: var(--orange); border-color: var(--orange); }
-.tyx-note { position: fixed; z-index: 400; left: 14px; top: 330px; width: 88px; font: 500 11px/15px var(--gordita); color: #5d5c5a; }
 .tyx-below { min-height: 40vh; display: grid; place-items: start center; padding-top: 28px; border-top: 2px dashed var(--orange); background: #F8F8F7; }
 .tyx-below span { font: 500 13px/20px var(--gordita); color: #7a7977; max-width: 520px; text-align: center; }
-@media (max-width: 900px) { .tyx-bar, .tyx-note { display: none; } .tyx { display: none !important; } .tyx-below span::before { content: "Desktop samples: open on a computer. "; display: block; font-weight: 700; color: #1D1D1B; } }
+@media (max-width: 900px) { .tyx { display: none !important; } .tyx-below span::before { content: "Desktop samples: open on a computer. "; display: block; font-weight: 700; color: #1D1D1B; } }
