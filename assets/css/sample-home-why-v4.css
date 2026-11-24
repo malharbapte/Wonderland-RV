@@ -1,0 +1,34 @@
+/* Sample v4: "Why choose us", six DETAIL photos at standard size (not hero), each lightly annotated, with the proof numbers beside the heading.
+   Every caption sits on a slight black fade from the bottom of its photo. Sample only. */
+.wy { background: #fff; padding: 0.9rem 0 1rem; min-height: calc(100vh - 1.43rem); display: flex; align-items: center; }
+.wy-in { width: 100%; }
+.wy-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.4rem; }
+.wy-h { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.05; text-transform: uppercase; white-space: nowrap; }
+.wy-s { margin: 0.16rem 0 0; font-size: var(--t-body); line-height: var(--lh-body); }
+.wy-p { margin: 0; display: flex; gap: 0.5rem; }
+.wy-p div { display: block; text-align: left; padding: 0 0 0 0.2rem; border-left: 0.02rem solid var(--orange); }
+.wy-p dt { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1; color: var(--orange); }
+.wy-p dd { margin: 0.06rem 0 0; font-size: var(--t-caption); line-height: var(--lh-caption); text-transform: uppercase; letter-spacing: .06em; color: #555; }
+
+.wy-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.12rem; }
+.wd { position: relative; display: block; padding: 0; border: 0; background: #222; overflow: hidden; aspect-ratio: 4 / 3; cursor: zoom-in; text-align: left; color: #fff; }
+.wd img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.wd:hover img, .wd:focus-visible img { transform: scale(1.04); }
+.wd::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(to top, rgba(0,0,0,.84), rgba(0,0,0,.4) 55%, rgba(0,0,0,0)); pointer-events: none; }
+.wd:focus-visible { outline: 0.03rem solid var(--orange); outline-offset: 0.02rem; }
+.wd-n { position: absolute; z-index: 2; left: 0.14rem; top: 0.14rem; min-width: 0.34rem; height: 0.34rem; padding: 0 0.08rem; display: grid; place-items: center; border-radius: 999px; background: var(--orange); color: #fff; font: 900 0.15rem/1 var(--aviano); letter-spacing: .04em; }
+.wd-c { position: absolute; z-index: 2; left: 0.16rem; right: 0.16rem; bottom: 0.14rem; display: block; }
+.wd-c b { display: block; font-family: var(--aviano); font-weight: 700; font-size: 0.18rem; line-height: 1.15; letter-spacing: .06em; text-transform: uppercase; }
+.wd-c span { display: block; margin-top: 0.05rem; font-size: 0.17rem; line-height: 0.24rem; color: rgba(255,255,255,.92); }
+
+/* lightbox for looking at a detail close up */
+.wy-lb { position: fixed; z-index: 500; inset: 0; background: rgba(12,12,12,.92); display: grid; place-items: center; }
+.wy-lb[hidden] { display: none; }
+.wy-lb figure { margin: 0; max-width: min(1400px, 86vw); max-height: 88vh; display: grid; gap: 12px; justify-items: center; }
+.wy-lb img { max-width: 100%; max-height: 78vh; width: auto; height: auto; object-fit: contain; display: block; }
+.wy-lb figcaption { color: #fff; text-align: center; font: 500 15px/22px var(--gordita); }
+.wy-lb figcaption b { display: block; font: 700 13px/1 var(--aviano); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.wy-lb button { position: absolute; border: 0; background: rgba(255,255,255,.14); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 28px; line-height: 1; cursor: pointer; }
+.wy-lb button:hover, .wy-lb button:focus-visible { background: var(--orange); outline: none; }
+.wy-x { top: 18px; right: 18px; } .wy-pv { left: 18px; top: 50%; transform: translateY(-50%); } .wy-nx { right: 18px; top: 50%; transform: translateY(-50%); }
+@media (prefers-reduced-motion: reduce) { .wd img { transition: none; } }
