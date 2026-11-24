@@ -589,7 +589,7 @@
   display: flex;
   align-items: center;
   width: max-content;
-  animation: brand-scroll 85s linear infinite;   /* 20% slower than the old 68s */
+  animation: brand-scroll 113s linear infinite;   /* 25% slower than the 85s before (24 Nov 2026); assets/js/brand-marquee.js sets the same SPEED on every page from the track length */
   /* Already moving before the visitor gets here: it starts a third of the way
      round rather than at the seam, and sits on its own compositor layer so
      it does not stall and then kick in as the section scrolls into view. */

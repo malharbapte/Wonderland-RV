@@ -419,7 +419,7 @@ html.ty-lb-open { overflow: hidden; }
 }
 
 /* Brands we trust: slower here than on the home page (85s there) */
-.thanks .brand-track { animation-duration: 140s; animation-delay: -38s; }
+.thanks .brand-track { animation-duration: 113s; animation-delay: -30s; }
 
 /* brands we trust: a slower, softer slider (Piyush, 23 Nov 2026) ---------------
    Scoped to .thanks .brands here, so the homepage strip (homepage.css) is untouched.
@@ -430,12 +430,13 @@ html.ty-lb-open { overflow: hidden; }
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%);
 }
-.thanks .brands .brand-track { animation: ty-brand-glide 170s linear infinite; animation-delay: -40s; transform: translate3d(0, 0, 0); backface-visibility: hidden; }
+.thanks .brands .brand-track { animation: ty-brand-glide 113s linear infinite; animation-delay: -30s;   /* same speed as the homepage; brand-marquee.js keeps it equal */ transform: translate3d(0, 0, 0); backface-visibility: hidden; }
 @keyframes ty-brand-glide { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .thanks .brands .brand-marquee:hover .brand-track { animation-play-state: paused; }
 .thanks .brands .brand-track img { transition: filter .45s ease, opacity .45s ease; }
 .thanks .brands .brand-track li:hover img { transform: none; }   /* colour on hover as before, without the zoom */
 @media (max-width: 900px) {   /* a touch larger and a touch more space, so fewer logos show at once */
+  .thanks .brands .brand-track { animation-duration: 180s; }   /* longer track on phones, same speed as the homepage */
   .thanks .brands .brand-track img { height: 27px; }
   .thanks .brands .brand-track li.sm img { height: 35px; }
   .thanks .brands .brand-track li { margin-right: 36px; }
