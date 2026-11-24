@@ -1,6 +1,6 @@
 /* Homepage "your dream van awaits", DESKTOP collage (Malhar's drawing, 24 Nov 2026; sample: sample-home-dream-v3.html).
    Three columns: one tall photo | two stacked photos | a photo over a short orange GET A QUOTE block. Pointing at a tile widens it.
-   Phones are untouched: this block is hidden at 900px and under, where the rail and accordion stay. */
+   Phones get a smaller version of the same collage (block at the end). */
 .dz { display: none; }
 @media (min-width: 901px) {
   .dream-mosaic, .dream-pts { display: none; }
@@ -41,4 +41,29 @@
   .dz-quote:hover, .dz-quote:focus-visible { background: #1D1D1B; outline: none; }
   .dz-quote:hover svg, .dz-quote:focus-visible svg { transform: translate(0.08rem, -0.08rem); }
   @media (prefers-reduced-motion: reduce) { .dz-grid, .dz-col .vp, .dz-col .dz-quote, .dz .vp::before, .dz .vc p, .dz-quote svg { transition: none !important; } }
+}
+
+
+/* PHONE: the same collage, two columns: a tall photo beside two stacked, then a photo beside the orange GET A QUOTE block. No widening; captions are the titles. */
+@media (max-width: 900px) {
+  .dream-mosaic, .dream-pts, .dream-acc { display: none; }
+  .dz { display: block; }
+  .dz-title { margin: 0 0 22px; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: var(--lh-heading); text-transform: uppercase; }
+  .dz-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 44vw); gap: 8px; }
+  .dz-col { display: contents; }
+  .dz .t1 { grid-column: 1; grid-row: 1 / span 2; }
+  .dz .t2 { grid-column: 2; grid-row: 1; }
+  .dz .t3 { grid-column: 2; grid-row: 2; }
+  .dz .t4 { grid-column: 1; grid-row: 3; }
+  .dz .dz-quote { grid-column: 2; grid-row: 3; }
+  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; }
+  .dz .vp img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); }
+  .dz .vp::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0)); pointer-events: none; }
+  .dz .vc { position: absolute; z-index: 2; left: 12px; right: 12px; bottom: 12px; color: #fff; }
+  .dz .vc h3 { margin: 0; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .08em; line-height: 1.2; text-transform: uppercase; }
+  .dz .vc p { display: none; }
+  .dz-quote { display: flex; flex-direction: column; justify-content: space-between; padding: 14px; background: var(--orange); color: #fff; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  .dz-quote b { font: 900 22px/1.08 var(--aviano); text-transform: uppercase; }
+  .dz-quote svg { flex: none; width: 30px; height: 30px; align-self: flex-end; }
+  .dz-quote:active { background: #1D1D1B; }
 }

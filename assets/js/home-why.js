@@ -1,4 +1,4 @@
-/* Why choose us, homepage (desktop): a looping three-up slider that runs off both screen edges. The middle three photos are the page column; the one either side is dimmed and waiting. */
+/* Why choose us, homepage (desktop and phone): a looping three-up slider that runs off both screen edges. The middle three photos are the page column; the one either side is dimmed and waiting. */
 (function () {
   var pad = function (n) { return (n < 10 ? "0" : "") + n; };
   var lb = document.querySelector(".wyc-lb"), lbImg = lb && lb.querySelector("img"), lbCap = lb && lb.querySelector("figcaption"), lbSet = [], lbAt = 0, lbOpener = null;
@@ -7,7 +7,7 @@
   function lbClose() { lb.hidden = true; lbImg.removeAttribute("src"); if (lbOpener) lbOpener.focus(); }
 
   [].forEach.call(document.querySelectorAll("[data-wyc]"), function (s) {
-    var sec = s.closest("section"), tr = s.querySelector(".wyc-tr"), vp = s.querySelector(".wyc-vp"), orig = [].slice.call(tr.children), n = orig.length, VIS = 3;
+    var sec = s.closest("section"), tr = s.querySelector(".wyc-tr"), vp = s.querySelector(".wyc-vp"), orig = [].slice.call(tr.children), n = orig.length, VIS = 3, mq = window.matchMedia("(max-width: 900px)");
     /* three copies of the set, so there is always a photo on both sides; we start on the middle copy and quietly jump back to it after each slide */
     var frag = document.createDocumentFragment(), all = [];
     [0, 1, 2].forEach(function (copy) {
@@ -22,7 +22,8 @@
     if (prog) orig.forEach(function (c, t) { var tk = document.createElement("button"); tk.type = "button"; tk.textContent = c.dataset.tab; tk.addEventListener("click", function () { var at0 = ((idx % n) + n) % n, d = t - at0; if (d > n / 2) d -= n; else if (d < -n / 2) d += n; if (d) go(d); }); prog.appendChild(tk); ticks.push(tk); });
     function gap() { return parseFloat(getComputedStyle(tr).columnGap) || 0; }
     function place(animate) {
-      var step = all[0].offsetWidth + gap(), left = s.getBoundingClientRect().left - vp.getBoundingClientRect().left;
+      VIS = mq.matches ? 1 : 3;   /* phone: one photo in the middle, a sliver of its neighbours either side */
+      var step = all[0].offsetWidth + gap(), left = mq.matches ? (vp.clientWidth - all[0].offsetWidth) / 2 : s.getBoundingClientRect().left - vp.getBoundingClientRect().left;
       tr.style.transition = animate ? "" : "none";
       tr.style.transform = "translateX(" + (left - step * idx) + "px)";
       if (!animate) { void tr.offsetWidth; tr.style.transition = ""; }

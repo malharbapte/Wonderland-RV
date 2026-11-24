@@ -773,6 +773,8 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
 */
 (function () {
   if (!ON_PHONE.matches) return;
+  /* the phone now has the two-column collage (.dz, home-dream.css) in place of this rail; building the rail on a hidden mosaic never settled */
+  if (document.querySelector(".dz")) return;
   const mosaic = document.querySelector(".dream-mosaic");
   if (!mosaic || mosaic.dataset.rail) return;
 
