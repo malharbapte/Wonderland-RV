@@ -1,0 +1,44 @@
+/* Homepage "your dream van awaits", DESKTOP collage (Malhar's drawing, 24 Nov 2026; sample: sample-home-dream-v3.html).
+   Three columns: one tall photo | two stacked photos | a photo over a short orange GET A QUOTE block. Pointing at a tile widens it.
+   Phones are untouched: this block is hidden at 900px and under, where the rail and accordion stay. */
+.dz { display: none; }
+@media (min-width: 901px) {
+  .dream-mosaic, .dream-pts { display: none; }
+  .dz { display: block; --vx-ease: cubic-bezier(.22,1,.36,1); --vx-t: .5s; }
+  .dz-title { margin: 0 0 0.4rem; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; white-space: nowrap; }
+  .dz-grid { --bento-h: min(8.4rem, calc(100vh - 1.43rem - 4.2rem)); display: grid; gap: 0.12rem; height: var(--bento-h);
+    grid-template-columns: var(--w1, 1fr) var(--w2, 1fr) var(--w3, 1fr);
+    transition: grid-template-columns var(--vx-t) var(--vx-ease); }
+  @supports (height: 100svh) { .dz-grid { --bento-h: min(8.4rem, calc(100svh - 1.43rem - 4.2rem)); } }
+  .dz-grid[data-open="1"] { --w1: 1.7fr; }
+  .dz-grid[data-open="2"], .dz-grid[data-open="3"] { --w2: 1.7fr; }
+  .dz-grid[data-open="4"] { --w3: 1.7fr; }
+  .dz-col { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; min-height: 0; }
+  .dz-col .vp { flex: var(--g, 1) 1 0; transition: flex-grow var(--vx-t) var(--vx-ease); }
+  .dz-col .dz-quote { flex: var(--gq, 1) 1 0; transition: flex-grow var(--vx-t) var(--vx-ease), background var(--vx-t) var(--vx-ease); }
+  .dz-col .t4 { --g: 1.95; }
+  .dz-grid[data-open="2"] .t2 { --g: 1.5; }
+  .dz-grid[data-open="3"] .t3 { --g: 1.5; }
+  .dz-grid[data-open="4"] .t4 { --g: 2.4; }
+  .dz-grid[data-open="4"] .dz-quote { --gq: 0.9; }
+
+  /* a tile: a photo that fills it, dimmed unless it is the one in focus */
+  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; cursor: pointer; outline: none; }
+  .dz .vp img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); }
+  .dz .vp::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,.34); opacity: 0; transition: opacity var(--vx-t) var(--vx-ease); pointer-events: none; }
+  .dz-grid:not([data-open="0"]) .vp:not(.on)::before { opacity: 1; }
+  .dz .vp::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0)); pointer-events: none; }
+  .dz .vp:focus-visible { box-shadow: inset 0 0 0 0.04rem var(--orange); }
+  .dz .vc { position: absolute; z-index: 2; left: 0.24rem; right: 0.24rem; bottom: 0.24rem; color: #fff; }
+  .dz .vc h3 { color: #fff; font-size: 0.2rem; font-weight: 700; letter-spacing: .08em; line-height: 1.1; text-transform: uppercase; }
+  .dz .vc p { max-height: 0; margin-top: 0; overflow: hidden; opacity: 0; font-size: var(--t-caption); line-height: var(--lh-caption); transition: max-height var(--vx-t) var(--vx-ease), opacity var(--vx-t) var(--vx-ease), margin var(--vx-t) var(--vx-ease); }
+  .dz .vp.on .vc p { max-height: 1.1rem; margin-top: 0.1rem; opacity: 1; }
+
+  /* the orange block: orange fill, GET / A / QUOTE in caps top left, arrow bottom right, black on hover */
+  .dz-quote { display: flex; flex-direction: column; justify-content: space-between; padding: 0.24rem; min-width: 0; min-height: 0; background: var(--orange); color: #fff; text-decoration: none; overflow: hidden; }
+  .dz-quote b { font: 900 0.4rem/1.08 var(--aviano); text-transform: uppercase; }
+  .dz-quote svg { flex: none; width: 0.6rem; height: 0.6rem; align-self: flex-end; transition: transform var(--vx-t) var(--vx-ease); }
+  .dz-quote:hover, .dz-quote:focus-visible { background: #1D1D1B; outline: none; }
+  .dz-quote:hover svg, .dz-quote:focus-visible svg { transform: translate(0.08rem, -0.08rem); }
+  @media (prefers-reduced-motion: reduce) { .dz-grid, .dz-col .vp, .dz-col .dz-quote, .dz .vp::before, .dz .vc p, .dz-quote svg { transition: none !important; } }
+}
