@@ -34,3 +34,87 @@
   panel.addEventListener('focusin', function () { if (tap() && panel.matches(':focus-within') && !nav.classList.contains('is-open')) {
     var a = document.activeElement; if (a && a.matches && a.matches(':focus-visible')) set(true); } });
 })();
+
+/* PHONES (900px and under): the strip is replaced by a speed dial (Malhar, 24 Nov 2026, from the five phone samples).
+   One round button bottom right: ORANGE while closed, so it reads as tappable, GREY once it is open. Open, it dims the page
+   and fans out the same six actions as labelled pills plus a row of social icons. Built from the strip's own links, so the
+   brochure link keeps its pop-up behaviour. Desktop keeps the strip untouched. Nothing opens by itself, nothing is stored. */
+(function () {
+  var nav = document.querySelector('nav.wlqb');
+  if (!nav || document.querySelector('.wlqb-sd')) return;
+  var css = document.createElement('style');
+  css.id = 'wlqb-sd-css';
+  css.textContent = [
+    '.wlqb-sd{display:none}',
+    '@media (max-width:900px){',
+    'nav.wlqb{display:none!important}',
+    '.wlqb-sd{display:flex;position:fixed;z-index:240;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none;-webkit-font-smoothing:antialiased;--sd-out:cubic-bezier(.22,1,.36,1)}',
+    '.wlqb-sd,.wlqb-sd *{box-sizing:border-box}',
+    '.wlqb-sd__scrim{position:fixed;left:0;top:0;right:0;bottom:0;z-index:-1;background:rgba(20,20,20,.5);opacity:0;pointer-events:none;transition:opacity .3s ease}',
+    '.wlqb-sd.is-open .wlqb-sd__scrim{opacity:1;pointer-events:auto}',
+    '.wlqb-sd__list{display:flex;flex-direction:column-reverse;gap:10px;align-items:flex-end;max-height:calc(100vh - 110px - env(safe-area-inset-bottom,0px));overflow-y:auto;scrollbar-width:none;pointer-events:none;padding:2px 2px 0}',
+    '@supports (height:100dvh){.wlqb-sd__list{max-height:calc(100dvh - 110px - env(safe-area-inset-bottom,0px))}}',
+    '.wlqb-sd__list::-webkit-scrollbar{display:none}',
+    '.wlqb-sd.is-open .wlqb-sd__list{pointer-events:auto}',
+    '.wlqb-sd__i,.wlqb-sd__s{opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);transform-origin:right bottom;transition:opacity .25s ease,transform .4s var(--sd-out),visibility 0s linear .4s}',
+    '.wlqb-sd.is-open .wlqb-sd__i,.wlqb-sd.is-open .wlqb-sd__s{opacity:1;visibility:visible;transform:none;transition:opacity .25s ease,transform .4s var(--sd-out),visibility 0s;transition-delay:calc(var(--k) * 45ms)}',
+    '.wlqb-sd__i{display:flex;align-items:center;gap:10px;text-decoration:none;-webkit-tap-highlight-color:transparent}',
+    '.wlqb-sd__l{background:#fff;color:#1D1D1B;padding:11px 15px;border-radius:999px;font:700 12px/1 "aviano-sans","Aviano Sans",sans-serif;text-transform:lowercase;white-space:nowrap;box-shadow:0 6px 16px -6px rgba(0,0,0,.4)}',
+    '.wlqb-sd__c{width:46px;height:46px;border-radius:50%;background:#fff;color:#414042;display:grid;place-items:center;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);flex:none}',
+    '.wlqb-sd__c svg{display:block;width:22px;height:22px}',
+    '.wlqb-sd__i--hi .wlqb-sd__c{background:#DB7627;color:#fff}',
+    '.wlqb-sd__i:active .wlqb-sd__c{color:#DB7627}.wlqb-sd__i--hi:active .wlqb-sd__c{color:#fff;background:#c4651e}',
+    '.wlqb-sd__s{display:flex;gap:2px;background:#fff;border-radius:999px;padding:4px;box-shadow:0 6px 16px -6px rgba(0,0,0,.4)}',
+    '.wlqb-sd__s a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#414042;text-decoration:none;-webkit-tap-highlight-color:transparent}',
+    '.wlqb-sd__s a:active{color:#DB7627}',
+    '.wlqb-sd__s svg{display:block;width:20px;height:20px}',
+    '.wlqb-sd__fab{width:58px;height:58px;border-radius:50%;border:0;padding:0;background:#DB7627;color:#fff;display:grid;place-items:center;cursor:pointer;pointer-events:auto;box-shadow:0 10px 22px -6px rgba(0,0,0,.5);transition:background-color .3s ease;-webkit-tap-highlight-color:transparent}',
+    '.wlqb-sd.is-open .wlqb-sd__fab{background:#414042}',
+    '.wlqb-sd__fab span{display:grid;transition:transform .4s var(--sd-out)}',
+    '.wlqb-sd__fab svg{display:block;width:26px;height:26px}',
+    '.wlqb-sd.is-open .wlqb-sd__fab span{transform:rotate(135deg)}',
+    '.wlqb-sd__fab:focus-visible,.wlqb-sd__i:focus-visible .wlqb-sd__c,.wlqb-sd__s a:focus-visible{outline:2px solid #1D1D1B;outline-offset:2px}',
+    '}',
+    '@media (prefers-reduced-motion:reduce){.wlqb-sd *{transition:none!important}}'
+  ].join('\n');
+  document.head.appendChild(css);
+
+  var root = document.createElement('div');
+  root.className = 'wlqb-sd';
+  var scrim = document.createElement('div'); scrim.className = 'wlqb-sd__scrim'; root.appendChild(scrim);
+  var list = document.createElement('div'); list.className = 'wlqb-sd__list'; list.id = 'wlqbSdList'; root.appendChild(list);
+  var k = 0;
+  [].forEach.call(nav.querySelectorAll('.wlqb__link'), function (src, n) {
+    var a = document.createElement('a');
+    a.className = 'wlqb-sd__i' + (n === 0 ? ' wlqb-sd__i--hi' : '');
+    [].forEach.call(src.attributes, function (at) { if (at.name !== 'class') a.setAttribute(at.name, at.value); });   /* href, target, data-brochure, aria-* all carry over */
+    var lab = src.querySelector('.wlqb__label'), ico = src.querySelector('.wlqb__ico');
+    a.style.setProperty('--k', k++);
+    a.innerHTML = '<span class="wlqb-sd__l"></span><span class="wlqb-sd__c">' + (ico ? ico.innerHTML : '') + '</span>';
+    a.firstChild.textContent = lab ? lab.textContent : '';
+    list.appendChild(a);
+  });
+  var socials = [].slice.call(nav.querySelectorAll('.wlqb__soc'));
+  if (socials.length) {
+    var row = document.createElement('div'); row.className = 'wlqb-sd__s'; row.style.setProperty('--k', k++);
+    socials.forEach(function (src) {
+      var a = document.createElement('a');
+      [].forEach.call(src.attributes, function (at) { if (at.name !== 'class') a.setAttribute(at.name, at.value); });
+      a.innerHTML = src.innerHTML; row.appendChild(a);
+    });
+    list.appendChild(row);
+  }
+  var fab = document.createElement('button');
+  fab.type = 'button'; fab.className = 'wlqb-sd__fab'; fab.setAttribute('aria-label', 'Quick links'); fab.setAttribute('aria-expanded', 'false'); fab.setAttribute('aria-controls', 'wlqbSdList');
+  fab.innerHTML = '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg></span>';
+  root.appendChild(fab);
+  document.body.appendChild(root);
+
+  function set(open) { root.classList.toggle('is-open', open); fab.setAttribute('aria-expanded', open ? 'true' : 'false'); fab.setAttribute('aria-label', open ? 'Close quick links' : 'Quick links'); }
+  fab.addEventListener('click', function () { set(!root.classList.contains('is-open')); });
+  scrim.addEventListener('click', function () { set(false); });
+  list.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-open')) { set(false); fab.focus(); } });
+  var mq = window.matchMedia('(max-width: 900px)');
+  (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { set(false); });
+})();
