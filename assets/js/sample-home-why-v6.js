@@ -1,0 +1,63 @@
+/* Why choose us, v6: a looping three-up slider that runs off both screen edges. The middle three photos are the page column; the one either side is dimmed and waiting. */
+(function () {
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var lb = document.getElementById("wyLb"), lbImg = lb && lb.querySelector("img"), lbCap = lb && lb.querySelector("figcaption"), lbSet = [], lbAt = 0, lbOpener = null;
+  function lbShow(i) { lbAt = (i + lbSet.length) % lbSet.length; var t = lbSet[lbAt], b = t.querySelector(".wd-c b"); lbImg.src = t.querySelector("img").getAttribute("src"); lbCap.innerHTML = "<b>" + b.textContent + "</b>" + b.nextElementSibling.textContent; }
+  function lbOpen(list, i, o) { lbSet = list; lbOpener = o; lbShow(i); lb.hidden = false; lb.querySelector(".wy-x").focus(); }
+  function lbClose() { lb.hidden = true; lbImg.removeAttribute("src"); if (lbOpener) lbOpener.focus(); }
+
+  [].forEach.call(document.querySelectorAll("[data-wy]"), function (s) {
+    var sec = s.closest("section"), tr = s.querySelector(".wy-tr"), vp = s.querySelector(".wy-vp"), orig = [].slice.call(tr.children), n = orig.length, VIS = 3;
+    /* three copies of the set, so there is always a photo on both sides; we start on the middle copy and quietly jump back to it after each slide */
+    var frag = document.createDocumentFragment(), all = [];
+    [0, 1, 2].forEach(function (copy) {
+      orig.forEach(function (c, i) {
+        var el = copy === 1 ? c : c.cloneNode(true);
+        el.dataset.i = i; if (copy !== 1) { el.setAttribute("aria-hidden", "true"); el.tabIndex = -1; }
+        frag.appendChild(el); all.push(el);
+      });
+    });
+    tr.appendChild(frag);
+    var idx = n, prevs = [].slice.call(sec.querySelectorAll(".wy-prev")), nexts = [].slice.call(sec.querySelectorAll(".wy-next")), count = sec.querySelector(".wy-count"), prog = sec.querySelector(".wy-prog"), ticks = [];
+    if (prog) for (var t = 0; t < n; t++) { var tk = document.createElement("i"); prog.appendChild(tk); ticks.push(tk); }
+    function gap() { return parseFloat(getComputedStyle(tr).columnGap) || 0; }
+    function place(animate) {
+      var step = all[0].offsetWidth + gap(), left = s.getBoundingClientRect().left - vp.getBoundingClientRect().left;
+      tr.style.transition = animate ? "" : "none";
+      tr.style.transform = "translateX(" + (left - step * idx) + "px)";
+      if (!animate) { void tr.offsetWidth; tr.style.transition = ""; }
+      var at = ((idx % n) + n) % n;
+      all.forEach(function (el, k) { el.classList.toggle("is-out", k < idx || k >= idx + VIS); });
+      ticks.forEach(function (tk, k) { tk.classList.toggle("on", ((k - at + n) % n) < VIS); });
+      if (count) count.textContent = pad(at + 1) + "–" + pad((at + VIS - 1) % n + 1) + " / " + pad(n);
+    }
+    function go(d) { idx += d; place(true); }
+    tr.addEventListener("transitionend", function (e) {
+      if (e.target !== tr) return;
+      if (idx >= 2 * n) { idx -= n; place(false); } else if (idx < n) { idx += n; place(false); }
+    });
+    prevs.forEach(function (b) { b.addEventListener("click", function () { go(-1); }); });
+    nexts.forEach(function (b) { b.addEventListener("click", function () { go(1); }); });
+    window.addEventListener("resize", function () { place(false); });
+    var x0 = null, moved = false;
+    vp.addEventListener("pointerdown", function (e) { x0 = e.clientX; moved = false; });
+    window.addEventListener("pointerup", function (e) { if (x0 === null) return; var d = e.clientX - x0; x0 = null; if (Math.abs(d) > 40) { moved = true; go(d < 0 ? 1 : -1); } });
+    s.setAttribute("tabindex", "-1");
+    s.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") go(-1); else if (e.key === "ArrowRight") go(1); });
+    /* a click on a dimmed photo slides it in; a click on a lit one opens it large */
+    tr.addEventListener("click", function (e) {
+      var card = e.target.closest(".wd"); if (!card) return;
+      e.stopPropagation();
+      if (moved) { moved = false; e.preventDefault(); return; }
+      var k = all.indexOf(card);
+      if (card.classList.contains("is-out")) { go(k < idx ? -1 : 1); return; }
+      lbOpen(orig, +card.dataset.i, card);
+    });
+    tr.addEventListener("focusin", function (e) { var card = e.target.closest(".wd"), k = all.indexOf(card); if (k > -1 && (k < idx || k >= idx + VIS)) { idx = k < idx ? k : k - VIS + 1; place(true); } });
+    place(false);
+  });
+
+  if (!lb) return;
+  lb.addEventListener("click", function (e) { if (e.target.closest(".wy-x") || e.target === lb) lbClose(); else if (e.target.closest(".wy-pv")) lbShow(lbAt - 1); else if (e.target.closest(".wy-nx")) lbShow(lbAt + 1); });
+  document.addEventListener("keydown", function (e) { if (lb.hidden) return; if (e.key === "Escape") lbClose(); else if (e.key === "ArrowLeft") lbShow(lbAt - 1); else if (e.key === "ArrowRight") lbShow(lbAt + 1); });
+})();
