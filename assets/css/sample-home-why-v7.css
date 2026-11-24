@@ -84,3 +84,4 @@ body.home { overflow-x: clip; }
 .wy7 .wy-prog button.on { width: 0.3rem; background: var(--orange); }
 .wy7 .wy-prog button:focus-visible { outline: 0.02rem solid var(--orange); outline-offset: 0.03rem; }
 .wy7 .wy-ctl { margin-left: auto; }
+.wy7 .wd-c span { text-wrap: balance; }
