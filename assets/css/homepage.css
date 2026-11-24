@@ -1174,9 +1174,7 @@
 
 /* The phone gate. Not present below 900, so no half-designed layout reaches a
    breakpoint this round of work has not touched. */
-@media (max-width: 900px) {
-  .faq { display: none; }
-}
+/* (the phone now shows the FAQs too, so the section order matches the desktop; its phone layout is in home-order.css) */
 
 /* ==========================================================================
    MEET THE WONDERLANDERS — the card strip from the individual Wonderlander
@@ -1223,9 +1221,7 @@
 
 }  /* end min-width: 901px */
 
-@media (max-width: 900px) {
-  .amb-more { display: none; }
-}
+/* (the phone now shows Meet the Wonderlanders too; its phone layout is in home-order.css) */
 
 
 /* ==========================================================================

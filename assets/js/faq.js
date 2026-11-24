@@ -1,8 +1,7 @@
 /* ===========================================================================
    FAQs — the homepage accordion, one answer open at a time.
 
-   DESKTOP ONLY this round; below 900 the section is display:none and this
-   does nothing.
+   Runs at every width now; the phone layout is in home-order.css.
 
    Progressive enhancement on purpose: the CSS leaves every answer OPEN, and
    the closing is done here. With no JS the section degrades to a plain list
@@ -11,8 +10,6 @@
    until `is-live` is set, so nothing promises behaviour that is not there.
    =========================================================================== */
 (function () {
-  if (!window.matchMedia("(min-width: 901px)").matches) return;
-
   var faq = document.querySelector(".faq");
   if (!faq) return;
 
