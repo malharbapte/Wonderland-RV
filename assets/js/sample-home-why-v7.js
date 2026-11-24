@@ -1,4 +1,4 @@
-/* Why choose us, v6: a looping three-up slider that runs off both screen edges. The middle three photos are the page column; the one either side is dimmed and waiting. */
+/* Why choose us, v7: a looping three-up slider that runs off both screen edges. The middle three photos are the page column; the one either side is dimmed and waiting. */
 (function () {
   var pad = function (n) { return (n < 10 ? "0" : "") + n; };
   var lb = document.getElementById("wyLb"), lbImg = lb && lb.querySelector("img"), lbCap = lb && lb.querySelector("figcaption"), lbSet = [], lbAt = 0, lbOpener = null;
@@ -19,7 +19,7 @@
     });
     tr.appendChild(frag);
     var idx = n, prevs = [].slice.call(sec.querySelectorAll(".wy-prev")), nexts = [].slice.call(sec.querySelectorAll(".wy-next")), count = sec.querySelector(".wy-count"), prog = sec.querySelector(".wy-prog"), ticks = [];
-    if (prog) for (var t = 0; t < n; t++) { var tk = document.createElement("i"); prog.appendChild(tk); ticks.push(tk); }
+    if (prog) orig.forEach(function (c, t) { var tk = document.createElement("button"); tk.type = "button"; tk.textContent = c.dataset.tab; tk.addEventListener("click", function () { var at0 = ((idx % n) + n) % n, d = t - at0; if (d > n / 2) d -= n; else if (d < -n / 2) d += n; if (d) go(d); }); prog.appendChild(tk); ticks.push(tk); });
     function gap() { return parseFloat(getComputedStyle(tr).columnGap) || 0; }
     function place(animate) {
       var step = all[0].offsetWidth + gap(), left = s.getBoundingClientRect().left - vp.getBoundingClientRect().left;
