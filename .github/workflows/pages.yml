@@ -39,6 +39,11 @@ jobs:
       # earlier 4-minute limit of ours cancelled it. Cancelling and retrying
       # therefore only throws away progress. Wait it out, but stay under
       # GitHub's own 10-minute deployment limit so a real hang still ends.
+      # GitHub's deploy step looks the uploaded artifact up about half a second
+      # after the upload finishes, and its listing often has not caught up yet
+      # ("Found 0 artifact(s)"). Waiting a moment first avoids that race.
+      - name: Let the uploaded artifact register
+        run: sleep 25
       - id: deployment
         uses: actions/deploy-pages@v5
         with:
