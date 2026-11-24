@@ -41,6 +41,7 @@
     "#tyCm .tycx-card:hover{box-shadow:0 .05rem .22rem rgba(17,17,17,.1)}" +
     "#tyCm .tycx-card img{display:block;width:100%;height:auto}" +
     "#tyCm .tycx-tag{display:none}" +
+    "@media (min-width:601px){#tyCm.tycx-wall{width:min(1160px,calc(100vw - 80px));margin-left:calc(50% - min(580px,(100vw - 80px) / 2))}}" +
     "@keyframes tycx-in{from{opacity:0;transform:translate3d(0,.1rem,0)}to{opacity:1;transform:none}}" +
     "@media (prefers-reduced-motion:reduce){#tyCm .tycx-card{animation:none;transition:none}}" +
     ".ty-lb.tycx-lb-tall{overflow-y:auto;align-items:flex-start;justify-content:center}" +
@@ -164,6 +165,7 @@
               }
               if (seq.length - j < 6) score += 8;
             }
+            if (it.d.h / it.d.w > 2 && p.y < 10) score += 800;   /* a very tall post never leads the first row */
             if (prev && prev.amb === it.amb && it.amb) score += 3;
             if (prev && prevSpan === span) score += 2;
             if (span > 1 && seq.length - lastBig < 4) score += 6;
@@ -180,13 +182,17 @@
       if (p.span > 1) lastBig = seq.length;
       seq.push(best.it); pos.push(p); prev = best.it; prevSpan = p.span;
     }
-    return { seq: seq, pos: pos, viol: viol, soft: soft };
+    var bb = [], lo, hi;
+    for (c = 0; c < n; c++) bb.push(0);
+    for (var z = 0; z < Math.min(pos.length, batch()); z++) for (c = pos[z].col; c < pos[z].col + pos[z].span; c++) bb[c] = Math.max(bb[c], pos[z].y + pos[z].rows);
+    lo = Math.min.apply(null, bb); hi = Math.max.apply(null, bb);
+    return { seq: seq, pos: pos, viol: viol, soft: soft + Math.max(0, hi - lo - 80) * 3, spr: hi - lo };
   }
 
   function compute() {
     var W = wall.clientWidth || 800;
-    var n = window.matchMedia("(max-width:600px)").matches ? 1 : window.matchMedia("(max-width:900px)").matches ? 2 : 3;
     var gap = parseFloat(getComputedStyle(wall).columnGap) || 12;
+    var n = window.matchMedia("(max-width:600px)").matches ? 1 : (W - gap * 2) / 3 >= 320 ? 3 : 2;   /* three columns only while each stays at least 320 px wide */
     var cw = (W - gap * (n - 1)) / n, best = null;
     colInfo = { n: n, w: cw, gap: gap };
     wall.style.setProperty("--tycx-n", n);
@@ -199,7 +205,7 @@
       var a = attempt(seed, n, cw, gap);
       if (Date.now() - t0 > 600 && best) break;   /* a time budget: the best layout found so far */
       if (!best || a.viol < best.viol || (a.viol === best.viol && a.soft < best.soft)) best = a;
-      if (!a.viol && a.soft < 40) break;   /* clean and tidy enough */
+      if (!a.viol && a.soft < 40 && a.spr <= 80) break;   /* clean and tidy enough */
     }
     /* repair: if two cards of one person still touch, move the later one earlier in the order and place again */
     var tries = 0, rr = rng(7);
@@ -227,8 +233,8 @@
     return b;
   }
   function render(count) {
+    wall.classList.add("tycx-wall");   /* first, so the wall is measured at its real width */
     compute();
-    wall.classList.add("tycx-wall");
     wall.innerHTML = "";
     shown = Math.min(seq.length, count);
     for (var k = 0; k < shown; k++) wall.appendChild(card(seq[k], k));
