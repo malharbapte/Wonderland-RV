@@ -661,7 +661,7 @@ html.ty-lb-open { overflow: hidden; }
   .ty-top, .ty-hero { display: contents; }
   .ty-sp { display: block; flex: var(--k, 1) 1 0; min-height: calc(var(--gmin) * var(--k, 1)); }
   .ty-first .ty-pill-w { margin: 0; flex: none; }
-  .ty-first .ty-top-lead { flex: none; margin: 0; width: 100%; max-width: none; font-size: calc(var(--t-caption) * 0.8); line-height: calc(var(--lh-caption) * 0.8); text-wrap: pretty; }
+  .ty-first .ty-top-lead { flex: none; margin: 0; width: 100%; max-width: none; font-size: var(--t-caption); line-height: var(--lh-caption); text-wrap: pretty; }
   .ty-first .ty-title { flex: none; margin: 0; }
   .ty-first .ty-hero .ty-hero-lede { flex: none; margin: 0; width: 100%; max-width: none; text-wrap: pretty; }
   /* the three steps: circles on a line, label under each (the phone look) */
