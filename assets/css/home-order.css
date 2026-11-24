@@ -638,6 +638,7 @@
   .why-points, .why-scrim { display: none; }
   /* desktop-only copy: the phone deck is headings and dots, nothing else */
   .coty-note { display: none; }
+  .coty-slide .coty-cta { display: none; }   /* the phone panel carries its own copy */
 }
 
 /* ==========================================================================
@@ -828,7 +829,7 @@
        the right column to itself. */
     grid-template-columns: 62% 38%;
     grid-template-rows: auto auto auto 1fr;
-    grid-template-areas: "fig fig" "title quote" "sub quote" "note quote";
+    grid-template-areas: "fig fig" "title cta" "sub quote" "note quote";
     padding-inline: calc((100% - var(--coty-vid-w)) / 2);
   }
   .coty-figure { grid-area: fig; width: 100%; margin: 0; }
@@ -849,6 +850,8 @@
     display: block; margin-top: 0.12rem; font-style: normal;
     font-size: var(--t-caption); line-height: 0.28rem;
   }
+  /* the call to action sits under the picture's right edge, level with the title */
+  .coty-cta { grid-area: cta; justify-self: end; align-self: center; margin-top: 0.50rem; white-space: nowrap; }
   /* the arrows centre on the picture, which now starts at the top */
   .coty-arrow { top: calc(var(--coty-vid-h) / 2); }
 }
@@ -1053,6 +1056,8 @@
   .coty-page .coty-sub a { color: var(--orange-deep); text-decoration: none; border-bottom: 1.5px solid var(--orange-deep); }
   .coty-page .coty-note { display: block; width: auto; margin: 14px 0 0; padding: 0; text-align: left;
                           font-size: 15px; line-height: 23px; color: var(--ink); }
+  .coty-page .coty-cta { display: inline-flex; align-items: center; justify-content: center; margin: 16px 0 0 auto; width: fit-content; float: right; }
+  .coty-page::after { content: ""; display: block; clear: both; }
   .coty-page .coty-quote { display: block; margin: 18px 0 0; padding: 0 0 0 14px; border-left: 3px solid var(--orange);
                            font-style: italic; font-size: 15px; line-height: 23px; color: var(--orange-deep); }
   .coty-page .coty-quote cite { display: block; margin-top: 8px; font-style: normal; font-size: 12px; line-height: 18px;

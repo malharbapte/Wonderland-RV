@@ -45,6 +45,8 @@
 
   /* The spec icons were dropped for the Lotus-style row, and with them the drawings. */
 
+  /* flagship first: opens on the XTR and steps down to the Amaroo */
+  MODELS.reverse();
   var built = false, at = 0, N = MODELS.length;
 
   /* Phone layout, Lotus-style: label over value, four across, no icons. The

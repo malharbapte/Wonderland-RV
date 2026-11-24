@@ -15,7 +15,8 @@ const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
                      "https://youtu.be/Yk4vxl-iUcU",
                      "https://youtu.be/aGa1ek8HPsE",
                      "https://youtu.be/OZzB4zf4FGM",
-                     "https://youtu.be/UBc2BtAu8eI"];
+                     "https://youtu.be/UBc2BtAu8eI",
+                     ""];   /* 7: Adam's testimonial, link still to come */
 
 
 /* The hero runs clean: no sound control, no captions button, no prompt. Passing
@@ -622,7 +623,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     const pages = slides.map(function (sl, k) {
       const pg = document.createElement("div");
       pg.className = "coty-page" + (k ? "" : " is-on");
-      [".coty-title", ".coty-sub", ".coty-note", ".coty-quote"].forEach(function (sel) {
+      [".coty-title", ".coty-sub", ".coty-note", ".coty-quote", ".coty-cta"].forEach(function (sel) {
         const el = sl.querySelector(sel);
         if (el) pg.appendChild(el.cloneNode(true));
       });

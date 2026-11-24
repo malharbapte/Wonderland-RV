@@ -98,6 +98,9 @@
 
   function icon(key) { return key === "susp" ? SUSP : ICON[key]; }
 
+  /* flagship first: the viewer opens on the XTR and steps down to the Amaroo */
+  MODELS.reverse();
+
   var N = MODELS.length, at = 0, swallowClick = false;
 
   function buildStage() {

@@ -212,6 +212,18 @@
 
   rebuildStops();
   apply();
+  /* range.html?layout=1906Q-RC opens on that layout (the Featured videos link here) */
+  var want = "";
+  try { want = (new URLSearchParams(location.search).get("layout") || "").trim(); } catch (err) {}
+  if (want) {
+    var hit = rows.filter(function (r) { return r.querySelector(".fp-row-name").textContent.trim() === want; })[0];
+    if (hit) {
+      var radio = document.querySelector('.fp-kind input[value="' + hit.dataset.kind + '"]');
+      if (radio && !radio.checked) { radio.checked = true; rebuildStops(null); apply(); }
+      select(hit);
+      if (hit.scrollIntoView) hit.scrollIntoView({ block: "nearest" });
+    }
+  }
   /* the first row is marked on in the markup, so select() has not run for it */
   var first = rows.filter(function (r) { return r.classList.contains("is-on"); })[0];
   if (first) {
