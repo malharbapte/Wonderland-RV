@@ -1,0 +1,14 @@
+/* SCALE TRIAL B (sample only: sample-home-scale.html). Not loaded by the live pages.
+   Desktop only. What it changes: the ONE number everything is sized from (the root font-size), so the column, the type and every rem rule follow it together.
+     column = the smaller of  80% of the window  (10% margin each side)  and  1280px + 0.3 x (window - 1600px)   [grows gently past 1600]
+     root   = column / 16.24     (16.24rem is the column, as before)
+   So the type tokens are, at a 1280px column: heading 44px, sub 25px, body 22px, caption 16px. Nothing is tuned by height any more. */
+@media (min-width: 901px) {
+  :root { --scale-col: min(80vw, calc(1280px + max(0px, 100vw - 1600px) * 0.3)); --edge: calc((100vw - var(--col)) / 2); }
+  html { font-size: calc(var(--scale-col) / 16.24); }
+
+  /* things that were tied to the old window-height fit */
+  .dz-grid { --bento-h: 8.4rem; }
+  /* full-bleed strips that start at the column's left edge */
+  .amb-more-strip { padding-left: var(--edge); padding-right: var(--edge); }
+}
