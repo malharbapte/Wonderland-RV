@@ -54,6 +54,14 @@
       lbOpen(orig, +card.dataset.i, card);
     });
     tr.addEventListener("focusin", function (e) { var card = e.target.closest(".wd"), k = all.indexOf(card); if (k > -1 && (k < idx || k >= idx + VIS)) { idx = k < idx ? k : k - VIS + 1; place(true); } });
+    /* it keeps moving by itself, one photo every 4 s; it stops while the pointer is over it or the tab is hidden, and waits 8 s after anyone touches it */
+    var hold = 0, hover = false, seen = false;
+    if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+      [s, sec.querySelector(".wy-bar")].forEach(function (el) { if (el) { el.addEventListener("mouseenter", function () { hover = true; }); el.addEventListener("mouseleave", function () { hover = false; }); } });
+      ["pointerdown", "keydown", "focusin"].forEach(function (ev) { sec.addEventListener(ev, function () { hold = Date.now() + 8000; }); });
+      if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { seen = en[0].isIntersecting; }, { threshold: 0.3 }).observe(s); else seen = true;
+      setInterval(function () { if (seen && !hover && !document.hidden && Date.now() >= hold) go(1); }, 4000);
+    }
     place(false);
   });
 
