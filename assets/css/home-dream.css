@@ -110,3 +110,22 @@
    run under it by up to 33px. The CUSTOM MADE caption (and its arrow) sits 46px in from the tile's edge so it always clears
    the strip, with a gap. The grid itself keeps its width. */
 @media (min-width: 901px) { .dz .t4 .vc { right: 46px; } }
+
+/* CLOSING CTA BAND after the FAQs (PLACEHOLDER, Piyush 25 Nov 2026). Full bleed through the same 100vw trick as .band,
+   a soft #050F28 wash, centred white Aviano headline, one Gordita line, the site's orange button (.btn-solid). Square corners. */
+.cta-band { position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden; background: #050F28; aspect-ratio: 2 / 1; max-height: var(--band-h, 100vh); display: grid; place-items: center; }
+.cta-band-media, .cta-band-media img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.cta-band-media img { max-width: none; object-fit: cover; object-position: 50% 40%; }
+.cta-band::after { content: ""; position: absolute; inset: 0; background: rgba(5, 15, 40, .46); pointer-events: none; }
+.cta-band-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.2rem; color: #fff; }
+.cta-band-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.05; text-transform: uppercase; color: #fff; text-wrap: balance; word-spacing: .09em; }
+.cta-band-sub { margin: 0; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #fff; }
+.cta-band-btn { margin-top: 0.14rem; }
+.cta-band-title .nw { white-space: nowrap; }
+@media (max-width: 900px) {
+  .cta-band { aspect-ratio: 2 / 3; max-height: none; place-items: start center; }
+  .cta-band-title { font-size: 24px; line-height: 27px; }
+  .cta-band-media img { object-position: 50% 50%; }
+  .cta-band-copy { gap: 12px; padding-top: 56px; }
+  .cta-band-btn { margin-top: 8px; }
+}
