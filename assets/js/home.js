@@ -16,7 +16,7 @@ const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
                      "https://youtu.be/aGa1ek8HPsE",
                      "https://youtu.be/OZzB4zf4FGM",
                      "https://youtu.be/UBc2BtAu8eI",
-                     ""];   /* 7: Adam's testimonial, link still to come */
+                     "https://youtu.be/amfJS4mC4ZQ"];   /* 7: Adam's testimonial */
 
 
 /* The hero runs clean: no sound control, no captions button, no prompt. Passing
