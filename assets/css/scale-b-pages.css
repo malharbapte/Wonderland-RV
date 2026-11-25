@@ -89,6 +89,7 @@
   /* Thank you: the reviews wall text at the standard 1.4 */
   .ty-rc-body blockquote { line-height: 1.4; }
   /* journey cards: the title reserves no spare line, so the orange band is as short as it can be */
-  .wx-card-title { min-height: 0; }
+  /* every orange band is the height of a two-line title; a one-line title is centred in it, so top and bottom stay equal */
+  .wx-card-title { min-height: calc(2 * 1.15em); display: flex; align-items: center; }
   .wx-card-bio { margin-top: 0.06rem; }
 }
