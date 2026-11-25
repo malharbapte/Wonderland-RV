@@ -111,17 +111,29 @@
     fit();
   }
   /* While more reviews are waiting, every column is cut at the same line (the
-     end of the shortest one) and the bottom fades into the page grey, so the
-     wall never ends in ragged stubs. Once everything is loaded the cut goes. */
+     end of the shortest one) and the bottom fades into the page, so the
+     wall never ends in ragged stubs. Once everything is loaded the cut goes.
+     Until "Load more" is used, the cut is also held to one screen (25 Nov 2026,
+     Piyush: "each section should be visible on 100% in all sizes"): heading,
+     wall and button fit under the header. It is worked out again on resize. */
+  var opened = false;
+  function screenCap() {
+    var sec = wall.closest("section"), hdr = document.querySelector(".site-header");
+    if (!sec) return Infinity;
+    var other = sec.offsetHeight - wall.offsetHeight;
+    var room = window.innerHeight - (hdr ? hdr.getBoundingClientRect().height : 0) - other;
+    return Math.max(260, room);
+  }
   function fit() {
     var more = shown < data.length;
     wall.classList.toggle("ty-wall--fade", more);
     if (!more) { wall.style.maxHeight = ""; return; }
     var low = Infinity; cols.forEach(function (c) { low = Math.min(low, c.offsetHeight); });
-    wall.style.maxHeight = low + "px";
+    wall.style.maxHeight = (opened ? low : Math.min(low, screenCap())) + "px";
   }
   window.addEventListener("load", fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  var ft; window.addEventListener("resize", function () { clearTimeout(ft); ft = setTimeout(fit, 120); });
 
   /* Lightbox for reviewer photos */
   var lb, lbImg, lbSet = [], lbPos = 0, lbOpener;
@@ -154,7 +166,7 @@
   });
 
   btn = document.getElementById("tyMore");
-  if (btn) btn.addEventListener("click", function () { add(batch()); });
+  if (btn) btn.addEventListener("click", function () { opened = true; add(batch()); });
   build();
   var mq = window.matchMedia("(max-width:900px)");
   (mq.addEventListener ? mq.addEventListener.bind(mq, "change") : mq.addListener.bind(mq))(build);

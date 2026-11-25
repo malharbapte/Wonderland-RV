@@ -240,15 +240,25 @@
     for (var k = 0; k < shown; k++) wall.appendChild(card(seq[k], k));
     fit();
   }
+  /* until "Load more" is used, the cut is held to one screen with the heading and the button (25 Nov 2026) */
+  var opened = false;
+  function screenCap() {
+    var sec = wall.closest("section"), hdr = document.querySelector(".site-header");
+    if (!sec) return Infinity;
+    var room = window.innerHeight - (hdr ? hdr.getBoundingClientRect().height : 0) - (sec.offsetHeight - wall.offsetHeight);
+    return Math.max(260, room);
+  }
   function fit() {
     var more = shown < seq.length, n = colInfo.n, bottoms = [], c, k;
     for (c = 0; c < n; c++) bottoms.push(0);
     for (k = 0; k < shown; k++) for (c = pos[k].col; c < pos[k].col + pos[k].span; c++) bottoms[c] = Math.max(bottoms[c], pos[k].y + pos[k].rows);
     wall.classList.toggle("tycx-part", more);
-    wall.style.height = more ? (Math.min.apply(null, bottoms) - colInfo.gap) + "px" : "";
+    var cut = Math.min.apply(null, bottoms) - colInfo.gap;
+    wall.style.height = more ? (opened ? cut : Math.min(cut, screenCap())) + "px" : "";
     if (btn) btn.parentNode.hidden = !more;
   }
   function more() {
+    opened = true;
     var end = Math.min(seq.length, shown + batch());
     for (; shown < end; shown++) wall.appendChild(card(seq[shown], shown));
     fit();
@@ -291,6 +301,6 @@
   window.addEventListener("load", function () { if (wall.clientWidth !== lastW) { lastW = wall.clientWidth; render(shown || batch()); } });
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () { if (wall.clientWidth !== lastW) { lastW = wall.clientWidth; render(shown || batch()); } }, 120);
+    rt = setTimeout(function () { if (wall.clientWidth !== lastW) { lastW = wall.clientWidth; render(shown || batch()); } else fit(); }, 120);   /* a height-only change re-cuts the wall */
   });
 })();
