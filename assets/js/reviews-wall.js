@@ -120,17 +120,9 @@
   /* While more reviews are waiting, every column is cut at the same line (the
      end of the shortest one) and the bottom fades into the page, so the
      wall never ends in ragged stubs. Once everything is loaded the cut goes.
-     Until "Load more" is used, the cut is also held to one screen (25 Nov 2026,
-     Piyush: "each section should be visible on 100% in all sizes"): heading,
-     wall and button fit under the header. It is worked out again on resize. */
+     Until "Load more" is used the cut shows a set number of reviews (below);
+     it is worked out again on resize. */
   var opened = false;
-  function screenCap() {
-    var sec = wall.closest("section"), hdr = document.querySelector(".site-header");
-    if (!sec) return Infinity;
-    var other = sec.offsetHeight - wall.offsetHeight;
-    var room = window.innerHeight - (hdr ? hdr.getBoundingClientRect().height : 0) - other;
-    return Math.max(260, room);
-  }
   function fit() {
     var more = shown < data.length;
     wall.classList.toggle("ty-wall--fade", more);
@@ -139,7 +131,10 @@
     if (!opened && isPhone()) {   /* phones: the cut falls 150px into the 6th review, which blurs into "Load more" */
       var sixth = cols[0].children[PHONE_BATCH];
       if (sixth) low = Math.min(low, sixth.offsetTop - cols[0].offsetTop + 150);
-    } else if (!opened) low = Math.min(low, screenCap());   /* desktop: one screen */
+    } else if (!opened) {   /* desktop: at least 6 reviews in full (two per column), the next row blurs into "Load more" (Piyush, 25 Nov 2026) */
+      var two = 0; cols.forEach(function (c) { var k = c.children[1]; if (k) two = Math.max(two, k.offsetTop - c.offsetTop + k.offsetHeight); });
+      if (two) low = Math.min(low, two + 150);
+    }
     wall.style.maxHeight = low + "px";
   }
   window.addEventListener("load", fit);

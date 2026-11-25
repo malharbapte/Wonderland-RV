@@ -24,7 +24,7 @@
    The CSS for this wall is injected below and is scoped to #tyCm (class tycx-). */
 (function () {
   "use strict";
-  var BATCH = 12, PHONE_BATCH = 6, PHONE_FULL = 5, TEXT_MIN = 11, WINDOW = 14;   /* phones: 5 in full, the 6th blurs into "Load more" */
+  var BATCH = 12, PHONE_BATCH = 6, PHONE_FULL = 5, DESK_FULL = 10, TEXT_MIN = 11, WINDOW = 14;   /* phones: 5 in full, the 6th blurs into "Load more" */
   function phone() { return window.matchMedia("(max-width:600px)").matches; }   /* phones: one column, 6 to start, 6 more per tap */
   function batch() { return phone() ? PHONE_BATCH : BATCH; }
   var wall = document.getElementById("tyCm"), btn = document.getElementById("tyCmMore"), src = window.WL_COMMUNITY || [];
@@ -240,14 +240,8 @@
     for (var k = 0; k < shown; k++) wall.appendChild(card(seq[k], k));
     fit();
   }
-  /* until "Load more" is used, the cut is held to one screen with the heading and the button (25 Nov 2026) */
+  /* until "Load more" is used, the cut shows a set number of posts (25 Nov 2026) */
   var opened = false;
-  function screenCap() {
-    var sec = wall.closest("section"), hdr = document.querySelector(".site-header");
-    if (!sec) return Infinity;
-    var room = window.innerHeight - (hdr ? hdr.getBoundingClientRect().height : 0) - (sec.offsetHeight - wall.offsetHeight);
-    return Math.max(260, room);
-  }
   function fit() {
     var more = shown < seq.length, n = colInfo.n, bottoms = [], c, k;
     for (c = 0; c < n; c++) bottoms.push(0);
@@ -255,7 +249,11 @@
     wall.classList.toggle("tycx-part", more);
     var cut = Math.min.apply(null, bottoms) - colInfo.gap;
     if (!opened && phone() && shown > PHONE_FULL) cut = Math.min(cut, pos[PHONE_FULL].y + 150);
-    else if (!opened) cut = Math.min(cut, screenCap());
+    else if (!opened) {   /* desktop and tablet: 10 posts in full, the next ones blur into "Load more" (Piyush, 25 Nov 2026: "4 more visible") */
+      var ends = []; for (k = 0; k < shown; k++) ends.push(pos[k].y + pos[k].rows);
+      ends.sort(function (a, b) { return a - b; });
+      if (ends.length > DESK_FULL) cut = Math.min(cut, ends[DESK_FULL - 1] + 150);
+    }
     wall.style.height = more ? cut + "px" : "";
     if (btn) btn.parentNode.hidden = !more;
   }
