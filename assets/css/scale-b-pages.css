@@ -100,7 +100,7 @@
   .enquiry .lede:first-of-type { font-size: var(--t-sub); line-height: 1.3; }
 
   /* Experience dealers: map 2/3, details 1/3 of the page; the bar stays inside the map */
-  .wx-dealers-row { grid-template-columns: 66.667% 1fr; height: calc(100svh - 1.43rem - 1.1rem - 0.7rem - 0.3rem); min-height: 7rem; max-height: 13.4rem; }
+  .wx-dealers-row { grid-template-columns: 66.667% 1fr; height: calc(100svh - 1.43rem - 1.1rem - 0.7rem - 0.3rem); min-height: 5.5rem; max-height: 13.4rem; }
   .wx-dealers-bar { left: 0.5rem; width: auto; right: 0.5rem; }
   .wx-dealers-panel { padding: 0.5rem 0.5rem 0.4rem; }
   .wx-dealers-panel { display: flex; flex-direction: column; }
@@ -108,5 +108,5 @@
   .wx-d-logo img { width: auto !important; height: 100%; max-width: 100%; object-fit: contain; object-position: left center; }
   .wx-d-name { margin-top: 0.14rem; }
   .wx-d-loc { margin-top: 0.2rem; }
-  .wx-d-photo { flex: 1 1 0; min-height: 0.6rem; margin-top: 0.24rem; width: auto; max-width: 100%; align-self: flex-start; }
+  .wx-d-photo { flex: 1 1 0; min-height: 1.4rem; margin-top: 0.24rem; width: auto; max-width: 100%; align-self: flex-start; }
 }

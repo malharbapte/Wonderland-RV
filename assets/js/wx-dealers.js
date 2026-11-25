@@ -118,7 +118,17 @@
     ph.appendChild(el("span", "", "Dealership photo"));
     panel.appendChild(ph);
 
+    fitPanel();
     if (zoomed) { preview(d.locs[0]); zoomTo(k); }
+  }
+
+  /* the row is one screen tall; if a dealer's details are taller than the row (Queensland has two
+     branches, or the window is short), the panel scales down just enough to fit */
+  function fitPanel() {
+    panel.style.zoom = "";
+    if (!desktop.matches) return;
+    var over = panel.scrollHeight - panel.clientHeight;
+    if (over > 1) panel.style.zoom = Math.max(0.6, panel.clientHeight / panel.scrollHeight - 0.01);
   }
 
   /* ---- Google Maps preview (no key: the plain embed of an address) ---- */
@@ -201,7 +211,7 @@
   });
   if (reset) reset.addEventListener("click", close);
   window.addEventListener("resize", function () {
-    place(true);
+    place(true); fitPanel();
     if (zoomed) { cancelAnimationFrame(raf); vb = frameOf(cur); paint(); }
   });
   dir.hidden = true;
