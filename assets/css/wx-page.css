@@ -735,6 +735,8 @@
   .wx-journey-card { flex: 0 0 82%; height: auto; border-radius: 4px; scroll-snap-align: start; scroll-snap-stop: always; }
   .wx-journey-card:last-of-type { scroll-snap-align: end; }
   .wx-card-media, .wx-card-media img { transition: none; }
+  .wx-card-ph { padding: 20px; }
+  .wx-card-ph p { font-size: 14px; line-height: 20px; max-width: 100%; }
   .wx-card-media { position: static; aspect-ratio: 4 / 5; }
   .wx-card-band { position: static; padding: 16px 16px 20px; background: #fff; color: var(--ink); }
   .wx-card-title { font-size: 18px; line-height: 22px; min-height: 0; color: var(--orange-deep); text-wrap: balance; }
@@ -763,7 +765,7 @@
   .wx-makers { margin-top: 48px; }
   .wx-makers-intro { margin: 14px 0 0; max-width: none; font-size: 15px; line-height: 23px; }
   .wx-makers-row { margin-top: 20px; padding-inline: 24px; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
-                   scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-padding-inline: 24px; }
+                   scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-padding-inline: 24px; align-items: flex-start; }
   .wx-makers-row::-webkit-scrollbar { display: none; }
   .wx-mk { flex: 0 0 82%; scroll-snap-align: start; scroll-snap-stop: always; }
   .wx-mk { border-radius: 4px; }
