@@ -846,58 +846,39 @@
   .wx-d-pmap.has-card { aspect-ratio: 1 / 1; }
   .wx-d-pmap.has-card iframe { top: -128px; height: calc(100% + 128px); }
 
-  /* 8 dealers: the details live in a pop-up on a phone */
+  /* 8 dealers: the details live in a card pop-up on a phone: the state as the heading, the map, the logo, the name, then the details */
   .wx-dealers-panel { display: none; }
   body.wx-dp-lock { overflow: hidden; }
-  .wx-dp { position: fixed; inset: 0; z-index: 3000; background: rgba(20, 20, 20, 0.55); display: flex; align-items: flex-end; justify-content: center; }
+  .wx-dp { position: fixed; inset: 0; z-index: 3000; background: rgba(20, 20, 20, 0.55); display: flex; align-items: center; justify-content: center;
+    padding: 16px; box-sizing: border-box; }
   .wx-dp[hidden] { display: none; }
-  .wx-dp-card { width: 100%; height: 100vh; height: 100dvh; max-height: 100dvh; background: #fff; display: flex; flex-direction: column;
-    outline: none; overflow: hidden; }
-  .wx-dp-head { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 20px; height: 52px; }
-  .wx-dp-state { font-family: var(--aviano); font-weight: 900; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
-  .wx-dp-x { width: 44px; height: 44px; padding: 0; background: none; border: 0; color: var(--ink); display: grid; place-items: center; }
+  .wx-dp-card { position: relative; width: 100%; max-width: 420px; height: min(calc(100vh - 32px), 700px); height: min(calc(100dvh - 32px), 700px);
+    background: #fff; border-radius: 3px; padding: var(--dp-pad, 24px); box-sizing: border-box; outline: none; overflow: hidden;
+    display: grid; grid-template-rows: auto minmax(0, 36%) auto minmax(0, 1fr) auto; box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55); }
+  .wx-dp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .wx-dp-state { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 22px; line-height: 1.1; letter-spacing: 0.01em; text-transform: uppercase; color: var(--ink); text-wrap: balance; }
+  .wx-dp-x { flex: none; width: 40px; height: 40px; margin: -8px -10px 0 0; padding: 0; background: none; border: 0; color: var(--ink); display: grid; place-items: center; }
   .wx-dp-x svg { width: 28px; height: 28px; stroke-width: 1.2; stroke-linecap: butt; }
-  .wx-dp-map { position: relative; flex: 1 1 0; min-height: 180px; overflow: hidden; background: #E4E2DE;
-    border-top: 1px solid rgba(29, 29, 27, 0.7); border-bottom: 1px solid rgba(29, 29, 27, 0.7); }
+  .wx-dp-map { position: relative; min-height: 0; overflow: hidden; background: #E4E2DE; border: 1px solid rgba(29, 29, 27, 0.7); border-radius: 3px; }
   .wx-dp-map iframe { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border: 0; display: block; }
   .wx-dp-map.has-card iframe { top: -128px; height: calc(100% + 128px); }
-  .wx-dp-arrow { position: absolute; top: 50%; z-index: 2; width: 40px; height: 56px; margin-top: -28px; padding: 0; border: 0; background: #fff;
+  .wx-dp-arrow { position: absolute; top: 50%; z-index: 2; width: 36px; height: 52px; margin-top: -26px; padding: 0; border: 0; background: #fff;
     color: var(--orange-deep); display: grid; place-items: center; box-shadow: 0 2px 10px rgba(40, 38, 34, 0.35); }
-  .wx-dp-arrow svg { width: 26px; height: 26px; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .wx-dp-arrow svg { width: 24px; height: 24px; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
   .wx-dp-arrow--prev { left: 0; border-radius: 0 4px 4px 0; }
   .wx-dp-arrow--next { right: 0; border-radius: 4px 0 0 4px; }
-  .wx-dp-body { flex: none; padding: 14px 20px 0; }
-  .wx-dp-id { display: flex; align-items: center; gap: 14px; }
-  .wx-dp-logo { display: block; height: 40px; width: auto; max-width: 42%; object-fit: contain; }
-  .wx-dp-name { font-family: var(--gordita); font-weight: 500; font-size: 17px; line-height: 22px; }
-  .wx-dp-tabs { display: flex; gap: 8px; margin-top: 12px; }
+  .wx-dp-id { padding: 14px 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .wx-dp-logo { display: block; height: 44px; width: auto; max-width: 70%; object-fit: contain; }
+  .wx-dp-name { font-family: var(--gordita); font-weight: 500; font-size: 18px; line-height: 24px; }
+  .wx-dp-body { padding: 8px 0 0; overflow: hidden; min-height: 0; }
+  .wx-dp-tabs { display: flex; gap: 8px; margin-top: 4px; }
   .wx-dp-tabs[hidden] { display: none; }
   .wx-dp-tabs button { height: 36px; padding: 0 16px; border: 1px solid #d9d6d0; border-radius: 6px; background: #fff; font: 500 14px var(--gordita); color: var(--ink); }
   .wx-dp-tabs button.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
-  .wx-dp-info { margin-top: 10px; }
   .wx-dp-info p { margin: 0; font-family: var(--gordita); font-size: 15px; line-height: 22px; }
   .wx-dp-info .wx-d-line a { color: var(--ink); text-decoration: none; }
   .wx-dp-info .wx-d-addr { font-size: 14px; line-height: 20px; color: #3a342e; }
   .wx-dp-city { font-family: var(--aviano) !important; font-weight: 900; font-size: 16px !important; letter-spacing: -0.01em; text-transform: uppercase; color: var(--orange-deep); }
-  .wx-dp-cta { flex: none; margin: 14px 20px calc(16px + env(safe-area-inset-bottom, 0px)); height: 52px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-
-  /* the dealer pop-up as a card (samples: ?dpx=1): the map inset with padding, then the logo and name, then the details */
-  .wx-dp-id { padding: 14px 20px 0; }
-  .wx-dp-body { padding-top: 10px; }
-  .wx-dp--card { align-items: center; padding: 16px; box-sizing: border-box; }
-  .wx-dp--card .wx-dp-card { position: relative; max-width: 420px; height: min(calc(100vh - 32px), 680px); height: min(calc(100dvh - 32px), 680px);
-    border-radius: 3px; padding: var(--dp-pad, 16px); box-sizing: border-box; display: grid; grid-template-rows: 40% 15% 1fr auto;
-    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55); }
-  .wx-dp--card .wx-dp-head { position: absolute; z-index: 4; left: calc(var(--dp-pad, 16px) + 8px); right: calc(var(--dp-pad, 16px) + 8px);
-    top: calc(var(--dp-pad, 16px) + 8px); height: 40px; padding: 0; pointer-events: none; }
-  .wx-dp--card .wx-dp-state { background: #fff; padding: 6px 10px; border-radius: 3px; pointer-events: auto; }
-  .wx-dp--card .wx-dp-x { background: #fff; border-radius: 50%; width: 40px; height: 40px; pointer-events: auto; box-shadow: 0 2px 8px rgba(40, 38, 34, 0.35); }
-  .wx-dp--card .wx-dp-x svg { width: 22px; height: 22px; }
-  .wx-dp--card .wx-dp-map { min-height: 0; border: 1px solid rgba(29, 29, 27, 0.7); border-radius: 3px; }
-  .wx-dp--card .wx-dp-id { padding: 0; display: flex; align-items: center; justify-content: center; gap: 14px; }
-  .wx-dp--card .wx-dp-body { padding: 0; overflow: hidden; min-height: 0; }
-  .wx-dp--card .wx-dp-cta { margin: 10px 0 0; }
-  .wx-dp--card .wx-dp-tabs { margin-top: 0; }
   .wx-dp-acc { border-top: 1px solid #d9d6d0; }
   .wx-dp-acc:last-child { border-bottom: 1px solid #d9d6d0; }
   .wx-dp-acc summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 10px 0;
@@ -907,6 +888,8 @@
   .wx-dp-acc[open] summary svg { transform: rotate(180deg); }
   .wx-dp-acc-b { padding: 0 0 10px; }
   .wx-dp-acc-b p { margin: 0; font-family: var(--gordita); font-size: 15px; line-height: 22px; }
-  .wx-dp-acc-b .wx-d-line a { color: var(--ink); text-decoration: none; }
+  .wx-dp-acc-b .wx-d-line a { color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+  .wx-dp-info .wx-d-line, .wx-dp-acc-b .wx-d-line { font-size: 14.5px; letter-spacing: -0.01em; }
   .wx-dp-acc-b .wx-d-addr { font-size: 14px; line-height: 20px; color: #3a342e; }
+  .wx-dp-cta { margin: 12px 0 0; height: 52px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 }

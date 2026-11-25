@@ -233,11 +233,10 @@
   var dp = null;
   function popupBuild() {
     dp = el("div", "wx-dp"); dp.hidden = true;
-    /* samples of the card-style pop-up: ?dpx=1&pad=12|16|24&multi=pill|acc (the live page keeps the full-screen one until one is picked) */
-    if (QS.get("dpx")) { dp.classList.add("wx-dp--card"); dp.style.setProperty("--dp-pad", (parseInt(QS.get("pad"), 10) || 16) + "px"); }
+    dp.style.setProperty("--dp-pad", (parseInt(QS.get("pad"), 10) || 24) + "px");   /* padding around the card's content: 24px (?pad= to try another) */
     dp.innerHTML =
       '<div class="wx-dp-card" role="dialog" aria-modal="true" aria-label="Dealer details" tabindex="-1">' +
-        '<header class="wx-dp-head"><span class="wx-dp-state"></span>' +
+        '<header class="wx-dp-head"><h2 class="wx-dp-state"></h2>' +
           '<button class="wx-dp-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button></header>' +
         '<div class="wx-dp-map"><iframe title="Dealer location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
           '<button class="wx-dp-arrow wx-dp-arrow--prev" type="button" aria-label="Previous state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg></button>' +
@@ -274,7 +273,7 @@
     var lg = dp.querySelector(".wx-dp-logo");
     lg.src = "assets/img/experience/dealers/" + d.logo; lg.alt = d.name;
     dp.querySelector(".wx-dp-name").textContent = d.name;
-    var acc = d.locs.length > 1 && QS.get("multi") === "acc";
+    var acc = d.locs.length > 1 && QS.get("multi") !== "pill";   /* two dealerships: a drop-down per branch (?multi=pill for the pill) */
     var tabs = dp.querySelector(".wx-dp-tabs"); tabs.textContent = "";
     tabs.hidden = d.locs.length < 2 || acc;
     d.locs.forEach(function (loc, n) {
