@@ -67,8 +67,6 @@
   .coty-aside { align-self: center; }
   .coty-aside > * { flex: none; }
   .coty-aside .coty-cta { align-self: flex-end; }
-  /* with a quote under it there is no room to centre it on the text, so the CTA takes the quote's width instead */
-  .coty-aside--quote .coty-cta { align-self: stretch; width: auto; }
   .coty-aside .coty-quote { margin: 0; padding: 0; align-self: stretch; text-align: left; }
   /* one CTA size: the same box for every label, the text centred both ways */
   .coty-cta { margin: 0; width: 3.40rem; height: 0.68rem; padding: 0 0.12rem; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; text-align: center; white-space: nowrap; }
