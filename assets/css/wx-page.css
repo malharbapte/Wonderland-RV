@@ -631,6 +631,7 @@
 .wx-d-logo img[data-s="nsw"] { width: var(--logo-nsw, 4.6rem); }
 .wx-d-logo img[data-s="qld"] { width: var(--logo-qld, 4.6rem); }
 .wx-d-logo img[data-s="vic"] { width: var(--logo-vic, 5.9rem); }
+.wx-d-logo img[data-s="wa"] { width: var(--logo-wa, 3.5rem); }
 .wx-d-name { margin: 0.30rem 0 0; font-family: var(--gordita); font-weight: 500;
              font-size: var(--t-sub); line-height: var(--lh-sub); }
 .wx-d-loc { margin-top: 0.38rem; }

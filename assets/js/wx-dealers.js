@@ -2,7 +2,7 @@
    DEALERS MAP -- wonderland-experience.html
    Pick a state on the map or in the bar and the column on the right follows.
    Dealer details are the ones listed on wonderlandrv.com.au/dealers. States
-   with no dealer show the Outbound RVs (Melbourne) details. Get
+   with no dealer show the Outbound RVs (Melbourne) details (SA, NT, TAS). Get
    directions opens Google Maps directions to that dealer's street address.
    ========================================================================== */
 (function () {
@@ -21,7 +21,7 @@
   var dir = document.getElementById("wxDir");
   if (!bar || !thumb || !panel || !states.length) return;
 
-  var NAMES = { nsw: "New South Wales", qld: "Queensland", vic: "Victoria", wa: "Western Australia",
+  var NAMES = { nsw: "NSW & ACT", qld: "Queensland", vic: "Victoria", wa: "Western Australia",
                 sa: "South Australia", nt: "Northern Territory", tas: "Tasmania",
                 act: "Australian Capital Territory" };
   /* the bar's names: dealer states first, then the rest */
@@ -39,7 +39,11 @@
         tel: "0439 009 148", mail: "wonderland@aussieescapecaravans.com.au" } ] },
     vic: { name: "Outbound RVs", logo: "outbound-rvs.png", photo: "outbound-rvs-building.jpg", locs: [
       { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061", ll: "-37.6630770,144.9676408",
-        tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] }
+        tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] },
+    /* Mission RV: details from missionrv.com.au. The site publishes no phone number, so none is shown;
+       its Contact page says "Appointment only" and the Bellevue address is the one in the site's own listing. */
+    wa: { name: "Mission RV Australia", logo: "mission-rv.png", locs: [
+      { city: "Perth", addr: "135 Clayton Street, Bellevue WA 6056", mail: "jake@missionrv.com.au" } ] }
   };
 
   function el(tag, cls, text) {
@@ -106,7 +110,7 @@
       city.insertAdjacentHTML("beforeend", CHEV);
       box.appendChild(city);
       var body = el("div", "wx-d-body");
-      body.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
+      if (l.tel) body.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
       body.appendChild(line("mailto:" + l.mail, l.mail));
       body.appendChild(el("p", "wx-d-addr", l.addr));
       /* the phone has no map preview, so each branch carries its own Get directions */
@@ -290,7 +294,7 @@
         var sm = el("summary", "", loc.city); sm.insertAdjacentHTML("beforeend", CHEV);
         det.appendChild(sm);
         var bd = el("div", "wx-dp-acc-b");
-        bd.appendChild(line("tel:" + loc.tel.replace(/[^0-9+]/g, ""), loc.tel));
+        if (loc.tel) bd.appendChild(line("tel:" + loc.tel.replace(/[^0-9+]/g, ""), loc.tel));
         bd.appendChild(line("mailto:" + loc.mail, loc.mail));
         bd.appendChild(el("p", "wx-d-addr", loc.addr));
         det.appendChild(bd);
@@ -301,7 +305,7 @@
       });
     } else {
       if (d.locs.length < 2) info.appendChild(el("p", "wx-dp-city", l.city));
-      info.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
+      if (l.tel) info.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
       info.appendChild(line("mailto:" + l.mail, l.mail));
       info.appendChild(el("p", "wx-d-addr", l.addr));
     }
