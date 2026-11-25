@@ -1,4 +1,4 @@
-/* SAMPLE ONLY (sample-range-scale.html): the layouts side menu starts where the floor plan starts and ends where it ends. */
+/* Range page: the layouts side menu starts where the floor plan starts and ends where it ends. */
 (function () {
   var dock = document.getElementById("fpRailDock"), tog = document.getElementById("fpRailToggle"), plan = document.getElementById("fpPlan");
   if (!dock || !tog || !plan) return;

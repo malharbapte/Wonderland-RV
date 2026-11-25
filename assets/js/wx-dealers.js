@@ -17,6 +17,7 @@
   var gmap = document.getElementById("wxGmap");
   var frame = document.getElementById("wxGmapFrame");
   var reset = document.getElementById("wxReset");
+  var dir = document.getElementById("wxDir");
   if (!bar || !thumb || !panel || !states.length) return;
 
   var NAMES = { nsw: "New South Wales", qld: "Queensland", vic: "Victoria", wa: "Western Australia",
@@ -108,10 +109,6 @@
       box.appendChild(el("p", "wx-d-addr", l.addr));
       box.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
       box.appendChild(line("mailto:" + l.mail, l.mail));
-      var cta = link("https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr),
-                     "Get directions", "btn-solid wx-d-cta");
-      cta.target = "_blank"; cta.rel = "noopener";
-      box.appendChild(cta);
       panel.appendChild(box);
     });
     /* square placeholder for a photo of the dealership */
@@ -128,6 +125,8 @@
   function preview(l) {
     var src = "https://www.google.com/maps?q=" + encodeURIComponent(l.addr) + "&z=15&output=embed";
     if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
+    /* Get directions sits under the preview, on the left, and follows the branch shown */
+    dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
   }
 
   /* ---- the zoom: the map's viewBox glides to the chosen state ---- */
@@ -173,13 +172,13 @@
     zoomed = true;
     stage.classList.add("is-zoomed");
     gmap.setAttribute("aria-hidden", "false");
-    reset.hidden = false;
+    reset.hidden = false; dir.hidden = false;
   }
   function close() {
     zoomed = false;
     stage.classList.remove("is-zoomed");
     gmap.setAttribute("aria-hidden", "true");
-    reset.hidden = true;
+    reset.hidden = true; dir.hidden = true;
     fly(HOME);
   }
   /* a pick on the map or in the bar opens the zoom (not on the phone, which keeps the whole map) */
@@ -205,6 +204,7 @@
     place(true);
     if (zoomed) { cancelAnimationFrame(raf); vb = frameOf(cur); paint(); }
   });
+  dir.hidden = true;
   paint();
   show("nsw");
   place(true);
