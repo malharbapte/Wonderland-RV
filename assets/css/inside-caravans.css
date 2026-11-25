@@ -1,0 +1,60 @@
+/* "Inside our caravans": portrait reels, centre one larger (after the Titanium homepage).
+   DESKTOP ONLY. Sample-only for now: assets/js/inside-caravans.js builds it when the URL has ?inside=1|2|3. */
+@media (min-width: 901px) {
+.ins {
+  --bg: #141416; --card: #1c1c1f; --line: #2b2b30; --fg: #fff; --dim: #a9a9b0; --arrow: #fff;
+  width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box;
+  background: var(--bg); color: var(--fg);
+  padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative;
+}
+.ins--b { --bg: #F8F8F7; --card: #fff; --line: #e4e2de; --fg: #000; --dim: #6b6158; --arrow: #000; }
+.ins-title {
+  width: var(--col); margin: 0 auto 0.9rem; font-family: var(--aviano); font-weight: 900;
+  font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg);
+}
+.ins-stage { position: relative; height: 7.3rem; }
+.ins-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: var(--gap);
+             transition: transform .6s cubic-bezier(.33,0,.18,1); will-change: transform; }
+.ins-card { flex: none; width: var(--w); cursor: pointer; transition: width .6s cubic-bezier(.33,0,.18,1); }
+.ins-card.is-on { width: var(--wc); cursor: default; }
+.ins-media { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #333; }
+.ins-media img, .ins-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ins-cap { position: absolute; left: 50%; top: 20%; transform: translateX(-50%); max-width: 86%; padding: 0.05rem 0.12rem;
+           background: rgba(0,0,0,.88); color: #fff; border-radius: 0.05rem; font-size: 0.17rem; line-height: 1.3;
+           text-align: center; white-space: nowrap; opacity: 0; transition: opacity .4s ease; }
+.ins-card.is-on .ins-cap { opacity: 1; }
+.ins-snd { position: absolute; right: 0.14rem; bottom: 0.14rem; width: 0.46rem; height: 0.46rem; border-radius: 50%;
+           background: rgba(0,0,0,.55); border: 0; color: #fff; display: none; place-items: center; cursor: pointer; }
+.ins-card.is-on.has-video .ins-snd { display: grid; }
+.ins-snd svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ins-info { margin-top: 0.14rem; display: flex; align-items: center; gap: 0.16rem; padding: 0.14rem 0.18rem;
+            background: var(--card); border: 1px solid var(--line); box-sizing: border-box; }
+.ins-info img { width: 0.8rem; height: auto; flex: none; }
+.ins-name { font-size: 0.28rem; line-height: 1.2; font-weight: 500; }
+.ins-sub  { white-space: nowrap; font-size: 0.2rem; line-height: 1.3; color: var(--dim); }
+.ins-more { display: none; margin-top: -1px; padding: 0.16rem 0.18rem; background: var(--card); border: 1px solid var(--line);
+            font-size: 0.24rem; color: var(--fg); text-decoration: none; align-items: center; gap: 0.1rem; }
+.ins-more svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ins-card.is-on .ins-more { display: flex; }
+.ins-more:hover { color: var(--orange); }
+.ins-card:not(.is-on) .ins-info img { width: 0.62rem; }
+.ins-card:not(.is-on) .ins-sub { font-size: 0.18rem; }
+.ins-card:not(.is-on) .ins-info { gap: 0.12rem; padding-inline: 0.14rem; }
+.ins-arrows { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.35rem; }
+.ins-arrow { width: 0.62rem; height: 0.62rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--arrow);
+             display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease, color .25s ease, border-color .25s ease; }
+.ins-arrow svg { width: 0.26rem; height: 0.26rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ins-arrow:hover { color: var(--orange); border-color: var(--orange); }
+.ins-arrow:disabled { opacity: .25; pointer-events: none; }
+.ins a:focus-visible, .ins button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* sample switcher (only when ?inside= is in the URL) */
+.ins-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 9999; display: flex; gap: 14px; align-items: center;
+           padding: 9px 16px; background: rgba(20,20,22,.94); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif;
+           box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+.ins-bar b { font-weight: 600; color: #bbb; margin-right: 2px; }
+.ins-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 10px; border-radius: 20px; border: 1px solid #555; }
+.ins-bar a.is-cur { background: var(--orange); border-color: var(--orange); }
+.ins-bar i { white-space: nowrap; font-style: normal; color: #999; font-size: 12px; }
+}
+@media (max-width: 900px) { .ins, .ins-bar { display: none; } }
