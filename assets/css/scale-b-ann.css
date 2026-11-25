@@ -1,5 +1,0 @@
-/* SAMPLE ONLY (sample-home-scale-ann.html): every annotation text (titles and body) set at BODY size, to compare with the 20 / 16 split. */
-@media (min-width: 901px) {
-  .wd-c b, .dz .vc h3, .rvx-k, .rvx-badge { font-size: var(--t-body); line-height: 1.2; }
-  .wd-c span, .dz .vc p, .rvx-n { font-size: var(--t-body); line-height: var(--lh-body); }
-}
