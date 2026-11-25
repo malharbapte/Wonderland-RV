@@ -30,7 +30,7 @@
   var cur = "nsw", btns = {};
   var DEALERS = {
     nsw: { name: "Off Grid Outfitters", logo: "off-grid-outfitters.png", locs: [
-      { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560",
+      { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560", ll: "-34.0576281,150.8112213",
         tel: "(02) 4648 4181", mail: "sales@offgridoutfitters.com.au" } ] },
     qld: { name: "Aussie Escape Caravans", logo: "aussie-escape-caravans.svg", locs: [
       { city: "Brisbane", addr: "118 South Pine Rd, Brendale QLD 4500",
@@ -38,7 +38,7 @@
       { city: "Mackay", addr: "10/25 Transport Ave, Paget QLD 4740",
         tel: "0439 009 148", mail: "wonderland@aussieescapecaravans.com.au" } ] },
     vic: { name: "Outbound RVs", logo: "outbound-rvs.png", locs: [
-      { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061",
+      { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061", ll: "-37.6630770,144.9676408",
         tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] }
   };
 
@@ -138,7 +138,10 @@
 
   /* ---- Google Maps preview (no key: the plain embed of an address) ---- */
   function preview(l) {
-    var src = "https://www.google.com/maps?q=" + encodeURIComponent(l.addr) + "&z=15&output=embed";
+    /* a point on the map (latitude, longitude) shows a pin and nothing else; an address makes Google add its
+       "Open in Maps" card at the top left, which the stylesheet then lifts out of view (.has-card) */
+    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
+    gmap.classList.toggle("has-card", !l.ll);
     if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
     /* Get directions sits under the preview, on the left, and follows the branch shown */
     dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
