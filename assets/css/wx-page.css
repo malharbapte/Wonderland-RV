@@ -556,19 +556,34 @@
 .wx-stage { position: absolute; left: 0; right: 0; top: 1.75rem; bottom: 0; display: flex; overflow: hidden; }
 .wx-au { display: block; overflow: hidden; flex: 1 1 auto; min-width: 0; width: 100%; height: 100%; }
 /* the Google Maps preview opens on the left of the map once a state is picked */
-.wx-gmap { flex: none; width: 0; overflow: hidden; opacity: 0; background: #E4E2DE;
+.wx-gmap { flex: none; width: 0; overflow: hidden; opacity: 0; background: #E4E2DE; box-sizing: border-box;
+           display: flex; flex-direction: column;
            transition: width .7s cubic-bezier(.65,0,.35,1), opacity .5s ease; }
-.wx-stage.is-zoomed .wx-gmap { width: 46%; opacity: 1; margin: 0 0.3rem 0.5rem 0.5rem;
-           width: calc(46% - 0.8rem); margin-bottom: 0.95rem; border-radius: 0.08rem; box-shadow: 0 0.04rem 0.16rem rgba(40, 38, 34, 0.25); }
-.wx-gmap iframe { display: block; width: 100%; height: 100%; border: 0; }
+.wx-stage.is-zoomed .wx-gmap { opacity: 1; width: calc(46% - 0.8rem); margin: 0 0.3rem 0.5rem 0.5rem;
+           border: 1px solid rgba(29, 29, 27, 0.7); }
+/* the embed is taller than its window and sits up, so Google's own "Open in Maps" card at its top left is out of view */
+.wx-gmap-view { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; }
+.wx-gmap iframe { position: absolute; left: 0; top: min(-0.95rem, -72px); display: block; width: 100%;
+                  height: calc(100% + max(0.95rem, 72px)); border: 0; }
+/* Get directions sits on the preview's foot and extends it */
+.wx-gmap-cta { flex: none; width: 100%; height: 0.62rem; display: grid; place-items: center; border-radius: 0;
+               font-size: var(--t-btn, 0.22rem); }
 .wx-reset { position: absolute; right: 0.5rem; bottom: 0.5rem; z-index: 2; padding: 0.08rem 0.2rem;
             background: #fff; border: 0; border-radius: 0.08rem; cursor: pointer; font-family: var(--gordita);
             font-size: max(0.14rem, 11px); color: var(--ink);
             box-shadow: 0 0.04rem 0.16rem rgba(40, 38, 34, 0.25); transition: color .2s ease; }
 .wx-reset:hover, .wx-reset:focus-visible { color: var(--orange-hover); }
-.wx-reset[hidden], .wx-gmap-cta[hidden] { display: none; }
-.wx-gmap-cta { position: absolute; left: 0.5rem; bottom: 0.2rem; z-index: 2; display: inline-grid; place-items: center;
-               height: 0.62rem; padding: 0 0.36rem; font-size: var(--t-btn, 0.22rem); }
+.wx-reset[hidden] { display: none; }
+.wx-d-acc { display: block; border-bottom: 1px solid #d9d5cf; }
+.wx-d-acc:first-of-type { border-top: 1px solid #d9d5cf; }
+.wx-d-acc > summary { list-style: none; cursor: pointer; display: flex; align-items: center;
+                      justify-content: space-between; padding: 0.16rem 0; }
+.wx-d-acc > summary::-webkit-details-marker { display: none; }
+.wx-d-acc > summary svg { width: 0.14rem; height: 0.08rem; flex: none; transition: transform .25s; }
+.wx-d-acc[open] > summary svg { transform: rotate(180deg); }
+.wx-d-acc > summary:hover, .wx-d-acc > summary:focus-visible { color: var(--orange-hover); outline: none; }
+.wx-d-body { display: flex; flex-direction: column; align-items: flex-start; padding: 0 0 0.18rem; }
+.wx-d-body .wx-d-line { order: 1; } .wx-d-body .wx-d-addr { order: 2; }
 .wx-d-photo { margin-top: 0.4rem; width: 100%; max-width: 3.4rem; aspect-ratio: 1 / 1; background: #E4E2DE;
               display: grid; place-items: center; font-family: var(--gordita); font-size: max(0.14rem, 11px);
               color: #6b6158; }
@@ -752,7 +767,7 @@
   .wx-stage { position: static; display: block; overflow: visible; }
   .wx-gmap, .wx-reset, .wx-gmap-cta { display: none !important; }
   .wx-au { width: 100%; height: auto; margin-top: 0; overflow: visible; }
-  .wx-d-photo { max-width: 100%; margin-top: 24px; }
+  .wx-d-photo { max-width: 100%; margin-top: 24px; aspect-ratio: 16 / 9; }
   .wx-dealers-panel { padding: 24px; border-left: 0.5px solid var(--ph-rule); }
   .wx-d-state { font-size: 12px; }
   .wx-d-logo { height: 96px; margin-top: 16px; }

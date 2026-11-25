@@ -17,6 +17,7 @@
   var gmap = document.getElementById("wxGmap");
   var frame = document.getElementById("wxGmapFrame");
   var reset = document.getElementById("wxReset");
+  var CHEV = '<svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>';
   var dir = document.getElementById("wxDir");
   if (!bar || !thumb || !panel || !states.length) return;
 
@@ -95,23 +96,27 @@
     logo.appendChild(img);
     panel.appendChild(logo);
     panel.appendChild(el("p", "wx-d-name", d.name));
+    /* each branch is a drop-down titled with its city; the first is open, opening one closes the others */
     d.locs.forEach(function (l, i) {
-      var box = el("div", "wx-d-loc");
-      var city = el("h4", "wx-d-city", l.city);
-      if (d.locs.length > 1) {          /* more than one branch: the city picks the preview */
-        city.tabIndex = 0; city.setAttribute("role", "button");
-        city.addEventListener("click", function () { preview(l); });
-        city.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); preview(l); }
-        });
-      }
+      var box = el("details", "wx-d-loc wx-d-acc");
+      box.setAttribute("name", "wx-loc");
+      if (i === 0) box.open = true;
+      var city = el("summary", "wx-d-city");
+      city.appendChild(el("span", "", l.city));
+      city.insertAdjacentHTML("beforeend", CHEV);
       box.appendChild(city);
-      box.appendChild(el("p", "wx-d-addr", l.addr));
-      box.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
-      box.appendChild(line("mailto:" + l.mail, l.mail));
+      var body = el("div", "wx-d-body");
+      body.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
+      body.appendChild(line("mailto:" + l.mail, l.mail));
+      body.appendChild(el("p", "wx-d-addr", l.addr));
+      box.appendChild(body);
+      box.addEventListener("toggle", function () {
+        if (box.open) preview(l);
+        fitPanel();
+      });
       panel.appendChild(box);
     });
-    /* square placeholder for a photo of the dealership */
+    /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
     ph.setAttribute("role", "img");
     ph.setAttribute("aria-label", "Photo of " + d.name + " (to come)");

@@ -53,8 +53,34 @@
     };
     var go = function (d) { at = clamp(at + d); show(true); };
 
-    if (prev) prev.addEventListener("click", function () { go(-1); });
-    if (next) next.addEventListener("click", function () { go(1); });
+    if (prev) prev.addEventListener("click", function () { go(-1); restart(); });
+    if (next) next.addEventListener("click", function () { go(1); restart(); });
+
+    /* ---- auto-swipe: one card every 4 seconds, back to the first after the last.
+       It holds while a card is hovered, focused or being dragged, while the section is
+       off screen or the tab is hidden, and not at all for people who ask for less motion. */
+    var AUTO_MS = 4000, auto = null, held = false, inView = false;
+    var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var tick = function () {
+      if (PHONE.matches || held || !inView || document.hidden) return;
+      at = at >= last ? 0 : at + 1;
+      show(true);
+    };
+    var restart = function () {
+      clearInterval(auto); auto = null;
+      if (!calm.matches) auto = setInterval(tick, AUTO_MS);   /* a fresh 4 seconds each time */
+    };
+    var hold = function (on) { held = on; if (!on) restart(); };
+    viewport.addEventListener("mouseenter", function () { hold(true); });
+    viewport.addEventListener("mouseleave", function () { hold(false); });
+    viewport.addEventListener("focusin", function () { hold(true); });
+    viewport.addEventListener("focusout", function () { hold(false); });
+    viewport.addEventListener("pointerdown", function () { held = true; });
+    viewport.addEventListener("pointerup", function () { if (!viewport.matches(":hover")) hold(false); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { inView = en[0].isIntersecting; if (inView) restart(); }, { threshold: 0.4 }).observe(section);
+    } else { inView = true; }
+    restart();
 
     /* ---- drag / swipe ------------------------------------------------ */
     var drag = null;
