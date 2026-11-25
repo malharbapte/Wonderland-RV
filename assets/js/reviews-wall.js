@@ -8,8 +8,9 @@
    A review with no text draws grey bars (sample only). Mount point: #tyWall. */
 (function () {
   "use strict";
-  var BATCH = 12, PHONE_BATCH = 4;   /* phones start with 4 reviews and Load more adds 4 at a time */
-  function batch() { return window.matchMedia("(max-width:900px)").matches ? PHONE_BATCH : BATCH; }
+  var BATCH = 12, PHONE_BATCH = 5;   /* phones: 5 reviews in full plus the top of a 6th under the fade (Piyush, 25 Nov 2026), Load more adds 5 */
+  function isPhone() { return window.matchMedia("(max-width:900px)").matches; }
+  function batch() { return isPhone() ? (shown ? PHONE_BATCH : PHONE_BATCH + 1) : BATCH; }
   var wall = document.getElementById("tyWall");
   var data = arrange(window.WL_REVIEWS || []);
 
@@ -42,7 +43,7 @@
 
   /* dealer logo row (Piyush, 23 Nov 2026): scoped styles for .tysrc-row only */
   var st = document.createElement("style");
-  st.textContent = ".tysrc-row{display:flex;justify-content:flex-end;margin-top:6px}.tysrc-row a{display:inline-flex;line-height:0}.tysrc-row img{display:block;height:22px;width:auto}.tysrc-row a:focus-visible{outline:2px solid #DB7627;outline-offset:3px}";
+  st.textContent = ".tysrc-row{display:flex;justify-content:flex-end;margin-top:6px}.tysrc-row a{display:inline-flex;line-height:0}.tysrc-row img{display:block;height:22px;width:auto}.tysrc-row a:focus-visible,.tysrc-badge a:focus-visible{outline:2px solid #DB7627;outline-offset:3px}.ty-rc-img,.ty-gal{position:relative}.tysrc-badge{position:absolute;left:8px;bottom:8px;z-index:2;display:inline-flex;padding:5px 7px;background:#fff;border-radius:2px;line-height:0;box-shadow:0 1px 4px rgba(0,0,0,.25)}.tysrc-badge a{display:inline-flex;line-height:0}.tysrc-badge img{display:block;height:22px;width:auto}";
   document.head.appendChild(st);
 
   var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1A73E8"/><path d="M7 12.4l3.3 3.3L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -72,12 +73,18 @@
       body = '<div class="sk">' + bars + "</div>";
     }
     var nm = r.name || "Reviewer name";
-    /* a review from a dealer's own listing: that dealer's logo under "Verified review", right-aligned, linked to the review */
-    var src = "";
+    /* a review from a dealer's own listing: that dealer's logo, linked to the review. It sits on the review's photo,
+       bottom-left (Piyush, 25 Nov 2026: "add offgrid logo on the photos simple same with other dealer reviews");
+       a review with no photo keeps it under "Verified review", right-aligned. */
+    var src = "", badge = "";
     if (r.source && r.sourceLogo) {
       var lg = '<img src="' + esc(r.sourceLogo) + '" alt="' + esc(r.source) + ' review" loading="lazy">';
-      src = '<div class="tysrc-row">' + (r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + lg + "</a>" : lg) + "</div>";
+      var lk = r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + lg + "</a>" : lg;
+      if (r.img || (r.images && r.images.length)) badge = '<span class="tysrc-badge">' + lk + "</span>";
+      else src = '<div class="tysrc-row">' + lk + "</div>";
     }
+    var gal = gallery(r, i);
+    if (badge && !r.img) gal = gal.replace(/<\/div>$/, badge + "</div>");
     var avatar = r.photo
       ? '<img class="ty-av" src="' + esc(r.photo) + '" alt="" loading="lazy">'
       : '<span class="ty-av ty-av--l" aria-hidden="true">' + esc(nm.charAt(0).toUpperCase()) + "</span>";
@@ -85,8 +92,8 @@
       ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + dt + "</a>"
       : "<span>" + dt + "</span>";
     el.innerHTML =
-      (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy"></div>' : "") +
-      '<div class="ty-rc-body">' + gallery(r, i) + '<div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" + src +
+      (r.img ? '<div class="ty-rc-img"><img src="' + esc(r.img) + '" alt="' + esc(r.alt || "") + '" loading="lazy">' + badge + "</div>" : "") +
+      '<div class="ty-rc-body">' + gal + '<div class="top"><span class="ty-st" aria-label="' + (r.stars || 5) + ' out of 5 stars">' + stars(r.stars) + "</span><span class=\"ty-vr\">Verified review" + TICK + "</span></div>" + src +
       body + '<figcaption>' + avatar + '<div class="ty-who"><b>' + esc(nm) + "</b>" + label + "</div></figcaption></div>";
     return el;
   }
@@ -129,7 +136,11 @@
     wall.classList.toggle("ty-wall--fade", more);
     if (!more) { wall.style.maxHeight = ""; return; }
     var low = Infinity; cols.forEach(function (c) { low = Math.min(low, c.offsetHeight); });
-    wall.style.maxHeight = (opened ? low : Math.min(low, screenCap())) + "px";
+    if (!opened && isPhone()) {   /* phones: the cut falls 150px into the 6th review, which blurs into "Load more" */
+      var sixth = cols[0].children[PHONE_BATCH];
+      if (sixth) low = Math.min(low, sixth.offsetTop - cols[0].offsetTop + 150);
+    } else if (!opened) low = Math.min(low, screenCap());   /* desktop: one screen */
+    wall.style.maxHeight = low + "px";
   }
   window.addEventListener("load", fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);

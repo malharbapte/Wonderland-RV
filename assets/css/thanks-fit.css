@@ -187,3 +187,18 @@
 .thanks .vpop-box { width: min(96vw, calc((100vh - 6vw) * 16 / 9)); }
 .thanks .vpop-box iframe { left: 0; top: 0; width: 100%; height: 100%; }
 .thanks .vpop-hit:focus:not(:focus-visible) { outline: 0; }
+
+/* ---------- owners' reviews: the review line under the heading, and cleaner card tops on phones
+   (Piyush, 25 Nov 2026: "optmised for iphone pls starts offgrid logo and vertified annd tick") ---------- */
+.ty-reviews .ty-proof { margin-top: 0.2rem; }
+@media (max-width: 900px) {
+  .ty-reviews .ty-proof { margin-top: 14px; }
+  .ty-rc .top { gap: 10px; }
+  .ty-rc .ty-st { font-size: 18px; letter-spacing: .06em; }
+  .ty-vr { gap: 5px; font-size: 13px; line-height: 18px; }
+  .ty-vr svg { width: 16px; height: 16px; }
+}
+@media (max-width: 900px) {
+  .ty-reviews .ty-h br { display: none; }   /* no "RV" alone on a line */
+  .ty-reviews .ty-h { text-wrap: balance; }
+}

@@ -24,7 +24,7 @@
    The CSS for this wall is injected below and is scoped to #tyCm (class tycx-). */
 (function () {
   "use strict";
-  var BATCH = 12, PHONE_BATCH = 6, TEXT_MIN = 11, WINDOW = 14;
+  var BATCH = 12, PHONE_BATCH = 6, PHONE_FULL = 5, TEXT_MIN = 11, WINDOW = 14;   /* phones: 5 in full, the 6th blurs into "Load more" */
   function phone() { return window.matchMedia("(max-width:600px)").matches; }   /* phones: one column, 6 to start, 6 more per tap */
   function batch() { return phone() ? PHONE_BATCH : BATCH; }
   var wall = document.getElementById("tyCm"), btn = document.getElementById("tyCmMore"), src = window.WL_COMMUNITY || [];
@@ -254,7 +254,9 @@
     for (k = 0; k < shown; k++) for (c = pos[k].col; c < pos[k].col + pos[k].span; c++) bottoms[c] = Math.max(bottoms[c], pos[k].y + pos[k].rows);
     wall.classList.toggle("tycx-part", more);
     var cut = Math.min.apply(null, bottoms) - colInfo.gap;
-    wall.style.height = more ? (opened ? cut : Math.min(cut, screenCap())) + "px" : "";
+    if (!opened && phone() && shown > PHONE_FULL) cut = Math.min(cut, pos[PHONE_FULL].y + 150);
+    else if (!opened) cut = Math.min(cut, screenCap());
+    wall.style.height = more ? cut + "px" : "";
     if (btn) btn.parentNode.hidden = !more;
   }
   function more() {
