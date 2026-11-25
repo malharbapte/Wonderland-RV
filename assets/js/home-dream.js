@@ -10,7 +10,10 @@
       x.addEventListener("mouseenter", function () { on(x); });
       x.addEventListener("focus", function () { on(x); });
       x.addEventListener("click", function () { on(x); });
-      x.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); on(x); } });
+      x.addEventListener("keydown", function (e) {
+        if (x.tagName === "A" && e.key === "Enter") return;   /* a linked tile: Enter follows the link */
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); on(x); }
+      });
     });
     g.addEventListener("mouseleave", function () { if (!(document.activeElement && document.activeElement.classList.contains("vp") && g.contains(document.activeElement))) on(null); });
     g.addEventListener("focusout", function (e) { if (!g.contains(e.relatedTarget)) on(null); });

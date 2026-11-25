@@ -23,7 +23,7 @@
   .dz-grid[data-open="4"] .dz-quote { --gq: 0.9; }
 
   /* a tile: a photo that fills it, dimmed unless it is the one in focus */
-  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; cursor: pointer; outline: none; }
+  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; cursor: pointer; outline: none; text-decoration: none; }
   .dz .vp img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); }
   .dz .vp::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,.34); opacity: 0; transition: opacity var(--vx-t) var(--vx-ease); pointer-events: none; }
   .dz-grid:not([data-open="0"]) .vp:not(.on)::before { opacity: 1; }
@@ -62,7 +62,7 @@
   .dz .t3 { grid-column: 2; grid-row: 2; }
   .dz .t4 { grid-column: 1; grid-row: 3; }
   .dz .dz-quote { grid-column: 2; grid-row: 3; }
-  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; }
+  .dz .vp { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #222; text-decoration: none; -webkit-tap-highlight-color: transparent; }
   .dz .vp img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); }
   .dz .vp::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0)); pointer-events: none; }
   .dz .vc { position: absolute; z-index: 2; left: 12px; right: 12px; bottom: 12px; color: #fff; }
