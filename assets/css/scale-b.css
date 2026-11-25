@@ -8,7 +8,7 @@
   html { font-size: calc(var(--scale-col) / 16.24); }
 
   /* THE 7 TYPE STANDARDS (design units, rem x 100). Title 56, subheading 32 and body 28 are the site's existing tokens; the other four are new. */
-  :root { --t-body: 0.22rem; --lh-body: 0.32rem; --t-quote: 0.30rem; --t-annt: 0.20rem; --t-annb: 0.16rem; --t-cap: 0.14rem; }   /* body and below revised 25 Nov: 22 / 20 / 16 / 14 */
+  :root { --t-body: 0.22rem; --lh-body: 0.32rem; --t-quote: 0.30rem; --t-annt: 0.20rem; --t-annb: max(0.18rem, 13px); --t-cap: max(0.14rem, 11px); }   /* body and below revised 25 Nov: 22 / 20 / 18 / 14, annotation body never under 13px and caption never under 11px */
   /* quote: 30 */
   .pull-quote, .pull-quote p, .coty-quote { font-size: var(--t-quote); line-height: 1.4; }
   /* Legendary Service quotes only: 26, a step under the quote size */
