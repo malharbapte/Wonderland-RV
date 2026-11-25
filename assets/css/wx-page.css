@@ -591,6 +591,7 @@
 .wx-d-acc > summary svg { width: 0.14rem; height: 0.08rem; flex: none; transition: transform .25s; }
 .wx-d-acc[open] > summary svg { transform: rotate(180deg); }
 .wx-d-acc > summary:hover, .wx-d-acc > summary:focus-visible { color: var(--orange-hover); outline: none; }
+.wx-d-dir { display: none; }
 .wx-d-body { display: flex; flex-direction: column; align-items: flex-start; padding: 0 0 0.18rem; }
 .wx-d-body .wx-d-line { order: 1; } .wx-d-body .wx-d-addr { order: 2; }
 .wx-d-photo.has-img { background: none; display: block; }
@@ -694,6 +695,8 @@
    peek of the next, chips for choosing, plain stacks for text. The Legendary
    service block needs nothing here: styles.css carries its phone rules. */
 @media (max-width: 900px) {
+  .wx-h br { display: none; }   /* the line breaks are for the wide page; a phone wraps on its own */
+
   /* 1 hero */
   .wx-hero { margin-top: 0; height: 112vw; display: block; }
   .wx-hero-copy { position: absolute; left: 0; right: 0; bottom: 32px; transform: none; width: auto; padding: 0 24px; }
@@ -728,7 +731,7 @@
   .wx-journey-card { flex: 0 0 82%; height: auto; border-radius: 4px; scroll-snap-align: start; scroll-snap-stop: always; }
   .wx-journey-card:last-of-type { scroll-snap-align: end; }
   .wx-card-media, .wx-card-media img { transition: none; }
-  .wx-card-media { position: static; aspect-ratio: 4 / 3; }
+  .wx-card-media { position: static; aspect-ratio: 4 / 5; }
   .wx-card-band { position: static; padding: 16px 16px 20px; background: #fff; color: var(--ink); }
   .wx-card-title { font-size: 18px; line-height: 22px; min-height: 0; color: var(--orange-deep); text-wrap: balance; }
   .wx-card-bio-wrap { grid-template-rows: 1fr; }
@@ -755,7 +758,10 @@
   /* 7 makers: one card per team, the words always showing */
   .wx-makers { margin-top: 48px; }
   .wx-makers-intro { margin: 14px 0 0; max-width: none; font-size: 15px; line-height: 23px; }
-  .wx-makers-row { margin-top: 20px; padding-inline: 24px; grid-template-columns: 1fr; gap: 16px; }
+  .wx-makers-row { margin-top: 20px; padding-inline: 24px; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+                   scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-padding-inline: 24px; }
+  .wx-makers-row::-webkit-scrollbar { display: none; }
+  .wx-mk { flex: 0 0 82%; scroll-snap-align: start; scroll-snap-stop: always; }
   .wx-mk { border-radius: 4px; }
   .wx-mk-photo { aspect-ratio: 4 / 3; transition: none; }
   .wx-mk:hover .wx-mk-photo, .wx-mk:focus-within .wx-mk-photo { transform: none; }
@@ -766,10 +772,11 @@
 
   /* 8 dealers: the bar, the map, then the dealer's details */
   .wx-dealers { margin-top: 48px; }
-  .wx-dealers-row { margin-top: 20px; height: auto; grid-template-columns: 1fr; }
-  .wx-dealers-map { padding: 16px; }
+  .wx-dealers-row { margin-top: 20px; height: auto; grid-template-columns: minmax(0, 1fr); }
+  .wx-dealers-map, .wx-dealers-panel { min-width: 0; }
+  .wx-dealers-map { display: block; padding: 16px; }
   .wx-dealers-bar { position: static; width: 100%; height: 56px; margin-bottom: 16px; gap: 8px; }
-  .wx-dealers-pill { padding: 4px; border-radius: 4px; overflow-x: auto; scrollbar-width: none; }
+  .wx-dealers-pill { min-width: 0; padding: 4px; border-radius: 4px; overflow-x: auto; scrollbar-width: none; }
   .wx-dealers-pill::-webkit-scrollbar { display: none; }
   .wx-dealers-thumb { top: 4px; bottom: 4px; border-radius: 3px; }
   .wx-dealers-pill button { flex: none; padding: 0 14px; font-size: 14px; }
@@ -790,6 +797,7 @@
   .wx-d-cta, .wx-d-enq { height: 48px; padding: 0 24px; font-size: 14px; margin-top: 16px; }
   .wx-d-enq { margin-top: 28px; }
   .wx-d-loc { margin-top: 24px; }
+  .wx-d-dir { order: 3; display: inline-flex; margin-top: 14px; height: 48px; padding: 0 24px; font-size: 14px; }
 
 
   /* 9 range */

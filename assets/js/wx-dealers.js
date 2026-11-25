@@ -109,6 +109,10 @@
       body.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
       body.appendChild(line("mailto:" + l.mail, l.mail));
       body.appendChild(el("p", "wx-d-addr", l.addr));
+      /* the phone has no map preview, so each branch carries its own Get directions */
+      var dl = link("https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr), "Get directions", "btn-solid wx-d-dir");
+      dl.target = "_blank"; dl.rel = "noopener";
+      body.appendChild(dl);
       box.appendChild(body);
       box.addEventListener("toggle", function () {
         if (box.open) preview(l);
