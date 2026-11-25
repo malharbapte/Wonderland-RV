@@ -68,7 +68,8 @@
   /* the preview loop for this version: its own picture first, then Kev, then the points of difference */
   var v = document.querySelector("#tyVideo .ty-vloop"), still = document.querySelector("#tyVideo .video-poster");
   if (v && c.loop) {
-    var base = "assets/img/thanks/loop-" + c.loop, ver = "?v=1";
+    /* the brochure version opens on that model's own brochure cover */
+    var base = "assets/img/thanks/loop-" + c.loop + (c.loop === "brochure" && model ? "-" + model.toLowerCase() : ""), ver = "?v=1";
     v.setAttribute("poster", base + "-poster.jpg" + ver);
     if (still) { still.src = base + "-poster.jpg" + ver; still.setAttribute("data-still", base + "-poster.jpg" + ver); }
     while (v.firstChild) v.removeChild(v.firstChild);
