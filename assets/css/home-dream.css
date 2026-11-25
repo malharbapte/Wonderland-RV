@@ -104,3 +104,8 @@
   .dz .vc .vc-arrow { display: inline-block; width: 14px; height: 14px; margin-left: 6px; vertical-align: -1px; transition: transform .3s ease; }
   .dz .vp:active .vc-arrow { transform: translate(2px, -2px) scale(1.3); }
 }
+
+/* Desktop: the site's side icon strip (nav.wlqb) shows 48px at the right edge of every desktop window and the right-hand tiles
+   run under it by up to 33px. The CUSTOM MADE caption (and its arrow) sits 46px in from the tile's edge so it always clears
+   the strip, with a gap. The grid itself keeps its width. */
+@media (min-width: 901px) { .dz .t4 .vc { right: 46px; } }
