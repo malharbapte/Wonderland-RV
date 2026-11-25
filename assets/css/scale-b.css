@@ -48,7 +48,7 @@
   .footer-blurb, .footer-legal-left, .footer-legal-left a, .footer-legal-right p { font-size: var(--t-cap); line-height: 1.5; }
   /* the top carousel covers the left two thirds (width only, the height is untouched); the quote and its mark move right with it */
   .pull-media { width: 66.667%; }
-  .pull-quote { left: 73%; width: 24%; }
+  .pull-quote { left: 68.9%; width: 28%; }   /* same 2.2% offset from the photo edge as before (59.5% -> 61.7%), so the mark overlaps the photo exactly as it did */
   /* Your dream van awaits: the collage runs past the column to a gutter from each screen edge (width only) */
   .dz-grid { --dz-gutter: 0.24rem; width: calc(100vw - 2 * var(--dz-gutter)); margin-left: calc(50% - 50vw + var(--dz-gutter)); }
   /* line gaps, retuned for the smaller type */
