@@ -84,3 +84,23 @@
 @media (max-width: 900px) { .band--sep-2 { aspect-ratio: 664 / 283; margin-top: 48px; } }
 /* Drone band on phones: the brand logos end 19px above it, so add 29px to make 48px, the same as under it */
 @media (max-width: 900px) { .brands + .band--sep { margin-top: 29px; } }
+
+/* Arrow on the photo tiles (Piyush, 25 Nov 2026: "a arrow next to it which grows as that that photos grows to indicate it is
+   clicable"). The GET A QUOTE arrow, small and white, beside the title (and the line once it shows). Desktop: it grows and nudges
+   up-right while its tile widens, on the tile's own timing (--vx-t, --vx-ease). Phones: always shown, grows while pressed. */
+.dz .vc { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: end; }
+.dz .vc h3, .dz .vc p { grid-column: 1; }
+.dz .vc .vc-arrow { grid-column: 2; grid-row: 1 / span 2; align-self: end; display: block; color: #fff; transform-origin: 100% 100%; }
+@media (min-width: 901px) {
+  .dz .vc { column-gap: 0.16rem; }
+  .dz .vc .vc-arrow { width: 0.3rem; height: 0.3rem; transition: transform var(--vx-t) var(--vx-ease); }
+  .dz .vp.on .vc-arrow { transform: translate(0.04rem, -0.04rem) scale(1.45); }
+  @media (prefers-reduced-motion: reduce) { .dz .vc .vc-arrow { transition: none; } }
+}
+@media (max-width: 900px) {
+  /* phones: the arrow follows the title's last word, so it never takes width from the title */
+  .dz .vc { display: block; line-height: 1.2; }
+  .dz .vc h3 { display: inline; }
+  .dz .vc .vc-arrow { display: inline-block; width: 14px; height: 14px; margin-left: 6px; vertical-align: -1px; transition: transform .3s ease; }
+  .dz .vp:active .vc-arrow { transform: translate(2px, -2px) scale(1.3); }
+}
