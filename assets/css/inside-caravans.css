@@ -48,6 +48,54 @@
 .ins-arrow:disabled { opacity: .25; pointer-events: none; }
 .ins a:focus-visible, .ins button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
+/* ---- shared: tiles, placeholders, sound ---- */
+.ins-media.is-ph { background: linear-gradient(165deg, #2c2c31, #17171a); }
+.ins--b .ins-media.is-ph { background: linear-gradient(165deg, #ecebe8, #dcdad5); }
+.ins-media img.ph { object-fit: cover; object-position: 55% 50%; }
+.ins-soon { position: absolute; top: 0.18rem; left: 0.18rem; padding: 0.04rem 0.1rem; border-radius: 0.05rem; font-size: 0.14rem; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.6); }
+.ins-snd { display: grid; }
+.ins-card:not(.is-on) .ins-snd { display: none; }
+.ins-snd:not(.is-muted) .x { display: none; }
+.ins-snd:hover { background: var(--orange); }
+.ins-tile .ins-snd { opacity: 0; transition: opacity .25s ease, background .2s ease; }
+.ins-tile:hover .ins-snd, .ins-tile .ins-snd:focus-visible { opacity: 1; }
+.ins-more--solo { display: inline-flex; margin-top: 0.4rem; }
+
+/* ---- layout 2: four-up row, all reels playing ---- */
+.ins-row { width: var(--col); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.2rem; }
+.ins-row .ins-tile { position: relative; overflow: hidden; background: var(--card); }
+.ins-row .ins-over { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.7rem 0.22rem 0.22rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); pointer-events: none; }
+.ins-row .ins-name { font-size: 0.3rem; line-height: 1.15; }
+.ins-row .ins-sub { font-size: 0.19rem; color: rgba(255,255,255,.78); }
+
+/* ---- layout 3: staggered, names set large under each reel ---- */
+.ins-stg { width: var(--col); margin: 0 auto; padding-bottom: 1.2rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; align-items: start; }
+.ins-stg .ins-tile { display: block; margin-top: var(--o); color: var(--fg); text-decoration: none; }
+.ins-stg .ins-tile:hover .ins-name { color: var(--orange); }
+.ins-stg .ins-over { padding-top: 0.2rem; }
+.ins-num { display: block; margin-bottom: 0.04rem; font-family: var(--aviano); font-weight: 900; font-size: 0.15rem; letter-spacing: .08em; color: var(--orange); }
+.ins-stg .ins-name { font-family: var(--aviano); font-weight: 900; font-size: 0.36rem; line-height: 1.05; letter-spacing: -0.01em; transition: color .2s ease; }
+.ins-stg .ins-sub { margin-top: 0.04rem; font-size: 0.2rem; color: var(--dim); }
+
+/* ---- layout 4: spotlight, one big reel and the model list beside it ---- */
+.ins-spot { width: var(--col); margin: 0 auto; display: grid; grid-template-columns: 4.2rem 1fr; gap: 1.1rem; align-items: center; }
+.ins-spot-l { position: relative; aspect-ratio: 9 / 16; }
+.ins-stage1 { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+.ins-stage1.is-on { opacity: 1; pointer-events: auto; }
+.ins-stage1 .ins-media { position: absolute; inset: 0; aspect-ratio: auto; }
+.ins-spot .ins-title { width: auto; margin: 0 0 0.3rem; }
+.ins-tabs { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+.ins-tab { width: 100%; display: grid; grid-template-columns: 1.1rem 1fr auto; align-items: center; gap: 0.3rem; padding: 0.2rem 0.2rem; border: 0; border-top: 1px solid var(--line);
+           background: none; color: var(--fg); text-align: left; cursor: pointer; font: inherit; transition: background .25s ease; }
+.ins-tab img { width: 1.1rem; height: auto; }
+.ins-tab .ins-name { display: block; font-size: 0.3rem; line-height: 1.2; transition: color .2s ease; }
+.ins-tab .ins-sub { display: block; font-size: 0.19rem; }
+.ins-tab svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity .2s ease; }
+.ins-tab:hover { background: var(--card); }
+.ins-tab.is-on { background: var(--card); }
+.ins-tab.is-on .ins-name { color: var(--orange); }
+.ins-tab.is-on svg, .ins-tab:hover svg { opacity: 1; }
+
 /* sample switcher (only when ?inside= is in the URL) */
 .ins-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 9999; display: flex; gap: 14px; align-items: center;
            padding: 9px 16px; background: rgba(20,20,22,.94); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif;
