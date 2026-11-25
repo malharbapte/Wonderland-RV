@@ -50,8 +50,12 @@
   .wx-quote-copy { left: 68.9%; width: 28%; }
   .wx-quote-copy p { font-size: var(--t-quote); line-height: 1.4; }
   .wx-quote-copy cite { font-size: var(--t-sub); line-height: 1.25; margin-top: 0.40rem; }   /* the bold line no longer ran past the right edge */
-  /* Experience: one gap between sections, and one between a heading and its content */
-  .wx-dna, .wx-quote, .wx-journey, .wx-options, .wx-service, .wx-makers, .wx-dealers, .wx-range, .wx-contact { margin-top: 1.20rem; }
+  /* Experience: the homepage's rhythm. Plain sections sit two gaps apart (a gap of padding either side); a banded section (journey, service, contact) sits one gap from its neighbour and carries one gap inside; a heading is 0.7rem from its content */
+  .wx-dna, .wx-quote, .wx-options, .wx-makers, .wx-dealers, .wx-range { margin-top: calc(2 * var(--section-gap)); }
+  .wx-journey, .wx-service, .wx-contact { margin-top: var(--section-gap); }
+  .wx-journey + .wx-options, .wx-service + .wx-makers { margin-top: var(--section-gap); }
+  .wx-journey { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+  .wx-contact { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
   .wx-options-grid, .wx-makers-row, .wx-dealers-row { margin-top: 0.70rem; }
   /* Experience, dealers: city, phone, email, then the address, then Get directions */
   .wx-d-loc { display: flex; flex-direction: column; align-items: flex-start; }
@@ -82,4 +86,6 @@
   .ty-awd-t { line-height: 1.15; }
   .fp-fine { line-height: 1.45; }
   .unseen { padding-top: var(--section-gap); }   /* it opened on half the gap the other bands use */
+  /* Thank you: the reviews wall text at the standard 1.4 */
+  .ty-rc-body blockquote { line-height: 1.4; }
 }
