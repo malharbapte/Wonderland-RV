@@ -25,21 +25,60 @@ const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
    still autoplays, muted, from the parameters in its own embed URL, and it does
    not need a YT.Player: only the Queen of Hearts deck reads frame.ytPlayer, to
    stop a video that has scrolled out of the deck. */
-/* PHONE: the hero is a photo, not the clip (his call, 2026-11-10). The still is
-   already in the markup (.video-poster), so on a phone nothing is mounted and
-   it simply stays. Desktop and tablets above 900 keep the video. */
-const HERO_PHONE = window.matchMedia("(max-width: 900px)");
-function syncHero() {
+/* HERO (Piyush, 25 Nov 2026: "the header video play from 13 secs till 1.24 secs",
+   "no use the yt video just play from thos eplaces"). The YouTube video itself,
+   0:13 to 1:24 on a loop back to 0:13, on every screen, phones included. Always
+   muted. No YouTube UI: no controls, the frame is scaled past the band so the
+   letterbox and the title strip sit off-screen, and it takes no clicks
+   (home-order.css). The still in the markup stays over it until the clip is
+   really playing, then fades; if a browser refuses autoplay the still stays. */
+const HERO_YT = { id: "Qb2Py-ErJ8c", start: 13, end: 84 };
+(function heroYouTube() {
   const frame = document.querySelector(".home-hero-media");
   if (!frame) return;
-  const live = frame.querySelector("iframe, video");
-  /* dragged across 900: the clip goes (the photo underneath is still there),
-     or comes back */
-  if (HERO_PHONE.matches) { if (live) live.remove(); }
-  else if (!live) mountVideo(frame, HERO_VIDEO_URL, "Wonderland RV — adventure your way");
-}
-syncHero();
-HERO_PHONE.addEventListener("change", syncHero);
+  const holder = document.createElement("div");
+  holder.id = "heroYt";
+  frame.classList.remove("ph");
+  frame.removeAttribute("data-ph");
+  frame.appendChild(holder);
+  withYouTubeApi(function () {
+    let player, timer;
+    function backToStart() { player.seekTo(HERO_YT.start, true); player.mute(); player.playVideo(); }
+    player = new YT.Player("heroYt", {
+      host: "https://www.youtube-nocookie.com",
+      videoId: HERO_YT.id,
+      /* no end/loop/playlist parameters (show-page lesson, #2212): the loop is the seekTo below */
+      playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, start: HERO_YT.start,
+                    modestbranding: 1, iv_load_policy: 3, cc_load_policy: 0, disablekb: 1, fs: 0 },
+      events: {
+        onReady: function (e) {
+          const f = e.target.getIframe();
+          f.title = "Wonderland RV — adventure your way";
+          f.setAttribute("tabindex", "-1");
+          f.classList.add("hero-yt");
+          e.target.mute();
+          e.target.playVideo();
+        },
+        onStateChange: function (e) {
+          /* paused or ended: the still fades back over it (a short buffer at the loop point does not count) */
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) frame.classList.remove("is-playing");
+          if (e.data === YT.PlayerState.ENDED) return backToStart();
+          if (e.data === YT.PlayerState.PLAYING) {
+            player.mute();
+            /* the still goes only once real frames are past the start */
+            setTimeout(function () { frame.classList.add("is-playing"); }, 350);
+            clearInterval(timer);
+            timer = setInterval(function () {
+              const t = player.getCurrentTime ? player.getCurrentTime() : 0;
+              if (t >= HERO_YT.end - 0.15 || t < HERO_YT.start - 1) backToStart();
+            }, 250);
+          }
+        }
+      }
+    });
+    frame.ytPlayer = player;
+  });
+})();
 /* Welcome Solara is hidden at every width now (see home-order.css), so its clip
    is not loaded. The link and the markup stay for when the section returns.
 mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara"); */

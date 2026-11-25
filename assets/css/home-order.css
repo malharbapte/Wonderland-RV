@@ -1263,3 +1263,22 @@ body.bro-lock { overflow: hidden; }
   .faq-a.no-anim { transition: none; }
   .faq-a p { margin: 0; padding: 0 0 20px; font-family: var(--gordita); font-size: 15px; line-height: 23px; }
 }
+
+/* HERO YouTube clip (25 Nov 2026): Qb2Py-ErJ8c is letterboxed, a 2.35:1 picture inside a 16:9 frame, so the frame is
+   sized for the PICTURE to cover the band, plus 6% so the black bars and YouTube's title strip stay off-screen.
+   The still sits over the clip and fades once home.js marks the frame .is-playing. */
+.home-hero { --hero-h: var(--band-h); }
+@media (max-width: 900px) { .home-hero { --hero-h: 133.333vw; } }
+.home-hero-media { overflow: hidden; }
+.home-hero-media iframe.hero-yt {
+  --yt-w: calc(max(100vw, var(--hero-h) * 2.348) * 1.06);
+  position: absolute; top: 50%; left: 50%; z-index: 1;
+  width:  calc(var(--yt-w) * var(--dpr, 1));            /* --dpr is only set on desktop, so 1 on phones */
+  height: calc(var(--yt-w) * 0.5625 * var(--dpr, 1));
+  min-width: 0; min-height: 0; max-width: none; aspect-ratio: auto;
+  transform: translate(-50%, -50%) scale(calc(1 / var(--dpr, 1)));
+  pointer-events: none; border: 0;
+}
+.home-hero-media picture { position: absolute; inset: 0; z-index: 2; transition: opacity .8s ease; }
+.home-hero-media.is-playing picture { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .home-hero-media picture { transition: none; } }
