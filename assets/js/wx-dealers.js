@@ -233,6 +233,8 @@
   var dp = null;
   function popupBuild() {
     dp = el("div", "wx-dp"); dp.hidden = true;
+    /* samples of the card-style pop-up: ?dpx=1&pad=12|16|24&multi=pill|acc (the live page keeps the full-screen one until one is picked) */
+    if (QS.get("dpx")) { dp.classList.add("wx-dp--card"); dp.style.setProperty("--dp-pad", (parseInt(QS.get("pad"), 10) || 16) + "px"); }
     dp.innerHTML =
       '<div class="wx-dp-card" role="dialog" aria-modal="true" aria-label="Dealer details" tabindex="-1">' +
         '<header class="wx-dp-head"><span class="wx-dp-state"></span>' +
@@ -240,8 +242,8 @@
         '<div class="wx-dp-map"><iframe title="Dealer location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
           '<button class="wx-dp-arrow wx-dp-arrow--prev" type="button" aria-label="Previous state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg></button>' +
           '<button class="wx-dp-arrow wx-dp-arrow--next" type="button" aria-label="Next state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor"/></svg></button></div>' +
+        '<div class="wx-dp-id"><img class="wx-dp-logo" alt=""><span class="wx-dp-name"></span></div>' +
         '<div class="wx-dp-body">' +
-          '<div class="wx-dp-id"><img class="wx-dp-logo" alt=""><span class="wx-dp-name"></span></div>' +
           '<div class="wx-dp-tabs" role="tablist"></div>' +
           '<div class="wx-dp-info"></div>' +
         "</div>" +
@@ -272,8 +274,9 @@
     var lg = dp.querySelector(".wx-dp-logo");
     lg.src = "assets/img/experience/dealers/" + d.logo; lg.alt = d.name;
     dp.querySelector(".wx-dp-name").textContent = d.name;
+    var acc = d.locs.length > 1 && QS.get("multi") === "acc";
     var tabs = dp.querySelector(".wx-dp-tabs"); tabs.textContent = "";
-    tabs.hidden = d.locs.length < 2;
+    tabs.hidden = d.locs.length < 2 || acc;
     d.locs.forEach(function (loc, n) {
       var b = el("button", n === (i || 0) ? "is-on" : "", loc.city);
       b.type = "button"; b.setAttribute("role", "tab");
@@ -281,10 +284,28 @@
       tabs.appendChild(b);
     });
     var info = dp.querySelector(".wx-dp-info"); info.textContent = "";
-    if (d.locs.length < 2) info.appendChild(el("p", "wx-dp-city", l.city));
-    info.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
-    info.appendChild(line("mailto:" + l.mail, l.mail));
-    info.appendChild(el("p", "wx-d-addr", l.addr));
+    if (acc) {   /* one drop-down per branch, the shown one open */
+      d.locs.forEach(function (loc, n) {
+        var det = el("details", "wx-dp-acc");
+        if (n === (i || 0)) det.open = true;
+        var sm = el("summary", "", loc.city); sm.insertAdjacentHTML("beforeend", CHEV);
+        det.appendChild(sm);
+        var bd = el("div", "wx-dp-acc-b");
+        bd.appendChild(line("tel:" + loc.tel.replace(/[^0-9+]/g, ""), loc.tel));
+        bd.appendChild(line("mailto:" + loc.mail, loc.mail));
+        bd.appendChild(el("p", "wx-d-addr", loc.addr));
+        det.appendChild(bd);
+        det.addEventListener("click", function (e) {
+          if (e.target.closest("summary")) { e.preventDefault(); if (!det.open) popupFill(k, n); }
+        });
+        info.appendChild(det);
+      });
+    } else {
+      if (d.locs.length < 2) info.appendChild(el("p", "wx-dp-city", l.city));
+      info.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
+      info.appendChild(line("mailto:" + l.mail, l.mail));
+      info.appendChild(el("p", "wx-d-addr", l.addr));
+    }
     var map = dp.querySelector(".wx-dp-map"), fr = map.querySelector("iframe");
     var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=16" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
     map.classList.toggle("has-card", !l.ll);
