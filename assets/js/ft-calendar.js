@@ -16,7 +16,7 @@
   function short(d) { return d.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short" }); }
   function mondayOf(d) { var w = (d.getDay() + 6) % 7; return add(d, -w); }
 
-  function mount(slot, v, TIMES) {
+  function mount(slot, v, TIMES, onChange) {
     var today = midnight(new Date()), min = add(today, 1);
     while (min.getDay() === 0 || min.getDay() === 6) min = add(min, 1);   /* first bookable weekday */
     var last = add(today, 92);                                              /* about three months ahead */
@@ -31,7 +31,7 @@
       '<div class="ftc-main"' + (v === "b" ? ' hidden role="dialog" aria-label="Choose a day and time"' : "") + ">" +
         '<div class="ftc-body"><div class="ftc-dates"></div><div class="ftc-times"></div></div>' +
       "</div>" +
-      '<p class="ftc-sum" aria-live="polite"></p>' +
+      '<p class="ftc-sum" aria-live="polite"></p><p class="ftc-err">Please choose a day and a time.</p>' +
       '<p class="ftc-note">Tours run on weekdays. Our team will confirm your booking.</p>' +
     "</div>";
     var root = slot.querySelector(".ftc"), dates = root.querySelector(".ftc-dates"), times = root.querySelector(".ftc-times"),
@@ -39,7 +39,42 @@
         hd = root.querySelector('input[name="date"]'), ht = root.querySelector('input[name="time"]');
     var field = root.querySelector(".ftc-field"), fieldT = root.querySelector(".ftc-field-t");
 
+    /* C: a slider for the time. Every 15 minutes from 9:00 am to 3:00 pm, hours marked, so 9:30, 10:30 or 12:45 are all possible.
+       Three looks: ?slider=1 (bubble), 2 (ruler), 3 (pill). */
+    var SV = (new URLSearchParams(location.search).get("slider") || "1"); if (["1", "2", "3"].indexOf(SV) < 0) SV = "1";
+    var T0 = 9 * 60, T1 = 15 * 60, STEP = 15, touched = false, slider = null, readout = null, fill = null, bub = null, tickEls = [];
+    function fmt(m) { var h = Math.floor(m / 60), mm = m % 60, ap = h >= 12 ? "pm" : "am", h12 = h % 12 === 0 ? 12 : h % 12; return h12 + ":" + ("0" + mm).slice(-2) + " " + ap; }
+    function buildSlider() {
+      var ticks = "", labels = "", n = (T1 - T0) / STEP;
+      for (var i = 0; i <= n; i++) {
+        var pc = i / n * 100, m = T0 + i * STEP, hr = m % 60 === 0, half = m % 30 === 0;
+        ticks += '<i class="ftc-tick' + (hr ? " is-hr" : half ? " is-half" : "") + '" style="left:' + pc + '%"></i>';
+        if (hr) { var h = m / 60, h12 = h % 12 === 0 ? 12 : h % 12; labels += '<span style="left:' + pc + '%">' + h12 + "<small>" + (h >= 12 ? "pm" : "am") + "</small></span>"; }
+      }
+      times.innerHTML = '<div class="ftc-tl"><p class="ftc-lab">Pick a time</p><span class="ftc-hint">Drag to choose</span><output class="ftc-out"></output></div>' +
+        '<div class="ftc-rng ftc-sv' + SV + '"><div class="ftc-rail"><span class="ftc-fill"></span>' + ticks + '</div><div class="ftc-bub"></div>' +
+        '<input class="ftc-range" type="range" min="' + T0 + '" max="' + T1 + '" step="' + STEP + '" value="' + T0 + '" aria-label="Preferred time">' +
+        '<div class="ftc-marks">' + labels + "</div></div>";
+      var box = times.querySelector(".ftc-rng");
+      slider = times.querySelector(".ftc-range"); readout = times.querySelector(".ftc-out"); fill = times.querySelector(".ftc-fill"); bub = times.querySelector(".ftc-bub");
+      tickEls = [].slice.call(times.querySelectorAll(".ftc-tick"));
+      var hint = times.querySelector(".ftc-hint");
+      function sync() {
+        var v = +slider.value, pc = (v - T0) / (T1 - T0) * 100;
+        box.style.setProperty("--p", pc + "%"); fill.style.width = pc + "%";
+        tickEls.forEach(function (t, i) { t.classList.toggle("is-on", touched && i <= (v - T0) / STEP); });
+        box.classList.toggle("is-set", touched); slider.classList.toggle("is-set", touched);
+        bub.textContent = touched ? fmt(v) : "";
+        readout.textContent = touched ? fmt(v) : "";
+        hint.hidden = touched && SV === "2";
+        readout.style.display = SV === "2" && touched ? "block" : "none";
+        if (SV === "3") bub.textContent = fmt(v);
+      }
+      slider.addEventListener("input", function () { touched = true; pick.time = fmt(+slider.value); sync(); renderSum(); });
+      sync();
+    }
     function renderTimes() {
+      if (v === "c") { if (!slider) buildSlider(); return; }
       times.innerHTML = '<p class="ftc-lab">Pick a time</p><div class="ftc-slots">' +
         TIMES.map(function (t) { return '<button type="button" class="ftc-t' + (pick.time === t ? " is-on" : "") + '"' + (pick.date ? "" : " disabled") + ' data-t="' + t + '">' + t + "</button>"; }).join("") + "</div>";
     }
@@ -72,6 +107,7 @@
     function renderSum() {
       var t = pick.date ? "<b>" + long(pick.date) + "</b>" + (pick.time ? " at <b>" + pick.time + "</b>" : ", now pick a time") : "Choose a day, then a time.";
       sum.innerHTML = t;
+      if (onChange) onChange(pick.date ? long(pick.date) + (pick.time ? " at " + pick.time : "") : "Choose a day and time");
       hd.value = pick.date ? iso(pick.date) : ""; ht.value = pick.time;
       if (fieldT) { fieldT.textContent = pick.date && pick.time ? short(pick.date) + ", " + pick.time : "Preferred day and time*"; field.classList.toggle("has", !!(pick.date && pick.time)); }
       slot.classList.toggle("is-err", false);
@@ -101,8 +137,11 @@
   /* the sample's own switcher (not part of the pop-up) */
   function bar(v) {
     var el = document.createElement("div"); el.className = "ftc-bar";
+    var sv = (new URLSearchParams(location.search).get("slider") || "1");
     el.innerHTML = "<b>Date picker</b>" + [["a", "A  Month and times"], ["b", "B  One field, pop-over"], ["c", "C  Week strip"]].map(function (x) {
-      return '<a class="' + (x[0] === v ? "is-cur" : "") + '" href="?cal=' + x[0] + '#factory-tour">' + x[1] + "</a>"; }).join("") + "<i>times are placeholders</i>";
+      return '<a class="' + (x[0] === v ? "is-cur" : "") + '" href="?cal=' + x[0] + '#factory-tour">' + x[1] + "</a>"; }).join("") +
+      (v === "c" ? '<span class="ftc-sep"></span><b>Slider</b>' + [["1", "1  Bubble"], ["2", "2  Ruler"], ["3", "3  Pill"]].map(function (x) {
+        return '<a class="' + (x[0] === sv ? "is-cur" : "") + '" href="?cal=c&slider=' + x[0] + '#factory-tour">' + x[1] + "</a>"; }).join("") : "<i>times are placeholders</i>");
     document.body.appendChild(el);
   }
   window.WLFtCal = { mount: mount, bar: bar };

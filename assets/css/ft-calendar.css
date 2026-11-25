@@ -76,3 +76,86 @@
   .ftc--c .ftc-slots { grid-template-columns: 1fr 1fr; }
   .ftc--b .ftc-main { top: 56px; padding: 16px; }
 }
+
+/* C: the time slider (three looks, ?slider=1|2|3). The summary and note live in the pop-up's When row. */
+.ftc--c .ftc-sum, .ftc--c .ftc-note { display: none; }
+.ftc-err { display: none; margin: 0.12rem 0 0; font-size: 0.19rem; color: #b3261e; }
+.is-err .ftc-err { display: block; }
+.ftc--c .ftc-times { margin-top: 0.02rem; }
+.ftc-tl { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0.1rem; }
+.ftc-tl .ftc-lab { margin: 0; }
+.ftc-hint { font-size: 0.19rem; color: #6b6158; }
+.ftc-rng { position: relative; margin: 0 0.2rem; --tw: 0.34rem; }
+.ftc-rail { position: absolute; left: 0; right: 0; }
+.ftc-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; }
+.ftc-tick { position: absolute; }
+.ftc-bub { position: absolute; z-index: 2; left: var(--p, 0%); transform: translateX(-50%); pointer-events: none; white-space: nowrap; font-weight: 700; opacity: 0; transition: opacity .2s ease; }
+.ftc-rng.is-set .ftc-bub { opacity: 1; }
+.ftc-range { position: absolute; left: calc(var(--tw) / -2); width: calc(100% + var(--tw)); margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.ftc-range::-webkit-slider-runnable-track { background: none; }
+.ftc-range::-moz-range-track { background: none; }
+.ftc-range:focus-visible { outline: none; }
+.ftc-marks { position: absolute; left: 0; right: 0; }
+.ftc-marks span { position: absolute; transform: translateX(-50%); font-size: 0.19rem; line-height: 0.24rem; color: var(--ink); white-space: nowrap; }
+.ftc-marks small { font-size: 0.14rem; color: #6b6158; margin-left: 0.02rem; }
+
+/* 1  Bubble: a slim track, small dots every 15 minutes, the chosen time in a dark bubble above the thumb */
+.ftc-sv1 { height: 1.12rem; --tw: 0.32rem; }
+.ftc-sv1 .ftc-bub { top: 0; padding: 0.06rem 0.16rem; background: var(--ink); color: #fff; border-radius: 0.05rem; font-size: 0.21rem; line-height: 0.28rem; }
+.ftc-sv1 .ftc-bub::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -0.06rem; border: 0.06rem solid transparent; border-top-color: var(--ink); }
+.ftc-sv1 .ftc-rail { top: 0.62rem; height: 0.05rem; margin-top: -0.025rem; background: #d9d5cf; border-radius: 0.03rem; }
+.ftc-sv1 .ftc-fill { background: var(--orange); border-radius: 0.03rem; }
+.ftc-sv1 .ftc-tick { top: 50%; width: 0.04rem; height: 0.04rem; border-radius: 50%; background: #b7b1a8; transform: translate(-50%, -50%); }
+.ftc-sv1 .ftc-tick.is-half { width: 0.05rem; height: 0.05rem; }
+.ftc-sv1 .ftc-tick.is-hr { width: 0.09rem; height: 0.09rem; background: var(--ink); }
+.ftc-sv1 .ftc-range { top: 0.45rem; height: 0.34rem; }
+.ftc-sv1 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.32rem; height: 0.32rem; border-radius: 50%; background: var(--orange); border: 0.045rem solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.35); box-sizing: border-box; }
+.ftc-sv1 .ftc-range::-moz-range-thumb { width: 0.32rem; height: 0.32rem; border-radius: 50%; background: var(--orange); border: 0.045rem solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.35); box-sizing: border-box; }
+.ftc-sv1 .ftc-range:not(.is-set)::-webkit-slider-thumb { background: #fff; border-color: #b7b1a8; }
+.ftc-sv1 .ftc-range:not(.is-set)::-moz-range-thumb { background: #fff; border-color: #b7b1a8; }
+.ftc-sv1 .ftc-marks { top: 0.86rem; }
+
+/* 2  Ruler: bars every 15 minutes, taller on the half hour and the hour; the bars up to the choice turn orange */
+.ftc-sv2 { height: 1.02rem; --tw: 0.08rem; }
+.ftc-sv2 .ftc-rail { top: 0.04rem; height: 0.5rem; }
+.ftc-sv2 .ftc-tick { bottom: 0; width: 2px; height: 0.16rem; margin-left: -1px; background: #cfcac2; border-radius: 1px; transition: background .15s ease; }
+.ftc-sv2 .ftc-tick.is-half { height: 0.26rem; }
+.ftc-sv2 .ftc-tick.is-hr { height: 0.42rem; background: #8f897f; }
+.ftc-sv2 .ftc-tick.is-on { background: var(--orange); }
+.ftc-sv2 .ftc-fill { display: none; }
+.ftc-sv2 .ftc-bub { display: none; }
+.ftc-sv2 .ftc-range { top: 0; height: 0.58rem; }
+.ftc-sv2 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.08rem; height: 0.58rem; border-radius: 0.04rem; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
+.ftc-sv2 .ftc-range::-moz-range-thumb { width: 0.08rem; height: 0.58rem; border: 0; border-radius: 0.04rem; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
+.ftc-sv2 .ftc-range.is-set::-webkit-slider-thumb { background: var(--orange); }
+.ftc-sv2 .ftc-range.is-set::-moz-range-thumb { background: var(--orange); }
+.ftc-sv2 .ftc-marks { top: 0.66rem; }
+.ftc-sv2 .ftc-out { display: block; }
+.ftc-out { display: none; font-weight: 700; font-size: 0.3rem; line-height: 0.36rem; color: var(--orange-deep); }
+.ftc-sv2-on .ftc-out { display: block; }
+
+/* 3  Pill: a thick track with the time written on a pill thumb that slides along it */
+.ftc-sv3 { height: 0.98rem; --tw: 0.96rem; }
+.ftc-sv3 .ftc-rail { top: 0.23rem; height: 0.1rem; margin-top: -0.05rem; background: #e4e2de; border-radius: 0.05rem; }
+.ftc-sv3 .ftc-fill { background: var(--orange); border-radius: 0.05rem; }
+.ftc-sv3 .ftc-tick { display: none; }
+.ftc-sv3 .ftc-tick.is-hr { display: block; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #fff; }
+.ftc-sv3 .ftc-bub { top: 0; width: 0.96rem; height: 0.46rem; display: grid; place-items: center; color: #fff; font-size: 0.2rem; opacity: 1; }
+.ftc-sv3 .ftc-range { top: 0; height: 0.46rem; }
+.ftc-sv3 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.96rem; height: 0.46rem; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); transition: background .2s ease; }
+.ftc-sv3 .ftc-range::-moz-range-thumb { width: 0.96rem; height: 0.46rem; border: 0; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); }
+.ftc-sv3 .ftc-range.is-set::-webkit-slider-thumb { background: var(--ink); }
+.ftc-sv3 .ftc-range.is-set::-moz-range-thumb { background: var(--ink); }
+.ftc-sv3 .ftc-marks { top: 0.58rem; }
+.ftc-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+.ftc-bar .ftc-sep { width: 1px; height: 16px; background: #555; }
+@media (max-width: 900px) {
+  .ftc-rng { margin: 0 16px; --tw: 28px; }
+  .ftc-sv1 { height: 92px; } .ftc-sv1 .ftc-bub { font-size: 14px; line-height: 20px; padding: 3px 10px; } .ftc-sv1 .ftc-rail { top: 50px; } .ftc-sv1 .ftc-range { top: 36px; height: 28px; } .ftc-sv1 .ftc-marks { top: 70px; }
+  .ftc-sv2 { height: 86px; } .ftc-sv2 .ftc-rail { height: 40px; } .ftc-sv2 .ftc-range { height: 46px; } .ftc-sv2 .ftc-tick.is-hr { height: 34px; } .ftc-sv2 .ftc-tick.is-half { height: 22px; } .ftc-sv2 .ftc-tick { height: 14px; } .ftc-sv2 .ftc-marks { top: 54px; } .ftc-out { font-size: 20px; line-height: 24px; }
+  .ftc-sv3 { height: 84px; --tw: 80px; } .ftc-sv3 .ftc-bub { width: 80px; height: 38px; font-size: 14px; } .ftc-sv3 .ftc-range { height: 38px; } .ftc-sv3 .ftc-rail { top: 19px; } .ftc-sv3 .ftc-marks { top: 48px; }
+  .ftc-sv1 .ftc-range::-webkit-slider-thumb, .ftc-sv1 .ftc-range::-moz-range-thumb { width: 28px; height: 28px; }
+  .ftc-sv3 .ftc-range::-webkit-slider-thumb, .ftc-sv3 .ftc-range::-moz-range-thumb { width: 80px; height: 38px; border-radius: 19px; }
+  .ftc-marks span { font-size: 13px; line-height: 18px; } .ftc-marks small { font-size: 10px; }
+}

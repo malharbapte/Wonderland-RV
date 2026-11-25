@@ -57,6 +57,7 @@
           '<div class="ftp-photo" role="img" aria-label="Photo of the factory (to come)"><span>Factory photo</span></div>' +
           '<div class="evp-show ftp-show">' +
             '<div class="evp-row"><small>Where</small><b>' + esc(TOUR.place) + "</b><span>" + esc(TOUR.addr) + "</span></div>" +
+            (CAL === "c" ? '<div class="evp-row"><small>When</small><b id="ftpWhen">Choose a day and time</b><span>Tours run on weekdays. Our team will confirm your booking.</span></div>' : "") +
             '<div class="evp-row evp-find"><small>On the tour</small><b>' + esc(TOUR.see) + "</b><span>" + esc(TOUR.seeN) + "</span></div>" +
           "</div>" +
         "</div>" +
@@ -87,7 +88,7 @@
     var d = new Date(); d.setDate(d.getDate() + 1);
     var iso = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
     var di = form.querySelector('input[name="date"]');
-    if (CAL) window.WLFtCal.mount(form.querySelector(".ftc-slot"), CAL, TIMES);
+    if (CAL) window.WLFtCal.mount(form.querySelector(".ftc-slot"), CAL, TIMES, function (t) { var w = card.querySelector("#ftpWhen"); if (w) w.textContent = t; });
     else if (di) di.min = iso;
 
     /* models multi-select */
