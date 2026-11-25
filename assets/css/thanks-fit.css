@@ -205,3 +205,14 @@
 /* community section: the trust line under its intro (same type as the review line, no stars) */
 .ty-community .ty-proof--trust { margin-top: 0.2rem; }
 @media (max-width: 900px) { .ty-community .ty-proof--trust { margin-top: 14px; } }
+
+/* ---------- brochure version: "Download your {model} brochure" under the intro line (thanks-routes.js). The site's orange
+   button: #DB7627, white Aviano typed lower case, hover and focus white with an orange inside edge, 0.3s ---------- */
+.ty-dl { flex: none; margin: 0.16rem 0 0; text-align: center; }
+.ty-dl-b { display: inline-block; padding: 0.16rem 0.4rem; border-radius: 1px; background: #DB7627; color: #fff; font-family: var(--aviano); font-size: max(14px, .2rem); line-height: 1.2; text-decoration: none; text-transform: lowercase; transition: background-color .3s, color .3s, box-shadow .3s; }
+.ty-dl-b:hover, .ty-dl-b:focus-visible { background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: 0; }
+@media (max-width: 900px) {
+  .ty-dl { margin-top: 12px; }
+  .ty-first .ty-dl { width: auto; }
+  .ty-dl-b { width: auto; max-width: 100%; padding: 14px 26px; font-size: 14px; white-space: nowrap; }
+}
