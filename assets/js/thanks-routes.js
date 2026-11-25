@@ -35,6 +35,8 @@
 
   var q = new URLSearchParams(location.search), info = {};
   try { info = JSON.parse(sessionStorage.getItem("wlThanks") || "null") || {}; } catch (e) {}
+  /* the form's note is used once: a later visit to the plain page in the same tab shows the general version again */
+  if (!q.get("route")) { try { sessionStorage.removeItem("wlThanks"); } catch (e) {} }
   var route = (q.get("route") || info.route || "").toLowerCase();
   if (route === "enquiry" && String(info.type || "").toLowerCase() === "book a factory tour") route = "tour";
   if (route === "layouts") route = "layout";
