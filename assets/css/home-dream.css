@@ -79,9 +79,9 @@
 @media (max-width: 900px) { .band--sep { aspect-ratio: 5 / 4; max-height: none; } .band--sep img { object-position: 50% 50%; } }
 /* PHOTO BAND 2, after Meet the Wonderlanders (Piyush's own photo). Its own wide shape on every screen so the girl and the
    XTR both stay in frame; gaps match the drone band. */
-.band--sep-2 { aspect-ratio: 664 / 283; margin-top: 1rem; }
+.band--sep-2 { aspect-ratio: 1600 / 682; margin-top: 1rem; }
 .band--sep-2 img { object-position: 50% 50%; }
-@media (max-width: 900px) { .band--sep-2 { aspect-ratio: 664 / 283; margin-top: 48px; } }
+@media (max-width: 900px) { .band--sep-2 { aspect-ratio: 1600 / 682; margin-top: 48px; } }
 /* Drone band on phones: the brand logos end 19px above it, so add 29px to make 48px, the same as under it */
 @media (max-width: 900px) { .brands + .band--sep { margin-top: 29px; } }
 
