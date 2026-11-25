@@ -98,4 +98,11 @@
   .wx-opt-panel p { font-size: var(--t-body); line-height: var(--lh-body); }
   /* Contact, enquiry: "Our experts will guide you through your caravan customisation." is the subheading; the line under it ("We'll listen to understand...") and the reach-out line stay body */
   .enquiry .lede:first-of-type { font-size: var(--t-sub); line-height: 1.3; }
+
+  /* Experience dealers: map 2/3, details 1/3 of the page; the bar stays inside the map */
+  .wx-dealers-row { grid-template-columns: 66.667% 1fr; height: auto; min-height: 13.4rem; }
+  .wx-dealers-bar { left: 0.5rem; width: auto; right: 0.5rem; }
+  .wx-dealers-panel { padding: 0.5rem 0.5rem 0.4rem; }
+  .wx-d-logo { height: 1.6rem; margin-top: 0.2rem; }
+  .wx-d-photo { margin-top: 0.3rem; max-width: 3.4rem; }
 }
