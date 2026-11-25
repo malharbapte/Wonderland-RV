@@ -96,4 +96,6 @@
   .wx-hero { height: calc(100svh - 1.42rem - 0.061rem - 2px); min-height: 6rem; max-height: 15.786rem; }
   /* Experience, customisation options: the description under the picture is body, with body leading (it was quote-sized on a 1.07 line-height) */
   .wx-opt-panel p { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* Contact, enquiry: "Our experts will guide you through your caravan customisation." is the subheading; the line under it ("We'll listen to understand...") and the reach-out line stay body */
+  .enquiry .lede:first-of-type { font-size: var(--t-sub); line-height: 1.3; }
 }
