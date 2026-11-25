@@ -478,6 +478,7 @@
   position: relative; margin: 0; overflow: hidden; outline: none;
   border: 1px solid #e6e6e6; border-radius: 0.08rem; background: #fff;
 }
+.wx-mk-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 38% 40%; }
 .wx-mk-photo { aspect-ratio: 1; background: var(--ph-photo); transition: transform .30s ease; }
 .wx-mk-band {
   position: absolute; left: 0; right: 0; bottom: 0;
