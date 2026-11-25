@@ -92,4 +92,6 @@
   /* every orange band is the height of a two-line title; a one-line title is centred in it, so top and bottom stay equal */
   .wx-card-title { min-height: calc(2 * 1.15em); display: flex; align-items: center; }
   .wx-card-bio { margin-top: 0.06rem; }
+  /* Experience: the top photo fits one screen (window height less the header), as the homepage's top block does; it never grows past its drawn height */
+  .wx-hero { height: calc(100svh - 1.42rem - 0.061rem - 2px); min-height: 6rem; max-height: 15.786rem; }
 }
