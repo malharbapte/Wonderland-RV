@@ -596,6 +596,7 @@
 .wx-d-acc[open] > summary svg { transform: rotate(180deg); }
 .wx-d-acc > summary:hover, .wx-d-acc > summary:focus-visible { color: var(--orange-hover); outline: none; }
 .wx-d-dir { display: none; }
+.wx-d-pmap { display: none; }
 .wx-d-body { display: flex; flex-direction: column; align-items: flex-start; padding: 0 0 0.18rem; }
 .wx-d-body .wx-d-line { order: 1; } .wx-d-body .wx-d-addr { order: 2; }
 .wx-d-photo.has-img { background: none; display: block; }
@@ -803,7 +804,7 @@
   .wx-d-cta, .wx-d-enq { height: 48px; padding: 0 24px; font-size: 14px; margin-top: 16px; }
   .wx-d-enq { margin-top: 28px; }
   .wx-d-loc { margin-top: 24px; }
-  .wx-d-dir { order: 3; display: inline-flex; margin-top: 14px; height: 48px; padding: 0 24px; font-size: 14px; }
+.wx-d-dir { order: 3; display: inline-flex; margin-top: 14px; height: 48px; padding: 0 24px; font-size: 14px; }
 
 
   /* 9 range */
@@ -814,4 +815,33 @@
   .wx-range-row p { margin-top: 4px; font-size: 14px; line-height: 20px; }
 
   .wx-contact { background: none; }
+
+  /* 1 DNA: the title breaks after "in" */
+  .wx-h--dna span { display: block; }
+
+  /* 4 journey and 7 makers: the cards lift off the page, and their words open from a tap on the band */
+  .wx-journey { margin-top: 72px; padding: 48px 0 56px; }
+  .wx-journey-stage { margin-top: 28px; }
+  .wx-journey-viewport { padding: 14px 0 34px; margin-bottom: -6px; }
+  .wx-makers { margin-top: 72px; }
+  .wx-makers-row { margin-top: 28px; padding-top: 14px; padding-bottom: 34px; }
+  .wx-journey-card, .wx-mk { border: 0; background: #fff;
+    box-shadow: 0 14px 30px -12px rgba(40, 38, 34, 0.45), 0 2px 8px rgba(40, 38, 34, 0.14); }
+  .wx-card-band, .wx-mk-band { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .wx-card-title, .wx-mk-name { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+  .wx-card-title::after, .wx-mk-name::after { content: ""; flex: none; width: 9px; height: 9px; margin: 0 4px 3px 0;
+    border-right: 2px solid var(--orange-deep); border-bottom: 2px solid var(--orange-deep); transform: rotate(45deg); transition: transform .25s ease; }
+  .wx-journey-card.is-open .wx-card-title::after, .wx-mk.is-open .wx-mk-name::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  .wx-journey-card:not(.is-open) .wx-card-bio-wrap, .wx-mk:not(.is-open) .wx-mk-wrap { grid-template-rows: 0fr !important; }
+  .wx-journey-card.is-open .wx-card-bio-wrap, .wx-mk.is-open .wx-mk-wrap { grid-template-rows: 1fr !important; }
+  .wx-card-band, .wx-mk-band { padding-bottom: 14px; }
+  .wx-journey-card.is-open .wx-card-band, .wx-mk.is-open .wx-mk-band { padding-bottom: 20px; }
+
+  /* 8 dealers: a Google Maps preview in place of the dealership photo */
+  .wx-d-photo { display: none; }
+  .wx-d-pmap { display: block; position: relative; margin-top: 24px; aspect-ratio: 4 / 3; overflow: hidden; background: #E4E2DE;
+    border: 1px solid rgba(29, 29, 27, 0.7); }
+  .wx-d-pmap iframe { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .wx-d-pmap.has-card { aspect-ratio: 1 / 1; }
+  .wx-d-pmap.has-card iframe { top: -128px; height: calc(100% + 128px); }
 }

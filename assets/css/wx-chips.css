@@ -1,0 +1,17 @@
+/* Experience page, phone: the option chips get an arrow at each end and fade into white under them. */
+@media (max-width: 900px) {
+  .wx-chips { position: relative; margin: 0 -24px; }
+  .wx-chips .wx-options-list { margin: 0; scroll-padding: 0 56px; }
+  .wx-chips::before, .wx-chips::after { content: ""; position: absolute; top: 0; bottom: 4px; width: 72px; z-index: 2;
+    pointer-events: none; opacity: 0; transition: opacity .25s ease; }
+  .wx-chips::before { left: 0;  background: linear-gradient(to right, #fff 38%, rgba(255, 255, 255, 0)); }
+  .wx-chips::after  { right: 0; background: linear-gradient(to left,  #fff 38%, rgba(255, 255, 255, 0)); }
+  .wx-chips.has-left::before, .wx-chips.has-right::after { opacity: 1; }
+  .wx-chips-btn { position: absolute; top: 0; bottom: 4px; z-index: 3; width: 44px; padding: 0; border: 0; background: none;
+    color: var(--orange); display: grid; place-items: center; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+  .wx-chips-btn svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .wx-chips-btn--prev { left: 2px; }
+  .wx-chips-btn--next { right: 2px; }
+  .wx-chips.has-left  .wx-chips-btn--prev { opacity: 1; pointer-events: auto; }
+  .wx-chips.has-right .wx-chips-btn--next { opacity: 1; pointer-events: auto; }
+}

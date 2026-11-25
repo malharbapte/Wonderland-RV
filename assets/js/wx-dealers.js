@@ -115,11 +115,18 @@
       body.appendChild(dl);
       box.appendChild(body);
       box.addEventListener("toggle", function () {
-        if (box.open) preview(l);
+        if (box.open) { preview(l); phoneMap(l); }
         fitPanel();
       });
       panel.appendChild(box);
     });
+    /* phone: a Google Maps preview of the branch shown */
+    pmap = el("div", "wx-d-pmap");
+    pframe = document.createElement("iframe");
+    pframe.title = "Dealer location on Google Maps"; pframe.loading = "lazy"; pframe.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+    pmap.appendChild(pframe); panel.appendChild(pmap);
+    phoneMap(d.locs[0]);
+
     /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
     if (d.photo) {
@@ -153,10 +160,22 @@
   var MAPTYPE = { satellite: "k", hybrid: "h" };
   if (MAPSTYLE) gmap.classList.add("map-" + MAPSTYLE);
 
+  /* ---- phone: the Google Maps preview sits in the panel, under the branches, in place of the photo ---- */
+  var pmap = null, pframe = null;
+  function phoneMap(l) {
+    if (desktop.matches || !pmap) return;
+    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
+    pmap.classList.toggle("has-card", !l.ll);
+    if (pframe.getAttribute("src") !== src) pframe.setAttribute("src", src);
+  }
+
   /* ---- Google Maps preview (no key: the plain embed of an address) ---- */
   function preview(l) {
     /* a point on the map (latitude, longitude) shows a pin and nothing else; an address makes Google add its
        "Open in Maps" card at the top left, which the stylesheet then lifts out of view (.has-card) */
+    /* the phone has no preview stage; its map sits in the panel (phoneMap) */
+    dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
+    if (!desktop.matches) return;
     var t = MAPTYPE[MAPSTYLE] ? "&t=" + MAPTYPE[MAPSTYLE] : "";
     var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed" + t;
     gmap.classList.toggle("has-card", !l.ll);

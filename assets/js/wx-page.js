@@ -197,4 +197,23 @@
       });
     });
   }
+
+  /* ------------------------------------------------- phone: cards open from their band
+     On a phone the journey and maker cards show a picture and a title; a tap on the title band opens the words.
+     (Wide screens keep their hover.) */
+  [].forEach.call(document.querySelectorAll(".wx-journey-card, .wx-mk"), function (card) {
+    var band = card.querySelector(".wx-card-band, .wx-mk-band");
+    if (!band) return;
+    band.setAttribute("role", "button");
+    band.setAttribute("aria-expanded", "false");
+    band.tabIndex = PHONE.matches ? 0 : -1;
+    function toggle() {
+      if (!PHONE.matches) return;
+      var on = !card.classList.contains("is-open");
+      card.classList.toggle("is-open", on);
+      band.setAttribute("aria-expanded", String(on));
+    }
+    band.addEventListener("click", toggle);
+    band.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+  });
 })();
