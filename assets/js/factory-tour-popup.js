@@ -24,7 +24,7 @@
     seeN:  "Every chassis is made here in Australia."
   };
   var STATES = ["Victoria", "NSW / ACT", "Queensland", "South Australia", "Western Australia", "Northern Territory", "Tasmania", "New Zealand"];
-  var GUESTS = ["1", "2", "3", "4", "5 or more"];
+  var TIMES = ["9:00 am", "10:00 am", "11:00 am", "1:00 pm", "2:00 pm", "3:00 pm"];   /* placeholder tour times: set the real ones */
   var MODELS = ["Solara", "XTR", "Hornet", "Amaroo", "Not sure yet"];
   var CHEV = '<svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>';
 
@@ -60,10 +60,7 @@
           '<div class="evp-g2">' + inp("email", "email", "Email*", true) + inp("mobile", "tel", "Mobile*", true) + "</div>" +
           '<div class="evp-g2">' + sel("state", "State*", STATES, true) +
             '<label class="evp-f"><input name="date" type="text" placeholder="Preferred day*" required autocomplete="off" onfocus="this.type=\'date\'" onblur="if(!this.value)this.type=\'text\'"></label></div>' +
-          '<div class="evp-pill" role="radiogroup" aria-label="Preferred time"><span class="evp-pill-t" aria-hidden="true"></span>' +
-            '<label><input type="radio" name="time" value="Morning" checked><span>Morning</span></label>' +
-            '<label><input type="radio" name="time" value="Afternoon"><span>Afternoon</span></label></div>' +
-          '<div class="evp-g2">' + sel("guests", "Guests*", GUESTS, true) +
+          '<div class="evp-g2">' + sel("time", "Preferred time*", TIMES, true) +
             '<details class="evp-ms"><summary><span class="evp-ms-t">Models that interest you</span>' + CHEV + '</summary><div class="pan">' +
               MODELS.map(function (m) { return '<label class="evp-ck"><input type="checkbox" name="model" value="' + esc(m) + '"><span>' + esc(m) + "</span></label>"; }).join("") +
             "</div></details></div>" +
