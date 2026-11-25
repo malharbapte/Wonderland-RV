@@ -16,8 +16,8 @@
   "use strict";
 
   var TOUR = {
-    place: "Outbound RVs factory",
-    addr:  "58B Lara Way, Campbellfield VIC 3061",
+    place: "Wonderland RV Production",
+    addr:  "46 Lara Way, Campbellfield VIC 3061",
     when:  "By appointment",
     whenN: "Weekdays. Our team confirms your day.",
     see:   "How a Wonderland is built",
@@ -49,7 +49,7 @@
           '<h2 class="evp-title" id="ftpTitle">Book a factory tour</h2>' +
           '<p class="evp-sub">See where your Wonderland is built. Pick a day and we will confirm your tour.</p>' +
           '<div class="ftp-photo" role="img" aria-label="Photo of the factory (to come)"><span>Factory photo</span></div>' +
-          '<div class="evp-show">' +
+          '<div class="evp-show ftp-show">' +
             '<div class="evp-row"><small>Where</small><b>' + esc(TOUR.place) + "</b><span>" + esc(TOUR.addr) + "</span></div>" +
             '<div class="evp-row"><small>When</small><b>' + esc(TOUR.when) + "</b><span>" + esc(TOUR.whenN) + "</span></div>" +
             '<div class="evp-row evp-find"><small>On the tour</small><b>' + esc(TOUR.see) + "</b><span>" + esc(TOUR.seeN) + "</span></div>" +

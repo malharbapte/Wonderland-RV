@@ -4,5 +4,6 @@
   .ftp-photo { margin-top: 0.4rem; aspect-ratio: 16 / 9; font-size: max(0.14rem, 11px); }
 }
 @media (max-width: 900px) {
+  .evp-show.ftp-show { display: none; }   /* phone: no Where / When / On the tour */
   .ftp-photo { margin-top: 16px; aspect-ratio: 16 / 9; font-size: 12px; }
 }
