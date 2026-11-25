@@ -25,7 +25,7 @@
                 sa: "South Australia", nt: "Northern Territory", tas: "Tasmania",
                 act: "Australian Capital Territory" };
   /* the bar's names: dealer states first, then the rest */
-  var ORDER = ["nsw", "qld", "vic", "wa", "sa", "nt", "tas", "act"];
+  var ORDER = ["nsw", "qld", "vic", "wa", "sa", "nt", "tas"];   /* the ACT sits inside NSW and answers as NSW */
   var LABELS = { nsw: "NSW", qld: "QLD", vic: "VIC", wa: "WA", sa: "SA", nt: "NT", tas: "TAS", act: "ACT" };
   var cur = "nsw", btns = {};
   var DEALERS = {
@@ -37,7 +37,7 @@
         tel: "(07) 3205 7738", mail: "wonderland@aussieescapecaravans.com.au" },
       { city: "Mackay", addr: "10/25 Transport Ave, Paget QLD 4740",
         tel: "0439 009 148", mail: "wonderland@aussieescapecaravans.com.au" } ] },
-    vic: { name: "Outbound RVs", logo: "outbound-rvs.png", locs: [
+    vic: { name: "Outbound RVs", logo: "outbound-rvs.png", photo: "outbound-rvs-building.jpg", locs: [
       { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061", ll: "-37.6630770,144.9676408",
         tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] }
   };
@@ -81,7 +81,7 @@
 
   function show(k) {
     cur = k;
-    states.forEach(function (s) { s.classList.toggle("is-on", s.dataset.s === k); });
+    states.forEach(function (s) { s.classList.toggle("is-on", s.dataset.s === k || (k === "nsw" && s.dataset.s === "act")); });
     ORDER.forEach(function (n) { btns[n].setAttribute("aria-selected", String(n === k)); });
     place(false);
     panel.textContent = "";
@@ -118,9 +118,17 @@
     });
     /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
-    ph.setAttribute("role", "img");
-    ph.setAttribute("aria-label", "Photo of " + d.name + " (to come)");
-    ph.appendChild(el("span", "", "Dealership photo"));
+    if (d.photo) {
+      var pi = document.createElement("img");
+      pi.src = "assets/img/experience/dealers/" + d.photo;
+      pi.alt = d.name + ", " + d.locs[0].addr;
+      ph.classList.add("has-img");
+      ph.appendChild(pi);
+    } else {
+      ph.setAttribute("role", "img");
+      ph.setAttribute("aria-label", "Photo of " + d.name + " (to come)");
+      ph.appendChild(el("span", "", "Dealership photo"));
+    }
     panel.appendChild(ph);
 
     fitPanel();
@@ -136,11 +144,17 @@
     if (over > 1) panel.style.zoom = Math.max(0.6, panel.clientHeight / panel.scrollHeight - 0.01);
   }
 
+  /* preview look, for the samples only: ?map=muted|grey|warm|dark|satellite|hybrid (the page itself passes none) */
+  var QS = new URLSearchParams(location.search), MAPSTYLE = QS.get("map") || "";
+  var MAPTYPE = { satellite: "k", hybrid: "h" };
+  if (MAPSTYLE) gmap.classList.add("map-" + MAPSTYLE);
+
   /* ---- Google Maps preview (no key: the plain embed of an address) ---- */
   function preview(l) {
     /* a point on the map (latitude, longitude) shows a pin and nothing else; an address makes Google add its
        "Open in Maps" card at the top left, which the stylesheet then lifts out of view (.has-card) */
-    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
+    var t = MAPTYPE[MAPSTYLE] ? "&t=" + MAPTYPE[MAPSTYLE] : "";
+    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed" + t;
     gmap.classList.toggle("has-card", !l.ll);
     if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
     /* Get directions sits under the preview, on the left, and follows the branch shown */
@@ -205,10 +219,11 @@
     show(k);
   }
 
+  function key(s) { return s.dataset.s === "act" ? "nsw" : s.dataset.s; }
   states.forEach(function (s) {
-    s.addEventListener("click", function () { pick(s.dataset.s); });
+    s.addEventListener("click", function () { pick(key(s)); });
     s.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(s.dataset.s); }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(key(s)); }
     });
   });
   if (prev) prev.addEventListener("click", function () { step(-1); });
@@ -226,5 +241,11 @@
   paint();
   show("nsw");
   place(true);
+  /* ?open=vic opens that state and scrolls to the section (used by the samples) */
+  if (QS.get("open") && btns[QS.get("open")]) {
+    pick(QS.get("open"));
+    var hd = document.querySelector(".wx-dealers h2");
+    if (hd) window.scrollTo(0, hd.getBoundingClientRect().top + window.scrollY - 108);
+  }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
 })();
