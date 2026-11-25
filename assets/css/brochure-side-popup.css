@@ -1,0 +1,11 @@
+/* Brochure pop-up: only what the Events pop-up's classes (events-popup.css) do not already give it. */
+.bsp-cover { display: grid; gap: 0.2rem; align-items: center; }
+.bsp-cover img { display: block; width: 100%; height: auto; }
+.bsp-cover.is-all { grid-template-columns: 1fr 1fr; }
+.bsp-cover:not(.is-all) { grid-template-columns: minmax(0, 70%); justify-content: center; }
+@media (min-width: 901px) { .bsp-cover { margin-top: 0.4rem; } }
+@media (max-width: 900px) {
+  .bsp-cover { margin-top: 16px; gap: 10px; }
+  .bsp-cover:not(.is-all) { grid-template-columns: minmax(0, 60%); }
+}
+#bspCard .evp-sub { text-wrap: balance; }   /* no one-word last line */
