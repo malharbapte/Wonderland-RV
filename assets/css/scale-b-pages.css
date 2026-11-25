@@ -37,4 +37,34 @@
   .wx-dealers-panel { padding-right: 0.80rem; }
   /* Wonderlander pages: the tips mosaic question and answer (27, 28): body */
   .amb-tip-q, .amb-tip-a { font-size: var(--t-body); }
+
+  /* ---- round 3 (25 Nov): Range, Contact, Experience, Wonderlanders ---- */
+  /* Range: the layout name is a bold subheading; "up to 22'00"" is quote size */
+  .fp-name { font-size: var(--t-sub); font-weight: 700; }
+  .fp-size-value { font-size: var(--t-quote); }
+  /* Contact, Things you can't see: the quote on two lines, the panels line on one */
+  .quote-left .ln { display: block; white-space: nowrap; }
+  .quote-right p { white-space: nowrap; }
+  /* Experience: the quote band splits 2/3 photo, 1/3 text, as the homepage's top band (width only; the height is untouched) */
+  .wx-quote-media { width: 66.667%; }
+  .wx-quote-copy { left: 68.9%; width: 28%; }
+  .wx-quote-copy p { font-size: var(--t-quote); line-height: 1.4; }
+  .wx-quote-copy cite { font-size: var(--t-sub); line-height: 1.25; margin-top: 0.40rem; }   /* the bold line no longer ran past the right edge */
+  /* Experience: one gap between sections, and one between a heading and its content */
+  .wx-dna, .wx-quote, .wx-journey, .wx-options, .wx-service, .wx-makers, .wx-dealers, .wx-range, .wx-contact { margin-top: 1.20rem; }
+  .wx-options-grid, .wx-makers-row, .wx-dealers-row { margin-top: 0.70rem; }
+  /* Experience, dealers: city, phone, email, then the address, then Get directions */
+  .wx-d-loc { display: flex; flex-direction: column; align-items: flex-start; }
+  .wx-d-city { order: 1; } .wx-d-line { order: 2; } .wx-d-addr { order: 3; } .wx-d-cta { order: 4; }
+  /* Wonderlander pages: "Questions about..." in the homepage FAQ style: hairline rows, a plus that turns into a minus, the open question in orange */
+  .amb-faq details { border-top: 1px solid #e4e2de; border-bottom: 0; }
+  .amb-faq details:last-child { border-bottom: 1px solid #e4e2de; }
+  .amb-faq summary { padding: 0.34rem 0; font-family: var(--aviano); font-weight: 900; color: var(--ink); gap: 0.30rem; }
+  .amb-faq summary svg { display: none; }
+  .amb-faq summary::after { content: ""; flex: none; width: 0.24rem; height: 0.24rem; color: var(--orange);
+    background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat; transition: background-size .3s; }
+  .amb-faq details[open] summary::after { background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) center / 0 100% no-repeat; }
+  .amb-faq summary:hover, .amb-faq details[open] summary { color: var(--orange); }
+  .amb-faq details.is-closing summary { color: var(--ink); }
+  .amb-faq-body { padding-right: 2.40rem; }
 }
