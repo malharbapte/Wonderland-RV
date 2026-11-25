@@ -74,3 +74,5 @@
   .dz-quote { transition: background-color .3s, color .3s, box-shadow .3s; }
   .dz-quote:active, .dz-quote:focus-visible { background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: none; }   /* the site's orange-button look while pressed */
 }
+
+.dz .vc h3 .nw, .dream-points h3 .nw { white-space: nowrap; }   /* keep OFF-ROAD on one line when the title wraps */
