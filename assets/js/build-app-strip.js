@@ -768,6 +768,9 @@ function drawIso(k, o) {
   function finish(root, R, vals) {
     try { sessionStorage.setItem("wl-lead", JSON.stringify({ details: vals, custom: LEAD.custom, plan: R.plan && R.plan.code, at: new Date().toISOString() })); } catch (e) {}
     App.setGo(null); App.backHook = null;
+    /* the quote form ends on the site's thank-you page, like every other form */
+    try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "build" })); } catch (e) {}
+    location.href = "thank-you.html?route=build"; return;
     var name = (vals.first || "").trim();
     root.className = "step s6 done6"; if (cueEl) cueEl.textContent = "";
     root.innerHTML = '<div class="thanks">' +

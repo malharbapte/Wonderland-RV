@@ -25,6 +25,31 @@
       intro: "It is really important to watch this video before your tour, it will help you choose the perfect caravan for you.",
       loop: "tour"
     },
+    callback: {
+      steps: ["Call back requested", "We call you", "Visit us or a dealer"],
+      msg: "We will call you within one business day.",
+      intro: "It is really important to watch this video, it will help you get the most out of our call."
+    },
+    quote: {
+      steps: ["Quote request in", "We put your quote together", "We talk it through"],
+      msg: "Our team is putting your quote together.",
+      intro: "It is really important to watch this video, it will help you see what goes into your quote."
+    },
+    virtual: {
+      steps: ["Consult request in", "We find a time", "Your virtual consultation"],
+      msg: "We are looking forward to meeting you on screen.",
+      intro: "It is really important to watch this video before your consultation, it will help you choose the perfect caravan for you."
+    },
+    event: {
+      steps: ["Appointment request in", "We lock in a time", "See you at the show"],
+      msg: "We are looking forward to seeing you at the show.",
+      intro: "It is really important to watch this video before the show, it will help you choose the perfect caravan for you."
+    },
+    build: {
+      steps: ["Quote request in", "We go through your build", "We talk it through"],
+      msg: "Your build is with our team.",
+      intro: "It is really important to watch this video, it will help you see how your caravan comes together."
+    },
     layout: {
       steps: ["Layout question in", "We call you", "Visit us or a dealer"],
       msg: "We are looking forward to speaking with you.",
@@ -40,6 +65,12 @@
   var route = (q.get("route") || info.route || "").toLowerCase();
   if (route === "enquiry" && String(info.type || "").toLowerCase() === "book a factory tour") route = "tour";
   if (route === "layouts") route = "layout";
+  if (route === "enquiry") {   /* the Contact page, the Enquire pop-up and the homepage form name what the visitor asked for */
+    var kind = String(info.type || "").toLowerCase();
+    if (kind === "call back") route = "callback";
+    else if (kind === "get a quote") route = "quote";
+    else if (kind.indexOf("virtual") === 0) route = "virtual";
+  }
   var c = ROUTES[route];
   if (!c) return;
   var model = MODELS[String(q.get("model") || info.model || "").toLowerCase()] || "";

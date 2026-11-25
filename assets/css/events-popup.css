@@ -183,3 +183,8 @@ body.evp-lock { overflow: hidden; }
   .evp-bud-s{font-size:12px;line-height:16px}
   .evp-ms summary{padding:0 13px!important}.evp-ms summary svg{margin-left:10px}
 }
+
+/* dividers between the options of a three-way pill; they step aside next to the chosen one */
+.evp-pill3 label + label::before { content: ""; position: absolute; left: 0; top: 24%; bottom: 24%; width: 1px; background: #b9b3aa; transition: opacity .2s ease; }
+.evp-pill3 label:has(input:checked)::before,
+.evp-pill3 label:has(input:checked) + label::before { opacity: 0; }

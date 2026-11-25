@@ -122,7 +122,10 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    close();                                    /* not wired to a service yet */
+    /* not wired to a service yet: on to the thank-you page, which names the model */
+    var m = current();
+    try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "brochure", model: m === "All models" ? "" : m })); } catch (err) {}
+    location.href = "thank-you.html?route=brochure" + (m === "All models" ? "" : "&model=" + encodeURIComponent(m));
   });
   window.addEventListener("resize", place);
   /* dragged across 900 with the card open: heading and cover follow the width it is at now */
