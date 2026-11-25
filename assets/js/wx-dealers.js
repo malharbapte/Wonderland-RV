@@ -115,18 +115,11 @@
       body.appendChild(dl);
       box.appendChild(body);
       box.addEventListener("toggle", function () {
-        if (box.open) { preview(l); phoneMap(l); }
+        if (box.open) preview(l);
         fitPanel();
       });
       panel.appendChild(box);
     });
-    /* phone: a Google Maps preview of the branch shown */
-    pmap = el("div", "wx-d-pmap");
-    pframe = document.createElement("iframe");
-    pframe.title = "Dealer location on Google Maps"; pframe.loading = "lazy"; pframe.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-    pmap.appendChild(pframe); panel.appendChild(pmap);
-    phoneMap(d.locs[0]);
-
     /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
     if (d.photo) {
@@ -160,20 +153,11 @@
   var MAPTYPE = { satellite: "k", hybrid: "h" };
   if (MAPSTYLE) gmap.classList.add("map-" + MAPSTYLE);
 
-  /* ---- phone: the Google Maps preview sits in the panel, under the branches, in place of the photo ---- */
-  var pmap = null, pframe = null;
-  function phoneMap(l) {
-    if (desktop.matches || !pmap) return;
-    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
-    pmap.classList.toggle("has-card", !l.ll);
-    if (pframe.getAttribute("src") !== src) pframe.setAttribute("src", src);
-  }
-
   /* ---- Google Maps preview (no key: the plain embed of an address) ---- */
   function preview(l) {
     /* a point on the map (latitude, longitude) shows a pin and nothing else; an address makes Google add its
        "Open in Maps" card at the top left, which the stylesheet then lifts out of view (.has-card) */
-    /* the phone has no preview stage; its map sits in the panel (phoneMap) */
+    /* the phone has no preview stage; its dealer pop-up has its own map */
     dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
     if (!desktop.matches) return;
     var t = MAPTYPE[MAPSTYLE] ? "&t=" + MAPTYPE[MAPSTYLE] : "";
@@ -240,6 +224,84 @@
   function pick(k) {
     if (desktop.matches && !zoomed) open();
     show(k);
+    if (!desktop.matches) popupOpen(k);
+  }
+
+
+  /* ---- phone: a pick opens the dealer as a pop-up. The map first, then the details, the CTA last;
+     arrows (or a swipe) go to the next and previous state; the cross closes it. ---- */
+  var dp = null;
+  function popupBuild() {
+    dp = el("div", "wx-dp"); dp.hidden = true;
+    dp.innerHTML =
+      '<div class="wx-dp-card" role="dialog" aria-modal="true" aria-label="Dealer details" tabindex="-1">' +
+        '<header class="wx-dp-head"><span class="wx-dp-state"></span>' +
+          '<button class="wx-dp-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor"/></svg></button></header>' +
+        '<div class="wx-dp-map"><iframe title="Dealer location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
+          '<button class="wx-dp-arrow wx-dp-arrow--prev" type="button" aria-label="Previous state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg></button>' +
+          '<button class="wx-dp-arrow wx-dp-arrow--next" type="button" aria-label="Next state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor"/></svg></button></div>' +
+        '<div class="wx-dp-body">' +
+          '<div class="wx-dp-id"><img class="wx-dp-logo" alt=""><span class="wx-dp-name"></span></div>' +
+          '<div class="wx-dp-tabs" role="tablist"></div>' +
+          '<div class="wx-dp-info"></div>' +
+        "</div>" +
+        '<a class="btn-solid wx-dp-cta" target="_blank" rel="noopener">Get directions</a>' +
+      "</div>";
+    document.body.appendChild(dp);
+    dp.querySelector(".wx-dp-x").addEventListener("click", popupClose);
+    dp.addEventListener("click", function (e) { if (e.target === dp) popupClose(); });
+    dp.querySelector(".wx-dp-arrow--prev").addEventListener("click", function () { popupGo(-1); });
+    dp.querySelector(".wx-dp-arrow--next").addEventListener("click", function () { popupGo(1); });
+    document.addEventListener("keydown", function (e) {
+      if (dp.hidden) return;
+      if (e.key === "Escape") popupClose();
+      else if (e.key === "ArrowRight") popupGo(1);
+      else if (e.key === "ArrowLeft") popupGo(-1);
+    });
+    var x0 = null;
+    dp.addEventListener("touchstart", function (e) { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+    dp.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 60) popupGo(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
+  function popupFill(k, i) {
+    var d = DEALERS[k] || DEALERS.vic, l = d.locs[i || 0];
+    dp.querySelector(".wx-dp-state").textContent = NAMES[k];
+    var lg = dp.querySelector(".wx-dp-logo");
+    lg.src = "assets/img/experience/dealers/" + d.logo; lg.alt = d.name;
+    dp.querySelector(".wx-dp-name").textContent = d.name;
+    var tabs = dp.querySelector(".wx-dp-tabs"); tabs.textContent = "";
+    tabs.hidden = d.locs.length < 2;
+    d.locs.forEach(function (loc, n) {
+      var b = el("button", n === (i || 0) ? "is-on" : "", loc.city);
+      b.type = "button"; b.setAttribute("role", "tab");
+      b.addEventListener("click", function () { popupFill(k, n); });
+      tabs.appendChild(b);
+    });
+    var info = dp.querySelector(".wx-dp-info"); info.textContent = "";
+    if (d.locs.length < 2) info.appendChild(el("p", "wx-dp-city", l.city));
+    info.appendChild(line("tel:" + l.tel.replace(/[^0-9+]/g, ""), l.tel));
+    info.appendChild(line("mailto:" + l.mail, l.mail));
+    info.appendChild(el("p", "wx-d-addr", l.addr));
+    var map = dp.querySelector(".wx-dp-map"), fr = map.querySelector("iframe");
+    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=16" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
+    map.classList.toggle("has-card", !l.ll);
+    if (fr.getAttribute("src") !== src) fr.setAttribute("src", src);
+    dp.querySelector(".wx-dp-cta").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
+  }
+  function popupOpen(k) {
+    if (!dp) popupBuild();
+    popupFill(k, 0);
+    dp.hidden = false;
+    document.body.classList.add("wx-dp-lock");
+    dp.querySelector(".wx-dp-card").focus();
+  }
+  function popupClose() { if (dp) { dp.hidden = true; document.body.classList.remove("wx-dp-lock"); } }
+  function popupGo(d) {
+    var k = ORDER[(ORDER.indexOf(cur) + d + ORDER.length) % ORDER.length];
+    show(k); popupFill(k, 0);
   }
 
   function key(s) { return s.dataset.s === "act" ? "nsw" : s.dataset.s; }
