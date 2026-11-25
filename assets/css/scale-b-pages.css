@@ -77,7 +77,7 @@
   .wx-journey { --wxc-size: var(--t-sub); --wxc-bio: var(--t-annb); --wxc-lines: 2; }
   .wx-card-title { line-height: 1.15; }
   .wx-card-bio { line-height: 1.4; margin-top: 0.08rem; }
-  .wx-card-band { padding: 0.14rem 0.20rem 0.20rem; }
+  .wx-card-band { padding: 0.20rem; }   /* equal padding on all four sides; the band is only as tall as the title (and the description when the card opens) */
   /* the same fix wherever a fixed rem line-height was left behind */
   .wx-dna p { line-height: var(--lh-body); }
   .wx-mk-text, .wx-d-addr { line-height: 1.4; }
@@ -88,7 +88,7 @@
   .unseen { padding-top: var(--section-gap); }   /* it opened on half the gap the other bands use */
   /* Thank you: the reviews wall text at the standard 1.4 */
   .ty-rc-body blockquote { line-height: 1.4; }
-  /* journey cards: a one-line title no longer leaves an empty line above its description (the title sits on the bottom of its reserved two lines) */
-  .wx-card-title { display: flex; align-items: flex-end; }
+  /* journey cards: the title reserves no spare line, so the orange band is as short as it can be */
+  .wx-card-title { min-height: 0; }
   .wx-card-bio { margin-top: 0.06rem; }
 }
