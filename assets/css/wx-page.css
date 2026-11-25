@@ -583,6 +583,10 @@
 .wx-reset--orange { background: var(--orange); color: #fff; border-radius: 50%; }
 .wx-reset--orange:hover, .wx-reset--orange:focus-visible { background: #fff; color: var(--orange); }
 .wx-reset[hidden] { display: none; }
+/* a card photo still to come: an empty grey frame with a note on what goes there */
+.wx-card-ph { width: 100%; height: 100%; box-sizing: border-box; background: #D3D1CC; display: grid; place-items: center;
+              padding: 0.3rem; text-align: center; }
+.wx-card-ph p { margin: 0; max-width: 90%; font-family: var(--gordita); font-size: var(--t-annb, 0.18rem); line-height: 1.4; color: #5f5850; text-wrap: balance; }
 .wx-d-acc { display: block; border-bottom: 1px solid #d9d5cf; }
 .wx-d-acc:first-of-type { border-top: 1px solid #d9d5cf; }
 .wx-d-acc > summary { list-style: none; cursor: pointer; display: flex; align-items: center;
