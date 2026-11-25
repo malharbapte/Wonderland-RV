@@ -37,6 +37,27 @@
   /* one call-to-action size and font everywhere */
   .btn-solid, .btn-build { font-family: var(--aviano); font-weight: 900; font-size: var(--t-btn); }
 
+  /* ---- round 2, 25 Nov ---- */
+  /* names and role in Legendary service: body */
+  .service-name, .service-role { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* Wonderlander card title: subheading (the bio stays body) */
+  .wl-card-title { font-size: var(--t-sub); line-height: 1.15; }
+  /* "GET A QUOTE" in the orange block: title */
+  .dz-quote b { font-size: var(--t-heading); line-height: 1.05; }
+  /* footer: the blurb under the logo, privacy / terms / copyright, disclaimer and photo credit: caption */
+  .footer-blurb, .footer-legal-left, .footer-legal-left a, .footer-legal-right p { font-size: var(--t-cap); line-height: 1.5; }
+  /* the top carousel covers the left two thirds (width only, the height is untouched); the quote and its mark move right with it */
+  .pull-media { width: 66.667%; }
+  .pull-quote { left: 73%; width: 24%; }
+  /* Your dream van awaits: the collage runs past the column to a gutter from each screen edge (width only) */
+  .dz-grid { --dz-gutter: 0.24rem; width: calc(100vw - 2 * var(--dz-gutter)); margin-left: calc(50% - 50vw + var(--dz-gutter)); }
+  /* line gaps, retuned for the smaller type */
+  .rvx { padding-top: 1.00rem; }
+  .rvx-stage { margin-top: 0.10rem; }
+  .rvx-title { margin-bottom: 0.60rem; }
+  .coty { padding-top: 0.90rem; padding-bottom: 0.90rem; }
+  .faq { padding-top: 0.90rem; }   /* insurance and the FAQs sat nearly 3rem apart */
+
   /* things that were tied to the old window-height fit */
   .dz-grid { --bento-h: 8.4rem; }
   /* full-bleed strips that start at the column's left edge */
