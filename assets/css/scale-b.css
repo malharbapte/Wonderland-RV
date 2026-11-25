@@ -14,7 +14,7 @@
   /* body: 28 */
   .faq-a p, .wl-card-bio { font-size: var(--t-body); line-height: var(--lh-body); }
   /* annotation title: 26 */
-  .wd-c b, .dz .vc h3, .rvx-k { font-size: var(--t-annt); line-height: 1.15; }
+  .wd-c b, .dz .vc h3, .rvx-k, .rvx-badge { font-size: var(--t-annt); line-height: 1.15; }
   /* annotation body: 22 */
   .wd-c span, .dz .vc p { font-size: var(--t-annb); line-height: 1.35; }
   /* caption, disclaimer, T&C: 18 */
@@ -25,7 +25,9 @@
   /* title 56 */
   .rvx-name { font-size: var(--t-heading); }
   /* body 28 */
-  .rvx-tag, .rvx-badge, .service-kicker, .service-name, .service-role { font-size: var(--t-body); line-height: var(--lh-body); }
+  .rvx-tag, .service-kicker { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* names and their position: caption 18 (reviewer name and role, Wonderlander card names) */
+  .service-name, .service-role, .wl-card-title { font-size: var(--t-cap); line-height: 1.45; }
   /* annotation body 22 */
   .rvx-n { font-size: var(--t-annb); line-height: 1.35; }
   /* subheading 32 */
