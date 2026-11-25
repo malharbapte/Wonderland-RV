@@ -640,7 +640,265 @@
 <script src="assets/js/faq.js?v=314"></script>
 <script src="assets/js/wl-strip.js?v=314"></script>
 <script src="assets/js/brand-marquee.js?v=1"></script>
-<!-- brochure download pop-up, the same as the homepage (Piyush, 25 Nov 2026): the side bar's brochure row opens it -->
+<script src="assets/js/side-bar.js?v=8"></script>
+<!-- brochure download pop-up: the build that is live on the website's range and layout pages (Piyush, 25 Nov 2026:
+     "need to looks like what i have got on the website which is live"). Source: _work/brochure-popup-malhar/
+     preview-2026-11-25-nopostcode/popup-brochure.html. Mock only: Download goes to the brochure thank-you page. -->
+<style>
+/* his tokens (styles.css :root), on the pop-up only */
+#broScrim.bro-scrim{--bror:max(52px,min(calc(100vw / 24),calc((100vh - 48px) / 10.2),100px));--ink:#000;--orange:#DB7627;--orange-deep:#D57114;
+ --aviano:"aviano-sans","Aviano Sans","Trebuchet MS",sans-serif;--gordita:"Gordita","Helvetica Neue",Arial,sans-serif;
+ --t-heading:calc(.56 * var(--bror));--t-body:calc(.28 * var(--bror));--lh-body:calc(.40 * var(--bror));
+ font-family:var(--gordita);color:var(--ink);z-index:100000!important;-webkit-text-size-adjust:100%}
+@media (max-width:900px){#broScrim.bro-scrim{--t-heading:30px;--t-body:15px;--lh-body:23px}}
+/* his base reset, and the theme's form styles undone inside the pop-up (his page has none) */
+#broScrim :is(button,input,select,textarea,label,a){all:revert;box-sizing:border-box}
+#broScrim *,#broScrim *::before,#broScrim *::after{box-sizing:border-box}
+#broScrim img,#broScrim svg{display:block;max-width:100%}
+#broScrim p{margin:0}
+#broScrim h2{margin:0;font-weight:400;letter-spacing:0;word-spacing:.09em}
+#broScrim .bro-x:hover,#broScrim .bro-x:focus{background:none}
+#broScrim .bro-tabs button:hover,#broScrim .bro-tabs button:focus{background:none}
+/* after Download: his heading/button styles, nothing new */
+#broScrim .bro-done[hidden],#broScrim .bro-err[hidden],#broScrim .bro-form[hidden],#broScrim .bro-tabs[hidden],#broScrim .bro-msel[hidden]{display:none}
+#broScrim .bro-done{margin-top:calc(.52 * var(--bror))}
+#broScrim .bro-done-t{font-family:var(--aviano);font-weight:900;font-size:calc(.32 * var(--bror));line-height:1.1;text-transform:uppercase;word-spacing:.09em}
+#broScrim .bro-done-l{margin-top:calc(.16 * var(--bror));font-size:var(--t-body);line-height:var(--lh-body);color:#6b6158}
+#broScrim a.bro-done-b{display:grid;place-items:center;margin-top:calc(.4 * var(--bror));text-decoration:none;text-transform:uppercase}
+#broScrim .bro-err{margin-top:calc(.2 * var(--bror));font-size:calc(.19 * var(--bror));color:#c0392b}
+#broScrim .bro-submit[disabled]{opacity:.6;cursor:progress}
+#broScrim .bro-lede[hidden]{display:none}
+@media (max-width:900px){/* Piyush 11 Nov 2026: 'move that image on the left by 25%' = the cover photo slides left, showing more of the brochure's front cover */
+#broScrim .bro-cover img{object-position:75% 50%}
+/* then 'a bit more less scaled so it is more visible' = the whole photo fits the panel, sitting at the bottom */
+#broScrim .bro-cover:not(.bro-cover--all){position:relative}
+#broScrim .bro-cover:not(.bro-cover--all) img{position:absolute;right:-7.5%;bottom:0;width:140%;max-width:none;height:auto;object-fit:initial}
+}
+/* the intro line at the top of the form: the layout pop-up's .eq-lede values */
+#broScrim .bro-lede{font-family:var(--gordita);font-size:calc(.24 * var(--bror));line-height:1.42;color:var(--ink);text-wrap:balance;padding-right:calc(.5 * var(--bror))}
+/* tablets in portrait (601-900px) use his phone layout, but at a comfortable width, centred, not stretched edge to edge */
+@media (min-width:601px) and (max-width:900px){#broScrim.bro-scrim{place-items:center}#broScrim .bro{max-width:560px}}
+@media (max-width:900px){#broScrim .bro-done{margin-top:24px}#broScrim .bro-done-t{font-size:20px}#broScrim .bro-done-l{margin-top:8px}
+ #broScrim a.bro-done-b{margin-top:20px}#broScrim .bro-err{margin-top:12px;font-size:13px}
+ #broScrim .bro-lede{margin-top:14px;padding-right:0;font-size:15px;line-height:22px}}
+/* ==========================================================================
+   BROCHURE DOWNLOAD POP-UP (option C of sample-brochure-c.html)
+   Opens from the Download brochure buttons. Desktop: the model is underlined
+   tabs. Phone: a dropdown with a 3px orange outline, a white fill and the model
+   in Aviano Black. The follow-up is the pill. Desktop sizes in rem, phone sizes
+   in px (rem is a flat 16px on a phone).
+   ========================================================================== */
+#broScrim.bro-scrim {/* the blur behind the pop-up: option A of sample-brochure-blur.html, 5px and a light dim */ position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto;
+             background: rgba(0,0,0,.35); animation: bro-fade .28s ease;
+             
+             -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+#broScrim.bro-scrim[hidden] { display: none; }
+@keyframes bro-fade { from { opacity: 0; } to { opacity: 1; } }
+body.bro-lock { overflow: hidden; }
+#broScrim .bro { position: relative; background: #fff; border-radius: 3px; box-shadow: 0 10px 40px rgba(0,0,0,.25);
+       font-family: var(--gordita); color: var(--ink); outline: none; }
+#broScrim .bro-x { position: absolute; z-index: 2; padding: 0; background: none; border: 0; color: var(--ink);
+         display: grid; place-items: center; cursor: pointer; transition: color .2s ease; }
+#broScrim .bro-x:hover, #broScrim .bro-x:focus-visible { color: var(--orange-deep); }
+#broScrim .bro-x svg { stroke-width: 1.1; stroke-linecap: butt; }
+#broScrim .bro-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading);
+             line-height: 1.05; text-transform: uppercase; }
+#broScrim .bro-intro { margin: 0; color: #6b6158; font-size: var(--t-body); }
+#broScrim .bro-phbr { display: none; }
+#broScrim .bro-cover { display: none; }
+#broScrim .bro-form { display: grid; }
+#broScrim .bro-g2 { display: grid; grid-template-columns: 1fr 1fr; }
+#broScrim .bro-g2.bro-one { grid-template-columns: 1fr; }
+#broScrim .bro-f { display: block; position: relative; }
+#broScrim .bro-f input, #broScrim .bro-f select { display: block; width: 100%; background: none; color: var(--ink);
+                              font-family: var(--gordita); border-radius: 0; }
+#broScrim .bro-f input { border: 0; border-bottom: 1px solid var(--ink); }
+#broScrim .bro-f input::placeholder { color: #6b6158; opacity: 1; }
+#broScrim .bro-f input:focus { outline: none; border-bottom-color: var(--orange); box-shadow: 0 1px 0 var(--orange); }
+#broScrim .bro-f select { border: 1px solid var(--ink); border-radius: 3px; -webkit-appearance: none; appearance: none; color: #6b6158; }
+#broScrim .bro-f select:valid { color: var(--ink); }
+#broScrim .bro-f select:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
+#broScrim .bro-sel svg { position: absolute; top: 50%; pointer-events: none; }
+#broScrim .bro-sv { display: none; }
+#broScrim .bro-msel { display: none; }/* the model, as underlined tabs */
+
+#broScrim .bro-tabs { position: relative; display: flex; border-bottom: 1px solid #d9d6d0; }
+#broScrim .bro-tabs button { position: relative; flex: none; background: none; border: 0; cursor: pointer; white-space: nowrap;
+                   font-family: var(--aviano); font-weight: 900; letter-spacing: .08em; text-transform: uppercase;
+                   color: #9a948c; transition: color .25s ease; }
+#broScrim .bro-tabs button:hover, #broScrim .bro-tabs button[aria-selected="true"] { color: var(--orange-deep); }
+#broScrim .bro-tabs button:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 2px; }
+#broScrim .bro-tabs-i { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--orange-deep);
+              transition: left .35s cubic-bezier(.65,0,.35,1), width .35s cubic-bezier(.65,0,.35,1); }/* the follow-up pill */
+
+#broScrim .bro-pill { position: relative; display: flex; border: 1px solid var(--ink); }
+#broScrim .bro-pill label { position: relative; z-index: 1; flex: 1 1 0; display: grid; place-items: center; text-align: center;
+                  cursor: pointer; transition: color .28s ease; }
+#broScrim .bro-pill input { position: absolute; opacity: 0; pointer-events: none; }
+#broScrim .bro-pill label:has(input:checked) { color: #fff; font-weight: 700; }
+#broScrim .bro-pill label:has(input:focus-visible) { outline: 2px solid var(--orange-deep); outline-offset: -2px; }
+#broScrim .bro-pill-t { position: absolute; left: 0; width: 0; background: var(--orange);
+              transition: left .4s cubic-bezier(.65,0,.35,1), width .4s cubic-bezier(.65,0,.35,1); }
+#broScrim .bro-ck { display: flex; align-items: flex-start; cursor: pointer; }
+#broScrim .bro-ck input { flex: none; -webkit-appearance: none; appearance: none; border: 1px solid var(--ink);
+                border-radius: 50%; cursor: pointer; margin: 0; }
+#broScrim .bro-ck input:checked { background: var(--orange) center / 52% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-5.9' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  border-color: var(--orange); }
+#broScrim .bro-submit { display: block; background: var(--orange); color: #fff; border: 0; border-radius: 3px; cursor: pointer;
+              font-family: var(--aviano); font-weight: 900; box-shadow: inset 0 0 0 2px var(--orange);
+              transition: background .3s ease, color .3s ease; }
+#broScrim .bro-submit:hover, #broScrim .bro-submit:focus-visible { background: #fff; color: var(--orange); }
+
+@media (min-width: 901px) {
+  #broScrim.bro-scrim { padding: calc(.30 * var(--bror)); }/* the Layouts pop-up's card: a grey panel on the left (heading, line, the
+     brochure cover) and the form on the right *//* RULE OF THIRDS: the left panel is a third of the card, the form two thirds */
+  
+  
+  #broScrim .bro { width: calc(14.4 * var(--bror)); margin: auto; padding: 0; display: grid; grid-template-columns: 1fr 2fr; overflow: hidden; }/* the left panel is a third of words above, two thirds of photo below, the photo
+     running to both sides and the bottom of the card */
+  
+  #broScrim .bro-left { background: #F8F8F7; display: flex; flex-direction: column; border-radius: 3px 0 0 3px; }
+  #broScrim .bro-lt { flex: 1 1 0; padding: calc(.6 * var(--bror)) calc(.5 * var(--bror)) calc(.3 * var(--bror)); }
+  #broScrim .bro-cover { display: block; flex: 2 1 0; min-height: 0; margin: 0; width: 100%; overflow: hidden; background: #F8F8F7; }
+  #broScrim .bro-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }/* the four together: each tile is a quarter of the area; minmax(0, 1fr) so a tile's
+     picture cannot push its row taller than half */
+  
+  #broScrim .bro-cover--all { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: calc(.03 * var(--bror)); }
+  #broScrim .bro-cover--all img { height: auto; min-height: 0; align-self: stretch; justify-self: stretch; contain: size; }
+  #broScrim .bro-right { padding: calc(.6 * var(--bror)) calc(.6 * var(--bror)) calc(.55 * var(--bror)) calc(.5 * var(--bror)); }
+  #broScrim .bro-x { top: calc(.15 * var(--bror)); right: calc(.15 * var(--bror)); width: calc(.5 * var(--bror)); height: calc(.5 * var(--bror)); }
+  #broScrim .bro-x svg { width: calc(.44 * var(--bror)); height: calc(.44 * var(--bror)); }
+  #broScrim .bro-intro { margin-top: calc(.14 * var(--bror)); line-height: var(--lh-body); }/* tab size B of sample-brochure-tabs.html: 40% larger, a 3px underline */
+  
+  #broScrim .bro-tabs { gap: calc(.50 * var(--bror)); margin-top: calc(.52 * var(--bror)); }
+  #broScrim .bro-tabs button { padding: 0 0 calc(.20 * var(--bror)); font-size: calc(.24 * var(--bror)); }
+  #broScrim .bro-tabs-i { height: 3px; }
+  #broScrim .bro-form { margin-top: calc(.3 * var(--bror)); gap: calc(.26 * var(--bror)); }
+  #broScrim .bro-g2 { gap: calc(.2 * var(--bror)); }
+  #broScrim .bro-f input, #broScrim .bro-f select { height: calc(.7 * var(--bror)); font-size: calc(.21 * var(--bror)); }
+  #broScrim .bro-f input { padding: 0 calc(.02 * var(--bror)); }
+  #broScrim .bro-f select { padding: 0 calc(.26 * var(--bror)); }
+  #broScrim .bro-sel svg { right: calc(.22 * var(--bror)); width: calc(.14 * var(--bror)); height: calc(.08 * var(--bror)); margin-top: calc(-.04 * var(--bror)); }
+  #broScrim .bro-pill { height: calc(.84 * var(--bror)); padding: calc(.08 * var(--bror)); border-radius: calc(.16 * var(--bror)); }
+  #broScrim .bro-pill label { font-size: calc(.24 * var(--bror)); }
+  #broScrim .bro-pill-t { top: calc(.08 * var(--bror)); bottom: calc(.08 * var(--bror)); border-radius: calc(.08 * var(--bror)); }
+  #broScrim .bro-ck { gap: calc(.2 * var(--bror)); font-size: calc(.17 * var(--bror)); line-height: calc(.24 * var(--bror)); }
+  #broScrim .bro-ck input { width: calc(.26 * var(--bror)); height: calc(.26 * var(--bror)); }
+  #broScrim .bro-submit { width: calc(3.14 * var(--bror)); height: calc(.70 * var(--bror)); font-size: calc(.18 * var(--bror)); }
+}
+
+@media (max-width: 900px) {
+  #broScrim.bro-scrim { padding: 12px; place-items: start center; grid-template-columns: minmax(0, 1fr); }
+  #broScrim .bro { width: 100%; margin: 0 auto; padding: 56px 20px 24px; }
+  #broScrim .bro-x { top: 6px; right: 6px; width: 44px; height: 44px; }
+  #broScrim .bro-x svg { width: 28px; height: 28px; }
+  #broScrim .bro-title { padding-right: 44px; }
+  #broScrim .bro-phbr { display: inline; }
+  #broScrim .bro-left { display: block; }
+  #broScrim .bro-intro { margin-top: 8px; font-size: 15px; line-height: 1.3; }
+  #broScrim .bro-tabs { display: none; }/* the model: a dropdown, white fill, a 3px orange outline, the name in orange Aviano Black */
+  
+  #broScrim .bro-msel { display: block; margin-top: 16px; }
+  #broScrim .bro-msel .bro-f select { height: 52px; padding: 0 14px; border: 3px solid var(--orange-deep); background: #fff;
+      color: var(--orange-deep); font-family: var(--aviano); font-weight: 900; font-size: 17.25px;
+      letter-spacing: .06em; text-transform: uppercase; box-shadow: none; }
+  #broScrim .bro-msel .bro-f select:valid, #broScrim .bro-msel .bro-f select:focus { color: var(--orange-deep); border-color: var(--orange-deep); box-shadow: none; }
+  #broScrim .bro-msel option { font-family: var(--aviano); font-weight: 900; color: var(--ink); }
+  #broScrim .bro-msel .bro-sel svg { color: var(--orange-deep); width: 16px; height: 9px; margin-top: -4px; right: 18px; }
+  #broScrim .bro-form { margin-top: 16px; gap: 14px; }
+  #broScrim .bro-g2 { grid-template-columns: 1fr; gap: 12px; }
+  #broScrim .bro-f input, #broScrim .bro-f select { height: 48px; font-size: 16px; }
+  #broScrim .bro-f select { padding: 0 14px; }/* suggestive text 20% smaller (12.8px); typed text and the controls stay 16px so iPhones do not zoom in */
+  
+  #broScrim .bro-f input::placeholder { font-size: 12.8px; }
+  #broScrim .bro-state select { color: transparent; }
+  #broScrim .bro-state select option { color: var(--ink); }
+  #broScrim .bro-state .bro-sv { display: flex; align-items: center; position: absolute; left: 14px; top: 0; bottom: 0; right: 44px;
+                       pointer-events: none; font-family: var(--gordita); font-size: 12.8px; color: #6b6158; }
+  #broScrim .bro-state .bro-sv.on { color: var(--ink); }
+  #broScrim .bro-sel svg { right: 16px; width: 14px; height: 8px; margin-top: -4px; }
+  #broScrim .bro-pill { height: 52px; padding: 4px; border-radius: 8px; }
+  #broScrim .bro-pill label { font-size: 13px; line-height: 1.15; padding: 0 4px; }
+  #broScrim .bro-pill-t { top: 4px; bottom: 4px; border-radius: 4px; }
+  #broScrim .bro-ck { gap: 10px; font-size: 12px; line-height: 17px; color: #6b6158; }
+  #broScrim .bro-ck input { width: 16px; height: 16px; margin-top: 1px; }
+  #broScrim .bro-submit { width: 100%; height: 52px; font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { #broScrim.bro-scrim { animation: none; } #broScrim .bro-pill-t, #broScrim .bro-tabs-i, #broScrim .bro-tabs button { transition: none; } }
+
+/* Readable on every screen (Piyush 11 Nov 2026: 'all text should be readable, the form should be very obvious that they need
+   to fill it'). His sizes scale with the window; these floors keep the smallest text at 13px and the fields at 16px. */
+@media (min-width:901px){
+#broScrim .bro-title{font-size:max(calc(.56 * var(--bror)),32px)}
+#broScrim .bro-intro{font-size:max(calc(.28 * var(--bror)),16px);line-height:max(calc(.40 * var(--bror)),23px)}
+#broScrim .bro-lede{font-size:max(calc(.26 * var(--bror)),16px)}
+#broScrim .bro-tabs button{font-size:max(calc(.24 * var(--bror)),14px)}
+#broScrim .bro-f input,#broScrim .bro-f select{font-size:max(calc(.23 * var(--bror)),16px)}
+#broScrim .bro-pill label{font-size:max(calc(.24 * var(--bror)),16px)}
+#broScrim .bro-ck{font-size:max(calc(.18 * var(--bror)),13px);line-height:max(calc(.26 * var(--bror)),19px)}
+#broScrim .bro-submit{font-size:max(calc(.19 * var(--bror)),14px)}
+#broScrim .bro-done-t{font-size:max(calc(.32 * var(--bror)),20px)}
+#broScrim .bro-done-l{font-size:max(calc(.28 * var(--bror)),16px);line-height:max(calc(.40 * var(--bror)),23px)}
+}
+/* the fields read as things to fill in: darker hint text and a firmer line, on every screen */
+#broScrim .bro-f input::placeholder{color:#2a2623}
+#broScrim .bro-f input{border-bottom-width:1.5px}
+#broScrim .bro-f select{color:#2a2623;border-width:1.5px}
+#broScrim .bro-state .bro-sv{color:#2a2623}
+@media (max-width:900px){#broScrim .bro-f input::placeholder{font-size:15px}#broScrim .bro-state .bro-sv{font-size:15px}
+ #broScrim .bro-ck{font-size:13px;line-height:18px;color:#3d3833}#broScrim .bro-pill label{font-size:14px}
+ /* 12 Nov 2026: up to 900px the State label is the overlay (.bro-sv), so the field's own text stays hidden, empty or
+    chosen. The darker select colour above, and his own select:valid rule, were both showing it under the overlay. */
+ #broScrim .bro-f.bro-state select,#broScrim .bro-f.bro-state select:valid{color:transparent}}
+/* 12 Nov 2026 (Piyush: "optmise that size"): from 901px up the three follow-up options share the row by the length of their
+   words, so "Virtual consultation" stays on one line inside its orange box even when chosen (bold) at 901 to 1280px, where
+   equal thirds wrapped it. The highlight box follows each option's width (place() measures it). */
+@media (min-width:901px){#broScrim .bro-pill label{white-space:nowrap}
+ #broScrim .bro-pill label:nth-of-type(1){flex-grow:1.05}#broScrim .bro-pill label:nth-of-type(2){flex-grow:.8}
+ #broScrim .bro-pill label:nth-of-type(3){flex-grow:1.35}}
+
+/* 17 Nov 2026 (Piyush: the Download button must show on the first screen of a phone). Phones up to 600px wide, spacing only:
+   margins, gaps, padding and line-height, no font size changes, so the 13px text and 16px field floors above still hold.
+   375x812 is the target; 375x667 (small iPhone) gets a second, tighter step. */
+@media (max-width:600px){
+#broScrim .bro{padding-top:44px}
+#broScrim .bro-title{line-height:30px}
+#broScrim .bro-lede{margin-top:10px;line-height:20px}
+#broScrim .bro-form{margin-top:10px;gap:8px}
+#broScrim .bro-g2{gap:8px}
+#broScrim .bro-ck{line-height:17px}}
+@media (max-width:600px) and (max-height:700px){
+#broScrim .bro{padding-top:40px}
+#broScrim .bro-lede{margin-top:8px;line-height:19px}
+#broScrim .bro-form{margin-top:8px;gap:6px}
+#broScrim .bro-g2{gap:6px}}
+
+/* 25 Nov 2026 (Piyush: 'remove post code from the brochure form and make it looks nicer'). Post Code is gone from the pop-up
+   (Gravity Forms field 10 stays, optional, and is simply left empty). Desktop: Full Name | Email, then Phone | State.
+   Autofill on (Boss 25 Nov: browsers were told not to autofill): name, email, tel, address-level1.
+   The follow-up row takes the 3px corner of the live layout-page form (.wlxin-pill: 3px outside, 2px highlight). */
+#broScrim .bro-pill{border-radius:3px}
+#broScrim .bro-pill-t{border-radius:2px}
+@media (min-width:901px){#broScrim .bro-form{gap:calc(.3 * var(--bror))}#broScrim .bro-g2{column-gap:calc(.3 * var(--bror))}}
+/* phones: the space Post Code used goes back into an even rhythm (12px between every row, as on the layout-page form) */
+@media (max-width:600px){
+#broScrim .bro-title{font-size:22px;line-height:24px}
+#broScrim .bro-lede{margin-top:12px;line-height:21px}
+#broScrim .bro-form{margin-top:16px;gap:12px}
+#broScrim .bro-g2{gap:12px}
+#broScrim .bro-ck{margin-top:2px}}
+@media (max-width:600px) and (max-height:700px){
+#broScrim .bro-lede{margin-top:10px;line-height:20px}
+#broScrim .bro-form{margin-top:12px;gap:10px}
+#broScrim .bro-g2{gap:10px}}
+/* up to 900px the State label is the overlay; Chrome's autofill colour would show the select's own text under it, doubled */
+@media (max-width:900px){#broScrim .bro-f.bro-state select:autofill{-webkit-text-fill-color:transparent;color:transparent}}
+@media (max-width:900px){#broScrim .bro-f.bro-state select:-webkit-autofill{-webkit-text-fill-color:transparent;color:transparent}}
+/* Piyush 25 Nov 2026: 'need to appear in the centre of all screens'. Up to 900px the card sat at the top; it is now centred
+   up and down. A screen too short for the card (a phone on its side) still starts it at the top and scrolls, nothing cut off. */
+@media (max-width:900px){#broScrim.bro-scrim{place-items:stretch center;align-content:stretch}#broScrim .bro{margin-block:auto}}
+</style>
 <div class="bro-scrim" id="broScrim" hidden>
   <div class="bro" id="broCard" role="dialog" aria-modal="true" aria-labelledby="broTitle" tabindex="-1">
     <button class="bro-x" id="broClose" type="button" aria-label="Close">
@@ -649,22 +907,21 @@
     <div class="bro-left">
       <div class="bro-lt">
         <h2 class="bro-title" id="broTitle">Download the Brochure</h2>
-        <p class="bro-intro">Choose the model,<br class="bro-phbr"> then tell us where to send it.</p>
       </div>
       <div class="bro-cover" id="broCover"></div>
     </div>
     <div class="bro-right">
-    <div class="bro-tabs" id="broTabs" role="tablist" aria-label="Model"><span class="bro-tabs-i" aria-hidden="true"></span><button type="button" role="tab" data-m="All models" aria-selected="true">All models</button><button type="button" role="tab" data-m="Solara" aria-selected="false">Solara</button><button type="button" role="tab" data-m="XTR" aria-selected="false">XTR</button><button type="button" role="tab" data-m="Hornet" aria-selected="false">Hornet</button><button type="button" role="tab" data-m="Amaroo" aria-selected="false">Amaroo</button></div>
-    <div class="bro-msel"><label class="bro-f bro-sel"><select id="broModel" aria-label="Model"><option value="All models" selected>All models</option><option value="Solara">Solara</option><option value="XTR">XTR</option><option value="Hornet">Hornet</option><option value="Amaroo">Amaroo</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label></div>
-    <form class="bro-form" id="broForm" action="#" method="post" autocomplete="off" novalidate>
-      <div class="bro-g2 bro-one"><label class="bro-f"><input name="name" type="text" placeholder="Full Name*" required autocomplete="off"></label></div>
+    <p class="bro-lede">See every <span id="broLedeM">Solara</span> layout and spec, and which items are standard or an upgrade as you plan your dream&nbsp;van.</p>
+    <div class="bro-tabs" id="broTabs" role="tablist" aria-label="Model"><span class="bro-tabs-i" aria-hidden="true"></span><button type="button" role="tab" data-m="Solara" aria-selected="true">Solara</button><button type="button" role="tab" data-m="XTR" aria-selected="false">XTR</button><button type="button" role="tab" data-m="Hornet" aria-selected="false">Hornet</button><button type="button" role="tab" data-m="Amaroo" aria-selected="false">Amaroo</button></div>
+    <div class="bro-msel" hidden><label class="bro-f bro-sel"><select id="broModel" aria-label="Model"><option value="Solara">Solara</option><option value="XTR">XTR</option><option value="Hornet">Hornet</option><option value="Amaroo">Amaroo</option></select><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label></div>
+    <form class="bro-form" id="broForm" action="#" method="post" autocomplete="on" novalidate>
       <div class="bro-g2">
-        <label class="bro-f"><input name="email" type="email" placeholder="Email*" required autocomplete="off"></label>
-        <label class="bro-f"><input name="phone" type="tel" placeholder="Phone*" required autocomplete="off"></label>
+        <label class="bro-f"><input name="name" id="broName" type="text" placeholder="Full Name*" required autocomplete="name" autocapitalize="words"></label>
+        <label class="bro-f"><input name="email" id="broEmail" type="email" inputmode="email" placeholder="Email*" required autocomplete="email" autocapitalize="off" spellcheck="false"></label>
       </div>
       <div class="bro-g2">
-        <label class="bro-f bro-sel bro-state"><select name="state" required><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Tasmania</option><option>Northern Territory</option><option>Australian Capital Territory</option><option>New Zealand</option></select><span class="bro-sv" aria-hidden="true">State*</span><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
-        <label class="bro-f"><input name="postcode" type="text" inputmode="numeric" placeholder="Post Code" autocomplete="off"></label>
+        <label class="bro-f"><input name="phone" id="broPhone" type="tel" inputmode="tel" placeholder="Phone*" required autocomplete="tel"></label>
+        <label class="bro-f bro-sel bro-state"><select name="state" id="broState" required autocomplete="address-level1"><option value="" selected disabled>State*</option><option>Victoria</option><option>New South Wales / ACT</option><option>Queensland</option><option>South Australia</option><option>Western Australia</option><option>Northern Territory</option><option>Tasmania</option><option>New Zealand</option></select><span class="bro-sv" aria-hidden="true">State*</span><svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg></label>
       </div>
       <div class="bro-pill" role="radiogroup" aria-label="How would you like us to follow up?">
         <span class="bro-pill-t" aria-hidden="true"></span>
@@ -672,14 +929,203 @@
         <label><input type="radio" name="follow-up" value="Call back"><span>Call back</span></label>
         <label><input type="radio" name="follow-up" value="Virtual consultation"><span>Virtual consultation</span></label>
       </div>
-      <label class="bro-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>
+      <label class="bro-ck"><input type="checkbox" name="marketing" checked><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>
       <button class="bro-submit" type="submit">Download</button>
     </form>
+    <p class="bro-err" id="broErr" role="alert" hidden></p>
     </div>
   </div>
 </div>
-<script src="assets/js/side-bar.js?v=8"></script>
-<script src="assets/js/brochure-popup.js?v=6"></script>
+<script>
+(function () {
+  var COVER = "https://wonderlandrv.com.au/wp-content/uploads/2026/11/wonderland-rv-{}-brochure-cover.webp", PDF = "https://wonderlandrv.com.au/wp-content/uploads/2026/09/Wonderland-RV-{}-Brochure.pdf";
+  var FORMS = {"Solara": 22, "XTR": 21, "Hornet": 24, "Amaroo": 23}, POPUPS = {"9758": "Solara", "4627": "XTR", "4647": "Amaroo", "3948": "Hornet"};
+  /* the pop-up sits directly in <body>: Elementor containers make their own stacking layer */
+  var scrimEl = document.getElementById("broScrim");
+  if (scrimEl && scrimEl.parentNode !== document.body) document.body.appendChild(scrimEl);
+  /* GA4 click tracking: dataLayer push for GTM plus a direct GA4 event. Never fires on load; any error is swallowed. */
+  var GA = "G-JJGXTWTP7L", trkM = "", trkSub = false, trkTrig = "button";
+  function trk(n, p) { try { var w = window, k, o = { event: n }, q = { send_to: GA };
+    if (typeof w.gtag !== "function" && !(w.dataLayer && w.dataLayer.push)) return;
+    w.dataLayer = w.dataLayer || [];
+    for (k in p) { o[k] = p[k]; q[k] = p[k]; } w.dataLayer.push(o);
+    var g = typeof w.gtag === "function" ? w.gtag : function () { w.dataLayer.push(arguments); }; g("event", n, q); } catch (e) {} }
+  function trkModel() { try { return String(current()).toLowerCase(); } catch (e) { return "other"; } }
+  function trkPath() { try { return location.pathname.toLowerCase(); } catch (e) { return ""; } }
+  function trkType() { try { var s = location.pathname.toLowerCase().replace(/^\/+|\/+$/g, "").split("/");
+    return s[0] === "range" ? (s.length >= 3 ? "layout" : "range") : "other"; } catch (e) { return "other"; } }
+  function trkOpen() { try { trkM = trkModel(); trkSub = false;
+    trk("wl_brochure_popup_open", { model: trkM, page_type: trkType(), page_path: trkPath(), trigger: trkTrig }); trkTrig = "button"; } catch (e) {} }
+  function trkSwitch(from, to) { try { to = String(to).toLowerCase(); if (from && from !== to) trk("wl_brochure_popup_model_switch", { from_model: from, to_model: to }); trkM = to; } catch (e) {} }
+  function trkClose() { try { trk("wl_brochure_popup_close", { model: trkModel(), stage: trkSub ? "after_submit" : "form" }); } catch (e) {} }
+  function trkSubmit() { try { trkSub = true; trk("wl_brochure_popup_submit", { model: trkModel(), page_type: trkType(), page_path: trkPath() }); } catch (e) {} }
+  var scrim = document.getElementById("broScrim");
+  var card  = document.getElementById("broCard");
+  if (!scrim || !card) return;
+
+  var closeBtn = document.getElementById("broClose");
+  var title    = document.getElementById("broTitle");
+  var form     = document.getElementById("broForm");
+  var tabsBar  = document.getElementById("broTabs");
+  var tabs     = [].slice.call(tabsBar.querySelectorAll("button"));
+  var ind      = tabsBar.querySelector(".bro-tabs-i");
+  var model    = document.getElementById("broModel");
+  var stateSel = form.querySelector("select[name=state]");
+  var stateVal = form.querySelector(".bro-sv");
+  var pill     = form.querySelector(".bro-pill");
+  var pillT    = pill.querySelector(".bro-pill-t");
+  var opener   = null, isOpen = false;
+
+  function current() {
+    var on = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0];
+    return on ? on.dataset.m : "Solara";
+  }
+  /* DESKTOP ONLY: the brochure photo for the model, in the grey panel. The phone has no photo and never fetches one. */
+  var cover = document.getElementById("broCover");
+  var WIDE  = window.matchMedia("(min-width: 901px)");
+  var PIC   = { "Solara": "solara", "XTR": "xtr", "Hornet": "hornet", "Amaroo": "amaroo" };
+  function showCover(m) {
+    if (!cover || !WIDE.matches) return;
+    var all = false;
+    cover.textContent = "";
+    cover.classList.toggle("bro-cover--all", all);
+    (all ? ["Solara", "XTR", "Hornet", "Amaroo"] : [m]).forEach(function (name) {
+      if (!PIC[name]) return;
+      var img = document.createElement("img");
+      img.src = COVER.replace("{}", PIC[name]);
+      img.alt = "The Wonderland RV " + name + " brochure";
+      cover.appendChild(img);
+    });
+  }
+
+  function setModel(m) {
+    tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.m === m)); });
+    model.value = m;
+    /* desktop: the heading never names the model (the tabs do that); phone: it follows */
+    title.textContent = "Download the " + m + " brochure";
+    /* 25 Nov 2026 intro line names the same model as the heading */
+    var ledeM = document.getElementById("broLedeM"); if (ledeM) ledeM.textContent = m;
+    showCover(m);
+    place();
+  }
+  /* the orange blocks sit under the chosen name / segment; they are measured, so
+     this runs once the card is on screen, and again if the window or fonts change */
+  function place() {
+    if (!isOpen) return;
+    var on = tabsBar.querySelector('[aria-selected="true"]');
+    if (on && on.offsetWidth) { ind.style.left = on.offsetLeft + "px"; ind.style.width = on.offsetWidth + "px"; }
+    var chosen = pill.querySelector("input:checked");
+    if (chosen) { var lab = chosen.parentNode; pillT.style.left = lab.offsetLeft + "px"; pillT.style.width = lab.offsetWidth + "px"; }
+  }
+
+  function open(from, m) {
+    opener = from || document.activeElement;
+    isOpen = true;
+    scrim.hidden = false;
+    document.body.classList.add("bro-lock");
+    setModel(m || "Solara"); reset();
+    card.focus();
+    setTimeout(place, 30);
+    trkOpen();
+  }
+  function close() {
+    if (!isOpen) return;
+    trkClose();
+    isOpen = false;
+    scrim.hidden = true;
+    document.body.classList.remove("bro-lock");
+    if (opener && opener.focus) { try { opener.focus(); } catch (e) {} }
+  }
+
+  [].forEach.call(document.querySelectorAll("[data-brochure]"), function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      /* a button can name its model (data-model); otherwise it is the van the
+         range viewer around it is showing right now */
+      var box = a.closest(".rvx, .rvp");
+      open(a, a.dataset.model || (box && box.dataset.model) || "Solara");
+    });
+  });
+  closeBtn.addEventListener("click", close);
+  scrim.addEventListener("click", function (e) { if (e.target === scrim) close(); });
+  tabs.forEach(function (t) { t.addEventListener("click", function () { var f = trkM; setModel(t.dataset.m); trkSwitch(f, t.dataset.m); }); });
+  model.addEventListener("change", function () { var f = trkM; setModel(model.value); trkSwitch(f, model.value); });
+  [].forEach.call(pill.querySelectorAll("input"), function (i) { i.addEventListener("change", place); });
+  stateSel.addEventListener("change", function () { stateVal.textContent = stateSel.value; stateVal.classList.add("on"); });
+
+  document.addEventListener("keydown", function (e) {
+    if (!isOpen) return;
+    if (e.key === "Escape") { close(); return; }
+    if (e.key === "Tab") {                     /* keep the keyboard inside the card */
+      var f = [].slice.call(card.querySelectorAll("button, input, select, a[href]"))
+                .filter(function (n) { return !n.disabled && n.type !== "hidden" && n.offsetParent !== null; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === card)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  form.addEventListener("submit", send);
+
+  var err = document.getElementById("broErr"), btn = form.querySelector(".bro-submit");
+  var msel = document.querySelector("#broScrim .bro-msel");
+  function reset() { err.hidden = true; btn.disabled = false; }
+
+  /* Every Elementor link to the four brochure pop-ups (range pages, layout pages, side menus) opens this one instead */
+  document.addEventListener("click", function (ev) {
+    var a = ev.target.closest && ev.target.closest('a[href*="action%3Dpopup%3Aopen"], a[href*="action=popup:open"]');
+    if (!a) return;
+    var h = decodeURIComponent(a.getAttribute("href") || ""), m = h.match(/settings=([A-Za-z0-9+/=]+)/);
+    var id = "";
+    try { id = m ? JSON.parse(atob(m[1])).id : ""; } catch (e2) {}
+    if (!POPUPS[id] && id !== "11011") return;
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    /* the Queen of Hearts (COTY 2026) button: same Solara form, marked "coty" so Gravity Forms gives the COTY brochure
+       (Piyush 11 Nov 2026: update the COTY button too) */
+    coty = id === "11011";
+    trkTrig = coty ? "coty" : "button";
+    open(a, POPUPS[id] || "Solara");
+  }, true);
+
+  /* Download: the answers go into the model's own Gravity Form, which submits as normal and goes to that model's
+     thank-you page, as the old pop-ups did (Piyush 11 Nov 2026: 'for thank you page use the old thank you page after the submit') */
+  function fail(msg) { btn.disabled = false; err.textContent = msg; err.hidden = false; }
+  var coty = false;
+  /* COTY downloads go to the COTY thank-you page (form 22 'COTY Redirect' confirmation, Piyush 11 Nov 2026) */
+  function send(e) {
+    e.preventDefault(); e.stopImmediatePropagation();
+    var nameEl = form.elements["name"], parts = nameEl.value.trim().split(/\s+/);
+    nameEl.setCustomValidity(parts.length < 2 ? "Please enter your first and last name." : "");
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var m = current(), gf = document.getElementById("gform_" + FORMS[m]);
+    if (!gf) {   /* MOCK ONLY (Malhar's GitHub site has no Gravity Forms): go to the brochure thank-you page instead, nothing is sent */
+      try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "brochure", model: m })); } catch (er) {}
+      location.href = "thank-you.html?route=brochure&model=" + encodeURIComponent(m); return;
+    }
+    var v = function (n) { var el = form.elements[n]; return el ? el.value.trim() : ""; };
+    var set = function (name, val) { var el = gf.querySelector('[name="' + name + '"]'); if (el) { el.value = val; el.dispatchEvent(new Event("change", { bubbles: true })); } };
+    set("input_9.3", parts[0]); set("input_9.6", parts.slice(1).join(" "));
+    set("input_3", v("email")); set("input_4", v("phone")); set("input_5", v("state"));
+    var type = (form.querySelector('input[name="follow-up"]:checked') || {}).value;
+    var c1 = gf.querySelector('[name="input_7.1"]'), c2 = gf.querySelector('[name="input_7.2"]'), mk = gf.querySelector('[name="input_8.1"]');
+    if (c1) c1.checked = type === "Call back";
+    if (c2) c2.checked = type === "Virtual consultation";
+    if (mk) mk.checked = form.elements["marketing"].checked;
+    if (FORMS[m] === 22) set("input_11", coty ? "coty" : "");
+    trkSubmit();   /* GA4: validation passed and the form exists; fires right before the real submit and never delays it */
+    btn.disabled = true; err.hidden = true;
+    /* click the form's own submit button, exactly like a visitor: Gravity Forms' honeypot adds its version_hash on that
+       click (without it the entry is marked spam and never reaches ActiveCampaign), GTM fires the GA4 brochure event, and
+       the form then goes to the thank-you page as it always has */
+    var gbtn = gf.querySelector('#gform_submit_button_' + FORMS[m] + ', [type=submit]');
+    if (gbtn) gbtn.click(); else if (gf.requestSubmit) gf.requestSubmit();
+    setTimeout(function () { fail("Sorry, that is taking longer than it should. Please try again."); }, 30000);
+  }
+  window.addEventListener("resize", place);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+})();
+</script>
+
 <script src="assets/js/nav.js?v=323"></script>
 <script src="assets/js/events-popup.js?v=3"></script>
 <script>
