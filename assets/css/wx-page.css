@@ -827,15 +827,16 @@
   .wx-makers-row { margin-top: 28px; padding-top: 14px; padding-bottom: 34px; }
   .wx-journey-card, .wx-mk { border: 0; background: #fff;
     box-shadow: 0 14px 30px -12px rgba(40, 38, 34, 0.45), 0 2px 8px rgba(40, 38, 34, 0.14); }
-  .wx-card-band, .wx-mk-band { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .wx-card-title, .wx-mk-name { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
-  .wx-card-title::after, .wx-mk-name::after { content: ""; flex: none; width: 9px; height: 9px; margin: 0 4px 3px 0;
+  .wx-card-band { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .wx-card-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+  .wx-card-title::after { content: ""; flex: none; width: 9px; height: 9px; margin: 0 4px 3px 0;
     border-right: 2px solid var(--orange-deep); border-bottom: 2px solid var(--orange-deep); transform: rotate(45deg); transition: transform .25s ease; }
-  .wx-journey-card.is-open .wx-card-title::after, .wx-mk.is-open .wx-mk-name::after { transform: rotate(-135deg) translate(-2px, -2px); }
-  .wx-journey-card:not(.is-open) .wx-card-bio-wrap, .wx-mk:not(.is-open) .wx-mk-wrap { grid-template-rows: 0fr !important; }
-  .wx-journey-card.is-open .wx-card-bio-wrap, .wx-mk.is-open .wx-mk-wrap { grid-template-rows: 1fr !important; }
-  .wx-card-band, .wx-mk-band { padding-bottom: 14px; }
-  .wx-journey-card.is-open .wx-card-band, .wx-mk.is-open .wx-mk-band { padding-bottom: 20px; }
+  .wx-journey-card.is-open .wx-card-title::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  .wx-journey-card:not(.is-open) .wx-card-bio-wrap { grid-template-rows: 0fr !important; }
+  .wx-journey-card.is-open .wx-card-bio-wrap { grid-template-rows: 1fr !important; }
+  .wx-mk .wx-mk-wrap { grid-template-rows: 1fr !important; }   /* the makers' words stay showing */
+  .wx-card-band { padding-bottom: 14px; }
+  .wx-journey-card.is-open .wx-card-band { padding-bottom: 20px; }
 
   /* 8 dealers: a Google Maps preview in place of the dealership photo */
   .wx-d-photo { display: none; }

@@ -198,11 +198,11 @@
     });
   }
 
-  /* ------------------------------------------------- phone: cards open from their band
-     On a phone the journey and maker cards show a picture and a title; a tap on the title band opens the words.
+  /* ------------------------------------------------- phone: journey cards open from their band
+     On a phone the journey cards show a picture and a title; a tap on the title band opens the words (the makers keep theirs showing).
      (Wide screens keep their hover.) */
-  [].forEach.call(document.querySelectorAll(".wx-journey-card, .wx-mk"), function (card) {
-    var band = card.querySelector(".wx-card-band, .wx-mk-band");
+  [].forEach.call(document.querySelectorAll(".wx-journey-card"), function (card) {
+    var band = card.querySelector(".wx-card-band");
     if (!band) return;
     band.setAttribute("role", "button");
     band.setAttribute("aria-expanded", "false");
