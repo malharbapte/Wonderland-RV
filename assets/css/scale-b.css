@@ -1,4 +1,4 @@
-/* SCALE TRIAL B (sample only: sample-home-scale.html). Not loaded by the live pages.
+/* SCALE SYSTEM, live on the homepage and the other desktop pages (the samples, sample-*-scale.html, load the same files).
    Desktop only. What it changes: the ONE number everything is sized from (the root font-size), so the column, the type and every rem rule follow it together.
      column = the smaller of  80% of the window  (10% margin each side)  and  1280px + 0.3 x (window - 1600px)   [grows gently past 1600]
      root   = column / 16.24     (16.24rem is the column, as before)

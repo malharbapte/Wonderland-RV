@@ -1,4 +1,4 @@
-/* SCALE TRIAL B, the other pages (samples only: sample-<page>-scale.html). Loaded after scale-b.css.
+/* SCALE SYSTEM, the other pages (live; the samples load the same file). Loaded after scale-b.css.
    It carries the decisions made on the homepage sample for the parts the other pages share, and the fixes the new scale needed. */
 @media (min-width: 901px) {
   /* CTA: one size and font everywhere (the form buttons too) */
