@@ -1,0 +1,32 @@
+/* =====================================================================================================
+   25 Nov 2026 (Piyush): handover day strip above the video testimonials, after King Kong's members strip.
+   Real Outbound RVs handover photos on the light grey band (#F8F8F7, the step-card grey on this page), 16px
+   above and below. Every photo is the same height and keeps its own shape (portrait or landscape), square
+   corners, no frame. The track holds the photos twice and slides by half its width, so the loop never jumps.
+   It pauses on hover, on keyboard focus and while a finger is on it (.hold, set by the small inline script).
+   Reduced motion: no movement, the band scrolls sideways by hand and snaps to each photo.
+   ===================================================================================================== */
+.ty-hs { --ch: 4.6rem; --g: 0.16rem; --dur: 160s; padding-top: 0.8rem; }
+.ty-hs-head { text-align: center; }
+.ty-hs-head .ty-lede { text-wrap: balance; }
+.ty-hs-band { width: 100vw; margin: 0.3rem 0 0 calc(50% - 50vw); padding: 16px 0; background: #F8F8F7; overflow: hidden; }   /* full width, the site's home-hero pattern */
+.ty-hs-track { display: flex; width: max-content; animation: tyHsLoop var(--dur) linear infinite; }
+.ty-hs-set { display: flex; gap: var(--g); margin: 0; padding: 0 var(--g) 0 0; list-style: none; }
+.ty-hs-set li { flex: none; }
+.ty-hs-set img { display: block; width: auto; height: var(--ch); max-width: none; border-radius: 0; }
+.ty-hs:hover .ty-hs-track, .ty-hs.hold .ty-hs-track, .ty-hs:focus-within .ty-hs-track { animation-play-state: paused; }
+@keyframes tyHsLoop { to { transform: translateX(-50%); } }
+
+@media (max-width: 900px) {
+  .ty-hs { --ch: 240px; --g: 8px; padding-top: 40px; }
+  .ty-hs-band { margin-top: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ty-hs-track { animation: none; width: auto; }
+  .ty-hs-band { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .ty-hs-band::-webkit-scrollbar { display: none; }
+  .ty-hs-set { padding-left: var(--g); }
+  .ty-hs-set[aria-hidden="true"] { display: none; }
+  .ty-hs-set li { scroll-snap-align: start; }
+}

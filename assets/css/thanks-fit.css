@@ -1,0 +1,161 @@
+/* =====================================================================================================
+   Thank-you page, first screen (Piyush, 25 Nov 2026), loaded after thankyou.css.
+   Works like King Kong's booking confirmation page: three steps, congratulations pill, "Important next steps",
+   intro line, review line, the video, then the supplier logos on a white band.
+   - Desktop: the block above the logo band is one screen tall less the band (--suph), so everything from the
+     steps to the logos sits on the first screen.
+   - Phones, portrait: the block fills the screen above the band and the gaps share the spare height, so the
+     first screen ends at the logos. Phones 660px tall or less are not squeezed: the logos run onto screen two.
+   - Phones on their side keep the normal flow.
+   ===================================================================================================== */
+
+/* ---------- section backgrounds: only the path section under the logos is grey ---------- */
+.ty-first .ty-sup { background: #fff; text-align: center; }
+.ty-pk.ty-sec { background: #F8F8F7; box-shadow: 0 0 0 100vmax #F8F8F7; clip-path: inset(0 -100vmax); }   /* grey carried to both window edges */
+.ty-reviews { background: #fff; }
+
+/* ---------- type, all widths ---------- */
+.ty-first .ty-steps b { font-family: var(--gordita); font-weight: 500; text-transform: none; letter-spacing: 0; }
+.ty-first .ty-hero .ty-hero-lede { color: #555; }
+.ty-first .ty-sup .ty-hb-k { margin: 0; color: #555; letter-spacing: .08em; text-transform: uppercase; line-height: 1; }
+.ty-first .ty-hero .ty-hero-lede, .ty-first .ty-pill, .ty-proof { font-kerning: none; }   /* Gordita's kerning swallows the space after a comma */
+
+/* ---------- review line: stars, score and count copied from the live stock page reviews badge ---------- */
+.ty-proof { display: flex; justify-content: center; align-items: center; gap: .75em; margin: 0; color: #111; font-family: var(--gordita); font-size: max(13px, .22rem); line-height: 1.25; }
+.ty-proof-r { display: inline-flex; align-items: center; gap: .4em; white-space: nowrap; }
+.ty-proof-c { white-space: nowrap; }
+.ty-proof b { font-weight: 700; }
+.ty-stars { display: inline-flex; gap: 1px; }
+.ty-stars svg { width: 1.15em; height: 1.15em; fill: #FCBF02; }
+.ty-proof-n { color: rgba(17, 17, 17, .55); }
+.ty-proof-d { flex: none; width: 1px; height: 1.25em; background: #C8C6C3; }
+.ty-first .ty-proof { flex: none; width: 100%; }
+
+/* ---------- video: silent preview loop, centred play mark, sound icon ----------
+   The loop sits over the poster; reduced motion hides it, so only the poster shows.
+   Play mark: the site's own play icon (orange square, white triangle), centred; the whole video box opens the video
+   too, so the mark can drop to 36px on phones and stay under Kev's chin. Hover and focus: the site's orange-button invert.
+   Sound icon: top-right; the loop has no sound track, so it opens the full video, which starts with sound. */
+.ty-video .ty-vloop { position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; transform: none; object-fit: cover; pointer-events: none; }   /* undoes the site's cover sizing for .video-frame video */
+.ty-first .ty-video { cursor: pointer; }
+.ty-first .ty-video .kk-play { top: 50%; left: 50%; width: max(36px, 7.7%); aspect-ratio: 1; border-radius: 0; transform: translate(-50%, -50%);
+  background: #DB7627; color: #fff; transition: background-color .3s, color .3s, box-shadow .3s; }
+.ty-first .ty-video .kk-play svg { width: 69%; height: 69%; }
+.ty-first .ty-video .kk-play:hover, .ty-first .ty-video .kk-play:focus-visible { transform: translate(-50%, -50%); background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: 0; }
+.ty-snd { position: absolute; z-index: 6; top: 6%; right: 4%; display: flex; align-items: center; justify-content: center; width: max(40px, 5.5%); aspect-ratio: 1; margin: 0; padding: 0;
+  border: 0; border-radius: 0; background: rgba(25, 23, 24, .86); color: #fff; cursor: pointer; font-size: clamp(10px, .85vw, 14px); transition: background-color .3s; }
+.ty-snd:hover, .ty-snd:focus-visible { background: #000; outline: 0; }
+.ty-snd:focus-visible { box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; }
+.ty-snd svg { width: 58%; height: 58%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ty-snd .w { stroke: #DB7627; animation: tySndWave 1.4s ease-in-out infinite; }
+.ty-snd .w2 { animation-delay: .25s; }
+.ty-snd::after { content: ""; position: absolute; inset: 0; box-shadow: 0 0 0 0 rgba(219, 118, 39, .55); animation: tySndPulse 1.8s ease-out infinite; pointer-events: none; }
+@keyframes tySndWave { 0%, 100% { opacity: .25; } 45% { opacity: 1; } }
+@keyframes tySndPulse { 0% { box-shadow: 0 0 0 0 rgba(219, 118, 39, .55); } 70%, 100% { box-shadow: 0 0 0 .7em rgba(219, 118, 39, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .ty-video .ty-vloop { display: none; }
+  .ty-snd .w, .ty-snd::after { animation: none; }
+  .ty-snd .w { opacity: 1; }
+}
+
+/* ---------- desktop ---------- */
+@media (min-width: 901px) {
+  .ty-first { --suph: 1.86rem; }
+  .ty-first .ty-screen { height: calc(100vh - var(--hdr, 1.4rem) - var(--suph)); min-height: 480px; }
+  @supports (height: 100svh) { .ty-first .ty-screen { height: calc(100svh - var(--hdr, 1.4rem) - var(--suph)); } }
+  .ty-first .ty-hero > .ty-sp:last-child { flex-grow: .5; min-height: calc(var(--gmin) * .5); }   /* the band supplies the space under the video */
+  /* steps, about 30% larger than the mock's */
+  .ty-first .ty-steps { max-width: 10.4rem; }
+  .ty-first .ty-steps li { gap: 0.1rem; }
+  .ty-first .ty-steps-i { width: 0.66rem; height: 0.66rem; }
+  .ty-first .ty-steps-i svg { width: 0.32rem; height: 0.32rem; }
+  .ty-first .ty-steps b { font-size: 0.23rem; }
+  .ty-first .ty-steps li:not(:last-child)::after, .ty-first .ty-steps li.done:not(:last-child)::after { top: 0.33rem; right: calc(-50% + 0.44rem); left: calc(50% + 0.44rem); }
+  /* pill: the mock's pill (dot and orange chip) on the brand grey */
+  .ty-first .ty-pill { background: #414042; }
+  /* supplier band: full width, fixed height, label then two centred rows */
+  .ty-first .ty-sup { box-sizing: border-box; width: 100vw; margin-left: calc(50% - 50vw); height: var(--suph); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 0; }
+  .ty-first .ty-sup .ty-hb-k { max-width: none; text-align: center; }
+  .ty-first .ty-sup .ty-hb { display: flex; justify-content: center; align-items: center; gap: 0 0.5rem; margin: 0.2rem 0 0; padding: 0; max-width: none; }
+  .ty-first .ty-sup .ty-hb--2 { margin-top: 0.16rem; }
+  .ty-first .ty-sup .ty-hb li, .ty-first .ty-sup .ty-hb li:first-child, .ty-first .ty-sup .ty-hb--2 li:first-child { margin-left: 0; }
+}
+
+/* ---------- phones and small tablets: sizes for every orientation ---------- */
+@media (max-width: 900px) {
+  .ty-first .ty-top { padding-top: 12px; padding-bottom: 0; }
+  /* steps */
+  .ty-first .ty-steps { margin-top: 0; }
+  .ty-first .ty-steps li { gap: 8px; }
+  .ty-first .ty-steps-i { width: 40px; height: 40px; }
+  .ty-first .ty-steps b { font-size: 12.5px; line-height: 16px; white-space: nowrap; }
+  .ty-first .ty-steps li:not(:last-child)::after, .ty-first .ty-steps li.done:not(:last-child)::after { top: 20px; left: calc(50% + 26px); right: calc(-50% + 26px); }
+  /* pill: one orange pill, one sentence, no dot */
+  .ty-first .ty-pill-w { margin-top: 12px; }
+  .ty-first .ty-pill { display: block; width: 100%; max-width: none; padding: 11px 20px; border-radius: 999px; background: var(--orange); color: #111; text-align: center; }
+  .ty-first .ty-pill-dot { display: none; }
+  .ty-first .ty-pill-chip, .ty-first .ty-pill-msg { display: inline; padding: 0; border-radius: 0; background: none; color: #111; font-size: 12px; font-weight: 700; line-height: 17px; letter-spacing: .05em; }
+  .ty-first .ty-pill-chip::after { content: ", "; }   /* on desktop the chip itself is the break */
+  /* heading, intro line, review line, video */
+  .ty-first .ty-title { margin-top: 14px; font-size: 28px; line-height: 1; text-wrap: balance; }
+  .ty-first .ty-hero .ty-hero-lede { margin-top: 8px; font-size: 15px; line-height: 22px; }
+  .ty-proof { flex-direction: column; gap: 4px; font-size: 13px; }
+  .ty-proof-d { display: none; }
+  .ty-first .ty-video { margin-top: 12px; }
+  /* supplier band: label then two centred rows */
+  .ty-first .ty-sup { margin-top: 12px; padding: 12px 24px 18px; }
+  .ty-first .ty-sup .ty-hb-k { font-size: 11px; }
+  .ty-first .ty-sup .ty-hb { display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 0 min(14px, 3.7vw); margin: 12px 0 0; max-width: none; }
+  .ty-first .ty-sup .ty-hb--2 { margin-top: 10px; gap: 0 18px; }
+  .ty-first .ty-sup .ty-hb li, .ty-first .ty-sup .ty-hb--2 li:last-child { flex: none; grid-column: auto; min-height: 0; }
+  .ty-first .ty-sup .ty-hb img[alt] { height: auto; max-width: none; }
+  .ty-first .ty-sup .ty-hb img[alt="Dometic"] { width: min(90px, 24.00vw); }
+  .ty-first .ty-sup .ty-hb img[alt="Cruisemaster"] { width: min(38px, 10.13vw); }
+  .ty-first .ty-sup .ty-hb img[alt="REDARC"] { width: min(76px, 20.27vw); }
+  .ty-first .ty-sup .ty-hb img[alt="Truma"] { width: min(68px, 18.13vw); }
+  .ty-first .ty-sup .ty-hb img[alt="Webasto"] { width: min(72px, 19.20vw); }
+  .ty-first .ty-sup .ty-hb img[alt="Victron Energy and Arizon"] { width: min(100px, 26.67vw); }
+  .ty-first .ty-sup .ty-hb img[alt="Fusion"] { width: min(66px, 17.60vw); }
+}
+@media (max-width: 359px) {
+  .ty-first .ty-steps b { font-size: 11.5px; }
+  .ty-first .ty-pill-chip, .ty-first .ty-pill-msg { font-size: 11px; }
+}
+
+/* ---------- phones, portrait: the first screen ends at the logos ----------
+   The block fills the screen above the logo band (84px). Spare height is shared evenly: the same weight above the
+   steps, between steps and pill, under the pill and above the video; small gaps inside the heading group; the gap
+   under the video barely grows. The heading and intro line grow with the screen height, capped by the width. */
+@media (max-width: 900px) and (orientation: portrait) {
+  .ty-first { --suph: 84px; }
+  .ty-first .ty-screen { display: flex; flex-direction: column; align-items: center; text-align: center; height: calc(100vh - var(--hdr, 64px) - var(--suph)); min-height: 400px; }
+  @supports (height: 100svh) { .ty-first .ty-screen { height: calc(100svh - var(--hdr, 64px) - var(--suph)); } }
+  .ty-first .ty-top, .ty-first .ty-hero { display: contents; }
+  .ty-first .ty-sp { display: block; }
+  .ty-first .ty-top > i.ty-sp:nth-of-type(1) { flex: .8 1 14px; min-height: 5.6px; }   /* above the steps */
+  .ty-first .ty-top > i.ty-sp:nth-of-type(2) { flex: 1 1 14px; min-height: 3.2px; }    /* steps to pill */
+  .ty-first .ty-top > i.ty-sp:nth-of-type(3) { flex: 0 0 0; min-height: 0; }           /* the pill gap is the next one */
+  .ty-first .ty-hero > i.ty-sp:nth-of-type(1) { flex: 1 1 18px; min-height: 4px; }     /* pill to heading */
+  .ty-first .ty-hero > i.ty-sp:nth-of-type(2), .ty-first .ty-hero > i.ty-sp:nth-of-type(3) { flex: .35 1 8px; min-height: 2px; }   /* heading group */
+  .ty-first .ty-hero > i.ty-sp:nth-of-type(4) { flex: .8 1 12px; min-height: 2.4px; }  /* review line to video */
+  .ty-first .ty-hero > .ty-sp:last-child { flex: .25 1 10px; min-height: 8px; }        /* video to logos */
+  .ty-first .ty-steps, .ty-first .ty-pill-w, .ty-first .ty-title, .ty-first .ty-hero .ty-hero-lede { flex: none; margin: 0; width: 100%; }
+  .ty-first .ty-title { font-size: clamp(28px, min(4.6svh, 11vw), 42px); }
+  .ty-first .ty-hero .ty-hero-lede { font-size: clamp(15px, 1.9svh, 17px); line-height: 1.45; }
+  .ty-first .ty-vw { display: grid; place-items: center; width: 100%; flex: 0 1 calc((100vw - 48px) * 9 / 16); min-height: 110px; container-type: size; }
+  .ty-first .ty-vw .ty-video { width: min(100cqw, 100cqh * 16 / 9); max-width: none; margin: 0; aspect-ratio: 16 / 9; }
+  .ty-first .ty-sup { box-sizing: border-box; height: var(--suph); margin: 0; padding: 0 24px; display: flex; flex-direction: column; justify-content: center; }
+  .ty-first .ty-sup .ty-hb { margin-top: 9px; }
+  .ty-first .ty-sup .ty-hb--2 { margin-top: 7px; }
+}
+/* short phones (660px tall or less): the block takes its natural height (the gaps stay at their base sizes, with 14px
+   under the video) and a full-width video; the logos may run onto the second screen */
+@media (max-width: 900px) and (orientation: portrait) and (max-height: 660px) {
+  .ty-first .ty-screen { height: auto; min-height: 0; }
+  @supports (height: 100svh) { .ty-first .ty-screen { height: auto; } }
+  .ty-first .ty-hero > .ty-sp:last-child { flex: none; height: 14px; }
+  .ty-first .ty-vw { flex: none; height: auto; container-type: normal; }
+  .ty-first .ty-vw .ty-video { width: 100%; }
+  .ty-first .ty-title { font-size: 30px; }
+  .ty-first .ty-sup { height: auto; padding: 14px 24px 22px; }
+}
