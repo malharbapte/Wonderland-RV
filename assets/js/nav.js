@@ -30,58 +30,84 @@
      About becomes a row you tap instead, and its children ride the same
      0fr -> 1fr grid the Wonderlander cards and the van-layout headings use.
 
-     Built once, on a phone. A card re-parented into the wrapper would have
-     to be put back to render the desktop mega-menu, so it is not torn down
-     on resize — rotating a phone stays inside the breakpoint, and crossing
-     it is a desktop window being dragged narrow, which reloads soon enough.
-     Same reasoning as the Wonderlander rail in wonderlanders.js. */
-  if (!window.matchMedia("(max-width: 900px)").matches) return;
+     Built on a phone and put back on desktop, on the breakpoint's change
+     event, so a window dragged across 900 gets the right menu either way.
+     Taking it down is the reverse: the dropdown goes back into its item, the
+     row, the wrapper and the cloned button are removed. */
+  var phone = window.matchMedia("(max-width: 900px)");
+  var built = false;
 
-  /* Every dropdown in the nav -- Buy (Stock Vans, Wonderland Experience,
-     Insurance) and About -- becomes an accordion row on the phone. Buy was
-     left as a plain link when it was added, which meant a phone could not
-     reach the Wonderland Experience page from the menu. */
-  [].slice.call(nav.querySelectorAll(".nav-item")).forEach(function (item) {
-    var dd = item.querySelector(".nav-dropdown");
-    if (!dd) return;
-    var anchor = item.querySelector("a");
-    var label = anchor ? anchor.textContent.trim() : "Menu";
+  function build() {
+    if (built) return;
+    built = true;
+    /* Every dropdown in the nav -- Buy (Stock Vans, Wonderland Experience,
+       Insurance) and About -- becomes an accordion row on the phone. Buy was
+       left as a plain link when it was added, which meant a phone could not
+       reach the Wonderland Experience page from the menu. */
+    [].slice.call(nav.querySelectorAll(".nav-item")).forEach(function (item) {
+      var dd = item.querySelector(".nav-dropdown");
+      if (!dd) return;
+      var anchor = item.querySelector("a");
+      var label = anchor ? anchor.textContent.trim() : "Menu";
 
-    var row = document.createElement("button");
-    row.type = "button";
-    row.className = "nav-row";
-    row.setAttribute("aria-expanded", "false");
-    row.innerHTML =
-      "<span></span>" +
-      '<svg class="nav-chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
-      '<path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" ' +
-      'stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    row.firstChild.textContent = label;
-    item.insertBefore(row, item.firstChild);
+      var row = document.createElement("button");
+      row.type = "button";
+      row.className = "nav-row";
+      row.setAttribute("aria-expanded", "false");
+      row.innerHTML =
+        "<span></span>" +
+        '<svg class="nav-chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+        '<path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      row.firstChild.textContent = label;
+      item.insertBefore(row, item.firstChild);
 
-    var wrap  = document.createElement("div");
-    wrap.className = "nav-dropdown-wrap";
-    var inner = document.createElement("div");
-    inner.className = "nav-dropdown-inner";
-    item.appendChild(wrap);
-    wrap.appendChild(inner);
-    inner.appendChild(dd);
+      var wrap  = document.createElement("div");
+      wrap.className = "nav-dropdown-wrap";
+      var inner = document.createElement("div");
+      inner.className = "nav-dropdown-inner";
+      item.appendChild(wrap);
+      wrap.appendChild(inner);
+      inner.appendChild(dd);
 
-    row.addEventListener("click", function () {
-      var open = item.classList.toggle("is-open");
-      row.setAttribute("aria-expanded", String(open));
+      row.addEventListener("click", function () {
+        var open = item.classList.toggle("is-open");
+        row.setAttribute("aria-expanded", String(open));
+      });
     });
-  });
 
-  /* The primary action, which is display:none on the phone in the bar — so
-     the one thing the header most wants you to do was the one thing the
-     menu would not offer. Cloned rather than moved, so the desktop bar's
-     own button is untouched. */
-  var build = document.querySelector(".header-inner > .btn-build");
-  if (build) {
-    var cta = document.createElement("div");
-    cta.className = "nav-cta";
-    cta.appendChild(build.cloneNode(true));
-    nav.appendChild(cta);
+    /* The primary action, which is display:none on the phone in the bar — so
+       the one thing the header most wants you to do was the one thing the
+       menu would not offer. Cloned rather than moved, so the desktop bar's
+       own button is untouched. */
+    var buildBtn = document.querySelector(".header-inner > .btn-build");
+    if (buildBtn) {
+      var cta = document.createElement("div");
+      cta.className = "nav-cta";
+      cta.appendChild(buildBtn.cloneNode(true));
+      nav.appendChild(cta);
+    }
   }
+
+  function tear() {
+    if (!built) return;
+    built = false;
+    [].slice.call(nav.querySelectorAll(".nav-item")).forEach(function (item) {
+      var wrap = item.querySelector(".nav-dropdown-wrap");
+      if (!wrap) return;
+      item.appendChild(wrap.querySelector(".nav-dropdown"));
+      wrap.parentNode.removeChild(wrap);
+      var row = item.querySelector(".nav-row");
+      if (row) item.removeChild(row);
+      item.classList.remove("is-open");
+    });
+    var cta = nav.querySelector(".nav-cta");
+    if (cta) nav.removeChild(cta);
+    nav.classList.remove("is-open");
+    btn.setAttribute("aria-expanded", "false");
+  }
+
+  function sync() { phone.matches ? build() : tear(); }
+  sync();
+  if (phone.addEventListener) phone.addEventListener("change", sync); else phone.addListener(sync);
 })();

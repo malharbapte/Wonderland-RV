@@ -117,26 +117,43 @@
    the row rather than stacking under the name.
 
    Phone only: on desktop these open on hover and there is nothing to toggle.
-   Built once, same as the other phone rearrangements on this page. */
+   Built below 901 and put back above it, on the breakpoint's change event. */
 (function () {
-  if (!window.matchMedia("(max-width: 900px)").matches) return;
+  var phone = window.matchMedia("(max-width: 900px)");
 
-  document.querySelectorAll(".amb-spec").forEach(function (spec) {
-    var h = spec.querySelector("h3");
-    if (!h || h.querySelector(".spec-toggle")) return;
+  function build() {
+    document.querySelectorAll(".amb-spec").forEach(function (spec) {
+      var h = spec.querySelector("h3");
+      if (!h || h.querySelector(".spec-toggle")) return;
 
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "spec-toggle";
-    btn.setAttribute("aria-expanded", "false");
-    while (h.firstChild) btn.appendChild(h.firstChild);
-    h.appendChild(btn);
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "spec-toggle";
+      btn.setAttribute("aria-expanded", "false");
+      while (h.firstChild) btn.appendChild(h.firstChild);
+      h.appendChild(btn);
 
-    btn.addEventListener("click", function () {
-      var open = spec.classList.toggle("is-open");
-      btn.setAttribute("aria-expanded", String(open));
+      btn.addEventListener("click", function () {
+        var open = spec.classList.toggle("is-open");
+        btn.setAttribute("aria-expanded", String(open));
+      });
     });
-  });
+  }
+
+  function tear() {
+    document.querySelectorAll(".amb-spec").forEach(function (spec) {
+      var h = spec.querySelector("h3");
+      var btn = h && h.querySelector(".spec-toggle");
+      if (!btn) return;
+      while (btn.firstChild) h.appendChild(btn.firstChild);
+      h.removeChild(btn);
+      spec.classList.remove("is-open");
+    });
+  }
+
+  function sync() { phone.matches ? build() : tear(); }
+  sync();
+  if (phone.addEventListener) phone.addEventListener("change", sync); else phone.addListener(sync);
 })();
 
 /* ------------------------------------------ FAQs: soft accordion --

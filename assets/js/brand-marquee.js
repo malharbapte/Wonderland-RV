@@ -16,9 +16,16 @@
     tracks.forEach(function (t) {
       var half = t.scrollWidth / 2;
       if (!half || !speed) return;
-      var dur = half / speed;
+      var dur = half / speed, at = START * dur;
+      /* already running (a resize): keep it where it is on the track, so dragging the window does not snap it back to the start */
+      var a = t.getAnimations && t.getAnimations()[0];
+      if (a && t.style.animationDuration) {
+        var c = a.currentTime / 1000, d0 = parseFloat(t.style.animationDuration), p = ((c - parseFloat(t.style.animationDelay)) / d0) % 1;
+        at = p * dur - c;
+        at = (at % dur + dur) % dur;
+      }
       t.style.animationDuration = dur.toFixed(1) + "s";
-      t.style.animationDelay = (-START * dur).toFixed(1) + "s";
+      t.style.animationDelay = (-at).toFixed(1) + "s";
     });
   }
   set();

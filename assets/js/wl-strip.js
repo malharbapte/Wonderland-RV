@@ -27,8 +27,12 @@
   /* Phones and tablets (Piyush, 21 Oct 2026): a plain finger-scroll row of
      the real cards. No drift, no endless loop and no clones there: the wrap
      jump fights momentum swiping and read as the strip "acting weird". The
-     drifting endless rail is for desktops with a real mouse only. */
-  if (!window.matchMedia("(min-width: 1025px) and (hover: hover)").matches) return;
+     drifting endless rail is for desktops with a real mouse only.
+     It is switched on and off with the window, not decided once at load: a
+     window dragged across 1025 gets the rail, or the plain row, to match. */
+  var rail = window.matchMedia("(min-width: 1025px) and (hover: hover)");
+  var on = false, track = null, w = 0, ready = false, wrapping = false, tx = 0;
+  var n = real.length;
 
   function cloneSet(where) {
     real.forEach(function (card) {
@@ -48,27 +52,14 @@
       else strip.appendChild(c);
     });
   }
-  cloneSet("after");
-  cloneSet("before");
 
-  /* All cards sit in one inner track so the slow drift can move it with a
-     transform (sub-pixel, composited, perfectly smooth) instead of stepping
-     scrollLeft, which the browser rounds to whole pixels and judders at slow
-     speed. The track inherits the rail's gap, so the layout is unchanged. */
-  var track = document.createElement("div");
-  track.className = "amb-more-track";
-  track.style.cssText = "display:flex;gap:inherit;flex:0 0 auto;will-change:transform;backface-visibility:hidden";
-  while (strip.firstChild) track.appendChild(strip.firstChild);
-  strip.appendChild(track);
-
-  var n = real.length;
   function setWidth() {
     // measured, not assumed, so the gap and any resize come along for free
     return track.children[n].offsetLeft - track.children[0].offsetLeft;
   }
 
-  var w = 0, ready = false;
   function rest() {
+    if (!on) return;
     w = setWidth();
     if (!w) return;
     strip.style.scrollBehavior = "auto";
@@ -79,9 +70,8 @@
   /* Deliberately not rAF-throttled. rAF never fires in a background tab
      (HANDOFF sec 9), and setting scrollLeft here fires another scroll event,
      so the guard flag is what stops it re-entering — not a frame callback. */
-  var wrapping = false;
   strip.addEventListener("scroll", function () {
-    if (!ready || wrapping) return;
+    if (!on || !ready || wrapping) return;
     if (strip.scrollLeft >= w * 2 || strip.scrollLeft <= 0) {
       wrapping = true;
       strip.scrollLeft += (strip.scrollLeft <= 0) ? w : -w;
@@ -89,17 +79,52 @@
     }
   });
 
-  var tx = 0;   // drift offset applied as a transform (see below)
   window.addEventListener("resize", function () {
+    if (!on) return;
     ready = false;
     tx = 0; track.style.transform = "";
     rest();
   });
 
   /* Images decide the card heights, so measure once they are in. */
-  if (document.readyState === "complete") rest();
-  else window.addEventListener("load", rest);
-  rest();
+  window.addEventListener("load", rest);
+
+  function enable() {
+    if (on) return;
+    on = true;
+    cloneSet("after");
+    cloneSet("before");
+
+    /* All cards sit in one inner track so the slow drift can move it with a
+       transform (sub-pixel, composited, perfectly smooth) instead of stepping
+       scrollLeft, which the browser rounds to whole pixels and judders at slow
+       speed. The track inherits the rail's gap, so the layout is unchanged. */
+    track = document.createElement("div");
+    track.className = "amb-more-track";
+    track.style.cssText = "display:flex;gap:inherit;flex:0 0 auto;will-change:transform;backface-visibility:hidden";
+    while (strip.firstChild) track.appendChild(strip.firstChild);
+    strip.appendChild(track);
+
+    tx = 0; ready = false;
+    rest();
+    drift();
+  }
+
+  /* The plain row again: the clones go, the real cards go back in the strip
+     in their own order, the drift offset and the scroll position are cleared. */
+  function disable() {
+    if (!on) return;
+    on = false; ready = false; tx = 0;
+    [].slice.call(track.querySelectorAll(".is-clone")).forEach(function (c) { track.removeChild(c); });
+    real.forEach(function (card) { strip.appendChild(card); });
+    strip.removeChild(track);
+    track = null;
+    strip.classList.remove("is-moving");
+    strip.style.scrollBehavior = "";
+    strip.scrollLeft = 0;
+  }
+
+  function sync() { rail.matches ? enable() : disable(); }
 
   /* ---- constant drift (Piyush, 21 Oct 2026): the rail moves slowly and
      continuously, eases to a stop while the pointer is over it (or a card has
@@ -107,8 +132,8 @@
      on the track; a touch, drag or wheel folds that offset back into the
      native scroll position and hands control to the visitor for 6s. Still off
      screen, in a hidden tab and for reduced motion. */
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var hover = false, focused = false, heldUntil = 0, last = 0;
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hover = false, focused = false, heldUntil = 0, last = 0, looping = false;
   var v = window.innerWidth <= 900 ? 16 : 24;   // start at cruising speed, no ramp from zero
   function setTx() { track.style.transform = tx ? "translate3d(" + (-tx).toFixed(2) + "px,0,0)" : ""; }
   function normalise() {
@@ -116,7 +141,7 @@
     else if (strip.scrollLeft <= 0) { wrapping = true; strip.scrollLeft += w; wrapping = false; }
   }
   function fold() {              // hand the drift offset back to the native scroller
-    if (!tx) return;
+    if (!on || !tx) return;
     wrapping = true; strip.scrollLeft += tx; wrapping = false;
     tx = 0; setTx(); normalise();
   }
@@ -133,6 +158,7 @@
   }
   function speed() { return window.innerWidth <= 900 ? 16 : 24; }   // px per second
   function frame(ts) {
+    if (!on) { looping = false; return; }   // switched off: the loop ends, enable() starts it again
     var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0; last = ts;
     if (ready && w && !document.hidden) {   // runs from page load, so it is already drifting when the visitor reaches it
       var held = hover || focused || Date.now() < heldUntil;
@@ -159,5 +185,12 @@
     }
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  function drift() {
+    if (calm || looping) return;
+    looping = true; last = 0;
+    requestAnimationFrame(frame);
+  }
+
+  sync();
+  if (rail.addEventListener) rail.addEventListener("change", sync); else rail.addListener(sync);
 })();

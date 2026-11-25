@@ -66,6 +66,8 @@
 
      Index is polled rather than listened for: scroll events are not dependable.
   */
+  let tearRail = null;               // undoes phoneRail() when the window is dragged back out to desktop
+
   function phoneRail() {
     const port = track.parentElement;
     if (!port || port.querySelector(".service-rail")) return;
@@ -110,7 +112,7 @@
     window.addEventListener("resize", start);
 
     let last = -1;
-    setInterval(function () {
+    const poll = setInterval(function () {
       const p = pitch();
       if (!p) return;
       const W = p * n;
@@ -124,14 +126,32 @@
       count.textContent = String(live + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
       last = live;
     }, 150);
+
+    tearRail = function () {
+      clearInterval(poll);
+      window.removeEventListener("resize", start);
+      rail.remove();
+      [].slice.call(track.querySelectorAll(".is-copy")).forEach(function (c) { c.remove(); });
+      port.scrollLeft = 0;
+      tearRail = null;
+    };
   }
 
-  if (PHONE.matches) {
-    track.style.transform = "none";
-    phoneRail();
-  } else {
-    show(false);
-    auto();
-    window.addEventListener("resize", function () { show(false); });
+  /* Phone or desktop is decided on the window as it is now, and again each time it is dragged
+     across 900: the rail and its timers are built or taken down to match. */
+  function sync() {
+    if (PHONE.matches) {
+      clearInterval(timer);
+      track.style.transform = "none";
+      phoneRail();
+    } else {
+      if (tearRail) tearRail();
+      i = 0; busy = false;
+      show(false);
+      auto();
+    }
   }
+  sync();
+  PHONE.addEventListener("change", sync);
+  window.addEventListener("resize", function () { if (!PHONE.matches) show(false); });
 })();

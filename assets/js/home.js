@@ -28,10 +28,18 @@ const COTY_VIDEOS = ["https://youtu.be/x0NoTZonq8Q",
 /* PHONE: the hero is a photo, not the clip (his call, 2026-11-10). The still is
    already in the markup (.video-poster), so on a phone nothing is mounted and
    it simply stays. Desktop and tablets above 900 keep the video. */
-if (!window.matchMedia("(max-width: 900px)").matches) {
-  mountVideo(document.querySelector(".home-hero-media"), HERO_VIDEO_URL,
-    "Wonderland RV — adventure your way");
+const HERO_PHONE = window.matchMedia("(max-width: 900px)");
+function syncHero() {
+  const frame = document.querySelector(".home-hero-media");
+  if (!frame) return;
+  const live = frame.querySelector("iframe, video");
+  /* dragged across 900: the clip goes (the photo underneath is still there),
+     or comes back */
+  if (HERO_PHONE.matches) { if (live) live.remove(); }
+  else if (!live) mountVideo(frame, HERO_VIDEO_URL, "Wonderland RV — adventure your way");
 }
+syncHero();
+HERO_PHONE.addEventListener("change", syncHero);
 /* Welcome Solara is hidden at every width now (see home-order.css), so its clip
    is not loaded. The link and the markup stay for when the section returns.
 mountVideo(document.querySelector(".solara-video"), SOLARA_VIDEO_URL, "Wonderland RV — Welcome Solara"); */
@@ -520,6 +528,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     clearInterval(poll);
     rail.remove();
     rail = null;
+    media.scrollLeft = 0;     // the phone scroller keeps its offset, and the push slider would start from it
   }
 
   let poll, last = -1;
@@ -609,9 +618,10 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
      constant. Rects are in one frame, so there is nothing to reconcile.
 
      Polled rather than listened for: scroll events are not dependable. */
+  let deckTear = null;     // undoes phoneDeck() when the window is dragged back out to desktop
   function phoneDeck() {
     const shell = viewport.parentElement;
-    if (!shell || shell.querySelector(".coty-head")) return;
+    if (!shell || shell.querySelector(".coty-panel")) return;
 
     /* Option B (sample-phone-video.html): the words are not above the videos
        any more. Each slide's title, subtitle, description and review (where it
@@ -667,7 +677,7 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
     shell.insertBefore(panel, rail.nextSibling);
 
     let last = 0;
-    setInterval(function () {
+    const poll = setInterval(function () {
       const box = viewport.getBoundingClientRect();
       if (!box.width) return;                 // pane collapsed; measure nothing
       const mid = box.left + box.width / 2;
@@ -687,9 +697,21 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
       i = best;                               // whichever slide you are on plays
       syncPlayback();
     }, 150);
+
+    deckTear = function () {
+      clearInterval(poll);
+      [panel, arrowPrev, arrowNext, rail].forEach(function (el) { el.remove(); });
+      viewport.scrollLeft = 0;
+      i = 0; show(false);
+      syncPlayback();
+      deckTear = null;
+    };
   }
 
-  if (ON_PHONE.matches) phoneDeck();
+  /* the deck is built on a phone and taken down on desktop, whichever the window is dragged to */
+  function syncDeck() { ON_PHONE.matches ? phoneDeck() : (deckTear && deckTear()); }
+  syncDeck();
+  ON_PHONE.addEventListener("change", syncDeck);
 
   const prev = document.querySelector(".coty-arrow--prev");
   const next = document.querySelector(".coty-arrow--next");

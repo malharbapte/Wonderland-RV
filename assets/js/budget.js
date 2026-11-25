@@ -22,85 +22,99 @@
   if (!shell || !inner || !fill || !out || !ins.length) return;
 
   /* Below 900 the field is display:none. Leaving the radios disabled is the
-     whole of the phone behaviour, deliberately — nothing is designed here. */
-  if (!ON_DESKTOP.matches) return;
+     whole of the phone behaviour, deliberately — nothing is designed here.
+     The rest is set up the first time the window is wider than 900, at load or
+     after a drag, and every crossing back below 900 disables the radios again. */
+  function start() {
+    /* ---------------------------------------------------- the track ------- */
+    function paint() {
+      var chosen = null;
+      ins.forEach(function (i) { if (i.checked) chosen = i; });
 
-  /* ---------------------------------------------------- the track ------- */
-  function paint() {
-    var chosen = null;
-    ins.forEach(function (i) { if (i.checked) chosen = i; });
+      field.classList.toggle("is-na", !!chosen && chosen.dataset.na === "1");
 
-    field.classList.toggle("is-na", !!chosen && chosen.dataset.na === "1");
+      if (!chosen) {
+        fill.style.width = "0px";
+        out.innerHTML = "&mdash;";
+        if (why) { why.textContent = ""; }
+        ins.forEach(function (i) { i.parentElement.classList.remove("is-past"); });
+        return;
+      }
 
-    if (!chosen) {
-      fill.style.width = "0px";
-      out.innerHTML = "&mdash;";
-      if (why) { why.textContent = ""; }
-      ins.forEach(function (i) { i.parentElement.classList.remove("is-past"); });
-      return;
+      out.innerHTML = chosen.value;
+      if (why) { why.textContent = chosen.dataset.why || ""; }
+
+      var na = chosen.dataset.na === "1";
+      var here = parseFloat(chosen.dataset.p);
+      ins.forEach(function (i) {
+        i.parentElement.classList.toggle(
+          "is-past", !na && parseFloat(i.dataset.p) < here);
+      });
+
+      /* built from the same expression that places the node, so the fill can
+         never end anywhere other than exactly on it */
+      fill.style.width = na
+        ? "0px"
+        : "calc(0.16rem + (100% - 0.32rem) * " + chosen.dataset.p + ")";
     }
 
-    out.innerHTML = chosen.value;
-    if (why) { why.textContent = chosen.dataset.why || ""; }
+    ins.forEach(function (i) { i.addEventListener("change", paint); });
+    paint();
 
-    var na = chosen.dataset.na === "1";
-    var here = parseFloat(chosen.dataset.p);
-    ins.forEach(function (i) {
-      i.parentElement.classList.toggle(
-        "is-past", !na && parseFloat(i.dataset.p) < here);
+    /* ------------------------------------------ the pill decides ---------- */
+    /* Budget is only asked for a call back or a quote. The homepage pill has
+       only two cells, Call back and Book a factory tour, so the same list shows
+       the field on Call back there. */
+    var ASKS_BUDGET = ["Call back", "Get a Quote"];
+
+    var form = field.closest("form");
+    var pill = form && form.querySelector(".chips");
+    if (!pill) return;
+
+    var open = null;
+
+    function wanted() {
+      var c = pill.querySelector('input[type="radio"]:checked');
+      return !!c && ASKS_BUDGET.indexOf(c.value) >= 0;
+    }
+
+    function setOpen(next, animate) {
+      if (next === open) return;
+      open = next;
+
+      /* Disabled rather than cleared: a disabled control is neither submitted
+         nor tabbable, so no budget rides along on an enquiry that never asked
+         for one — and switching away and back leaves the answer intact. */
+      ins.forEach(function (i) { i.disabled = !next; });
+
+      shell.classList.toggle("no-anim", !animate);
+      if (!animate) { shell.style.height = next ? "auto" : "0px"; return; }
+
+      /* from an explicit height, or there is nothing for the transition to
+         run between */
+      shell.style.height = (next ? 0 : inner.offsetHeight) + "px";
+      void shell.offsetHeight;
+      shell.style.height = (next ? inner.offsetHeight : 0) + "px";
+    }
+
+    shell.addEventListener("transitionend", function (e) {
+      /* released to auto so the row can never clip if its content grows */
+      if (e.propertyName === "height" && open) shell.style.height = "auto";
     });
 
-    /* built from the same expression that places the node, so the fill can
-       never end anywhere other than exactly on it */
-    fill.style.width = na
-      ? "0px"
-      : "calc(0.16rem + (100% - 0.32rem) * " + chosen.dataset.p + ")";
+    setOpen(wanted(), false);
+    pill.addEventListener("change", function () { setOpen(wanted(), true); });
+
+    ON_DESKTOP.addEventListener("change", function (e) {
+      if (e.matches) { open = null; setOpen(wanted(), false); }
+      else ins.forEach(function (i) { i.disabled = true; });
+    });
   }
 
-  ins.forEach(function (i) { i.addEventListener("change", paint); });
-  paint();
-
-  /* ------------------------------------------ the pill decides ---------- */
-  /* Budget is only asked for a call back or a quote. The homepage pill has
-     only two cells, Call back and Book a factory tour, so the same list shows
-     the field on Call back there. */
-  var ASKS_BUDGET = ["Call back", "Get a Quote"];
-
-  var form = field.closest("form");
-  var pill = form && form.querySelector(".chips");
-  if (!pill) return;
-
-  var open = null;
-
-  function wanted() {
-    var c = pill.querySelector('input[type="radio"]:checked');
-    return !!c && ASKS_BUDGET.indexOf(c.value) >= 0;
-  }
-
-  function setOpen(next, animate) {
-    if (next === open) return;
-    open = next;
-
-    /* Disabled rather than cleared: a disabled control is neither submitted
-       nor tabbable, so no budget rides along on an enquiry that never asked
-       for one — and switching away and back leaves the answer intact. */
-    ins.forEach(function (i) { i.disabled = !next; });
-
-    shell.classList.toggle("no-anim", !animate);
-    if (!animate) { shell.style.height = next ? "auto" : "0px"; return; }
-
-    /* from an explicit height, or there is nothing for the transition to
-       run between */
-    shell.style.height = (next ? 0 : inner.offsetHeight) + "px";
-    void shell.offsetHeight;
-    shell.style.height = (next ? inner.offsetHeight : 0) + "px";
-  }
-
-  shell.addEventListener("transitionend", function (e) {
-    /* released to auto so the row can never clip if its content grows */
-    if (e.propertyName === "height" && open) shell.style.height = "auto";
+  if (ON_DESKTOP.matches) start();
+  else ON_DESKTOP.addEventListener("change", function once(e) {
+    if (!e.matches) return;
+    ON_DESKTOP.removeEventListener("change", once);
+    start();
   });
-
-  setOpen(wanted(), false);
-  pill.addEventListener("change", function () { setOpen(wanted(), true); });
 })();

@@ -11,7 +11,7 @@
      taken when its horizontal component is the larger one, so the page still
      scrolls past the section normally, and one flick steps exactly once.
    =========================================================================== */
-(function () {
+function rvxInit() {
   if (!window.matchMedia("(min-width: 901px)").matches) return;
 
   var sec = document.querySelector(".rvx");
@@ -226,4 +226,17 @@
 
   buildStage();
   buildPanels();
+}
+
+/* Set up when the window is, or becomes, wider than 900. Loaded on a phone-width window and then
+   dragged wider, it used to stay empty: the width was only checked once, at load. */
+(function () {
+  var wide = window.matchMedia("(min-width: 901px)");
+  if (wide.matches) return rvxInit();
+  wide.addEventListener("change", function once(e) {
+    if (!e.matches) return;
+    wide.removeEventListener("change", once);
+    rvxInit();
+  });
 })();
+

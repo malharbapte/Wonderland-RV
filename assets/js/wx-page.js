@@ -46,6 +46,7 @@
     };
     var show = function (animate) {
       if (PHONE.matches) { track.style.transform = ""; return; }
+      viewport.scrollLeft = 0;      // the phone's scroll offset does not come along to desktop
       setX(-at * pitch(), animate);
       if (!animate) { void track.offsetWidth; track.style.transition = ""; }
       if (prev) prev.disabled = at === 0;

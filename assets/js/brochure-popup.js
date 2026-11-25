@@ -118,5 +118,7 @@
     close();                                    /* not wired to a service yet */
   });
   window.addEventListener("resize", place);
+  /* dragged across 900 with the card open: heading and cover follow the width it is at now */
+  if (WIDE.addEventListener) WIDE.addEventListener("change", function () { if (isOpen) setModel(current()); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();
