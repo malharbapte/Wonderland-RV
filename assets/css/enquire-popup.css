@@ -1,0 +1,5 @@
+/* Enquire pop-up: only what the Events pop-up's classes (events-popup.css) do not already give it. */
+.enq-show a { color: inherit; text-decoration: none; }
+.enq-show a:hover, .enq-show a:focus-visible { color: var(--orange-hover, #c4651e); }
+@media (min-width: 901px) { .enq-show { margin-top: 0.5rem; } }
+@media (max-width: 900px) { .evp-show.enq-show { display: none; } }   /* phone: straight to the form */
