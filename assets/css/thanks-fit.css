@@ -202,3 +202,6 @@
   .ty-reviews .ty-h br { display: none; }   /* no "RV" alone on a line */
   .ty-reviews .ty-h { text-wrap: balance; }
 }
+/* community section: the trust line under its intro (same type as the review line, no stars) */
+.ty-community .ty-proof--trust { margin-top: 0.2rem; }
+@media (max-width: 900px) { .ty-community .ty-proof--trust { margin-top: 14px; } }
