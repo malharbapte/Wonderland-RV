@@ -15,7 +15,7 @@
   .dz-grid[data-open="4"] { --w3: 1.7fr; }
   .dz-col { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; min-height: 0; }
   .dz-col .vp { flex: var(--g, 1) 1 0; transition: flex-grow var(--vx-t) var(--vx-ease); }
-  .dz-col .dz-quote { flex: var(--gq, 1) 1 0; transition: flex-grow var(--vx-t) var(--vx-ease), background var(--vx-t) var(--vx-ease); }
+  .dz-col .dz-quote { flex: var(--gq, 1) 1 0; transition: flex-grow var(--vx-t) var(--vx-ease), background-color .3s, color .3s, box-shadow .3s; }
   .dz-col .t4 { --g: 1.95; }
   .dz-grid[data-open="2"] .t2 { --g: 1.5; }
   .dz-grid[data-open="3"] .t3 { --g: 1.5; }
@@ -38,8 +38,14 @@
   .dz-quote { display: flex; flex-direction: column; justify-content: space-between; padding: 0.24rem; min-width: 0; min-height: 0; background: var(--orange); color: #fff; text-decoration: none; overflow: hidden; }
   .dz-quote b { font: 900 0.4rem/1.08 var(--aviano); text-transform: uppercase; }
   .dz-quote svg { flex: none; width: 0.6rem; height: 0.6rem; align-self: flex-end; transition: transform var(--vx-t) var(--vx-ease); }
-  .dz-quote:hover, .dz-quote:focus-visible { background: #1D1D1B; outline: none; }
-  .dz-quote:hover svg, .dz-quote:focus-visible svg { transform: translate(0.08rem, -0.08rem); }
+  /* the site's orange-button behaviour (Piyush, 25 Nov 2026: "need to behave like normal buttons orange ones"): white fill,
+     orange text and arrow, 2px orange inside edge, 0.3s fade; hover only where a mouse can hover, so a tap never sticks */
+  .dz-quote:focus-visible { background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: none; }
+  .dz-quote:focus-visible svg { transform: translate(0.08rem, -0.08rem); }
+  @media (hover: hover) {
+    .dz-quote:hover { background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: none; }
+    .dz-quote:hover svg { transform: translate(0.08rem, -0.08rem); }
+  }
   @media (prefers-reduced-motion: reduce) { .dz-grid, .dz-col .vp, .dz-col .dz-quote, .dz .vp::before, .dz .vc p, .dz-quote svg { transition: none !important; } }
 }
 
@@ -65,5 +71,6 @@
   .dz-quote { display: flex; flex-direction: column; justify-content: space-between; padding: 14px; background: var(--orange); color: #fff; text-decoration: none; -webkit-tap-highlight-color: transparent; }
   .dz-quote b { font: 900 22px/1.08 var(--aviano); text-transform: uppercase; }
   .dz-quote svg { flex: none; width: 30px; height: 30px; align-self: flex-end; }
-  .dz-quote:active { background: #1D1D1B; }
+  .dz-quote { transition: background-color .3s, color .3s, box-shadow .3s; }
+  .dz-quote:active, .dz-quote:focus-visible { background: #fff; color: #DB7627; box-shadow: rgb(219, 118, 39) 0 0 0 2px inset; outline: none; }   /* the site's orange-button look while pressed */
 }
