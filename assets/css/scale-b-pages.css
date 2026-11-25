@@ -67,4 +67,19 @@
   .amb-faq summary:hover, .amb-faq details[open] summary { color: var(--orange); }
   .amb-faq details.is-closing summary { color: var(--ink); }
   .amb-faq-body { padding-right: 2.40rem; }
+
+  /* ---- round 4 (25 Nov): line gaps. The old rem line-heights were set for the old, larger sizes, so the smaller text had 2x leading. ---- */
+  /* Experience: the journey cards (the bio's size and line-height now come from the same variable; titles reserve two lines, not three) */
+  .wx-journey { --wxc-size: var(--t-sub); --wxc-bio: var(--t-annb); --wxc-lines: 2; }
+  .wx-card-title { line-height: 1.15; }
+  .wx-card-bio { line-height: 1.4; margin-top: 0.08rem; }
+  .wx-card-band { padding: 0.14rem 0.20rem 0.20rem; }
+  /* the same fix wherever a fixed rem line-height was left behind */
+  .wx-dna p { line-height: var(--lh-body); }
+  .wx-mk-text, .wx-d-addr { line-height: 1.4; }
+  .wx-d-city { line-height: 1.2; }
+  .ty-tv-q { line-height: 1.4; }
+  .ty-awd-t { line-height: 1.15; }
+  .fp-fine { line-height: 1.45; }
+  .unseen { padding-top: var(--section-gap); }   /* it opened on half the gap the other bands use */
 }

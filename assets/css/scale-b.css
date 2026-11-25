@@ -52,12 +52,9 @@
   /* Your dream van awaits: the collage runs past the column to a gutter from each screen edge (width only) */
   .dz-grid { --dz-gutter: 0.24rem; width: calc(100vw - 2 * var(--dz-gutter)); margin-left: calc(50% - 50vw + var(--dz-gutter)); }
   /* line gaps, retuned for the smaller type */
-  .rvx { padding-top: 1.00rem; }
   .rvx-stage { margin-top: 0.10rem; }
   .rvx-title { margin-bottom: 0.60rem; }
-  .coty { padding-top: 0.90rem; padding-bottom: 0.60rem; }
   .coty-slide { padding-bottom: 0.30rem; }   /* room for the aside, which overflows evenly and would otherwise be clipped by the viewport */
-  .faq { padding-top: 0.90rem; }   /* insurance and the FAQs sat nearly 3rem apart */
 
   /* ---- round 3: featured videos ---- */
   /* the call to action sits in a right-hand aside that is centred on the left-hand text block; the quote (last slide) stacks under it */
@@ -74,6 +71,16 @@
   .coty-sub { margin-top: 0.03rem; line-height: 1.1; }
   .coty-note { margin-top: 0.10rem; }
   .insurance-copy { margin-top: 0.20rem; }
+
+  /* ---- one section padding (25 Nov): every band opens and closes on the same gap, so no section sits closer or further than the rest ---- */
+  :root { --section-gap: 1.00rem; }
+  .lux { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+  .rvx { padding-top: var(--section-gap); }
+  .wyc, .dream, .brands, .coty { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+  .coty { padding-bottom: 0.70rem; }   /* plus the 0.30rem the slides carry */
+  .service { padding-top: var(--section-gap); }
+  .insurance { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+  .faq { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
 
   /* things that were tied to the old window-height fit */
   .dz-grid { --bento-h: 8.4rem; }
