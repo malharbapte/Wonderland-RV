@@ -43,12 +43,22 @@ const HERO_YT = { id: "Qb2Py-ErJ8c", start: 13, end: 84 };
   frame.appendChild(holder);
   withYouTubeApi(function () {
     let player, timer;
-    function backToStart() { player.seekTo(HERO_YT.start, true); player.mute(); player.playVideo(); }
+    /* HD only (Piyush: "hero needs to be minium HD or high alwasys"): the still goes only when YouTube reports
+       hd720 or better, and comes back if the quality drops */
+    const HD = ["hd720", "hd1080", "hd1440", "hd2160", "highres"];
+    let playing = false;
+    function askHD() { try { player.setPlaybackQuality("hd1080"); } catch (e) {} }
+    function showClip() {
+      const q = player.getPlaybackQuality ? player.getPlaybackQuality() : "";
+      frame.dataset.quality = q;
+      frame.classList.toggle("is-playing", playing && HD.indexOf(q) !== -1);
+    }
+    function backToStart() { player.seekTo(HERO_YT.start, true); player.mute(); askHD(); player.playVideo(); showClip(); }
     player = new YT.Player("heroYt", {
       host: "https://www.youtube-nocookie.com",
       videoId: HERO_YT.id,
       /* no end/loop/playlist parameters (show-page lesson, #2212): the loop is the seekTo below */
-      playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, start: HERO_YT.start,
+      playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, start: HERO_YT.start, vq: "hd1080",
                     modestbranding: 1, iv_load_policy: 3, cc_load_policy: 0, disablekb: 1, fs: 0 },
       events: {
         onReady: function (e) {
@@ -57,16 +67,19 @@ const HERO_YT = { id: "Qb2Py-ErJ8c", start: 13, end: 84 };
           f.setAttribute("tabindex", "-1");
           f.classList.add("hero-yt");
           e.target.mute();
+          askHD();
           e.target.playVideo();
         },
+        onPlaybackQualityChange: function () { showClip(); },
         onStateChange: function (e) {
           /* paused or ended: the still fades back over it (a short buffer at the loop point does not count) */
-          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) frame.classList.remove("is-playing");
+          if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) { playing = false; frame.classList.remove("is-playing"); }
           if (e.data === YT.PlayerState.ENDED) return backToStart();
           if (e.data === YT.PlayerState.PLAYING) {
             player.mute();
-            /* the still goes only once real frames are past the start */
-            setTimeout(function () { frame.classList.add("is-playing"); }, 350);
+            playing = true;
+            /* the still goes only once real frames are past the start, and only in HD */
+            setTimeout(showClip, 350);
             clearInterval(timer);
             timer = setInterval(function () {
               const t = player.getCurrentTime ? player.getCurrentTime() : 0;

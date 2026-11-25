@@ -1282,3 +1282,5 @@ body.bro-lock { overflow: hidden; }
 .home-hero-media picture { position: absolute; inset: 0; z-index: 2; transition: opacity .8s ease; }
 .home-hero-media.is-playing picture { opacity: 0; }
 @media (prefers-reduced-motion: reduce) { .home-hero-media picture { transition: none; } }
+/* The still is the clip's first frame; scaled by the same 6% as the clip so the fade between them doesn't jump */
+.home-hero-media .video-poster { transform: scale(1.06); }

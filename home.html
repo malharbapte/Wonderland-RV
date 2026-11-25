@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="assets/css/ambassadors.css?v=314">
 <link rel="stylesheet" href="assets/css/homepage.css?v=330">
 <link rel="stylesheet" href="assets/css/range-viewer.css?v=316">
-<link rel="stylesheet" href="assets/css/home-order.css?v=904">
+<link rel="stylesheet" href="assets/css/home-order.css?v=905">
 <link rel="stylesheet" href="assets/css/home-dream.css?v=14">
 <link rel="stylesheet" href="assets/css/home-why.css?v=4">
 <link rel="stylesheet" href="assets/css/scale-b.css?v=25">
@@ -89,8 +89,9 @@
     <!-- PHONE: a portrait photo (3:4) instead of the clip. Desktop keeps the
          video and its poster. -->
     <picture>
-      <source media="(max-width: 900px)" srcset="assets/img/home/hero-phone.jpg">
-      <img class="video-poster" src="assets/img/home/hero-poster.jpg" alt=""
+      <!-- The first frame of the loop (Qb2Py-ErJ8c at 0:13, letterbox cropped): shown until the clip plays in HD,
+           and whenever it can't (Piyush: "if cant be served add the first frame as thumbnail"). -->
+      <img class="video-poster" src="assets/img/home/hero-poster-0013.jpg?v=1" alt=""
            onload="this.parentElement.parentElement.classList.remove('ph')" onerror="this.remove()">
     </picture>
   </div>
@@ -1049,7 +1050,7 @@
 </div>
 
 <script src="assets/js/video-embed.js?v=315"></script>
-<script src="assets/js/home.js?v=321"></script>
+<script src="assets/js/home.js?v=322"></script>
 <script src="assets/js/reviews.js?v=314"></script>
 <script src="assets/js/footer.js?v=314"></script>
 <script src="assets/js/budget.js?v=314"></script>
