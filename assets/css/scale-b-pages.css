@@ -88,4 +88,7 @@
   .unseen { padding-top: var(--section-gap); }   /* it opened on half the gap the other bands use */
   /* Thank you: the reviews wall text at the standard 1.4 */
   .ty-rc-body blockquote { line-height: 1.4; }
+  /* journey cards: a one-line title no longer leaves an empty line above its description (the title sits on the bottom of its reserved two lines) */
+  .wx-card-title { display: flex; align-items: flex-end; }
+  .wx-card-bio { margin-top: 0.06rem; }
 }
