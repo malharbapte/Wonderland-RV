@@ -1,0 +1,14 @@
+/* SCALE TRIAL B, the other pages (samples only: sample-<page>-scale.html). Loaded after scale-b.css.
+   It carries the decisions made on the homepage sample for the parts the other pages share, and the fixes the new scale needed. */
+@media (min-width: 901px) {
+  /* CTA: one size and font everywhere (the form buttons too) */
+  .btn-submit, .btn-next { font-family: var(--aviano); font-weight: 900; font-size: var(--t-btn); }
+  /* caption: fine print and disclaimers */
+  .fineprint { font-size: var(--t-cap); line-height: 1.45; }
+  /* names and roles under a testimonial: body, as in Legendary Service on the homepage */
+  .quote-name, .quote-role { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* FAQ questions: quote size (no quote vector), as on the homepage */
+  .amb-faq summary { font-size: var(--t-quote); line-height: 1.3; }
+  /* the full-width quote band is a <figure>, which carries a 40px default right margin: at this scale the body is as wide as the window and the margin pushed the page 40px wider */
+  .amb-quote { margin-right: 0; }
+}
