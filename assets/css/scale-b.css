@@ -75,6 +75,27 @@
   .coty-note { margin-top: 0.10rem; }
   .insurance-copy { margin-top: 0.20rem; }
 
+  /* ---- Your dream van awaits: the motion switches (sample panel, assets/js/scale-dz-panel.js) ---- */
+  .dz-grid.dz-calm { --vx-t: 1.3s; --vx-ease: cubic-bezier(.45, 0, .2, 1); }
+  .dz-grid.dz-still { transition: none; --w1: 1fr !important; --w2: 1fr !important; --w3: 1fr !important; }
+  .dz-grid.dz-still .t2, .dz-grid.dz-still .t3 { --g: 1 !important; }
+  .dz-grid.dz-still .t4 { --g: 1.95 !important; }
+  .dz-grid.dz-still .dz-quote { --gq: 1 !important; }
+  .dz-grid.dz-text .vc p { max-height: 1.1rem; margin-top: 0.1rem; opacity: 1; }
+  .dz-grid.dz-nodim .vp::before { opacity: 0 !important; }
+  .dzp { display: none; position: fixed; z-index: 450; left: 16px; bottom: 16px; width: 290px; padding: 14px 16px; border-radius: 10px; background: #1D1D1B; color: #fff; font: 400 13px/1.35 var(--gordita), Arial, sans-serif; box-shadow: 0 12px 30px -10px rgba(0,0,0,.6); }
+  .dzp.is-on { display: block; }
+  .dzp b { display: block; margin-bottom: 8px; font: 900 12px/1 var(--aviano), Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+  .dzp b { display: flex; justify-content: space-between; cursor: pointer; }
+  .dzp b i { font-style: normal; font-size: 16px; line-height: 12px; }
+  .dzp.is-folded > :not(b) { display: none; }
+  .dzp.is-folded b { margin-bottom: 0; }
+  .dzp label { display: flex; gap: 9px; align-items: flex-start; padding: 5px 0; cursor: pointer; }
+  .dzp input { flex: none; margin: 2px 0 0; width: 16px; height: 16px; accent-color: var(--orange); cursor: pointer; }
+  .dzp-row { display: flex; gap: 8px; margin-top: 10px; }
+  .dzp-row button { flex: 1; padding: 7px 0; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; background: none; color: #fff; font: 700 12px/1 var(--gordita), Arial, sans-serif; cursor: pointer; }
+  .dzp-row button:hover { background: var(--orange); border-color: var(--orange); }
+
   /* things that were tied to the old window-height fit */
   .dz-grid { --bento-h: 8.4rem; }
   /* full-bleed strips that start at the column's left edge */
