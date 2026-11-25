@@ -198,11 +198,35 @@
     });
   }
 
+  /* ------------------------------------------------- phone: journey arrows scroll the card row */
+  (function () {
+    var vp = document.querySelector(".wx-journey-viewport");
+    var pv = document.querySelector(".wx-journey-arrow--prev");
+    var nx = document.querySelector(".wx-journey-arrow--next");
+    if (!vp || !pv || !nx) return;
+    function step(dir) {
+      var c = vp.querySelector(".wx-journey-card");
+      var w = c ? c.getBoundingClientRect().width + 12 : vp.clientWidth * 0.8;
+      vp.scrollBy({ left: dir * w, behavior: "smooth" });
+    }
+    function sync() {
+      if (!PHONE.matches) { pv.disabled = nx.disabled = false; return; }
+      var max = vp.scrollWidth - vp.clientWidth;
+      pv.disabled = vp.scrollLeft < 36;      // the first card snaps to 24px in, so "at the start" is about there
+      nx.disabled = vp.scrollLeft > max - 6;
+    }
+    pv.addEventListener("click", function (e) { if (PHONE.matches) { e.stopImmediatePropagation(); step(-1); } }, true);
+    nx.addEventListener("click", function (e) { if (PHONE.matches) { e.stopImmediatePropagation(); step(1); } }, true);
+    vp.addEventListener("scroll", function () { if (PHONE.matches) sync(); }, { passive: true });
+    window.addEventListener("resize", sync);
+    if (PHONE.matches) sync();
+  })();
+
   /* ------------------------------------------------- phone: journey cards open from their band
      On a phone the journey cards show a picture and a title; a tap on the title band opens the words (the makers keep theirs showing).
      (Wide screens keep their hover.) */
-  [].forEach.call(document.querySelectorAll(".wx-journey-card"), function (card) {
-    var band = card.querySelector(".wx-card-band");
+  [].forEach.call(document.querySelectorAll(".wx-journey-card, .wx-mk"), function (card) {
+    var band = card.querySelector(".wx-card-band, .wx-mk-band");
     if (!band) return;
     band.setAttribute("role", "button");
     band.setAttribute("aria-expanded", "false");
