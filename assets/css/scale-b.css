@@ -7,6 +7,34 @@
   :root { --scale-col: min(80vw, calc(1280px + max(0px, 100vw - 1600px) * 0.3)); --edge: calc((100vw - var(--col)) / 2); }
   html { font-size: calc(var(--scale-col) / 16.24); }
 
+  /* THE 7 TYPE STANDARDS (design units, rem x 100). Title 56, subheading 32 and body 28 are the site's existing tokens; the other four are new. */
+  :root { --t-quote: 0.30rem; --t-annt: 0.26rem; --t-annb: 0.22rem; --t-cap: 0.18rem; }
+  /* quote: 30 */
+  .pull-quote, .pull-quote p, .service-quote p, .coty-quote { font-size: var(--t-quote); line-height: 1.4; }
+  /* body: 28 */
+  .faq-a p, .wl-card-bio { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* annotation title: 26 */
+  .wd-c b, .dz .vc h3, .rvx-k { font-size: var(--t-annt); line-height: 1.15; }
+  /* annotation body: 22 */
+  .wd-c span, .dz .vc p { font-size: var(--t-annb); line-height: 1.35; }
+  /* caption, disclaimer, T&C: 18 */
+  .rvx-note, .wyc-st dd, .coty-quote cite { font-size: var(--t-cap); line-height: 1.45; }
+
+  /* decisions from Atman, 25 Nov (footer, nav and the Wonderlander names are left as they were) */
+  :root { --t-btn: 0.24rem; }
+  /* title 56 */
+  .rvx-name { font-size: var(--t-heading); }
+  /* body 28 */
+  .rvx-tag, .rvx-badge, .service-kicker, .service-name, .service-role { font-size: var(--t-body); line-height: var(--lh-body); }
+  /* annotation body 22 */
+  .rvx-n { font-size: var(--t-annb); line-height: 1.35; }
+  /* subheading 32 */
+  .dz-quote b { font-size: var(--t-sub); line-height: 1.1; }
+  /* quote size, no quote vector (the FAQ questions keep their own font) */
+  .faq-q { font-size: var(--t-quote); line-height: 1.3; }
+  /* one call-to-action size and font everywhere */
+  .btn-solid, .btn-build { font-family: var(--aviano); font-weight: 900; font-size: var(--t-btn); }
+
   /* things that were tied to the old window-height fit */
   .dz-grid { --bento-h: 8.4rem; }
   /* full-bleed strips that start at the column's left edge */
