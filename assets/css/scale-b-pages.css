@@ -11,4 +11,30 @@
   .amb-faq summary { font-size: var(--t-quote); line-height: 1.3; }
   /* the full-width quote band is a <figure>, which carries a 40px default right margin: at this scale the body is as wide as the window and the margin pushed the page 40px wider */
   .amb-quote { margin-right: 0; }
+
+  /* ---- decisions from Atman, 25 Nov, round 2 (the numbers are those on the screenshots) ---- */
+  /* Range page: layout name over the plan (1) and the rows of the layout list (4): annotation body. The tab (7): annotation title.
+     The T&C line (6): caption. The list's heading (2) and the slider value (3) were not named, so annotation title. Rows shortened to suit. */
+  .fp-name, .fp-row-name, .fp-row-size { font-size: var(--t-annb); }
+  .fp-rail-word, .fp-rail-title, .fp-size-value { font-size: var(--t-annt); }
+  .fp-fine { font-size: var(--t-cap); }
+  .fp-row { height: 0.50rem; }
+  /* Contact: the budget value (8) */
+  .budget-value { font-size: var(--t-annt); }
+  /* Thank you: awards block, XTR 2211 title (9) subheading, label (12) and description (10) body, button (13) CTA; the video quote (14) quote, its description (15) body; picker numbers (16, 17) annotation body */
+  .ty-awd-t { font-size: var(--t-sub); }
+  .ty-awd-k, .ty-awd-d { font-size: var(--t-body); }
+  .ty-awd-cta { font-size: var(--t-btn); }
+  .ty-tv-q { font-size: var(--t-quote); }
+  .ty-tv-desc { font-size: var(--t-body); }
+  .ty-pk-n, .ty-pk-n span { font-size: var(--t-annb); }
+  /* Wonderland Experience: card titles (18), maker names (20), dealer names (23): subheading; card bios (19), maker text (21), dealer addresses (25): annotation body; dealer cities (24): body; dealer state label (26, not named): caption */
+  .wx-card-title, .wx-mk-name, .wx-d-name { font-size: var(--t-sub); }
+  .wx-card-bio, .wx-mk-text, .wx-d-addr { font-size: var(--t-annb); }
+  .wx-d-city { font-size: var(--t-body); }
+  .wx-d-state { font-size: var(--t-cap); }
+  /* the dealer panel runs to the window edge, where the side bar peeks in: keep its text clear of it */
+  .wx-dealers-panel { padding-right: 0.80rem; }
+  /* Wonderlander pages: the tips mosaic question and answer (27, 28): body */
+  .amb-tip-q, .amb-tip-a { font-size: var(--t-body); }
 }
