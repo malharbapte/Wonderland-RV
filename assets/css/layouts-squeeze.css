@@ -1,0 +1,24 @@
+/* SAMPLE (desktop only): when the Layouts rail opens, the plan squeezes and slides instead of sitting under the rail.
+   Switched on by ?squeeze=a|b|c on range.html. js: assets/js/layouts-squeeze.js sets --sq-h, --sq-push, --sq-s. */
+@media (min-width: 901px) {
+.fp-body.sq .fp-grid { height: var(--sq-h); }
+.fp-body.sq .fp-plan { aspect-ratio: auto; height: 100%; box-sizing: border-box; padding: 0.12rem;
+  background-repeat: no-repeat; background-position: center; background-size: contain; background-origin: content-box; }
+.fp-body.sq .fp-plan.has-img::after { display: none; }
+.fp-body.sq .fp-dims { height: 100%; box-sizing: border-box; }
+/* A: plan and dimension panel both narrow, the whole block shifts right */
+.fp-body.sq-a .fp-grid { margin-left: var(--sq-push, 0px); transition: margin-left var(--rail-dur) var(--rail-ease); }
+/* B: dimension panel stays put, only the plan narrows */
+.fp-body.sq-b .fp-plan { margin-left: var(--sq-push, 0px); transition: margin-left var(--rail-dur) var(--rail-ease); }
+/* C: the whole block is scaled down against its right edge (nothing reflows) */
+.fp-body.sq-c .fp-grid { transform-origin: 100% 50%; transform: scale(var(--sq-s, 1)); transition: transform var(--rail-dur) var(--rail-ease); }
+
+.sq-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 9999; display: flex; gap: 12px; align-items: center;
+  padding: 9px 16px; background: rgba(20,20,22,.94); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif;
+  box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+.sq-bar b { font-weight: 600; color: #bbb; }
+.sq-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 11px; border-radius: 20px; border: 1px solid #555; }
+.sq-bar a.is-cur { background: #DB7627; border-color: #DB7627; }
+.sq-bar i { font-style: normal; color: #999; font-size: 12px; white-space: nowrap; }
+}
+@media (max-width: 900px) { .sq-bar { display: none; } }
