@@ -16,6 +16,8 @@
   var stage = document.querySelector(".wx-stage");
   var gmap = document.getElementById("wxGmap");
   var frame = document.getElementById("wxGmapFrame");
+  var gnote = document.getElementById("wxGmapNote");
+  var row = document.querySelector(".wx-dealers-row");
   var reset = document.getElementById("wxReset");
   var CHEV = '<svg viewBox="0 0 14 8" aria-hidden="true"><path d="M0 0L7 7L14 0" fill="none" stroke="currentColor"/></svg>';
   var dir = document.getElementById("wxDir");
@@ -28,23 +30,40 @@
   var ORDER = ["nsw", "qld", "vic", "wa", "sa", "nt", "tas"];   /* the ACT sits inside NSW and answers as NSW */
   var LABELS = { nsw: "NSW", qld: "QLD", vic: "VIC", wa: "WA", sa: "SA", nt: "NT", tas: "TAS", act: "ACT" };
   var cur = "nsw", btns = {};
+  var IMG = "assets/img/experience/dealers/";
   var DEALERS = {
-    nsw: { name: "Off Grid Outfitters", logo: "off-grid-outfitters.png", locs: [
-      { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560", ll: "-34.0576281,150.8112213",
+    nsw: { name: "Off Grid Outfitters", url: "https://offgridoutfitters.com.au/", logo: "off-grid-outfitters.png",
+      /* two photos, swapped every 5 seconds; a click enlarges the one showing */
+      photos: [ { src: "off-grid-building.jpg", alt: "Off Grid Outfitters showroom, Campbelltown", pos: "50% 55%" },
+                { src: "off-grid-team.jpg", alt: "The Off Grid Outfitters team in the showroom", pos: "50% 28%" } ],
+      locs: [
+      { city: "Sydney", addr: "23 Badgally Road, Campbelltown NSW 2560",
         tel: "(02) 4648 4181", mail: "sales@offgridoutfitters.com.au" } ] },
-    qld: { name: "Aussie Escape Caravans", logo: "aussie-escape-caravans.svg", locs: [
+    qld: { name: "Aussie Escape Caravans", url: "https://aussieescapecaravans.com.au/", logo: "aussie-escape-caravans.svg",
+      /* the team photo from their own site is a wide banner, so its box takes the banner's shape */
+      photos: [ { src: "aussie-escape-team.jpg", alt: "The Aussie Escape Caravans team", ar: "1920 / 500" } ],
+      locs: [
       { city: "Brisbane", addr: "118 South Pine Rd, Brendale QLD 4500",
         tel: "(07) 3205 7738", mail: "wonderland@aussieescapecaravans.com.au" },
       { city: "Mackay", addr: "10/25 Transport Ave, Paget QLD 4740",
         tel: "0439 009 148", mail: "wonderland@aussieescapecaravans.com.au" } ] },
-    vic: { name: "Outbound RVs", logo: "outbound-rvs.png", photo: "outbound-rvs-building.jpg", locs: [
-      { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061", ll: "-37.6630770,144.9676408",
+    vic: { name: "Outbound RVs", url: "https://www.outboundrvs.com.au/", logo: "outbound-rvs.png",
+      photos: [ { src: "outbound-rvs-building.jpg", alt: "Outbound RVs showroom, Campbellfield" } ], locs: [
+      { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061",
         tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] },
     /* Mission RV: details from missionrv.com.au. The site publishes no phone number, so none is shown;
        its Contact page says "Appointment only" and the Bellevue address is the one in the site's own listing. */
-    wa: { name: "Mission RV Australia", logo: "mission-rv.png", locs: [
+    wa: { name: "Mission RV Australia", url: "https://www.missionrv.com.au/", logo: "mission-rv.png", locs: [
       { city: "Perth", addr: "135 Clayton Street, Bellevue WA 6056", mail: "jake@missionrv.com.au" } ] }
   };
+  /* every location knows its business name, so the Google preview searches "name, address" and pins the showroom by name */
+  Object.keys(DEALERS).forEach(function (k) { DEALERS[k].locs.forEach(function (l) { l.biz = DEALERS[k].name; }); });
+  /* SA, NT and TAS have no dealer: Outbound RVs (Melbourne) answers for them, in Piyush's words */
+  var REMOTE_PTS = [
+    { h: "Talk to our adventure experts", t: "Our adventure experts at Outbound RVs in VIC will help you with your questions." },
+    { h: "See the vans without leaving home", t: "We offer virtual tours of the vans at the showroom." } ];
+  var TRIP = { h: "$2,000 towards your trip", t: "We offer a $2,000 discount on flights and accommodation if you\u2019d like to see the vans in person and take a factory tour at our showroom and factory in Campbellfield." };
+  var slideTimer = 0, lb = null, lbOpen = false;
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -56,6 +75,46 @@
     var a = el("a", extra || "", text);
     a.href = href;
     return a;
+  }
+  function ext(a, url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
+  function pts(into) {
+    REMOTE_PTS.forEach(function (x) {
+      var p = el("p", "wx-d-pt"); p.appendChild(el("b", "", x.h)); p.appendChild(document.createTextNode(x.t)); into.appendChild(p);
+    });
+  }
+  function tripNote(into) {
+    into.textContent = "";
+    into.appendChild(el("b", "", TRIP.h)); into.appendChild(document.createTextNode(TRIP.t));
+  }
+  function closeLb() { if (lb) lb.hidden = true; lbOpen = false; document.body.classList.remove("wx-lb-lock"); }
+  function openLb(p, d) {
+    if (!lb) {
+      lb = el("div", "wx-lb"); lb.hidden = true; lb.innerHTML = "<img alt=\"\">";
+      document.body.appendChild(lb);
+      lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });   /* a click outside the photo closes it */
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && lbOpen) closeLb(); });
+    }
+    var im = lb.querySelector("img"); im.src = IMG + p.src; im.alt = p.alt || d.name;
+    lb.hidden = false; lbOpen = true; document.body.classList.add("wx-lb-lock");
+  }
+  function buildPhoto(ph, d) {
+    ph.classList.add("has-img");
+    if (d.photos[0].ar) ph.style.aspectRatio = d.photos[0].ar;
+    var n = 0;
+    var imgs = d.photos.map(function (p, i) {
+      var im = document.createElement("img"); im.src = IMG + p.src; im.alt = p.alt || d.name;
+      if (p.pos) im.style.objectPosition = p.pos;
+      if (i === 0) im.className = "is-on";
+      ph.appendChild(im); return im;
+    });
+    ph.setAttribute("role", "button"); ph.tabIndex = 0; ph.setAttribute("aria-label", "Enlarge photo: " + d.name);
+    if (imgs.length > 1) slideTimer = setInterval(function () {
+      if (lbOpen) return;
+      imgs[n].classList.remove("is-on"); n = (n + 1) % imgs.length; imgs[n].classList.add("is-on");
+    }, 5000);
+    function enlarge() { openLb(d.photos[n], d); }
+    ph.addEventListener("click", enlarge);
+    ph.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); enlarge(); } });
   }
   function line(href, text) {
     var p = el("p", "wx-d-line");
@@ -85,21 +144,26 @@
 
   function show(k) {
     cur = k;
+    clearInterval(slideTimer);
     states.forEach(function (s) { s.classList.toggle("is-on", s.dataset.s === k || (k === "nsw" && s.dataset.s === "act")); });
     ORDER.forEach(function (n) { btns[n].setAttribute("aria-selected", String(n === k)); });
     place(false);
     panel.textContent = "";
     panel.appendChild(el("h3", "wx-d-state", NAMES[k]));
     /* states with no dealer of their own show Outbound RVs, Melbourne */
-    var d = DEALERS[k] || DEALERS.vic;
+    var d = DEALERS[k] || DEALERS.vic, remote = !DEALERS[k];
+    row.classList.toggle("is-remote", remote);
+    gnote.hidden = !remote; if (remote) tripNote(gnote);
     var logo = el("div", "wx-d-logo");
     var img = document.createElement("img");
     img.src = "assets/img/experience/dealers/" + d.logo;
     img.alt = d.name;
     img.dataset.s = DEALERS[k] ? k : "vic";   /* its width comes from --logo-nsw / --logo-qld / --logo-vic */
-    logo.appendChild(img);
+    var la = ext(el("a", "wx-d-logo-link"), d.url); la.setAttribute("aria-label", d.name + " website");
+    la.appendChild(img); logo.appendChild(la);
     panel.appendChild(logo);
-    panel.appendChild(el("p", "wx-d-name", d.name));
+    var nm = el("p", "wx-d-name"); nm.appendChild(ext(el("a", "", d.name), d.url)); panel.appendChild(nm);
+    if (remote) { var rp = el("div", "wx-d-remote"); pts(rp); panel.appendChild(rp); }
     /* each branch is a drop-down titled with its city; the first is open, opening one closes the others */
     d.locs.forEach(function (l, i) {
       var box = el("details", "wx-d-loc wx-d-acc");
@@ -126,12 +190,8 @@
     });
     /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
-    if (d.photo) {
-      var pi = document.createElement("img");
-      pi.src = "assets/img/experience/dealers/" + d.photo;
-      pi.alt = d.name + ", " + d.locs[0].addr;
-      ph.classList.add("has-img");
-      ph.appendChild(pi);
+    if (d.photos) {
+      buildPhoto(ph, d);
     } else {
       ph.setAttribute("role", "img");
       ph.setAttribute("aria-label", "Photo of " + d.name + " (to come)");
@@ -165,8 +225,8 @@
     dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
     if (!desktop.matches) return;
     var t = MAPTYPE[MAPSTYLE] ? "&t=" + MAPTYPE[MAPSTYLE] : "";
-    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=17" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed" + t;
-    gmap.classList.toggle("has-card", !l.ll);
+    var src = "https://www.google.com/maps?q=" + encodeURIComponent(l.biz + ", " + l.addr) + "&z=16&output=embed" + t;
+    gmap.classList.add("has-card");
     if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
     /* Get directions sits under the preview, on the left, and follows the branch shown */
     dir.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
@@ -245,7 +305,7 @@
         '<div class="wx-dp-map"><iframe title="Dealer location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
           '<button class="wx-dp-arrow wx-dp-arrow--prev" type="button" aria-label="Previous state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor"/></svg></button>' +
           '<button class="wx-dp-arrow wx-dp-arrow--next" type="button" aria-label="Next state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor"/></svg></button></div>' +
-        '<div class="wx-dp-id"><img class="wx-dp-logo" alt=""><span class="wx-dp-name"></span></div>' +
+        '<a class="wx-dp-id" target="_blank" rel="noopener"><img class="wx-dp-logo" alt=""><span class="wx-dp-name"></span></a>' +
         '<div class="wx-dp-body">' +
           '<div class="wx-dp-tabs" role="tablist"></div>' +
           '<div class="wx-dp-info"></div>' +
@@ -277,6 +337,7 @@
     var lg = dp.querySelector(".wx-dp-logo");
     lg.src = "assets/img/experience/dealers/" + d.logo; lg.alt = d.name;
     dp.querySelector(".wx-dp-name").textContent = d.name;
+    dp.querySelector(".wx-dp-id").href = d.url;
     var acc = d.locs.length > 1 && QS.get("multi") !== "pill";   /* two dealerships: a drop-down per branch (?multi=pill for the pill) */
     var tabs = dp.querySelector(".wx-dp-tabs"); tabs.textContent = "";
     tabs.hidden = d.locs.length < 2 || acc;
@@ -309,9 +370,10 @@
       info.appendChild(line("mailto:" + l.mail, l.mail));
       info.appendChild(el("p", "wx-d-addr", l.addr));
     }
+    if (!DEALERS[k]) { var rb = el("div", "wx-d-remote"); pts(rb); info.appendChild(rb); var tn = el("p", "wx-d-trip"); tripNote(tn); info.appendChild(tn); }
     var map = dp.querySelector(".wx-dp-map"), fr = map.querySelector("iframe");
-    var src = "https://www.google.com/maps?q=" + (l.ll ? l.ll + "&z=16" : encodeURIComponent(l.addr) + "&z=15") + "&output=embed";
-    map.classList.toggle("has-card", !l.ll);
+    var src = "https://www.google.com/maps?q=" + encodeURIComponent(l.biz + ", " + l.addr) + "&z=16&output=embed";
+    map.classList.add("has-card");
     if (fr.getAttribute("src") !== src) fr.setAttribute("src", src);
     dp.querySelector(".wx-dp-cta").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(l.addr);
   }

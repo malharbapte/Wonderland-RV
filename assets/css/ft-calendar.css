@@ -1,0 +1,78 @@
+/* Factory tour pop-up: date and time pickers (sample, ?cal=a|b|c). Desktop sized in rem like the pop-up's fields. */
+.ftc { font-family: var(--gordita); color: var(--ink); position: relative; }
+.ftc-lab { margin: 0 0 0.1rem; font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; line-height: 0.22rem; letter-spacing: .06em; text-transform: uppercase; }
+.ftc-sum { margin: 0.16rem 0 0; font-size: 0.21rem; line-height: 0.3rem; color: #6b6158; }
+.ftc-sum b { font-weight: 700; color: var(--orange-deep); }
+.ftc-note { margin: 0.04rem 0 0; font-size: 0.17rem; line-height: 0.24rem; color: #6b6158; }
+.is-err .ftc-sum { color: #b3261e; }
+.is-err .ftc-sum::after { content: " Please choose both."; }
+.ftc-nav { flex: none; width: 0.5rem; height: 0.5rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; color: var(--ink);
+           display: grid; place-items: center; cursor: pointer; transition: color .2s ease, border-color .2s ease; }
+.ftc-nav svg { width: 0.2rem; height: 0.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ftc-nav:hover:not(:disabled) { color: var(--orange); border-color: var(--orange); }
+.ftc-nav:disabled { opacity: .25; cursor: default; }
+/* month */
+.ftc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.12rem; }
+.ftc-mon { font-weight: 700; font-size: 0.26rem; line-height: 0.3rem; }
+.ftc-dow, .ftc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.06rem; }
+.ftc-dow span { text-align: center; font-size: 0.16rem; line-height: 0.24rem; color: #6b6158; }
+.ftc-day { height: 0.5rem; padding: 0; border: 1px solid transparent; border-radius: 3px; background: none; font: inherit; font-size: 0.21rem; color: var(--ink); cursor: pointer;
+           transition: border-color .15s ease, background .15s ease, color .15s ease; }
+.ftc-day:hover:not(:disabled) { border-color: var(--ink); }
+.ftc-day:disabled { color: #c9c4bc; cursor: default; }
+.ftc-day.is-today { box-shadow: inset 0 -2px 0 var(--orange); }
+.ftc-day.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ftc-day.is-blank { visibility: hidden; }
+/* times */
+.ftc-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem; }
+.ftc-t { height: 0.56rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; font: inherit; font-size: 0.21rem; color: var(--ink); cursor: pointer;
+         transition: border-color .15s ease, background .15s ease, color .15s ease; }
+.ftc-t:hover:not(:disabled) { border-color: var(--orange); color: var(--orange); }
+.ftc-t.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ftc-t:disabled { opacity: .35; cursor: default; }
+/* A: month on the left, times on the right */
+.ftc-body { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 0.34rem; }
+/* B: one field; the month and the times open under it */
+.ftc-field { position: relative; width: 100%; height: 0.7rem; padding: 0 0.26rem; border: 1px solid var(--ink); border-radius: 3px; background: none; color: #6b6158;
+             font: inherit; font-size: 0.21rem; text-align: left; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.ftc-field.has { color: var(--ink); }
+.ftc-field:focus-visible, .ftc-field[aria-expanded="true"] { outline: none; border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
+.ftc-field svg { width: 0.14rem; height: 0.08rem; }
+.ftc--b .ftc-main { position: absolute; z-index: 6; left: 0; right: 0; top: calc(0.7rem + 0.08rem); padding: 0.3rem; background: #fff; border: 1px solid var(--ink); border-radius: 3px;
+                    box-shadow: 0 0.1rem 0.4rem rgba(0,0,0,.22); }
+.ftc--b .ftc-main[hidden] { display: none; }
+.ftc--b .ftc-sum { display: none; }
+.ftc--b .ftc-note { margin-top: 0.08rem; }
+/* C: week strip, then the times in one row */
+.ftc--c .ftc-body { grid-template-columns: 1fr; gap: 0.26rem; }
+.ftc-strip { display: grid; grid-template-columns: auto 1fr auto; gap: 0.14rem; align-items: center; }
+.ftc-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.1rem; }
+.ftc-card { height: 1rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; font: inherit; color: var(--ink); cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.02rem; transition: border-color .15s ease, background .15s ease, color .15s ease; }
+.ftc-card small { font-size: 0.16rem; line-height: 0.2rem; text-transform: uppercase; letter-spacing: .06em; }
+.ftc-card b { font-family: var(--aviano); font-weight: 900; font-size: 0.34rem; line-height: 0.4rem; }
+.ftc-card:hover:not(:disabled) { border-color: var(--orange); color: var(--orange); }
+.ftc-card.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.ftc-card:disabled { opacity: .3; cursor: default; }
+.ftc-wk { margin: 0.1rem 0 0; text-align: center; font-size: 0.17rem; color: #6b6158; }
+.ftc--c .ftc-slots { grid-template-columns: repeat(6, 1fr); }
+.ftc-slot-wrap, .ftc-slot { display: block; }
+.ftc-slot.is-err .ftc-field { border-color: #b3261e; }
+.ftc button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+/* the sample's switcher */
+.ftc-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 100000; display: flex; gap: 12px; align-items: center; padding: 9px 16px;
+           background: rgba(20,20,22,.95); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+.ftc-bar b { font-weight: 600; color: #bbb; }
+.ftc-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 11px; border-radius: 20px; border: 1px solid #555; }
+.ftc-bar a.is-cur { background: #DB7627; border-color: #DB7627; }
+.ftc-bar i { font-style: normal; color: #999; font-size: 12px; white-space: nowrap; }
+@media (max-width: 900px) {
+  .ftc-bar { display: none; }
+  .ftc-body { grid-template-columns: 1fr; gap: 18px; }
+  .ftc-sum, .ftc-field { font-size: 16px; } .ftc-field { height: 48px; padding: 0 14px; }
+  .ftc-day { height: 40px; font-size: 15px; } .ftc-t { height: 44px; font-size: 15px; } .ftc-mon { font-size: 18px; }
+  .ftc-nav { width: 40px; height: 40px; } .ftc-nav svg { width: 18px; height: 18px; }
+  .ftc-card { height: 74px; } .ftc-card b { font-size: 22px; line-height: 26px; } .ftc-card small { font-size: 12px; }
+  .ftc--c .ftc-slots { grid-template-columns: 1fr 1fr; }
+  .ftc--b .ftc-main { top: 56px; padding: 16px; }
+}

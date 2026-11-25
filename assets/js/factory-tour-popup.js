@@ -14,12 +14,13 @@
    ========================================================================== */
 (function () {
   "use strict";
+  /* SAMPLE: ?cal=a|b|c swaps the day and time fields for a calendar (ft-calendar.js) and opens the pop-up */
+  var CAL = (new URLSearchParams(location.search).get("cal") || "").toLowerCase();
+  if (["a", "b", "c"].indexOf(CAL) < 0 || !window.WLFtCal) CAL = "";
 
   var TOUR = {
     place: "Wonderland RV Production",
     addr:  "46 Lara Way, Campbellfield VIC 3061",
-    when:  "By appointment",
-    whenN: "Weekdays. Our team confirms your day.",
     see:   "How a Wonderland is built",
     seeN:  "Every chassis is made here in Australia."
   };
@@ -37,6 +38,11 @@
     return '<label class="evp-f"><input name="' + name + '" type="' + type + '" placeholder="' + ph + '"' + (req ? " required" : "") + ' autocomplete="off"></label>';
   }
 
+  function modelsHtml() {
+    return '<details class="evp-ms"><summary><span class="evp-ms-t">Models that interest you</span>' + CHEV + '</summary><div class="pan">' +
+      MODELS.map(function (m) { return '<label class="evp-ck"><input type="checkbox" name="model" value="' + esc(m) + '"><span>' + esc(m) + "</span></label>"; }).join("") +
+      "</div></details>";
+  }
   function build() {
     var wrap = document.createElement("div");
     wrap.className = "evp-scrim";
@@ -51,19 +57,17 @@
           '<div class="ftp-photo" role="img" aria-label="Photo of the factory (to come)"><span>Factory photo</span></div>' +
           '<div class="evp-show ftp-show">' +
             '<div class="evp-row"><small>Where</small><b>' + esc(TOUR.place) + "</b><span>" + esc(TOUR.addr) + "</span></div>" +
-            '<div class="evp-row"><small>When</small><b>' + esc(TOUR.when) + "</b><span>" + esc(TOUR.whenN) + "</span></div>" +
             '<div class="evp-row evp-find"><small>On the tour</small><b>' + esc(TOUR.see) + "</b><span>" + esc(TOUR.seeN) + "</span></div>" +
           "</div>" +
         "</div>" +
         '<form class="evp-form" action="#" method="post" autocomplete="off" novalidate>' +
           '<div class="evp-g2">' + inp("first-name", "text", "First Name*", true) + inp("last-name", "text", "Last Name*", true) + "</div>" +
           '<div class="evp-g2">' + inp("email", "email", "Email*", true) + inp("mobile", "tel", "Mobile*", true) + "</div>" +
-          '<div class="evp-g2">' + sel("state", "State*", STATES, true) +
-            '<label class="evp-f"><input name="date" type="text" placeholder="Preferred day*" required autocomplete="off" onfocus="this.type=\'date\'" onblur="if(!this.value)this.type=\'text\'"></label></div>' +
-          '<div class="evp-g2">' + sel("time", "Preferred time*", TIMES, true) +
-            '<details class="evp-ms"><summary><span class="evp-ms-t">Models that interest you</span>' + CHEV + '</summary><div class="pan">' +
-              MODELS.map(function (m) { return '<label class="evp-ck"><input type="checkbox" name="model" value="' + esc(m) + '"><span>' + esc(m) + "</span></label>"; }).join("") +
-            "</div></details></div>" +
+          (CAL
+            ? '<div class="evp-g2">' + sel("state", "State*", STATES, true) + modelsHtml() + '</div><div class="ftc-slot"></div>'
+            : '<div class="evp-g2">' + sel("state", "State*", STATES, true) +
+                '<label class="evp-f"><input name="date" type="text" placeholder="Preferred day*" required autocomplete="off" onfocus="this.type=\'date\'" onblur="if(!this.value)this.type=\'text\'"></label></div>' +
+              '<div class="evp-g2">' + sel("time", "Preferred time*", TIMES, true) + modelsHtml() + "</div>") +
           '<label class="evp-f evp-area"><textarea name="message" placeholder="Anything we should know?" rows="3"></textarea></label>' +
           '<label class="evp-ck"><input type="checkbox" name="marketing"><span>I would like to receive marketing communications with discounts, updates, new releases and more. I understand I can unsubscribe at anytime.</span></label>' +
           '<p class="evp-priv">We use your details to arrange your tour. <a href="#" style="color:inherit;text-decoration:underline">See our privacy policy.</a></p>' +
@@ -82,7 +86,9 @@
     /* the earliest day is tomorrow */
     var d = new Date(); d.setDate(d.getDate() + 1);
     var iso = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-    form.querySelector('input[name="date"]').min = iso;
+    var di = form.querySelector('input[name="date"]');
+    if (CAL) window.WLFtCal.mount(form.querySelector(".ftc-slot"), CAL, TIMES);
+    else if (di) di.min = iso;
 
     /* models multi-select */
     var ms = card.querySelector(".evp-ms"), mt = ms.querySelector(".evp-ms-t"), ph = mt.textContent;
@@ -110,6 +116,8 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
+      var cs = form.querySelector(".ftc-slot");
+      if (cs && cs._ok && !cs._ok()) { cs.scrollIntoView({ block: "center" }); return; }
       /* the thank-you page has wording for this route already */
       try { sessionStorage.setItem("wlThanks", JSON.stringify({ route: "enquiry", type: "Book a factory tour" })); } catch (err) {}
       location.href = "thank-you.html";   /* not wired to a service yet */
@@ -141,5 +149,8 @@
   }, true);
 
   /* a direct link: ...#factory-tour opens it on load (handy for sharing) */
-  if (location.hash === "#factory-tour") show();
+  if (location.hash === "#factory-tour" || CAL) {
+    if (CAL) window.WLFtCal.bar(CAL);
+    show();
+  }
 })();
