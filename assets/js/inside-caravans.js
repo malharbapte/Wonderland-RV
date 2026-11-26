@@ -89,7 +89,7 @@
     return '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p></div>' +
       (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
       '<dl class="ins-sp-list">' + rows + '</dl><p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
-      '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
+      '<a class="btn-solid ins-sp-cta" href="#enquire" data-enquire>Find your caravan</a>';
   }
   function postFill(i) {
     if (postAt === i) return; postAt = i;
@@ -185,7 +185,7 @@
       (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
-      '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
+      '<a class="btn-solid ins-sp-cta" href="#enquire" data-enquire>Find your caravan</a>';
   }
   /* on a short window the floor plan gets squeezed: drop the small note first, so the plan keeps a readable size */
   function fitNote() {
@@ -275,7 +275,7 @@
         '<h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p>' +
         (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
         '<dl class="ins-sp-list">' + rows + '</dl><p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
-        '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
+        '<a class="btn-solid ins-sp-cta" href="#enquire" data-enquire>Find your caravan</a>';
     }
     var closeT = 0;
     function openSheet(i) {
