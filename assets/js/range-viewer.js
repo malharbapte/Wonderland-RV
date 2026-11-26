@@ -23,22 +23,22 @@ function rvxInit() {
   if (!stage || !panels) return;
 
   /* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
-     The drawing writes the brake cell as one line, "12”DRUM", with no note
-     under it -- so brakes carry no note here either. */
+     The fourth cell is the standard battery (it replaced Brakes, 2026-11-27): Amaroo 300Ah, Hornet 400Ah, Solara 400Ah (lithium),
+     XTR 11kWh (the 24V option; the 12V option is 900Ah). */
   var MODELS = [
     { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
       badges: [],
       spec: [["solar", "Solar", "600W", "REDARC ALPHA 50"],
              ["water", "Water", "200L", "FRESH"],
              ["susp",  "Suspension", "COIL", "CRUISEMASTER ATX / XT"],
-             ["brake", "Brakes", "12” DRUM", ""]] },
+             ["batt",  "Battery", "300AH", "LITHIUM"]] },
 
     { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
       badges: [],
       spec: [["solar", "Solar", "800W", "REDARC ALPHA 75"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER XT L3"],
-             ["brake", "Brakes", "12” DRUM", ""]] },
+             ["batt",  "Battery", "400AH", "LITHIUM"]] },
 
     { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
       badges: ["2026 Judge’s Choice", "Full composite"],
@@ -52,7 +52,7 @@ function rvxInit() {
       spec: [["solar", "Solar", "1000W", "VICTRON 24V"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER ATX L5 BCS"],
-             ["brake", "Brakes", "DISC", ""]] }
+             ["batt",  "Battery", "11KWH", "LITHIUM"]] }
   ];
 
   var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';

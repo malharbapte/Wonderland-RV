@@ -19,14 +19,14 @@
       spec: [["solar", "Solar", "600W", "REDARC ALPHA 50"],
              ["water", "Water", "200L", "FRESH"],
              ["susp",  "Suspension", "COIL", "CRUISEMASTER ATX / XT"],
-             ["brake", "Brakes", "12” DRUM", ""]] },
+             ["batt",  "Battery", "300AH", "LITHIUM"]] },
 
     { id: "hornet", name: "Hornet", tag: "Rugged off-road", price: "$151,176",
       badges: [],
       spec: [["solar", "Solar", "800W", "REDARC ALPHA 75"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER XT L3"],
-             ["brake", "Brakes", "12” DRUM", ""]] },
+             ["batt",  "Battery", "400AH", "LITHIUM"]] },
 
     { id: "solara", name: "Solara", tag: "Composite off-road", price: "$162,280",
       badges: ["2026 Judge’s Choice", "Full composite"],
@@ -40,7 +40,7 @@
       spec: [["solar", "Solar", "1000W", "VICTRON 24V"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER ATX L5 BCS"],
-             ["brake", "Brakes", "DISC", ""]] }
+             ["batt",  "Battery", "11KWH", "LITHIUM"]] }
   ];
 
   /* The spec icons were dropped for the Lotus-style row, and with them the drawings. */
