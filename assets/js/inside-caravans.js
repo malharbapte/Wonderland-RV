@@ -74,19 +74,24 @@
       '</div>';
     el.addEventListener("click", function (e) {
       if (e.target.closest(".ins-snd")) return;
-      if (i !== at) go(i);
+      var same = i === at;
+      if (!same) go(i);
       if (!opened && MODE !== "post") openSpec();
+      if (MODE === "post" && !postOpen && same) setPost(true);   /* a click on the chosen reel brings the card back out from behind it */
     });
     track.appendChild(el);
     return el;
   });
   var postEl = document.createElement("div"); postEl.className = "ins-post"; postEl.innerHTML = '<div class="ins-post-in"></div>'; track.appendChild(postEl);
-  var postIn = postEl.querySelector(".ins-post-in"), postAt = -1;
+  var postIn = postEl.querySelector(".ins-post-in"), postAt = -1, postOpen = true;   /* the card can be closed: it then slides behind the chosen reel */
+  function setPost(o) { postOpen = o; show(); }
+  postEl.addEventListener("click", function (e) { if (e.target.closest(".ins-post-x")) setPost(false); });
   var P_ROWS = [["Tare", "tare"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
   function postHTML(c) {
     var rows = P_ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
     var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
-    return '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p></div>' +
+    return '<button class="ins-spec-x ins-post-x" type="button" aria-label="Close the specifications"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
+      '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p></div>' +
       (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
       '<dl class="ins-sp-list">' + rows + '</dl><p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
       '<a class="btn-solid ins-sp-cta" href="#enquire" data-enquire>Find your caravan</a>';
@@ -136,7 +141,7 @@
      A reel that wraps round to the far side jumps there unseen, off screen, instead of sliding across. */
   var prevD = [];
   function layout(r) {
-    var n = cards.length, sw = stage.clientWidth, post = MODE === "post", extra = post ? WC : 0;   /* in post mode the info card sits flush against the left of the chosen reel (no gutter) */
+    var n = cards.length, sw = stage.clientWidth, post = MODE === "post", open = post && postOpen, extra = open ? WC : 0;   /* in post mode the info card sits flush against the left of the chosen reel (no gutter) */
     cards.forEach(function (el, i) {
       var d = (((i - at) % n) + n) % n; if (d > n / 2) d -= n;
       var left = d === 0 ? -WC / 2 : d > 0 ? WC / 2 + GAP + (d - 1) * (W + GAP) : -(WC / 2 + GAP + (-d) * W + (-d - 1) * GAP);
@@ -151,7 +156,7 @@
     var px = sw / 2 + (-WC / 2 + extra / 2 - extra) * r;   /* the card's left edge: one card width left of the reel */
     postEl.style.height = Math.round(WC * r * 16 / 9) + "px";
     postEl.style.transform = "translate3d(" + Math.round(px) + "px,-50%,0)";
-    postEl.style.opacity = post ? "1" : "0"; postEl.style.visibility = post ? "visible" : "hidden";
+    postEl.classList.toggle("is-shut", !open);   /* shut: tucked exactly behind the chosen reel, then hidden */
     if (post) { postFill(at); requestAnimationFrame(fitPostNote); }
   }
   function fitPostNote() {
@@ -204,7 +209,7 @@
   function openSpec() { if (MODE === "post") return; fill(at); opened = true; panel.classList.add("is-open"); }
   function closeSpec() { opened = false; panel.classList.remove("is-open"); }
   body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) closeSpec(); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeSpec(); if (MODE === "post" && postOpen) setPost(false); } });
   /* a click anywhere outside the panel shuts it; the reels and arrows only change what it shows */
   document.addEventListener("click", function (e) { if (opened && !e.target.closest(".ins-spec, .ins-card, .ins-arrow")) closeSpec(); });
   if ("IntersectionObserver" in window) {

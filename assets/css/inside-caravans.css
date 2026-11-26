@@ -85,8 +85,12 @@
 .ins-mode button + button { border-left: 1px solid #cfcdc8; }
 .ins-mode button.is-on { background: var(--ink); color: #fff; }
 .ins--post .ins-spec { display: none; }
-.ins-post { position: absolute; left: 0; top: 50%; width: var(--wc); box-sizing: border-box; display: flex; background: #fff; color: var(--ink); font-family: var(--gordita); box-shadow: 0 0.04rem 0.24rem rgba(20, 18, 14, .14); overflow: hidden;
-            opacity: 0; visibility: hidden; transition: transform .9s cubic-bezier(.45, 0, .2, 1), opacity .5s ease; will-change: transform; }
+.ins-post { position: absolute; z-index: 1; left: 0; top: 50%; width: var(--wc); box-sizing: border-box; display: none; background: #fff; color: var(--ink); font-family: var(--gordita); box-shadow: 0 0.04rem 0.24rem rgba(20, 18, 14, .14); overflow: hidden;
+            visibility: visible; transition: transform .9s cubic-bezier(.45, 0, .2, 1), visibility 0s linear 0s; will-change: transform; }
+.ins--post .ins-post { display: flex; }
+.ins-post.is-shut { visibility: hidden; transition: transform .9s cubic-bezier(.45, 0, .2, 1), visibility 0s linear .9s; }   /* hides only once it has slid behind the reel */
+.ins--post .ins-card.is-on { z-index: 2; }   /* the chosen reel stays in front, so the card slides behind it */
+.ins-post .ins-sp-head { padding-right: 0.3rem; }
 .ins-post-in { flex: 1 1 auto; min-width: 0; min-height: 0; box-sizing: border-box; padding: 0.28rem 0.24rem 0.26rem; display: flex; flex-direction: column; }
 .ins-post-in.is-new > * { animation: ins-up .45s cubic-bezier(.45, 0, .2, 1) both; }
 .ins-post .ins-sp-name { font-size: 0.3rem; }
