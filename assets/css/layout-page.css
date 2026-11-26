@@ -14,10 +14,10 @@
 .lp-plan img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.2rem; box-sizing: border-box; }
 .lp-plan figcaption { position: absolute; left: 0.2rem; bottom: 0.14rem; font-family: var(--aviano); font-weight: 900; font-size: var(--t-cap); letter-spacing: .08em; text-transform: uppercase; color: #6b6158; }
 
-.lp-actions { --vx-ease: cubic-bezier(.45, 0, .2, 1); --vx-t: 1.3s; margin-top: 0.14rem; display: grid; grid-template-columns: var(--c1, 1.9fr) var(--c2, 1fr); gap: 0.12rem; transition: grid-template-columns var(--vx-t) var(--vx-ease); }
+.lp-actions { --vx-ease: cubic-bezier(.45, 0, .2, 1); --vx-t: 1.3s; margin-top: 0.4rem; display: grid; grid-template-columns: var(--c1, 1fr) var(--c2, 1fr); gap: 0.12rem; transition: grid-template-columns var(--vx-t) var(--vx-ease); }
 /* the button you point at grows, as the plan boxes above do */
-.lp-actions:has(.lp-btn--dark:hover), .lp-actions:has(.lp-btn--dark:focus-visible) { --c1: 2.6fr; }
-.lp-actions:has(.lp-btn--orange:hover), .lp-actions:has(.lp-btn--orange:focus-visible) { --c1: 1.3fr; --c2: 1.1fr; }
+.lp-actions:has(.lp-btn--dark:hover), .lp-actions:has(.lp-btn--dark:focus-visible) { --c1: 1.3fr; }
+.lp-actions:has(.lp-btn--orange:hover), .lp-actions:has(.lp-btn--orange:focus-visible) { --c2: 1.3fr; }
 .lp-btn { min-width: 0; display: grid; place-items: center; height: 0.93rem; padding: 0 0.3rem; text-align: center; text-decoration: none; font-family: var(--aviano); font-weight: 900; font-size: var(--t-btn); line-height: 1; letter-spacing: .02em; text-transform: uppercase; color: #fff; border: 1px solid transparent; cursor: pointer; transition: background .5s ease, color .5s ease, border-color .5s ease; }
 .lp-btn--dark { background: var(--lp-dark); border-color: var(--lp-dark); }
 .lp-btn--dark:hover, .lp-btn--dark:focus-visible { background: #fff; color: var(--lp-dark); }
@@ -25,7 +25,7 @@
 .lp-btn--orange:hover, .lp-btn--orange:focus-visible { background: #fff; color: var(--orange); }
 
 /* copy on the left, accordion on the right */
-.lp-info { margin-top: 0.5rem; display: grid; grid-template-columns: 1fr 2fr; column-gap: 0.12rem; align-items: start; }
+.lp-info { margin-top: 0.8rem; display: grid; grid-template-columns: 1fr 2fr; column-gap: 0.12rem; align-items: start; }
 .lp-copy { padding-right: 0.3rem; text-align: right; }
 .lp-copy p { margin: 0; font-size: var(--t-body); line-height: var(--lh-body); }
 .lp-copy p + p { margin-top: 0.3rem; }
