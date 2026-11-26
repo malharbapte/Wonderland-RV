@@ -100,7 +100,7 @@
   var panel = document.createElement("aside");
   panel.className = "ins-spec"; panel.setAttribute("aria-label", "Specifications");
   panel.innerHTML = '<div class="ins-spec-in"></div>' +
-    '<button class="ins-spec-tab" type="button" aria-expanded="false" aria-label="Show or hide the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '<span class="ins-spec-word">Specifications</span></button>';
+    '<button class="ins-spec-tab" type="button" aria-expanded="false" aria-label="Show or hide the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>';
   sec.appendChild(panel);
   var body = panel.querySelector(".ins-spec-in"), tab = panel.querySelector(".ins-spec-tab");
   var opened = false, curSpec = -1;
