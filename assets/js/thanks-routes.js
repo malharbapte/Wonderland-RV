@@ -100,7 +100,7 @@
   var v = document.querySelector("#tyVideo .ty-vloop"), still = document.querySelector("#tyVideo .video-poster");
   if (v && c.loop) {
     /* the brochure version opens on that model's own brochure cover */
-    var base = "assets/img/thanks/loop-" + c.loop + (c.loop === "brochure" && model ? "-" + model.toLowerCase() : ""), ver = "?v=1";
+    var base = "assets/img/thanks/loop-" + c.loop + (c.loop === "brochure" && model ? "-" + model.toLowerCase() : ""), ver = "?v=2";
     v.setAttribute("poster", base + "-poster.jpg" + ver);
     if (still) { still.src = base + "-poster.jpg" + ver; still.setAttribute("data-still", base + "-poster.jpg" + ver); }
     while (v.firstChild) v.removeChild(v.firstChild);
