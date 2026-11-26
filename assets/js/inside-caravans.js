@@ -109,7 +109,7 @@
       var left = d === 0 ? -WC / 2 : d > 0 ? WC / 2 + GAP + (d - 1) * (W + GAP) : -(WC / 2 + GAP + (-d) * W + (-d - 1) * GAP);
       var jump = prevD[i] !== undefined && Math.abs(d - prevD[i]) > 1;
       if (jump) el.style.transition = "none";
-      el.style.transform = "translate3d(" + Math.round(sw / 2 + left * r) + "px,-50%,0)";
+      el.style.transform = "translate3d(" + Math.round(sw / 2 + left * r) + "px,-50%,0) scale(" + (d === 0 ? 1 : (W / WC).toFixed(4)) + ")";
       if (jump) { void el.offsetWidth; el.style.transition = ""; }
       prevD[i] = d;
     });
