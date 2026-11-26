@@ -28,6 +28,7 @@
 .lp-acc { border-top: 1px solid var(--lp-line); }
 .lp-sec { border-bottom: 1px solid var(--lp-line); }
 .lp-sec > button { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0.4rem 0.3rem; cursor: pointer; font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1; letter-spacing: .01em; text-transform: uppercase; }
+.lp-sec.is-open > button { color: var(--orange); }
 .lp-sec > button:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
 .lp-sec > button svg { flex: none; width: 0.3rem; height: 0.3rem; fill: none; stroke: var(--orange); stroke-width: 2.4; stroke-linecap: butt; transition: transform .4s cubic-bezier(.33, 0, .18, 1); }
 .lp-sec.is-open > button svg { transform: rotate(180deg); }
@@ -38,9 +39,9 @@
 .lp-sec li { font-size: var(--t-body); line-height: var(--lh-body); padding-left: 0.04rem; }
 .lp-sec li + li { margin-top: 0.04rem; }
 .lp-sec li::marker { color: var(--ink); }
-.lp-enq { margin-top: 0.4rem; display: flex; flex-direction: column; align-items: flex-end; gap: 0.14rem; }
-.lp-enq .lp-btn { width: 50%; }
-.lp-warranty { margin: 0; font-size: var(--t-caption, var(--t-cap)); line-height: 1.4; color: #6b6158; }
+.lp-enq { margin-top: 0.4rem; display: flex; flex-direction: row-reverse; align-items: center; gap: 0.3rem; }
+.lp-enq .lp-btn { flex: none; width: 50%; }
+.lp-warranty { flex: 1 1 0; min-width: 0; margin: 0; text-align: right; font-size: var(--t-annb); line-height: 1.45; color: #6b6158; }
 
 /* marketing photos of vans with this layout: near full width, the one you point at grows */
 .lp-gal-wrap { margin-top: 0.9rem; padding: 0 0.12rem; }
