@@ -691,8 +691,8 @@ body.wx-lb-lock { overflow: hidden; }
   grid-template-columns: repeat(4, 1fr);
   gap: 0.568rem;
 }
-.wx-range-row .wx-ph { aspect-ratio: 1; }
-.wx-range-row img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.wx-range-row .wx-ph { aspect-ratio: 3 / 2; }
+.wx-range-row img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .wx-range-row figure { margin: 0; }
 .wx-range-row figcaption { margin-top: 0.5rem; }
 .wx-range-row h3 {
