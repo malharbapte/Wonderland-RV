@@ -107,9 +107,9 @@
   .wx-dealers-bar { left: 0.5rem; width: auto; right: 0.5rem; }
   .wx-dealers-panel { padding: 0.5rem 0.8rem 0.4rem 0.5rem; }
   .wx-dealers-panel { display: flex; flex-direction: column; }
-  .wx-d-logo { height: 1.1rem; margin-top: 0.14rem; }
+  .wx-d-logo { height: 1.1rem; margin: 0.22rem 0 0.14rem; }
   .wx-d-logo img { width: auto !important; height: 100%; max-width: 100%; object-fit: contain; object-position: left center; }
-  .wx-d-name { margin-top: 0.14rem; }
+  .wx-d-name { margin-top: 0.1rem; }
   .wx-d-loc { margin-top: 0; }
   .wx-d-acc:first-of-type { margin-top: 0.16rem; }
   .wx-d-acc:last-of-type { margin-bottom: 0.24rem; }

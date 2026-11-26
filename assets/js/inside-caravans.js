@@ -7,11 +7,11 @@
   if (!faq) return;
 
   var CARDS = [
-    { name: "Solara", code: "2100Q1-F2.0", video: "assets/video/inside-solara.mp4",         img: "assets/video/inside-solara.jpg" },
-    { name: "Hornet", code: "1907Q1-F2.0", video: "assets/video/inside-hornet.mp4",         img: "assets/video/inside-hornet.jpg" },
-    { name: "Amaroo", code: "1907Q1-F3.0", video: "assets/video/inside-amaroo-triple.mp4",  img: "assets/video/inside-amaroo-triple.jpg" },
-    { name: "XTR",    code: "2300Q-F3.4",  video: "assets/video/inside-xtr.mp4",            img: "assets/video/inside-xtr.jpg" },
-    { name: "Amaroo", code: "2107EW-F4.3", video: "assets/video/inside-amaroo.mp4",         img: "assets/video/inside-amaroo.jpg" }
+    { name: "Solara", code: "2100Q1-F2.0", type: "Family", video: "assets/video/inside-solara.mp4",         img: "assets/video/inside-solara.jpg" },
+    { name: "Hornet", code: "1907Q1-F2.0", type: "Family", video: "assets/video/inside-hornet.mp4",         img: "assets/video/inside-hornet.jpg" },
+    { name: "Amaroo", code: "1907Q1-F3.0", type: "Family", video: "assets/video/inside-amaroo-triple.mp4",  img: "assets/video/inside-amaroo-triple.jpg" },
+    { name: "XTR",    code: "2300Q-F3.4", type: "Family",  video: "assets/video/inside-xtr.mp4",            img: "assets/video/inside-xtr.jpg" },
+    { name: "Amaroo", code: "2107EW-F4.3", type: "Family", video: "assets/video/inside-amaroo.mp4",         img: "assets/video/inside-amaroo.jpg" }
   ];
   var W = 2.9, WC = 3.5, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller */
   var AR = '<svg viewBox="0 0 24 24"><path d="%d"/></svg>';
@@ -23,6 +23,7 @@
   sec.style.setProperty("--w", W + "rem"); sec.style.setProperty("--wc", WC + "rem"); sec.style.setProperty("--gap", GAP + "rem");
   sec.innerHTML =
     '<h2 class="ins-title">Inside our caravans</h2>' +
+    '<p class="ins-lede">Discover the layouts in the vans we\u2019ve built.</p>' +
     '<div class="ins-stage"><div class="ins-track"></div></div>' +
     '<div class="ins-arrows">' +
       '<button class="ins-arrow" data-d="-1" type="button" aria-label="Previous">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>' +
@@ -36,7 +37,7 @@
       '<div class="ins-media"><img src="' + c.img + '" alt="' + c.name + ' ' + c.code + '">' +
         '<video src="' + c.video + '" poster="' + c.img + '" muted loop playsinline preload="none"></video>' +
         '<button class="ins-snd is-muted" type="button" aria-label="Sound on or off">' + SND + '</button>' +
-        '<div class="ins-over"><div class="ins-name">' + c.name + '</div><div class="ins-sub">' + c.code + '</div>' +
+        '<div class="ins-over"><div class="ins-name"><span>' + c.name + '</span><i class="ins-div" aria-hidden="true"></i><em>' + c.type + '</em></div><div class="ins-sub">' + c.code + '</div>' +
           '<a class="ins-more" href="range.html" tabindex="-1">See model ' + AR.replace("%d", "M5 12h14M13 6l6 6-6 6") + '</a></div>' +
       '</div>';
     el.addEventListener("click", function (e) { if (i !== at && !e.target.closest("a")) go(i); });

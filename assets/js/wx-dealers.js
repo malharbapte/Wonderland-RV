@@ -77,33 +77,23 @@
     return a;
   }
   function ext(a, url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
-  /* the two points for SA, NT and TAS. SAMPLE: ?points=1|2|3 (1 icon rows, 2 cards, 3 expandable rows) */
+  /* the two points for SA, NT and TAS: a line icon in an orange ring, title over text */
   var PT_ICONS = [
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>' ];
-  function pv() { var v = new URLSearchParams(location.search).get("points") || "1"; return ["1", "2", "3"].indexOf(v) < 0 ? "1" : v; }
   function pts(into) {
-    var v = pv();
-    into.classList.add("wx-d-remote--p" + v);
-    if (v === "3") {
-      REMOTE_PTS.forEach(function (x, i) {
-        var d = el("details", "wx-d-pt3"); d.setAttribute("name", "wx-pt"); if (i === 0) d.open = true;
-        var sm = el("summary", "", x.h); sm.insertAdjacentHTML("beforeend", CHEV); d.appendChild(sm); d.appendChild(el("p", "", x.t)); into.appendChild(d);
-      });
-      return;
-    }
     REMOTE_PTS.forEach(function (x, i) {
-      var r = el("div", "wx-d-pt wx-d-pt--p" + v);
-      if (v === "1") r.insertAdjacentHTML("beforeend", '<span class="wx-d-pi">' + PT_ICONS[i] + "</span>");
-      else r.appendChild(el("span", "wx-d-pn", "0" + (i + 1)));
+      var r = el("div", "wx-d-pt");
+      r.insertAdjacentHTML("beforeend", '<span class="wx-d-pi">' + PT_ICONS[i] + "</span>");
       var t = el("div", "wx-d-ptx"); t.appendChild(el("b", "", x.h)); t.appendChild(el("span", "", x.t)); r.appendChild(t); into.appendChild(r);
     });
   }
-  /* the offer under the map: a white banner, $2,000 discount in Aviano Black */
+  /* the offer under the map: a white banner, "$2,000 discount" in orange Aviano Black, then the line, then T&C in caption size */
   function tripNote(into) {
     into.textContent = "";
     into.appendChild(el("b", "", "$2,000 discount"));
-    into.appendChild(document.createTextNode("on flights and accommodation if you\u2019d like to see the vans in person and take a factory tour at our showroom and factory in Campbellfield."));
+    into.appendChild(document.createTextNode("on flights and accommodation if you\u2019d like to see the vans in person and take a tour of our factory in Campbellfield."));
+    into.appendChild(el("small", "wx-tc", "T&C apply."));
   }
   function closeLb() { if (lb) lb.hidden = true; lbOpen = false; document.body.classList.remove("wx-lb-lock"); }
   function openLb(p, d) {
@@ -439,11 +429,4 @@
     if (hd) window.scrollTo(0, hd.getBoundingClientRect().top + window.scrollY - 108);
   }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
-  if (QS.get("points")) {
-    var rb = el("div", "wx-rbar"), cv = pv();
-    rb.innerHTML = "<b>The two points</b>" + [["1", "1  Icon rows"], ["2", "2  Numbered cards"], ["3", "3  Expandable"]].map(function (x) {
-      return '<a class="' + (x[0] === cv ? "is-cur" : "") + '" href="?points=' + x[0] + '&open=sa">' + x[1] + "</a>"; }).join("");
-    document.body.appendChild(rb);
-    if (!QS.get("open")) pick("sa");
-  }
 })();

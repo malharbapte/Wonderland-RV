@@ -3,7 +3,8 @@
 @media (min-width: 901px) {
 .ins { --bg: #141416; --card: #1c1c1f; --line: #2b2b30; --fg: #fff; --dim: #a9a9b0;
   width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box; background: var(--bg); color: var(--fg); padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative; }
-.ins-title { width: var(--col); margin: 0 auto 0.9rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg); }
+.ins-title { width: var(--col); margin: 0 auto 0.24rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg); }
+.ins-lede { width: var(--col); margin: 0 auto 0.5rem; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: rgba(255,255,255,.82); }
 .ins-stage { position: relative; height: 7.3rem; }
 .ins-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: var(--gap); transition: transform .6s cubic-bezier(.33,0,.18,1); will-change: transform; }
 .ins-card { flex: none; width: var(--w); cursor: pointer; transition: width .6s cubic-bezier(.33,0,.18,1); }
@@ -11,9 +12,14 @@
 .ins-media { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #333; }
 .ins-media img, .ins-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ins-over { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.7rem 0.22rem 0.2rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.8), rgba(0,0,0,0)); pointer-events: none; }
-.ins-name { font-size: 0.3rem; line-height: 1.15; }
-.ins-sub { font-size: 0.19rem; line-height: 1.3; letter-spacing: .02em; color: rgba(255,255,255,.8); }
-.ins-card:not(.is-on) .ins-name { font-size: 0.26rem; }
+.ins-name { display: flex; align-items: center; gap: 0.14rem; font-size: 0.3rem; line-height: 1.15; }
+.ins-name span { font-family: var(--aviano); font-weight: 900; letter-spacing: -0.01em; }
+.ins-div { flex: none; width: 1px; height: 0.24rem; background: rgba(255,255,255,.55); }
+.ins-name em { font-style: normal; font-family: var(--gordita); font-weight: 400; font-size: 0.2rem; color: rgba(255,255,255,.88); }
+.ins-sub { margin-top: 0.03rem; font-size: 0.19rem; line-height: 1.3; letter-spacing: .02em; color: rgba(255,255,255,.8); }
+.ins-card:not(.is-on) .ins-name { font-size: 0.24rem; gap: 0.1rem; }
+.ins-card:not(.is-on) .ins-name em { font-size: 0.16rem; }
+.ins-card:not(.is-on) .ins-div { height: 0.18rem; }
 .ins-card:not(.is-on) .ins-sub { font-size: 0.17rem; }
 .ins-more { display: none; margin-top: 0.1rem; align-items: center; gap: 0.1rem; font-size: 0.21rem; color: #fff; text-decoration: none; pointer-events: auto; }
 .ins-more svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
