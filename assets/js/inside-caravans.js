@@ -1,15 +1,12 @@
 /* "Different layouts we offer" (above the FAQs, desktop only). A row of tall reels: the chosen one grows and plays (muted, sound button),
    the others rest on their first frame. A click on a reel opens its specification panel from the right. Arrows, the arrow keys or a swipe move the row.
-   SAMPLE switches (only when in the address): ?specs=1|2 (panel layout) and &anim=slide|reveal (how it enters and leaves); they also open the panel on load.
+   The panel slides in from the LEFT as a list of rows (the chosen sample).
    Specs are the stock vans shown in each reel (wonderlandrv.com.au/stock listings), to be checked against the production jotform. */
 (function () {
   if (!window.matchMedia("(min-width: 901px)").matches) return;
   var faq = document.querySelector("section.faq");
   if (!faq) return;
-  var QS = new URLSearchParams(location.search);
-  var VAR = ["1", "2"].indexOf(QS.get("specs")) >= 0 ? QS.get("specs") : "1";
-  var ANIM = QS.get("anim") === "reveal" ? "reveal" : "slide";
-  var SAMPLE = !!QS.get("specs");
+  var VAR = "1", ANIM = "slide";
   var TBC = "To be confirmed";
 
   var CARDS = [
@@ -42,10 +39,11 @@
     '<h2 class="ins-title">Different layouts we offer</h2>' +
     '<p class="ins-lede">Discover the layouts in the vans we’ve built.</p>' +
     '<div class="ins-stage"><div class="ins-track"></div></div>' +
-    '<div class="ins-foot"><span></span><div class="ins-arrows">' +
+    '<div class="ins-foot">' +
       '<button class="ins-arrow" data-d="-1" type="button" aria-label="Previous">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>' +
+      '<a class="btn-solid ins-cta" href="range.html">Find your caravan</a>' +
       '<button class="ins-arrow" data-d="1" type="button" aria-label="Next">' + AR.replace("%d", "M9 5l7 7-7 7") + '</button>' +
-    '</div><a class="btn-solid ins-cta" href="range.html">Find your caravan</a></div>';
+    '</div>';
   var track = sec.querySelector(".ins-track"), stage = sec.querySelector(".ins-stage");
   var cards = CARDS.map(function (c, i) {
     var el = document.createElement("div");
@@ -140,12 +138,4 @@
   requestAnimationFrame(show);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(show);
 
-  if (SAMPLE) {
-    var bar = document.createElement("div"); bar.className = "ins-bar";
-    function a(label, v, an, cur) { return '<a class="' + (cur ? "is-cur" : "") + '" href="?specs=' + v + "&anim=" + an + '">' + label + "</a>"; }
-    bar.innerHTML = "<b>Panel</b>" + a("1  Rows", "1", ANIM, VAR === "1") + a("2  Tiles", "2", ANIM, VAR === "2") +
-      "<b>Motion</b>" + a("Slide in", VAR, "slide", ANIM === "slide") + a("Reveal (like Layouts)", VAR, "reveal", ANIM === "reveal");
-    document.body.appendChild(bar);
-    setTimeout(function () { var t = stage.getBoundingClientRect().top + window.pageYOffset - 160; window.scrollTo(0, t); setTimeout(function () { openSpec(at); }, 700); }, 80);
-  }
 })();
