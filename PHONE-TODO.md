@@ -21,3 +21,8 @@ Kept as a running log; the phone pass happens at the end. Updated 2026-11-26.
 
 ## Site
 - Footer links added (Find a dealer, Request a quote, cities): the same footer is used on phone, so these work there too.
+
+## Layout page (layout-am1806f-b2.html, 26 Nov 2026)
+Desktop only. Needs a phone version: hero plans stacked, copy above the accordion, photo grid, similar caravans and other models as one column. `assets/css/layout-page.css` is wrapped in min-width 901px.
+## Different layouts we offer (home)
+Side menu and the endless looping row are desktop only (section hidden on phone).
