@@ -52,7 +52,7 @@
   /* photo lightbox: click a photo to enlarge it, then swipe, drag, use the arrows or the arrow keys to move through the set; Esc or a click outside closes */
   var tiles = [].slice.call(document.querySelectorAll(".lp-ph"));
   if (tiles.length) {
-    var items = tiles.map(function (t) { var im = t.querySelector("img"); return { src: im.getAttribute("src"), alt: im.getAttribute("alt") || "" }; });
+    var items = tiles.map(function (t) { var im = t.querySelector("img"); return { src: im.getAttribute("data-full") || im.getAttribute("src"), alt: im.getAttribute("alt") || "" }; });
     var lb = document.createElement("div");
     lb.className = "lb"; lb.hidden = true; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Photo viewer");
     lb.innerHTML = '<button class="lb-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
