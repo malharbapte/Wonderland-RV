@@ -9,6 +9,7 @@
   var VAR = "1", ANIM = "slide";
   var TBC = "To be confirmed";
 
+  function tbc() { return { len: TBC, tare: TBC, atm: TBC, code: TBC, sleeps: TBC, susp: TBC, elec: TBC, water: TBC }; }
   var CARDS = [
     { name: "Solara", type: "Family", kind: "Composite off-road", video: "assets/video/inside-solara.mp4", img: "assets/video/inside-solara.jpg",
       s: { len: "8.8 m", tare: "3,000 kg", atm: "4,500 kg", code: "2100Q1-F2.0", sleeps: "4", susp: "4.5T Cruisemaster XT L3 airbag with BCS levelling",
@@ -23,7 +24,17 @@
       s: { len: TBC, tare: TBC, atm: TBC, code: "2300Q-F3.4", sleeps: TBC, susp: TBC, elec: TBC, water: TBC } },
     { name: "Amaroo", type: "Family", kind: "Classic off-road", video: "assets/video/inside-amaroo.mp4", img: "assets/video/inside-amaroo.jpg",
       s: { len: "9.0 m", tare: TBC, atm: "3,500 kg", code: "2107EW-F4.3", sleeps: "6", susp: "3.7T Tuff-Ride coil, airbag ready",
-           elec: "Redarc Alpha 50 system, 600Ah Enerdrive lithium, 2600W inverter, 800W solar", water: "2 x 100L fresh, 100L grey" } }
+           elec: "Redarc Alpha 50 system, 600Ah Enerdrive lithium, 2600W inverter, 800W solar", water: "2 x 100L fresh, 100L grey" } },
+    /* reels added from the Wonderland Instagram (layout codes still to be confirmed, so no code line shows) */
+    { name: "XTR", type: "Family", kind: "Extreme off-road", video: "assets/video/inside-xtr-family5.mp4", img: "assets/video/inside-xtr-family5.jpg", s: tbc() },
+    { name: "Family", type: "Family", kind: "Three bunks, extra storage", video: "assets/video/inside-family-3bunk.mp4", img: "assets/video/inside-family-3bunk.jpg", s: tbc() },
+    { name: "Family", type: "Family", kind: "Four bunks", video: "assets/video/inside-family-quad.mp4", img: "assets/video/inside-family-quad.jpg", s: tbc() },
+    { name: "XTR", type: "Family", kind: "Extreme off-road", video: "assets/video/inside-xtr-interior.mp4", img: "assets/video/inside-xtr-interior.jpg", s: tbc() },
+    { name: "Solara", type: "Couple", kind: "Composite off-road", video: "assets/video/inside-solara-couple.mp4", img: "assets/video/inside-solara-couple.jpg", s: tbc() },
+    { name: "Hornet", type: "Couple", kind: "Rugged off-road", video: "assets/video/inside-hornet-couple.mp4", img: "assets/video/inside-hornet-couple.jpg", s: tbc() },
+    { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-a.mp4", img: "assets/video/inside-amaroo-couple-a.jpg", s: tbc() },
+    { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-b.mp4", img: "assets/video/inside-amaroo-couple-b.jpg", s: tbc() },
+    { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-c.mp4", img: "assets/video/inside-amaroo-couple-c.jpg", s: tbc() }
   ];
   var ROWS = [["Travel length", "len"], ["Tare", "tare"], ["ATM", "atm"], ["Layout code", "code"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
   var W = 3.48, WC = 4.2, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller. Previews are 20% larger than the first version. */
@@ -47,12 +58,12 @@
   var cards = CARDS.map(function (c, i) {
     var el = document.createElement("div");
     el.className = "ins-card";
-    el.setAttribute("role", "button"); el.setAttribute("aria-label", c.name + " " + c.s.code + ", open its specifications");
+    el.setAttribute("role", "button"); var hasCode = c.s.code !== TBC; el.setAttribute("aria-label", c.name + (hasCode ? " " + c.s.code : "") + ", " + c.type + ", open its specifications");
     el.innerHTML =
-      '<div class="ins-media"><img src="' + c.img + '" alt="' + c.name + ' ' + c.s.code + '" loading="lazy">' +
+      '<div class="ins-media"><img src="' + c.img + '" alt="' + c.name + (hasCode ? ' ' + c.s.code : '') + ' ' + c.type + '" loading="lazy">' +
         '<video src="' + c.video + '" poster="' + c.img + '" muted loop playsinline preload="none"></video>' +
         '<button class="ins-snd is-muted" type="button" aria-label="Sound on or off">' + SND + '</button>' +
-        '<div class="ins-over"><div class="ins-name"><span>' + c.name + '</span><i class="ins-div" aria-hidden="true"></i><em>' + c.type + '</em></div><div class="ins-sub">' + c.s.code + '</div>' +
+        '<div class="ins-over"><div class="ins-name"><span>' + c.name + '</span><i class="ins-div" aria-hidden="true"></i><em>' + c.type + '</em></div>' + (hasCode ? '<div class="ins-sub">' + c.s.code + '</div>' : '') +
           '<span class="ins-more">Specifications ' + AR.replace("%d", "M9 5l7 7-7 7") + '</span></div>' +
       '</div>';
     el.addEventListener("click", function (e) {
@@ -79,12 +90,25 @@
       if (on && inView) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
       else { v.pause(); if (!on) { v.muted = true; el.querySelector(".ins-snd").classList.add("is-muted"); try { v.currentTime = 0; } catch (e) {} } }
     });
-    var cx = at * (W + GAP) * r + (WC * r) / 2;
-    track.style.transform = "translateX(" + Math.round(stage.clientWidth / 2 - cx) + "px)";
-    prev.disabled = at === 0; next.disabled = at === cards.length - 1;
+    layout(r);
     if (opened) fill(at);
   }
-  function go(i) { at = Math.max(0, Math.min(cards.length - 1, i)); show(); }
+  /* an endless loop: every reel sits at its (wrapped) distance from the chosen one, so the row never runs out and never leaves a gap.
+     A reel that wraps round to the far side jumps there unseen, off screen, instead of sliding across. */
+  var prevD = [];
+  function layout(r) {
+    var n = cards.length, sw = stage.clientWidth;
+    cards.forEach(function (el, i) {
+      var d = (((i - at) % n) + n) % n; if (d > n / 2) d -= n;
+      var left = d === 0 ? -WC / 2 : d > 0 ? WC / 2 + GAP + (d - 1) * (W + GAP) : -(WC / 2 + GAP + (-d) * W + (-d - 1) * GAP);
+      var jump = prevD[i] !== undefined && Math.abs(d - prevD[i]) > 1;
+      if (jump) el.style.transition = "none";
+      el.style.transform = "translate3d(" + Math.round(sw / 2 + left * r) + "px,-50%,0)";
+      if (jump) { void el.offsetWidth; el.style.transition = ""; }
+      prevD[i] = d;
+    });
+  }
+  function go(i) { var n = cards.length; at = ((i % n) + n) % n; show(); }
   prev.addEventListener("click", function () { go(at - 1); });
   next.addEventListener("click", function () { go(at + 1); });
   sec.tabIndex = 0;
@@ -99,16 +123,15 @@
      It opens by itself when the section scrolls into view, follows the centred reel, and shuts once the section is fully out of view. */
   var panel = document.createElement("aside");
   panel.className = "ins-spec"; panel.setAttribute("aria-label", "Specifications");
-  panel.innerHTML = '<div class="ins-spec-in"></div>' +
-    '<button class="ins-spec-tab" type="button" aria-expanded="false" aria-label="Show or hide the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>';
+  panel.innerHTML = '<div class="ins-spec-in"></div>';
   sec.appendChild(panel);
-  var body = panel.querySelector(".ins-spec-in"), tab = panel.querySelector(".ins-spec-tab");
+  var body = panel.querySelector(".ins-spec-in");
   var opened = false, curSpec = -1;
   function specHTML(c) {
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
     return '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
       '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
-      '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>' +
+      (c.s.code === TBC ? '' : '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>') +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
       '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
@@ -117,13 +140,12 @@
     if (curSpec === i) return;
     curSpec = i; body.innerHTML = specHTML(CARDS[i]);
     body.classList.remove("is-new"); void body.offsetWidth; body.classList.add("is-new");
-    var img = new Image(), plan = body.querySelector(".ins-sp-plan");
+    var img = new Image(), plan = body.querySelector(".ins-sp-plan"); if (!plan) return;
     img.onload = function () { if (curSpec === i) { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); } };
     img.src = "assets/img/build/plans/" + CARDS[i].s.code + ".webp";
   }
-  function openSpec() { fill(at); opened = true; panel.classList.add("is-open"); tab.setAttribute("aria-expanded", "true"); }
-  function closeSpec() { opened = false; panel.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
-  tab.addEventListener("click", function () { if (opened) closeSpec(); else openSpec(); });
+  function openSpec() { fill(at); opened = true; panel.classList.add("is-open"); }
+  function closeSpec() { opened = false; panel.classList.remove("is-open"); }
   body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) closeSpec(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
   /* a click anywhere outside the panel shuts it; the reels and arrows only change what it shows */
