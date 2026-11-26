@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pick a roof photo</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=403">
+<style>
+body{background:#fff;color:var(--ink,#231F20);margin:0;padding:28px 24px 60px;font-family:var(--gordita,system-ui)}
+h1{font-family:var(--aviano,system-ui);font-weight:900;font-size:26px;margin:0 0 8px}
+p{margin:0 0 22px;font-size:15px;line-height:1.5;max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.pk{margin:0}.pk button{display:block;width:100%;padding:0;border:0;background:#222;cursor:zoom-in;aspect-ratio:4/3;overflow:hidden}
+.pk img{width:100%;height:100%;object-fit:cover;display:block}
+.pk figcaption{margin-top:6px;font-family:var(--aviano,system-ui);font-weight:900;font-size:13px;letter-spacing:.06em}.pk small{font-family:var(--gordita,system-ui);font-weight:400;color:#6b6158;letter-spacing:0}
+.lb{position:fixed;inset:0;z-index:99;background:rgba(12,11,10,.96);display:none;place-items:center;cursor:zoom-out}.lb.on{display:grid}.lb img{max-width:96vw;max-height:94vh;object-fit:contain}
+</style></head><body>
+<h1>Pick a roof photo</h1>
+<p>The composite roof being lifted and lowered onto the frame, and the finished roof in place, from the Marketing library (Construction images, Composite roof). Tell me the numbers you like, e.g. R01 and R04. Click a photo to enlarge it.</p>
+<div class="grid">
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R01.webp" aria-label="Enlarge R01"><img src="assets/img/sample/why-roof/R01.webp" alt="" loading="lazy"></button><figcaption>R01 <small>1884x1026</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R02.webp" aria-label="Enlarge R02"><img src="assets/img/sample/why-roof/R02.webp" alt="" loading="lazy"></button><figcaption>R02 <small>1891x1026</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R03.webp" aria-label="Enlarge R03"><img src="assets/img/sample/why-roof/R03.webp" alt="" loading="lazy"></button><figcaption>R03 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R04.webp" aria-label="Enlarge R04"><img src="assets/img/sample/why-roof/R04.webp" alt="" loading="lazy"></button><figcaption>R04 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R05.webp" aria-label="Enlarge R05"><img src="assets/img/sample/why-roof/R05.webp" alt="" loading="lazy"></button><figcaption>R05 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R06.webp" aria-label="Enlarge R06"><img src="assets/img/sample/why-roof/R06.webp" alt="" loading="lazy"></button><figcaption>R06 <small>1920x2560</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R07.webp" aria-label="Enlarge R07"><img src="assets/img/sample/why-roof/R07.webp" alt="" loading="lazy"></button><figcaption>R07 <small>1920x2560</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R08.webp" aria-label="Enlarge R08"><img src="assets/img/sample/why-roof/R08.webp" alt="" loading="lazy"></button><figcaption>R08 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R09.webp" aria-label="Enlarge R09"><img src="assets/img/sample/why-roof/R09.webp" alt="" loading="lazy"></button><figcaption>R09 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R10.webp" aria-label="Enlarge R10"><img src="assets/img/sample/why-roof/R10.webp" alt="" loading="lazy"></button><figcaption>R10 <small>2560x1920</small></figcaption></figure>
+<figure class="pk"><button type="button" data-src="assets/img/sample/why-roof/R11.webp" aria-label="Enlarge R11"><img src="assets/img/sample/why-roof/R11.webp" alt="" loading="lazy"></button><figcaption>R11 <small>2560x1920</small></figcaption></figure>
+</div>
+<div class="lb" id="lb"><img alt=""></div>
+<script>var lb=document.getElementById("lb");document.addEventListener("click",function(e){var b=e.target.closest(".pk button");if(b){lb.querySelector("img").src=b.getAttribute("data-src");lb.classList.add("on");}else if(e.target.closest("#lb")){lb.classList.remove("on");}});document.addEventListener("keydown",function(e){if(e.key==="Escape")lb.classList.remove("on")});</script>
+</body></html>
