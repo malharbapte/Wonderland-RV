@@ -137,7 +137,7 @@
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
     var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
     return '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
-      '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + (hasLen ? ' <span class="ins-sp-len">' + c.s.len + '</span>' : '') + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
+      '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p></div>' +
       (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
