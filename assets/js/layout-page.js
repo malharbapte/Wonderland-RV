@@ -48,4 +48,57 @@
       if (hid.length <= 3) more.hidden = true;
     });
   }
+
+  /* photo lightbox: click a photo to enlarge it, then swipe, drag, use the arrows or the arrow keys to move through the set; Esc or a click outside closes */
+  var tiles = [].slice.call(document.querySelectorAll(".lp-ph"));
+  if (tiles.length) {
+    var items = tiles.map(function (t) { var im = t.querySelector("img"); return { src: im.getAttribute("src"), alt: im.getAttribute("alt") || "" }; });
+    var lb = document.createElement("div");
+    lb.className = "lb"; lb.hidden = true; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Photo viewer");
+    lb.innerHTML = '<button class="lb-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
+      '<button class="lb-nav lb-prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+      '<div class="lb-stage"><img class="lb-img" alt=""></div>' +
+      '<button class="lb-nav lb-next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
+      '<p class="lb-count" aria-live="polite"></p>';
+    document.body.appendChild(lb);
+    var img = lb.querySelector(".lb-img"), count = lb.querySelector(".lb-count"), cur = 0, isOpen = false, busy = 0;
+    function show(i, dir) {
+      var n = items.length; cur = ((i % n) + n) % n;
+      clearTimeout(busy);
+      if (dir) { img.style.transition = "opacity .18s ease, transform .18s ease"; img.style.opacity = "0"; img.style.transform = "translateX(" + (dir * -40) + "px)"; }
+      busy = setTimeout(function () {
+        img.src = items[cur].src; img.alt = items[cur].alt;
+        if (dir) { img.style.transition = "none"; img.style.transform = "translateX(" + (dir * 40) + "px)"; void img.offsetWidth; img.style.transition = "opacity .3s ease, transform .35s cubic-bezier(.45, 0, .2, 1)"; }
+        img.style.opacity = "1"; img.style.transform = "none";
+      }, dir ? 180 : 0);
+      /* safety net: if the browser has paused transitions (a hidden tab), still end on the finished state */
+      var want = cur; clearTimeout(show.t);
+      show.t = setTimeout(function () { if (cur === want) { img.src = items[cur].src; img.style.transition = "none"; img.style.opacity = "1"; img.style.transform = "none"; } }, dir ? 620 : 200);
+      count.textContent = (cur + 1) + " / " + n;
+      var pre = new Image(); pre.src = items[(cur + 1) % n].src;
+    }
+    function open(i) { isOpen = true; lb.hidden = false; void lb.offsetWidth; lb.classList.add("is-open"); document.body.classList.add("lb-lock"); show(i, 0); lb.querySelector(".lb-x").focus(); }
+    function close() { if (!isOpen) return; isOpen = false; lb.classList.remove("is-open"); document.body.classList.remove("lb-lock"); setTimeout(function () { if (!isOpen) lb.hidden = true; }, 350); }
+    tiles.forEach(function (t, i) {
+      t.setAttribute("role", "button"); t.setAttribute("tabindex", "0"); t.setAttribute("aria-label", "Enlarge photo " + (i + 1));
+      t.addEventListener("click", function () { open(i); });
+      t.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); } });
+    });
+    lb.querySelector(".lb-x").addEventListener("click", close);
+    lb.querySelector(".lb-prev").addEventListener("click", function () { show(cur - 1, -1); });
+    lb.querySelector(".lb-next").addEventListener("click", function () { show(cur + 1, 1); });
+    lb.addEventListener("click", function (e) { if (e.target === lb || e.target.classList.contains("lb-stage")) close(); });
+    document.addEventListener("keydown", function (e) {
+      if (!isOpen) return;
+      if (e.key === "Escape") close(); else if (e.key === "ArrowLeft") show(cur - 1, -1); else if (e.key === "ArrowRight") show(cur + 1, 1);
+    });
+    /* swipe (touch) or drag (mouse) */
+    var x0 = null, y0 = 0;
+    lb.addEventListener("pointerdown", function (e) { if (e.target.closest(".lb-nav, .lb-x")) return; x0 = e.clientX; y0 = e.clientY; });
+    lb.addEventListener("pointerup", function (e) {
+      if (x0 === null) return; var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) show(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+    lb.addEventListener("pointercancel", function () { x0 = null; });
+  }
 })();
