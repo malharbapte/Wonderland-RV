@@ -91,6 +91,9 @@
       else { v.pause(); if (!on) { v.muted = true; el.querySelector(".ins-snd").classList.add("is-muted"); try { v.currentTime = 0; } catch (e) {} } }
     });
     layout(r);
+    /* the side menu starts just below the section's heading and subheading */
+    var lede = sec.querySelector(".ins-lede"), top = lede.offsetTop + lede.offsetHeight + 0.2 * r;
+    panel.style.top = Math.round(top) + "px"; panel.style.maxHeight = "calc(100% - " + Math.round(top + 0.3 * r) + "px)";
     if (opened) fill(at);
   }
   /* an endless loop: every reel sits at its (wrapped) distance from the chosen one, so the row never runs out and never leaves a gap.
