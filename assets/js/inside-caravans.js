@@ -37,7 +37,7 @@
     { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-c.mp4", img: "assets/video/inside-amaroo-couple-c.jpg", s: tbc() }
   ];
   var ROWS = [["Tare", "tare"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"]];
-  var W = 3.48, WC = 4.2, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller. Previews are 20% larger than the first version. */
+  var W = 3.48, WC = 4.83, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller. Previews are 20% larger than the first version. */
   var AR = '<svg viewBox="0 0 24 24"><path d="%d"/></svg>';
   var SND = '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="x" d="M17 9l4 6M21 9l-4 6"/></svg>';
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
@@ -136,11 +136,11 @@
      A reel that wraps round to the far side jumps there unseen, off screen, instead of sliding across. */
   var prevD = [];
   function layout(r) {
-    var n = cards.length, sw = stage.clientWidth, post = MODE === "post", extra = post ? WC + GAP : 0;   /* in post mode the info card takes the slot left of the chosen reel */
+    var n = cards.length, sw = stage.clientWidth, post = MODE === "post", extra = post ? WC : 0;   /* in post mode the info card sits flush against the left of the chosen reel (no gutter) */
     cards.forEach(function (el, i) {
       var d = (((i - at) % n) + n) % n; if (d > n / 2) d -= n;
       var left = d === 0 ? -WC / 2 : d > 0 ? WC / 2 + GAP + (d - 1) * (W + GAP) : -(WC / 2 + GAP + (-d) * W + (-d - 1) * GAP);
-      left += extra / 2 - (d < 0 ? extra : 0);
+      left += extra / 2 - (d < 0 ? extra : 0);   /* everything shifts right by half the card, so the reel and card are centred as a pair */
       var jump = prevD[i] !== undefined && Math.abs(d - prevD[i]) > 1;
       if (jump) el.style.transition = "none";
       el.style.transform = "translate3d(" + Math.round(sw / 2 + left * r) + "px,-50%,0) scale(" + (d === 0 ? 1 : (W / WC).toFixed(4)) + ")";
@@ -148,7 +148,7 @@
       prevD[i] = d;
     });
     /* the info card: the same size as the chosen reel, immediately to its left */
-    var px = sw / 2 + (-WC / 2 + extra / 2 - extra) * r;
+    var px = sw / 2 + (-WC / 2 + extra / 2 - extra) * r;   /* the card's left edge: one card width left of the reel */
     postEl.style.height = Math.round(WC * r * 16 / 9) + "px";
     postEl.style.transform = "translate3d(" + Math.round(px) + "px,-50%,0)";
     postEl.style.opacity = post ? "1" : "0"; postEl.style.visibility = post ? "visible" : "hidden";
