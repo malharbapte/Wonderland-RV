@@ -106,6 +106,22 @@ body.ins-lock { overflow: hidden; }
 .ins-spec--fit .ins-spec-x svg { width: 0.34rem; height: 0.34rem; stroke-width: 1.6; stroke-linecap: round; }
 .ins-spec--fit .ins-spec-x:hover { color: var(--orange-hover); }
 
+/* sample sizes for ?specs=fit */
+.ins-spec--fit.ins-sz-a { --pw: 4.5rem; }
+.ins-spec--fit.ins-sz-b { --pw: 5.2rem; }
+.ins-spec--fit.ins-sz-c { --pw: 6rem; }
+.ins-spec--fit.ins-sz-a .ins-spec-in { padding-left: 0.36rem; padding-right: 0.36rem; }
+.ins-spec--fit.ins-sz-a .ins-sp-name { font-size: 0.32rem; }
+.ins-spec--fit.ins-sz-a .ins-sp-plan { max-height: 2.3rem; }
+.ins-spec--fit.ins-sz-a .ins-sp-row { grid-template-columns: 1.4rem 1fr; padding-top: clamp(3px, .7vh, 0.07rem); padding-bottom: clamp(3px, .7vh, 0.07rem); }
+.ins-spec--fit.ins-sz-a .ins-sp-row dd { font-size: var(--t-cap); }
+.ins-spec--fit.ins-sz-a .ins-sp-row dt { font-size: .12rem; }
+.ins-spec--fit.ins-sz-b .ins-spec-in { padding-left: 0.42rem; padding-right: 0.42rem; }
+.ins-spec--fit.ins-sz-b .ins-sp-name { font-size: 0.36rem; }
+.ins-spec--fit.ins-sz-b .ins-sp-plan { max-height: 3rem; }
+.ins-spec--fit.ins-sz-b .ins-sp-row { grid-template-columns: 1.7rem 1fr; }
+.ins-bar { z-index: 100000; }
+
 /* sample switcher (only with ?specs= in the address) */
 .ins-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 100000; display: flex; gap: 10px; align-items: center; padding: 9px 16px;
            background: rgba(20,20,22,.95); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }

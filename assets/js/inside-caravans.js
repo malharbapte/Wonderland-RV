@@ -111,7 +111,7 @@
     '</div>' + (FIT ? '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' : '') +
     (FIT ? '' : '<button class="ins-spec-x" type="button" aria-label="Close the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '<span class="ins-spec-word">Specifications</span></button>');
   }
-  function openSpec(i) {
+  var openSpec = function (i) {
     clearTimeout(closeT);
     curSpec = i; panel.innerHTML = specHTML(CARDS[i]); panel.hidden = false;
     panel.querySelector(".ins-spec-x").addEventListener("click", closeSpec);
@@ -119,13 +119,21 @@
     img.onload = function () { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); }; img.src = "assets/img/build/plans/" + code + ".webp";
     void panel.offsetWidth;
     scrim.classList.add("is-open"); panel.classList.add("is-open"); if (FIT) document.body.classList.add("ins-lock"); opened = true;
-      }
+  };
   function closeSpec() {
     if (!opened) return;
     opened = false; scrim.classList.remove("is-open"); panel.classList.remove("is-open"); document.body.classList.remove("ins-lock");
     closeT = setTimeout(function () { panel.hidden = true; }, 520);
   }
   scrim.addEventListener("click", closeSpec);
+  if (FIT) {   /* sample bar: three panel sizes, switched live */
+    var SZ = [["a", "Slim"], ["b", "Medium"], ["c", "Wide"]], bar = document.createElement("div"), cur = (location.search.match(/size=([abc])/) || [0, "b"])[1];
+    bar.className = "ins-bar"; bar.innerHTML = "<b>Panel size</b>" + SZ.map(function (z) { return '<a href="#" data-z="' + z[0] + '">' + z[1] + "</a>"; }).join("");
+    function setSz(z) { cur = z; panel.className = panel.className.replace(/ ins-sz-\w/g, "") + " ins-sz-" + z; [].forEach.call(bar.querySelectorAll("a"), function (l) { l.classList.toggle("is-cur", l.getAttribute("data-z") === z); }); }
+    bar.addEventListener("click", function (e) { var l = e.target.closest("a"); if (!l) return; e.preventDefault(); setSz(l.getAttribute("data-z")); });
+    document.body.appendChild(bar); setSz(cur);
+    var _open = openSpec; openSpec = function (i) { _open(i); setSz(cur); };
+  }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
 
   faq.parentNode.insertBefore(sec, faq);
