@@ -198,6 +198,9 @@
       });
       panel.appendChild(box);
     });
+    /* Enquire now: opens the same enquiry pop-up as the side menu's Enquire */
+    var enq = el("a", "btn-solid wx-d-enq", "Enquire now"); enq.href = "#enquire"; enq.setAttribute("data-enquire", "");
+    panel.appendChild(enq);
     /* landscape placeholder for a photo of the dealership */
     var ph = el("div", "wx-d-photo");
     if (d.photos) {

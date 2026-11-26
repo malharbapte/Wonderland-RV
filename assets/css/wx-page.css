@@ -617,7 +617,7 @@ body.wx-lb-lock { overflow: hidden; }
          transition: fill .2s ease; }
 .wx-st:hover, .wx-st:focus-visible { fill: #D8D5CF; }
 .wx-st.is-on { fill: var(--orange); }
-.wx-mk { pointer-events: none; }
+.wx-au .wx-mk { pointer-events: none; }   /* the map markers only: this class name is also the dream-maker cards, which must take the pointer */
 .wx-mk-dot { fill: var(--orange-deep); stroke: #fff; stroke-width: 3.5; }
 .wx-mk-pulse { fill: var(--orange); opacity: .35; transform-box: fill-box; transform-origin: center;
                animation: wx-pulse 2.4s ease-out infinite; }

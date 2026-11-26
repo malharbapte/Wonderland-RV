@@ -114,5 +114,7 @@
   .wx-d-loc { margin-top: 0; }
   .wx-d-acc:first-of-type { margin-top: 0.16rem; }
   .wx-d-acc:last-of-type { margin-bottom: 0.24rem; }
-  .wx-d-photo { flex: none; margin-top: auto; width: 100%; max-width: none; aspect-ratio: 16 / 9; }
+  /* the dealership photo sits flush to the panel's left, right and bottom edges (the panel padding is 0.5rem left, 0.8rem right, 0.4rem foot) */
+  .wx-d-photo { flex: none; margin: auto -0.8rem -0.4rem -0.5rem; width: auto; max-width: none; aspect-ratio: 16 / 9; }
+  .wx-d-enq { align-self: flex-start; margin: 0.16rem 0 0.2rem; }
 }
