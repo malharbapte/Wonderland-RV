@@ -22,8 +22,8 @@
     { name: "XTR", type: "Family", kind: "Extreme off-road", video: "assets/video/inside-xtr.mp4", img: "assets/video/inside-xtr.jpg",
       s: { len: TBC, tare: TBC, atm: TBC, code: "2300Q-F3.4", sleeps: TBC, susp: TBC, elec: TBC, water: TBC } },
     { name: "Amaroo", type: "Family", kind: "Classic off-road", video: "assets/video/inside-amaroo.mp4", img: "assets/video/inside-amaroo.jpg",
-      s: { len: "9.0 m", tare: TBC, atm: TBC, code: "2107EW-F4.3", sleeps: "6", susp: TBC,
-           elec: "Redarc Alpha 50 system, 300Ah lithium, 2000W inverter, 600W solar", water: "2 x 90 to 100L fresh, 100L grey" } }
+      s: { len: "9.0 m", tare: TBC, atm: "3,500 kg", code: "2107EW-F4.3", sleeps: "6", susp: "3.7T Tuff-Ride coil, airbag ready",
+           elec: "Redarc Alpha 50 system, 600Ah Enerdrive lithium, 2600W inverter, 800W solar", water: "2 x 100L fresh, 100L grey" } }
   ];
   var ROWS = [["Travel length", "len"], ["Tare", "tare"], ["ATM", "atm"], ["Layout code", "code"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
   var W = 3.48, WC = 4.2, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller. Previews are 20% larger than the first version. */
@@ -41,7 +41,6 @@
     '<div class="ins-stage"><div class="ins-track"></div></div>' +
     '<div class="ins-foot">' +
       '<button class="ins-arrow" data-d="-1" type="button" aria-label="Previous">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>' +
-      '<a class="btn-solid ins-cta" href="range.html">Find your caravan</a>' +
       '<button class="ins-arrow" data-d="1" type="button" aria-label="Next">' + AR.replace("%d", "M9 5l7 7-7 7") + '</button>' +
     '</div>';
   var track = sec.querySelector(".ins-track"), stage = sec.querySelector(".ins-stage");

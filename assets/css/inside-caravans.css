@@ -1,10 +1,10 @@
-/* "Inside our caravans": a row of tall reels above the FAQs, the chosen one wider and playing. Dark band. DESKTOP ONLY.
+/* "Inside our caravans": a row of tall reels above the FAQs, the chosen one wider and playing. Light grey band (#F8F8F7). DESKTOP ONLY.
    assets/js/inside-caravans.js builds it. */
 @media (min-width: 901px) {
-.ins { --bg: #141416; --card: #1c1c1f; --line: #2b2b30; --fg: #fff; --dim: #a9a9b0;
+.ins { --bg: #F8F8F7; --card: #fff; --line: #cfcdc8; --fg: var(--ink); --dim: #6b6158;
   width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box; background: var(--bg); color: var(--fg); padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative; }
 .ins-title { width: var(--col); margin: 0 auto 0.24rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg); }
-.ins-lede { width: var(--col); margin: 0 auto 0.5rem; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: rgba(255,255,255,.82); }
+.ins-lede { width: var(--col); margin: 0 auto 0.5rem; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
 .ins-stage { position: relative; height: 7.3rem; }
 .ins-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: var(--gap); transition: transform .6s cubic-bezier(.33,0,.18,1); will-change: transform; }
 .ins-card { flex: none; width: var(--w); cursor: pointer; transition: width .6s cubic-bezier(.33,0,.18,1); }
@@ -33,7 +33,7 @@
 .ins-snd:not(.is-muted) .x { display: none; }
 .ins-snd:hover { background: var(--orange); }
 .ins-arrows { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.35rem; }
-.ins-arrow { width: 0.62rem; height: 0.62rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: #fff; display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease, color .25s ease, border-color .25s ease; }
+.ins-arrow { width: 0.62rem; height: 0.62rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease, color .25s ease, border-color .25s ease; }
 .ins-arrow svg { width: 0.26rem; height: 0.26rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ins-arrow:hover { color: var(--orange); border-color: var(--orange); }
 .ins-arrow:disabled { opacity: .25; pointer-events: none; }
