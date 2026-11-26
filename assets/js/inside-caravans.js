@@ -36,7 +36,7 @@
     { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-b.mp4", img: "assets/video/inside-amaroo-couple-b.jpg", s: tbc() },
     { name: "Amaroo", type: "Couple", kind: "Classic off-road", video: "assets/video/inside-amaroo-couple-c.mp4", img: "assets/video/inside-amaroo-couple-c.jpg", s: tbc() }
   ];
-  var ROWS = [["Travel length", "len"], ["Tare", "tare"], ["ATM", "atm"], ["Layout code", "code"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
+  var ROWS = [["Tare", "tare"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
   var W = 3.48, WC = 4.2, GAP = 0.2, at = 2;      /* rem; the chosen card is wider, and so taller. Previews are 20% larger than the first version. */
   var AR = '<svg viewBox="0 0 24 24"><path d="%d"/></svg>';
   var SND = '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="x" d="M17 9l4 6M21 9l-4 6"/></svg>';
@@ -93,6 +93,8 @@
     layout(r);
     /* the side menu is centred on the reels' vertical centre, and never rises above the subheading */
     var lede = sec.querySelector(".ins-lede"), mid = stage.offsetTop + stage.offsetHeight / 2, floor = lede.offsetTop + lede.offsetHeight + 0.2 * r;
+    var pw = stage.clientWidth / 2 - (WC / 2 + W + 2 * GAP) * r;
+    panel.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     panel.style.top = Math.round(mid) + "px"; panel.style.maxHeight = Math.round(2 * (mid - floor)) + "px";
     if (opened) fill(at);
   }
@@ -132,9 +134,11 @@
   var opened = false, curSpec = -1;
   function specHTML(c) {
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
+    var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
     return '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
-      '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
-      (c.s.code === TBC ? '' : '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>') +
+      (hasCode ? '<p class="ins-sp-code">' + c.s.code + '</p>' : '') +
+      '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + (hasLen ? ' <span class="ins-sp-len">' + c.s.len + '</span>' : '') + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
+      (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>' : '') +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
       '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
