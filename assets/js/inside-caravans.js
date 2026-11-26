@@ -94,21 +94,20 @@
   window.addEventListener("resize", show);
 
   /* ---- the specification panel ---- */
-  var scrim = document.createElement("div"); scrim.className = "ins-scrim";
   var panel = document.createElement("aside");
   panel.className = "ins-spec ins-spec--" + ANIM + " ins-spec--v" + VAR; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); panel.setAttribute("aria-label", "Specifications"); panel.hidden = true;
-  document.body.appendChild(scrim); document.body.appendChild(panel);
+  sec.appendChild(panel);   /* docked inside the section, on the page edge, as the Layouts rail is on the Range page */
   var opened = false, curSpec = -1, closeT = 0;
   function specHTML(c) {
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
     return '<div class="ins-spec-in">' +
-      '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
       '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
       '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>' +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
       '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>' +
-    "</div>";
+    '</div>' +
+    '<button class="ins-spec-x" type="button" aria-label="Close the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '<span class="ins-spec-word">Specifications</span></button>';
   }
   function openSpec(i) {
     clearTimeout(closeT);
@@ -117,15 +116,13 @@
     var img = new Image(), plan = panel.querySelector(".ins-sp-plan"), code = CARDS[i].s.code;
     img.onload = function () { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); }; img.src = "assets/img/build/plans/" + code + ".webp";
     void panel.offsetWidth;
-    scrim.classList.add("is-open"); panel.classList.add("is-open"); document.body.classList.add("ins-lock"); opened = true;
-    setTimeout(function () { var x = panel.querySelector(".ins-spec-x"); if (x) x.focus(); }, 400);
-  }
+    panel.classList.add("is-open"); opened = true;
+      }
   function closeSpec() {
     if (!opened) return;
-    opened = false; scrim.classList.remove("is-open"); panel.classList.remove("is-open"); document.body.classList.remove("ins-lock");
+    opened = false; panel.classList.remove("is-open");
     closeT = setTimeout(function () { panel.hidden = true; }, 520);
   }
-  scrim.addEventListener("click", closeSpec);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
 
   faq.parentNode.insertBefore(sec, faq);
