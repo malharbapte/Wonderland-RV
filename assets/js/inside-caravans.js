@@ -1,5 +1,5 @@
 /* "Different layouts we offer" (above the FAQs, desktop only). A row of tall reels: the chosen one grows and plays (muted, sound button),
-   the others rest on their first frame. A click on a reel opens its specification panel from the right. Arrows, the arrow keys or a swipe move the row.
+   the others rest on their first frame. The specification side menu (left, docked) follows the centred reel. Arrows, the arrow keys or a swipe move the row.
    The panel slides in from the LEFT as a list of rows (the chosen sample).
    Specs are the stock vans shown in each reel (wonderlandrv.com.au/stock listings), to be checked against the production jotform. */
 (function () {
@@ -58,7 +58,7 @@
     el.addEventListener("click", function (e) {
       if (e.target.closest(".ins-snd")) return;
       if (i !== at) go(i);
-      openSpec(i);
+      if (!opened) openSpec();
     });
     track.appendChild(el);
     return el;
@@ -82,6 +82,7 @@
     var cx = at * (W + GAP) * r + (WC * r) / 2;
     track.style.transform = "translateX(" + Math.round(stage.clientWidth / 2 - cx) + "px)";
     prev.disabled = at === 0; next.disabled = at === cards.length - 1;
+    if (opened) fill(at);
   }
   function go(i) { at = Math.max(0, Math.min(cards.length - 1, i)); show(); }
   prev.addEventListener("click", function () { go(at - 1); });
@@ -93,48 +94,48 @@
   stage.addEventListener("pointerup", function (e) { if (x0 !== null && Math.abs(e.clientX - x0) > 50) go(at + (e.clientX < x0 ? 1 : -1)); x0 = null; });
   window.addEventListener("resize", show);
 
-  /* ---- the specification panel ---- */
-  var FIT = /[?&]specs=fit/.test(location.search);   /* sample: the earlier white drawer, sized to the window */
-  var scrim = document.createElement("div"); scrim.className = "ins-scrim";
+  /* ---- the specification panel: a side menu docked in the section, built like the Layouts rail on the Range page ----
+     Shut it is a strip on the page edge with a vertical orange tab; open it slides out over the left reels and the page stays usable.
+     It opens by itself when the section scrolls into view, follows the centred reel, and shuts once the section is fully out of view. */
   var panel = document.createElement("aside");
-  panel.className = "ins-spec ins-spec--" + ANIM + " ins-spec--v" + VAR; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); panel.setAttribute("aria-label", "Specifications"); panel.hidden = true;
-  if (FIT) { panel.classList.add("ins-spec--fit"); document.body.appendChild(scrim); document.body.appendChild(panel); } else sec.appendChild(panel);   /* docked inside the section, on the page edge, as the Layouts rail is on the Range page */
-  var opened = false, curSpec = -1, closeT = 0;
+  panel.className = "ins-spec"; panel.setAttribute("aria-label", "Specifications");
+  panel.innerHTML = '<div class="ins-spec-in"></div>' +
+    '<button class="ins-spec-tab" type="button" aria-expanded="false" aria-label="Show or hide the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '<span class="ins-spec-word">Specifications</span></button>';
+  sec.appendChild(panel);
+  var body = panel.querySelector(".ins-spec-in"), tab = panel.querySelector(".ins-spec-tab");
+  var opened = false, curSpec = -1;
   function specHTML(c) {
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
-    return '<div class="ins-spec-in">' +
+    return '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
       '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + '</p></div>' +
       '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div>' +
       '<dl class="ins-sp-list">' + rows + '</dl>' +
       '<p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
-      '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>' +
-    '</div>' + (FIT ? '<button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' : '') +
-    (FIT ? '' : '<button class="ins-spec-x" type="button" aria-label="Close the specifications">' + AR.replace("%d", "M15 5l-7 7 7 7") + '<span class="ins-spec-word">Specifications</span></button>');
+      '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
   }
-  var openSpec = function (i) {
-    clearTimeout(closeT);
-    curSpec = i; panel.innerHTML = specHTML(CARDS[i]); panel.hidden = false;
-    panel.querySelector(".ins-spec-x").addEventListener("click", closeSpec);
-    var img = new Image(), plan = panel.querySelector(".ins-sp-plan"), code = CARDS[i].s.code;
-    img.onload = function () { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); }; img.src = "assets/img/build/plans/" + code + ".webp";
-    void panel.offsetWidth;
-    scrim.classList.add("is-open"); panel.classList.add("is-open"); if (FIT) document.body.classList.add("ins-lock"); opened = true;
-  };
-  function closeSpec() {
-    if (!opened) return;
-    opened = false; scrim.classList.remove("is-open"); panel.classList.remove("is-open"); document.body.classList.remove("ins-lock");
-    closeT = setTimeout(function () { panel.hidden = true; }, 520);
+  function fill(i) {   /* swaps the content in place for the chosen van */
+    if (curSpec === i) return;
+    curSpec = i; body.innerHTML = specHTML(CARDS[i]);
+    body.classList.remove("is-new"); void body.offsetWidth; body.classList.add("is-new");
+    var img = new Image(), plan = body.querySelector(".ins-sp-plan");
+    img.onload = function () { if (curSpec === i) { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); } };
+    img.src = "assets/img/build/plans/" + CARDS[i].s.code + ".webp";
   }
-  scrim.addEventListener("click", closeSpec);
-  if (FIT) {   /* sample bar: three panel sizes, switched live */
-    var SZ = [["a", "Slim"], ["b", "Medium"], ["c", "Wide"]], bar = document.createElement("div"), cur = (location.search.match(/size=([abc])/) || [0, "b"])[1];
-    bar.className = "ins-bar"; bar.innerHTML = "<b>Panel size</b>" + SZ.map(function (z) { return '<a href="#" data-z="' + z[0] + '">' + z[1] + "</a>"; }).join("");
-    function setSz(z) { cur = z; panel.className = panel.className.replace(/ ins-sz-\w/g, "") + " ins-sz-" + z; [].forEach.call(bar.querySelectorAll("a"), function (l) { l.classList.toggle("is-cur", l.getAttribute("data-z") === z); }); }
-    bar.addEventListener("click", function (e) { var l = e.target.closest("a"); if (!l) return; e.preventDefault(); setSz(l.getAttribute("data-z")); });
-    document.body.appendChild(bar); setSz(cur);
-    var _open = openSpec; openSpec = function (i) { _open(i); setSz(cur); };
-  }
+  function openSpec() { fill(at); opened = true; panel.classList.add("is-open"); tab.setAttribute("aria-expanded", "true"); }
+  function closeSpec() { opened = false; panel.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  tab.addEventListener("click", function () { if (opened) closeSpec(); else openSpec(); });
+  body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) closeSpec(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
+  /* a click anywhere outside the panel shuts it; the reels and arrows only change what it shows */
+  document.addEventListener("click", function (e) { if (opened && !e.target.closest(".ins-spec, .ins-card, .ins-arrow")) closeSpec(); });
+  if ("IntersectionObserver" in window) {
+    var secIn = false;
+    new IntersectionObserver(function (es) {
+      var e = es[0];
+      if (!e.isIntersecting) { secIn = false; closeSpec(); }
+      else if (e.intersectionRatio >= 0.2 && !secIn) { secIn = true; openSpec(); }
+    }, { threshold: [0, 0.2] }).observe(sec);
+  }
 
   faq.parentNode.insertBefore(sec, faq);
   /* the reels only start (and only download) once the section is on screen */
