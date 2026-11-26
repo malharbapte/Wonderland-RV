@@ -38,7 +38,7 @@
         '<video src="' + c.video + '" poster="' + c.img + '" muted loop playsinline preload="none"></video>' +
         '<button class="ins-snd is-muted" type="button" aria-label="Sound on or off">' + SND + '</button>' +
         '<div class="ins-over"><div class="ins-name"><span>' + c.name + '</span><i class="ins-div" aria-hidden="true"></i><em>' + c.type + '</em></div><div class="ins-sub">' + c.code + '</div>' +
-          '<a class="ins-more" href="range.html" tabindex="-1">See model ' + AR.replace("%d", "M5 12h14M13 6l6 6-6 6") + '</a></div>' +
+          '<a class="ins-more" href="range.html" tabindex="-1">See model ' + AR.replace("%d", "M9 5l7 7-7 7") + '</a></div>' +
       '</div>';
     el.addEventListener("click", function (e) { if (i !== at && !e.target.closest("a")) go(i); });
     track.appendChild(el);
