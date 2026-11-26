@@ -694,6 +694,11 @@ body.wx-lb-lock { overflow: hidden; }
 .wx-range-row .wx-ph { aspect-ratio: 1; }
 .wx-range-row img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
 .wx-range-row figure { margin: 0; }
+/* View the Range: the photo zooms slowly on hover (Dream Van Awaits timing: 1.3s, cubic-bezier(.45,0,.2,1)), clipped inside its square */
+.wx-rz { overflow: hidden; }
+.wx-rz img { transform: scale(1); transform-origin: 50% 50%; will-change: transform; transition: transform 1.3s cubic-bezier(.45, 0, .2, 1); }
+@media (hover: hover) { .wx-range-row figure:hover .wx-rz img { transform: scale(1.07); } }
+@media (prefers-reduced-motion: reduce) { .wx-rz img { transition: none; transform: none !important; } }
 .wx-range-row figcaption { margin-top: 0.5rem; }
 .wx-range-row h3 {
   margin: 0; font-family: var(--gordita); font-weight: 500;
