@@ -938,29 +938,30 @@ body.wx-lb-lock { overflow: hidden; }
   .wx-dp-cta { margin-top: 14px; height: 48px; }
 }
 
-/* ---- SA / NT / TAS presentation samples (?remote=a|b|c). Sizes use the site's type standards only:
-   subheading --t-sub, body --t-body, annotation title --t-annt, annotation body --t-annb, caption --t-cap ---- */
+/* ---- SA / NT / TAS: the offer banner under the map and the two points on the right ---- */
 @media (min-width: 901px) {
-/* A: short points. Annotation title (bold, orange) over annotation body; the offer is a card under the map */
-.wx-d-remote--a { margin-top: 0.22rem; }
-.wx-d-remote--a .wx-d-pt { margin-top: 0.16rem; font-size: var(--t-annb); line-height: 1.4; }
-.wx-d-remote--a .wx-d-pt b { font-size: var(--t-annt); line-height: 1.25; font-weight: 700; margin-bottom: 0.02rem; }
-.wx-gmap-note--a { padding: 0.18rem 0.28rem 0.2rem; font-size: var(--t-annb); line-height: 1.4; }
-.wx-gmap-note--a b { font-size: var(--t-annt); line-height: 1.25; font-weight: 700; margin-bottom: 0.02rem; }
-/* B: three numbered steps in one column, body size; nothing under the map but the button */
-.wx-d-steps { list-style: none; margin: 0.22rem 0 0; padding: 0; counter-reset: st; }
-.wx-d-steps li { position: relative; margin: 0 0 0.2rem; padding-left: 0.5rem; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); counter-increment: st; }
-.wx-d-steps li::before { content: counter(st); position: absolute; left: 0; top: 0.01rem; width: 0.34rem; height: 0.34rem; border-radius: 50%; background: var(--orange); color: #fff;
-                         font-family: var(--aviano); font-weight: 900; font-size: var(--t-cap); display: grid; place-items: center; }
-.wx-d-steps li b { display: block; font-weight: 500; color: var(--orange-deep); }
-.wx-dealers-row[data-rv="b"].is-remote { height: calc(100svh - 1.43rem - 1.1rem - 0.7rem - 0.3rem); }
-/* C: the offer is a banner under the map; the two points sit beside small icons-free rows in annotation sizes */
-.wx-d-remote--c { margin-top: 0.22rem; }
-.wx-d-remote--c .wx-d-pt { margin-top: 0.14rem; padding-left: 0.16rem; border-left: 2px solid var(--orange); font-size: var(--t-annb); line-height: 1.4; }
-.wx-d-remote--c .wx-d-pt b { font-size: var(--t-annt); font-weight: 700; line-height: 1.25; }
-.wx-gmap-note--c { padding: 0.2rem 0.3rem 0.24rem; background: var(--ink); color: #fff; border-top: 0; font-size: var(--t-annb); line-height: 1.4; }
-.wx-gmap-note--c small { display: block; font-size: var(--t-annt); line-height: 1.2; opacity: .9; }
-.wx-gmap-note--c b { display: block; margin: 0.02rem 0 0.04rem; font-size: var(--t-sub); line-height: 1.1; font-weight: 700; color: var(--orange); }
+.wx-gmap-note { padding: 0.2rem 0.3rem 0.24rem; background: #fff; color: var(--ink); font-size: var(--t-annb); line-height: 1.4; }
+.wx-gmap-note b { display: block; margin: 0 0 0.05rem; font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1.1; color: var(--ink); }
+.wx-d-remote { margin-top: 0.2rem; }
+/* points 1: a line icon in an orange ring, title over text */
+.wx-d-pt--p1, .wx-d-pt--p2 { display: grid; gap: 0.18rem; align-items: start; margin: 0 0 0.16rem; }
+.wx-d-pt--p1 { grid-template-columns: 0.54rem 1fr; }
+.wx-d-pi { width: 0.54rem; height: 0.54rem; border: 1.5px solid var(--orange); border-radius: 50%; display: grid; place-items: center; color: var(--orange); }
+.wx-d-pi svg { width: 0.26rem; height: 0.26rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.wx-d-ptx b { display: block; font-weight: 700; font-size: var(--t-annt); line-height: 1.25; }
+.wx-d-ptx span { display: block; margin-top: 0.02rem; font-size: var(--t-annb); line-height: 1.4; }
+/* points 2: two light cards with a number */
+.wx-d-pt--p2 { grid-template-columns: auto 1fr; padding: 0.16rem 0.2rem; background: #F8F8F7; border: 1px solid #e4e2de; }
+.wx-d-pn { font-family: var(--aviano); font-weight: 900; font-size: var(--t-sub); line-height: 1; color: var(--orange); }
+/* points 3: one line each, the text opens under it, like the city rows */
+.wx-d-pt3 { border-top: 1px solid var(--ph-rule, #d9d5cf); }
+.wx-d-pt3:last-child { border-bottom: 1px solid var(--ph-rule, #d9d5cf); }
+.wx-d-pt3 summary { display: flex; align-items: center; justify-content: space-between; gap: 0.2rem; padding: 0.15rem 0; list-style: none; cursor: pointer; font-weight: 700; font-size: var(--t-annt); line-height: 1.25; }
+.wx-d-pt3 summary::-webkit-details-marker { display: none; }
+.wx-d-pt3 summary svg { flex: none; width: 0.14rem; height: 0.08rem; stroke-width: 1.5; transition: transform .2s ease; }
+.wx-d-pt3[open] summary svg { transform: rotate(180deg); }
+.wx-d-pt3 summary:hover { color: var(--orange-hover); }
+.wx-d-pt3 p { margin: 0 0 0.16rem; font-size: var(--t-annb); line-height: 1.4; }
 .wx-rbar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 9999; display: flex; gap: 12px; align-items: center; padding: 9px 16px;
            background: rgba(20,20,22,.94); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
 .wx-rbar b { font-weight: 600; color: #bbb; }

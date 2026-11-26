@@ -1,108 +1,36 @@
-/* "Inside our caravans": portrait reels, centre one larger (after the Titanium homepage).
-   DESKTOP ONLY. Sample-only for now: assets/js/inside-caravans.js builds it when the URL has ?inside=1|2|3. */
+/* "Inside our caravans": a row of tall reels above the FAQs, the chosen one wider and playing. Dark band. DESKTOP ONLY.
+   assets/js/inside-caravans.js builds it. */
 @media (min-width: 901px) {
-.ins {
-  --bg: #141416; --card: #1c1c1f; --line: #2b2b30; --fg: #fff; --dim: #a9a9b0; --arrow: #fff;
-  width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box;
-  background: var(--bg); color: var(--fg);
-  padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative;
-}
-.ins--b { --bg: #F8F8F7; --card: #fff; --line: #e4e2de; --fg: #000; --dim: #6b6158; --arrow: #000; }
-.ins-title {
-  width: var(--col); margin: 0 auto 0.9rem; font-family: var(--aviano); font-weight: 900;
-  font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg);
-}
+.ins { --bg: #141416; --card: #1c1c1f; --line: #2b2b30; --fg: #fff; --dim: #a9a9b0;
+  width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box; background: var(--bg); color: var(--fg); padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative; }
+.ins-title { width: var(--col); margin: 0 auto 0.9rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg); }
 .ins-stage { position: relative; height: 7.3rem; }
-.ins-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: var(--gap);
-             transition: transform .6s cubic-bezier(.33,0,.18,1); will-change: transform; }
+.ins-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: var(--gap); transition: transform .6s cubic-bezier(.33,0,.18,1); will-change: transform; }
 .ins-card { flex: none; width: var(--w); cursor: pointer; transition: width .6s cubic-bezier(.33,0,.18,1); }
 .ins-card.is-on { width: var(--wc); cursor: default; }
 .ins-media { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #333; }
 .ins-media img, .ins-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ins-cap { position: absolute; left: 50%; top: 20%; transform: translateX(-50%); max-width: 86%; padding: 0.05rem 0.12rem;
-           background: rgba(0,0,0,.88); color: #fff; border-radius: 0.05rem; font-size: 0.17rem; line-height: 1.3;
-           text-align: center; white-space: nowrap; opacity: 0; transition: opacity .4s ease; }
-.ins-card.is-on .ins-cap { opacity: 1; }
-.ins-snd { position: absolute; right: 0.14rem; bottom: 0.14rem; width: 0.46rem; height: 0.46rem; border-radius: 50%;
-           background: rgba(0,0,0,.55); border: 0; color: #fff; display: none; place-items: center; cursor: pointer; }
-.ins-card.is-on.has-video .ins-snd { display: grid; }
-.ins-snd svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.ins-info { margin-top: 0.14rem; display: flex; align-items: center; gap: 0.16rem; padding: 0.14rem 0.18rem;
-            background: var(--card); border: 1px solid var(--line); box-sizing: border-box; }
-.ins-info img { width: 0.8rem; height: auto; flex: none; }
-.ins-name { font-size: 0.28rem; line-height: 1.2; font-weight: 500; }
-.ins-sub  { white-space: nowrap; font-size: 0.2rem; line-height: 1.3; color: var(--dim); }
-.ins-more { display: none; margin-top: -1px; padding: 0.16rem 0.18rem; background: var(--card); border: 1px solid var(--line);
-            font-size: 0.24rem; color: var(--fg); text-decoration: none; align-items: center; gap: 0.1rem; }
+.ins-over { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.7rem 0.22rem 0.2rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.8), rgba(0,0,0,0)); pointer-events: none; }
+.ins-name { font-size: 0.3rem; line-height: 1.15; }
+.ins-sub { font-size: 0.19rem; line-height: 1.3; letter-spacing: .02em; color: rgba(255,255,255,.8); }
+.ins-card:not(.is-on) .ins-name { font-size: 0.26rem; }
+.ins-card:not(.is-on) .ins-sub { font-size: 0.17rem; }
+.ins-more { display: none; margin-top: 0.1rem; align-items: center; gap: 0.1rem; font-size: 0.21rem; color: #fff; text-decoration: none; pointer-events: auto; }
 .ins-more svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ins-card.is-on .ins-more { display: flex; }
+.ins-card.is-on .ins-more { display: inline-flex; }
 .ins-more:hover { color: var(--orange); }
-.ins-card:not(.is-on) .ins-info img { width: 0.62rem; }
-.ins-card:not(.is-on) .ins-sub { font-size: 0.18rem; }
-.ins-card:not(.is-on) .ins-info { gap: 0.12rem; padding-inline: 0.14rem; }
+.ins-card:not(.is-on) .ins-media img { filter: brightness(.82); transition: filter .4s ease; }
+.ins-card:not(.is-on):hover .ins-media img { filter: brightness(1); }
+.ins-snd { position: absolute; right: 0.14rem; top: 0.14rem; width: 0.46rem; height: 0.46rem; border-radius: 50%; background: rgba(0,0,0,.55); border: 0; color: #fff; display: grid; place-items: center; cursor: pointer; transition: background .2s ease; }
+.ins-card:not(.is-on) .ins-snd { display: none; }
+.ins-snd svg { width: 0.22rem; height: 0.22rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ins-snd:not(.is-muted) .x { display: none; }
+.ins-snd:hover { background: var(--orange); }
 .ins-arrows { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.35rem; }
-.ins-arrow { width: 0.62rem; height: 0.62rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--arrow);
-             display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease, color .25s ease, border-color .25s ease; }
+.ins-arrow { width: 0.62rem; height: 0.62rem; border-radius: 50%; border: 1px solid var(--line); background: none; color: #fff; display: grid; place-items: center; cursor: pointer; transition: opacity .25s ease, color .25s ease, border-color .25s ease; }
 .ins-arrow svg { width: 0.26rem; height: 0.26rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ins-arrow:hover { color: var(--orange); border-color: var(--orange); }
 .ins-arrow:disabled { opacity: .25; pointer-events: none; }
 .ins a:focus-visible, .ins button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-
-/* ---- shared: tiles, placeholders, sound ---- */
-.ins-media.is-ph { background: linear-gradient(165deg, #2c2c31, #17171a); }
-.ins--b .ins-media.is-ph { background: linear-gradient(165deg, #ecebe8, #dcdad5); }
-.ins-media img.ph { object-fit: cover; object-position: 55% 50%; }
-.ins-soon { position: absolute; top: 0.18rem; left: 0.18rem; padding: 0.04rem 0.1rem; border-radius: 0.05rem; font-size: 0.14rem; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.6); }
-.ins-snd { display: grid; }
-.ins-card:not(.is-on) .ins-snd { display: none; }
-.ins-snd:not(.is-muted) .x { display: none; }
-.ins-snd:hover { background: var(--orange); }
-.ins-tile .ins-snd { opacity: 0; transition: opacity .25s ease, background .2s ease; }
-.ins-tile:hover .ins-snd, .ins-tile .ins-snd:focus-visible { opacity: 1; }
-.ins-more--solo { display: inline-flex; margin-top: 0.4rem; }
-
-/* ---- layout 2: four-up row, all reels playing ---- */
-.ins-row { width: var(--col); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.2rem; }
-.ins-row .ins-tile { position: relative; overflow: hidden; background: var(--card); }
-.ins-row .ins-over { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.7rem 0.22rem 0.22rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); pointer-events: none; }
-.ins-row .ins-name { font-size: 0.3rem; line-height: 1.15; }
-.ins-row .ins-sub { font-size: 0.19rem; color: rgba(255,255,255,.78); }
-
-/* ---- layout 3: staggered, names set large under each reel ---- */
-.ins-stg { width: var(--col); margin: 0 auto; padding-bottom: 1.2rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; align-items: start; }
-.ins-stg .ins-tile { display: block; margin-top: var(--o); color: var(--fg); text-decoration: none; }
-.ins-stg .ins-tile:hover .ins-name { color: var(--orange); }
-.ins-stg .ins-over { padding-top: 0.2rem; }
-.ins-num { display: block; margin-bottom: 0.04rem; font-family: var(--aviano); font-weight: 900; font-size: 0.15rem; letter-spacing: .08em; color: var(--orange); }
-.ins-stg .ins-name { font-family: var(--aviano); font-weight: 900; font-size: 0.36rem; line-height: 1.05; letter-spacing: -0.01em; transition: color .2s ease; }
-.ins-stg .ins-sub { margin-top: 0.04rem; font-size: 0.2rem; color: var(--dim); }
-
-/* ---- layout 4: spotlight, one big reel and the model list beside it ---- */
-.ins-spot { width: var(--col); margin: 0 auto; display: grid; grid-template-columns: 4.2rem 1fr; gap: 1.1rem; align-items: center; }
-.ins-spot-l { position: relative; aspect-ratio: 9 / 16; }
-.ins-stage1 { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
-.ins-stage1.is-on { opacity: 1; pointer-events: auto; }
-.ins-stage1 .ins-media { position: absolute; inset: 0; aspect-ratio: auto; }
-.ins-spot .ins-title { width: auto; margin: 0 0 0.3rem; }
-.ins-tabs { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
-.ins-tab { width: 100%; display: grid; grid-template-columns: 1.1rem 1fr auto; align-items: center; gap: 0.3rem; padding: 0.2rem 0.2rem; border: 0; border-top: 1px solid var(--line);
-           background: none; color: var(--fg); text-align: left; cursor: pointer; font: inherit; transition: background .25s ease; }
-.ins-tab img { width: 1.1rem; height: auto; }
-.ins-tab .ins-name { display: block; font-size: 0.3rem; line-height: 1.2; transition: color .2s ease; }
-.ins-tab .ins-sub { display: block; font-size: 0.19rem; }
-.ins-tab svg { width: 0.24rem; height: 0.24rem; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity .2s ease; }
-.ins-tab:hover { background: var(--card); }
-.ins-tab.is-on { background: var(--card); }
-.ins-tab.is-on .ins-name { color: var(--orange); }
-.ins-tab.is-on svg, .ins-tab:hover svg { opacity: 1; }
-
-/* sample switcher (only when ?inside= is in the URL) */
-.ins-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 9999; display: flex; gap: 14px; align-items: center;
-           padding: 9px 16px; background: rgba(20,20,22,.94); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif;
-           box-shadow: 0 6px 24px rgba(0,0,0,.35); }
-.ins-bar b { font-weight: 600; color: #bbb; margin-right: 2px; }
-.ins-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 10px; border-radius: 20px; border: 1px solid #555; }
-.ins-bar a.is-cur { background: var(--orange); border-color: var(--orange); }
-.ins-bar i { white-space: nowrap; font-style: normal; color: #999; font-size: 12px; }
 }
-@media (max-width: 900px) { .ins, .ins-bar { display: none; } }
+@media (max-width: 900px) { .ins { display: none; } }

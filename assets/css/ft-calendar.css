@@ -1,51 +1,16 @@
-/* Factory tour pop-up: date and time pickers (sample, ?cal=a|b|c). Desktop sized in rem like the pop-up's fields. */
-.ftc { font-family: var(--gordita); color: var(--ink); position: relative; }
+/* Factory tour pop-up: week strip and pill time slider. Desktop sized in rem like the pop-up's fields; px on the phone. */
+.ftc { font-family: var(--gordita); color: var(--ink); }
 .ftc-lab { margin: 0 0 0.1rem; font-family: var(--aviano); font-weight: 900; font-size: 0.16rem; line-height: 0.22rem; letter-spacing: .06em; text-transform: uppercase; }
-.ftc-sum { margin: 0.16rem 0 0; font-size: 0.21rem; line-height: 0.3rem; color: #6b6158; }
-.ftc-sum b { font-weight: 700; color: var(--orange-deep); }
-.ftc-note { margin: 0.04rem 0 0; font-size: 0.17rem; line-height: 0.24rem; color: #6b6158; }
-.is-err .ftc-sum { color: #b3261e; }
-.is-err .ftc-sum::after { content: " Please choose both."; }
+.ftc-err { display: none; margin: 0.12rem 0 0; font-size: 0.19rem; color: #b3261e; }
+.is-err .ftc-err { display: block; }
+.ftc button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+/* the week */
+.ftc-strip { display: grid; grid-template-columns: auto 1fr auto; gap: 0.14rem; align-items: center; }
 .ftc-nav { flex: none; width: 0.5rem; height: 0.5rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; color: var(--ink);
            display: grid; place-items: center; cursor: pointer; transition: color .2s ease, border-color .2s ease; }
 .ftc-nav svg { width: 0.2rem; height: 0.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ftc-nav:hover:not(:disabled) { color: var(--orange); border-color: var(--orange); }
 .ftc-nav:disabled { opacity: .25; cursor: default; }
-/* month */
-.ftc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.12rem; }
-.ftc-mon { font-weight: 700; font-size: 0.26rem; line-height: 0.3rem; }
-.ftc-dow, .ftc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.06rem; }
-.ftc-dow span { text-align: center; font-size: 0.16rem; line-height: 0.24rem; color: #6b6158; }
-.ftc-day { height: 0.5rem; padding: 0; border: 1px solid transparent; border-radius: 3px; background: none; font: inherit; font-size: 0.21rem; color: var(--ink); cursor: pointer;
-           transition: border-color .15s ease, background .15s ease, color .15s ease; }
-.ftc-day:hover:not(:disabled) { border-color: var(--ink); }
-.ftc-day:disabled { color: #c9c4bc; cursor: default; }
-.ftc-day.is-today { box-shadow: inset 0 -2px 0 var(--orange); }
-.ftc-day.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
-.ftc-day.is-blank { visibility: hidden; }
-/* times */
-.ftc-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem; }
-.ftc-t { height: 0.56rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; font: inherit; font-size: 0.21rem; color: var(--ink); cursor: pointer;
-         transition: border-color .15s ease, background .15s ease, color .15s ease; }
-.ftc-t:hover:not(:disabled) { border-color: var(--orange); color: var(--orange); }
-.ftc-t.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
-.ftc-t:disabled { opacity: .35; cursor: default; }
-/* A: month on the left, times on the right */
-.ftc-body { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 0.34rem; }
-/* B: one field; the month and the times open under it */
-.ftc-field { position: relative; width: 100%; height: 0.7rem; padding: 0 0.26rem; border: 1px solid var(--ink); border-radius: 3px; background: none; color: #6b6158;
-             font: inherit; font-size: 0.21rem; text-align: left; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-.ftc-field.has { color: var(--ink); }
-.ftc-field:focus-visible, .ftc-field[aria-expanded="true"] { outline: none; border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
-.ftc-field svg { width: 0.14rem; height: 0.08rem; }
-.ftc--b .ftc-main { position: absolute; z-index: 6; left: 0; right: 0; top: calc(0.7rem + 0.08rem); padding: 0.3rem; background: #fff; border: 1px solid var(--ink); border-radius: 3px;
-                    box-shadow: 0 0.1rem 0.4rem rgba(0,0,0,.22); }
-.ftc--b .ftc-main[hidden] { display: none; }
-.ftc--b .ftc-sum { display: none; }
-.ftc--b .ftc-note { margin-top: 0.08rem; }
-/* C: week strip, then the times in one row */
-.ftc--c .ftc-body { grid-template-columns: 1fr; gap: 0.26rem; }
-.ftc-strip { display: grid; grid-template-columns: auto 1fr auto; gap: 0.14rem; align-items: center; }
 .ftc-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.1rem; }
 .ftc-card { height: 1rem; padding: 0; border: 1px solid var(--ink); border-radius: 3px; background: none; font: inherit; color: var(--ink); cursor: pointer;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.02rem; transition: border-color .15s ease, background .15s ease, color .15s ease; }
@@ -55,107 +20,39 @@
 .ftc-card.is-on { background: var(--orange); border-color: var(--orange); color: #fff; }
 .ftc-card:disabled { opacity: .3; cursor: default; }
 .ftc-wk { margin: 0.1rem 0 0; text-align: center; font-size: 0.17rem; color: #6b6158; }
-.ftc--c .ftc-slots { grid-template-columns: repeat(6, 1fr); }
-.ftc-slot-wrap, .ftc-slot { display: block; }
-.ftc-slot.is-err .ftc-field { border-color: #b3261e; }
-.ftc button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-/* the sample's switcher */
-.ftc-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 100000; display: flex; gap: 12px; align-items: center; padding: 9px 16px;
-           background: rgba(20,20,22,.95); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
-.ftc-bar b { font-weight: 600; color: #bbb; }
-.ftc-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 11px; border-radius: 20px; border: 1px solid #555; }
-.ftc-bar a.is-cur { background: #DB7627; border-color: #DB7627; }
-.ftc-bar i { font-style: normal; color: #999; font-size: 12px; white-space: nowrap; }
-@media (max-width: 900px) {
-  .ftc-bar { display: none; }
-  .ftc-body { grid-template-columns: 1fr; gap: 18px; }
-  .ftc-sum, .ftc-field { font-size: 16px; } .ftc-field { height: 48px; padding: 0 14px; }
-  .ftc-day { height: 40px; font-size: 15px; } .ftc-t { height: 44px; font-size: 15px; } .ftc-mon { font-size: 18px; }
-  .ftc-nav { width: 40px; height: 40px; } .ftc-nav svg { width: 18px; height: 18px; }
-  .ftc-card { height: 74px; } .ftc-card b { font-size: 22px; line-height: 26px; } .ftc-card small { font-size: 12px; }
-  .ftc--c .ftc-slots { grid-template-columns: 1fr 1fr; }
-  .ftc--b .ftc-main { top: 56px; padding: 16px; }
-}
-
-/* C: the time slider (three looks, ?slider=1|2|3). The summary and note live in the pop-up's When row. */
-.ftc--c .ftc-sum, .ftc--c .ftc-note { display: none; }
-.ftc-err { display: none; margin: 0.12rem 0 0; font-size: 0.19rem; color: #b3261e; }
-.is-err .ftc-err { display: block; }
-.ftc--c .ftc-times { margin-top: 0.02rem; }
+/* the time: a thick track, the chosen time on a pill that slides along it (Gordita Regular, sized to sit inside the pill) */
+.ftc-times { margin-top: 0.24rem; }
 .ftc-tl { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 0.1rem; }
 .ftc-tl .ftc-lab { margin: 0; }
 .ftc-hint { font-size: 0.19rem; color: #6b6158; }
-.ftc-rng { position: relative; margin: 0 0.2rem; --tw: 0.34rem; }
-.ftc-rail { position: absolute; left: 0; right: 0; }
-.ftc-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; }
-.ftc-tick { position: absolute; }
-.ftc-bub { position: absolute; z-index: 2; left: var(--p, 0%); transform: translateX(-50%); pointer-events: none; white-space: nowrap; font-weight: 700; opacity: 0; transition: opacity .2s ease; }
-.ftc-rng.is-set .ftc-bub { opacity: 1; }
-.ftc-range { position: absolute; left: calc(var(--tw) / -2); width: calc(100% + var(--tw)); margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.ftc-rng { --tw: 1.1rem; position: relative; height: 0.98rem; margin: 0 0.4rem; }
+.ftc-rail { position: absolute; left: 0; right: 0; top: 0.23rem; height: 0.1rem; margin-top: -0.05rem; background: #e4e2de; border-radius: 0.05rem; }
+.ftc-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--orange); border-radius: 0.05rem; }
+.ftc-tick { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #fff; }
+.ftc-bub { position: absolute; z-index: 2; left: var(--p, 0%); top: 0; width: var(--tw); height: 0.46rem; transform: translateX(-50%); pointer-events: none; display: grid; place-items: center;
+           color: #fff; font-family: var(--gordita); font-weight: 400; font-size: 0.19rem; line-height: 1; white-space: nowrap; }
+.ftc-range { position: absolute; left: calc(var(--tw) / -2); top: 0; width: calc(100% + var(--tw)); height: 0.46rem; margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
 .ftc-range::-webkit-slider-runnable-track { background: none; }
 .ftc-range::-moz-range-track { background: none; }
+.ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: var(--tw); height: 0.46rem; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); transition: background .2s ease; }
+.ftc-range::-moz-range-thumb { width: var(--tw); height: 0.46rem; border: 0; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); }
+.ftc-range.is-set::-webkit-slider-thumb { background: var(--ink); }
+.ftc-range.is-set::-moz-range-thumb { background: var(--ink); }
 .ftc-range:focus-visible { outline: none; }
-.ftc-marks { position: absolute; left: 0; right: 0; }
+.ftc-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--orange); outline-offset: 2px; }
+.ftc-marks { position: absolute; left: 0; right: 0; top: 0.58rem; }
 .ftc-marks span { position: absolute; transform: translateX(-50%); font-size: 0.19rem; line-height: 0.24rem; color: var(--ink); white-space: nowrap; }
 .ftc-marks small { font-size: 0.14rem; color: #6b6158; margin-left: 0.02rem; }
-
-/* 1  Bubble: a slim track, small dots every 15 minutes, the chosen time in a dark bubble above the thumb */
-.ftc-sv1 { height: 1.12rem; --tw: 0.32rem; }
-.ftc-sv1 .ftc-bub { top: 0; padding: 0.06rem 0.16rem; background: var(--ink); color: #fff; border-radius: 0.05rem; font-size: 0.21rem; line-height: 0.28rem; }
-.ftc-sv1 .ftc-bub::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -0.06rem; border: 0.06rem solid transparent; border-top-color: var(--ink); }
-.ftc-sv1 .ftc-rail { top: 0.62rem; height: 0.05rem; margin-top: -0.025rem; background: #d9d5cf; border-radius: 0.03rem; }
-.ftc-sv1 .ftc-fill { background: var(--orange); border-radius: 0.03rem; }
-.ftc-sv1 .ftc-tick { top: 50%; width: 0.04rem; height: 0.04rem; border-radius: 50%; background: #b7b1a8; transform: translate(-50%, -50%); }
-.ftc-sv1 .ftc-tick.is-half { width: 0.05rem; height: 0.05rem; }
-.ftc-sv1 .ftc-tick.is-hr { width: 0.09rem; height: 0.09rem; background: var(--ink); }
-.ftc-sv1 .ftc-range { top: 0.45rem; height: 0.34rem; }
-.ftc-sv1 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.32rem; height: 0.32rem; border-radius: 50%; background: var(--orange); border: 0.045rem solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.35); box-sizing: border-box; }
-.ftc-sv1 .ftc-range::-moz-range-thumb { width: 0.32rem; height: 0.32rem; border-radius: 50%; background: var(--orange); border: 0.045rem solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.35); box-sizing: border-box; }
-.ftc-sv1 .ftc-range:not(.is-set)::-webkit-slider-thumb { background: #fff; border-color: #b7b1a8; }
-.ftc-sv1 .ftc-range:not(.is-set)::-moz-range-thumb { background: #fff; border-color: #b7b1a8; }
-.ftc-sv1 .ftc-marks { top: 0.86rem; }
-
-/* 2  Ruler: bars every 15 minutes, taller on the half hour and the hour; the bars up to the choice turn orange */
-.ftc-sv2 { height: 1.02rem; --tw: 0.08rem; }
-.ftc-sv2 .ftc-rail { top: 0.04rem; height: 0.5rem; }
-.ftc-sv2 .ftc-tick { bottom: 0; width: 2px; height: 0.16rem; margin-left: -1px; background: #cfcac2; border-radius: 1px; transition: background .15s ease; }
-.ftc-sv2 .ftc-tick.is-half { height: 0.26rem; }
-.ftc-sv2 .ftc-tick.is-hr { height: 0.42rem; background: #8f897f; }
-.ftc-sv2 .ftc-tick.is-on { background: var(--orange); }
-.ftc-sv2 .ftc-fill { display: none; }
-.ftc-sv2 .ftc-bub { display: none; }
-.ftc-sv2 .ftc-range { top: 0; height: 0.58rem; }
-.ftc-sv2 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.08rem; height: 0.58rem; border-radius: 0.04rem; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
-.ftc-sv2 .ftc-range::-moz-range-thumb { width: 0.08rem; height: 0.58rem; border: 0; border-radius: 0.04rem; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
-.ftc-sv2 .ftc-range.is-set::-webkit-slider-thumb { background: var(--orange); }
-.ftc-sv2 .ftc-range.is-set::-moz-range-thumb { background: var(--orange); }
-.ftc-sv2 .ftc-marks { top: 0.66rem; }
-.ftc-sv2 .ftc-out { display: block; }
-.ftc-out { display: none; font-weight: 700; font-size: 0.3rem; line-height: 0.36rem; color: var(--orange-deep); }
-.ftc-sv2-on .ftc-out { display: block; }
-
-/* 3  Pill: a thick track with the time written on a pill thumb that slides along it */
-.ftc-sv3 { height: 0.98rem; --tw: 0.96rem; }
-.ftc-sv3 .ftc-rail { top: 0.23rem; height: 0.1rem; margin-top: -0.05rem; background: #e4e2de; border-radius: 0.05rem; }
-.ftc-sv3 .ftc-fill { background: var(--orange); border-radius: 0.05rem; }
-.ftc-sv3 .ftc-tick { display: none; }
-.ftc-sv3 .ftc-tick.is-hr { display: block; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #fff; }
-.ftc-sv3 .ftc-bub { top: 0; width: 0.96rem; height: 0.46rem; display: grid; place-items: center; color: #fff; font-size: 0.2rem; opacity: 1; }
-.ftc-sv3 .ftc-range { top: 0; height: 0.46rem; }
-.ftc-sv3 .ftc-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0.96rem; height: 0.46rem; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); transition: background .2s ease; }
-.ftc-sv3 .ftc-range::-moz-range-thumb { width: 0.96rem; height: 0.46rem; border: 0; border-radius: 0.23rem; background: #b7b1a8; box-shadow: 0 1px 5px rgba(0,0,0,.3); }
-.ftc-sv3 .ftc-range.is-set::-webkit-slider-thumb { background: var(--ink); }
-.ftc-sv3 .ftc-range.is-set::-moz-range-thumb { background: var(--ink); }
-.ftc-sv3 .ftc-marks { top: 0.58rem; }
-.ftc-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--orange); outline-offset: 2px; }
-
-.ftc-bar .ftc-sep { width: 1px; height: 16px; background: #555; }
 @media (max-width: 900px) {
-  .ftc-rng { margin: 0 16px; --tw: 28px; }
-  .ftc-sv1 { height: 92px; } .ftc-sv1 .ftc-bub { font-size: 14px; line-height: 20px; padding: 3px 10px; } .ftc-sv1 .ftc-rail { top: 50px; } .ftc-sv1 .ftc-range { top: 36px; height: 28px; } .ftc-sv1 .ftc-marks { top: 70px; }
-  .ftc-sv2 { height: 86px; } .ftc-sv2 .ftc-rail { height: 40px; } .ftc-sv2 .ftc-range { height: 46px; } .ftc-sv2 .ftc-tick.is-hr { height: 34px; } .ftc-sv2 .ftc-tick.is-half { height: 22px; } .ftc-sv2 .ftc-tick { height: 14px; } .ftc-sv2 .ftc-marks { top: 54px; } .ftc-out { font-size: 20px; line-height: 24px; }
-  .ftc-sv3 { height: 84px; --tw: 80px; } .ftc-sv3 .ftc-bub { width: 80px; height: 38px; font-size: 14px; } .ftc-sv3 .ftc-range { height: 38px; } .ftc-sv3 .ftc-rail { top: 19px; } .ftc-sv3 .ftc-marks { top: 48px; }
-  .ftc-sv1 .ftc-range::-webkit-slider-thumb, .ftc-sv1 .ftc-range::-moz-range-thumb { width: 28px; height: 28px; }
-  .ftc-sv3 .ftc-range::-webkit-slider-thumb, .ftc-sv3 .ftc-range::-moz-range-thumb { width: 80px; height: 38px; border-radius: 19px; }
-  .ftc-marks span { font-size: 13px; line-height: 18px; } .ftc-marks small { font-size: 10px; }
+  .ftc-lab { font-size: 12px; line-height: 18px; margin-bottom: 8px; }
+  .ftc-nav { width: 40px; height: 40px; } .ftc-nav svg { width: 18px; height: 18px; }
+  .ftc-strip { gap: 8px; } .ftc-cards { gap: 6px; }
+  .ftc-card { height: 74px; } .ftc-card b { font-size: 22px; line-height: 26px; } .ftc-card small { font-size: 12px; line-height: 15px; }
+  .ftc-wk { font-size: 13px; margin-top: 8px; }
+  .ftc-times { margin-top: 18px; } .ftc-hint { font-size: 14px; }
+  .ftc-rng { --tw: 84px; height: 84px; margin: 0 42px; } .ftc-rail { top: 19px; height: 8px; margin-top: -4px; }
+  .ftc-bub { height: 38px; font-size: 14px; } .ftc-range { height: 38px; }
+  .ftc-range::-webkit-slider-thumb { height: 38px; border-radius: 19px; } .ftc-range::-moz-range-thumb { height: 38px; border-radius: 19px; }
+  .ftc-marks { top: 48px; } .ftc-marks span { font-size: 13px; line-height: 18px; } .ftc-marks small { font-size: 10px; }
+  .ftc-err { font-size: 14px; }
 }

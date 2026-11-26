@@ -14,9 +14,8 @@
    ========================================================================== */
 (function () {
   "use strict";
-  /* SAMPLE: ?cal=a|b|c swaps the day and time fields for a calendar (ft-calendar.js) and opens the pop-up */
-  var CAL = (new URLSearchParams(location.search).get("cal") || "").toLowerCase();
-  if (["a", "b", "c"].indexOf(CAL) < 0 || !window.WLFtCal) CAL = "";
+  /* the day and time pickers live in ft-calendar.js; without it the pop-up falls back to the plain day and time fields */
+  var CAL = window.WLFtCal ? "c" : "";
 
   var TOUR = {
     place: "Wonderland RV Production",
@@ -88,7 +87,7 @@
     var d = new Date(); d.setDate(d.getDate() + 1);
     var iso = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
     var di = form.querySelector('input[name="date"]');
-    if (CAL) window.WLFtCal.mount(form.querySelector(".ftc-slot"), CAL, TIMES, function (t) { var w = card.querySelector("#ftpWhen"); if (w) w.textContent = t; });
+    if (CAL) window.WLFtCal.mount(form.querySelector(".ftc-slot"), function (t) { var w = card.querySelector("#ftpWhen"); if (w) w.textContent = t; });
     else if (di) di.min = iso;
 
     /* models multi-select */
@@ -150,8 +149,5 @@
   }, true);
 
   /* a direct link: ...#factory-tour opens it on load (handy for sharing) */
-  if (location.hash === "#factory-tour" || CAL) {
-    if (CAL) window.WLFtCal.bar(CAL);
-    show();
-  }
+  if (location.hash === "#factory-tour") show();
 })();

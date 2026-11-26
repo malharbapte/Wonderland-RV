@@ -10,10 +10,11 @@
 <link rel="stylesheet" href="assets/css/events-popup.css?v=7">
 <link rel="stylesheet" href="assets/css/brochure-popup.css?v=1">
 <link rel="stylesheet" href="assets/css/factory-tour-popup.css?v=2">
+<link rel="stylesheet" href="assets/css/ft-calendar.css?v=5">
 <link rel="stylesheet" href="assets/css/enquire-popup.css?v=1">
 <link rel="stylesheet" href="assets/css/type-compact.css?v=321">
 <link rel="stylesheet" href="assets/css/homepage.css?v=321">
-<link rel="stylesheet" href="assets/css/wx-page.css?v=934">
+<link rel="stylesheet" href="assets/css/wx-page.css?v=936">
 <link rel="stylesheet" href="assets/css/wx-chips.css?v=1">
 <link rel="stylesheet" href="assets/css/scale-b.css?v=25">
 <link rel="stylesheet" href="assets/css/scale-b-pages.css?v=24">
@@ -606,30 +607,15 @@
 <script src="assets/js/budget.js?v=321"></script>
 <script src="assets/js/wx-contact.js?v=321"></script>
 <script src="assets/js/wx-page.js?v=327"></script>
-<script src="assets/js/wx-dealers.js?v=22"></script>
+<script src="assets/js/wx-dealers.js?v=23"></script>
 <script src="assets/js/wx-chips.js?v=1"></script>
 <script src="assets/js/side-bar.js?v=8"></script>
 <script src="assets/js/brochure-popup.js?v=8"></script>
 <script src="assets/js/nav.js?v=323"></script>
 <script src="assets/js/events-popup.js?v=6"></script>
-<script src="assets/js/factory-tour-popup.js?v=4"></script>
+<script src="assets/js/ft-calendar.js?v=5"></script>
+<script src="assets/js/factory-tour-popup.js?v=6"></script>
 <script src="assets/js/enquire-popup.js?v=1"></script>
 <script src="assets/js/thanks-redirect.js?v=3"></script>
-<script>
-/* sample: ?range=amb swaps View the Range to the ambassador photos (assets/img/experience/range-amb) */
-(function () {
-  var on = /[?&]range=amb/.test(location.search), row = document.querySelector(".wx-range-row");
-  if (!row) return;
-  if (on) [].forEach.call(row.querySelectorAll("img"), function (im) { im.src = im.src.replace("/range/", "/range-amb/"); });
-  var b = document.createElement("div");
-  b.style.cssText = "position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;display:flex;gap:10px;align-items:center;padding:9px 16px;background:rgba(20,20,22,.94);color:#fff;border-radius:40px;font:500 13px/1 system-ui,sans-serif";
-  function a(t, h, cur) { return '<a href="' + h + '" style="color:#fff;text-decoration:none;padding:6px 11px;border-radius:20px;border:1px solid ' + (cur ? "#DB7627" : "#555") + ';background:' + (cur ? "#DB7627" : "none") + '">' + t + "</a>"; }
-  if (/[?&]range=/.test(location.search)) {
-    b.innerHTML = "<b style='color:#bbb'>View the Range</b>" + a("Current photos", "?range=cur#range", !on) + a("Ambassador photos", "?range=amb#range", on);
-    document.body.appendChild(b);
-    row.scrollIntoView({ block: "center" });
-  }
-})();
-</script>
 </body>
 </html>

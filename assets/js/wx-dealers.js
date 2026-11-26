@@ -77,28 +77,33 @@
     return a;
   }
   function ext(a, url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
+  /* the two points for SA, NT and TAS. SAMPLE: ?points=1|2|3 (1 icon rows, 2 cards, 3 expandable rows) */
+  var PT_ICONS = [
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/></svg>' ];
+  function pv() { var v = new URLSearchParams(location.search).get("points") || "1"; return ["1", "2", "3"].indexOf(v) < 0 ? "1" : v; }
   function pts(into) {
-    REMOTE_PTS.forEach(function (x) {
-      var p = el("p", "wx-d-pt"); p.appendChild(el("b", "", x.h)); p.appendChild(document.createTextNode(x.t)); into.appendChild(p);
+    var v = pv();
+    into.classList.add("wx-d-remote--p" + v);
+    if (v === "3") {
+      REMOTE_PTS.forEach(function (x, i) {
+        var d = el("details", "wx-d-pt3"); d.setAttribute("name", "wx-pt"); if (i === 0) d.open = true;
+        var sm = el("summary", "", x.h); sm.insertAdjacentHTML("beforeend", CHEV); d.appendChild(sm); d.appendChild(el("p", "", x.t)); into.appendChild(d);
+      });
+      return;
+    }
+    REMOTE_PTS.forEach(function (x, i) {
+      var r = el("div", "wx-d-pt wx-d-pt--p" + v);
+      if (v === "1") r.insertAdjacentHTML("beforeend", '<span class="wx-d-pi">' + PT_ICONS[i] + "</span>");
+      else r.appendChild(el("span", "wx-d-pn", "0" + (i + 1)));
+      var t = el("div", "wx-d-ptx"); t.appendChild(el("b", "", x.h)); t.appendChild(el("span", "", x.t)); r.appendChild(t); into.appendChild(r);
     });
   }
-  /* SAMPLE: ?remote=a|b|c picks how the SA / NT / TAS information is presented (a is the default) */
-  function rv() { var v = (new URLSearchParams(location.search).get("remote") || "a").toLowerCase(); return ["a", "b", "c"].indexOf(v) < 0 ? "a" : v; }
-  function tripNote(into, v) {
+  /* the offer under the map: a white banner, $2,000 discount in Aviano Black */
+  function tripNote(into) {
     into.textContent = "";
-    if (v === "c") {
-      into.appendChild(el("small", "", "We offer a"));
-      into.appendChild(el("b", "", "$2,000 discount"));
-      into.appendChild(document.createTextNode("on flights and accommodation if you\u2019d like to see the vans in person and take a factory tour at our showroom and factory in Campbellfield."));
-    } else { into.appendChild(el("b", "", TRIP.h)); into.appendChild(document.createTextNode(TRIP.t)); }
-  }
-  /* B: the three things in order, numbered, all in the right column */
-  function steps(into) {
-    var all = REMOTE_PTS.concat([TRIP]), ol = el("ol", "wx-d-steps");
-    all.forEach(function (x) {
-      var li = el("li"); li.appendChild(el("b", "", x.h)); li.appendChild(document.createTextNode(x.t)); ol.appendChild(li);
-    });
-    into.appendChild(ol);
+    into.appendChild(el("b", "", "$2,000 discount"));
+    into.appendChild(document.createTextNode("on flights and accommodation if you\u2019d like to see the vans in person and take a factory tour at our showroom and factory in Campbellfield."));
   }
   function closeLb() { if (lb) lb.hidden = true; lbOpen = false; document.body.classList.remove("wx-lb-lock"); }
   function openLb(p, d) {
@@ -166,10 +171,9 @@
     panel.appendChild(el("h3", "wx-d-state", NAMES[k]));
     /* states with no dealer of their own show Outbound RVs, Melbourne */
     var d = DEALERS[k] || DEALERS.vic, remote = !DEALERS[k];
-    var V = rv();
-    row.classList.toggle("is-remote", remote); row.dataset.rv = V;
-    gnote.hidden = !remote || V === "b"; gnote.className = "wx-gmap-note wx-gmap-note--" + V;
-    if (remote && V !== "b") tripNote(gnote, V);
+    row.classList.toggle("is-remote", remote);
+    gnote.hidden = !remote;
+    if (remote) tripNote(gnote);
     var logo = el("div", "wx-d-logo");
     var img = document.createElement("img");
     img.src = "assets/img/experience/dealers/" + d.logo;
@@ -179,7 +183,7 @@
     la.appendChild(img); logo.appendChild(la);
     panel.appendChild(logo);
     var nm = el("p", "wx-d-name"); nm.appendChild(ext(el("a", "", d.name), d.url)); panel.appendChild(nm);
-    if (remote) { var rp = el("div", "wx-d-remote wx-d-remote--" + V); if (V === "b") steps(rp); else pts(rp); panel.appendChild(rp); }
+    if (remote) { var rp = el("div", "wx-d-remote"); pts(rp); panel.appendChild(rp); }
     /* each branch is a drop-down titled with its city; the first is open, opening one closes the others */
     d.locs.forEach(function (l, i) {
       var box = el("details", "wx-d-loc wx-d-acc");
@@ -435,10 +439,10 @@
     if (hd) window.scrollTo(0, hd.getBoundingClientRect().top + window.scrollY - 108);
   }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
-  if (QS.get("remote")) {
-    var rb = el("div", "wx-rbar"), cv = rv();
-    rb.innerHTML = "<b>SA, NT, TAS</b>" + [["a", "A  Short points"], ["b", "B  Three steps"], ["c", "C  Offer as a banner"]].map(function (x) {
-      return '<a class="' + (x[0] === cv ? "is-cur" : "") + '" href="?remote=' + x[0] + '&open=sa">' + x[1] + "</a>"; }).join("");
+  if (QS.get("points")) {
+    var rb = el("div", "wx-rbar"), cv = pv();
+    rb.innerHTML = "<b>The two points</b>" + [["1", "1  Icon rows"], ["2", "2  Numbered cards"], ["3", "3  Expandable"]].map(function (x) {
+      return '<a class="' + (x[0] === cv ? "is-cur" : "") + '" href="?points=' + x[0] + '&open=sa">' + x[1] + "</a>"; }).join("");
     document.body.appendChild(rb);
     if (!QS.get("open")) pick("sa");
   }
