@@ -55,10 +55,10 @@
 
 .lp-360 { margin-top: 0.9rem; width: 100vw; margin-left: calc(50% - 50vw); height: 5.6rem; background: var(--lp-grey); display: grid; place-items: center; font-family: var(--gordita); font-size: var(--t-body); color: #6b6158; }
 
-.lp-sim { margin-top: 0; padding: 0.7rem 0 0.9rem; width: 100vw; margin-left: calc(50% - 50vw); background: linear-gradient(to bottom, #D1D3D4 0%, #D1D3D4 78%, #fff 100%); }
+.lp-sim { margin-top: 0; padding: 0.7rem 0 0.9rem; width: 100vw; margin-left: calc(50% - 50vw); background: linear-gradient(to bottom, #F8F8F7 0%, #F8F8F7 62%, #fff 100%); }
 .lp-h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; letter-spacing: -0.02em; }
 .lp-cards { margin-top: 0.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.12rem; }
-.lp-card { background: #fff; padding: 0.22rem 0.22rem 0.2rem; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+.lp-card { background: #fff; box-shadow: 0 0.02rem 0.2rem rgba(20, 18, 14, .07); padding: 0.22rem 0.22rem 0.2rem; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
 .lp-card[hidden] { display: none; }
 .lp-card-img { aspect-ratio: 340 / 232; border: 1px solid var(--lp-line); border-radius: 0.08rem; background: #fff center / contain no-repeat; }
 .lp-card h3 { margin: 0.2rem 0 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-annt); line-height: 1.25; text-transform: uppercase; }
