@@ -79,6 +79,19 @@
 .ins-sp-note { flex: none; margin: clamp(5px, 1vh, 0.12rem) 0 0; font-size: var(--t-cap); line-height: 1.4; color: #6b6158; }
 .ins-sp-cta { flex: none; align-self: stretch; text-align: center; margin-top: clamp(8px, 1.6vh, 0.18rem); }
 
+/* ---- the view toggle, and the "beside the reel" card ---- */
+.ins-mode { position: absolute; z-index: 7; top: 1.3rem; right: calc((100% - var(--col)) / 2); display: flex; border: 1px solid #cfcdc8; border-radius: 99px; overflow: hidden; background: #fff; }
+.ins-mode button { padding: 0.07rem 0.2rem; border: 0; background: none; cursor: pointer; font-family: var(--gordita); font-size: var(--t-annb); line-height: 1.2; color: var(--ink); transition: background .3s ease, color .3s ease; }
+.ins-mode button + button { border-left: 1px solid #cfcdc8; }
+.ins-mode button.is-on { background: var(--ink); color: #fff; }
+.ins--post .ins-spec { display: none; }
+.ins-post { position: absolute; left: 0; top: 50%; width: var(--wc); box-sizing: border-box; display: flex; background: #fff; color: var(--ink); font-family: var(--gordita); box-shadow: 0 0.04rem 0.24rem rgba(20, 18, 14, .14); overflow: hidden;
+            opacity: 0; visibility: hidden; transition: transform .9s cubic-bezier(.45, 0, .2, 1), opacity .5s ease; will-change: transform; }
+.ins-post-in { flex: 1 1 auto; min-width: 0; min-height: 0; box-sizing: border-box; padding: 0.3rem 0.3rem 0.28rem; display: flex; flex-direction: column; }
+.ins-post-in.is-new > * { animation: ins-up .45s cubic-bezier(.45, 0, .2, 1) both; }
+.ins-post .ins-sp-name { font-size: 0.3rem; }
+.ins-post .ins-sp-cta { margin-top: 0.16rem; }
+
 /* sample switcher (only with ?specs= in the address) */
 .ins-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 100000; display: flex; gap: 10px; align-items: center; padding: 9px 16px;
            background: rgba(20,20,22,.95); color: #fff; border-radius: 40px; font: 500 13px/1 system-ui, sans-serif; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
@@ -89,7 +102,7 @@
 
 /* ======================= PHONE: swipe rail + specs bottom sheet (rem is a flat 16px here, so sizes are px) ======================= */
 @media (max-width: 900px) {
-.ins-spec, .ins-bar { display: none; }
+.ins-spec, .ins-bar, .ins-mode, .ins-post { display: none; }
 .ins { display: block; width: 100%; margin-left: 0; box-sizing: border-box; background: #F8F8F7; color: var(--ink); padding: 40px 0 34px; overflow: hidden; }
 .ins-title { margin: 0; padding: 0 24px; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
 .ins-lede { margin: 10px 0 0; padding: 0 24px; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }

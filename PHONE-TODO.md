@@ -26,3 +26,8 @@ Kept as a running log; the phone pass happens at the end. Updated 2026-11-26.
 Desktop only. Needs a phone version: hero plans stacked, copy above the accordion, photo grid, similar caravans and other models as one column. `assets/css/layout-page.css` is wrapped in min-width 901px.
 ## Different layouts we offer (home)
 Side menu and the endless looping row are desktop only (section hidden on phone).
+
+## Updated 2026-11-27 (phone pass)
+- DONE: layout page phone version; "Different layouts we offer" phone version (swipe rail, centred reel plays, specs as a bottom sheet); Enquire now added to the dealer pop-up on phone.
+- The "Side menu / Beside the reel" toggle and the beside-the-reel card are desktop only (phone always uses the bottom sheet).
+- Still not checked on a real phone: factory tour pop-up week strip and pill slider.

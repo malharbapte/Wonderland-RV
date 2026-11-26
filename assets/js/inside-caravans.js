@@ -47,7 +47,12 @@
   sec.className = "ins";
   sec.setAttribute("aria-label", "Different layouts we offer");
   sec.style.setProperty("--w", W + "rem"); sec.style.setProperty("--wc", WC + "rem"); sec.style.setProperty("--gap", GAP + "rem");
+  /* two ways to show the specs: the side menu on the page edge, or a card beside the chosen reel (like an Instagram post, with the info on the left) */
+  var MODE = (location.search.match(/[?&]mode=(menu|post)/) || [])[1] || (function () { try { return localStorage.getItem("insMode"); } catch (e) { return null; } })() || window.INS_MODE_DEFAULT || "menu";
+  if (MODE !== "post") MODE = "menu";
+  sec.classList.toggle("ins--post", MODE === "post");
   sec.innerHTML =
+    '<div class="ins-mode" role="group" aria-label="How the specifications are shown"><button type="button" data-m="menu">Side menu</button><button type="button" data-m="post">Beside the reel</button></div>' +
     '<h2 class="ins-title">Different layouts we offer</h2>' +
     '<p class="ins-lede">Discover the layouts in the vans we’ve built.</p>' +
     '<div class="ins-stage"><div class="ins-track"></div></div>' +
@@ -70,11 +75,38 @@
     el.addEventListener("click", function (e) {
       if (e.target.closest(".ins-snd")) return;
       if (i !== at) go(i);
-      if (!opened) openSpec();
+      if (!opened && MODE !== "post") openSpec();
     });
     track.appendChild(el);
     return el;
   });
+  var postEl = document.createElement("div"); postEl.className = "ins-post"; postEl.innerHTML = '<div class="ins-post-in"></div>'; track.appendChild(postEl);
+  var postIn = postEl.querySelector(".ins-post-in"), postAt = -1;
+  var P_ROWS = [["Tare", "tare"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
+  function postHTML(c) {
+    var rows = P_ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
+    var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
+    return '<div class="ins-sp-head"><h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p></div>' +
+      (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
+      '<dl class="ins-sp-list">' + rows + '</dl><p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
+      '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
+  }
+  function postFill(i) {
+    if (postAt === i) return; postAt = i;
+    postIn.innerHTML = postHTML(CARDS[i]); postIn.classList.remove("is-new"); void postIn.offsetWidth; postIn.classList.add("is-new");
+    var plan = postIn.querySelector(".ins-sp-plan"); if (!plan) return;
+    var im = new Image(); im.onload = function () { if (postAt === i) { plan.style.backgroundImage = 'url("' + im.src + '")'; plan.classList.add("has-img"); } }; im.src = "assets/img/build/plans/" + CARDS[i].s.code + ".webp";
+  }
+  function setMode(m) {
+    if (m === MODE) return; MODE = m;
+    try { localStorage.setItem("insMode", m); } catch (e) {}
+    sec.classList.toggle("ins--post", m === "post");
+    [].forEach.call(sec.querySelectorAll(".ins-mode button"), function (b) { b.classList.toggle("is-on", b.getAttribute("data-m") === m); b.setAttribute("aria-pressed", b.getAttribute("data-m") === m); });
+    if (m === "post") { closeSpec(); postAt = -1; } else if (secIn) openSpec();
+    show();
+  }
+  sec.querySelector(".ins-mode").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setMode(b.getAttribute("data-m")); });
+  [].forEach.call(sec.querySelectorAll(".ins-mode button"), function (b) { b.classList.toggle("is-on", b.getAttribute("data-m") === MODE); b.setAttribute("aria-pressed", b.getAttribute("data-m") === MODE); });
   sec.addEventListener("click", function (e) {
     var b = e.target.closest(".ins-snd"); if (!b) return;
     e.stopPropagation();
@@ -104,16 +136,27 @@
      A reel that wraps round to the far side jumps there unseen, off screen, instead of sliding across. */
   var prevD = [];
   function layout(r) {
-    var n = cards.length, sw = stage.clientWidth;
+    var n = cards.length, sw = stage.clientWidth, post = MODE === "post", extra = post ? WC + GAP : 0;   /* in post mode the info card takes the slot left of the chosen reel */
     cards.forEach(function (el, i) {
       var d = (((i - at) % n) + n) % n; if (d > n / 2) d -= n;
       var left = d === 0 ? -WC / 2 : d > 0 ? WC / 2 + GAP + (d - 1) * (W + GAP) : -(WC / 2 + GAP + (-d) * W + (-d - 1) * GAP);
+      left += extra / 2 - (d < 0 ? extra : 0);
       var jump = prevD[i] !== undefined && Math.abs(d - prevD[i]) > 1;
       if (jump) el.style.transition = "none";
       el.style.transform = "translate3d(" + Math.round(sw / 2 + left * r) + "px,-50%,0) scale(" + (d === 0 ? 1 : (W / WC).toFixed(4)) + ")";
       if (jump) { void el.offsetWidth; el.style.transition = ""; }
       prevD[i] = d;
     });
+    /* the info card: the same size as the chosen reel, immediately to its left */
+    var px = sw / 2 + (-WC / 2 + extra / 2 - extra) * r;
+    postEl.style.height = Math.round(WC * r * 16 / 9) + "px";
+    postEl.style.transform = "translate3d(" + Math.round(px) + "px,-50%,0)";
+    postEl.style.opacity = post ? "1" : "0"; postEl.style.visibility = post ? "visible" : "hidden";
+    if (post) { postFill(at); requestAnimationFrame(fitPostNote); }
+  }
+  function fitPostNote() {
+    var note = postIn.querySelector(".ins-sp-note"), plan = postIn.querySelector(".ins-sp-plan"); if (!note || !plan) return;
+    note.hidden = false; if (plan.clientHeight < 1.2 * rem()) note.hidden = true;
   }
   function go(i) { var n = cards.length; at = ((i % n) + n) % n; show(); }
   prev.addEventListener("click", function () { go(at - 1); });
@@ -133,7 +176,7 @@
   panel.innerHTML = '<div class="ins-spec-in"></div>';
   sec.appendChild(panel);
   var body = panel.querySelector(".ins-spec-in");
-  var opened = false, curSpec = -1;
+  var opened = false, curSpec = -1, secIn = false;
   function specHTML(c) {
     var rows = ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
     var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
@@ -158,14 +201,13 @@
     img.src = "assets/img/build/plans/" + CARDS[i].s.code + ".webp";
     requestAnimationFrame(fitNote);
   }
-  function openSpec() { fill(at); opened = true; panel.classList.add("is-open"); }
+  function openSpec() { if (MODE === "post") return; fill(at); opened = true; panel.classList.add("is-open"); }
   function closeSpec() { opened = false; panel.classList.remove("is-open"); }
   body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) closeSpec(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSpec(); });
   /* a click anywhere outside the panel shuts it; the reels and arrows only change what it shows */
   document.addEventListener("click", function (e) { if (opened && !e.target.closest(".ins-spec, .ins-card, .ins-arrow")) closeSpec(); });
   if ("IntersectionObserver" in window) {
-    var secIn = false;
     new IntersectionObserver(function (es) {
       var e = es[0];
       if (!e.isIntersecting) { secIn = false; closeSpec(); }

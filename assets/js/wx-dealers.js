@@ -384,6 +384,7 @@
       info.appendChild(el("p", "wx-d-addr", l.addr));
     }
     if (!DEALERS[k]) { var rb = el("div", "wx-d-remote"); pts(rb); info.appendChild(rb); var tn = el("p", "wx-d-trip"); tripNote(tn); info.appendChild(tn); }
+    var penq = el("a", "btn-solid wx-d-enq", "Enquire now"); penq.href = "#enquire"; penq.setAttribute("data-enquire", ""); info.appendChild(penq);
     var map = dp.querySelector(".wx-dp-map"), fr = map.querySelector("iframe");
     var src = "https://www.google.com/maps?q=" + encodeURIComponent(l.biz + ", " + l.addr) + "&z=16&output=embed";
     map.classList.add("has-card");
