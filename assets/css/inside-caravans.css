@@ -35,7 +35,6 @@
 .ins-arrow:disabled { opacity: .25; pointer-events: none; }
 .ins a:focus-visible, .ins button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 }
-@media (max-width: 900px) { .ins { display: none; } }
 
 /* ---- foot: the arrows centred, the CTA at the right ---- */
 @media (min-width: 901px) {
@@ -87,4 +86,58 @@
 .ins-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 11px; border-radius: 20px; border: 1px solid #555; }
 .ins-bar a.is-cur { background: #DB7627; border-color: #DB7627; }
 }
-@media (max-width: 900px) { .ins-spec, .ins-bar { display: none; } }
+
+/* ======================= PHONE: swipe rail + specs bottom sheet (rem is a flat 16px here, so sizes are px) ======================= */
+@media (max-width: 900px) {
+.ins-spec, .ins-bar { display: none; }
+.ins { display: block; width: 100%; margin-left: 0; box-sizing: border-box; background: #F8F8F7; color: var(--ink); padding: 40px 0 34px; overflow: hidden; }
+.ins-title { margin: 0; padding: 0 24px; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
+.ins-lede { margin: 10px 0 0; padding: 0 24px; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
+.ins-rail { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 26px 18vw 6px; }
+.ins-rail::-webkit-scrollbar { display: none; }
+.ins-pc { flex: none; width: 64vw; scroll-snap-align: center; transform: scale(.9); transform-origin: 50% 50%; transition: transform .6s cubic-bezier(.45, 0, .2, 1); cursor: pointer; }
+.ins-pc.is-on { transform: none; }
+.ins-pc .ins-media { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: #333; border-radius: 4px; }
+.ins-pc .ins-media img, .ins-pc .ins-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ins-pc:not(.is-on) .ins-media img { filter: brightness(.82); }
+.ins-pc .ins-over { position: absolute; left: 0; right: 0; bottom: 0; padding: 56px 14px 14px; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.8), rgba(0,0,0,0)); pointer-events: none; }
+.ins-pc .ins-name { display: flex; align-items: center; gap: 8px; font-size: 20px; line-height: 1.15; }
+.ins-pc .ins-name span { font-family: var(--aviano); font-weight: 900; letter-spacing: -0.01em; }
+.ins-pc .ins-div { flex: none; width: 1px; height: 16px; background: rgba(255,255,255,.55); }
+.ins-pc .ins-name em { font-style: normal; font-family: var(--gordita); font-size: 14px; color: rgba(255,255,255,.88); }
+.ins-pc .ins-sub { margin-top: 2px; font-size: 13px; line-height: 1.3; letter-spacing: .02em; color: rgba(255,255,255,.82); }
+.ins-pc .ins-more { display: none; margin-top: 8px; align-items: center; gap: 6px; font-size: 14px; color: #fff; }
+.ins-pc.is-on .ins-more { display: inline-flex; }
+.ins-pc .ins-more svg { width: 16px; height: 16px; fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ins-pc .ins-snd { position: absolute; right: 10px; top: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,.55); border: 0; color: #fff; display: grid; place-items: center; padding: 0; }
+.ins-pc:not(.is-on) .ins-snd { display: none; }
+.ins-pc .ins-snd svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ins-pc .ins-snd:not(.is-muted) .x { display: none; }
+
+/* the bottom sheet */
+body.ins-lock { overflow: hidden; }
+.ins-scrim { position: fixed; inset: 0; z-index: 9990; background: rgba(15, 14, 12, .5); opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+.ins-scrim.is-open { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+.ins-sheet { position: fixed; z-index: 9991; left: 0; right: 0; bottom: 0; max-height: 84vh; box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain; background: #fff; color: var(--ink); border-radius: 16px 16px 0 0; padding: 26px 24px calc(28px + env(safe-area-inset-bottom)); box-shadow: 0 -10px 40px rgba(20,18,14,.25); font-family: var(--gordita);
+  transform: translateY(100%); transition: transform .5s cubic-bezier(.45, 0, .2, 1); }
+.ins-sheet[hidden] { display: none; }
+.ins-sheet.is-open { transform: none; }
+.ins-sheet-grip { position: absolute; top: 9px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: #d9d6d1; }
+.ins-sheet .ins-spec-x { position: absolute; top: 14px; right: 12px; width: 40px; height: 40px; padding: 0; background: none; border: 0; color: var(--ink); }
+.ins-sheet .ins-spec-x svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.ins-sheet .ins-sp-name { margin: 6px 0 0; padding-right: 44px; font-family: var(--aviano); font-weight: 900; font-size: 26px; line-height: 1.1; letter-spacing: -0.02em; }
+.ins-sheet .ins-sp-kind { margin: 6px 0 0; font-size: 15px; line-height: 21px; color: var(--orange-deep); }
+.ins-sheet .ins-sp-plan { margin-top: 16px; aspect-ratio: 739.28 / 408.77; background: #F8F8F7 center / contain no-repeat; display: grid; place-items: center; font-size: 11px; color: #6b6158; }
+.ins-sheet .ins-sp-plan.has-img { color: transparent; }
+.ins-sheet .ins-sp-plan::after { content: attr(data-ph); }
+.ins-sheet .ins-sp-plan.has-img::after { content: none; }
+.ins-sheet .ins-sp-code { margin: 10px 0 0; font-weight: 700; font-size: 15px; line-height: 21px; }
+.ins-sheet .ins-sp-list { margin: 16px 0 0; padding: 0; }
+.ins-sheet .ins-sp-row { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid #e4e2de; }
+.ins-sheet .ins-sp-row:last-child { border-bottom: 1px solid #e4e2de; }
+.ins-sheet .ins-sp-row dt { font-family: var(--aviano); font-weight: 900; font-size: 11px; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; color: #6b6158; }
+.ins-sheet .ins-sp-row dd { margin: 0; font-size: 14px; line-height: 20px; }
+.ins-sheet .ins-sp-row.is-tbc dd { color: #8d857b; }
+.ins-sheet .ins-sp-note { margin: 12px 0 0; font-size: 12px; line-height: 17px; color: #6b6158; }
+.ins-sheet .ins-sp-cta { display: block; margin-top: 18px; text-align: center; }
+}

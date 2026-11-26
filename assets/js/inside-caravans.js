@@ -3,7 +3,7 @@
    The panel slides in from the LEFT as a list of rows (the chosen sample).
    Specs are the stock vans shown in each reel (wonderlandrv.com.au/stock listings), to be checked against the production jotform. */
 (function () {
-  if (!window.matchMedia("(min-width: 901px)").matches) return;
+  var DESK = window.matchMedia("(min-width: 901px)").matches;
   var faq = document.querySelector("section.faq");
   if (!faq) return;
   var VAR = "1", ANIM = "slide";
@@ -41,6 +41,7 @@
   var AR = '<svg viewBox="0 0 24 24"><path d="%d"/></svg>';
   var SND = '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="x" d="M17 9l4 6M21 9l-4 6"/></svg>';
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+  if (!DESK) { phone(); return; }
 
   var sec = document.createElement("section");
   sec.className = "ins";
@@ -181,4 +182,79 @@
   requestAnimationFrame(show);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(show);
 
+
+  /* ======================= PHONE: a swipe rail, the centred reel plays, a tap on it opens the specs as a bottom sheet ======================= */
+  function phone() {
+    var P_ROWS = [["Tare", "tare"], ["Sleeps", "sleeps"], ["Suspension", "susp"], ["Electrical", "elec"], ["Water", "water"]];
+    var sec = document.createElement("section");
+    sec.className = "ins ins--phone"; sec.setAttribute("aria-label", "Different layouts we offer");
+    sec.innerHTML = '<h2 class="ins-title">Different layouts we offer</h2><p class="ins-lede">Discover the layouts in the vans we’ve built.</p><div class="ins-rail" tabindex="0"></div>';
+    var rail = sec.querySelector(".ins-rail"), cur = -1, inView = false, sheetOpen = false;
+    var cards = CARDS.map(function (c, i) {
+      var hasCode = c.s.code !== TBC, el = document.createElement("div");
+      el.className = "ins-pc"; el.setAttribute("role", "button");
+      el.setAttribute("aria-label", c.name + (hasCode ? " " + c.s.code : "") + ", " + c.type);
+      el.innerHTML = '<div class="ins-media"><img src="' + c.img + '" alt="' + c.name + (hasCode ? " " + c.s.code : "") + " " + c.type + '" loading="lazy">' +
+        '<video src="' + c.video + '" poster="' + c.img + '" muted loop playsinline preload="none"></video>' +
+        '<button class="ins-snd is-muted" type="button" aria-label="Sound on or off">' + SND + '</button>' +
+        '<div class="ins-over"><div class="ins-name"><span>' + c.name + '</span><i class="ins-div" aria-hidden="true"></i><em>' + c.type + '</em></div>' + (hasCode ? '<div class="ins-sub">' + c.s.code + '</div>' : '') +
+        '<span class="ins-more">Specifications ' + AR.replace("%d", "M9 5l7 7-7 7") + '</span></div></div>';
+      el.addEventListener("click", function (e) {
+        if (e.target.closest(".ins-snd")) { var v = el.querySelector("video"); v.muted = !v.muted; e.target.closest(".ins-snd").classList.toggle("is-muted", v.muted); return; }
+        if (i !== cur) { el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); return; }
+        openSheet(i);
+      });
+      rail.appendChild(el); return el;
+    });
+    function setCur(i) {
+      if (i === cur) return; cur = i;
+      cards.forEach(function (el, k) {
+        var on = k === i, v = el.querySelector("video"); el.classList.toggle("is-on", on);
+        if (on && inView) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else { v.pause(); if (!on) { v.muted = true; el.querySelector(".ins-snd").classList.add("is-muted"); try { v.currentTime = 0; } catch (e) {} } }
+      });
+    }
+    function nearest() {
+      var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, bd = 1e9;
+      cards.forEach(function (el, k) { var d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = k; } });
+      setCur(best);
+    }
+    var ticking = false;
+    rail.addEventListener("scroll", function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; nearest(); }); }, { passive: true });
+    window.addEventListener("resize", nearest);
+
+    /* the sheet */
+    var scrim = document.createElement("div"); scrim.className = "ins-scrim";
+    var sheet = document.createElement("aside"); sheet.className = "ins-sheet"; sheet.setAttribute("role", "dialog"); sheet.setAttribute("aria-modal", "true"); sheet.setAttribute("aria-label", "Specifications"); sheet.hidden = true;
+    document.body.appendChild(scrim); document.body.appendChild(sheet);
+    function sheetHTML(c) {
+      var rows = P_ROWS.map(function (r) { var v = c.s[r[1]]; return '<div class="ins-sp-row' + (v === TBC ? " is-tbc" : "") + '"><dt>' + r[0] + '</dt><dd>' + esc(v) + "</dd></div>"; }).join("");
+      var hasCode = c.s.code !== TBC, hasLen = c.s.len !== TBC;
+      return '<div class="ins-sheet-grip" aria-hidden="true"></div><button class="ins-spec-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19"/></svg></button>' +
+        '<h3 class="ins-sp-name">' + c.name + '</h3><p class="ins-sp-kind">' + c.kind + " · " + c.type + (hasLen ? " · " + c.s.len : "") + '</p>' +
+        (hasCode ? '<div class="ins-sp-plan" data-ph="FLOORPLAN — ' + c.s.code + '"></div><p class="ins-sp-code">' + c.s.code + '</p>' : '') +
+        '<dl class="ins-sp-list">' + rows + '</dl><p class="ins-sp-note">Specifications are for the van in the reel. Subject to change.</p>' +
+        '<a class="btn-solid ins-sp-cta" href="range.html">Find your caravan</a>';
+    }
+    var closeT = 0;
+    function openSheet(i) {
+      clearTimeout(closeT); sheet.innerHTML = sheetHTML(CARDS[i]); sheet.hidden = false; sheet.scrollTop = 0;
+      sheet.querySelector(".ins-spec-x").addEventListener("click", closeSheet);
+      var plan = sheet.querySelector(".ins-sp-plan");
+      if (plan) { var img = new Image(); img.onload = function () { plan.style.backgroundImage = 'url("' + img.src + '")'; plan.classList.add("has-img"); }; img.src = "assets/img/build/plans/" + CARDS[i].s.code + ".webp"; }
+      void sheet.offsetWidth; scrim.classList.add("is-open"); sheet.classList.add("is-open"); document.body.classList.add("ins-lock"); sheetOpen = true;
+    }
+    function closeSheet() { if (!sheetOpen) return; sheetOpen = false; scrim.classList.remove("is-open"); sheet.classList.remove("is-open"); document.body.classList.remove("ins-lock"); closeT = setTimeout(function () { sheet.hidden = true; }, 480); }
+    scrim.addEventListener("click", closeSheet);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });
+    /* swipe the sheet down to close it */
+    var y0 = null;
+    sheet.addEventListener("touchstart", function (e) { y0 = sheet.scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive: true });
+    sheet.addEventListener("touchend", function (e) { if (y0 !== null && e.changedTouches[0].clientY - y0 > 70) closeSheet(); y0 = null; }, { passive: true });
+
+    faq.parentNode.insertBefore(sec, faq);
+    rail.scrollLeft = 0; nearest();
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) { inView = es[0].isIntersecting; var k = cur; cur = -1; setCur(Math.max(k, 0)); }, { threshold: 0.35 }).observe(rail);
+    } else { inView = true; setCur(0); }
+  }
 })();
