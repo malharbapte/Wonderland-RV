@@ -4,16 +4,16 @@
 .lp-top { padding: 1.1rem 0 0; }
 .lp-title { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; letter-spacing: -0.02em; }
 
-/* the two plans: widen the one you point at, as the homepage's "dream van" tiles do */
-.lp-plans { --vx-ease: cubic-bezier(.33, 0, .18, 1); --vx-t: 1.3s; margin-top: 0.7rem; display: grid; gap: 0.12rem; height: 5.1rem;
+/* the two plans: widen the one you point at. Timing and curve are the homepage's "dream van awaits" (1.3s, cubic-bezier(.45,0,.2,1)): the reference for every grow-on-hover on the site */
+.lp-plans { --vx-ease: cubic-bezier(.45, 0, .2, 1); --vx-t: 1.3s; margin-top: 0.7rem; display: grid; gap: 0.12rem; height: 5.1rem;
   grid-template-columns: var(--w1, 1fr) var(--w2, 2fr); transition: grid-template-columns var(--vx-t) var(--vx-ease); }
-.lp-plans[data-open="1"] { --w1: 2fr; --w2: 1fr; }
-.lp-plans[data-open="2"] { --w1: 1fr; --w2: 3fr; }
+.lp-plans[data-open="1"] { --w1: 1.7fr; }
+.lp-plans[data-open="2"] { --w2: 2.7fr; }
 .lp-plan { position: relative; margin: 0; min-width: 0; overflow: hidden; background: #fff; border: 1px solid #e4e2de; cursor: default; }
 .lp-plan img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.2rem; box-sizing: border-box; }
 .lp-plan figcaption { position: absolute; left: 0.2rem; bottom: 0.14rem; font-family: var(--aviano); font-weight: 900; font-size: var(--t-cap); letter-spacing: .08em; text-transform: uppercase; color: #6b6158; }
 
-.lp-actions { --vx-ease: cubic-bezier(.33, 0, .18, 1); --vx-t: 1.3s; margin-top: 0.14rem; display: grid; grid-template-columns: var(--c1, 1.9fr) var(--c2, 1fr); gap: 0.12rem; transition: grid-template-columns var(--vx-t) var(--vx-ease); }
+.lp-actions { --vx-ease: cubic-bezier(.45, 0, .2, 1); --vx-t: 1.3s; margin-top: 0.14rem; display: grid; grid-template-columns: var(--c1, 1.9fr) var(--c2, 1fr); gap: 0.12rem; transition: grid-template-columns var(--vx-t) var(--vx-ease); }
 /* the button you point at grows, as the plan boxes above do */
 .lp-actions:has(.lp-btn--dark:hover), .lp-actions:has(.lp-btn--dark:focus-visible) { --c1: 2.6fr; }
 .lp-actions:has(.lp-btn--orange:hover), .lp-actions:has(.lp-btn--orange:focus-visible) { --c1: 1.3fr; --c2: 1.1fr; }
@@ -48,7 +48,7 @@
 
 /* marketing photos of vans with this layout: near full width, the one you point at grows */
 .lp-gal-wrap { margin-top: 0.9rem; padding: 0 0.12rem; }
-.lp-gal { --vx-ease: cubic-bezier(.33, 0, .18, 1); --vx-t: 1.3s; display: grid; gap: 0.12rem; height: 8.4rem; grid-template-columns: var(--w1, 1fr) var(--w2, 1fr) var(--w3, 1fr); transition: grid-template-columns var(--vx-t) var(--vx-ease); }
+.lp-gal { --vx-ease: cubic-bezier(.45, 0, .2, 1); --vx-t: 1.3s; display: grid; gap: 0.12rem; height: 8.4rem; grid-template-columns: var(--w1, 1fr) var(--w2, 1fr) var(--w3, 1fr); transition: grid-template-columns var(--vx-t) var(--vx-ease); }
 .lp-gal[data-open="1"] { --w1: 1.7fr; } .lp-gal[data-open="2"] { --w2: 1.7fr; } .lp-gal[data-open="3"] { --w3: 1.7fr; }
 .lp-gcol { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; min-height: 0; }
 .lp-ph { position: relative; flex: var(--g, 1) 1 0; min-height: 0; overflow: hidden; background: #222; transition: flex-grow var(--vx-t) var(--vx-ease); }
