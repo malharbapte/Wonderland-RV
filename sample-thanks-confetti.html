@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Confetti options — Wonderland RV</title><meta name="robots" content="noindex">
-<link rel="stylesheet" href="assets/css/styles.css?v=329">
+<link rel="stylesheet" href="assets/css/styles.css?v=403">
 <style>
 body{background:#fff}
 .cf{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 16px;gap:28px}
@@ -22,7 +22,7 @@ body{background:#fff}
     <button data-m="rain">C &middot; Rain<small>Gentle fall, with the logo&rsquo;s mountain shape</small></button>
   </div>
 </main>
-<script src="assets/js/confetti.js?v=3"></script>
+<script src="assets/js/confetti.js?v=4"></script>
 <script>
 document.querySelectorAll("button[data-m]").forEach(function(b){b.addEventListener("click",function(){wlConfetti(b.dataset.m)})});
 if(location.hash.slice(1))setTimeout(function(){wlConfetti(location.hash.slice(1))},400);
