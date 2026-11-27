@@ -94,3 +94,7 @@
   /* the old phone Why (the portrait accordion) and the old Caravans built strip give way to this section */
   .band--why, .stat-band { display: none; }
 }
+
+/* tiles whose photo is still to come (the old ply-construction photos were removed) */
+.wd--tbc { background: #2b2a28; cursor: default; }
+.wd-ph { position: absolute; inset: 0; display: grid; place-items: center; padding-bottom: 0.5rem; color: rgba(255, 255, 255, .5); font-family: var(--gordita); font-size: max(0.17rem, 12px); letter-spacing: .04em; }

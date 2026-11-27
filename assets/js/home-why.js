@@ -3,7 +3,7 @@
   var pad = function (n) { return (n < 10 ? "0" : "") + n; };
   var lb = document.querySelector(".wyc-lb"), lbImg = lb && lb.querySelector("img"), lbCap = lb && lb.querySelector("figcaption"), lbSet = [], lbAt = 0, lbOpener = null;
   function lbShow(i) { lbAt = (i + lbSet.length) % lbSet.length; var t = lbSet[lbAt], b = t.querySelector(".wd-c b"); lbImg.src = t.querySelector("img").getAttribute("src"); lbCap.innerHTML = "<b>" + b.textContent + "</b>" + b.nextElementSibling.textContent; }
-  function lbOpen(list, i, o) { lbSet = list; lbOpener = o; lbShow(i); lb.hidden = false; lb.querySelector(".wyc-x").focus(); }
+  function lbOpen(list, i, o) { var keep = list.filter(function (t) { return t.querySelector("img"); }); i = keep.indexOf(list[i]); if (i < 0) return; lbSet = keep; lbOpener = o; lbShow(i); lb.hidden = false; lb.querySelector(".wyc-x").focus(); }
   function lbClose() { lb.hidden = true; lbImg.removeAttribute("src"); if (lbOpener) lbOpener.focus(); }
 
   [].forEach.call(document.querySelectorAll("[data-wyc]"), function (s) {
@@ -52,6 +52,7 @@
       if (moved) { moved = false; e.preventDefault(); return; }
       var k = all.indexOf(card);
       if (card.classList.contains("is-out")) { go(k < idx ? -1 : 1); return; }
+      if (card.classList.contains("wd--tbc")) return;   /* no photo yet, nothing to enlarge */
       lbOpen(orig, +card.dataset.i, card);
     });
     tr.addEventListener("focusin", function (e) { var card = e.target.closest(".wd"), k = all.indexOf(card); if (k > -1 && (k < idx || k >= idx + VIS)) { idx = k < idx ? k : k - VIS + 1; place(true); } });
