@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make it your own: plans and specs</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=403">
+<style>
+body{background:#fff;color:var(--ink,#231F20);margin:0;padding:28px 24px 60px;font-family:var(--gordita,system-ui)}
+h1{font-family:var(--aviano,system-ui);font-weight:900;font-size:26px;margin:0 0 8px}
+p{margin:0 0 22px;font-size:15px;line-height:1.5;max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.pk{margin:0}.pk button{display:block;width:100%;padding:0;border:0;background:#222;cursor:zoom-in;aspect-ratio:3/4;overflow:hidden}
+.pk img{width:100%;height:100%;object-fit:cover;display:block}
+.pk figcaption{margin-top:6px;font-family:var(--aviano,system-ui);font-weight:900;font-size:13px;letter-spacing:.06em}.pk small{font-family:var(--gordita,system-ui);font-weight:400;color:#6b6158;letter-spacing:0}
+.lb{position:fixed;inset:0;z-index:99;background:rgba(12,11,10,.96);display:none;place-items:center;cursor:zoom-out}.lb.on{display:grid}.lb img{max-width:96vw;max-height:94vh;object-fit:contain}
+</style></head><body>
+<h1>Make it your own: plans and specs</h1>
+<p>Same Colour Appointment shoot as the current photo, now with the printed spec sheet on the table. C17 is closest to &ldquo;doing their plans and specs&rdquo;. Click to enlarge. Tell me the number.</p>
+<div class="grid"><figure class="pk"><button type="button" data-src="assets/img/sample/ownit2/C16.webp" aria-label="Enlarge C16"><img src="assets/img/sample/ownit2/C16.webp" alt="" loading="lazy"></button><figcaption>C16 <small>Spec sheet on the table, consultant standing</small></figcaption></figure><figure class="pk"><button type="button" data-src="assets/img/sample/ownit2/C17.webp" aria-label="Enlarge C17"><img src="assets/img/sample/ownit2/C17.webp" alt="" loading="lazy"></button><figcaption>C17 <small>Pointing at the spec sheet, plan in front</small></figcaption></figure><figure class="pk"><button type="button" data-src="assets/img/sample/ownit2/C18.webp" aria-label="Enlarge C18"><img src="assets/img/sample/ownit2/C18.webp" alt="" loading="lazy"></button><figcaption>C18 <small>Reviewing laminate samples beside the spec sheet</small></figcaption></figure><figure class="pk"><button type="button" data-src="assets/img/sample/ownit2/C5.webp" aria-label="Enlarge C5"><img src="assets/img/sample/ownit2/C5.webp" alt="" loading="lazy"></button><figcaption>C5 <small>Laminate samples, laptop open</small></figcaption></figure><figure class="pk"><button type="button" data-src="assets/img/sample/ownit2/C6.webp" aria-label="Enlarge C6"><img src="assets/img/sample/ownit2/C6.webp" alt="" loading="lazy"></button><figcaption>C6 <small>Close, couple checking a sample</small></figcaption></figure></div>
+<div class="lb" id="lb"><img alt=""></div>
+<script>var lb=document.getElementById("lb");document.addEventListener("click",function(e){var b=e.target.closest(".pk button");if(b){lb.querySelector("img").src=b.getAttribute("data-src");lb.classList.add("on");}else if(e.target.closest("#lb")){lb.classList.remove("on");}});document.addEventListener("keydown",function(e){if(e.key==="Escape")lb.classList.remove("on")});</script>
+</body></html>
