@@ -1,7 +1,7 @@
-/* "Inside our caravans": a row of tall reels above the FAQs, the chosen one wider and playing. Light grey band (#F8F8F7). DESKTOP ONLY.
+/* "Inside our caravans": a row of tall reels above the FAQs, the chosen one wider and playing. White band, light-grey (#F8F8F7) specs column. DESKTOP ONLY.
    assets/js/inside-caravans.js builds it. */
 @media (min-width: 901px) {
-.ins { --bg: #F8F8F7; --card: #fff; --line: #cfcdc8; --fg: var(--ink); --dim: #6b6158;
+.ins { --bg: #fff; --card: #F8F8F7; --line: #cfcdc8; --fg: var(--ink); --dim: #6b6158;
   width: 100vw; margin-left: calc(50% - 50vw); box-sizing: border-box; background: var(--bg); color: var(--fg); padding: 1.2rem 0 0.9rem; overflow: hidden; position: relative; }
 .ins-title { width: var(--col); margin: 0 auto 0.24rem; font-family: var(--aviano); font-weight: 900; font-size: 0.56rem; line-height: 0.455rem; letter-spacing: -0.02em; color: var(--fg); }
 .ins-lede { width: var(--col); margin: 0 auto 0.5rem; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
@@ -51,7 +51,7 @@
 
 /* ---- the specification side menu: docked inside the section on the page edge, built like the Layouts rail on the Range page.
    Same width (4.96rem) and curve; shut, it is fully off screen (nothing peeks out). White ground, soft shadow, no outline. ---- */
-.ins-spec { --pw: 4.26rem; position: absolute; z-index: 6; top: 50%; left: 0; width: var(--pw); height: auto; max-height: calc(100% - 0.6rem); display: flex; box-sizing: border-box; background: #fff; color: var(--ink);
+.ins-spec { --pw: 4.26rem; position: absolute; z-index: 6; top: 50%; left: 0; width: var(--pw); height: auto; max-height: calc(100% - 0.6rem); display: flex; box-sizing: border-box; background: #F8F8F7; color: var(--ink);
             border-radius: 0 0.05rem 0.05rem 0; box-shadow: 0 0.06rem 0.34rem rgba(20, 18, 14, .16); font-family: var(--gordita); overflow: hidden;
             transform: translate(-100%, -50%); visibility: hidden; transition: transform .4s cubic-bezier(.33, 0, .18, 1), visibility 0s linear .4s; }
 .ins-spec.is-open { transform: translate(0, -50%); visibility: visible; transition: transform .4s cubic-bezier(.33, 0, .18, 1); }
@@ -68,7 +68,7 @@
 .ins-sp-len { font-family: var(--gordita); font-weight: 400; font-size: var(--t-annb); letter-spacing: 0; text-transform: none; color: var(--orange-deep); white-space: nowrap; }
 .ins-sp-name { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: 0.34rem; line-height: 1.05; letter-spacing: -0.02em; }
 .ins-sp-kind { margin: 0.05rem 0 0; font-size: var(--t-annb); line-height: 1.3; color: var(--orange-deep); }
-.ins-sp-plan { flex: 1 1 0; min-height: 0.7rem; aspect-ratio: auto; margin-top: clamp(8px, 1.6vh, 0.2rem); background: #F8F8F7 center / contain no-repeat; display: grid; place-items: center; font-size: var(--t-cap); color: #6b6158; letter-spacing: .04em; }
+.ins-sp-plan { flex: 1 1 0; min-height: 0.7rem; aspect-ratio: auto; margin-top: clamp(8px, 1.6vh, 0.2rem); background: #fff center / contain no-repeat; display: grid; place-items: center; font-size: var(--t-cap); color: #6b6158; letter-spacing: .04em; }
 .ins-sp-plan.has-img { color: transparent; }
 .ins-sp-plan::after { content: attr(data-ph); }
 .ins-sp-plan.has-img::after { content: none; }
@@ -88,7 +88,7 @@
 .ins-mode button + button { border-left: 1px solid #cfcdc8; }
 .ins-mode button.is-on { background: var(--ink); color: #fff; }
 .ins--post .ins-spec { display: none; }
-.ins-post { position: absolute; z-index: 1; left: 0; top: 50%; width: var(--wc); box-sizing: border-box; display: none; background: #fff; color: var(--ink); font-family: var(--gordita); box-shadow: 0 0.04rem 0.24rem rgba(20, 18, 14, .14); overflow: hidden;
+.ins-post { position: absolute; z-index: 1; left: 0; top: 50%; width: var(--wc); box-sizing: border-box; display: none; background: #F8F8F7; color: var(--ink); font-family: var(--gordita); box-shadow: 0 0.04rem 0.24rem rgba(20, 18, 14, .14); overflow: hidden;
             visibility: visible; transition: transform .9s cubic-bezier(.45, 0, .2, 1), visibility 0s linear 0s; will-change: transform; }
 .ins--post .ins-post { display: flex; }
 .ins-post.is-shut { visibility: hidden; transition: transform .9s cubic-bezier(.45, 0, .2, 1), visibility 0s linear .9s; }   /* hides only once it has slid behind the reel */
