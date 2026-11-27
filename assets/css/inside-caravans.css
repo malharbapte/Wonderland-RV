@@ -38,7 +38,7 @@
 
 /* ---- foot: the arrows centred, the CTA at the right ---- */
 @media (min-width: 901px) {
-.ins-cap { margin: -0.25rem 0 0 var(--pw, 4.26rem); width: auto; white-space: nowrap; text-align: left; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
+.ins-cap { position: absolute; left: 0.4rem; margin: 0; white-space: nowrap; text-align: left; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
 .ins-cap a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 0.04rem; transition: color .3s ease; }
 .ins-cap a:hover { color: var(--orange); }
 .ins-foot { margin: 0.35rem auto 0; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }

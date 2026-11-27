@@ -136,6 +136,7 @@
     panel.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     sec.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     panel.style.height = Math.round(W * r * 16 / 9) + "px"; fitNote();   /* as tall as the reels either side of the chosen one */
+    var cap = sec.querySelector(".ins-cap"); if (cap) cap.style.top = Math.round(mid + W * r * 16 / 9 / 2 + 0.18 * r) + "px";   /* caption sits right under the side reels / specs column */
     panel.style.top = Math.round(mid) + "px"; panel.style.maxHeight = Math.round(2 * (mid - floor)) + "px";
     if (opened) fill(at);
   }
