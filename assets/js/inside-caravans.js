@@ -109,7 +109,7 @@
     try { localStorage.setItem("insMode2", m); } catch (e) {}
     sec.classList.toggle("ins--post", m === "post");
     [].forEach.call(sec.querySelectorAll(".ins-mode button"), function (b) { b.classList.toggle("is-on", b.getAttribute("data-m") === m); b.setAttribute("aria-pressed", b.getAttribute("data-m") === m); });
-    if (m === "post") { closeSpec(); postAt = -1; } else if (secIn) openSpec();
+    if (m === "post") { closeSpec(); postAt = -1; } else if (secIn && !userShut) openSpec();
     show();
   }
   sec.querySelector(".ins-mode").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setMode(b.getAttribute("data-m")); });
@@ -218,15 +218,14 @@
   }
   function openSpec() { if (MODE === "post") return; fill(at); opened = true; panel.classList.add("is-open"); }
   function closeSpec() { opened = false; panel.classList.remove("is-open"); }
-  body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) closeSpec(); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeSpec(); if (MODE === "post" && postOpen) setPost(false); } });
-  /* a click anywhere outside the panel shuts it; the reels and arrows only change what it shows */
-  document.addEventListener("click", function (e) { if (opened && !e.target.closest(".ins-spec, .ins-card, .ins-arrow")) closeSpec(); });
+  /* the specs are there from the start and stay open until the visitor closes them (the cross, or Esc); they do not shut on a click elsewhere or when the section scrolls away */
+  var userShut = false;
+  body.addEventListener("click", function (e) { if (e.target.closest(".ins-spec-x")) { userShut = true; closeSpec(); } });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { userShut = true; closeSpec(); if (MODE === "post" && postOpen) setPost(false); } });
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) {
       var e = es[0];
-      if (!e.isIntersecting) { secIn = false; closeSpec(); }
-      else if (e.intersectionRatio >= 0.2 && !secIn) { secIn = true; openSpec(); }
+      if (e.isIntersecting && e.intersectionRatio >= 0.2) { secIn = true; if (!userShut && !opened) openSpec(); }
     }, { threshold: [0, 0.2] }).observe(sec);
   }
 
