@@ -134,6 +134,7 @@
     var lede = sec.querySelector(".ins-lede"), mid = stage.offsetTop + stage.offsetHeight / 2, floor = lede.offsetTop + lede.offsetHeight + 0.2 * r;
     var pw = stage.clientWidth / 2 - (WC / 2 + W + 2 * GAP) * r;
     panel.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
+    sec.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     panel.style.height = Math.round(W * r * 16 / 9) + "px"; fitNote();   /* as tall as the reels either side of the chosen one */
     panel.style.top = Math.round(mid) + "px"; panel.style.maxHeight = Math.round(2 * (mid - floor)) + "px";
     if (opened) fill(at);
