@@ -58,7 +58,7 @@
 .lp-gcol:nth-child(1) .lp-ph:nth-child(2), .lp-gcol:nth-child(3) .lp-ph:nth-child(1) { --g: 1; }
 .lp-ph.on { --g: 1.5 !important; }
 
-.lp-360 { margin-top: 0.9rem; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100vh - 1.43rem); height: calc(100svh - 1.43rem); scroll-margin-top: 1.43rem; background: var(--lp-grey); display: grid; place-items: center; font-family: var(--gordita); font-size: var(--t-body); color: #6b6158; }
+.lp-360 { margin: 0.9rem auto 0; width: var(--col); aspect-ratio: 16 / 9; height: auto; scroll-margin-top: 1.43rem;   /* same as wonderlandrv.com.au layout pages: a 16:9 box in the page column */ background: var(--lp-grey); display: grid; place-items: center; font-family: var(--gordita); font-size: var(--t-body); color: #6b6158; }
 
 .lp-sim { margin-top: 0; padding: 0.7rem 0 0.9rem; width: 100vw; margin-left: calc(50% - 50vw); background: linear-gradient(to bottom, #F8F8F7 0%, #F8F8F7 62%, #fff 100%); }
 .lp-h2 { margin: 0; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1; letter-spacing: -0.02em; }
@@ -92,8 +92,8 @@ body.lb-lock { overflow: hidden; }
 .lb { position: fixed; inset: 0; z-index: 100000; display: grid; place-items: center; background: rgba(12, 11, 10, .97); opacity: 0; transition: opacity .35s ease; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 .lb[hidden] { display: none; }
 .lb.is-open { opacity: 1; }
-.lb-stage { width: min(88vw, 190vh); height: 82vh; height: 82dvh; display: grid; place-items: center; overflow: hidden; }
-.lb-img { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; will-change: opacity, transform; -webkit-user-drag: none; }
+.lb-stage { position: relative; width: min(88vw, 190vh); height: 82vh; height: 82dvh; overflow: hidden; }   /* fixed box: the photo is laid over it with contain, so the whole photo always fits whatever its shape */
+.lb-img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; will-change: opacity, transform; -webkit-user-drag: none; }
 .lb-x, .lb-nav { position: absolute; background: rgba(12, 11, 10, .55); border: 1px solid rgba(255,255,255,.4); color: #fff; border-radius: 50%; cursor: pointer; display: grid; place-items: center; padding: 0; transition: background .25s ease, border-color .25s ease, color .25s ease; z-index: 2; }
 .lb-x:hover, .lb-nav:hover, .lb-x:focus-visible, .lb-nav:focus-visible { background: var(--orange); border-color: var(--orange); outline: none; }
 .lb-x { top: 20px; right: 20px; width: 48px; height: 48px; }

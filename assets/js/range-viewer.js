@@ -24,7 +24,7 @@ function rvxInit() {
 
   /* Features and price are quoted from wonderlandrv.com.au/range/<model>/.
      The fourth cell is the standard battery (it replaced Brakes, 2026-11-27): Amaroo 300Ah, Hornet 400Ah, Solara 400Ah (lithium),
-     XTR 11kWh (the 24V option; the 12V option is 900Ah). */
+     XTR 900Ah (the 12V option; shown in Ah, not kWh, per Malhar 2026-11-27). */
   var MODELS = [
     { id: "amaroo", name: "Amaroo", tag: "Classic off-road", price: "$127,288",
       badges: [],
@@ -52,7 +52,7 @@ function rvxInit() {
       spec: [["solar", "Solar", "1000W", "VICTRON 24V"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER ATX L5 BCS"],
-             ["batt",  "Battery", "11KWH", "LITHIUM"]] }
+             ["batt",  "Battery", "900AH", "LITHIUM"]] }
   ];
 
   var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';

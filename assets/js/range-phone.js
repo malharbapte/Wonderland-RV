@@ -40,7 +40,7 @@
       spec: [["solar", "Solar", "1000W", "VICTRON 24V"],
              ["water", "Water", "290L", "200L + 90L DRINKING"],
              ["susp",  "Suspension", "AIRBAG", "CRUISEMASTER ATX L5 BCS"],
-             ["batt",  "Battery", "11KWH", "LITHIUM"]] }
+             ["batt",  "Battery", "900AH", "LITHIUM"]] }
   ];
 
   /* The spec icons were dropped for the Lotus-style row, and with them the drawings. */

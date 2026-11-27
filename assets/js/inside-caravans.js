@@ -48,9 +48,10 @@
   sec.setAttribute("aria-label", "Different layouts we offer");
   sec.style.setProperty("--w", W + "rem"); sec.style.setProperty("--wc", WC + "rem"); sec.style.setProperty("--gap", GAP + "rem");
   /* two ways to show the specs: the side menu on the page edge, or a card beside the chosen reel (like an Instagram post, with the info on the left) */
-  var MODE = (location.search.match(/[?&]mode=(menu|post)/) || [])[1] || (function () { try { return localStorage.getItem("insMode"); } catch (e) { return null; } })() || window.INS_MODE_DEFAULT || "menu";
+  var MODE = (location.search.match(/[?&]mode=(menu|post)/) || [])[1] || (function () { try { return localStorage.getItem("insMode2"); } catch (e) { return null; } })() || window.INS_MODE_DEFAULT || "post";
   if (MODE !== "post") MODE = "menu";
   sec.classList.toggle("ins--post", MODE === "post");
+  if (/[?&]dark=1/.test(location.search)) sec.classList.add("ins--dark");   /* PREVIEW of a very dark grey specs column (#1d1d1b); not on by default */
   sec.innerHTML =
     '<div class="ins-mode" role="group" aria-label="How the specifications are shown"><button type="button" data-m="menu">Side menu</button><button type="button" data-m="post">Beside the reel</button></div>' +
     '<h2 class="ins-title">Different layouts we offer</h2>' +
@@ -105,7 +106,7 @@
   }
   function setMode(m) {
     if (m === MODE) return; MODE = m;
-    try { localStorage.setItem("insMode", m); } catch (e) {}
+    try { localStorage.setItem("insMode2", m); } catch (e) {}
     sec.classList.toggle("ins--post", m === "post");
     [].forEach.call(sec.querySelectorAll(".ins-mode button"), function (b) { b.classList.toggle("is-on", b.getAttribute("data-m") === m); b.setAttribute("aria-pressed", b.getAttribute("data-m") === m); });
     if (m === "post") { closeSpec(); postAt = -1; } else if (secIn) openSpec();

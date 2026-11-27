@@ -39,6 +39,7 @@
 /* ---- foot: the arrows centred, the CTA at the right ---- */
 @media (min-width: 901px) {
 .ins-cap { position: absolute; left: 0.4rem; margin: 0; white-space: nowrap; text-align: left; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
+.ins--post .ins-cap { position: static; margin: 0.3rem 0 0; width: 100%; text-align: center; }   /* beside-the-reel view: centred under the reels (the card would cover it at the left) */
 .ins-cap a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 0.04rem; transition: color .3s ease; }
 .ins-cap a:hover { color: var(--orange); }
 .ins-foot { margin: 0.35rem auto 0; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
@@ -109,6 +110,16 @@
 .ins-bar b { font-weight: 600; color: #bbb; }
 .ins-bar a { white-space: nowrap; color: #fff; text-decoration: none; padding: 6px 11px; border-radius: 20px; border: 1px solid #555; }
 .ins-bar a.is-cur { background: #DB7627; border-color: #DB7627; }
+
+/* PREVIEW (?dark=1): the specs column and the beside-the-reel card in WL's very dark grey */
+.ins--dark .ins-spec, .ins--dark .ins-post { background: #1d1d1b; color: #fff; box-shadow: 0 0.06rem 0.34rem rgba(20, 18, 14, .35); }
+.ins--dark .ins-spec-x, .ins--dark .ins-sp-code { color: #fff; }
+.ins--dark .ins-spec-x:hover, .ins--dark .ins-spec-x:focus-visible { color: var(--orange); }
+.ins--dark .ins-sp-row { border-top-color: rgba(255, 255, 255, .16); }
+.ins--dark .ins-sp-row:last-child { border-bottom-color: rgba(255, 255, 255, .16); }
+.ins--dark .ins-sp-row dt, .ins--dark .ins-sp-note { color: rgba(255, 255, 255, .62); }
+.ins--dark .ins-sp-row dd { color: #fff; }
+.ins--dark .ins-sp-row.is-tbc dd { color: rgba(255, 255, 255, .5); }
 }
 
 /* ======================= PHONE: swipe rail + specs bottom sheet (rem is a flat 16px here, so sizes are px) ======================= */

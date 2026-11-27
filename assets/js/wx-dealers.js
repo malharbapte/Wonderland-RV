@@ -51,10 +51,10 @@
       photos: [ { src: "outbound-rvs-building.jpg", alt: "Outbound RVs showroom, Campbellfield" } ], locs: [
       { city: "Melbourne", addr: "58B Lara Way, Campbellfield VIC 3061",
         tel: "(03) 9958 6708", mail: "sales@outboundrvs.com.au" } ] },
-    /* Mission RV: details from missionrv.com.au. The site publishes no phone number, so none is shown;
+    /* Mission RV: details from missionrv.com.au. Phone 08 6285 6044 supplied by Malhar 2026-11-27;
        its Contact page says "Appointment only" and the Bellevue address is the one in the site's own listing. */
     wa: { name: "Mission RV Australia", url: "https://www.missionrv.com.au/", logo: "mission-rv.png", locs: [
-      { city: "Perth", addr: "135 Clayton Street, Bellevue WA 6056", mail: "jake@missionrv.com.au" } ] }
+      { city: "Perth", addr: "135 Clayton Street, Bellevue WA 6056", tel: "08 6285 6044", mail: "jake@missionrv.com.au" } ] }
   };
   /* every location knows its business name, so the Google preview searches "name, address" and pins the showroom by name */
   Object.keys(DEALERS).forEach(function (k) { DEALERS[k].locs.forEach(function (l) { l.biz = DEALERS[k].name; }); });

@@ -37,7 +37,7 @@
   if (wrap) {
     SIM.forEach(function (c, i) {
       var a = document.createElement("a");
-      a.className = "lp-card"; a.href = "range.html"; if (i > 2) a.hidden = true;
+      a.className = "lp-card"; a.href = "layout-am1806f-b2.html"; /* each card should open its own layout page; until those exist they all open this template */ if (i > 2) a.hidden = true;
       a.innerHTML = '<div class="lp-card-img" style="background-image:url(assets/img/build/plans/' + c[0] + '.webp)" role="img" aria-label="' + c[0] + ' floorplan"></div>' +
         "<h3>" + c[0] + "<small>" + c[1] + "</small></h3><p>" + c[2] + '</p><span class="lp-card-go">See details &gt;</span>';
       wrap.appendChild(a);
