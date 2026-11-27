@@ -1,5 +1,5 @@
 /* Factory tour pop-up: only what the Events pop-up's classes (events-popup.css) do not already give it. */
-.ftp-photo { background: #E4E2DE; display: grid; place-items: center; color: #6b6158; font-family: var(--gordita); }
+.ftp-photo { overflow: hidden; background: #E4E2DE; display: grid; place-items: center; color: #6b6158; font-family: var(--gordita); }
 @media (min-width: 901px) {
   .ftp-photo { margin-top: 0.4rem; aspect-ratio: 16 / 9; font-size: max(0.14rem, 11px); }
 }
@@ -7,3 +7,5 @@
   .evp-show.ftp-show { display: none; }   /* phone: no Where / When / On the tour */
   .ftp-photo { margin-top: 16px; aspect-ratio: 16 / 9; font-size: 12px; }
 }
+
+.ftp-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }

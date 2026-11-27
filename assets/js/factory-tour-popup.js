@@ -53,7 +53,7 @@
         '<div class="evp-left evp-left-in">' +
           '<h2 class="evp-title" id="ftpTitle">Book a factory tour</h2>' +
           '<p class="evp-sub">See where your Wonderland is built. Pick a day and we will confirm your tour.</p>' +
-          '<div class="ftp-photo" role="img" aria-label="Photo of the factory (to come)"><span>Factory photo</span></div>' +
+          '<div class="ftp-photo"><img src="assets/img/factory-tour-photo.jpg" width="1600" height="900" alt="A Wonderland RV team member wiring the frame of a caravan as it is built on the factory floor" loading="lazy" decoding="async"></div>' +
           '<div class="evp-show ftp-show">' +
             '<div class="evp-row"><small>Where</small><b>' + esc(TOUR.place) + "</b><span>" + esc(TOUR.addr) + "</span></div>" +
             (CAL === "c" ? '<div class="evp-row"><small>When</small><b id="ftpWhen">Choose a day and time</b><span>Tours run on weekdays. Our team will confirm your booking.</span></div>' : "") +
