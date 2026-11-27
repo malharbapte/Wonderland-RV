@@ -38,6 +38,9 @@
 
 /* ---- foot: the arrows centred, the CTA at the right ---- */
 @media (min-width: 901px) {
+.ins-cap { margin: 0.3rem auto 0; width: 100%; white-space: nowrap; text-align: center; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }
+.ins-cap a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 0.04rem; transition: color .3s ease; }
+.ins-cap a:hover { color: var(--orange); }
 .ins-foot { margin: 0.35rem auto 0; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
 .ins-stage { height: 9.5rem; }
 .ins-more { display: none; margin-top: 0.1rem; align-items: center; gap: 0.08rem; font-size: 0.21rem; color: #fff; pointer-events: none; }
@@ -110,7 +113,7 @@
 
 /* ======================= PHONE: swipe rail + specs bottom sheet (rem is a flat 16px here, so sizes are px) ======================= */
 @media (max-width: 900px) {
-.ins-spec, .ins-bar, .ins-mode, .ins-post { display: none; }
+.ins-spec, .ins-bar, .ins-mode, .ins-post, .ins-cap { display: none; }
 .ins { display: block; width: 100%; margin-left: 0; box-sizing: border-box; background: #F8F8F7; color: var(--ink); padding: 40px 0 34px; overflow: hidden; }
 .ins-title { margin: 0; padding: 0 24px; font-family: var(--aviano); font-weight: 900; font-size: var(--t-heading); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
 .ins-lede { margin: 10px 0 0; padding: 0 24px; font-family: var(--gordita); font-size: var(--t-body); line-height: var(--lh-body); color: #3f3a35; }

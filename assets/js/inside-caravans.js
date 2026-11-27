@@ -56,6 +56,7 @@
     '<h2 class="ins-title">Different layouts we offer</h2>' +
     '<p class="ins-lede">Discover the layouts in the vans we’ve built.</p>' +
     '<div class="ins-stage"><div class="ins-track"></div></div>' +
+    '<p class="ins-cap">Follow us on <a href="https://www.instagram.com/wonderlandrvcaravans" target="_blank" rel="noopener">Instagram</a> to stay updated with new custom layouts.</p>' +
     '<div class="ins-foot">' +
       '<button class="ins-arrow" data-d="-1" type="button" aria-label="Previous">' + AR.replace("%d", "M15 5l-7 7 7 7") + '</button>' +
       '<button class="ins-arrow" data-d="1" type="button" aria-label="Next">' + AR.replace("%d", "M9 5l7 7-7 7") + '</button>' +
