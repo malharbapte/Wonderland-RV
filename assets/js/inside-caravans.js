@@ -137,7 +137,7 @@
     panel.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     sec.style.setProperty("--pw", Math.round(Math.max(pw, 3.6 * r)) + "px");
     panel.style.height = Math.round(W * r * 16 / 9) + "px"; fitNote();   /* as tall as the reels either side of the chosen one */
-    var cap = sec.querySelector(".ins-cap"); if (cap) cap.style.top = Math.round(mid + W * r * 16 / 9 / 2 + 0.18 * r) + "px";   /* caption sits right under the side reels / specs column */
+    var cap = sec.querySelector(".ins-cap"); if (cap && MODE !== "post") cap.style.top = Math.round(mid + W * r * 16 / 9 / 2 + 0.18 * r) + "px";   /* caption sits right under the side reels / specs column */
     panel.style.top = Math.round(mid) + "px"; panel.style.maxHeight = Math.round(2 * (mid - floor)) + "px";
     if (opened) fill(at);
   }
@@ -160,6 +160,12 @@
     var px = sw / 2 + (-WC / 2 + extra / 2 - extra) * r;   /* the card's left edge: one card width left of the reel */
     postEl.style.height = Math.round(WC * r * 16 / 9) + "px";
     postEl.style.transform = "translate3d(" + Math.round(px) + "px,-50%,0)";
+    /* the caption sits right under the card + reel pair, its left edge on the card's left edge */
+    var cap = sec.querySelector(".ins-cap");
+    if (cap) {
+      if (post) { cap.style.left = Math.round(px) + "px"; cap.style.top = Math.round(stage.offsetTop + stage.offsetHeight / 2 + WC * r * 16 / 9 / 2 + 0.14 * r) + "px"; }
+      else cap.style.left = "";
+    }
     postEl.classList.toggle("is-shut", !open);   /* shut: tucked exactly behind the chosen reel, then hidden */
     if (post) { postFill(at); requestAnimationFrame(fitPostNote); }
   }

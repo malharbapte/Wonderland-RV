@@ -124,6 +124,7 @@ function openVideoPopup(id, title, poster, opener) {
         '<input class="vpop-seek" type="range" min="0" max="1000" value="0" aria-label="Seek">' +
         '<span class="vpop-time">0:00</span>' +
         '<button type="button" class="vpop-b" data-a="vol" aria-label="Mute">' + VP_ICON.vol + "</button>" +
+        '<button type="button" class="vpop-b" data-a="cc" aria-label="Show captions" aria-pressed="false"><span class="cc-box">CC</span></button>' +
         '<button type="button" class="vpop-b" data-a="full" aria-label="Fullscreen">' + VP_ICON.full + "</button>" +
       "</div>" +
     "</div>" +
@@ -226,6 +227,30 @@ function openVideoPopup(id, title, poster, opener) {
     if (!player) return;
     try { if (!muted) player.mute(); else { player.unMute(); player.setVolume(100); } } catch (e) {}
     setMutedUi(!muted);
+  });
+  /* captions: off until asked for; the button shows when they are on */
+  const bCc = wrap.querySelector('[data-a="cc"]');
+  let ccOn = false;
+  function ccKey() { try { if ((player.getOptions() || []).indexOf("cc") >= 0) return "cc"; } catch (e) {} return "captions"; }
+  bCc.addEventListener("click", function () {
+    if (!player) return;
+    ccOn = !ccOn;
+    bCc.setAttribute("aria-pressed", String(ccOn));
+    bCc.setAttribute("aria-label", ccOn ? "Hide captions" : "Show captions");
+    if (ccOn) {
+      try { player.loadModule("captions"); } catch (e) {}
+      let tries = 0;
+      const grab = setInterval(function () {
+        tries++;
+        try { player.setOption(ccKey(), "track", { languageCode: "en" }); } catch (e) {}
+        let on = false;
+        try { on = (player.getOptions() || []).length > 0; } catch (e) {}
+        if (on || tries > 12) clearInterval(grab);
+      }, 150);
+    } else {
+      try { player.setOption(ccKey(), "track", {}); } catch (e) {}
+      try { player.unloadModule("captions"); } catch (e) {}
+    }
   });
   bFull.addEventListener("click", function () {
     const fs = document.fullscreenElement || document.webkitFullscreenElement;

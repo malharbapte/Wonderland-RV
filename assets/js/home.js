@@ -623,8 +623,18 @@ phoneAccordion({ list: ".why-list", head: "h3", copy: "p",
   if (!n) return;
 
   slides.forEach(function (sl, i) {
-    mountVideo(sl.querySelector(".coty-figure"), COTY_VIDEOS[i] || "",
-               "Wonderland RV — feature " + (i + 1), { captions: true, nudge: true });
+    /* same as the thank-you page: a poster with a play button, and the clip opens in our own player
+       (play, captions, mute), so no YouTube controls are ever on the page */
+    const fig = sl.querySelector(".coty-figure"), url = COTY_VIDEOS[i] || "";
+    const id = (url.match(/(?:youtu\.be\/|v=)([\w-]{11})/) || [])[1];
+    if (fig && id && !fig.querySelector(".video-poster")) {
+      const im = document.createElement("img");
+      im.className = "video-poster"; im.alt = ""; im.decoding = "async"; im.loading = "lazy";
+      im.src = "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg";
+      im.onerror = function () { im.onerror = null; im.src = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg"; };
+      fig.insertBefore(im, fig.firstChild);
+    }
+    mountVideo(fig, url, "Wonderland RV — feature " + (i + 1), { popup: true });
   });
 
   const EASE = "transform .9s cubic-bezier(.45, .05, .15, 1)";

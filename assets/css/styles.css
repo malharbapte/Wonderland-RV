@@ -783,6 +783,8 @@ input:-webkit-autofill:focus {
 .vpop-b { flex: none; width: clamp(30px, 2.8vw, 40px); height: clamp(30px, 2.8vw, 40px); display: grid; place-items: center; background: none; border: 0; padding: 0; color: #fff; cursor: pointer; border-radius: 50%; }
 .vpop-b:hover { background: rgba(255, 255, 255, .16); }
 .vpop-b svg { width: 52%; height: 52%; }
+.vpop-b .cc-box { display: block; padding: 0.12em 0.3em; border: 0.14em solid currentColor; border-radius: 0.3em; font-family: var(--gordita); font-size: clamp(9px, 0.85vw, 12px); line-height: 1; font-weight: 800; letter-spacing: .02em; }
+.vpop-b[aria-pressed="true"] .cc-box { background: #fff; color: #000; }
 .vpop-time { flex: none; min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; }
 .vpop-seek { --p: 0%; flex: 1 1 auto; height: 18px; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
 .vpop-seek::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--orange) var(--p), rgba(255, 255, 255, .35) var(--p)); }
